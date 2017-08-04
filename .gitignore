@@ -2,7 +2,7 @@
 .idea
 
 # Byte-compiled / optimized / DLL files
-.pyc
+*.pyc
 __pycache__/
 *.py[cod]
 
