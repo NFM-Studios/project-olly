@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+{% if requestuser == userprofile.user %}
+<a href="/profile/edit">Edit Profile</a><br />
+{% endif %}
+
+{% if userprofile.profile_picture.url != "" %}
+<img src="{{ userprofile.profile_picture.url }}" width="200"> <br />
+{% else %}
+<img src="http://www.marismith.com/wp-content/uploads/2014/07/facebook-profile-blank-face.jpeg" width="200"/> <br />
+{% endif %}
+
+Username: {{ userprofile.user }} <br />
+XP: {{ userprofile.xp }} <br />
+Credits: {{ userprofile.credits }} <br />
+XBL: {{ userprofile.xbl }} <br />
+PSN: {{ userprofile.psn }} <br />
+Twitter: <a href="http://twitter.com/{{ userprofile.twitter_profile }}">{{ user.twitter_profile }}</a><br />
+Twitch: <a href="http://twitch.tv/{{ userprofile.twitch_channel }}">{{ user.twitch_channel }}</a></a><br />
+About me: {{ userprofile.about_me }} <br />
+Favorite Game: {{ userprofile.favorite_game }} <br />
+Favorite Console: {{ userprofile.favorite_console }} <br />
+
+<!-- email_verified total_earning -->
+
+{% endblock %}
