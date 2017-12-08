@@ -7,7 +7,7 @@ from django.db.models.signals import post_save
 class UserProfile(models.Model):
     def __str__(self):
         return str(self.user)
-    user = models.OneToOneField(User, related_name='user')
+    user = models.OneToOneField(User, related_name='user', on_delete=models.CASCADE)
     use_2fa = models.BooleanField(default=False)
     email_verified = models.BooleanField(default=False)
     xp = models.PositiveSmallIntegerField(default=0)
