@@ -7,8 +7,11 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    url(r'^$', profile_views.index),#replace with pages app eventually
-    url(r'^pages/', pages_views.index),
+    url(r'^$', pages_views.index),#replace with pages app eventually
+    url(r'^about/', pages_views.about),
+    url(r'^terms/', pages_views.terms),
+    url(r'^privacy/', pages_views.privacy),
+    url(r'^404/', pages_views.notfound),
     url(r'^news/', include('news.urls')),
     url(r'^register/', profile_views.CreateUserFormView.as_view(), name='register'),
     url(r'^login/', login, {'template_name': 'profiles/login_form.html'}, name='login'),
