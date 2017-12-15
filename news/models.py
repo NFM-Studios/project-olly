@@ -10,7 +10,7 @@ class Post(models.Model):
         ('scheduled', 'Scheduled'),
     )
     CATEGORY_CHOICES = (
-        ('general', 'General')
+        ('general', 'General'),
     )
     title = models.CharField(max_length=250)
     slug = models.SlugField(max_length=250, unique_for_date='publish')
