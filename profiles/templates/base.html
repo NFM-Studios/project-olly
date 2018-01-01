@@ -6,6 +6,13 @@
   {% endblock %}
 </head>
 <body>
+  {% if messages %}
+  <ul class="messages">
+      {% for message in messages %}
+      <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+      {% endfor %}
+  </ul>
+  {% endif %}
   {% block body %}
   <h1>base</h1>
   {% endblock %}
