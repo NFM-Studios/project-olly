@@ -129,3 +129,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'olly/media')
 # Where to redirect users after login
 
 LOGIN_REDIRECT_URL = '/'
+
+# Email stuff
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'nfm.studios@gmail.com'
+EMAIL_HOST_PASSWORD = 'mikemaddem'
+EMAIL_PORT = 587

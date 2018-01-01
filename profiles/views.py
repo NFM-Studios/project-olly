@@ -8,9 +8,16 @@ from django.views import generic
 from django.views.generic import View
 from .forms import CreateUserForm, EditProfileForm
 from .models import UserProfile
-
+from django.template.loader import render_to_string
+from django.contrib.sites.shortcuts import get_current_site
+from django.utils.encoding import force_bytes, force_text
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.template.loader import render_to_string
+from .tokens import account_activation_token
+from django.core.mail import EmailMessage
 from django.forms.models import inlineformset_factory
 from django.core.exceptions import PermissionDenied
+from django.contrib import messages
 
 # Won't be needed after pages app is in place
 def index(request):
@@ -22,7 +29,10 @@ def profile(request, urlusername):
     return render(request, template_name, {'userprofile': userprofile, 'requestuser': request.user})
 
 def profile_no_username(request):
-    return redirect('/profile/user/' + str(request.user))
+    if not (request.user.is_anonymous):
+        return redirect('/profile/user/' + str(request.user))
+    else:
+        return redirect('/login')
 
 def edit_profile(request):
     if request.method == 'POST':
@@ -54,9 +64,29 @@ class CreateUserFormView(View):
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
             user.set_password(password)
+            user.is_active = False
             user.save()
 
-            user = authenticate(username=username, password=password)
+            current_site = get_current_site(request)
+
+            #uid = urlsafe_base64_encode(force_bytes(user.pk))
+            #print(uid)
+
+            mail_subject = 'Activate your "Project Olly" account.'
+            message = render_to_string('profiles/activate_email.html', {
+                'user': user,
+                'domain': current_site.domain,
+                'uid':urlsafe_base64_encode(force_bytes(user.pk)),
+                'token':account_activation_token.make_token(user),
+            })
+            to_email = form.cleaned_data.get('email')
+            email = EmailMessage(
+                        mail_subject, message, to=[to_email]
+            )
+            email.send()
+
+            messages.success(request, "Please confirm your email")
+            return redirect('/login/')
 
             if user is not None:
                 if user.is_active:
@@ -64,3 +94,21 @@ class CreateUserFormView(View):
                     return redirect('profiles:index')
 
         return render(request, self.template_name, {'form': form})
+
+def activate(request, uidb64, token):
+    try:
+        a = uidb64.split("'")[1]
+        uid = urlsafe_base64_decode(a).decode()
+        user = User.objects.get(pk=uid)
+    except(TypeError, ValueError, OverflowError, User.DoesNotExist) as e:
+        print("Exception")
+        print(e)
+        user = None
+    if user is not None and account_activation_token.check_token(user, token):
+        user.is_active = True
+        user.save()
+        login(request, user)
+        messages.success(request, 'Thank you for your email confirmation. You are now logged in.')
+        return redirect('/profile')
+    else:
+        return HttpResponse('Activation link is invalid!')
