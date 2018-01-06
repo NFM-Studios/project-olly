@@ -1,0 +1,11 @@
+<form method="POST" action="{% url 'support:create' %}">
+    <table>
+        {% csrf_token %}
+        {{form.as_table}}
+        <tr>
+            <td colspan="2">
+                <input type="submit" value="Create" />
+            </td>
+        </tr>
+    </table>
+</form>
