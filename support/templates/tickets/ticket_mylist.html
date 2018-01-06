@@ -1,0 +1,21 @@
+<!--
+    If I gave a shit about translations 
+    {% load i18n %}
+    but i dont
+-->
+<table>
+    <tr>
+        <!-- No clue if the following will work. stupid fucking 
+            translation documentation -->
+        <th>ID</th>
+        <th>Subject</th>
+        <th>Date</th>
+    </tr>
+    {% for ticket in ticket_list %}
+    <tr>
+        <td>#{{ticket.id}}</td>
+        <td>{{ticket.subject}}</td>
+        <td>{{ticket.last_update}}</td>
+    </tr>
+    {% endfor %}
+</table>
