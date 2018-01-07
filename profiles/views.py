@@ -69,9 +69,6 @@ class CreateUserFormView(View):
 
             current_site = get_current_site(request)
 
-            #uid = urlsafe_base64_encode(force_bytes(user.pk))
-            #print(uid)
-
             mail_subject = 'Activate your "Project Olly" account.'
             message = render_to_string('profiles/activate_email.html', {
                 'user': user,
@@ -88,10 +85,10 @@ class CreateUserFormView(View):
             messages.success(request, "Please confirm your email")
             return redirect('/login/')
 
-            if user is not None:
-                if user.is_active:
-                    login(request, user)
-                    return redirect('profiles:index')
+        if user is not None:
+            if user.is_active:
+                login(request, user)
+                return redirect('profiles:index')
 
         return render(request, self.template_name, {'form': form})
 
