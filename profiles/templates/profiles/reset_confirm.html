@@ -1,6 +1,7 @@
-{% block content %}
+{% extends "base.html" %}
+{% block body %}
 {% if validlink %}
-
+<h3>Forgotten your password?</h3>
 <p>Please enter your new password twice so we can verify you typed it in correctly.</p>
 
 <form method="post">{% csrf_token %}

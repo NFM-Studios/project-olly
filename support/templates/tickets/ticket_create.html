@@ -1,3 +1,6 @@
+{% extends "base.html" %}
+
+{% block body %}
 <form method="POST" action="{% url 'support:create' %}">
     <table>
         {% csrf_token %}
@@ -9,3 +12,4 @@
         </tr>
     </table>
 </form>
+{% endblock %}

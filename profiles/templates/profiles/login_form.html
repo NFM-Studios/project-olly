@@ -2,12 +2,12 @@
 
 {% block body %}
 
-<h1>LOGIN</h1>
+<h3>LOGIN</h3>
 <br />
 <form method="post">
   {% csrf_token %}
   {{ form.as_p }}
-  <button class="btn btn-primary" type="submit">Login</button>
+  <button class="btn btn-success" type="submit">Login</button> <a href="/reset-password" class="btn btn-primary">Forgot password?</a>
 </form>
 
 {% endblock %}
