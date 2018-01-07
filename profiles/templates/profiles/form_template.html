@@ -1,7 +1,11 @@
-{% for field in form %}
   <div class="form-group">
     {{ field.errors }}
-    <label>{{ field.label_tag }}</label>
-    <div>{{ field }}</div>
+    <label>Username</label>
+    <div>{{ form.username }}</div>
+    <label>Email Address</label>
+    <div>{{ form.email }}</div>
+    <label>Password</label>
+    <div>{{ form.password }}</div>
+      <label>Do you accept the <a href="/terms" target="_blank">Terms of Service</a> and <a href="/privacy" target="_blank">Privacy Policy?</a></label><br>
+    Yes: {{ form.tos }}
   </div>
-{% endfor %}
