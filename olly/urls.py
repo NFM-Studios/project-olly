@@ -2,7 +2,6 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from profiles import views as profile_views
 from pages import views as pages_views
-from support import views as support_views
 from django.contrib.auth.views import login, logout, password_reset, password_reset_done, password_reset_confirm, password_reset_complete
 from django.conf import settings
 from django.conf.urls.static import static
