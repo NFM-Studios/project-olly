@@ -23,9 +23,6 @@ class UserProfile(models.Model):
     profile_picture = models.ImageField(upload_to='profile_images', blank=True)
     user_type = models.CharField(max_length=10, default='user')
 
-#def create_profile(sender, **kwargs):
-#    if kwargs['created']:
-#        user_profile = UserProfile.objects.create(user=kwargs['instance'])
 def create_profile(sender, **kwargs):
     user = kwargs["instance"]
     if kwargs["created"]:
