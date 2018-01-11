@@ -14,7 +14,7 @@ class EditProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = (
-            'profile_picture',
+            #'profile_picture',
             'about_me',
             'xbl',
             'psn',
