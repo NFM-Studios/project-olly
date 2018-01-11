@@ -1,5 +1,5 @@
 from django.contrib import messages
-#from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.views.generic import ListView, DetailView, CreateView
 
@@ -49,6 +49,6 @@ class TicketCreateView(CreateView):
         ticket = form.instance
         ticket.creator = self.request.user
         ticket.save()
-        self.success_url = reverse('tickets:detail', args=[ticket.id])
+        self.success_url = reverse('support:detail', args=[ticket.id])
         messages.success(self.request, 'Your ticket has been successsfully created')
         return super(TicketCreateView, self).form_valid(form)
