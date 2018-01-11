@@ -31,15 +31,29 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    
+    #all stock stuff 
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
+    #modified user model, etc.
     'profiles',
+    
+    #just regular pages
     'pages',
+    
+    #mikes awesome support tickets
     'support',
+    
+    #news app
+    'news',
+    
+    # tag manager package
+    'taggit'
 ]
 
 MIDDLEWARE = [
