@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static "css/ticket.css" %}">
 
 {% block body %}
 <table>
@@ -11,11 +13,11 @@
         <td>{{ticket.id}}</td>
     </tr>
     <tr>
-        <td>Subject</td>
+        <td class="ticket-subject">Subject</td>
         <td>{{ticket.subject}}</td>
     </tr>
     <tr>
-        <td>Description</td>
+        <td class="">Description</td>
         <td>{{ticket.description}}</td>
     </tr>
     <tr>
