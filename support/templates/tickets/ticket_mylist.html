@@ -3,20 +3,22 @@
 <link rel="stylesheet" href="{% static "css/ticket.css" %}">
 
 {% block body %}
-<table>
+<table class="table">
     <tr id="header">
-        <!-- No clue if the following will work. stupid fucking 
-            translation documentation -->
+        <thead>
         <th>ID</th>
         <th>Subject</th>
         <th>Date</th>
+        </thead>
     </tr>
     {% for ticket in ticket_list %}
-    <tr id="listing">
+    <tbody>
+    <tr>
         <td>#{{ticket.id}}</td>
         <td>{{ticket.subject}}</td>
         <td>{{ticket.last_update}}</td>
     </tr>
+    </tbody>
     {% endfor %}
 </table>
 {% endblock %}
