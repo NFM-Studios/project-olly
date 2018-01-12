@@ -1,5 +1,6 @@
 {% extends "base.html" %}
-
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static "css/ticket.css" %}">
 {% block body %}
 <form method="POST" action="{% url 'support:create' %}">
     <table>
