@@ -11,18 +11,18 @@
 {% else %}
 <img src="http://www.marismith.com/wp-content/uploads/2014/07/facebook-profile-blank-face.jpeg" width="200"/> <br />
 {% endif %}
-
-Username: {{ userprofile.user }} <br />
-XP: {{ userprofile.xp }} <br />
-Credits: {{ userprofile.credits }} <br />
-XBL: {{ userprofile.xbl }} <br />
-PSN: {{ userprofile.psn }} <br />
-Twitter: <a href="http://twitter.com/{{ userprofile.twitter_profile }}">{{ user.twitter_profile }}</a><br />
-Twitch: <a href="http://twitch.tv/{{ userprofile.twitch_channel }}">{{ user.twitch_channel }}</a></a><br />
-About me: {{ userprofile.about_me }} <br />
-Favorite Game: {{ userprofile.favorite_game }} <br />
-Favorite Console: {{ userprofile.favorite_console }} <br />
-
+<table class="table">
+<tr><td>Username:</td> <td>{{ userprofile.user }}</td></tr> 
+<tr><td>XP:</td> <td>{{ userprofile.xp }}</td></tr> 
+<tr><td>Credits:</td><td> {{ userprofile.credits }}</td></tr> 
+<tr><td>XBL: </td><td>{{ userprofile.xbl }}</td></tr> 
+<tr><td>PSN: </td><td>{{ userprofile.psn }} </td> </tr>
+<tr><td>Twitter:</td><td> <a href="http://twitter.com/{{ userprofile.twitter_profile }}">{{ user.twitter_profile }}</a></td></tr>
+<tr><td>Twitch:</td><td> <a href="http://twitch.tv/{{ userprofile.twitch_channel }}">{{ user.twitch_channel }}</a></a></td></tr>
+<tr><td>About me:</td><td> {{ userprofile.about_me }}</td></tr>
+<tr><td>Favorite Game:</td><td> {{ userprofile.favorite_game }} </td></tr>
+<tr><td>Favorite Console:</td> <td>{{ userprofile.favorite_console }} </td></tr>
+</table>
 <!-- email_verified total_earning -->
 
 {% endblock %}
