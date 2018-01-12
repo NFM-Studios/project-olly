@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.db import IntegrityError
 
 # not working
-# from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from django.urls import reverse
 
