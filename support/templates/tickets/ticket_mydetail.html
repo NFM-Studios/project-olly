@@ -3,11 +3,13 @@
 <link rel="stylesheet" href="{% static "css/ticket.css" %}">
 
 {% block body %}
-<table>
+<table class="table">
+    <thead>
     <tr>
         <th>Key</th>
         <th>Value</th>
     </tr>
+    </thead>
     <tr>
         <td>ID</td>
         <td>{{ticket.id}}</td>
