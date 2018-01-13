@@ -3,14 +3,16 @@
 {% block body %}
 
 {% if requestuser == userprofile.user %}
-<a href="/profile/edit">Edit Profile</a><br />
+<a style="margin:12px;" href="/profile/edit"> <i class="fas fa-pencil-alt"></i>  Edit Profile</a><br />
 {% endif %}
-
+<div style="text-align:center">
 {% if userprofile.profile_picture.url != "" %}
-<img src="{{ userprofile.profile_picture.url }}" width="200"> <br />
+<img src="{{ userprofile.profile_picture.url }}" align="center" width="200"> <br />
 {% else %}
-<img src="http://www.marismith.com/wp-content/uploads/2014/07/facebook-profile-blank-face.jpeg" width="200"/> <br />
+<img src="http://www.marismith.com/wp-content/uploads/2014/07/facebook-profile-blank-face.jpeg" align="center" width="200"/> <br />
 {% endif %}
+</div>
+
 <table class="table">
 <tr><td>Username:</td> <td>{{ userprofile.user }}</td></tr> 
 <tr><td>XP:</td> <td>{{ userprofile.xp }}</td></tr> 
