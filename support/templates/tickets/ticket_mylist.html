@@ -8,7 +8,7 @@
         <thead>
         <th scope="row">ID</th>
         <th>Subject</th>
-        <th>Date</th>
+        <th>Date Created?</th>
         </thead>
     </tr>
     {% for ticket in ticket_list %}
@@ -21,6 +21,12 @@
     </tbody>
     {% endfor %}
 </table>
-<h2 class="new-ticket" style="text-decoration: none;"><a style="text-decoration:none" href="/support/create">Create a new ticket</a></h2>
+<div id="new-ticket">
+<h2 id="" style="text-decoration: none; margin:8px">
+    <a style="text-decoration:none; color:black;" href="/support/create">
+        <i class="fas fa-plus"></i>  Create a new ticket
+    </a>
+</h2>
+</div>
 {% endblock %}
 
