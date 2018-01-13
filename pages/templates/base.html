@@ -3,7 +3,7 @@
   {% block head %}
   {% load staticfiles %}
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-  
+  <link rel="stylesheet" href="{% static "css/fontawesome-all.min.css" %}">
   <title>{{ app.title }}</title>
   {% endblock %}
 </head>
@@ -28,7 +28,7 @@
               <li><a href="/news/">News</a></li>
               {% if not user.is_anonymous %}
                   <li><a href="/profile/">My Profile</a></li>
-                  <li><a href="/support/">Support</a></li>
+                  <li><a href="/support/my/">My Support Tickets</a></li>
               {% endif %}
             </ul>
             <ul class="nav navbar-nav navbar-right">
