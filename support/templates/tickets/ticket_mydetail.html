@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 <link rel="stylesheet" href="{% static "css/ticket.css" %}">
+<link rel="stylesheet" href="{% static "css/fontawesome-all.min.css" %}">
 
 {% if messages %}
   <ul class="messages">
@@ -11,6 +12,7 @@
 {% endif %}
 
 {% block body %}
+<p><a href="/support/my/"><i class="fas fa-arrow-left"></i> <strong>Back to ticket list</strong></a></p>
 <table class="table">
     <thead>
     <tr>
