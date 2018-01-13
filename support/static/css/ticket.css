@@ -15,7 +15,7 @@ tr td {
     color: white;
     margin-bottom: 15px;
 }
-h2 .new-ticket {
+h2 #new-ticket {
     text-decoration: none;
     text-align:center;
     color:green;
