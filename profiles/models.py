@@ -22,6 +22,7 @@ class UserProfile(models.Model):
     favorite_console = models.CharField(max_length=50, default='N/A', blank=True)
     profile_picture = models.ImageField(upload_to='profile_images', blank=True)
     user_type = models.CharField(max_length=10, default='user')
+    banned = models.BooleanField(default=False)
 
 def create_profile(sender, **kwargs):
     user = kwargs["instance"]
