@@ -15,16 +15,36 @@
 
 <br />
 <table class="table">
-<tr><td>Username:</td> <td>{{ userprofile.user }}</td></tr> 
-<tr><td>XP:</td> <td>{{ userprofile.xp }}</td></tr> 
-<tr><td>Credits:</td><td> {{ userprofile.credits }}</td></tr> 
-<tr><td>XBL: </td><td>{{ userprofile.xbl }}</td></tr> 
-<tr><td>PSN: </td><td>{{ userprofile.psn }} </td> </tr>
-<tr><td>Twitter:</td><td> <a href="http://twitter.com/{{ userprofile.twitter_profile }}">{{ user.twitter_profile }}</a></td></tr>
-<tr><td>Twitch:</td><td> <a href="http://twitch.tv/{{ userprofile.twitch_channel }}">{{ user.twitch_channel }}</a></a></td></tr>
-<tr><td>About me:</td><td> {{ userprofile.about_me }}</td></tr>
-<tr><td>Favorite Game:</td><td> {{ userprofile.favorite_game }} </td></tr>
-<tr><td>Favorite Console:</td> <td>{{ userprofile.favorite_console }} </td></tr>
+<tr>
+    <td><strong>Username:</strong></td> <td>{{ userprofile.user }}</td>
+</tr> 
+<tr>
+    <td><strong>XP:</strong> </td><td>{{ userprofile.xp }}</td>
+</tr> 
+<tr>
+    <td><strong>Credits:</strong></td><td> {{ userprofile.credits }}</td>
+</tr> 
+<tr>
+    <td><strong>XBL: </strong></td><td>{{ userprofile.xbl }}</td>
+</tr> 
+<tr>
+    <td><strong>PSN:</strong> </td><td>{{ userprofile.psn }} </td> 
+</tr>
+<tr>
+    <td><strong>Twitter:</strong></td><td> <a href="http://twitter.com/{{ userprofile.twitter_profile }}">{{ userprofile.twitter_profile }}</a></td>
+</tr>
+<tr>
+    <td><strong>Twitch: </strong>  </td> <td> <a href="http://twitch.tv/{{ userprofile.twitch_channel }}">{{ userprofile.twitch_channel }}</a></td>
+</tr>
+<tr>
+    <td><strong>Favorite Game:</strong></td><td> {{ userprofile.favorite_game }} </td>
+</tr>
+<tr>
+    <td><strong>Favorite Console: </strong></td> <td>{{ userprofile.favorite_console }} </td>
+</tr>
+<tr>
+    <td><strong>About me:</strong></td><td> {{ userprofile.about_me }}</td>
+</tr>
 </table>
 <!-- email_verified total_earning -->
 
