@@ -25,7 +25,7 @@ SECRET_KEY = 'bcgu@a)k$z!)1qmv@5a)&e$x@+@_tvl-s87)3@n)032*6r6u-2'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'ban-mikemaddem.c9users.io', 'olly-techlover1.c9users.io']
 
 
 # Application definition
@@ -53,7 +53,10 @@ INSTALLED_APPS = [
     'news',
     
     # tag manager package
-    'taggit'
+    'taggit',
+
+    #ip package
+    'ipware',
 ]
 
 MIDDLEWARE = [
@@ -64,6 +67,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'olly.middleware.CheckBanListMiddleware'
 ]
 
 ROOT_URLCONF = 'olly.urls'
