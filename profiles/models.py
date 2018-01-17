@@ -22,7 +22,7 @@ class UserProfile(models.Model):
     favorite_console = models.CharField(max_length=50, default='N/A', blank=True)
     profile_picture = models.ImageField(upload_to='profile_images', blank=True)
     user_type = models.CharField(max_length=10, default='user')
-    banned = models.BooleanField(default=False)
+    ip = models.CharField(max_length=16, default='0.0.0.0')
 
 def create_profile(sender, **kwargs):
     user = kwargs["instance"]
@@ -30,4 +30,11 @@ def create_profile(sender, **kwargs):
         user_profile = UserProfile(user=user)
         user_profile.save()
 
+class BannedUser(models.Model):
+    user = models.ForeignKey(User, related_name='banned', on_delete=models.CASCADE)
+    ip = models.CharField(max_length=12, default='error')
+
+
+
 post_save.connect(create_profile, sender=User)
+
