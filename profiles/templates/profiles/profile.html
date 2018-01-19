@@ -3,26 +3,49 @@
 {% block body %}
 
 {% if requestuser == userprofile.user %}
-<a href="/profile/edit">Edit Profile</a><br />
+<a style="margin:12px;" href="/profile/edit"> <i class="fas fa-pencil-alt"></i>  Edit Profile</a><br />
 {% endif %}
-
+<div style="text-align:center">
 {% if userprofile.profile_picture.url != "" %}
-<img src="{{ userprofile.profile_picture.url }}" width="200"> <br />
+<img src="{{ userprofile.profile_picture.url }}" align="center" width="200"> <br />
 {% else %}
-<img src="http://www.marismith.com/wp-content/uploads/2014/07/facebook-profile-blank-face.jpeg" width="200"/> <br />
+<img src="http://www.marismith.com/wp-content/uploads/2014/07/facebook-profile-blank-face.jpeg" align="center" width="200"/> <br />
 {% endif %}
+</div>
 
-Username: {{ userprofile.user }} <br />
-XP: {{ userprofile.xp }} <br />
-Credits: {{ userprofile.credits }} <br />
-XBL: {{ userprofile.xbl }} <br />
-PSN: {{ userprofile.psn }} <br />
-Twitter: <a href="http://twitter.com/{{ userprofile.twitter_profile }}">{{ user.twitter_profile }}</a><br />
-Twitch: <a href="http://twitch.tv/{{ userprofile.twitch_channel }}">{{ user.twitch_channel }}</a></a><br />
-About me: {{ userprofile.about_me }} <br />
-Favorite Game: {{ userprofile.favorite_game }} <br />
-Favorite Console: {{ userprofile.favorite_console }} <br />
-
+<br />
+<table class="table">
+<tr>
+    <td><strong>Username:</strong></td> <td>{{ userprofile.user }}</td>
+</tr> 
+<tr>
+    <td><strong>XP:</strong> </td><td>{{ userprofile.xp }}</td>
+</tr> 
+<tr>
+    <td><strong>Credits:</strong></td><td> {{ userprofile.credits }}</td>
+</tr> 
+<tr>
+    <td><strong>XBL: </strong></td><td>{{ userprofile.xbl }}</td>
+</tr> 
+<tr>
+    <td><strong>PSN:</strong> </td><td>{{ userprofile.psn }} </td> 
+</tr>
+<tr>
+    <td><strong>Twitter:</strong></td><td> <a href="http://twitter.com/{{ userprofile.twitter_profile }}">{{ userprofile.twitter_profile }}</a></td>
+</tr>
+<tr>
+    <td><strong>Twitch: </strong>  </td> <td> <a href="http://twitch.tv/{{ userprofile.twitch_channel }}">{{ userprofile.twitch_channel }}</a></td>
+</tr>
+<tr>
+    <td><strong>Favorite Game:</strong></td><td> {{ userprofile.favorite_game }} </td>
+</tr>
+<tr>
+    <td><strong>Favorite Console: </strong></td> <td>{{ userprofile.favorite_console }} </td>
+</tr>
+<tr>
+    <td><strong>About me:</strong></td><td> {{ userprofile.about_me }}</td>
+</tr>
+</table>
 <!-- email_verified total_earning -->
 
 {% endblock %}
