@@ -19,9 +19,16 @@ from django.forms.models import inlineformset_factory
 from django.core.exceptions import PermissionDenied
 from django.contrib import messages
 
-# Won't be needed after pages app is in place
-def index(request):
-    return HttpResponse('<h1>PROFILES INDEX</h1>')
+from ipware.ip import get_real_ip
+
+#def get_ip(request):
+   # ip = get_real_ip(request)
+    #if ip is not None:
+     #   if user is not None:
+      #      user = User.objects.get(username=request.user.username)
+       #     user.ip = ip  # change field
+        #    user.save() # this will update only
+
 
 def profile(request, urlusername):
     template_name = 'profiles/profile.html'
