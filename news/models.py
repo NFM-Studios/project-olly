@@ -6,8 +6,6 @@ from django.db import IntegrityError
 # not working
 from django.urls import reverse
 
-from django.urls import reverse
-
 #tag manager
 from taggit.managers import TaggableManager
 
@@ -15,7 +13,7 @@ class PublishedManager(models.Manager):
     def get_queryset(self):
         return super(PublishedManager, self).get_queryset().filter(status='published')
 
-class Post(models.Model): 
+class Post(models.Model):
     STATUS_CHOICES = (
         ('draft', 'Draft'),
         ('scheduled', 'Scheduled'),
@@ -34,7 +32,7 @@ class Post(models.Model):
 
     #default manager
     objects = models.Manager()
-    
+
     #specific manager
     published = PublishedManager()
 
@@ -42,7 +40,7 @@ class Post(models.Model):
 
     class Meta:
         ordering = ('-publish',)
-    
+
     def __str__(self):
         return self.title
 
@@ -63,8 +61,6 @@ class Comment(models.Model):
 
     class Meta:
         ordering = ('created',)
-    
+
     def __str__(self):
         return 'Comment by {} on {}'.format(self.name, self.post)
-
-
