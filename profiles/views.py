@@ -18,6 +18,8 @@ from django.core.mail import EmailMessage
 from django.forms.models import inlineformset_factory
 from django.core.exceptions import PermissionDenied
 from django.contrib import messages
+import requests
+from django.conf import settings
 
 from ipware.ip import get_real_ip
 
@@ -66,31 +68,43 @@ class CreateUserFormView(View):
         form = self.form_class(request.POST)
 
         if form.is_valid():
-            user = form.save(commit=False)
 
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-            user.set_password(password)
-            user.is_active = False
-            user.save()
+            ''' reCAPTCHA validation '''
+            recaptcha_response = request.POST.get('g-recaptcha-response')
+            data = {
+                'secret': settings.GOOGLE_RECAPTCHA_SECRET_KEY,
+                'response': recaptcha_response
+            }
 
-            current_site = get_current_site(request)
+            r = requests.post('https://www.google.com/recaptcha/api/siteverify', data=data)
+            result = r.json()
+            ''' End reCAPTCHA validation'''
+            if result['success']:
+                user = form.save(commit=False)
 
-            mail_subject = 'Activate your "Project Olly" account.'
-            message = render_to_string('profiles/activate_email.html', {
-                'user': user,
-                'domain': current_site.domain,
-                'uid':urlsafe_base64_encode(force_bytes(user.pk)),
-                'token':account_activation_token.make_token(user),
-            })
-            to_email = form.cleaned_data.get('email')
-            email = EmailMessage(
+                username = form.cleaned_data['username']
+                password = form.cleaned_data['password']
+                user.set_password(password)
+                user.is_active = False
+                user.save()
+
+                current_site = get_current_site(request)
+
+                mail_subject = 'Activate your "Project Olly" account.'
+                message = render_to_string('profiles/activate_email.html', {
+                    'user': user,
+                    'domain': current_site.domain,
+                    'uid':urlsafe_base64_encode(force_bytes(user.pk)),
+                    'token':account_activation_token.make_token(user),
+                })
+                to_email = form.cleaned_data.get('email')
+                email = EmailMessage(
                         mail_subject, message, to=[to_email]
-            )
-            email.send()
+                    )
+                email.send()
 
-            messages.success(request, "Please confirm your email")
-            return redirect('/login/')
+                messages.success(request, "Please confirm your email")
+                return redirect('/login/')
 
         if user is not None:
             if user.is_active:
