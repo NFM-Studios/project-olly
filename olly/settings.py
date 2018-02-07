@@ -57,6 +57,7 @@ INSTALLED_APPS = [
 
     #ip package
     'ipware',
+
 ]
 
 MIDDLEWARE = [
@@ -154,3 +155,5 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'nfm.studios@gmail.com'
 EMAIL_HOST_PASSWORD = 'mikemaddem'
 EMAIL_PORT = 587
+
+GOOGLE_RECAPTCHA_SECRET_KEY = '6LdEsEMUAAAAABfKHZo9Ox0j55s2EnANq-wQlUOm'

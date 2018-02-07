@@ -4,9 +4,10 @@ from profiles import views as profile_views
 from pages import views as pages_views
 from support import views as support_views
 from news import views as news_views
-from django.contrib.auth.views import login, logout, password_reset, password_reset_done, password_reset_confirm, password_reset_complete
+from django.contrib.auth.views import logout, password_reset, password_reset_done, password_reset_confirm, password_reset_complete
 from django.conf import settings
 from django.conf.urls.static import static
+
 
 
 urlpatterns = [
@@ -16,7 +17,7 @@ urlpatterns = [
     url(r'^privacy/', pages_views.privacy),
     url(r'^404/', pages_views.notfound),
     url(r'^register/', profile_views.CreateUserFormView.as_view(), name='register'),
-    url(r'^login/', login, {'template_name': 'profiles/login_form.html'}, name='login'),
+    url(r'^login/', profile_views.login, {'template_name': 'profiles/login_form.html'}, name='login'),
     url(r'^logout/', logout, {'template_name': 'index.html', 'next_page': '/'}, name='logout'),
     url(r'^reset-password/$', password_reset, {'template_name': 'profiles/reset_form.html', 'email_template_name': 'profiles/reset_email.html'}, name='reset_password'),
     url(r'^reset-password/done/$', password_reset_done, {'template_name': 'profiles/reset_done.html'}, name='password_reset_done'),
