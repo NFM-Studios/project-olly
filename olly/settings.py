@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', 'ban-mikemaddem.c9users.io', 'olly-techlover1.c9users.io']
 
+SESSION_COOKIE_AGE = 604800
 
 # Application definition
 
