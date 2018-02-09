@@ -3,30 +3,31 @@ from django.contrib import messages
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.views.generic import ListView, DetailView, CreateView
-
-
 #team create forms
-from teams.forms import soloTeamCreateForm, duoTeamCreateForm, trioTeamCreateForm, quadTeamCreateForm, fiveTeamCreateForm, sixTeamCreateForm
-
+from teams.forms import TeamCreateForm
 #team create invite forms
-from teams.forms import duoTeamInviteForm, trioTeamInviteForm, quadTeamInviteForm, fiveTeamInviteForm, sixTeamInviteForm
-
+from teams.forms import TeamInviteForm, CaptainInviteForm
 #import the team models
-from teams.models import soloTeam, duoTeam, trioTeam, quadTeam, fiveTeam, sixTeam
-
+from teams.models import Team
 #import the invite models
-from teams.models import duoTeamInvite, trioTeamInvite, quadTeamInvite, sixTeamInvite
+from teams.models import TeamInvite, CaptainInvite
 
 class MyInvitesListView(ListView):
-# show all the invites, and an accept or deny button.
-# check if the invite is expired.
+    # show all the invites, and an accept or deny button.
+    # check if the invite is expired.
+    model = TeamInvite
+    template_name = 'teams/my-invites.html'
+
+    def get_queryset(self):
+        #make sure that the invites are for the requested user
+        return TeamInvite.objects.filter(user=self.request.user)
+
 
 
 class MyTeamsListView(ListView):
 # list all the teams they are apart of
 # maybe list the role they have?
 
-#divide it into sections based on solo, duo, trio, quad, five, six?
 
 class MyTeamDetailView(DetailView):
 #show team info, allow them to invite users.
@@ -34,26 +35,11 @@ class MyTeamDetailView(DetailView):
 class TeamInviteCreateView(CreateView):
 #allow the person to create an invite for there team
 
-class SoloTeamCreateView(CreateView):
-    form_class=soloTeamCreateForm
-    template_name='teams/solo_create.html'
+class CaptainInviteCreateView(CreateView):
+    form_class = CaptainInviteForm
+    template_name='teams/captain-invite.html'
+    form = CaptainInviteCreateForm()
 
-class DuoTeamCreateView(CreateView):
-    form_class=duoTeamCreateForm
-    template_name='teams/duo_create.html'
-
-class TrioTeamCreateView(CreateView):
-    form_class=trioTeamCreateForm
-    template_name='teams/trio_create.html'
-
-class QuadTeamCreateView(CreateView):
-    form_class=quadTeamCreateForm
-    template_name='teams/quad_create.html'
-
-class FiveTeamCreateView(CreateView):
-    form_class=fiveTeamCreateForm
-    template_name='teams/five_create.html'
-
-class SixTeamCreateView(CreateView):
-    form_class=sixTeamCreateForm
-    template_name='teams/six_create.html'
+class TeamCreateView(CreateView):
+    form_class=TeamCreateForm
+    template_name='teams/create-team.html'
