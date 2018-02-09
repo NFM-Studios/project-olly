@@ -30,6 +30,14 @@ class Team(models.Model):
     #when they last updated anything in the team
     updated= models.DateTimeField(auto_now=True)
 
+    class Meta:
+        verbose_name = 'Team'
+        verbose_name_plural = 'Teams'
+        ordering = ['updated']
+    def get_players_count(self):
+        return self.players.count()
+
+
 class TeamInvite(models.Model):
     expire = models.DateTimeField(auto_now=False, auto_now_add=False)
     team = models.ForeignKey(Team, related_name='invited-to', on_delete=models.CASCADE)
