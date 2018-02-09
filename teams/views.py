@@ -48,7 +48,7 @@ class TeamInviteCreateView(CreateView):
         TeamInvite = form.instance
         TeamInvite.inviter = self.request.user
         TeamInvite.save()
-        self.success_url = reverse('teams:detail', args=[team.id])
+        self.success_url = reverse('teams:detail', args=[TeamInvite.id])
         messages.success(self.request, 'Your invite has been successfully sent')
         return super(TeamInviteCreateView, self).form_valid(form)
 
@@ -64,4 +64,8 @@ class TeamCreateView(CreateView):
 
     def form_valid(self, form):
         Team = form.instance
-        Team.creator = self
+        Team.creator = self.request.user
+        Team.save()
+        self.success_url = reverse('teams:detail', args=[Team.id])
+        messages.success(self.request, 'Your Team has been created successfully')
+        return super(TeamCreateView, self).form_valid(form)
