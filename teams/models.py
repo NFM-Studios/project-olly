@@ -22,11 +22,10 @@ class Team(models.Model):
     #whoever filled out the form to create the team, limited to only one
     founder = models.ForeignKey(User, related_name='founder', on_delete=models.CASCADE)
     #basically founder permissions, but to other people that didnt create the actual team
-    captain = models.ForeignKey(User, related_name='captain', on_delete=models.CASCADE)
+    captain = models.ManyToManyField(User, through='')
     #the people of the actual team, now a many to many, not a forkey
-    players = models.ManyToManyField(Player, through='TeamInvite', through_fields=('team', 'user'))
+    players = models.ManyToManyField(User, through='TeamInvite', through_fields=('team', 'user'))
     #when they created the team
-    
     created= models.DateTimeField(auto_now_add=True)
     #when they last updated anything in the team
     updated= models.DateTimeField(auto_now=True)
@@ -36,5 +35,13 @@ class TeamInvite(models.Model):
     team = models.ForeignKey(Team, related_name='invited-to', on_delete=models.CASCADE)
     user = models.ForeignKey(User, related_name='user-invited', on_delete=models.CASCADE)
     inviter = models.ForeignKey(User, related_name='team_invites', on_delete=models.CASCADE)
+    accepted = models.BooleanField(default=False)
+    declined = models.BooleanField(default=False)
+
+class CaptainInvite(models.Model):
+    expire = models.DateTimeField(auto_now=False, auto_now_add=False)
+    team = models.ForeignKey(Team, related_name='invited-to', on_delete=models.CASCADE)
+    founder = models.ForeignKey(User, related_name='captain-invited', on_delete=models.CASCADE)
+    inviter = models.ForeignKey(User, related_name='captain_invites', on_delete=models.CASCADE)
     accepted = models.BooleanField(default=False)
     declined = models.BooleanField(default=False)
