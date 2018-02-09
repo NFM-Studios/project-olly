@@ -37,6 +37,7 @@ class TeamInvite(models.Model):
     inviter = models.ForeignKey(User, related_name='from-invite', on_delete=models.CASCADE)
     accepted = models.BooleanField(default=False)
     declined = models.BooleanField(default=False)
+    active = models.BooleanField(default=True)
 
 class CaptainInvite(models.Model):
     expire = models.DateTimeField(auto_now=False, auto_now_add=False)
@@ -45,3 +46,4 @@ class CaptainInvite(models.Model):
     inviter = models.ForeignKey(User, related_name='from-captain', on_delete=models.CASCADE)
     accepted = models.BooleanField(default=False)
     declined = models.BooleanField(default=False)
+    active = models.BooleanField(default=True)
