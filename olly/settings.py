@@ -31,27 +31,30 @@ ALLOWED_HOSTS = ['127.0.0.1', 'ban-mikemaddem.c9users.io', 'olly-techlover1.c9us
 # Application definition
 
 INSTALLED_APPS = [
-    
-    #all stock stuff 
+
+    #all stock stuff
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
+
     #modified user model, etc.
     'profiles',
-    
+
     #just regular pages
     'pages',
-    
+
     #mikes awesome support tickets
     'support',
-    
+
+    #teams
+    'teams',
+
     #news app
     'news',
-    
+
     # tag manager package
     'taggit',
 
