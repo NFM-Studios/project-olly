@@ -13,7 +13,7 @@ from teams.models import CaptainInvite
 class TeamCreateForm(forms.ModelForm):
     class Meta:
         model = Team
-        fields = ('name')
+        fields = ('name','founder')
 
 #invite forms to invite players to a team
 
@@ -21,10 +21,10 @@ class TeamInviteForm(forms.ModelForm):
     class Meta:
         model = TeamInvite
         #maybe????
-        fields = ('user','team')
+        fields = ('user','team','inviter')
 
 class CaptainInviteForm(forms.ModelForm):
     class Meta:
         model = CaptainInvite
         #ensure that when the teams are dispalyed they have the proper role to add other captains
-        fields = ('user', 'team')
+        fields = ('user', 'team','inviter')
