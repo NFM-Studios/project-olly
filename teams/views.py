@@ -75,7 +75,7 @@ class TeamInviteCreateView(CreateView):
     def form_valid(self, form):
         TeamInvite = form.instance
         TeamInvite.inviter = self.request.inviter
-        TeamInvite.team = self.request.team
+        TeamInvite.team = self.request.name
         TeamInvite.user = self.request.user
 
         TeamInvite.save()
