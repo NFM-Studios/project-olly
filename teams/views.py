@@ -27,9 +27,15 @@ class MyInvitesListView(ListView):
 class MyTeamsListView(ListView):
 # list all the teams they are apart of
 # maybe list the role they have?
+    model = Team
+    template_name='teams/my-teams.html'
 
     def get_queryset(self):
-        return Team.objects.filter(players=self.request.user)
+        if(Team.objects.filter(players=self.request.user)):
+            #maybe? filter items where the mtm field contains one of the users.
+            return Team.objects.filter(players__contains=self.requst.user)
+
+
 
 
 class MyTeamDetailView(DetailView):
@@ -38,6 +44,10 @@ class MyTeamDetailView(DetailView):
     #base team template all users can see, inside the template some permissions like viewing the edit team button
     # will be managed
     template_name = 'teams/team.html'
+    form = TeamInviteCreateForm
+
+    #def invite(self, request, *args, **kwargs):
+    #    self.form=TeamInviteCreateForm(request.POST)
 
 class TeamInviteCreateView(CreateView):
 #allow the person to create an invite for there team
@@ -58,13 +68,19 @@ class CaptainInviteCreateView(CreateView):
     template_name='teams/captain-invite.html'
     form = CaptainInviteCreateForm()
 
+    def form_valid(self, form):
+        CaptainInvite = form.instance
+        CaptainInvite.inviter = self.request.user
+        CaptainInvite.team =
+        CaptainInvite.user =
+
 class TeamCreateView(CreateView):
     form_class=TeamCreateForm
     template_name='teams/create-team.html'
 
     def form_valid(self, form):
         Team = form.instance
-        Team.creator = self.request.user
+        Team.founder = self.request.user
         Team.save()
         self.success_url = reverse('teams:detail', args=[Team.id])
         messages.success(self.request, 'Your Team has been created successfully')
