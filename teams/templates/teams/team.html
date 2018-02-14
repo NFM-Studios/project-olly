@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load staticfiles %}
-<link rel="stylesheet" href="{% static "css/ticket.css" %}">
+<link rel="stylesheet" href="{% static "css/teams.css" %}">
 <link rel="stylesheet" href="{% static "css/fontawesome-all.min.css" %}">
 
 {% if messages %}
@@ -22,19 +22,19 @@
     </thead>
     <tr>
         <td>ID</td>
-        <td>{{ticket.id}}</td>
+        <td>{{team.id}}</td>
     </tr>
     <tr>
-        <td class="ticket-subject">Subject</td>
-        <td>{{ticket.subject}}</td>
+        <td class="team-name">Name</td>
+        <td>{{team.name}}</td>
     </tr>
     <tr>
-        <td class="">Description</td>
-        <td>{{ticket.description}}</td>
+        <td class="">Founder</td>
+        <td>{{team.founder}}</td>
     </tr>
     <tr>
-        <td>Assignee</td>
-        <td>{{ticket.assignee}}</td>
+        <td>Created</td>
+        <td>{{team.created}}</td>
     </tr>
     <tr>
         <td>Status</td>
