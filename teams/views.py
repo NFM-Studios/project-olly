@@ -44,7 +44,7 @@ class MyTeamDetailView(DetailView):
     #base team template all users can see, inside the template some permissions like viewing the edit team button
     # will be managed
     template_name = 'teams/team.html'
-    form = TeamInviteCreateForm
+    form = TeamInviteForm
 
     def get_context_date(self, **kwargs):
         context = super(MyTeamDetailView, self).get_context_date(**kwargs)
@@ -60,16 +60,16 @@ class MyTeamDetailView(DetailView):
 
     def form_valid(self, form):
         invite = form.instance
-        invite.inviter=self.request.user
-        invite.user=
-        invite.team=
+        invite.inviter=self.request.inviter
+        invite.user= self.request.user
+        invite.team=self.request.team
 
     def get_queryset(self):
         return Teams.objects.filter(players__contains=self.request.user)
 
 class TeamInviteCreateView(CreateView):
 #allow the person to create an invite for there team
-    form_class = TeamInviteCreateForm
+    form_class = TeamInviteForm
     template_name = 'teams/invite-player.html'
 
     def form_valid(self, form):
@@ -87,7 +87,7 @@ class TeamInviteCreateView(CreateView):
 class CaptainInviteCreateView(CreateView):
     form_class = CaptainInviteForm
     template_name='teams/captain-invite.html'
-    form = CaptainInviteCreateForm()
+    form = CaptainInviteForm()
 
     def form_valid(self, form):
         CaptainInvite = form.instance
