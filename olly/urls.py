@@ -4,6 +4,7 @@ from profiles import views as profile_views
 from pages import views as pages_views
 from support import views as support_views
 from news import views as news_views
+from teams import views as teams_views
 from django.contrib.auth.views import login, logout, password_reset, password_reset_done, password_reset_confirm, password_reset_complete
 from django.conf import settings
 from django.conf.urls.static import static
@@ -25,6 +26,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^profile/', include('profiles.urls', namespace='profiles')),
     url(r'^support/', include('support.urls',namespace='support')),
+    url(r'^teams/', include('teams.urls',namespace='teams')),
     url(r"^activate/(?P<uidb64>[0-9A-Za-z_'\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$",
         profile_views.activate, name='activate'),
     url(r'^news/', include('news.urls', namespace='news')),
