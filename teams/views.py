@@ -31,7 +31,7 @@ class MyTeamsListView(ListView):
     template_name='teams/my-teams.html'
 
     def get_queryset(self):
-        if(Team.objects.filter(players=self.request.user)):
+        if(Team.objects.filter(players__contains=self.request.user)):
             #maybe? filter items where the mtm field contains one of the users.
             return Team.objects.filter(players__contains=self.requst.user)
 
@@ -46,8 +46,26 @@ class MyTeamDetailView(DetailView):
     template_name = 'teams/team.html'
     form = TeamInviteCreateForm
 
-    #def invite(self, request, *args, **kwargs):
-    #    self.form=TeamInviteCreateForm(request.POST)
+    def get_context_date(self, **kwargs):
+        context = super(MyTeamDetailView, self).get_context_date(**kwargs)
+        context['form'] = self.form
+        return context
+
+    def post(self,request, *args, **kwargs):
+        self.form = TeamInviteCreateForm(request.POST)
+        if self.form.is_valid():
+            self.form_valid(self.form)
+            return HttpResponseRedirect(reverse('teams:detail',args=[self.kwargs['pk']]))
+        return super(MyTeamDetailView, self).get(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        invite = form.instance
+        invite.inviter=self.request.user
+        invite.user=
+        invite.team=
+
+    def get_queryset(self):
+        return Teams.objects.filter(players__contains=self.request.user)
 
 class TeamInviteCreateView(CreateView):
 #allow the person to create an invite for there team
@@ -56,7 +74,10 @@ class TeamInviteCreateView(CreateView):
 
     def form_valid(self, form):
         TeamInvite = form.instance
-        TeamInvite.inviter = self.request.user
+        TeamInvite.inviter = self.request.inviter
+        TeamInvite.team = self.request.team
+        TeamInvite.user = self.request.user
+
         TeamInvite.save()
         self.success_url = reverse('teams:detail', args=[TeamInvite.id])
         messages.success(self.request, 'Your invite has been successfully sent')
@@ -70,9 +91,9 @@ class CaptainInviteCreateView(CreateView):
 
     def form_valid(self, form):
         CaptainInvite = form.instance
-        CaptainInvite.inviter = self.request.user
-        CaptainInvite.team =
-        CaptainInvite.user =
+        CaptainInvite.inviter = self.request.inviter
+        CaptainInvite.team = self.request.team
+        CaptainInvite.user = self.request.user
 
 class TeamCreateView(CreateView):
     form_class=TeamCreateForm
