@@ -31,9 +31,10 @@ class MyTeamsListView(ListView):
     template_name='teams/my-teams.html'
 
     def get_queryset(self):
-        if(Team.objects.filter(players__contains=self.request.user)):
-            #maybe? filter items where the mtm field contains one of the users.
-            return Team.objects.filter(players__contains=self.requst.user)
+        # TO DO switch the filter to the players field not just the founder field.
+        if(Team.objects.filter(founder=self.request.user)):
+            # TO DO switch the filter to the players field not just the founder field.
+            return Team.objects.filter(founder=self.request.user)
 
 
 
@@ -65,7 +66,8 @@ class MyTeamDetailView(DetailView):
         invite.team=self.request.team
 
     def get_queryset(self):
-        return Teams.objects.filter(players__contains=self.request.user)
+        # TO DO switch the filter to the players field not just the founder field.
+        return Team.objects.filter(founder=self.request.user)
 
 class TeamInviteCreateView(CreateView):
 #allow the person to create an invite for there team
