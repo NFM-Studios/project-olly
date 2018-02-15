@@ -1,31 +1,29 @@
 {% extends "base.html" %}
 {% load staticfiles %}
-<link rel="stylesheet" href="{% static "css/ticket.css" %}">
+<link rel="stylesheet" href="{% static "css/teams.css" %}">
 
 {% block body %}
 <table class="table table-hover">
     <tr id="header">
         <thead>
         <th scope="row">ID</th>
-        <th>Subject</th>
-        <th>Date Created?</th>
+        <th>Team Name</th>
+        <th>Date Created</th>
         </thead>
     </tr>
-    {% for ticket in ticket_list %}
+    {% for team in team_list %}
     <tbody>
     <tr scope="">
-        <td scope="row"><a href="/support/my/{{ticket.id}}/">#{{ticket.id}}</a></td>
-        <td>{{ticket.subject}}</td>
-        <td>{{ticket.last_update}}</td>
+        <td scope="row"><a href="/teams/my/{{team.id}}/">{{team.id}}</a></td>
+        <td>{{team.name}}</td>
+        <td>{{team.created}}</td>
     </tr>
     </tbody>
     {% endfor %}
 </table>
 <div id="new-ticket">
 <h2 id="" style="text-decoration: none; margin:8px">
-    <a style="text-decoration:none; color:black;" href="/support/create">
-        <i class="fas fa-plus"></i>  Create a new ticket
-    </a>
+
 </h2>
 </div>
 {% endblock %}
