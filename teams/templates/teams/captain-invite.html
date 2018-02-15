@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load staticfiles %}
-<link rel="stylesheet" href="{% static "css/teams.css" %}">
+<link rel="stylesheet" type="text/css" href="{% static "css/teams.css" %}">
 
 {% block body %}
 
@@ -11,6 +11,12 @@
     {% endfor %}
   </ul>
 {% endif %}
+
+<h2 id="captain-header" style="">Promote a player from a player to a captain</h2>
+<p id="captain-text" style> Captains have added permissions, such as editting the team profile,
+  inviting players, and reporting matches.
+<br />
+Captains <strong>do not</strong> have permissions to remove players from a team.
 
 <form method="POST" action="{% url 'teams:create' %}">
     <table class="table">
