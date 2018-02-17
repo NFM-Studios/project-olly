@@ -37,7 +37,8 @@ class MyTeamsListView(ListView):
             return Team.objects.filter(founder=self.request.user)
 
 
-
+class EditTeamView(request):
+    
 
 class MyTeamDetailView(DetailView):
 #show team info, allow them to invite users.
