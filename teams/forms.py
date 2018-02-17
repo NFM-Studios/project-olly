@@ -21,10 +21,10 @@ class TeamInviteForm(forms.ModelForm):
     class Meta:
         model = TeamInvite
         #maybe????
-        fields = ('user','team','inviter')
+        fields = ('user','team')
 
 class CaptainInviteForm(forms.ModelForm):
     class Meta:
         model = CaptainInvite
         #ensure that when the teams are dispalyed they have the proper role to add other captains
-        fields = ('user', 'team','inviter')
+        fields = ('user', 'team')
