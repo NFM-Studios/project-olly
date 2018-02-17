@@ -10,5 +10,7 @@ urlpatterns = [
     url(r'^create/$', login_required(TeamCreateView.as_view()), name='create'),
     url(r'^invite/$', login_required(TeamInviteCreateView.as_view()), name='invite'),
     url(r'^captain/$', login_required(CaptainInviteCreateView.as_view()), name='captaininvite'),
+    url(r'^edit/(?P<pk>\d+)/$', login_required(EditTeamDetailView.as_view()), name='detail'),
+
 
 ]
