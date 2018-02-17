@@ -97,6 +97,12 @@ class CaptainInviteCreateView(CreateView):
         CaptainInvite.team = self.request.team
         CaptainInvite.user = self.request.user
 
+        CaptainInvite.save()
+        self.success_url = reverse('teams:detail', args=[TeamInvite.id])
+        messages.success(self.request, 'Your invite has been successfully sent')
+        return super(CaptainInviteCreateView, self).form_valid(form)
+
+
 class TeamCreateView(CreateView):
     form_class=TeamCreateForm
     template_name='teams/create-team.html'
