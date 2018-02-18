@@ -28,3 +28,13 @@ class CaptainInviteForm(forms.ModelForm):
         model = CaptainInvite
         #ensure that when the teams are dispalyed they have the proper role to add other captains
         fields = ('user', 'team')
+
+class EditTeamProfileForm(forms.ModelForm):
+    class Meta:
+        model = Team
+        fields = (
+            'about_us',
+            'website',
+            'twitter',
+            'twitch',
+        )
