@@ -6,11 +6,11 @@ from django.views.generic import ListView, DetailView, CreateView
 #team create forms
 from teams.forms import TeamCreateForm
 #team create invite forms
-from teams.forms import TeamInviteForm, CaptainInviteForm
+from teams.forms import TeamInviteForm
 #import the team models
 from teams.models import Team
 #import the invite models
-from teams.models import TeamInvite, CaptainInvite
+from teams.models import TeamInvite
 
 class MyInvitesListView(ListView):
     # show all the invites, and an accept or deny button.
@@ -96,23 +96,6 @@ class TeamInviteCreateView(CreateView):
         self.success_url = reverse('teams:detail', args=[TeamInvite.id])
         messages.success(self.request, 'Your invite has been successfully sent')
         return super(TeamInviteCreateView, self).form_valid(form)
-
-
-class CaptainInviteCreateView(CreateView):
-    form_class = CaptainInviteForm
-    template_name='teams/captain-invite.html'
-    form = CaptainInviteForm()
-
-    def form_valid(self, form):
-        CaptainInvite = form.instance
-        CaptainInvite.inviter = self.request.inviter
-        CaptainInvite.team = self.request.team
-        CaptainInvite.user = self.request.user
-
-        CaptainInvite.save()
-        self.success_url = reverse('teams:detail', args=[TeamInvite.id])
-        messages.success(self.request, 'Your invite has been successfully sent')
-        return super(CaptainInviteCreateView, self).form_valid(form)
 
 
 class TeamCreateView(CreateView):
