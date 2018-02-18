@@ -1,38 +1,22 @@
 from django.http import HttpResponse
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.shortcuts import render, redirect, HttpResponseRedirect, resolve_url
-from django.contrib.auth import _get_user_session_key, login as auth_login, REDIRECT_FIELD_NAME
+from django.contrib.auth import login as auth_login, REDIRECT_FIELD_NAME
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserChangeForm, AuthenticationForm
-from django.views import generic
+from django.contrib.auth.forms import AuthenticationForm
 from django.views.generic import View
 from .forms import CreateUserForm, EditProfileForm
 from .models import UserProfile
-from django.template.loader import render_to_string
 from django.contrib.sites.shortcuts import get_current_site
-from django.utils.encoding import force_bytes, force_text
+from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode, is_safe_url
 from django.template.loader import render_to_string
 from .tokens import account_activation_token
 from django.core.mail import EmailMessage
-from django.forms.models import inlineformset_factory
-from django.core.exceptions import PermissionDenied
 from django.contrib import messages
 import requests
 from django.conf import settings
-from django.contrib.auth.signals import user_logged_in
-from django.middleware.csrf import rotate_token
 from django.template.response import TemplateResponse
 
-from ipware.ip import get_real_ip
-
-#def get_ip(request):
-   # ip = get_real_ip(request)
-    #if ip is not None:
-     #   if user is not None:
-      #      user = User.objects.get(username=request.user.username)
-       #     user.ip = ip  # change field
-        #    user.save() # this will update only
 
 def login(request, template_name='profiles/login_form.html',
           redirect_field_name=REDIRECT_FIELD_NAME,
@@ -97,7 +81,7 @@ def profile(request, urlusername):
 
 
 def profile_no_username(request):
-    if not (request.user.is_anonymous):
+    if not request.user.is_anonymous:
         return redirect('/profile/user/' + str(request.user))
     else:
         return redirect('/login')
@@ -188,4 +172,3 @@ def activate(request, uidb64, token):
         return redirect('/profile')
     else:
         return HttpResponse('Activation link is invalid!')
-
