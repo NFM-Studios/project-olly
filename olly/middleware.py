@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from ipware import get_client_ip
 from profiles.models import UserProfile, BannedUser
-from profiles import views
 
 class CheckBanListMiddleware():
     def __init__(self, get_response):
@@ -15,7 +14,7 @@ class CheckBanListMiddleware():
         #ip = get_real_ip(request)
         ip = get_client_ip(request)
         ip = ip[0]
-        print(ip)
+        #print(ip)
 
         if not (request.path_info == '/profile/banned/'):
             if ip is not None:

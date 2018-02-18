@@ -1,0 +1,51 @@
+{% extends 'staff/staffbase.html' %}
+{% block body %}
+
+<form id="searchform" action="{% url 'staff:searchusers' %}" method="get" accept-charset="utf-8">
+      <button class="searchbutton" type="submit">
+        <i class="fa fa-search"></i>
+      </button>
+      <input class="searchfield" id="searchbox" name="q" type="text" placeholder="Search">
+    </form>
+
+<table class="table">
+<th>Username</th>
+<th>Email address</th>
+<th>Last IP</th>
+<th>User Type</th>
+<th></th>
+<th></th>
+<th></th>
+{% for up in userprofiles %}
+<tr>
+<td><strong><a href="/profile/user/{{ up.user }}">{{ up.user }}</a></strong></td>
+<td> {{ up.user.email }} </td>
+<td> {{ up.ip }} </td>
+
+{% if up.user_type == 'superadmin' %}
+    <td>Super Admin</td>
+{% elif up.user_type == 'admin' %}
+    <td>Admin</td>
+{% elif up.user_type == 'user' %}
+    <td>Standard User</td>
+{% endif %}
+
+<td><a href="/staff/users/edit/{{ up.user }}" class="btn btn-primary">Edit User Type</a></td>
+
+{% if up.user.id in bannedusernames %}
+    <td> <a href="/staff/users/unban/{{ up.user }}" class="btn btn-warning">UNBAN USERNAME</a> </td>
+{% else %}
+    <td> <a href="/staff/users/ban/{{ up.user }}" class="btn btn-danger">BAN USERNAME</a> </td>
+{% endif %}
+
+{% if up.ip in bannedips %}
+    <td> <a href="/staff/users/unbanip/{{ up.user }}" class="btn btn-warning">UNBAN IP</a> </td>
+{% else %}
+    <td> <a href="/staff/users/banip/{{ up.user }}" class="btn btn-danger">BAN IP</a> </td>
+{% endif %}
+
+</tr>
+{% endfor %}
+</table>
+{% include "pagination.html" with page=userprofiles %}
+{% endblock %}

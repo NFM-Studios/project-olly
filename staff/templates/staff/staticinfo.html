@@ -1,0 +1,16 @@
+{% extends 'staff/staffbase.html' %}
+{% block body %}
+<p>{{ staticinfo.about_us }}</p>
+
+<form method="POST" action="{% url 'staff:staticinfo' %}">
+    <table class="table">
+        {% csrf_token %}
+        {{form.as_table}}
+        <tr>
+            <td colspan="2">
+                <input type="submit" value="Create" />
+            </td>
+        </tr>
+    </table>
+</form>
+{% endblock %}
