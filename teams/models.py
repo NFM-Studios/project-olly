@@ -26,9 +26,9 @@ class Team(models.Model):
     #the people of the actual team, now a many to many, not a forkey
     players = models.ManyToManyField(User, through='TeamInvite', through_fields=('team','user','inviter'))
     #when they created the team
-    created= models.DateTimeField(auto_now_add=True)
+    created = models.DateTimeField(auto_now_add=True)
     #when they last updated anything in the team
-    updated= models.DateTimeField(auto_now=True)
+    updated = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name = 'Team'
