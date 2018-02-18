@@ -37,7 +37,7 @@ class MyTeamsListView(ListView):
             return Team.objects.filter(founder=self.request.user)
 
 
-class EditTeamView(request):
+def EditTeamView(request):
         if request.method == 'POST':
             teamobj = Team.objects.get(team__founder=request.user.username)
             form = EditTeamProfileForm(request.POST, instance=teamobj)
@@ -47,7 +47,6 @@ class EditTeamView(request):
         else:
             teamobj = Team.objects.get(team__founder=request.user.username)
             form = EditTeamProfileForm(instance=teamobj)
-
             return render(request, 'teams/edit-team.html', {'form': form})
 
 
