@@ -4,6 +4,7 @@ from django.db.models.signals import post_save
 
 # Create your models here.
 
+
 class UserProfile(models.Model):
     def __str__(self):
         return str(self.user)
@@ -22,17 +23,17 @@ class UserProfile(models.Model):
     user_type = models.CharField(max_length=10, default='user')
     ip = models.CharField(max_length=16, default='0.0.0.0')
 
+
 def create_profile(sender, **kwargs):
     user = kwargs["instance"]
     if kwargs["created"]:
         user_profile = UserProfile(user=user)
         user_profile.save()
 
+
 class BannedUser(models.Model):
     user = models.ForeignKey(User, related_name='banned', on_delete=models.CASCADE)
     ip = models.CharField(max_length=12, default='error')
 
 
-
 post_save.connect(create_profile, sender=User)
-

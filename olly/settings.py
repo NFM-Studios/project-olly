@@ -33,7 +33,7 @@ SESSION_COOKIE_AGE = 604800
 
 INSTALLED_APPS = [
     
-    #all stock stuff 
+    # all stock stuff
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -41,25 +41,25 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     
-    #modified user model, etc.
+    # modified user model, etc.
     'profiles',
     
-    #just regular pages
+    # just regular pages
     'pages',
     
-    #mikes awesome support tickets
+    # mikes awesome support tickets
     'support',
     
-    #news app
+    # news app
     'news',
     
-    #staff admin panel
+    # staff admin panel
     'staff',
     
     # tag manager package
     'taggit',
 
-    #ip package
+    # ip package
     'ipware',
 
 ]

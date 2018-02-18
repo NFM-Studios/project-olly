@@ -1,27 +1,29 @@
 from django.db import models
-from django.utils import timezone
 from django.contrib.auth.models import User
-#from profiles import models
-
-#import the choices that are defined in the settings.py file
+# import the choices that are defined in the settings.py file
 from support.settings import STATUS_CHOICES, CLOSED_STATUSES
 
 # Create your models here.
+
+
 class Ticket(models.Model):
-    creator=models.ForeignKey(User,verbose_name='Creator',related_name='ticket_create', on_delete=models.CASCADE)
-    date=models.DateTimeField(auto_now=False,auto_now_add=True)
-    last_update=models.DateTimeField(auto_now=True,auto_now_add=False)
-    subject=models.CharField(max_length=255)
-    text=models.TextField(default='idiot didnt enter any text', help_text='A detailed description of your issue')
-    assignee=models.ForeignKey(User,related_name='assigned_tickets',verbose_name='assignee',blank=True,null=True, on_delete=models.CASCADE)
-    status=models.SmallIntegerField(choices=STATUS_CHOICES,default=0)
+    creator = models.ForeignKey(User, verbose_name='Creator', related_name='ticket_create', on_delete=models.CASCADE)
+    date = models.DateTimeField(auto_now=False, auto_now_add=True)
+    last_update = models.DateTimeField(auto_now=True, auto_now_add=False)
+    subject = models.CharField(max_length=255)
+    text = models.TextField(default='idiot didnt enter any text', help_text='A detailed description of your issue')
+    assignee = models.ForeignKey(User, related_name='assigned_tickets', verbose_name='assignee', blank=True,
+                                 null=True, on_delete=models.CASCADE)
+    status = models.SmallIntegerField(choices=STATUS_CHOICES, default=0)
 
     class Meta:
-        verbose_name='ticket'
-        verbose_name_plural='tickets'
+        verbose_name = 'ticket'
+        verbose_name_plural = 'tickets'
         ordering = ['date']
+
     def get_comments_count(self):
         return self.comments.count()
+
     def get_latest_comment(self):
         return self.comments.latest('date')
 
@@ -37,16 +39,14 @@ class Ticket(models.Model):
         except TicketComment.DoesNotExist:
             return False
         return latest.author != self.creator
-    is_answered.boolean=True
+    is_answered.boolean = True
     is_answered.short_description = 'Is answered'
-
-    
 
 
 class TicketComment(models.Model):
-    ticket = models.ForeignKey(Ticket,verbose_name='Ticket', related_name='comments',on_delete=models.CASCADE)
+    ticket = models.ForeignKey(Ticket, verbose_name='Ticket', related_name='comments', on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True, verbose_name='Date')
-    author = models.ForeignKey(User, verbose_name='Author',on_delete=models.CASCADE)
+    author = models.ForeignKey(User, verbose_name='Author', on_delete=models.CASCADE)
     comment = models.TextField()
     
     class Meta:
@@ -54,5 +54,6 @@ class TicketComment(models.Model):
         verbose_name_plural = 'Ticket comments'
         ordering = ['date']
 
-    def __unicode__(self):
-        return "Comment on " + unicode(self.ticket)
+    # Not sure if this is needed
+    # def __unicode__(self):
+        # return "Comment on " + unicode(self.ticket)
