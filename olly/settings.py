@@ -53,6 +53,9 @@ INSTALLED_APPS = [
     #news app
     'news',
     
+    #staff admin panel
+    'staff',
+    
     # tag manager package
     'taggit',
 

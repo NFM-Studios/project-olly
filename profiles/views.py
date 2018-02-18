@@ -95,11 +95,13 @@ def profile(request, urlusername):
     userprofile = UserProfile.objects.get(user__username=urlusername)
     return render(request, template_name, {'userprofile': userprofile, 'requestuser': request.user})
 
+
 def profile_no_username(request):
     if not (request.user.is_anonymous):
         return redirect('/profile/user/' + str(request.user))
     else:
         return redirect('/login')
+
 
 def edit_profile(request):
     if request.method == 'POST':
@@ -113,6 +115,7 @@ def edit_profile(request):
         form = EditProfileForm(instance=userprofileobj)
 
         return render(request, 'profiles/edit_profile.html', {'form': form})
+
 
 class CreateUserFormView(View):
     form_class = CreateUserForm
@@ -166,6 +169,7 @@ class CreateUserFormView(View):
                 messages.error(request, 'Invalid reCAPTCHA. Please try again.')
 
         return render(request, self.template_name, {'form': form})
+
 
 def activate(request, uidb64, token):
     try:

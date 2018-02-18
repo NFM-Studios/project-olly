@@ -8,8 +8,6 @@ class UserProfile(models.Model):
     def __str__(self):
         return str(self.user)
     user = models.OneToOneField(User, related_name='user', on_delete=models.CASCADE)
-    use_2fa = models.BooleanField(default=False)
-    email_verified = models.BooleanField(default=False)
     xp = models.PositiveSmallIntegerField(default=0)
     credits = models.PositiveSmallIntegerField(default=0)
     total_earning = models.PositiveSmallIntegerField(default=0)
