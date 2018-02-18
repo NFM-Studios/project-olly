@@ -8,6 +8,7 @@ from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from support.models import Ticket
 
+
 def staffindex(request):
     user = UserProfile.objects.get(user__username=request.user.username)
     allowed = ['superadmin', 'admin']
@@ -15,6 +16,7 @@ def staffindex(request):
         return render(request, 'staff/permissiondenied.html')
     else:
         return render(request, 'staff/staffindex.html')
+
 
 def users(request):
     user = UserProfile.objects.get(user__username=request.user.username)
@@ -34,10 +36,11 @@ def users(request):
         except EmptyPage:
             # if the page is out of range deliver last page of results
             users = paginator.page(paginator.num_pages)
-        context = {'page': page, 'userprofiles': users,\
-                   'bannedusernames': BannedUser.objects.values_list('user', flat=True),\
+        context = {'page': page, 'userprofiles': users,
+                   'bannedusernames': BannedUser.objects.values_list('user', flat=True),
                    'bannedips': BannedUser.objects.values_list('ip', flat=True)}
         return render(request, 'staff/users.html', context)
+
 
 def searchusers(request):
     user = UserProfile.objects.get(user__username=request.user.username)
@@ -47,9 +50,13 @@ def searchusers(request):
     else:
         query = request.GET.get('q')
         if query:
-            return render(request, 'staff/users.html',{'userprofiles': UserProfile.objects.filter(Q(user__username__icontains=query) | Q(user__email__icontains=query)), 'bannedusers': list(BannedUser.objects.all())})
+            return render(request, 'staff/users.html',
+                          {'userprofiles': UserProfile.objects.filter
+                           (Q(user__username__icontains=query) | Q(user__email__icontains=query)),
+                           'bannedusers': list(BannedUser.objects.all())})
         else:
             return redirect('/staff/users')
+
 
 def edituser(request, urlusername):
     user = UserProfile.objects.get(user__username=request.user.username)
@@ -71,6 +78,7 @@ def edituser(request, urlusername):
             form = EditUserForm(instance=userprofileobj)
             return render(request, 'staff/edituser.html', {'form': form})
 
+
 def banuser(request, urlusername):
     user = UserProfile.objects.get(user__username=request.user.username)
     allowed = ['superadmin', 'admin']
@@ -83,6 +91,7 @@ def banuser(request, urlusername):
         messages.success(request, 'User ' + urlusername + ' has been banned')
         return redirect('/staff/users')
 
+
 def unbanuser(request, urlusername):
     user = UserProfile.objects.get(user__username=request.user.username)
     allowed = ['superadmin', 'admin']
@@ -94,6 +103,7 @@ def unbanuser(request, urlusername):
         b.delete()
         messages.success(request, 'User ' + urlusername + ' has been unbanned')
         return redirect('/staff/users')
+
 
 def banip(request, urlusername):
     user = UserProfile.objects.get(user__username=request.user.username)
@@ -108,6 +118,7 @@ def banip(request, urlusername):
         messages.success(request, 'User ' + urlusername + ' has been banned')
         return redirect('/staff/users')
 
+
 def unbanip(request, urlusername):
     user = UserProfile.objects.get(user__username=request.user.username)
     allowed = ['superadmin', 'admin']
@@ -120,6 +131,7 @@ def unbanip(request, urlusername):
         messages.success(request, 'User ' + urlusername + ' has been banned')
         return redirect('/staff/users')
 
+
 def tickets(request):
     user = UserProfile.objects.get(user__username=request.user.username)
     allowed = ['superadmin', 'admin']
@@ -128,7 +140,8 @@ def tickets(request):
     else:
         tickets = Ticket.objects.all()
         return render(request, 'staff/tickets.html', {'ticket_list': tickets})
-    
+
+
 def staticinfo(request):
     user = UserProfile.objects.get(user__username=request.user.username)
     allowed = ['superadmin', 'admin']

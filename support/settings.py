@@ -11,4 +11,4 @@ STATUS_CHOICES = getattr(settings, 'TICKETS_STATUS_CHOICES', (
 ))
 
 # List of the different status that define a ticket as closed.
-CLOSED_STATUSES = getattr(settings, 'TICKETS_CLOSED_STATUSES', (3,4))
+CLOSED_STATUSES = getattr(settings, 'TICKETS_CLOSED_STATUSES', (3, 4))
