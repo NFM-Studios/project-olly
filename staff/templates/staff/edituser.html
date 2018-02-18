@@ -1,0 +1,16 @@
+{% extends 'staff/staffbase.html' %}
+{% block body %}
+  <form method="post">
+    {% csrf_token %}
+    {{ field.errors }}
+
+     <select name="user_type">
+      <option value="user">Standard User</option>
+      <option value="admin">Admin</option>
+      <option value="superadmin">Super Admin</option>
+    </select>
+
+    <button type="submit" class="btn btn-primary">Update</button>
+
+  </form>
+{% endblock %}
