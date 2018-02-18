@@ -22,7 +22,7 @@ class Team(models.Model):
     #whoever filled out the form to create the team, limited to only one
     founder = models.ForeignKey(User, related_name='founder', on_delete=models.CASCADE)
     #basically founder permissions, but to other people that didnt create the actual team
-    captain = models.ManyToManyField(User, through='CaptainInvite', through_fields=('team','user','inviter'), related_name='teamcaptain')
+    captain = models.ManyToManyField(User, through='CaptainMembership', related_name='teamcaptain')
     #the people of the actual team, now a many to many, not a forkey
     players = models.ManyToManyField(User, through='TeamInvite', through_fields=('team','user','inviter'))
     #when they created the team
@@ -37,21 +37,27 @@ class Team(models.Model):
     def get_players_count(self):
         return self.players.count()
 
+    def website_linked(self):
+        if not self.website:
+            return True
+
+
 
 class TeamInvite(models.Model):
+    INVITE_CHOICES= (
+    ('captain', 'Captain'),
+    ('player', 'Player'),
+    )
     expire = models.DateTimeField(auto_now=False, auto_now_add=False)
     team = models.ForeignKey(Team, related_name='invitedto', on_delete=models.CASCADE)
     user = models.ForeignKey(User, related_name='toinvite', on_delete=models.CASCADE)
     inviter = models.ForeignKey(User, related_name='frominvite', on_delete=models.CASCADE)
+    captain = models.CharField(choices=INVITE_CHOICES, max_length=20, default='player')
     accepted = models.BooleanField(default=False)
     declined = models.BooleanField(default=False)
     active = models.BooleanField(default=True)
 
-class CaptainInvite(models.Model):
-    expire = models.DateTimeField(auto_now=False, auto_now_add=False)
-    team = models.ForeignKey(Team, related_name='captainto', on_delete=models.CASCADE)
-    user = models.ForeignKey(User, related_name='tocaptain', on_delete=models.CASCADE)
-    inviter = models.ForeignKey(User, related_name='fromcaptain', on_delete=models.CASCADE)
-    accepted = models.BooleanField(default=False)
-    declined = models.BooleanField(default=False)
+class CaptainMembership(models.Model):
+    user = models.ForeignKey(User, related_name='captainperson', on_delete=models.CASCADE)
+    team = models.ForeignKey(Team, related_name='team', on_delete=models.CASCADE)
     active = models.BooleanField(default=True)
