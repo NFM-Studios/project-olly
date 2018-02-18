@@ -6,8 +6,6 @@ from teams.models import Team
 #import the model for the team invite
 from teams.models import TeamInvite
 
-from teams.models import CaptainInvite
-
 #forms to create a team of various sizes
 
 class TeamCreateForm(forms.ModelForm):
@@ -22,12 +20,10 @@ class TeamInviteForm(forms.ModelForm):
         model = TeamInvite
         #maybe????
         fields = ('user','team')
+        #widgets = {
+        #    'user':Charfield(),
+        #}
 
-class CaptainInviteForm(forms.ModelForm):
-    class Meta:
-        model = CaptainInvite
-        #ensure that when the teams are dispalyed they have the proper role to add other captains
-        fields = ('user', 'team')
 
 class EditTeamProfileForm(forms.ModelForm):
     class Meta:
