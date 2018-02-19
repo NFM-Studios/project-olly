@@ -24,7 +24,6 @@ def users(request):
     if user.user_type not in allowed:
         return render(request, 'staff/permissiondenied.html')
     else:
-
         object_list = UserProfile.objects.get_queryset().order_by('id')
         paginator = Paginator(object_list, 20)
         page = request.GET.get('page')
@@ -55,7 +54,8 @@ def searchusers(request):
                            (Q(user__username__icontains=query) | Q(user__email__icontains=query)),
                            'bannedusers': list(BannedUser.objects.all())})
         else:
-            return redirect('/staff/users')
+            return redirect('staff:users')
+
 
 
 def edituser(request, urlusername):
@@ -70,7 +70,7 @@ def edituser(request, urlusername):
             if form.is_valid():
                 form.save()
                 messages.success(request, 'User type has been updated')
-                return redirect('/staff/users/')
+                return redirect('staff:users')
             else:
                 print('form is not valid')
         else:
@@ -89,7 +89,8 @@ def banuser(request, urlusername):
         b = BannedUser(user=buser, ip='999.999.999.999')
         b.save()
         messages.success(request, 'User ' + urlusername + ' has been banned')
-        return redirect('/staff/users')
+        return redirect('staff:users')
+
 
 
 def unbanuser(request, urlusername):
@@ -102,7 +103,8 @@ def unbanuser(request, urlusername):
         b = BannedUser.objects.get(user=buser)
         b.delete()
         messages.success(request, 'User ' + urlusername + ' has been unbanned')
-        return redirect('/staff/users')
+        return redirect('staff:users')
+
 
 
 def banip(request, urlusername):
@@ -116,7 +118,8 @@ def banip(request, urlusername):
         b = BannedUser(user=buser, ip=buserprofile.ip)
         b.save()
         messages.success(request, 'User ' + urlusername + ' has been banned')
-        return redirect('/staff/users')
+        return redirect('staff:users')
+
 
 
 def unbanip(request, urlusername):
@@ -129,7 +132,8 @@ def unbanip(request, urlusername):
         b = BannedUser.objects.get(ip=buserprofile.ip)
         b.delete()
         messages.success(request, 'User ' + urlusername + ' has been banned')
-        return redirect('/staff/users')
+        return redirect('staff:users')
+
 
 
 def tickets(request):
@@ -154,7 +158,7 @@ def staticinfo(request):
             if form.is_valid():
                 form.save()
                 messages.success(request, 'Your information has been updated')
-                return redirect('/staff/staticinfo/')
+                return redirect('staff:staticinfo')
         else:
             staticinfoobj = StaticInfo.objects.get(pk=1)
             form = StaticInfoForm(instance=staticinfoobj)
