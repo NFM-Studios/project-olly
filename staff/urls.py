@@ -1,17 +1,18 @@
 from django.conf.urls import url
+from django.contrib.auth.decorators import login_required
 from . import views
 
 app_name = 'staff'
 
 urlpatterns = [
-    url(r'^$', views.staffindex),
-    url(r'^users/$', views.users),
-    url(r'^tickets/$', views.tickets),
-    url(r'^staticinfo/$', views.staticinfo, name='staticinfo'),
-    url(r'^users/ban/(?P<urlusername>\w+)/$', views.banuser),
-    url(r'^users/unban/(?P<urlusername>\w+)/$', views.unbanuser),
-    url(r'^users/banip/(?P<urlusername>\w+)/$', views.banip),
-    url(r'^users/unbanip/(?P<urlusername>\w+)/$', views.unbanip),
-    url(r'^users/search/$', views.searchusers, name='searchusers'),
-    url(r'^users/edit/(?P<urlusername>\w+)/$', views.edituser)
+    url(r'^$', login_required(views.staffindex)),
+    url(r'^users/$', login_required(views.users), name='users'),
+    url(r'^tickets/$', login_required(views.tickets)),
+    url(r'^staticinfo/$', login_required(views.staticinfo), name='staticinfo'),
+    url(r'^users/ban/(?P<urlusername>\w+)/$', login_required(views.banuser)),
+    url(r'^users/unban/(?P<urlusername>\w+)/$', login_required(views.unbanuser)),
+    url(r'^users/banip/(?P<urlusername>\w+)/$', login_required(views.banip)),
+    url(r'^users/unbanip/(?P<urlusername>\w+)/$', login_required(views.unbanip)),
+    url(r'^users/search/$', login_required(views.searchusers), name='searchusers'),
+    url(r'^users/edit/(?P<urlusername>\w+)/$', login_required(views.edituser))
 ]

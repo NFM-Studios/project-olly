@@ -150,7 +150,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'olly/media')
 
 # Where to redirect users after login
-
+LOGIN_URL = '/login'
 LOGIN_REDIRECT_URL = '/'
 
 # Email stuff
