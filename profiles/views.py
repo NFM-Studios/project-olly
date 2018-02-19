@@ -16,6 +16,7 @@ from django.contrib import messages
 import requests
 from django.conf import settings
 from django.template.response import TemplateResponse
+from django.db.models import Q
 
 
 def login(request, template_name='profiles/login_form.html',
@@ -82,9 +83,24 @@ def profile(request, urlusername):
 
 def profile_no_username(request):
     if not request.user.is_anonymous:
-        return redirect('/profile/user/' + str(request.user))
+        userprofile = UserProfile.objects.get(user__username=request.user)
+        return render(request, 'profiles/profile.html', {'userprofile': userprofile, 'requestuser': request.user})
     else:
-        return redirect('/login')
+        return redirect('login')
+
+
+def users(request):
+    return render(request, 'profiles/users.html')
+
+
+def searchusers(request):
+    query = request.GET.get('q')
+    if query:
+        return render(request, 'profiles/users.html',
+                      {'userprofiles': UserProfile.objects.filter
+                       (Q(user__username__icontains=query) | Q(user__email__icontains=query))})
+    else:
+        return redirect('profiles:users')
 
 
 def edit_profile(request):
@@ -93,11 +109,10 @@ def edit_profile(request):
         form = EditProfileForm(request.POST, instance=userprofileobj)
         if form.is_valid():
             form.save()
-            return redirect('/profile/user/' + str(request.user))
+            return redirect('profiles:profile_no_username')
     else:
         userprofileobj = UserProfile.objects.get(user__username=request.user.username)
         form = EditProfileForm(instance=userprofileobj)
-
         return render(request, 'profiles/edit_profile.html', {'form': form})
 
 
@@ -148,7 +163,7 @@ class CreateUserFormView(View):
                 email.send()
 
                 messages.success(request, "Please confirm your email")
-                return redirect('/login/')
+                return redirect('login')
             elif not result['success']:
                 messages.error(request, 'Invalid reCAPTCHA. Please try again.')
 
@@ -169,6 +184,6 @@ def activate(request, uidb64, token):
         user.save()
         login(request, user)
         messages.success(request, 'Thank you for your email confirmation. You are now logged in.')
-        return redirect('/profile')
+        return redirect('profiles:profile_no_username')
     else:
-        return HttpResponse('Activation link is invalid!')
+        return render(request, 'profiles/activation_invalid.html')

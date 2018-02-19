@@ -9,10 +9,10 @@ from django.conf.urls.static import static
 
 
 urlpatterns = [
-    url(r'^$', pages_views.index),
-    url(r'^about/', pages_views.about),
-    url(r'^terms/', pages_views.terms),
-    url(r'^privacy/', pages_views.privacy),
+    url(r'^$', pages_views.index, name='index'),
+    url(r'^about/', pages_views.about, name='about'),
+    url(r'^terms/', pages_views.terms, name='terms'),
+    url(r'^privacy/', pages_views.privacy, name='privacy'),
     url(r'^404/', pages_views.notfound),
     url(r'^register/', profile_views.CreateUserFormView.as_view(), name='register'),
     url(r'^login/', profile_views.login, {'template_name': 'profiles/login_form.html'}, name='login'),
