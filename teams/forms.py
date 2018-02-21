@@ -19,7 +19,7 @@ class TeamInviteForm(forms.ModelForm):
     class Meta:
         model = TeamInvite
         #maybe????
-        fields = ('user','team')
+        fields = ('user','team','captain',)
         #widgets = {
         #    'user':Charfield(),
         #}
