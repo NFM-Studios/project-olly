@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block body %}
+
+    <h1>Xfer credits</h1>
+    <form class="form-horizonal" role="form" action="" method="post">
+        {% csrf_token %}
+        {% include 'store/xfer_form.html' %}
+        <button type="Transfer" class="btn btn-success">Transfer</button>
+    </form>
+
+
+
+{% endblock %}
