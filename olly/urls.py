@@ -2,10 +2,14 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from profiles import views as profile_views
 from pages import views as pages_views
+from store import views as store_views
+from support import views as support_views
+from news import views as news_views
 from django.contrib.auth.views import logout, password_reset, password_reset_done, password_reset_confirm,\
     password_reset_complete
 from django.conf import settings
 from django.conf.urls.static import static
+from paypal.standard.ipn import views as paypal_views
 
 
 urlpatterns = [
@@ -31,5 +35,7 @@ urlpatterns = [
     url(r"^activate/(?P<uidb64>[0-9A-Za-z_'\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$",
         profile_views.activate, name='activate'),
     url(r'^news/', include('news.urls', namespace='news')),
+    url(r'^store/', include('store.urls', namespace='store')),
+    url(r'^paypal/', paypal_views.ipn, name="paypal-ipn"),
     url(r'^staff/', include('staff.urls', namespace='staff'))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -25,9 +25,14 @@ SECRET_KEY = 'bcgu@a)k$z!)1qmv@5a)&e$x@+@_tvl-s87)3@n)032*6r6u-2'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+#SECURITY WARNING: don't run with this set to true in prod
+PAYPAL_TEST = True
+
 ALLOWED_HOSTS = ['127.0.0.1', 'ban-mikemaddem.c9users.io', 'olly-techlover1.c9users.io']
 
 SESSION_COOKIE_AGE = 604800
+
+SITE_URL = '127.0.0.1'
 
 # Application definition
 
@@ -52,6 +57,9 @@ INSTALLED_APPS = [
     
     # news app
     'news',
+
+    #store app
+    'store',
     
     # staff admin panel
     'staff',
@@ -61,6 +69,9 @@ INSTALLED_APPS = [
 
     # ip package
     'ipware',
+
+    #paypal IPN
+    'paypal.standard.ipn',
 
 ]
 
@@ -73,8 +84,12 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'olly.middleware.CheckBanListMiddleware'
+
 ]
 
+MIDDLEWARE_CLASSES = (
+    'store.get_username.RequestMiddleware',
+)
 ROOT_URLCONF = 'olly.urls'
 
 TEMPLATES = [
@@ -152,6 +167,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'olly/media')
 # Where to redirect users after login
 LOGIN_URL = '/login'
 LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = '/login/'
 
 # Email stuff
 EMAIL_USE_TLS = True
@@ -159,5 +175,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'nfm.studios@gmail.com'
 EMAIL_HOST_PASSWORD = 'mikemaddem'
 EMAIL_PORT = 587
+PAYPAL_EMAIL = "steven.young.1-merchant@gmail.com"
+
 
 GOOGLE_RECAPTCHA_SECRET_KEY = '6LdEsEMUAAAAABfKHZo9Ox0j55s2EnANq-wQlUOm'
