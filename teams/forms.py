@@ -17,6 +17,9 @@ class TeamCreateForm(forms.ModelForm):
 
 class TeamInviteForm(forms.ModelForm):
     class Meta:
+        user = forms.Charfield(max_length=50, help_text='Required')
+        #team = forms.?
+        captain = forms.BooleanField(default=False)
         model = TeamInvite
         #maybe????
         fields = ('user','team','captain',)
