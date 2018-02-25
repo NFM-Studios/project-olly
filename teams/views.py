@@ -81,7 +81,7 @@ class MyTeamDetailView(DetailView):
         # TO DO switch the filter to the players field not just the founder field.
         return Team.objects.filter(founder=self.request.user)
 
-class TeamInviteCreateView(CreateView):
+def TeamInviteCreateView(request, team):
 #allow the person to create an invite for there team
     form_class = TeamInviteForm
     template_name = 'teams/invite-player.html'
