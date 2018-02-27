@@ -15,45 +15,42 @@ def store(request):
     return render(request, 'store/store.html')
 
 
-def credits_15(request):
-    paypal_dict = {
-        "business": settings.PAYPAL_EMAIL,
-        "amount": "5.00",
-        "item_name": "15 Credits",
-        "notify_url": settings.SITE_URL + '/paypal/',
-        "custom": "15cred",
-    }
-    form = PayPalPaymentsForm(initial=paypal_dict)
-    context = {"form": form}
-    return render(request, "store/product.html", context)
-
-
-def credits_25(request):
-    paypal_dict = {
-        "business": settings.PAYPAL_EMAIL,
-        "amount": "20.00",
-        "item_name": "25 Credits",
-        "invoice": "unique-invoice-id",
-        "notify_url": settings.SITE_URL + '/paypal/',
-        "custom": "25cred",
-    }
-    form = PayPalPaymentsForm(initial=paypal_dict)
-    context = {"form": form}
-    return render(request, "store/product.html", context)
-
-
-def credits_50(request):
-    paypal_dict = {
-        "business": settings.PAYPAL_EMAIL,
-        "amount": "45.00",
-        "item_name": "50 Credits",
-        "invoice": "unique-invoice-id",
-        "notify_url": settings.SITE_URL + '/paypal/',
-        "custom": "50cred",
-    }
-    form = PayPalPaymentsForm(initial=paypal_dict)
-    context = {"form": form}
-    return render(request, "store/product.html", context)
+def buy_credits(request, num):
+    if num == '1':
+        paypal_dict = {
+            "business": settings.PAYPAL_EMAIL,
+            "amount": "5.00",
+            "item_name": "15 Credits",
+            "notify_url": settings.SITE_URL + '/paypal/',
+            "custom": "15cred",
+        }
+        form = PayPalPaymentsForm(initial=paypal_dict)
+        context = {"form": form}
+        return render(request, "store/product.html", context)
+    if num == '2':
+        paypal_dict = {
+            "business": settings.PAYPAL_EMAIL,
+            "amount": "20.00",
+            "item_name": "25 Credits",
+            "invoice": "unique-invoice-id",
+            "notify_url": settings.SITE_URL + '/paypal/',
+            "custom": "25cred",
+        }
+        form = PayPalPaymentsForm(initial=paypal_dict)
+        context = {"form": form}
+        return render(request, "store/product.html", context)
+    if num == '3':
+        paypal_dict = {
+            "business": settings.PAYPAL_EMAIL,
+            "amount": "45.00",
+            "item_name": "50 Credits",
+            "invoice": "unique-invoice-id",
+            "notify_url": settings.SITE_URL + '/paypal/',
+            "custom": "50cred",
+        }
+        form = PayPalPaymentsForm(initial=paypal_dict)
+        context = {"form": form}
+        return render(request, "store/product.html", context)
 
 
 '''
