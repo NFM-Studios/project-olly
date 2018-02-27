@@ -103,14 +103,15 @@ class TeamInviteCreateView(View):
         form = self.form_class(None)
         return render(request, self.template_name, {'form': form})
 
-    def post(self, request, pk):
+    def post(self, request):
         form = self.form_class(request.POST)
 
         if form.is_valid():
             TeamInvite = form.instance
-            TeamInvite.inviter = self.request.inviter
-            TeamInvite.team = self.request.team
+            TeamInvite.inviter = self.request.user
+            TeamInvite.team = form.cleaned_data['team']
             TeamInvite.user = self.request.user
+            TeamInvite.expire = '2018-02-28 22:26:27.0'  # temporary
             TeamInvite.save()
             messages.success(request, 'Sent invite successfully')
             return redirect('/teams/my/')
