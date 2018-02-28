@@ -3,6 +3,8 @@ from django.contrib import messages
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.views.generic import ListView, DetailView, CreateView, View
+import datetime
+from django.utils import timezone
 # team create forms
 from teams.forms import TeamCreateForm
 # team create invite forms
@@ -111,7 +113,7 @@ class TeamInviteCreateView(View):
             TeamInvite.inviter = self.request.user
             TeamInvite.team = form.cleaned_data['team']
             TeamInvite.user = self.request.user
-            TeamInvite.expire = '2018-02-28 22:26:27.0'  # temporary
+            TeamInvite.expire = timezone.now() + datetime.timedelta(days=1)
             TeamInvite.save()
             messages.success(request, 'Sent invite successfully')
             return redirect('/teams/my/')
