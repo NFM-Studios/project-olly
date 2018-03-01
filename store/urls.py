@@ -7,6 +7,6 @@ app_name = 'store'
 urlpatterns = [
 
     url(r'^$', login_required(store_views.store), name='store'),
-    url(r'^prod1/', login_required(store_views.credits_15)),
+    url(r'^product/(?P<num>[0-9])/$', login_required(store_views.buy_credits)),
     url(r'^transfer/', login_required(store_views.Transfer.as_view()))
 ]
