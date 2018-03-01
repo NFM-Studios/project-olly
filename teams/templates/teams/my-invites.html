@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static "css/teams.css" %}">
+
+{% block body %}
+<table class="table table-hover">
+    <tr id="header">
+        <thead>
+        <th scope="row">Invite ID</th>
+        <th>From</th>
+        <th>Team Name</th>
+        <th>Team Role</th>
+        <th>Active?</th>
+        </thead>
+    </tr>
+    {% for invite in teaminvite_list %}
+    <tbody>
+    <tr scope="">
+        <td scope="row"><a href="/support/my/{{ticket.id}}/">#{{invite.id}}</a></td>
+        <td>{{invite.inviter}}</td>
+        <td>{{invite.team}}</td>
+        <td>{{invite.captain}}</td>
+        <td>{{invite.active}}</td>
+    </tr>
+    </tbody>
+    {% endfor %}
+</table>
+
+{% endblock %}

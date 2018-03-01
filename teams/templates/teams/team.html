@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load staticfiles %}
-<link rel="stylesheet" href="{% static "css/ticket.css" %}">
+<link rel="stylesheet" href="{% static "css/teams.css" %}">
 <link rel="stylesheet" href="{% static "css/fontawesome-all.min.css" %}">
 
 {% if messages %}
@@ -12,7 +12,7 @@
 {% endif %}
 
 {% block body %}
-<p><a href="/support/my/"><i class="fas fa-arrow-left"></i> <strong>Back to ticket list</strong></a></p>
+<p><a href="/teams/my" style="text-decoration:none"><i class="fas fa-arrow-left"></i> <strong>Back to team list</strong></p></a>
 <table class="table">
     <thead>
     <tr>
@@ -22,23 +22,24 @@
     </thead>
     <tr>
         <td>ID</td>
-        <td>{{ticket.id}}</td>
+        <td>{{team.id}}</td>
     </tr>
     <tr>
-        <td class="ticket-subject">Subject</td>
-        <td>{{ticket.subject}}</td>
+        <td class="team-name">Name</td>
+        <td>{{team.name}}</td>
     </tr>
     <tr>
-        <td class="">Description</td>
-        <td>{{ticket.text}}</td>
+        <td class="">Founder</td>
+        <td>{{team.founder}}</td>
     </tr>
     <tr>
-        <td>Assignee</td>
-        <td>{{ticket.assignee}}</td>
+        <td>Created</td>
+        <td>{{team.created}}</td>
     </tr>
     <tr>
-        <td>Status</td>
-        <td>{{ticket.status}}</td>
+        <td>Players</td>
+        <td>{{team.players}}</td>
     </tr>
 </table>
+
 {% endblock %}
