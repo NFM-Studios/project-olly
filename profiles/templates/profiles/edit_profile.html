@@ -3,13 +3,13 @@
 {% block body %}
   <form method="post">
     {% csrf_token %}
-    
+
     {{ field.errors }}
 
-    
+
    <!-- <div class="form-group">
       <label for="AboutMe">Profile Picture</label>
-      <input type="file" class="form-control-file" id="profile-picture" aria-describedby="profile-picture">  
+      <input type="file" class="form-control-file" id="profile-picture" aria-describedby="profile-picture">
     </div>
       <div class="form-group">
         <label for="AboutMe">About Me</label>
@@ -40,35 +40,35 @@
         <label for="favorite_console">Favorite Console</label>
         <input type="text" class="form-control" id="favorite_console" aria-describedby="favorite_console" placeholder="{{userprofile.favorite_console}}">
       </div>
-      
+
       <button type="submit" class="btn btn-primary">Submit</button>
-    
+
     -->
 
-     
-    <label>Profile Picture</label>
-    <div>{{ form.profile_picture }}</div>
+
+  <!--  <label>Profile Picture</label>
+    <div>{{ form.profile_picture }}</div>--->
 
     <label>About Me</label>
     <div class="form-group">{{ form.about_me }}</div>
 
     <label>Xbox Live</label>
-    <div class="form-group">{{form.xbl}}</div>
+    <div class="form-group">{{ form.xbl }}</div>
 
     <label>PSN</label>
-    <div class="form-group">{{form.psn}}</div>
+    <div class="form-group">{{ form.psn }}</div>
 
     <label>Twitter Username</label>
-    <div class="form-group">{{form.twitter_profile}}</div>
+    <div class="form-group">{{ form.twitter_profile }}</div>
 
     <label>Twitch Username</label>
-    <div class="form-group">{{form.twitch_channel}}</div>
+    <div class="form-group">{{ form.twitch_channel }}</div>
 
     <label>Preferred Game</label>
-    <div class="form-group">{{form.favorite_game}}</div>
+    <div class="form-group">{{ form.favorite_game }}</div>
 
     <label>Preferred Console</label>
-    <div class="form-group">{{form.favorite_console}}</div>
+    <div class="form-group">{{ form.favorite_console }}</div>
 
     <button type="submit" class="btn btn-primary">Update</button>
   </form>
