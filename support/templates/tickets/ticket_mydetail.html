@@ -27,19 +27,19 @@
     <tr>
         <td class="ticket-category">Category</td>
         <td>
-{% if ticket.category == '0' %}
+{% if ticket.category == 0 %}
 General
-{% elif ticket.category == '1' %}
+{% elif ticket.category == 1 %}
 Prize Claim
-{% elif ticket.category == '2' %}
+{% elif ticket.category == 2 %}
 Tournament Support
-{% elif ticket.category == '3' %}
+{% elif ticket.category == 3 %}
 Billing
-{% elif ticket.category == '4' %}
+{% elif ticket.category == 4 %}
 Refund Request
-{% elif ticket.category == '5' %}
+{% elif ticket.category == 5 %}
 PSN/XBL Issues
-{% elif ticket.category == '6' %}
+{% elif ticket.category == 6 %}
 Match Support/Dispute
 {% endif %}
     </td>
