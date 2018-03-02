@@ -12,7 +12,7 @@
 {% endif %}
 
 {% block body %}
-<p><a href="/support/"><i class="fas fa-arrow-left"></i> <strong>Back to ticket list</strong></a></p>
+<p><a href="{% url 'support:list' %}"><i class="fas fa-arrow-left"></i> <strong>Back to ticket list</strong></a></p>
 <table class="table">
     <thead>
     <tr>
