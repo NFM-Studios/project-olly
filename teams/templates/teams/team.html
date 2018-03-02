@@ -12,7 +12,7 @@
 {% endif %}
 
 {% block body %}
-<p><a href="/teams/my" style="text-decoration:none"><i class="fas fa-arrow-left"></i> <strong>Back to team list</strong></p></a>
+<p><a href="{% url 'teams:list' %}" style="text-decoration:none"><i class="fas fa-arrow-left"></i> <strong>Back to team list</strong></p></a>
 <table class="table">
     <thead>
     <tr>
