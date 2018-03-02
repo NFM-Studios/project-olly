@@ -10,14 +10,14 @@ STATUS_CHOICES = getattr(settings, 'TICKETS_STATUS_CHOICES', (
     (4, 'Closed'),
 ))
 
-CATEGORY_CHOICES = getattr(settings, 'TICKETS_CATEGORY_CHOICES', ()
-    ('general', 'General'),
-    ('prize claim', 'Prize Claim'),
-    ('tournament support', 'Tournament Support'),
-    ('billing', 'Billing'),
-    ('refund request', 'Refund Request'),
-    ('psn/xbl issues', 'PSN/XBL Issues'),
-    ('match support/dispute','Match Support/Dispute'),
+CATEGORY_CHOICES = getattr(settings, 'TICKETS_CATEGORY_CHOICES', (
+    (0, 'General'),
+    (1, 'Prize Claim'),
+    (2, 'Tournament Support'),
+    (3, 'Billing'),
+    (4, 'Refund Request'),
+    (5, 'PSN/XBL Issues'),
+    (6, 'Match Support/Dispute'),
 ))
 
 # List of the different status that define a ticket as closed.
