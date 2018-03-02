@@ -12,7 +12,7 @@
 {% endif %}
 
 {% block body %}
-<p><a href="/support/my/"><i class="fas fa-arrow-left"></i> <strong>Back to ticket list</strong></a></p>
+<p><a href="/support/"><i class="fas fa-arrow-left"></i> <strong>Back to ticket list</strong></a></p>
 <table class="table">
     <thead>
     <tr>
@@ -21,12 +21,28 @@
     </tr>
     </thead>
     <tr>
-        <td>ID</td>
+        <td>Ticket ID</td>
         <td>{{ticket.id}}</td>
     </tr>
     <tr>
-        <td class="ticket-subject">Subject</td>
-        <td>{{ticket.subject}}</td>
+        <td class="ticket-category">Category</td>
+        <td>
+{% if ticket.category == '0' %}
+General
+{% elif ticket.category == '1' %}
+Prize Claim
+{% elif ticket.category == '2' %}
+Tournament Support
+{% elif ticket.category == '3' %}
+Billing
+{% elif ticket.category == '4' %}
+Refund Request
+{% elif ticket.category == '5' %}
+PSN/XBL Issues
+{% elif ticket.category == '6' %}
+Match Support/Dispute
+{% endif %}
+    </td>
     </tr>
     <tr>
         <td class="">Description</td>
