@@ -1,19 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import User
 # import the choices that are defined in the settings.py file
-from support.settings import STATUS_CHOICES, CLOSED_STATUSES
+from support.settings import STATUS_CHOICES, CLOSED_STATUSES, CATEGORY_CHOICES
 
 # Create your models here.
 
-CATEGORY_CHOICES = (
-    ('general', 'General'),
-    ('prize claim', 'Prize Claim'),
-    ('tournament support', 'Tournament Support'),
-    ('billing', 'Billing'),
-    ('refund request', 'Refund Request'),
-    ('psn/xbl issues', 'PSN/XBL Issues'),
-    ('match support/dispute','Match Support/Dispute'),
-)
 
 class Ticket(models.Model):
     creator = models.ForeignKey(User, verbose_name='Creator', related_name='ticket_create', on_delete=models.CASCADE)
