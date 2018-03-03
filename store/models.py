@@ -10,30 +10,36 @@ from profiles.models import UserProfile
 
 def show_me_the_money(sender, **kwargs):
     ipn_obj = sender
+    custom_field = ipn_obj.custom.split(',', 2)
+    num = custom_field[0]
+    username = custom_field[1]
     if ipn_obj.payment_status == ST_PP_COMPLETED:
-        if ipn_obj.reciever_email != settings.PAYPAL_EMAIL:
+        if ipn_obj.receiver_email != settings.PAYPAL_EMAIL:
             return
-        if ipn_obj.custom == "15cred":
+        if num == "15cred":
             price = 5.00
-        elif ipn_obj.custom == "25cred":
+        elif num == "25cred":
             price = 20.00
-        elif ipn_obj.custom == "50cred":
+        elif num == "50cred":
             price = 45.00
         else:
             price = 0.00
         if ipn_obj.mc_gross == price and ipn_obj.mc_currency == "USD":
-            req = get_username()
-            if ipn_obj.custom == "15cred":
-                req.user.credits += 15  # I have no clue if this will work because paypal won't send ipns
-                tx = Transaction(account=req, cost=5.00)
+            user = UserProfile.objects.get(user__username=custom_field[1])
+            if num == "15cred":
+                user.credits += 15
+                user.save()
+                tx = Transaction(account=username, cost=5.00)
                 tx.save()
-            if ipn_obj.custom == "25cred":
-                req.user.credits += 25  # I have no clue if this will work because paypal won't send ipns
-                tx = Transaction(account=req, cost=20.00)
+            if num == "25cred":
+                user.credits += 25
+                user.save()
+                tx = Transaction(account=username, cost=20.00)
                 tx.save()
-            if ipn_obj.custom == "50cred":
-                req.user.credits += 50  # I have no clue if this will work because paypal won't send ipns
-                tx = Transaction(account=req, cost=45.00)
+            if num == "50cred":
+                user.credits += 50
+                user.save()
+                tx = Transaction(account=username, cost=45.00)
                 tx.save()
 
 
@@ -67,3 +73,4 @@ class Transfer(models.Model):
     credits = models.DecimalField(max_digits=6, decimal_places=0)
     origin = models.CharField(max_length=50)
     destination = models.CharField(max_length=50)
+

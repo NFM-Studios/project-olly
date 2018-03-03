@@ -9,6 +9,7 @@ from profiles.models import UserProfile
 from django.contrib import messages
 from django.views.generic import View
 from .models import Transfer
+from .invoice_generator import generateinvoice
 
 
 def store(request):
@@ -16,13 +17,15 @@ def store(request):
 
 
 def buy_credits(request, num):
+    invoice_id = generateinvoice()
     if num == '1':
         paypal_dict = {
             "business": settings.PAYPAL_EMAIL,
             "amount": "5.00",
             "item_name": "15 Credits",
+            "invoice": str(invoice_id),
             "notify_url": settings.SITE_URL + '/paypal/',
-            "custom": "15cred",
+            "custom": "15cred,"+str(request.user),
         }
         form = PayPalPaymentsForm(initial=paypal_dict)
         context = {"form": form}
@@ -32,9 +35,9 @@ def buy_credits(request, num):
             "business": settings.PAYPAL_EMAIL,
             "amount": "20.00",
             "item_name": "25 Credits",
-            "invoice": "unique-invoice-id",
+            "invoice": str(invoice_id),
             "notify_url": settings.SITE_URL + '/paypal/',
-            "custom": "25cred",
+            "custom": "25cred,"+str(request.user),
         }
         form = PayPalPaymentsForm(initial=paypal_dict)
         context = {"form": form}
@@ -44,9 +47,9 @@ def buy_credits(request, num):
             "business": settings.PAYPAL_EMAIL,
             "amount": "45.00",
             "item_name": "50 Credits",
-            "invoice": "unique-invoice-id",
+            "invoice": str(invoice_id),
             "notify_url": settings.SITE_URL + '/paypal/',
-            "custom": "50cred",
+            "custom": "50cred,"+str(request.user),
         }
         form = PayPalPaymentsForm(initial=paypal_dict)
         context = {"form": form}
