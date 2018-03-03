@@ -40,4 +40,6 @@ urlpatterns = [
     url(r'^store/', include('store.urls', namespace='store')),
     url(r'^paypal/', paypal_views.ipn, name="paypal-ipn"),
     url(r'^staff/', include('staff.urls', namespace='staff'))
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
+if settings.DEBUG is True:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
