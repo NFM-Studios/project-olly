@@ -10,7 +10,7 @@
 {% if userprofile.profile_picture.url != "" %}
 <img src="{{ userprofile.profile_picture.url }}" align="center" width="200"> <br />
 {% else %}
-<img src="http://www.marismith.com/wp-content/uploads/2014/07/facebook-profile-blank-face.jpeg" align="center" width="200"/> <br />
+<img src="{{ MEDIA_URL }}default_profile.png" align="center" width="200"/> <br />
 {% endif %}
 </div>
 
