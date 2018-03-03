@@ -112,7 +112,7 @@ class TeamInviteCreateView(View):
             TeamInvite = form.instance
             TeamInvite.inviter = self.request.user
             TeamInvite.team = form.cleaned_data['team']
-            TeamInvite.user = self.request.user
+            TeamInvite.user = form.cleaned_data['user']
             TeamInvite.expire = timezone.now() + datetime.timedelta(days=1)
             TeamInvite.save()
             messages.success(request, 'Sent invite successfully')
