@@ -142,6 +142,10 @@ class CreateUserFormView(View):
                 user = form.save(commit=False)
 
                 username = form.cleaned_data['username']
+                email_address = form.cleaned_data['email']
+                if User.objects.filter(email=email_address).exists():
+                    messages.error(request, 'That email address already exists')
+                    return redirect('register')
                 password = form.cleaned_data['password']
                 user.set_password(password)
                 user.is_active = False
@@ -156,17 +160,19 @@ class CreateUserFormView(View):
                     'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                     'token': account_activation_token.make_token(user),
                 })
-                to_email = form.cleaned_data.get('email')
+                to_email = email_address
                 email = EmailMessage(
-                        mail_subject, message, to=[to_email]
+                        mail_subject, message, from_email='NFM Studios', to=[to_email]
                     )
                 email.send()
-
                 messages.success(request, "Please confirm your email")
                 return redirect('login')
             elif not result['success']:
                 messages.error(request, 'Invalid reCAPTCHA. Please try again.')
 
+        if User.objects.filter(username=form.data['username']).exists():
+            messages.error(request, 'That username already exists')
+            return redirect('register')
         return render(request, self.template_name, {'form': form})
 
 
@@ -182,7 +188,7 @@ def activate(request, uidb64, token):
     if user is not None and account_activation_token.check_token(user, token):
         user.is_active = True
         user.save()
-        login(request, user)
+        auth_login(request, user)
         messages.success(request, 'Thank you for your email confirmation. You are now logged in.')
         return redirect('profiles:profile_no_username')
     else:
