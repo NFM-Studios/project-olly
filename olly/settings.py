@@ -90,9 +90,7 @@ MIDDLEWARE = [
 
 ]
 
-MIDDLEWARE_CLASSES = (
-    'store.get_username.RequestMiddleware',
-)
+
 ROOT_URLCONF = 'olly.urls'
 
 TEMPLATES = [
