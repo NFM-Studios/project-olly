@@ -2,7 +2,6 @@ from django.db import models
 from paypal.standard.models import ST_PP_COMPLETED
 from paypal.standard.ipn.signals import valid_ipn_received
 from django.conf import settings
-from store.get_username import get_username
 from django.contrib.auth.models import User
 from profiles.models import UserProfile
 # Create your models here.
