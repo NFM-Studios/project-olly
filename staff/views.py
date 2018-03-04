@@ -1,9 +1,11 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from pages.models import StaticInfo
-from staff.forms import StaticInfoForm, EditUserForm
+from staff.forms import StaticInfoForm, EditUserForm, TicketCommentCreateForm
 from profiles.models import UserProfile, BannedUser
 from django.contrib.auth.models import User
+from django.urls import reverse
+from django.views.generic import DetailView
 from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from support.models import Ticket
@@ -144,6 +146,34 @@ def tickets(request):
     else:
         tickets = Ticket.objects.all()
         return render(request, 'staff/tickets.html', {'ticket_list': tickets})
+
+
+class TicketDetail(DetailView):
+    model = Ticket
+    template_name = 'staff/ticket_detail.html'
+    form = TicketCommentCreateForm()
+
+    def get_context_date(self, **kwargs):
+        context = super(TicketDetail, self).get_context_data(**kwargs)
+        context['form'] = self.form
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.form = TicketCommentCreateForm(request.POST)
+        if self.form.is_valid():
+            self.form_valid(self.form)
+            return redirect(reverse('tickets:detail', args=[self.kwargs['pk']]))
+        return super(TicketDetail, self).get(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        comment = form.instance
+        comment.author = self.request.user
+        comment.ticket = Ticket.objects.get(id=self.kwargs['pk'])
+        comment.save()
+        messages.success(self.request, 'Your response has been successfully added to the ticket.')
+
+    def get_queryset(self):
+        return Ticket.objects.filter(creator=self.request.user)
 
 
 def staticinfo(request):
