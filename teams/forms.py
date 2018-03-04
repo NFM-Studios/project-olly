@@ -23,7 +23,6 @@ class TeamInviteForm(forms.ModelForm):
     class Meta:
         # team = forms.?
         captain = forms.BooleanField(required=False)
-        user = forms.CharField(required=True, max_length=50)
         model = TeamInvite
         # maybe????
         fields = ('user', 'team', 'captain',)
