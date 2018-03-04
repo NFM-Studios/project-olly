@@ -6,7 +6,11 @@
 <br />
 <form method="post">
   {% csrf_token %}
-  {{ form.as_p }}
+  <label>Username</label>
+  {{ form.username }}
+    <br />
+  <label>Password</label>
+  {{ form.password }}
 {% include 'profiles/captcha.html' %}
   <label><input name="remember me" type="checkbox">Keep me logged in</label> <br />
   <button class="btn btn-success" type="submit">Login</button> <a href="/reset-password" class="btn btn-primary">Forgot password?</a>
