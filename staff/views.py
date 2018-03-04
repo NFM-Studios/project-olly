@@ -59,7 +59,6 @@ def searchusers(request):
             return redirect('staff:users')
 
 
-
 def edituser(request, urlusername):
     user = UserProfile.objects.get(user__username=request.user.username)
     allowed = ['superadmin', 'admin']
@@ -94,7 +93,6 @@ def banuser(request, urlusername):
         return redirect('staff:users')
 
 
-
 def unbanuser(request, urlusername):
     user = UserProfile.objects.get(user__username=request.user.username)
     allowed = ['superadmin', 'admin']
@@ -106,7 +104,6 @@ def unbanuser(request, urlusername):
         b.delete()
         messages.success(request, 'User ' + urlusername + ' has been unbanned')
         return redirect('staff:users')
-
 
 
 def banip(request, urlusername):
@@ -123,7 +120,6 @@ def banip(request, urlusername):
         return redirect('staff:users')
 
 
-
 def unbanip(request, urlusername):
     user = UserProfile.objects.get(user__username=request.user.username)
     allowed = ['superadmin', 'admin']
@@ -135,7 +131,6 @@ def unbanip(request, urlusername):
         b.delete()
         messages.success(request, 'User ' + urlusername + ' has been banned')
         return redirect('staff:users')
-
 
 
 def tickets(request):
