@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.views.generic import ListView, DetailView, CreateView, View
+from django.contrib.auth.models import User
 import datetime
 from django.utils import timezone
 # team create forms
@@ -37,28 +38,32 @@ def InviteView(request, num):
     if request.method == "POST":
         form = ViewInviteForm(request.POST)
         invite = TeamInvite.objects.get(id=num)
-        #if form.is_valid():
-        if form.data['accepted']:
-                invite = TeamInvite.objects.get(id=num)
-                invite.accepted = True
-                invite.declined = False
-                invite.expire = timezone.now()
-                invite.active = False
-                invite.save()
-                messages.success(request, 'Accepted invite to '+str(invite.team))
-                return redirect('/teams/my/')
-        elif form.data['denied']:
-                invite = TeamInvite.objects.get(id=num)
-                invite.declined = True
-                invite.accepted = False
-                invite.expire = timezone.now()
-                invite.active = False
-                invite.save()
-                messages.success(request, 'Declined invite to '+str(invite.team))
-                return redirect('/teams/my/')
-        #else:
-            #messages.error(request, 'One or more fields was not valid. Please check your inputs.')
-            #return render(request, template_name, {'form': form, 'invite': invite})
+        try:
+            accepted = form.data['accepted']
+        except:
+            accepted = 'off'
+        if form.is_valid():
+            try:
+                if form.data['accepted'] == form.data['denied']:
+                    messages.error(request, "Only select accepted or denied, not both.")
+                    return render(request, template_name, {'form': form, 'invite': invite})
+            except:
+                if accepted == 'on':
+                    invite = TeamInvite.objects.get(id=num)
+                    invite.accepted = True
+                    invite.expire = timezone.now()
+                    invite.active = False
+                    invite.save()
+                    messages.success(request, 'Accepted invite to '+str(invite.team.name))
+                    return redirect('/teams/')
+                elif accepted == 'off':
+                    invite = TeamInvite.objects.get(id=num)
+                    invite.declined = True
+                    invite.expire = timezone.now()
+                    invite.active = False
+                    invite.save()
+                    messages.success(request, 'Declined invite to '+str(invite.team.name))
+                    return redirect('/teams/')
 
 
 class MyTeamsListView(ListView):
@@ -100,7 +105,7 @@ class MyTeamDetailView(DetailView):
         context['form'] = self.form
         return context
 
-    def post(self,request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         self.form = TeamInviteForm(request.POST)
         if self.form.is_valid():
             self.form_valid(self.form)
@@ -141,20 +146,18 @@ class TeamInviteCreateView(View):
 
     def post(self, request):
         form = self.form_class(request.POST)
-
-        if form.is_valid():
-            TeamInvite = form.instance
-            TeamInvite.inviter = self.request.user
-            TeamInvite.team = form.cleaned_data['team']
-            try:
-                invitee = UserProfile.objects.get(user__username=form.cleaned_data['user'])
-            except:
-                messages.error(request, "That isn't a valid user")
-                return render(request, self.template_name, {'form':form})
-            TeamInvite.user = invitee.user
-            TeamInvite.expire = timezone.now() + datetime.timedelta(days=1)
-            TeamInvite.save()
-            messages.success(request, 'Sent invite successfully')
-            return redirect('/teams/my/')
-
-        return render(request, self.template_name, {'form': form})
+        #if form.is_valid():
+        TeamInvite = form.instance
+        TeamInvite.inviter = self.request.user
+        team = Team.objects.get(id=form.data['team'])
+        TeamInvite.team = team
+        try:
+            invitee = UserProfile.objects.get(user__username=form.data['user'])
+        except:
+            messages.error(request, "That isn't a valid user")
+            return render(request, self.template_name, {'form': form})
+        TeamInvite.user = invitee.user
+        TeamInvite.expire = timezone.now() + datetime.timedelta(days=1)
+        TeamInvite.save()
+        messages.success(request, 'Sent invite successfully')
+        return redirect('/teams/')
