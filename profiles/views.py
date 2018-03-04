@@ -106,7 +106,7 @@ def searchusers(request):
 def edit_profile(request):
     if request.method == 'POST':
         userprofileobj = UserProfile.objects.get(user__username=request.user.username)
-        form = EditProfileForm(request.POST, instance=userprofileobj)
+        form = EditProfileForm(request.POST, request.FILES, instance=userprofileobj)
         if form.is_valid():
             form.save()
             return redirect('profiles:profile_no_username')
