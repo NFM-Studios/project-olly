@@ -8,7 +8,7 @@ from django.utils import timezone
 # team create forms
 from teams.forms import TeamCreateForm
 # team create invite forms
-from .forms import TeamInviteForm, EditTeamProfileForm
+from .forms import TeamInviteForm, EditTeamProfileForm, ViewInviteForm
 # import the team models
 from teams.models import Team
 # import the invite models
@@ -24,7 +24,41 @@ class MyInvitesListView(ListView):
 
     def get_queryset(self):
         # make sure that the invites are for the requested user
-        return TeamInvite.objects.filter(user=self.request.user)
+        return TeamInvite.objects.filter(user=self.request.user, active=True)
+
+
+def InviteView(request, num):
+    template_name = 'teams/invite.html'
+
+    if request.method == "GET":
+        form = ViewInviteForm()
+        invite = TeamInvite.objects.get(id=num)
+        return render(request, template_name, {'form': form, "invite": invite})
+    if request.method == "POST":
+        form = ViewInviteForm(request.POST)
+        invite = TeamInvite.objects.get(id=num)
+        #if form.is_valid():
+        if form.data['accepted']:
+                invite = TeamInvite.objects.get(id=num)
+                invite.accepted = True
+                invite.declined = False
+                invite.expire = timezone.now()
+                invite.active = False
+                invite.save()
+                messages.success(request, 'Accepted invite to '+str(invite.team))
+                return redirect('/teams/my/')
+        elif form.data['denied']:
+                invite = TeamInvite.objects.get(id=num)
+                invite.declined = True
+                invite.accepted = False
+                invite.expire = timezone.now()
+                invite.active = False
+                invite.save()
+                messages.success(request, 'Declined invite to '+str(invite.team))
+                return redirect('/teams/my/')
+        #else:
+            #messages.error(request, 'One or more fields was not valid. Please check your inputs.')
+            #return render(request, template_name, {'form': form, 'invite': invite})
 
 
 class MyTeamsListView(ListView):
@@ -112,7 +146,12 @@ class TeamInviteCreateView(View):
             TeamInvite = form.instance
             TeamInvite.inviter = self.request.user
             TeamInvite.team = form.cleaned_data['team']
-            TeamInvite.user = form.cleaned_data['user']
+            try:
+                invitee = UserProfile.objects.get(user__username=form.cleaned_data['user'])
+            except:
+                messages.error(request, "That isn't a valid user")
+                return render(request, self.template_name, {'form':form})
+            TeamInvite.user = invitee.user
             TeamInvite.expire = timezone.now() + datetime.timedelta(days=1)
             TeamInvite.save()
             messages.success(request, 'Sent invite successfully')

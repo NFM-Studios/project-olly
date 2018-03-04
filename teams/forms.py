@@ -18,10 +18,12 @@ class TeamCreateForm(forms.ModelForm):
 
 
 class TeamInviteForm(forms.ModelForm):
+    user = forms.CharField(required=True, max_length=50)
+
     class Meta:
-        user = forms.CharField(max_length=50, help_text='Required')
         # team = forms.?
         captain = forms.BooleanField(required=False)
+        user = forms.CharField(required=True, max_length=50)
         model = TeamInvite
         # maybe????
         fields = ('user', 'team', 'captain',)
@@ -40,3 +42,14 @@ class EditTeamProfileForm(forms.ModelForm):
             'twitch',
         )
 
+
+class ViewInviteForm(forms.ModelForm):
+    accepted = forms.BooleanField(required=False)
+    denied = forms.BooleanField(required=False)
+
+    class Meta:
+        model = TeamInvite
+        fields = {
+            'accepted',
+            'denied'
+        }
