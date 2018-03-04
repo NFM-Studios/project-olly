@@ -147,6 +147,10 @@ class CreateUserFormView(View):
                     messages.error(request, 'That email address already exists')
                     return redirect('register')
                 password = form.cleaned_data['password']
+                password_confirm = form.cleaned_data['password_confirm']
+                if password != password_confirm:
+                    messages.error(request, 'Passwords must match')
+                    return redirect('register')
                 user.set_password(password)
                 user.is_active = False
                 user.save()
