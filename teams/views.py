@@ -72,11 +72,15 @@ class MyTeamsListView(ListView):
     model = Team
     template_name = 'teams/my-teams.html'
 
-    def get_queryset(self):
+    def get(self, request):
+        team_list = TeamInvite.objects.filter(user=self.request.user, accepted=True)
+        return render(request, self.template_name, {'team_list': team_list})
+
+    def get_queryset(self, **kwargs):
         # TO DO switch the filter to the players field not just the founder field.
-        if Team.objects.filter(founder=self.request.user):
+        if TeamInvite.objects.filter(user=self.request.user, accepted=True):
             # TO DO switch the filter to the players field not just the founder field.
-            return Team.objects.filter(founder=self.request.user)
+            return TeamInvite.objects.filter(user=self.request.user, accepted=True)
 
 
 def EditTeamView(request, pk):
@@ -87,7 +91,7 @@ def EditTeamView(request, pk):
                 form.save()
                 return redirect('/teams/' + str(request.user))
         else:
-            teamobj = Team.objects.get(team__founder=request.user.username)
+            teamobj = Team.objects.get(id=pk)
             form = EditTeamProfileForm(instance=teamobj)
             return render(request, 'teams/edit-team.html', {'form': form})
 
@@ -99,6 +103,11 @@ class MyTeamDetailView(DetailView):
     # will be managed
     template_name = 'teams/team.html'
     form = TeamInviteForm
+
+    def get(self, request, pk):
+        team = Team.objects.get(id=pk)
+        players = TeamInvite.objects.filter(team=team, accepted=True)
+        return render(request, self.template_name, {'team': team, 'players': players})
 
     def get_context_date(self, **kwargs):
         context = super(MyTeamDetailView, self).get_context_date(**kwargs)
@@ -135,6 +144,8 @@ class TeamCreateView(CreateView):
         messages.success(self.request, 'Your Team has been created successfully')
         return super(TeamCreateView, self).form_valid(form)
 
+def get_invites(form):
+    return TeamInvite.objects.filter(team=form.data['team'])
 
 class TeamInviteCreateView(View):
     template_name = 'teams/invite-player.html'
@@ -146,18 +157,34 @@ class TeamInviteCreateView(View):
 
     def post(self, request):
         form = self.form_class(request.POST)
-        #if form.is_valid():
-        TeamInvite = form.instance
-        TeamInvite.inviter = self.request.user
         team = Team.objects.get(id=form.data['team'])
-        TeamInvite.team = team
-        try:
-            invitee = UserProfile.objects.get(user__username=form.data['user'])
-        except:
-            messages.error(request, "That isn't a valid user")
-            return render(request, self.template_name, {'form': form})
-        TeamInvite.user = invitee.user
-        TeamInvite.expire = timezone.now() + datetime.timedelta(days=1)
-        TeamInvite.save()
-        messages.success(request, 'Sent invite successfully')
-        return redirect('/teams/')
+        invite = get_invites(form)
+        captains = invite.filter(captain='captain')
+        x = {}
+        for captain in captains:
+            x[captain] = str(captain.user.username)
+        if (request.user == team.founder) or (request.user.username in x.values()):
+            try:
+                invitee = UserProfile.objects.get(user__username=form.data['user'])
+            except:
+                messages.error(request, "That isn't a valid user")
+                return render(request, self.template_name, {'form': form})
+            query = invite.filter(user=invitee.user, team=form.data['team'])
+            if query.exists:
+                messages.error(request, "That user already has been invited to this team")
+                return redirect('/teams/')
+            else:
+                TeamInvite = form.instance
+                TeamInvite.inviter = self.request.user
+                TeamInvite.team = team
+                TeamInvite.user = invitee.user
+                TeamInvite.expire = timezone.now() + datetime.timedelta(days=1)
+                TeamInvite.captain = form.data['captain']
+                TeamInvite.save()
+                messages.success(request, 'Sent invite successfully')
+                return redirect('/teams/')
+
+
+        else:
+            messages.error(request, "You must be a captain or the founder to invite")
+            return redirect('/teams/')
