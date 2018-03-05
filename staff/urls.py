@@ -9,6 +9,7 @@ urlpatterns = [
     url(r'^users/$', login_required(views.users), name='users'),
     url(r'^tickets/$', login_required(views.tickets), name='tickets'),
     url(r'^ticketdetail/(?P<pk>\d+)/$', login_required(views.TicketDetail.as_view()), name='ticket_detail'),
+    url(r'^ticketcomment/(?P<pk>\d+)/$', login_required(views.TicketCommentCreate.as_view()), name='ticket_comment_create'),
     url(r'^staticinfo/$', login_required(views.staticinfo), name='staticinfo'),
     url(r'^users/ban/(?P<urlusername>\w+)/$', login_required(views.banuser)),
     url(r'^users/unban/(?P<urlusername>\w+)/$', login_required(views.unbanuser)),

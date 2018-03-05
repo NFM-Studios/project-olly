@@ -5,7 +5,7 @@ from staff.forms import StaticInfoForm, EditUserForm, TicketCommentCreateForm
 from profiles.models import UserProfile, BannedUser
 from django.contrib.auth.models import User
 from django.urls import reverse
-from django.views.generic import DetailView
+from django.views.generic import View, DetailView
 from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from support.models import Ticket
@@ -169,6 +169,25 @@ class TicketDetail(DetailView):
 
     def get_queryset(self):
         return Ticket.objects.filter(creator=self.request.user)
+
+
+class TicketCommentCreate(View):
+    form_class = TicketCommentCreateForm
+    template_name = 'staff/ticketcomment.html'
+
+    def get(self, request, pk):
+        form = self.form_class(None)
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, pk):
+        form = self.form_class(None)
+
+        if form.is_valid():
+            form.ticket = Ticket.objects.get(pk=pk)
+            form.author = self.request.User
+            form.comment = form.cleaned_data['comment']
+            form.save()
+        return redirect('staff:tickets')
 
 
 def staticinfo(request):
