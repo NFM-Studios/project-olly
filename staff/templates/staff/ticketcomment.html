@@ -1,0 +1,14 @@
+{% extends "staff/staffbase.html" %}
+
+{% block body %}
+    <form method="post">
+    {% csrf_token %}
+
+    {{ field.errors }}
+
+    <label>Comment</label>
+    <div class="form-group">{{ form.comment }}</div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+{% endblock %}
