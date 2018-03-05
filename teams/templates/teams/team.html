@@ -12,7 +12,7 @@
 {% endif %}
 
 {% block body %}
-<p><a href="{% url 'teams:list' %}" style="text-decoration:none"><i class="fas fa-arrow-left"></i> <strong>Back to team list</strong></p></a>
+<p><a href="{% url 'teams:list' %}" style="text-decoration:none"><i class="fas fa-arrow-left"></i> <strong>Back to team list</strong></a></p>
 <table class="table">
     <thead>
     <tr>
@@ -38,7 +38,10 @@
     </tr>
     <tr>
         <td>Players</td>
-        <td>{{team.players}}</td>
+
+        <td>{% for player in players %}
+        {{ player.user }},
+        {% endfor %}</td>
     </tr>
 </table>
 
