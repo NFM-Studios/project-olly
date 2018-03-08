@@ -1,6 +1,7 @@
 from django.db import models
 from matches.settings import GAME_CHOICES, PLATFORMS_CHOICES
 from teams.models import Team
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Match(models.Model):
@@ -25,3 +26,8 @@ class Match(models.Model):
 class MatchReport(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     # see the time the report was made for admins
+    match = models.ForeignKey(Match, related_name='matchreporting')
+    reporting_team = models.ForeignKey(Team, related_name='teamreporting')
+    reporting_user = models.ForeignKey(User, related_name='userreporting')
+    # who the person reporting is declaring the winner as
+    reported_winner = models.ForeignKey(Team, related_name='winnerreporting')
