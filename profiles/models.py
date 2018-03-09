@@ -25,6 +25,12 @@ class UserProfile(models.Model):
     num_bronze = models.PositiveSmallIntegerField(default=0)
     num_silver = models.PositiveSmallIntegerField(default=0)
     num_gold = models.PositiveSmallIntegerField(default=0)
+    num_plat = models.PositiveSmallIntegerField(default=0)
+    num_diamond = models.PositiveSmallIntegerField(default=0)
+    num_titanium = models.PositiveSmallIntegerField(default=0)
+
+    tournament_wins = models.PositiveSmallIntegerField(default=0)
+    dubl_tournament_wins = models.PositiveSmallIntegerField(default=0)
 
 
 
