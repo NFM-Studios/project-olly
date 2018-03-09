@@ -12,6 +12,8 @@ class SingleEliminationTournament(models.Model):
     # last time an admin updated something
     updated = models.DateTimeField(auto_now=True)
 
+    req_credits = models.PositiveSmallIntegerField(default=0)
+
     # game and platform it will be played on
     platform = models.SmallIntegerField(choices=PLATFORMS_CHOICES, default=0)
     game = models.SmallIntegerField(choices=GAME_CHOICES, default=0)
@@ -28,3 +30,12 @@ class SingleEliminationTournament(models.Model):
     # specify how many teams the event will be capped at, and the size of the bracket
     size = models.PositiveSmallIntegerField(default=32)
 
+    # need to figure out how we will work rules
+    rules = models.ForeignKey(RuleSet, related_name='tournamentrules')
+
+
+class RuleSet(models.Model):
+
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    text = models.TextField()
