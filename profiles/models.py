@@ -22,9 +22,13 @@ class UserProfile(models.Model):
     profile_picture = models.ImageField(upload_to='profile_images', blank=True)
     user_type = models.CharField(max_length=10, default='user')
     ip = models.CharField(max_length=16, default='0.0.0.0')
+
+    # default trophies
     num_bronze = models.PositiveSmallIntegerField(default=0)
     num_silver = models.PositiveSmallIntegerField(default=0)
     num_gold = models.PositiveSmallIntegerField(default=0)
+
+    # just in case we need them later on...
     num_plat = models.PositiveSmallIntegerField(default=0)
     num_diamond = models.PositiveSmallIntegerField(default=0)
     num_titanium = models.PositiveSmallIntegerField(default=0)
