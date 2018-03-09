@@ -22,6 +22,10 @@ class UserProfile(models.Model):
     profile_picture = models.ImageField(upload_to='profile_images', blank=True)
     user_type = models.CharField(max_length=10, default='user')
     ip = models.CharField(max_length=16, default='0.0.0.0')
+    num_bronze = models.PositiveSmallIntegerField(default=0)
+    num_silver = models.PositiveSmallIntegerField(default=0)
+    num_gold = models.PositiveSmallIntegerField(default=0)
+
 
 
 def create_profile(sender, **kwargs):
