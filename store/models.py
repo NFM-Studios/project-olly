@@ -7,6 +7,10 @@ from django.contrib.auth.models import User
 from profiles.models import UserProfile
 # Create your models here.
 
+'''
+each product gets an elif to set price and then another to create the tx in the db and apply credits, etc to profile
+'''
+
 
 def show_me_the_money(sender, **kwargs):
     ipn_obj = sender

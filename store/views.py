@@ -15,6 +15,11 @@ def store(request):
     return render(request, 'store/store.html')
 
 
+'''
+each product has 2 dicts, paypal and general info that gets displayed on the site
+'''
+
+
 def buy_credits(request, num):
     if num == '1':
         paypal_dict = {
