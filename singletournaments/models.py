@@ -1,9 +1,15 @@
 from django.db import models
-from matches.settings import GAME_CHOICES, PLATFORMS_CHOICES
+from matches.settings import GAME_CHOICES, PLATFORMS_CHOICES, TEAMFORMAT_CHOICES, MAPFORMAT_CHOICES
 from teams.models import Team
 
 
 class SingleEliminationTournament(models.Model):
+
+    # I know we need the team format.
+    teamformat = models.SmallIntegerField(choices=TEAMFORMAT_CHOICES, default=1)
+    # by default its a best of 1. Not sure if we need this here. Finals might be best of 3, etc in
+    # the future possibly. TBD. For now this will work though.
+    bestof = models.SmallIntegerField(choices=MAPFORMAT_CHOICES, default=0)
 
     open_register = models.DateTimeField()
     close_register = models.DateTimeField()
@@ -32,6 +38,7 @@ class SingleEliminationTournament(models.Model):
 
     # need to figure out how we will work rules
     rules = models.ForeignKey(RuleSet, related_name='tournamentrules')
+
 
 
 class RuleSet(models.Model):

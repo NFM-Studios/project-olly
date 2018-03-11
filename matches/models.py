@@ -1,5 +1,5 @@
 from django.db import models
-from matches.settings import GAME_CHOICES, PLATFORMS_CHOICES
+from matches.settings import GAME_CHOICES, PLATFORMS_CHOICES, TEAMFORMAT_CHOICES, MAPFORMAT_CHOICES
 from teams.models import Team
 from django.contrib.auth.models import User
 
@@ -22,6 +22,10 @@ class Match(models.Model):
     completed = models.BooleanField(default=False)
     # field to declare the winner
     winner = models.ForeignKey(Team, related_name='champions')
+    # set the default map format to best of 1
+    bestof = models.SmallIntegerField(choices=MAPFORMAT_CHOICES, default=0)
+    #          by default set it to be a 2v2.
+    teamformat = models.SmallIntegerField(choices=TEAMFORMAT_CHOICES, default=1)
 
 class MatchReport(models.Model):
     created = models.DateTimeField(auto_now_add=True)
