@@ -180,14 +180,19 @@ class TicketCommentCreate(View):
         return render(request, self.template_name, {'form': form})
 
     def post(self, request, pk):
-        form = self.form_class(None)
+        form = self.form_class(request.POST)
 
         if form.is_valid():
-            form.ticket = Ticket.objects.get(pk=pk)
-            form.author = self.request.User
-            form.comment = form.cleaned_data['comment']
-            form.save()
-        return redirect('staff:tickets')
+            comment = form.instance
+            comment.ticket = Ticket.objects.get(pk=pk)
+            comment.author = self.request.user
+            comment.comment = form.cleaned_data['comment']
+            comment.save()
+            messages.success(self.request, 'Comment successfully added')
+            return redirect('staff:tickets')
+
+        messages.error(self.request, 'An error occurred')
+        return render(request, self.template_name, {'form': form})
 
 
 def staticinfo(request):
