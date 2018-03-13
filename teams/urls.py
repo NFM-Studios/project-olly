@@ -13,6 +13,7 @@ urlpatterns = [
     url(r'^create/$', login_required(TeamCreateView.as_view()), name='create'),
     url(r'^invite/$', login_required(TeamInviteCreateView.as_view()), name='invite'),
     url(r'^edit/(?P<pk>\d+)/$', login_required(views.EditTeamView), name='edit'),
+    url(r'^leaderboards/$', login_required(views.LeaderboardView), name='leaderboard')
 
 
 ]
