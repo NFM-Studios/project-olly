@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
+from django_countries.fields import CountryField
 
 # Create your models here.
 
@@ -35,6 +36,11 @@ class UserProfile(models.Model):
 
     tournament_wins = models.PositiveSmallIntegerField(default=0)
     dubl_tournament_wins = models.PositiveSmallIntegerField(default=0)
+
+
+    # country the dude lives in.
+
+    country = CountryField(blank_label='(select country)', default='No Country Selected')
 
 
 def create_profile(sender, **kwargs):
