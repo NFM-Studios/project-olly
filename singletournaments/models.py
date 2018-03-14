@@ -3,6 +3,13 @@ from matches.settings import GAME_CHOICES, PLATFORMS_CHOICES, TEAMFORMAT_CHOICES
 from teams.models import Team
 
 
+class RuleSet(models.Model):
+
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    text = models.TextField()
+
+
 class SingleEliminationTournament(models.Model):
 
     # I know we need the team format.
@@ -31,21 +38,15 @@ class SingleEliminationTournament(models.Model):
     # what will they win?
     prize = models.CharField
     # all the teams that are in the event. elgibility happens inside the view, when they try to register
-    #teams = models.ManyToManyField()
+    # teams = models.ManyToManyField()
     # specify the winning team when they are declared
-    winner = models.ForeignKey(Team, related_name='winningteam')
+    winner = models.ForeignKey(Team, related_name='winningteam', on_delete=models.CASCADE)
     # specify second place, just for storage and future reference
-    second = models.ForeignKey(Team, related_name='secondplaceteam')
+    second = models.ForeignKey(Team, related_name='secondplaceteam', on_delete=models.CASCADE)
     # specify how many teams the event will be capped at, and the size of the bracket
     size = models.PositiveSmallIntegerField(default=32)
 
     # need to figure out how we will work rules
-    rules = models.ForeignKey(RuleSet, related_name='tournamentrules')
+    rules = models.ForeignKey(RuleSet, related_name='tournamentrules', on_delete=models.CASCADE)
 
 
-
-class RuleSet(models.Model):
-
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
-    text = models.TextField()
