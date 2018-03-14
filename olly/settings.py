@@ -79,6 +79,9 @@ INSTALLED_APPS = [
     # the country field
     'django_countries',
 
+    # single elimination tournaments
+    'singletournaments',
+
 ]
 
 MIDDLEWARE = [
