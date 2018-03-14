@@ -11,6 +11,9 @@ class SingleEliminationTournament(models.Model):
     # the future possibly. TBD. For now this will work though.
     bestof = models.SmallIntegerField(choices=MAPFORMAT_CHOICES, default=0)
 
+    # by default the tournament is not active. an admin has to activate it in order for it to be public
+    active = models.BooleanField(default=False)
+
     open_register = models.DateTimeField()
     close_register = models.DateTimeField()
     # the time the specific tournament object was created
