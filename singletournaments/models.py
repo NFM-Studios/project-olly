@@ -31,7 +31,7 @@ class SingleEliminationTournament(models.Model):
     # what will they win?
     prize = models.CharField
     # all the teams that are in the event. elgibility happens inside the view, when they try to register
-    teams = models.ManyToManyField()
+    #teams = models.ManyToManyField()
     # specify the winning team when they are declared
     winner = models.ForeignKey(Team, related_name='winningteam')
     # specify second place, just for storage and future reference
