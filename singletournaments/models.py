@@ -1,13 +1,7 @@
 from django.db import models
 from matches.settings import GAME_CHOICES, PLATFORMS_CHOICES, TEAMFORMAT_CHOICES, MAPFORMAT_CHOICES
+from matches.models import RuleSet
 from teams.models import Team
-
-
-class RuleSet(models.Model):
-
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
-    text = models.TextField()
 
 
 class SingleEliminationTournament(models.Model):
