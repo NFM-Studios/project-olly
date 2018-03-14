@@ -25,5 +25,6 @@ class EditProfileForm(forms.ModelForm):
             'twitch_channel',
             'favorite_game',
             'favorite_console',
+            'country'
             # profile picture
         )
