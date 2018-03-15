@@ -24,8 +24,8 @@ class TicketAdmin(admin.ModelAdmin):
     inlines = [TicketCommentInline, ]
 
     def latest_activity(self, obj):
-            list_display = obj.get_latest_comment()
-            return "%s %s - %s" % (_date(latest.date), _time(latest.date), latest.author)
+            # list_display = obj.get_latest_comment()
+            # return "%s %s - %s" % (_date(latest.date), _time(latest.date), latest.author)
     latest_activity.short_description = 'Latest Activity'
 
 
