@@ -4,13 +4,6 @@
 
 {% block body %}
 
-{% if messages %}
-  <ul class="messages">
-    {% for message in messages %}
-      <li class="{{ message.tags }}">{{ message }}</li>
-    {% endfor %}
-  </ul>
-{% endif %}
     <form method="POST" action="">
         {% csrf_token %}
         {{ form }}
@@ -28,9 +21,9 @@
     {% for user in user_list %}
     <tbody>
     <tr scope="">
-        <td>{{user.username}}</td>
+        <td>{{user}}</td>
         <td>{{user.xp}}</td>
-        <td>{{ user.num_trophies }}</td>
+        <td>{{user.num_trophies }}</td>
     </tr>
     </tbody>
     {% endfor %}
