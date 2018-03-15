@@ -140,6 +140,15 @@ class TeamCreateView(CreateView):
         Team = form.instance
         Team.founder = self.request.user
         Team.save()
+        invite = TeamInvite()
+        invite.expire = timezone.now()
+        invite.user = self.request.user
+        invite.captain = 'founder'
+        invite.accepted = True
+        invite.inviter = self.request.user
+        invite.inviter_id = self.request.user.id
+        invite.team_id = Team.id
+        invite.save()
         self.success_url = reverse('teams:detail', args=[Team.id])
         messages.success(self.request, 'Your Team has been created successfully')
         return super(TeamCreateView, self).form_valid(form)
@@ -172,7 +181,7 @@ class TeamInviteCreateView(View):
                 messages.error(request, "That isn't a valid user")
                 return render(request, self.template_name, {'form': form})
             query = invite.filter(user=invitee.user, team=form.data['team'])
-            if query.exists:
+            if query.exists():
                 messages.error(request, "That user already has been invited to this team")
                 return redirect('/teams/')
             else:
