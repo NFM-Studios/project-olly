@@ -10,7 +10,7 @@ class Ticket(models.Model):
     creator = models.ForeignKey(User, verbose_name='Creator', related_name='ticket_create', on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now=False, auto_now_add=True)
     last_update = models.DateTimeField(auto_now=True, auto_now_add=False)
-    #subject = models.CharField(max_length=255)
+    # subject = models.CharField(max_length=255)
     category = models.SmallIntegerField(choices=CATEGORY_CHOICES, default=0)
     text = models.TextField(default='A detailed description of your issue')
     assignee = models.ForeignKey(User, related_name='assigned_tickets', verbose_name='assignee', blank=True,
