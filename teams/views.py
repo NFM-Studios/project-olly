@@ -236,16 +236,20 @@ class LeaderboardView(View):
                     except:
                         user_list = UserProfile.objects.order_by('user__username')
                         messages.error(request, "You have to select an option to sort")
-                        return render(request, self.template_name, {'user_list': user_list, 'form': form})
-            if xp_asc:
-                user_list = UserProfile.objects.order_by('xp')
-                return render(request, self.template_name, {'user_list': user_list, 'form': self.form_class(None)})
-            elif xp_desc:
-                user_list = UserProfile.objects.order_by('-xp')
-                return render(request, self.template_name, {'user_list': user_list, 'form': self.form_class(None)})
-            elif trophies_asc:
-                user_list = UserProfile.objects.order_by('num_trophies')
-                return render(request, self.template_name, {'user_list': user_list, 'form': self.form_class(None)})
-            elif trophies_desc:
-                user_list = UserProfile.objects.order_by('-num_trophies')
-                return render(request, self.template_name, {'user_list': user_list, 'form': self.form_class(None)})
+                        return render(request, self.template_name, {'user_list': user_list, 'form': self.form_class(None)})
+        if xp_asc:
+            user_list = UserProfile.objects.order_by('xp')
+            messages.success(request, "Sorted by ascending XP")
+            return render(request, self.template_name, {'user_list': user_list, 'form': self.form_class(None)})
+        elif xp_desc:
+            user_list = UserProfile.objects.order_by('-xp')
+            messages.success(request, "Sorted by descending XP")
+            return render(request, self.template_name, {'user_list': user_list, 'form': self.form_class(None)})
+        elif trophies_asc:
+            user_list = UserProfile.objects.order_by('num_trophies')
+            messages.success(request, "Sorted by ascending number of trophies")
+            return render(request, self.template_name, {'user_list': user_list, 'form': self.form_class(None)})
+        elif trophies_desc:
+            user_list = UserProfile.objects.order_by('-num_trophies')
+            messages.success(request, "Sorted by descending number of trophies")
+            return render(request, self.template_name, {'user_list': user_list, 'form': self.form_class(None)})
