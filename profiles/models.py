@@ -22,10 +22,13 @@ class UserProfile(models.Model):
     def __str__(self):
         return str(self.user)
 
-    
+    # associate the userprofile with the django user
     user = models.OneToOneField(User, related_name='user', on_delete=models.CASCADE)
+    # xp they have from winning events
     xp = models.PositiveSmallIntegerField(default=0)
+    # credits they own from purchasing things in the store
     credits = models.PositiveSmallIntegerField(default=0)
+    # amount of money they have cashed out
     total_earning = models.PositiveSmallIntegerField(default=0)
     about_me = models.CharField(max_length=500, default='Forever a mystery', blank=True)
     xbl = models.CharField(max_length=15, default='No Xbox Live Linked', blank=True)
