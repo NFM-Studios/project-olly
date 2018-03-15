@@ -5,10 +5,24 @@ from django_countries.fields import CountryField
 
 # Create your models here.
 
+class UserGear(models.Model):
+
+
+    user = models.ForeignKey(User, related_name='userspecs', on_delete=models.CASCADE)
+    # see if the guy actually owns a pc
+    ownpc = models.BooleanField(default=False)
+
+    cpu = models.CharField(max_length=30, default='No CPU specified')
+    gpu = models.CharField(max_length=30, default='No GPU specified')
+    psu = models.CharField(max_length=30, default='No PSU specified')
+    case = models.CharField(max_length=30, default='No Case specified')
+    os = models.CharField(max_length=30, default='No OS specified')
 
 class UserProfile(models.Model):
     def __str__(self):
         return str(self.user)
+
+    
     user = models.OneToOneField(User, related_name='user', on_delete=models.CASCADE)
     xp = models.PositiveSmallIntegerField(default=0)
     credits = models.PositiveSmallIntegerField(default=0)
@@ -16,6 +30,9 @@ class UserProfile(models.Model):
     about_me = models.CharField(max_length=500, default='Forever a mystery', blank=True)
     xbl = models.CharField(max_length=15, default='No Xbox Live Linked', blank=True)
     psn = models.CharField(max_length=16, default='No PSN Linked', blank=True)
+    steam = models.CharField(max_length=16, default='No Steam Linked', blank=True)
+    lol = models.CharField(max_length=16, default='No LOL Linked', blank=True)
+    battlenet = models.CharField(max_length=16, default='No Battle.net Linked', blank=True)
     twitter_profile = models.CharField(max_length=15, default='No Twitter Linked', blank=True)
     twitch_channel = models.CharField(max_length=50, default='No Twitch Linked', blank=True)
     favorite_game = models.CharField(max_length=50, default='N/A', blank=True)
@@ -41,6 +58,7 @@ class UserProfile(models.Model):
     # country the dude lives in.
 
     country = CountryField(blank_label='(select country)', default='No Country Selected')
+
 
 
 def create_profile(sender, **kwargs):
