@@ -1,0 +1,40 @@
+{%  extends 'base.html' %}
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static "css/ticket.css" %}">
+
+{% block body %}
+
+{% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      <li class="{{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+    <form method="POST" action="">
+        {% csrf_token %}
+        {{ form }}
+     <input type="submit" value="Sort" />
+    </form>
+
+<table class="table table-hover">
+    <tr id="header">
+        <thead>
+        <th>Username</th>
+        <th>XP</th>
+        <th>Trophies</th>
+        </thead>
+    </tr>
+    {% for user in user_list %}
+    <tbody>
+    <tr scope="">
+        <td>{{user.username}}</td>
+        <td>{{user.xp}}</td>
+        <td>{{ user.num_trophies }}</td>
+    </tr>
+    </tbody>
+    {% endfor %}
+</table>
+
+
+{% endblock %}

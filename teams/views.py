@@ -195,35 +195,48 @@ class LeaderboardView(View):
     template_name = 'teams/leaderboard.html'
     form_class = LeaderboardSortForm
 
-    def get(self, request):
+    def get(self, request, **kwargs):
         user_list = UserProfile.objects.order_by('user__username')  # sort by username default
         form = self.form_class(None)
         return render(request, self.template_name, {'user_list': user_list, 'form': form})
 
-    def post(self, request):
+    def post(self, request, **kwargs):
         form = self.form_class(request.POST)
+        xp_asc = False
+        xp_desc = False
+        trophies_asc = False
+        trophies_desc = False
         try:
             if form.data['sort_xp_asc']:
                 xp_asc = True
                 xp_desc = False
                 trophies_asc = False
                 trophies_desc = False
-            elif form.data['sort_xp_desc']:
-                xp_desc = True
-                xp_asc = False
-                trophies_asc = False
-                trophies_desc = False
-            elif form.data['sort_trophies_asc']:
-                trophies_asc = True
-                xp_desc = False
-                xp_asc = False
-                trophies_desc = False
-            elif form.data['sort_trophies_desc']:
-                trophies_desc = True
-                xp_desc = False
-                trophies_asc = False
-                xp_desc = False
         except:
+            try:
+                if form.data['sort_xp_desc']:
+                    xp_desc = True
+                    xp_asc = False
+                    trophies_asc = False
+                    trophies_desc = False
+            except:
+                try:
+                    if form.data['sort_trophies_asc']:
+                        trophies_asc = True
+                        xp_desc = False
+                        xp_asc = False
+                        trophies_desc = False
+                except:
+                    try:
+                        if form.data['sort_trophies_desc']:
+                            trophies_desc = True
+                            xp_desc = False
+                            trophies_asc = False
+                            xp_desc = False
+                    except:
+                        user_list = UserProfile.objects.order_by('user__username')
+                        messages.error(request, "You have to select an option to sort")
+                        return render(request, self.template_name, {'user_list': user_list, 'form': form})
             if xp_asc:
                 user_list = UserProfile.objects.order_by('xp')
                 return render(request, self.template_name, {'user_list': user_list, 'form': self.form_class(None)})
