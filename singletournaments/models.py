@@ -14,7 +14,7 @@ SIZE_CHOICES= (
 
 class SingleEliminationTournament(models.Model):
 
-    # I know we need the team format.
+    # I know we need the team format, ex 1v1, 2v2, 3v3, 4v4, 5v5, 6v6
     teamformat = models.SmallIntegerField(choices=TEAMFORMAT_CHOICES, default=1)
     # by default its a best of 1. Not sure if we need this here. Finals might be best of 3, etc in
     # the future possibly. TBD. For now this will work though.
@@ -23,8 +23,11 @@ class SingleEliminationTournament(models.Model):
     # by default the tournament is not active. an admin has to activate it in order for it to be public
     active = models.BooleanField(default=False)
 
+    # when does registration open, and when does it close? specified when created in staff panel
     open_register = models.DateTimeField()
+    # dont allow people to join once registration is closed
     close_register = models.DateTimeField()
+
     # the time the specific tournament object was created
     created = models.DateTimeField(auto_now_add=True)
     # last time an admin updated something
@@ -35,19 +38,25 @@ class SingleEliminationTournament(models.Model):
     # game and platform it will be played on
     platform = models.SmallIntegerField(choices=PLATFORMS_CHOICES, default=0)
     game = models.SmallIntegerField(choices=GAME_CHOICES, default=0)
+
     # when will the first round of matches start?
     start = models.DateTimeField()
-    # what will they win?
-    prize = models.CharField
-    # all the teams that are in the event. elgibility happens inside the view, when they try to register
+
+    # all the teams that are in the event. elgibility happens inside the view, when they try to register @ben told me how to do this mtm field, i forgot
     # teams = models.ManyToManyField()
+
+
     # specify the winning team when they are declared
     winner = models.ForeignKey(Team, related_name='winningteam', on_delete=models.CASCADE)
+
     # specify second place, just for storage and future reference
     second = models.ForeignKey(Team, related_name='secondplaceteam', on_delete=models.CASCADE)
+
+
     # specify how many teams the event will be capped at, and the size of the bracket
     size = models.PositiveSmallIntegerField(default=32, choices=SIZE_CHOICES)
 
+    # the prizes that they will win, defined in admin panel. 3rd place isnt really needed..... just first and second...
     prize1 = models.CharField(default='no prize specified', related_name='firstplaceprize')
     prize2 = models.CharField(default='no prize specified', related_name='secondplaceprize')
     prize3 = models.CharField(default='no prize specified', related_name='thirdplaceprize')
