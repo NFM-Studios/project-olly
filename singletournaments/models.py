@@ -65,7 +65,8 @@ class SingleEliminationTournament(models.Model):
     rules = models.ForeignKey(RuleSet, related_name='tournamentrules', on_delete=models.CASCADE)
 
     def generate_bracket(self):
-        # size = size
+        tournament = SingleEliminationTournament.get(id=pk)
+        size = tournament.size
         # bye = size
         if size == 4:
             # 1 play 4
