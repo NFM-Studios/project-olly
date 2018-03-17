@@ -43,7 +43,32 @@
 <tr>
     <td><strong>About me:</strong></td><td> {{ userprofile.about_me }}</td>
 </tr>
+<tr>
+    <td><strong>Country:</strong>:</strong></td><td> {{ userprofile.country }}</td>
+</tr>
 </table>
 <!-- email_verified total_earning -->
+
+<table class="table">
+
+<tr id="header">
+        <thead>
+        <th scope="row">Team ID</th>
+        <th>Team Name</th>
+        <th>Team Role</th>
+        </thead>
+    </tr>
+{% for invite in team_list %}
+ <tbody>
+    <tr scope="">
+        <td scope="row"><a href="/teams//{{ invite.team.id }}/">#{{invite.team.id}}</a></td>
+        <td>{{invite.team.name}}</td>
+        <td>{{invite.captain}}</td>
+    </tr>
+    </tbody>
+
+
+{% endfor %}
+</table>
 
 {% endblock %}

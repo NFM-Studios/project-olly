@@ -5,7 +5,7 @@ from support.models import Ticket, TicketComment
 class TicketCreateForm(forms.ModelForm):
     class Meta:
         model = Ticket
-        fields = ('subject', 'text')
+        fields = ( 'category', 'text', )
 
 
 class TicketCommentCreateForm(forms.ModelForm):

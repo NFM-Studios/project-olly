@@ -1,27 +1,64 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
+from django_countries.fields import CountryField
 
 # Create your models here.
+
+
+class UserGear(models.Model):
+    user = models.ForeignKey(User, related_name='userspecs', on_delete=models.CASCADE)
+    # see if the guy actually owns a pc
+    ownpc = models.BooleanField(default=False)
+
+    cpu = models.CharField(max_length=30, default='No CPU specified')
+    gpu = models.CharField(max_length=30, default='No GPU specified')
+    psu = models.CharField(max_length=30, default='No PSU specified')
+    case = models.CharField(max_length=30, default='No Case specified')
+    os = models.CharField(max_length=30, default='No OS specified')
 
 
 class UserProfile(models.Model):
     def __str__(self):
         return str(self.user)
+
+    # associate the userprofile with the django user
     user = models.OneToOneField(User, related_name='user', on_delete=models.CASCADE)
+    # xp they have from winning events
     xp = models.PositiveSmallIntegerField(default=0)
+    # credits they own from purchasing things in the store
     credits = models.PositiveSmallIntegerField(default=0)
+    # amount of money they have cashed out
     total_earning = models.PositiveSmallIntegerField(default=0)
     about_me = models.CharField(max_length=500, default='Forever a mystery', blank=True)
     xbl = models.CharField(max_length=19, default='No Xbox Live Linked', blank=True)
     psn = models.CharField(max_length=16, default='No PSN Linked', blank=True)
-    twitter_profile = models.CharField(max_length=17, default='No Twitter Linked', blank=True)
+    steam = models.CharField(max_length=16, default='No Steam Linked', blank=True)
+    lol = models.CharField(max_length=16, default='No LOL Linked', blank=True)
+    battlenet = models.CharField(max_length=16, default='No Battle.net Linked', blank=True)
+    twitter_profile = models.CharField(max_length=15, default='No Twitter Linked', blank=True)
     twitch_channel = models.CharField(max_length=50, default='No Twitch Linked', blank=True)
     favorite_game = models.CharField(max_length=50, default='N/A', blank=True)
     favorite_console = models.CharField(max_length=50, default='N/A', blank=True)
     profile_picture = models.ImageField(upload_to='profile_images', blank=True)
     user_type = models.CharField(max_length=10, default='user')
     ip = models.CharField(max_length=16, default='0.0.0.0')
+    num_trophies = models.PositiveSmallIntegerField(default=0)
+    # default trophies
+    num_bronze = models.PositiveSmallIntegerField(default=0)
+    num_silver = models.PositiveSmallIntegerField(default=0)
+    num_gold = models.PositiveSmallIntegerField(default=0)
+
+    # just in case we need them later on...
+    num_plat = models.PositiveSmallIntegerField(default=0)
+    num_diamond = models.PositiveSmallIntegerField(default=0)
+    num_titanium = models.PositiveSmallIntegerField(default=0)
+
+    tournament_wins = models.PositiveSmallIntegerField(default=0)
+    dubl_tournament_wins = models.PositiveSmallIntegerField(default=0)
+
+    # country the dude lives in.
+    country = CountryField(blank_label='(select country)', default='No Country Selected')
 
 
 def create_profile(sender, **kwargs):

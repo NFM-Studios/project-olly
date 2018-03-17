@@ -17,6 +17,7 @@ import requests
 from django.conf import settings
 from django.template.response import TemplateResponse
 from django.db.models import Q
+from teams.models import Team, TeamInvite
 
 
 def login(request, template_name='profiles/login_form.html',
@@ -78,13 +79,15 @@ def login(request, template_name='profiles/login_form.html',
 def profile(request, urlusername):
     template_name = 'profiles/profile.html'
     userprofile = UserProfile.objects.get(user__username=urlusername)
-    return render(request, template_name, {'userprofile': userprofile, 'requestuser': request.user})
+    team_list = TeamInvite.objects.filter(accepted=True, user=userprofile.user)
+    return render(request, template_name, {'userprofile': userprofile, 'requestuser': request.user, "team_list": team_list})
 
 
 def profile_no_username(request):
     if not request.user.is_anonymous:
         userprofile = UserProfile.objects.get(user__username=request.user)
-        return render(request, 'profiles/profile.html', {'userprofile': userprofile, 'requestuser': request.user})
+        team_list = TeamInvite.objects.filter(accepted=True, user = request.user)
+        return render(request, 'profiles/profile.html', {'userprofile': userprofile, 'requestuser': request.user, "team_list": team_list})
     else:
         return redirect('login')
 
