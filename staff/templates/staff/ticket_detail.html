@@ -1,0 +1,44 @@
+{% extends "staff/staffbase.html" %}
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static "css/ticket.css" %}">
+<link rel="stylesheet" href="{% static "css/fontawesome-all.min.css" %}">
+
+{% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      <li class="{{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+
+{% block body %}
+<p><a href="{% url 'staff:tickets' %}"><i class="fas fa-arrow-left"></i> <strong>Back to ticket list</strong></a></p>
+<table class="table">
+    <thead>
+    <tr>
+        <th>Key</th>
+        <th>Value</th>
+    </tr>
+    </thead>
+    <tr>
+        <td>ID</td>
+        <td>{{ticket.id}}</td>
+    </tr>
+    <tr>
+        <td class="ticket-subject">Subject</td>
+        <td>{{ticket.subject}}</td>
+    </tr>
+    <tr>
+        <td class="">Description</td>
+        <td>{{ticket.text}}</td>
+    </tr>
+    <tr>
+        <td>Assignee</td>
+        <td>{{ticket.assignee}}</td>
+    </tr>
+    <tr>
+        <td>Status</td>
+        <td>{{ticket.status}}</td>
+    </tr>
+</table>
+{% endblock %}

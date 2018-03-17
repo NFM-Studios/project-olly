@@ -109,7 +109,7 @@ def searchusers(request):
 def edit_profile(request):
     if request.method == 'POST':
         userprofileobj = UserProfile.objects.get(user__username=request.user.username)
-        form = EditProfileForm(request.POST, instance=userprofileobj)
+        form = EditProfileForm(request.POST, request.FILES, instance=userprofileobj)
         if form.is_valid():
             form.save()
             return redirect('profiles:profile_no_username')
@@ -150,6 +150,10 @@ class CreateUserFormView(View):
                     messages.error(request, 'That email address already exists')
                     return redirect('register')
                 password = form.cleaned_data['password']
+                password_confirm = form.cleaned_data['password_confirm']
+                if password != password_confirm:
+                    messages.error(request, 'Passwords must match')
+                    return redirect('register')
                 user.set_password(password)
                 user.is_active = False
                 user.save()

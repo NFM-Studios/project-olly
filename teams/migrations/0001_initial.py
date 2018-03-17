@@ -38,8 +38,8 @@ class Migration(migrations.Migration):
             ],
             options={
                 'verbose_name': 'Team',
-                'verbose_name_plural': 'Teams',
                 'ordering': ['updated'],
+                'verbose_name_plural': 'Teams',
             },
         ),
         migrations.CreateModel(
