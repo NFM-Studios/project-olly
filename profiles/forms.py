@@ -6,6 +6,7 @@ from .models import UserProfile
 class CreateUserForm(forms.ModelForm):
     email = forms.EmailField(max_length=200, help_text='Required')
     password = forms.CharField(widget=forms.PasswordInput)
+    password_confirm = forms.CharField(widget=forms.PasswordInput)
     tos = forms.BooleanField(required=True)
 
     class Meta:
@@ -17,7 +18,7 @@ class EditProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = (
-            # 'profile_picture',
+            'profile_picture',
             'about_me',
             'xbl',
             'psn',
@@ -26,5 +27,4 @@ class EditProfileForm(forms.ModelForm):
             'favorite_game',
             'favorite_console',
             'country'
-            # profile picture
         )

@@ -1,9 +1,11 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from pages.models import StaticInfo
-from staff.forms import StaticInfoForm, EditUserForm
+from staff.forms import StaticInfoForm, EditUserForm, TicketCommentCreateForm
 from profiles.models import UserProfile, BannedUser
 from django.contrib.auth.models import User
+from django.urls import reverse
+from django.views.generic import View, DetailView
 from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from support.models import Ticket
@@ -57,7 +59,6 @@ def searchusers(request):
             return redirect('staff:users')
 
 
-
 def edituser(request, urlusername):
     user = UserProfile.objects.get(user__username=request.user.username)
     allowed = ['superadmin', 'admin']
@@ -92,7 +93,6 @@ def banuser(request, urlusername):
         return redirect('staff:users')
 
 
-
 def unbanuser(request, urlusername):
     user = UserProfile.objects.get(user__username=request.user.username)
     allowed = ['superadmin', 'admin']
@@ -104,7 +104,6 @@ def unbanuser(request, urlusername):
         b.delete()
         messages.success(request, 'User ' + urlusername + ' has been unbanned')
         return redirect('staff:users')
-
 
 
 def banip(request, urlusername):
@@ -121,7 +120,6 @@ def banip(request, urlusername):
         return redirect('staff:users')
 
 
-
 def unbanip(request, urlusername):
     user = UserProfile.objects.get(user__username=request.user.username)
     allowed = ['superadmin', 'admin']
@@ -135,7 +133,6 @@ def unbanip(request, urlusername):
         return redirect('staff:users')
 
 
-
 def tickets(request):
     user = UserProfile.objects.get(user__username=request.user.username)
     allowed = ['superadmin', 'admin']
@@ -144,6 +141,58 @@ def tickets(request):
     else:
         tickets = Ticket.objects.all()
         return render(request, 'staff/tickets.html', {'ticket_list': tickets})
+
+
+class TicketDetail(DetailView):
+    model = Ticket
+    template_name = 'staff/ticket_detail.html'
+    form = TicketCommentCreateForm()
+
+    def get_context_date(self, **kwargs):
+        context = super(TicketDetail, self).get_context_data(**kwargs)
+        context['form'] = self.form
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.form = TicketCommentCreateForm(request.POST)
+        if self.form.is_valid():
+            self.form_valid(self.form)
+            return redirect(reverse('tickets:detail', args=[self.kwargs['pk']]))
+        return super(TicketDetail, self).get(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        comment = form.instance
+        comment.author = self.request.user
+        comment.ticket = Ticket.objects.get(id=self.kwargs['pk'])
+        comment.save()
+        messages.success(self.request, 'Your response has been successfully added to the ticket.')
+
+    def get_queryset(self):
+        return Ticket.objects.filter(creator=self.request.user)
+
+
+class TicketCommentCreate(View):
+    form_class = TicketCommentCreateForm
+    template_name = 'staff/ticketcomment.html'
+
+    def get(self, request, pk):
+        form = self.form_class(None)
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, pk):
+        form = self.form_class(request.POST)
+
+        if form.is_valid():
+            comment = form.instance
+            comment.ticket = Ticket.objects.get(pk=pk)
+            comment.author = self.request.user
+            comment.comment = form.cleaned_data['comment']
+            comment.save()
+            messages.success(self.request, 'Comment successfully added')
+            return redirect('staff:tickets')
+
+        messages.error(self.request, 'An error occurred')
+        return render(request, self.template_name, {'form': form})
 
 
 def staticinfo(request):

@@ -1,4 +1,5 @@
 .vscode
+.vs
 .idea
 
 # Byte-compiled / optimized / DLL files
@@ -44,3 +45,5 @@ docs/_build/
 db.sqlite3
 
 venv/
+
+olly/media/profile_images/

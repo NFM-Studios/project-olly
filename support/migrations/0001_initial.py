@@ -28,8 +28,8 @@ class Migration(migrations.Migration):
             ],
             options={
                 'verbose_name': 'ticket',
-                'verbose_name_plural': 'tickets',
                 'ordering': ['date'],
+                'verbose_name_plural': 'tickets',
             },
         ),
         migrations.CreateModel(
@@ -43,8 +43,8 @@ class Migration(migrations.Migration):
             ],
             options={
                 'verbose_name': 'Ticket comment',
-                'verbose_name_plural': 'Ticket comments',
                 'ordering': ['date'],
+                'verbose_name_plural': 'Ticket comments',
             },
         ),
     ]
