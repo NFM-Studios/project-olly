@@ -16,6 +16,11 @@ def store(request):
     return render(request, 'store/store.html')
 
 
+'''
+each product has 2 dicts, paypal and general info that gets displayed on the site
+'''
+
+
 def buy_credits(request, num):
     invoice_id = generateinvoice()
     if num == '1':
@@ -27,8 +32,12 @@ def buy_credits(request, num):
             "notify_url": settings.SITE_URL + '/paypal/',
             "custom": "15cred,"+str(request.user),
         }
+        product = {
+            'item': '15 Credits',
+            'cost': '$5.00',
+        }
         form = PayPalPaymentsForm(initial=paypal_dict)
-        context = {"form": form}
+        context = {"form": form, "product": product}
         return render(request, "store/product.html", context)
     if num == '2':
         paypal_dict = {
@@ -39,8 +48,12 @@ def buy_credits(request, num):
             "notify_url": settings.SITE_URL + '/paypal/',
             "custom": "25cred,"+str(request.user),
         }
+        product = {
+            'item': '25 Credits',
+            'cost': '$20.00',
+        }
         form = PayPalPaymentsForm(initial=paypal_dict)
-        context = {"form": form}
+        context = {"form": form, "product": product}
         return render(request, "store/product.html", context)
     if num == '3':
         paypal_dict = {
@@ -51,8 +64,12 @@ def buy_credits(request, num):
             "notify_url": settings.SITE_URL + '/paypal/',
             "custom": "50cred,"+str(request.user),
         }
+        product = {
+            'item': '50 Credits',
+            'cost': '$45.00',
+        }
         form = PayPalPaymentsForm(initial=paypal_dict)
-        context = {"form": form}
+        context = {"form": form, "product": product}
         return render(request, "store/product.html", context)
 
 

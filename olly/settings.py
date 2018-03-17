@@ -76,6 +76,16 @@ INSTALLED_APPS = [
     #paypal IPN
     'paypal.standard.ipn',
 
+    # the country field
+    'django_countries',
+
+    # matches for all uses
+    'matches',
+
+    # single elimination tournaments
+    'singletournaments',
+
+
 ]
 
 MIDDLEWARE = [

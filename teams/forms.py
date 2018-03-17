@@ -18,8 +18,9 @@ class TeamCreateForm(forms.ModelForm):
 
 
 class TeamInviteForm(forms.ModelForm):
+    user = forms.CharField(required=True, max_length=50)
+
     class Meta:
-        user = forms.CharField(max_length=50, help_text='Required')
         # team = forms.?
         captain = forms.BooleanField(required=False)
         model = TeamInvite
@@ -39,4 +40,24 @@ class EditTeamProfileForm(forms.ModelForm):
             'twitter',
             'twitch',
         )
+
+
+class ViewInviteForm(forms.ModelForm):
+    accepted = forms.BooleanField(required=False)
+    denied = forms.BooleanField(required=False)
+
+    class Meta:
+        model = TeamInvite
+        fields = {
+            'accepted',
+            'denied'
+        }
+
+
+class LeaderboardSortForm(forms.Form):      # it works but is messy af. should be replaced with something like http://img.mulveyben.me/img/chrome_2018-03-11_22-04-28.png
+    sort_xp_asc = forms.BooleanField(required=False)
+    sort_xp_desc = forms.BooleanField(required=False)
+    sort_trophies_asc = forms.BooleanField(required=False)
+    sort_trophies_desc = forms.BooleanField(required=False)
+
 

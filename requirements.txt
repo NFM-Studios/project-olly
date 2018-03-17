@@ -4,3 +4,4 @@ django-taggit>=0.22.2
 requests>=2.18.4
 django-paypal>=0.4.1
 django-ipware>=2.0.1
+django-countries>=5.2

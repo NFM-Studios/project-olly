@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect
 from django.views.generic import ListView, DetailView, CreateView
 from support.forms import TicketCreateForm, TicketCommentCreateForm
 from support.models import Ticket
+from django.shortcuts import render
 
 
 class MyTicketListView(ListView):
@@ -18,6 +19,13 @@ class MyTicketDetailView(DetailView):
     model = Ticket
     template_name = 'tickets/ticket_mydetail.html'
     form = TicketCommentCreateForm()
+    form_class = TicketCommentCreateForm
+
+    def get(self, request, **kwargs):
+        form = self.form_class(None)
+        pk = self.kwargs['pk']
+        ticket = Ticket.objects.get(id=pk)
+        return render(request, self.template_name, {'form': form, 'x': pk, "ticket": ticket})
 
     def get_context_date(self, **kwargs):
         context = super(MyTicketDetailView, self).get_context_data(**kwargs)
@@ -28,7 +36,7 @@ class MyTicketDetailView(DetailView):
         self.form = TicketCommentCreateForm(request.POST)
         if self.form.is_valid():
             self.form_valid(self.form)
-            return HttpResponseRedirect(reverse('tickets:detail', args=[self.kwargs['pk']]))
+            return HttpResponseRedirect(reverse('support:detail', args=[self.kwargs['pk']]))
         return super(MyTicketDetailView, self).get(request, *args, **kwargs)
 
     def form_valid(self, form):
