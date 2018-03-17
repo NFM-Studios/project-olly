@@ -147,6 +147,13 @@ class TicketDetail(DetailView):
     model = Ticket
     template_name = 'staff/ticket_detail.html'
     form = TicketCommentCreateForm()
+    form_class = TicketCommentCreateForm
+
+    def get(self, request, **kwargs):
+        form = self.form_class(None)
+        pk = self.kwargs['pk']
+        ticket = Ticket.objects.get(id=pk)
+        return render(request, self.template_name, {'form': form, 'x': pk, "ticket": ticket})
 
     def get_context_date(self, **kwargs):
         context = super(TicketDetail, self).get_context_data(**kwargs)
@@ -157,7 +164,7 @@ class TicketDetail(DetailView):
         self.form = TicketCommentCreateForm(request.POST)
         if self.form.is_valid():
             self.form_valid(self.form)
-            return redirect(reverse('tickets:detail', args=[self.kwargs['pk']]))
+            return redirect(reverse('staff:ticket_detail', args=[self.kwargs['pk']]))
         return super(TicketDetail, self).get(request, *args, **kwargs)
 
     def form_valid(self, form):
@@ -169,30 +176,6 @@ class TicketDetail(DetailView):
 
     def get_queryset(self):
         return Ticket.objects.filter(creator=self.request.user)
-
-
-class TicketCommentCreate(View):
-    form_class = TicketCommentCreateForm
-    template_name = 'staff/ticketcomment.html'
-
-    def get(self, request, pk):
-        form = self.form_class(None)
-        return render(request, self.template_name, {'form': form})
-
-    def post(self, request, pk):
-        form = self.form_class(request.POST)
-
-        if form.is_valid():
-            comment = form.instance
-            comment.ticket = Ticket.objects.get(pk=pk)
-            comment.author = self.request.user
-            comment.comment = form.cleaned_data['comment']
-            comment.save()
-            messages.success(self.request, 'Comment successfully added')
-            return redirect('staff:tickets')
-
-        messages.error(self.request, 'An error occurred')
-        return render(request, self.template_name, {'form': form})
 
 
 def staticinfo(request):
