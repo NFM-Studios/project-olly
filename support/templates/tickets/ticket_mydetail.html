@@ -54,7 +54,17 @@ Match Support/Dispute
     </tr>
     <tr>
         <td>Status</td>
-        <td>{{ticket.status}}</td>
+        <td>
+        {% if ticket.status == 0 %}
+            New
+        {% elif ticket.status == 1 %}
+            On Hold
+        {% elif ticket.status == 2 %}
+            In Progress
+        {% elif ticket.status == 3 %}
+            Closed
+        {% endif %}
+        </td>
     </tr>
 </table>
 <form method="POST" action="{% url 'support:detail' pk=x  %}">
