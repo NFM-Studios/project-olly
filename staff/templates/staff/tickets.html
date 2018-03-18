@@ -7,7 +7,8 @@
     <tr id="header">
         <thead>
         <th scope="row">ID</th>
-        <th>Subject</th>
+        <th>Status</th>
+        <th>Category</th>
         <th>Date Created</th>
         </thead>
     </tr>
@@ -15,7 +16,20 @@
     <tbody>
     <tr scope="">
         <td scope="row"><a href="{% url 'staff:ticket_detail' pk=ticket.id%}">#{{ticket.id}}</a></td>
-        <td>{{ticket.subject}}</td>
+        <td>
+        {% if ticket.status == 0 %}
+            New
+        {% elif ticket.status == 1 %}
+            On Hold
+        {% elif ticket.status == 2 %}
+            In Progress
+        {% elif ticket.status == 3 %}
+            Closed
+        {% endif %}
+        </td>
+        <td>
+
+        </td>
         <td>{{ticket.last_update}}</td>
     </tr>
     </tbody>
