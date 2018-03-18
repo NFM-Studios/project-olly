@@ -13,7 +13,7 @@
 
 {% block body %}
 <p><a href="{% url 'staff:tickets' %}"><i class="fas fa-arrow-left"></i> <strong>Back to ticket list</strong></a></p>
-<<table class="table">
+<table class="table">
     <thead>
     <tr>
         <th>Key</th>
@@ -54,7 +54,17 @@ Match Support/Dispute
     </tr>
     <tr>
         <td>Status</td>
-        <td>{{ticket.status}}</td>
+        <td>
+        {% if ticket.status == 0 %}
+            New
+        {% elif ticket.status == 1 %}
+            On Hold
+        {% elif ticket.status == 2 %}
+            In Progress
+        {% elif ticket.status == 3 %}
+            Closed
+        {% endif %}
+        </td>
     </tr>
 </table>
 <form method="POST" action="{% url 'staff:ticket_detail' pk=x  %}">
@@ -63,9 +73,14 @@ Match Support/Dispute
         {{form.as_table}}
         <tr>
             <td colspan="2">
-                <input type="submit" value="Comment" />
+                <input type="submit" name="post_comment" value="Comment" />
             </td>
         </tr>
     </table>
+</form>
+<form method="POST" action="{% url 'staff:ticket_detail' pk=x %}">
+    {% csrf_token %}
+    {{ form2.as_table }}
+    <input type="submit" name="change_status" value="Change Status">
 </form>
 {% endblock %}
