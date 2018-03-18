@@ -67,7 +67,8 @@ class SingleEliminationTournament(models.Model):
     def generate_bracket(self):
         tournament = SingleEliminationTournament.get(id=pk)
         size = tournament.size
-        # bye = size
+        numteams = tournament.teams.count
+        bye = size - numteams
         if size == 4:
             # 1 play 4
             # 2 plays 3
