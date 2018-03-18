@@ -194,25 +194,6 @@ class TicketDetail(DetailView):
         return Ticket.objects.filter(creator=self.request.user)
 
 
-class TicketStatusChange():
-    model = Ticket
-    form = TicketStatusChangeForm()
-    form_class = TicketStatusChangeForm
-
-    def post(self, request, *args, **kwargs):
-        self.form = TicketStatusChangeForm(request.POST)
-        if self.form.is_valid():
-            self.form_valid(self.form)
-            return redirect(reverse('staff:ticket_detail', args=[self.kwargs['pk']]))
-        messages.error(self.request, 'An error occurred')
-        return redirect(reverse('staff:ticket_detail', args=[self.kwargs['pk']]))
-
-    def form_valid(self, form):
-        ticket = form.instance
-        ticket.save()
-        messages.success(self.request, 'Ticket successfully updated.')
-
-
 def staticinfo(request):
     user = UserProfile.objects.get(user__username=request.user.username)
     allowed = ['superadmin', 'admin']
