@@ -78,4 +78,9 @@ Match Support/Dispute
         </tr>
     </table>
 </form>
+<form method="POST" action="{% url 'support:detail' pk=x %}">
+    {% csrf_token %}
+    {{ form2.as_table }}
+    <input type="submit" name="change_status" value="Close Ticket">
+</form>
 {% endblock %}
