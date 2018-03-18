@@ -57,9 +57,9 @@ class SingleEliminationTournament(models.Model):
     size = models.PositiveSmallIntegerField(default=32, choices=SIZE_CHOICES)
 
     # the prizes that they will win, defined in admin panel. 3rd place isnt really needed..... just first and second...
-    prize1 = models.CharField(default='no prize specified', related_name='firstplaceprize')
-    prize2 = models.CharField(default='no prize specified', related_name='secondplaceprize')
-    prize3 = models.CharField(default='no prize specified', related_name='thirdplaceprize')
+    prize1 = models.CharField(default='no prize specified', max_length=50)
+    prize2 = models.CharField(default='no prize specified', max_length=50)
+    prize3 = models.CharField(default='no prize specified', max_length=50)
 
     # need to figure out how we will work rules
     rules = models.ForeignKey(RuleSet, related_name='tournamentrules', on_delete=models.CASCADE)
