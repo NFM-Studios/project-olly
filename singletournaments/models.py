@@ -43,7 +43,7 @@ class SingleEliminationTournament(models.Model):
     start = models.DateTimeField()
 
     # all the teams that are in the event. elgibility happens inside the view, when they try to register @ben told me how to do this mtm field, i forgot
-    # teams = models.ManyToManyField()
+    teams = models.ManyToManyField(Team)
 
 
     # specify the winning team when they are declared
@@ -75,6 +75,7 @@ class SingleEliminationTournament(models.Model):
             # 2 matches need to be played in round 1
             # 1 match needs to be played in round 2
             # total number of rounds = 2
+            pass
         elif size == 8:
             # 1 plays 8
             # 2 plays 7
@@ -82,6 +83,7 @@ class SingleEliminationTournament(models.Model):
             # 4 plays 5
             # 4 matches need to be played in round 1
             # total number of rounds = 3
+            pass
         elif size == 16:
             # 1 plays 16
             # 2 plays 15
@@ -91,6 +93,7 @@ class SingleEliminationTournament(models.Model):
             # and so on
             # 8 matches need to be played in round 1
             # total number of rounds = 4
+            pass
         elif size == 32:
             # 1 plays 32
             # 2 plays 31
@@ -101,7 +104,7 @@ class SingleEliminationTournament(models.Model):
             # 2 round 4
             # 1 round 5 (winners match)
             # total number of rounds = 5
-
+            pass
         elif size == 64:
             # the same thing
             # 32 matches need to be played in round 1
@@ -111,7 +114,7 @@ class SingleEliminationTournament(models.Model):
             # 2 round 5
             # 1 round 6 (winners match)
             # total number of rounds = 6
-
+            pass
         elif size == 128:
             # same thing
             # 64 matches need to be played in round 1
@@ -122,11 +125,12 @@ class SingleEliminationTournament(models.Model):
             # 2 round 6
             # 1 round 7
             # total number of rounds = 7
-
+            pass
 
     def generate_matches(self):
         # a
-
+        pass
     def rounds_required(self):
         # the number of
         # teams/2
+        pass
