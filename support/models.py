@@ -49,6 +49,8 @@ class TicketComment(models.Model):
     date = models.DateTimeField(auto_now_add=True, verbose_name='Date')
     author = models.ForeignKey(User, verbose_name='Author', on_delete=models.CASCADE)
     comment = models.TextField()
+    # if the message is sent by staff set this to true. Then in the template display something unique
+    staff = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = 'Ticket comment'
