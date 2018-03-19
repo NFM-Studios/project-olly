@@ -12,6 +12,27 @@ SIZE_CHOICES= (
     (128,128),
 )
 
+
+
+class TournamentRound(models.Model):
+    # ManyToManyField to keep track of the teams that are still active and have matches to play in the round
+    # teams = mtm
+    
+    # what round number is this? round 1 is the first round of the tournament
+    roundnum = models.PositiveSmallIntegerField(default=1)
+    
+    # how many matches will be played in this round? Set the default to the minimum
+    matchesnum = models.PositiveSmallIntegerField(default=2)
+
+
+    # ManyToMany Field to keep track of the matches that were assigned and created for this given round...
+    # matches = models.mtm
+    
+    
+class SingleTournamentTeam(models.Model):
+    team = models.ForeignKey(Team, related_name='actualteam', on_delete=models.CASCADE)
+    round = models.ForeignKey(TournamentRound, related_name='teaminround', on_delete=models.CASCADE)
+
 class SingleEliminationTournament(models.Model):
 
     # I know we need the team format, ex 1v1, 2v2, 3v3, 4v4, 5v5, 6v6
