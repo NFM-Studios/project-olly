@@ -163,7 +163,7 @@ class TeamInviteCreateView(View):
     form_class = TeamInviteForm
 
     def get(self, request):
-        form = self.form_class(None)
+        form = self.form_class(request)
         return render(request, self.template_name, {'form': form})
 
     def post(self, request):

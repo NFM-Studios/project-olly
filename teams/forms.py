@@ -21,7 +21,6 @@ class TeamInviteForm(forms.ModelForm):
     user = forms.CharField(required=True, max_length=50)
 
     class Meta:
-        # team = forms.?
         captain = forms.BooleanField(required=False)
         model = TeamInvite
         # maybe????
@@ -29,6 +28,11 @@ class TeamInviteForm(forms.ModelForm):
         # widgets = {
         #    'user':CharField(),
         # }
+
+    def __init__(self, request, *args, **kwargs):
+        self.username = request.user
+        self.team = forms.ModelChoiceField(queryset=TeamInvite.objects.filter(captain=['captain', 'founder'], user_id=self.username.id))
+        super(TeamInviteForm, self).__init__(*args, **kwargs)
 
 
 class EditTeamProfileForm(forms.ModelForm):
