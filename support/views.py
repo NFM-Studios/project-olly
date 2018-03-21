@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.views.generic import ListView, DetailView, CreateView
 from support.forms import TicketCreateForm, TicketCommentCreateForm, TicketStatusChangeForm
-from support.models import Ticket
+from support.models import Ticket, TicketComment
 from django.shortcuts import render, redirect
 
 
@@ -28,7 +28,9 @@ class MyTicketDetailView(DetailView):
         form2 = self.form2_class(None)
         pk = self.kwargs['pk']
         ticket = Ticket.objects.get(id=pk)
-        return render(request, self.template_name, {'form': form1, 'x': pk, "ticket": ticket})
+        comments = TicketComment.objects.filter(ticket=pk)
+        return render(request, self.template_name, {'form': form1, 'x': pk,
+                                                    "ticket": ticket, "comments": comments})
 
     def get_context_date(self, **kwargs):
         context = super(MyTicketDetailView, self).get_context_data(**kwargs)
