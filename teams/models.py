@@ -43,6 +43,9 @@ class Team(models.Model):
         if not self.website:
             return True
 
+    def __str__(self):
+        return self.name
+
 
 class TeamInvite(models.Model):
     INVITE_CHOICES = (
