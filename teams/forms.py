@@ -1,5 +1,7 @@
 from django import forms
 
+from django.forms import ModelForm
+
 # import the actual team model for the create team forms
 from teams.models import Team
 
@@ -25,9 +27,9 @@ class TeamInviteForm(forms.ModelForm):
         model = TeamInvite
         # maybe????
         fields = ('user', 'team', 'captain',)
-        # widgets = {
-        #    'user':CharField(),
-        # }
+        widgets = {
+            'user':forms.CharField(),
+         }
 
     def __init__(self, request, *args, **kwargs):
         self.username = request.user
