@@ -89,15 +89,6 @@
     </table>
 </form>
 
-    {% for i in comments %}
-    {% if i.author.user.user_type == 'admin' or i.author.user.user_type == 'superadmin'%}
-    <b>{{ i.author }}, ({{ i.date }}): {{ i.comment }}</b>
-    {% else %}
-    {{ i.author }}, ({{ i.date }}): {{ i.comment }}
-    {% endif %}
-    <br>
-{% endfor %}
-
 <form method="POST" action="{% url 'support:detail' pk=x %}">
     {% csrf_token %}
     {{ form2.as_table }}
