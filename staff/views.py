@@ -8,7 +8,7 @@ from django.urls import reverse
 from django.views.generic import View, DetailView
 from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from support.models import Ticket
+from support.models import Ticket, TicketComment
 
 
 def staffindex(request):
@@ -156,7 +156,9 @@ class TicketDetail(DetailView):
         form2 = self.form2_class(None)
         pk = self.kwargs['pk']
         ticket = Ticket.objects.get(id=pk)
-        return render(request, self.template_name, {'form': form1, 'form2': form2, 'x': pk, "ticket": ticket})
+        comments = TicketComment.objects.filter(ticket=pk)
+        return render(request, self.template_name, {'form': form1, 'form2': form2, 'x': pk,
+                                                    "ticket": ticket, "comments": comments})
 
     def get_context_date(self, **kwargs):
         context = super(TicketDetail, self).get_context_data(**kwargs)
