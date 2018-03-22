@@ -109,10 +109,12 @@ class SingleEliminationTournament(models.Model):
             possible_seeds = [1, 2, 3, 4]
             for(i in actual_teams):
                 team = Team.get(id=pk)
-                tournament_team = team.get(id=pk)
+                tournament_team = SingleTournamentTeam.get(id=pk)
                 randseed = (random.choice(seeds))
                 possible_seeds.pop(randseed-1)
-                team
+                tournament_team.seed = randseed
+                tournament_team.save()
+
 
             pass
         elif size == 8:
