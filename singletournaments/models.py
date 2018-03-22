@@ -103,6 +103,7 @@ class SingleEliminationTournament(models.Model):
             # 2 matches need to be played in round 1
             # 1 match needs to be played in round 2
             # total number of rounds = 2
+            round1 = SingleTournamentRound.get(id=pk)
             rounds = 2
             round1matches = 2
             round2matches = 1
