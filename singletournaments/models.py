@@ -89,6 +89,7 @@ class SingleEliminationTournament(models.Model):
     # need to figure out how we will work rules
     rules = models.ForeignKey(RuleSet, related_name='tournamentrules', on_delete=models.CASCADE)
 
+
     def generate_bracket(self):
         tournament = SingleEliminationTournament.get(id=pk)
         size = tournament.size
@@ -101,14 +102,18 @@ class SingleEliminationTournament(models.Model):
             # 1 match needs to be played in round 2
             # total number of rounds = 2
             rounds = 2
-            actual_teams = numteams
+            round1matches = 2
+            round2matches = 1
             bracketsize = 4
             seeds = [1,2,3,4]
-            for(i in actual_teams)
+            possible_seeds = [1, 2, 3, 4]
+            for(i in actual_teams):
                 team = Team.get(id=pk)
-                randseed = randint(1,4)
-                if randseed == 1
-                    team(i)
+                tournament_team = team.get(id=pk)
+                randseed = (random.choice(seeds))
+                possible_seeds.pop(randseed-1)
+                team
+
             pass
         elif size == 8:
             # 1 plays 8
