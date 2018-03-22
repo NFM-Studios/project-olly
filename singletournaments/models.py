@@ -15,13 +15,13 @@ SIZE_CHOICES = (
 
 
 
-class TournamentRound(models.Model):
+class SingleTournamentRound(models.Model):
     # ManyToManyField to keep track of the teams that are still active and have matches to play in the round
     teams = models.ManyToManyField(Team)
-    
+
     # what round number is this? round 1 is the first round of the tournament
     roundnum = models.PositiveSmallIntegerField(default=1)
-    
+
     # how many matches will be played in this round? Set the default to the minimum
     matchesnum = models.PositiveSmallIntegerField(default=2)
 
