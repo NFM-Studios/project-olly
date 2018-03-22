@@ -2,6 +2,7 @@ from django.db import models
 from matches.settings import GAME_CHOICES, PLATFORMS_CHOICES, TEAMFORMAT_CHOICES, MAPFORMAT_CHOICES
 from matches.models import RuleSet
 from teams.models import Team
+from random import *
 
 SIZE_CHOICES= (
     (4,4),
@@ -96,6 +97,15 @@ class SingleEliminationTournament(models.Model):
             # 2 matches need to be played in round 1
             # 1 match needs to be played in round 2
             # total number of rounds = 2
+            rounds = 2
+            actual_teams = numteams
+            bracketsize = 4
+            seeds = [1,2,3,4]
+            for(i in actual_teams)
+                team = Team.get(id=pk)
+                randseed = randint(1,4)
+                if randseed == 1
+                    team(i)
             pass
         elif size == 8:
             # 1 plays 8
@@ -104,6 +114,10 @@ class SingleEliminationTournament(models.Model):
             # 4 plays 5
             # 4 matches need to be played in round 1
             # total number of rounds = 3
+            rounds = 3
+            actual_teams = numteams
+            bracketsize = 8
+
             pass
         elif size == 16:
             # 1 plays 16
@@ -114,6 +128,10 @@ class SingleEliminationTournament(models.Model):
             # and so on
             # 8 matches need to be played in round 1
             # total number of rounds = 4
+            rounds = 4
+            actual_teams = numteams
+            bracketsize = 16
+
             pass
         elif size == 32:
             # 1 plays 32
@@ -125,6 +143,10 @@ class SingleEliminationTournament(models.Model):
             # 2 round 4
             # 1 round 5 (winners match)
             # total number of rounds = 5
+            rounds = 5
+            actual_teams = numteams
+            bracketsize = 32
+
             pass
         elif size == 64:
             # the same thing
@@ -135,6 +157,10 @@ class SingleEliminationTournament(models.Model):
             # 2 round 5
             # 1 round 6 (winners match)
             # total number of rounds = 6
+            rounds = 6
+            actual_teams = numteams
+            bracketsize = 64
+
             pass
         elif size == 128:
             # same thing
@@ -146,6 +172,10 @@ class SingleEliminationTournament(models.Model):
             # 2 round 6
             # 1 round 7
             # total number of rounds = 7
+            rounds = 7
+            actual_teams =  numteams
+            bracketsize = 128
+
             pass
 
     def generate_matches(self):
