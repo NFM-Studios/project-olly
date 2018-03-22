@@ -2,7 +2,58 @@
 {% load staticfiles %}
 <link rel="stylesheet" href="{% static "css/singletournament.css" %}">
 
-{% block body %}
+{% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      <li class="{{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
 
-Single Tournament detail page. Yay
+{% block body %}
+<p><a href="{% url 'singletournaments:list' %}"><i class="fas fa-arrow-left"></i> <strong>Back to tournament list</strong></a></p>
+<table class="table">
+    <thead>
+    <tr>
+        <th>Format</th>
+        <th>{{ tournament.teamformat }}</th>
+    </tr>
+    </thead>
+    <tr>
+        <td>Game</td>
+        <td>{{tournament.game}}</td>
+    </tr>
+    <tr>
+        <td>Platform</td>
+        <td>{{tournament.platform}}</td>
+    </tr>
+    <tr>
+        <td>Best Of</td>
+        <td>{{tournament.bestof}}</td>
+    </tr>
+    <tr>
+        <td>Start</td>
+        <td>{{tournament.start}}</td>
+    </tr>
+    <tr>
+        <td>Active</td>
+        <td>
+            {% if tournament.active %}
+            Yes
+            {% endif %}
+            {% if not tournament.active %}
+            No
+              {% endif %}
+        </td>
+    </tr>
+    <tr>
+        <td>Registration Open/Registration Close</td>
+        <td>{{tournament.open_register}}/{{ tournament.close_register }}</td>
+    </tr>
+    <tr>
+        <td>Required Credits (Per Player)</td>
+        <td>{{tournament.req_credits}}</td>
+    </tr>
+
+</table>
 {% endblock %}
