@@ -15,27 +15,6 @@ SIZE_CHOICES = (
 
 
 
-class SingleTournamentRound(models.Model):
-    # ManyToManyField to keep track of the teams that are still active and have matches to play in the round
-    teams = models.ManyToManyField(Team)
-
-    # what round number is this? round 1 is the first round of the tournament
-    roundnum = models.PositiveSmallIntegerField(default=1)
-
-    # how many matches will be played in this round? Set the default to the minimum
-    matchesnum = models.PositiveSmallIntegerField(default=2)
-
-    tournament = models.ForeignKey(SingleEliminationTournament, related_name='withtournamentround', on_delete=models.CASCADE)
-
-    # ManyToMany Field to keep track of the matches that were assigned and created for this given round...
-    matches = models.ManyToManyField(Match)
-
-
-class SingleTournamentTeam(models.Model):
-    team = models.ForeignKey(Team, related_name='actualteam', on_delete=models.CASCADE)
-    round = models.ForeignKey(TournamentRound, related_name='teaminround', on_delete=models.CASCADE)
-    seed = models.PositiveIntegerField(default=0)
-    tournament = models.ForeignKey(SingleEliminationTournament, related_name='intournament', on_delete=models.CASCADE)
 
 class SingleEliminationTournament(models.Model):
 
@@ -110,7 +89,7 @@ class SingleEliminationTournament(models.Model):
             bracketsize = 4
             seeds = [1,2,3,4]
             possible_seeds = [1, 2, 3, 4]
-            for(i in actual_teams):
+            for i in numteams:
                 team = Team.get(id=pk)
                 tournament_team = SingleTournamentTeam.get(id=pk)
                 randseed = (random.choice(seeds))
@@ -198,3 +177,24 @@ class SingleEliminationTournament(models.Model):
         # the number of
         # teams/2
         pass
+
+class SingleTournamentRound(models.Model):
+    # ManyToManyField to keep track of the teams that are still active and have matches to play in the round
+    teams = models.ManyToManyField(Team)
+
+    # what round number is this? round 1 is the first round of the tournament
+    roundnum = models.PositiveSmallIntegerField(default=1)
+
+    # how many matches will be played in this round? Set the default to the minimum
+    matchesnum = models.PositiveSmallIntegerField(default=2)
+
+    tournament = models.ForeignKey(SingleEliminationTournament, related_name='withtournamentround', on_delete=models.CASCADE)
+
+    # ManyToMany Field to keep track of the matches that were assigned and created for this given round...
+    matches = models.ManyToManyField(Match)
+
+class SingleTournamentTeam(models.Model):
+    team = models.ForeignKey(Team, related_name='actualteam', null=True, on_delete=models.CASCADE)
+    round = models.ForeignKey(SingleTournamentRound, related_name='teaminround', null=True, on_delete=models.CASCADE)
+    seed = models.PositiveIntegerField(default=0)
+    tournament = models.ForeignKey(SingleEliminationTournament, related_name='intournament', null=True, on_delete=models.CASCADE)
