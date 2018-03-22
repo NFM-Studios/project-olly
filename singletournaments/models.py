@@ -29,8 +29,8 @@ class SingleTournamentRound(models.Model):
 
     # ManyToMany Field to keep track of the matches that were assigned and created for this given round...
     matches = models.ManyToManyField(Match)
-    
-    
+
+
 class SingleTournamentTeam(models.Model):
     team = models.ForeignKey(Team, related_name='actualteam', on_delete=models.CASCADE)
     round = models.ForeignKey(TournamentRound, related_name='teaminround', on_delete=models.CASCADE)
@@ -89,6 +89,8 @@ class SingleEliminationTournament(models.Model):
     # need to figure out how we will work rules
     rules = models.ForeignKey(RuleSet, related_name='tournamentrules', on_delete=models.CASCADE)
 
+    def __str__(self):
+        return (teamformat + " " + platform + " " + game + " " + start)
 
     def generate_bracket(self):
         tournament = SingleEliminationTournament.get(id=pk)
