@@ -4,7 +4,7 @@ from matches.models import RuleSet, Match
 from teams.models import Team
 from random import *
 
-SIZE_CHOICES= (
+SIZE_CHOICES = (
     (4,4),
     (8,8),
     (16,16),
