@@ -1,6 +1,6 @@
 from django.db import models
 from matches.settings import GAME_CHOICES, PLATFORMS_CHOICES, TEAMFORMAT_CHOICES, MAPFORMAT_CHOICES
-from matches.models import RuleSet
+from matches.models import RuleSet, Match
 from teams.models import Team
 from random import *
 
@@ -17,7 +17,7 @@ SIZE_CHOICES= (
 
 class TournamentRound(models.Model):
     # ManyToManyField to keep track of the teams that are still active and have matches to play in the round
-    # teams = mtm
+    teams = models.ManyToManyField(Team)
     
     # what round number is this? round 1 is the first round of the tournament
     roundnum = models.PositiveSmallIntegerField(default=1)
