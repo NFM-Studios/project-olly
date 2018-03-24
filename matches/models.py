@@ -2,6 +2,7 @@ from django.db import models
 from matches.settings import GAME_CHOICES, PLATFORMS_CHOICES, TEAMFORMAT_CHOICES, MAPFORMAT_CHOICES
 from teams.models import Team
 from django.contrib.auth.models import User
+#from singletournaments.models import SingleEliminationTournament
 
 # Create your models here.
 class Match(models.Model):
@@ -9,7 +10,7 @@ class Match(models.Model):
     # default to ps4 for now bc why not
     platform = models.SmallIntegerField(choices=PLATFORMS_CHOICES, default=0)
     # assign the match to a tournament with a FK
-    # tournament = models.ForeignKey()
+    # tournament = models.ForeignKey(SingleEliminationTournament, related_name='tournament', on_delete=models.CASCADE)
     # fk fields for the 2 teams that are competiting,
     # verification for elgible teams happens within the tournament and teams app
 
@@ -37,8 +38,7 @@ class MatchReport(models.Model):
     reported_winner = models.ForeignKey(Team, related_name='winnerreporting', on_delete=models.CASCADE)
     reporter = models.ForeignKey(User, default="unknown", related_name='reportingperson', on_delete=models.CASCADE)
 
-class RuleSet(models.Model):
-
+class Ruleset(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     text = models.TextField()
