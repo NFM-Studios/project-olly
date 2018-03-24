@@ -66,7 +66,7 @@ class SingleEliminationTournament(models.Model):
     prize3 = models.CharField(default='no prize specified', max_length=50)
 
     # need to figure out how we will work rules
-    rules = models.ForeignKey(RuleSet, related_name='tournamentrules', on_delete=models.CASCADE)
+    rules = models.ForeignKey(Ruleset, related_name='tournamentrules', on_delete=models.CASCADE)
 
     def __str__(self):
         return (teamformat + " " + platform + " " + game + " " + start)
