@@ -72,7 +72,7 @@ class SingleEliminationTournament(models.Model):
         return (teamformat + " " + platform + " " + game + " " + start)
 
     def __init__(self):
-        tournament = SingleEliminationTournament.objects.get(id=pk)
+        tournament = SingleEliminationTournament.objects.get(id=self.pk)
         size = tournament.size
         teams = tournament.teams
         if size == 4:
