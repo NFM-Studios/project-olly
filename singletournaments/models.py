@@ -71,6 +71,32 @@ class SingleEliminationTournament(models.Model):
     def __str__(self):
         return (teamformat + " " + platform + " " + game + " " + start)
 
+    def __init__(self):
+        tournament = SingleEliminationTournament.get(id=pk)
+        size = tournament.size
+        teams = tournament.teams
+        if size == 4:
+            # generate 2 rounds
+            round1 = SingleTournamentRound(matchesnum=2, roundnum=1, tournament=tournament, teams=teams)
+            round1.save()
+            round2 = SingleTournamentRound(matchesnum=1, roundnum=2, tournament=tournament)
+            round2.save()
+        elif size == 8:
+            # generate 3 rounds
+            pass
+        elif size == 16:
+            # generate 4 rounds
+            pass
+        elif size == 32:
+            # generate 5 rounds
+            pass
+        elif size == 64:
+            # generate 6 rounds
+            pass
+        elif size == 128:
+            # generate 7 rounds
+            pass
+
     def generate_bracket(self):
         tournament = SingleEliminationTournament.get(id=pk)
         size = tournament.size
