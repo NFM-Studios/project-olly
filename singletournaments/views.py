@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import View
 from .forms import SingleEliminationTournamentJoin
+from .models import SingleTournamentRound, SingleEliminationTournament, SingleTournamentTeam
 
 
 class List(View):
