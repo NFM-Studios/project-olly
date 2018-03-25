@@ -72,7 +72,7 @@ class SingleEliminationTournament(models.Model):
         return (teamformat + " " + platform + " " + game + " " + start)
 
     def __init__(self):
-        tournament = SingleEliminationTournament.get(id=pk)
+        tournament = SingleEliminationTournament.objects.get(id=pk)
         size = tournament.size
         teams = tournament.teams
         if size == 4:
@@ -98,7 +98,7 @@ class SingleEliminationTournament(models.Model):
             pass
 
     def generate_bracket(self):
-        tournament = SingleEliminationTournament.get(id=pk)
+        tournament = SingleEliminationTournament.objects.get(id=pk)
         game = tournament.game
         platform = tournament.platform
         teamformat = tournament.teamformat
@@ -112,7 +112,7 @@ class SingleEliminationTournament(models.Model):
             # 2 matches need to be played in round 1
             # 1 match needs to be played in round 2
             # total number of rounds = 2
-            round1 = SingleTournamentRound.get(id=pk)
+            round1 = SingleTournamentRound.objects.get(id=pk)
             rounds = 2
             round1matches = 2
             round2matches = 1
@@ -121,7 +121,7 @@ class SingleEliminationTournament(models.Model):
             possible_seeds = [1, 2, 3, 4]
             for i in numteams:
                 team = Team.get(id=pk)
-                tournament_team = SingleTournamentTeam.get(id=pk)
+                tournament_team = SingleTournamentTeam.objects.get(id=pk)
                 randseed = (random.choice(seeds))
                 possible_seeds.pop(randseed-1)
                 tournament_team.seed = randseed
@@ -131,26 +131,26 @@ class SingleEliminationTournament(models.Model):
                 if tournament_team.seed == 1:
                     # they are seeded first they play 4th seeded team
                     match1 = Match(game=game, platform=platform, hometeam=tournament_team, teamformat=teamformat, bestof=bestof)
-                    round1 = SingleTournamentRound.get(tournament=tournament, roundnum=1)
+                    round1 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=1)
                     round1.add(matches=match1)
                     round1.save()
                     match1.save()
                 elif tournament_team.seed == 2:
                     # hey you play in match2 against seed 3
                     match2 = Match(game=game, platform=platform, hometeam=tournament_team, teamformat=teamformat, bestof=bestof)
-                    round1 = SingleTournamentRound.get(tournament=tournament, roundnum=1)
+                    round1 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=1)
                     round1.add(matches=match2)
                     round1.save()
                     match2.save()
                 elif tournament_team.seed == 3:
                     match2 = Match(game=game, platform=platform, awayteam=tournament_team, teamformat=teamformat, bestof=bestof)
-                    round1 = SingleTournamentRound.get(tournament=tournament, roundnum=1)
+                    round1 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=1)
                     round1.add(matches=match2)
                     round1.save()
                     match2.save()
                 elif tournament_team.seed == 4:
                     match1 = Match(game=game, platform=platform, awayteam=tournament_team, teamformat=teamformat, bestof=bestof)
-                    round1 = SingleTournamentRound.get(tournament=tournament, roundnum=1)
+                    round1 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=1)
                     round1.add(matches=match1)
                     round1.save()
                     match1.save()
