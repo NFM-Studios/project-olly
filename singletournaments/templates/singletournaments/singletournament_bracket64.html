@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static "css/singletournament.css" %}">
+
+{% block body %}
+
+load  the bracket.
+
+
+
+    {% round1.roundnum %} has these teams...
+    {% round1.teams %}
+    playing these matches....
+    {% round1.matches %}
+
+
+    {% round2.roundnum %} has these teams...
+    {% round2.teams %}
+    playing these matches
+    {% round2.matches %}
+{% endblock %}
