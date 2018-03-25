@@ -35,7 +35,6 @@ class SingleTournamentRules(View):
     template_name = 'singletournaments/singletournament_rules.html'
 
 class SingleTournamentBracket(View):
-    template_name = 'singletournaments/singletournament_bracket.html'
 
     def get(self, request, **kwargs):
         pk = self.kwargs['pk']
