@@ -1,3 +1,4 @@
 from django.contrib import admin
+from .models import SingleTournamentTeam, SingleEliminationTournament, SingleTournamentRound
 
-# Register your models here.
+admin.site.register(SingleEliminationTournament, SingleTournamentRound, SingleTournamentTeam)
