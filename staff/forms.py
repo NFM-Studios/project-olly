@@ -1,7 +1,7 @@
 from django import forms
 from pages.models import StaticInfo
 from profiles.models import UserProfile
-from support.models import TicketComment
+from support.models import TicketComment, Ticket
 
 
 class StaticInfoForm(forms.ModelForm):
@@ -20,3 +20,9 @@ class TicketCommentCreateForm(forms.ModelForm):
     class Meta:
         model = TicketComment
         fields = ('comment',)
+
+
+class TicketStatusChangeForm(forms.ModelForm):
+    class Meta:
+        model = Ticket
+        fields = ('status',)
