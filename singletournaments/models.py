@@ -5,15 +5,13 @@ from teams.models import Team
 from random import *
 
 SIZE_CHOICES = (
-    (4,4),
-    (8,8),
-    (16,16),
-    (32,32),
-    (64,64),
-    (128,128),
+    (4, 4),
+    (8, 8),
+    (16, 16),
+    (32, 32),
+    (64, 64),
+    (128, 128),
 )
-
-
 
 
 class SingleEliminationTournament(models.Model):
@@ -49,13 +47,11 @@ class SingleEliminationTournament(models.Model):
     # all the teams that are in the event. elgibility happens inside the view, when they try to register @ben told me how to do this mtm field, i forgot
     teams = models.ManyToManyField(Team)
 
-
     # specify the winning team when they are declared
     winner = models.ForeignKey(Team, related_name='winningteam', on_delete=models.CASCADE)
 
     # specify second place, just for storage and future reference
     second = models.ForeignKey(Team, related_name='secondplaceteam', on_delete=models.CASCADE)
-
 
     # specify how many teams the event will be capped at, and the size of the bracket
     size = models.PositiveSmallIntegerField(default=32, choices=SIZE_CHOICES)
@@ -229,10 +225,12 @@ class SingleEliminationTournament(models.Model):
     def generate_matches(self):
         # a
         pass
+
     def rounds_required(self):
         # the number of rounds required
         # teams/2
         pass
+
 
 class SingleTournamentRound(models.Model):
     # ManyToManyField to keep track of the teams that are still active and have matches to play in the round
@@ -248,6 +246,7 @@ class SingleTournamentRound(models.Model):
 
     # ManyToMany Field to keep track of the matches that were assigned and created for this given round...
     matches = models.ManyToManyField(Match)
+
 
 class SingleTournamentTeam(models.Model):
     team = models.ForeignKey(Team, related_name='actualteam', null=True, on_delete=models.CASCADE)
