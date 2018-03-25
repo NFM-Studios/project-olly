@@ -200,7 +200,7 @@ class SingleEliminationTournament(models.Model):
         # a
         pass
     def rounds_required(self):
-        # the number of
+        # the number of rounds required
         # teams/2
         pass
 
