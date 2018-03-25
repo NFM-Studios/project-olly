@@ -19,6 +19,7 @@ class SingleTournamentJoin(View):
         form = self.form_class(None)
         return render(request, self.template_name, {'form': form})
 
+
 class SingleTournamentDetail(View):
     template_name = 'singletournaments/singletournament_detail.html'
 
@@ -27,6 +28,7 @@ class SingleTournamentDetail(View):
         tournament = SingleEliminationTournament.objects.get(id=pk)
         return render(request, self.template_name, {'x':pk, 'tournament':tournament})
 
+
 class SingleTournamentTeamsList(View):
     template_name = 'singletournaments/singletournament_teams.html'
 
@@ -34,12 +36,13 @@ class SingleTournamentTeamsList(View):
 class SingleTournamentRules(View):
     template_name = 'singletournaments/singletournament_rules.html'
 
+
 class SingleTournamentBracket(View):
 
     def get(self, request, **kwargs):
         pk = self.kwargs['pk']
         tournament = SingleEliminationTournament.objects.get(id=pk)
-        if  tournament.size == 4:
+        if tournament.size == 4:
             # get 2 rounds to pass to the view
             round1 = SingleTournamentRound.get(tournament=tournament, roundnum=1)
             round2 = SingleTournamentRound.get(tournament=tournament, roundnum=2)
@@ -53,10 +56,10 @@ class SingleTournamentBracket(View):
         elif tournament.size == 32:
             # get 5 rounds to pass to the view
             template_name = 'singletournaments/singletournament_bracket32.html'
-        elif tournamenet.size == 64:
+        elif tournament.size == 64:
             # get 6 rounds to pass to the view
             template_name = 'singletournaments/singletournament_bracket64.html'
         elif tournament.size == 128:
             # get 7 rounds to pass to the  view
             template_name = 'singletournaments/singletournament_bracket128.html'
-        return render(request, self.template_name, {'x': pk, 'tournament': tournament, 'round1':round1, 'round2':round2})
+        return render(request, self.template_name, {'x': pk, 'tournament': tournament, 'round1': round1, 'round2': round2})

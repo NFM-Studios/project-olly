@@ -79,6 +79,7 @@ def login(request, template_name='profiles/login_form.html',
 def profile(request, urlusername):
     template_name = 'profiles/profile.html'
     userprofile = UserProfile.objects.get(user__username=urlusername)
+    # following line is not stock olly
     team_list = TeamInvite.objects.filter(accepted=True, user=userprofile.user)
     return render(request, template_name, {'userprofile': userprofile, 'requestuser': request.user, "team_list": team_list})
 
