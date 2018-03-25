@@ -131,19 +131,30 @@ class SingleEliminationTournament(models.Model):
                 if tournament_team.seed == 1:
                     # they are seeded first they play 4th seeded team
                     match1 = Match(game=game, platform=platform, hometeam=tournament_team, teamformat=teamformat, bestof=bestof)
+                    round1 = SingleTournamentRound.get(tournament=tournament, roundnum=1)
+                    round1.add(matches=match1)
+                    round1.save()
                     match1.save()
                 elif tournament_team.seed == 2:
                     # hey you play in match2 against seed 3
                     match2 = Match(game=game, platform=platform, hometeam=tournament_team, teamformat=teamformat, bestof=bestof)
+                    round1 = SingleTournamentRound.get(tournament=tournament, roundnum=1)
+                    round1.add(matches=match2)
+                    round1.save()
                     match2.save()
                 elif tournament_team.seed == 3:
                     match2 = Match(game=game, platform=platform, awayteam=tournament_team, teamformat=teamformat, bestof=bestof)
+                    round1 = SingleTournamentRound.get(tournament=tournament, roundnum=1)
+                    round1.add(matches=match2)
+                    round1.save()
                     match2.save()
                 elif tournament_team.seed == 4:
                     match1 = Match(game=game, platform=platform, awayteam=tournament_team, teamformat=teamformat, bestof=bestof)
+                    round1 = SingleTournamentRound.get(tournament=tournament, roundnum=1)
+                    round1.add(matches=match1)
+                    round1.save()
                     match1.save()
 
-            pass
         elif size == 8:
             # 1 plays 8
             # 2 plays 7
