@@ -99,6 +99,10 @@ class SingleEliminationTournament(models.Model):
 
     def generate_bracket(self):
         tournament = SingleEliminationTournament.get(id=pk)
+        game = tournament.game
+        platform = tournament.platform
+        teamformat = tournament.teamformat
+        bestof = tournament.bestof
         size = tournament.size
         numteams = tournament.teams.count
         bye = size - numteams
@@ -123,6 +127,21 @@ class SingleEliminationTournament(models.Model):
                 tournament_team.seed = randseed
                 tournament_team.save()
 
+
+                if tournament_team.seed == 1:
+                    # they are seeded first they play 4th seeded team
+                    match1 = Match(game=game, platform=platform, hometeam=tournament_team, teamformat=teamformat, bestof=bestof)
+                    match1.save()
+                elif tournament_team.seed == 2:
+                    # hey you play in match2 against seed 3
+                    match2 = Match(game=game, platform=platform, hometeam=tournament_team, teamformat=teamformat, bestof=bestof)
+                    match2.save()
+                elif tournament_team.seed == 3:
+                    match2 = Match(game=game, platform=platform, awayteam=tournament_team, teamformat=teamformat, bestof=bestof)
+                    match2.save()
+                elif tournament_team.seed == 4:
+                    match1 = Match(game=game, platform=platform, awayteam=tournament_team, teamformat=teamformat, bestof=bestof)
+                    match1.save()
 
             pass
         elif size == 8:
