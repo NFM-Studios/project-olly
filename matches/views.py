@@ -7,6 +7,13 @@ from matches.models import Match
 
 class TournamentMatchDetailView(DetailView):
     model = Match
+    template_name = 'matches/matches_detail.html'
+
+    def get(self, request, **kwargs):
+        pk = self.kwargs['pk']
+        match = match.objects.get(id=pk)
+        return render(request, self.template_name, {'x': pk, 'match': match})
+
 
 class MatchReportCreateView(CreateView):
     form_class = MatchReportCreateForm
