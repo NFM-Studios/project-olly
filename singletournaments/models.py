@@ -16,6 +16,7 @@ SIZE_CHOICES = (
 
 class SingleEliminationTournament(models.Model):
 
+    name = models.CharField(max_length=50, blank=False, default='No name provided')
     # I know we need the team format, ex 1v1, 2v2, 3v3, 4v4, 5v5, 6v6
     teamformat = models.SmallIntegerField(choices=TEAMFORMAT_CHOICES, default=1)
     # by default its a best of 1. Not sure if we need this here. Finals might be best of 3, etc in
@@ -45,13 +46,13 @@ class SingleEliminationTournament(models.Model):
     start = models.DateTimeField()
 
     # all the teams that are in the event. elgibility happens inside the view, when they try to register @ben told me how to do this mtm field, i forgot
-    teams = models.ManyToManyField(Team)
+    teams = models.ManyToManyField(Team, blank=True)
 
     # specify the winning team when they are declared
-    winner = models.ForeignKey(Team, related_name='winningteam', on_delete=models.CASCADE)
+    winner = models.ForeignKey(Team, related_name='winningteam', on_delete=models.CASCADE, blank=True)
 
     # specify second place, just for storage and future reference
-    second = models.ForeignKey(Team, related_name='secondplaceteam', on_delete=models.CASCADE)
+    second = models.ForeignKey(Team, related_name='secondplaceteam', on_delete=models.CASCADE, blank=True)
 
     # specify how many teams the event will be capped at, and the size of the bracket
     size = models.PositiveSmallIntegerField(default=32, choices=SIZE_CHOICES)
@@ -62,36 +63,37 @@ class SingleEliminationTournament(models.Model):
     prize3 = models.CharField(default='no prize specified', max_length=50)
 
     # need to figure out how we will work rules
-    rules = models.ForeignKey(Ruleset, related_name='tournamentrules', on_delete=models.CASCADE)
+    rules = models.ForeignKey(Ruleset, related_name='tournamentrules', on_delete=models.CASCADE, blank=True)
 
     def __str__(self):
-        return (teamformat + " " + platform + " " + game + " " + start)
+        return str(self.teamformat) + " " + str(self.platform) + " " + str(self.game) + " " + str(self.start)
 
-    def __init__(self):
-        tournament = SingleEliminationTournament.objects.get(id=self.pk)
-        size = tournament.size
-        teams = tournament.teams
-        if size == 4:
-            # generate 2 rounds
-            round1 = SingleTournamentRound(matchesnum=2, roundnum=1, tournament=tournament, teams=teams)
-            round1.save()
-            round2 = SingleTournamentRound(matchesnum=1, roundnum=2, tournament=tournament)
-            round2.save()
-        elif size == 8:
+    #def __init__(self, *args, **kwargs):
+        #super(SingleEliminationTournament, self).__init__(*args, **kwargs)
+        #self.tournament = SingleEliminationTournament.objects.get(id=self.pk)
+        #self.size = self.tournament.size
+        #self.teams = self.tournament.teams
+        #if self.size == 4:
+            ## generate 2 rounds
+            #round1 = SingleTournamentRound(matchesnum=2, roundnum=1, tournament=self.tournament, teams=self.teams)
+            #round1.save()
+            #round2 = SingleTournamentRound(matchesnum=1, roundnum=2, tournament=self.tournament)
+            #round2.save()
+        #elif self.size == 8:
             # generate 3 rounds
-            pass
-        elif size == 16:
+            #pass
+        #elif self.size == 16:
             # generate 4 rounds
-            pass
-        elif size == 32:
+            #pass
+        #elif self.size == 32:
             # generate 5 rounds
-            pass
-        elif size == 64:
+            #pass
+        #elif self.size == 64:
             # generate 6 rounds
-            pass
-        elif size == 128:
+            #pass
+        #elif self.size == 128:
             # generate 7 rounds
-            pass
+            #pass
 
     def generate_bracket(self):
         tournament = SingleEliminationTournament.objects.get(id=pk)

@@ -1,7 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import View
 from .forms import SingleEliminationTournamentJoin
-from .models import SingleTournamentRound, SingleEliminationTournament, SingleTournamentTeam
+from .models import SingleTournamentRound, SingleEliminationTournament
+from teams.models import TeamInvite
+from django.contrib import messages
 
 
 class List(View):
@@ -16,8 +18,23 @@ class SingleTournamentJoin(View):
     form_class = SingleEliminationTournamentJoin
 
     def get(self, request):
-        form = self.form_class(None)
-        return render(request, self.template_name, {'form': form})
+        teams = TeamInvite.objects.filter(user_id=request.user.id, captain__in=['founder', 'captain'])
+        if teams.exists():
+            form = self.form_class(None)
+            return render(request, self.template_name, {'form': form})
+        else:
+            messages.error(request, message="You aren't a captain or founder of any teams!")
+            return redirect('singletournaments:list')
+
+    def post(self, request):
+        form = self.form_class(request.POST)
+        tournament = SingleEliminationTournament.objects.get(name=form.data['tournaments'])
+        team = form.data['teams']
+        tournament.teams.add(team)
+        tournament.save()
+        messages.success(request, message="Joined tournament")
+        return redirect('singletournaments:list')
+
 
 
 class SingleTournamentDetail(View):
@@ -26,7 +43,7 @@ class SingleTournamentDetail(View):
     def get(self, request, **kwargs):
         pk = self.kwargs['pk']
         tournament = SingleEliminationTournament.objects.get(id=pk)
-        return render(request, self.template_name, {'x':pk, 'tournament':tournament})
+        return render(request, self.template_name, {'x': pk, 'tournament': tournament})
 
 
 class SingleTournamentTeamsList(View):
