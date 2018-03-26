@@ -28,12 +28,25 @@ class SingleTournamentJoin(View):
 
     def post(self, request):
         form = self.form_class(request.POST)
-        tournament = SingleEliminationTournament.objects.get(name=form.data['tournaments'])
-        team = form.data['teams']
-        tournament.teams.add(team)
-        tournament.save()
-        messages.success(request, message="Joined tournament")
-        return redirect('singletournaments:list')
+        try:
+            invite = TeamInvite.objects.get(user=request.user, team=form.data['teams'])
+        except:
+            messages.error(request, message="You aren't a captain or founder of this team")
+            return redirect('singletournaments:list')
+        if invite.captain == 'captain' or invite.captain == 'founder':
+            tournament = SingleEliminationTournament.objects.get(name=form.data['tournaments'])
+            team = form.data['teams']
+            try:
+                tournament.teams.add(team)
+            except:
+                messages.error(request, message="This team is already in this tournament")
+                return redirect('singletournaments:list')
+            tournament.save()
+            messages.success(request, message="Joined tournament")
+            return redirect('singletournaments:list')
+        else:
+            messages.error(request, message="You can't join a tournament if you aren't the captain or founder")
+            return redirect('singletournaments:list')
 
 
 
