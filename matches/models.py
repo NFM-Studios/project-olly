@@ -2,7 +2,7 @@ from django.db import models
 from matches.settings import GAME_CHOICES, PLATFORMS_CHOICES, TEAMFORMAT_CHOICES, MAPFORMAT_CHOICES
 from teams.models import Team
 from django.contrib.auth.models import User
-from singletournaments.models import SingleEliminationTournament
+# from singletournaments.models import SingleEliminationTournament
 
 # Create your models here.
 class Match(models.Model):
