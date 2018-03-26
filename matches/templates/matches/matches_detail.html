@@ -3,6 +3,46 @@
 <link rel="stylesheet" href="{% static "css/matches.css" %}">
 
 {% block body %}
+<h2>Below is the details for Match {{ match.id }}</h2>
+<table class="table">
+    <thead>
+    <tr>
+        <th>Format</th>
+        <th>{{ match.teamformat }}</th>
+    </tr>
+    </thead>
+    <tr>
+        <td>Game</td>
+        <td>{{ match.game}}</td>
+    </tr>
+    <tr>
+        <td>Platform</td>
+        <td>{{ match.platform }}</td>
+    </tr>
+    <tr>
+        <td>Best Of</td>
+        <td>{{ match.bestof }}</td>
+    </tr>
+    <tr>
+        <td>Start</td>
+        <td>{{ match.start }}</td>
+    </tr>
+    <tr>
+        <td>Winner</td>
+        <td>{{match.winner}}</td>
+    </tr>
+    <tr>
+        <td>Completed</td>
+        <td>{{match.completed}}</td>
+    </tr>
+    <tr>
+        <td>Reported</td>
+        <td>{{match.reported}}</td>
+    </tr>
+    <tr>
+        <td>RULES</td>
+        <td><a href="#">Read here</a></td>
+    </tr>
 
-Match detail page. Yay
+</table>
 {% endblock %}
