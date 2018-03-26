@@ -244,6 +244,10 @@ class SingleEliminationTournament(models.Model):
         else:
             return 0
 
+    def get_round1_byes(self):
+        # only used for round 1 purposes
+        return self.size - self.teams.count
+
     def get_num_teams(self):
         return self.teams.count
 
