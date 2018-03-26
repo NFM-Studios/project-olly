@@ -1,6 +1,7 @@
 from django.db import models
 from matches.settings import GAME_CHOICES, PLATFORMS_CHOICES, TEAMFORMAT_CHOICES, MAPFORMAT_CHOICES
-from matches.models import Ruleset, Match
+from matches.models import Match
+from matches.models import Ruleset
 from teams.models import Team
 from random import *
 
