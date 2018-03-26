@@ -68,32 +68,32 @@ class SingleEliminationTournament(models.Model):
     def __str__(self):
         return str(self.teamformat) + " " + str(self.platform) + " " + str(self.game) + " " + str(self.start)
 
-    #def __init__(self, *args, **kwargs):
-        #super(SingleEliminationTournament, self).__init__(*args, **kwargs)
-        #self.tournament = SingleEliminationTournament.objects.get(id=self.pk)
-        #self.size = self.tournament.size
-        #self.teams = self.tournament.teams
-        #if self.size == 4:
-            ## generate 2 rounds
-            #round1 = SingleTournamentRound(matchesnum=2, roundnum=1, tournament=self.tournament, teams=self.teams)
-            #round1.save()
-            #round2 = SingleTournamentRound(matchesnum=1, roundnum=2, tournament=self.tournament)
-            #round2.save()
-        #elif self.size == 8:
+    def generate_rounds(self, *args, **kwargs):
+        super(SingleEliminationTournament, self).__init__(*args, **kwargs)
+        self.tournament = SingleEliminationTournament.objects.get(id=self.pk)
+        self.size = self.tournament.size
+        self.teams = self.tournament.teams
+        if self.size == 4:
+            # generate 2 rounds
+            round1 = SingleTournamentRound(matchesnum=2, roundnum=1, tournament=self.tournament, teams=self.teams)
+            round1.save()
+            round2 = SingleTournamentRound(matchesnum=1, roundnum=2, tournament=self.tournament)
+            round2.save()
+        elif self.size == 8:
             # generate 3 rounds
-            #pass
-        #elif self.size == 16:
+            pass
+        elif self.size == 16:
             # generate 4 rounds
-            #pass
-        #elif self.size == 32:
+            pass
+        elif self.size == 32:
             # generate 5 rounds
-            #pass
-        #elif self.size == 64:
+            pass
+        elif self.size == 64:
             # generate 6 rounds
-            #pass
-        #elif self.size == 128:
+            pass
+        elif self.size == 128:
             # generate 7 rounds
-            #pass
+            pass
 
     def generate_bracket(self):
         tournament = SingleEliminationTournament.objects.get(id=pk)
