@@ -229,10 +229,23 @@ class SingleEliminationTournament(models.Model):
         pass
 
     def rounds_required(self):
-        # the number of rounds required
-        # teams/2
-        pass
+        if self.size == 4:
+            return 2
+        elif self.size == 8:
+            return 3
+        elif self.size == 16:
+            return 4
+        elif self.size == 32:
+            return 5
+        elif self.size == 64:
+            return 6
+        elif self.size == 128:
+            return 7
+        else:
+            return 0
 
+    def get_num_teams(self):
+        return self.teams.count
 
 class SingleTournamentRound(models.Model):
     # ManyToManyField to keep track of the teams that are still active and have matches to play in the round
