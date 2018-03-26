@@ -49,7 +49,6 @@ class SingleTournamentJoin(View):
             return redirect('singletournaments:list')
 
 
-
 class SingleTournamentDetail(View):
     template_name = 'singletournaments/singletournament_detail.html'
 
