@@ -36,7 +36,7 @@ class MatchReport(models.Model):
     reporting_user = models.ForeignKey(User, related_name='userreporting', on_delete=models.CASCADE)
     # who the person reporting is declaring the winner as
     reported_winner = models.ForeignKey(Team, related_name='winnerreporting', on_delete=models.CASCADE)
-    reporter = models.ForeignKey(User, default="unknown", related_name='reportingperson', on_delete=models.CASCADE)
+    proof = models.CharField(max_length=300, default='no text inserted', blank=False)
 
 class Ruleset(models.Model):
     created = models.DateTimeField(auto_now_add=True)
