@@ -69,7 +69,11 @@ class SingleEliminationTournament(models.Model):
     def __str__(self):
         return str(self.teamformat) + " " + str(self.platform) + " " + str(self.game) + " " + str(self.start)
 
+    def set_inactive(self):
+        self.active = False
+
     def generate_rounds(self, *args, **kwargs):
+        # create the round objects based on the tournament size
         super(SingleEliminationTournament, self).__init__(*args, **kwargs)
         self.tournament = SingleEliminationTournament.objects.get(id=self.pk)
         self.size = self.tournament.size
