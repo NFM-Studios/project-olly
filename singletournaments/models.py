@@ -101,6 +101,7 @@ class SingleEliminationTournament(models.Model):
             pass
 
     def generate_bracket(self):
+        # seed teams and make matches
         tournament = SingleEliminationTournament.objects.get(id=pk)
         game = tournament.game
         platform = tournament.platform
@@ -228,10 +229,6 @@ class SingleEliminationTournament(models.Model):
             bracketsize = 128
 
             pass
-
-    def generate_matches(self):
-        # a
-        pass
 
     def rounds_required(self):
         if self.size == 4:
