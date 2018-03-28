@@ -103,8 +103,9 @@ class SingleEliminationTournament(models.Model):
             # generate 7 rounds
             pass
 
-    def generate_bracket(self):
+    def generate_bracket(self, **kwargs):
         # seed teams and make matches
+        pk = self.kwargs['pk']
         tournament = SingleEliminationTournament.objects.get(id=pk)
         game = tournament.game
         platform = tournament.platform
