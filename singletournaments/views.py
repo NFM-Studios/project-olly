@@ -61,6 +61,12 @@ class SingleTournamentDetail(View):
 class SingleTournamentTeamsList(View):
     template_name = 'singletournaments/singletournament_teams.html'
 
+    def get(self, request, **kwargs):
+        pk = self.kwargs['pk']
+        tournament = SingleEliminationTournament.objects.get(id=pk)
+        teams = tournament.teams
+        return render(request, self.template_name, {'x': pk, 'tournament': tournament, 'teams': teams})
+
 
 class SingleTournamentRules(View):
     template_name = 'singletournaments/singletournament_rules.html'
