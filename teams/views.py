@@ -9,7 +9,7 @@ from django.utils import timezone
 # team create forms
 from teams.forms import TeamCreateForm
 # team create invite forms
-from .forms import TeamInviteForm, EditTeamProfileForm, ViewInviteForm, LeaderboardSortForm
+from .forms import TeamInviteForm, EditTeamProfileForm, ViewInviteForm
 # import the team models
 from teams.models import Team
 # import the invite models
