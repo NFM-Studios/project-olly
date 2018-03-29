@@ -1,0 +1,24 @@
+{% extends 'staff/staffbase.html' %}
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static "css/ticket.css" %}">
+
+{% block body %}
+<table class="table table-hover">
+    <tr id="header">
+        <thead>
+        <th scope="row">ID</th>
+        <th>Subject</th>
+        <th>Date Created</th>
+        </thead>
+    </tr>
+    {% for tournament in tournament_list %}
+    <tbody>
+    <tr scope="">
+        <td scope="row"><a href="{% url 'staff:ticket_detail' pk=ticket.id%}">#{{ticket.id}}</a></td>
+        <td>{{tournament.name}}</td>
+        <td>{{ticket.last_update}}</td>
+    </tr>
+    </tbody>
+    {% endfor %}
+</table>
+{% endblock %}
