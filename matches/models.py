@@ -27,6 +27,7 @@ class Match(models.Model):
     #          by default set it to be a 2v2.
     teamformat = models.SmallIntegerField(choices=TEAMFORMAT_CHOICES, default=1)
 
+
 class MatchReport(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     # see the time the report was made for admins
