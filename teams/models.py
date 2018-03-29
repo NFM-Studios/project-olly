@@ -60,6 +60,7 @@ class TeamInvite(models.Model):
     accepted = models.BooleanField(default=False)
     declined = models.BooleanField(default=False)
     active = models.BooleanField(default=True)
+    hasPerms = models.BooleanField(default=False)
 
 
 class CaptainMembership(models.Model):

@@ -17,5 +17,6 @@ urlpatterns = [
     url(r'^users/unbanip/(?P<urlusername>\w+)/$', login_required(views.unbanip)),
     url(r'^users/search/$', login_required(views.searchusers), name='searchusers'),
     url(r'^users/edit/(?P<urlusername>\w+)/$', login_required(views.edituser)),
-    url(r'^tournaments', login_required(views.tournaments), name='tournamentlist')
+    url(r'^tournaments/$', login_required(views.tournaments), name='tournamentlist'),
+    url(r'^tournaments/edit/(?P<pk>\d+)/$', login_required(views.edit_tournament), name='edit_tournament')
 ]
