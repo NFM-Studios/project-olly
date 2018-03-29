@@ -175,6 +175,8 @@ class SingleEliminationTournament(models.Model):
             rounds = 3
             actual_teams = numteams
             bracketsize = 8
+            seeds = [1,2,3,4,5,6,7,8]
+            possible_seeds = [1,2,3,4,5,6,7,8]
 
             pass
         elif size == 16:
