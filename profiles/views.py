@@ -105,13 +105,17 @@ def searchusers(request):
                        (Q(user__username__icontains=query) | Q(user__email__icontains=query))})
     else:
         return redirect('profiles:users')
-
-
 def edit_profile(request):
     if request.method == 'POST':
         userprofileobj = UserProfile.objects.get(user__username=request.user.username)
         form = EditProfileForm(request.POST, request.FILES, instance=userprofileobj)
         if form.is_valid():
+            if form.cleaned_data['xbl'] != "No Xbox Live Linked":
+                userprofileobj.xbl_verified = True
+                userprofileobj.save()
+            if form.cleaned_data['psn'] != "No PSN Linked":
+                userprofileobj.psn_verified = True
+                userprofileobj.save()
             form.save()
             return redirect('profiles:profile_no_username')
     else:

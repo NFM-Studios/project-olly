@@ -36,7 +36,7 @@ class UserProfile(models.Model):
     steam = models.CharField(max_length=16, default='No Steam Linked', blank=True)
     lol = models.CharField(max_length=16, default='No LOL Linked', blank=True)
     battlenet = models.CharField(max_length=16, default='No Battle.net Linked', blank=True)
-    twitter_profile = models.CharField(max_length=15, default='No Twitter Linked', blank=True)
+    twitter_profile = models.CharField(max_length=20, default='No Twitter Linked', blank=True)
     twitch_channel = models.CharField(max_length=50, default='No Twitch Linked', blank=True)
     favorite_game = models.CharField(max_length=50, default='N/A', blank=True)
     favorite_console = models.CharField(max_length=50, default='N/A', blank=True)
@@ -44,6 +44,8 @@ class UserProfile(models.Model):
     user_type = models.CharField(max_length=10, default='user')
     ip = models.CharField(max_length=16, default='0.0.0.0')
     num_trophies = models.PositiveSmallIntegerField(default=0)
+    xbl_verified = models.BooleanField(default=False, null=False, blank=True)
+    psn_verified = models.BooleanField(default=False, null=False, blank=False)
     # default trophies
     num_bronze = models.PositiveSmallIntegerField(default=0)
     num_silver = models.PositiveSmallIntegerField(default=0)
