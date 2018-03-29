@@ -16,7 +16,7 @@ class CheckBanListMiddleware:
         ip = get_client_ip(request)
         ip = ip[0]
 
-        if not (request.path_info == '/profile/banned/'):
+        if not (request.path_info == '/profile/banned/' or not request.path_info == '/admin'):
             if ip is not None:
                 if not request.user.is_anonymous:
                     user = UserProfile.objects.get(user__username=request.user.username)
