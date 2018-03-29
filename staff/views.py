@@ -9,6 +9,7 @@ from django.views.generic import View, DetailView
 from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from support.models import Ticket
+from singletournaments.models import SingleEliminationTournament
 
 
 def staffindex(request):
@@ -141,6 +142,16 @@ def tickets(request):
     else:
         tickets = Ticket.objects.all()
         return render(request, 'staff/tickets.html', {'ticket_list': tickets})
+
+
+def tournaments(request):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        tournament_list = SingleEliminationTournament.objects.all()
+        return render(request, 'staff/tournaments.html', {'tournament_list': tournament_list})
 
 
 class TicketDetail(DetailView):
