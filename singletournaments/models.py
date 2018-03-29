@@ -16,7 +16,6 @@ SIZE_CHOICES = (
 
 
 class SingleEliminationTournament(models.Model):
-
     name = models.CharField(max_length=50, blank=False, default='No name provided')
     # I know we need the team format, ex 1v1, 2v2, 3v3, 4v4, 5v5, 6v6
     teamformat = models.SmallIntegerField(choices=TEAMFORMAT_CHOICES, default=1)
@@ -120,44 +119,47 @@ class SingleEliminationTournament(models.Model):
             # 2 matches need to be played in round 1
             # 1 match needs to be played in round 2
             # total number of rounds = 2
-            round1 = SingleTournamentRound.objects.get(id=pk)
+            round1 = SingleTournamentRound.objects.get(roundnum=1, tournament=tournament)
             rounds = 2
             round1matches = 2
             round2matches = 1
             bracketsize = 4
-            seeds = [1,2,3,4]
+            seeds = [1, 2, 3, 4]
             possible_seeds = [1, 2, 3, 4]
             for i in numteams:
                 team = Team.get(id=pk)
                 tournament_team = SingleTournamentTeam.objects.get(id=pk)
                 randseed = (random.choice(seeds))
-                possible_seeds.pop(randseed-1)
+                possible_seeds.pop(randseed - 1)
                 tournament_team.seed = randseed
                 tournament_team.save()
 
-
                 if tournament_team.seed == 1:
                     # they are seeded first they play 4th seeded team
-                    match1 = Match(game=game, platform=platform, hometeam=tournament_team, teamformat=teamformat, bestof=bestof)
+                    match1 = Match(game=game, platform=platform, hometeam=tournament_team, teamformat=teamformat,
+                                   bestof=bestof)
                     round1 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=1)
                     round1.add(matches=match1)
                     round1.save()
                     match1.save()
                 elif tournament_team.seed == 2:
                     # hey you play in match2 against seed 3
-                    match2 = Match(game=game, platform=platform, hometeam=tournament_team, teamformat=teamformat, bestof=bestof)
+                    match2 = Match(game=game, platform=platform, hometeam=tournament_team, teamformat=teamformat,
+                                   bestof=bestof)
                     round1 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=1)
                     round1.add(matches=match2)
                     round1.save()
                     match2.save()
                 elif tournament_team.seed == 3:
-                    match2 = Match(game=game, platform=platform, awayteam=tournament_team, teamformat=teamformat, bestof=bestof)
+                    match2 = Match(game=game, platform=platform, awayteam=tournament_team, teamformat=teamformat,
+                                   bestof=bestof)
                     round1 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=1)
                     round1.add(matches=match2)
                     round1.save()
                     match2.save()
                 elif tournament_team.seed == 4:
-                    match1 = Match(game=game, platform=platform, awayteam=tournament_team, teamformat=teamformat, bestof=bestof)
+                    match1 = Match(game=game, platform=platform, awayteam=tournament_team, teamformat=teamformat,
+                                   bestof=bestof)
                     round1 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=1)
                     round1.add(matches=match1)
                     round1.save()
@@ -173,6 +175,8 @@ class SingleEliminationTournament(models.Model):
             rounds = 3
             actual_teams = numteams
             bracketsize = 8
+            seeds = [1,2,3,4,5,6,7,8]
+            possible_seeds = [1,2,3,4,5,6,7,8]
 
             pass
         elif size == 16:
@@ -229,7 +233,7 @@ class SingleEliminationTournament(models.Model):
             # 1 round 7
             # total number of rounds = 7
             rounds = 7
-            actual_teams =  numteams
+            actual_teams = numteams
             bracketsize = 128
 
             pass
@@ -260,6 +264,7 @@ class SingleEliminationTournament(models.Model):
     def get_num_teams(self):
         return self.teams.count
 
+
 class SingleTournamentRound(models.Model):
     # ManyToManyField to keep track of the teams that are still active and have matches to play in the round
     teams = models.ManyToManyField(Team)
@@ -270,7 +275,8 @@ class SingleTournamentRound(models.Model):
     # how many matches will be played in this round? Set the default to the minimum
     matchesnum = models.PositiveSmallIntegerField(default=2)
 
-    tournament = models.ForeignKey(SingleEliminationTournament, related_name='withtournamentround', on_delete=models.CASCADE)
+    tournament = models.ForeignKey(SingleEliminationTournament, related_name='withtournamentround',
+                                   on_delete=models.CASCADE)
 
     # ManyToMany Field to keep track of the matches that were assigned and created for this given round...
     matches = models.ManyToManyField(Match)
@@ -280,4 +286,5 @@ class SingleTournamentTeam(models.Model):
     team = models.ForeignKey(Team, related_name='actualteam', null=True, on_delete=models.CASCADE)
     round = models.ForeignKey(SingleTournamentRound, related_name='teaminround', null=True, on_delete=models.CASCADE)
     seed = models.PositiveIntegerField(default=0)
-    tournament = models.ForeignKey(SingleEliminationTournament, related_name='intournament', null=True, on_delete=models.CASCADE)
+    tournament = models.ForeignKey(SingleEliminationTournament, related_name='intournament', null=True,
+                                   on_delete=models.CASCADE)
