@@ -2,6 +2,8 @@ from django.db import models
 from matches.settings import GAME_CHOICES, PLATFORMS_CHOICES, TEAMFORMAT_CHOICES, MAPFORMAT_CHOICES
 from teams.models import Team
 from django.contrib.auth.models import User
+
+
 # from singletournaments.models import SingleEliminationTournament
 
 # Create your models here.
@@ -28,6 +30,7 @@ class Match(models.Model):
     #          by default set it to be a 2v2.
     teamformat = models.SmallIntegerField(choices=TEAMFORMAT_CHOICES, default=1)
 
+
 class MatchReport(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     # see the time the report was made for admins
@@ -38,7 +41,7 @@ class MatchReport(models.Model):
     reported_winner = models.ForeignKey(Team, related_name='winnerreporting', on_delete=models.CASCADE)
     proof = models.CharField(max_length=300, default='no text inserted', blank=False)
 
-class Ruleset(models.Model):
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
-    text = models.TextField()
+# class Ruleset(models.Model):
+# created = models.DateTimeField(auto_now_add=True)
+#  updated = models.DateTimeField(auto_now=True)
+#  text = models.TextField()
