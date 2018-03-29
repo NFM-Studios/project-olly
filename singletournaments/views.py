@@ -94,6 +94,9 @@ class SingleTournamentBracket(View):
             round2 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=2)
             round3 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=3)
 
+            return render(request, self.template_name,
+                          {'x': pk, 'tournament': tournament, 'teams': teams, 'round1': round1, 'round2': round2,
+                           'round3': round3})
 
         elif tournament.size == 16:
             # get 4 rounds to pass to the view
@@ -113,4 +116,4 @@ class SingleTournamentBracket(View):
         elif tournament.size == 128:
             # get 7 rounds to pass to the  view
             template_name = 'singletournaments/singletournament_bracket128.html'
-            
+
