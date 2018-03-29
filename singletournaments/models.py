@@ -49,10 +49,10 @@ class SingleEliminationTournament(models.Model):
     teams = models.ManyToManyField(Team, blank=True)
 
     # specify the winning team when they are declared
-    winner = models.ForeignKey(Team, related_name='winningteam', on_delete=models.CASCADE, blank=True, null=True)
+    winner = models.ForeignKey(Team, related_name='winningteam', on_delete=models.CASCADE, null=True, blank=True)
 
     # specify second place, just for storage and future reference
-    second = models.ForeignKey(Team, related_name='secondplaceteam', on_delete=models.CASCADE, blank=True, null=True)
+    second = models.ForeignKey(Team, related_name='secondplaceteam', on_delete=models.CASCADE, null=True, blank=True)
 
     # specify how many teams the event will be capped at, and the size of the bracket
     size = models.PositiveSmallIntegerField(default=32, choices=SIZE_CHOICES)
