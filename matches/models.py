@@ -3,7 +3,7 @@ from matches.settings import GAME_CHOICES, PLATFORMS_CHOICES, TEAMFORMAT_CHOICES
 from teams.models import Team
 from django.contrib.auth.models import User
 
-# Create your models here.
+
 class Match(models.Model):
     game = models.SmallIntegerField(choices=GAME_CHOICES, default=0)
     # default to ps4 for now bc why not
