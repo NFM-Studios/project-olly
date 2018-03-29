@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from pages.models import StaticInfo
-from staff.forms import StaticInfoForm, EditUserForm, TicketCommentCreateForm
+from staff.forms import StaticInfoForm, EditUserForm, TicketCommentCreateForm, EditTournamentForm
 from profiles.models import UserProfile, BannedUser
 from django.contrib.auth.models import User
 from django.urls import reverse
@@ -152,6 +152,27 @@ def tournaments(request):
     else:
         tournament_list = SingleEliminationTournament.objects.all()
         return render(request, 'staff/tournaments.html', {'tournament_list': tournament_list})
+
+
+def edit_tournament(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        if request.method == 'POST':
+            tournamentobj = SingleEliminationTournament.objects.get(pk=pk)
+            form = EditTournamentForm(request.POST, instance=tournamentobj)
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'Tournament has been updated')
+                return redirect('staff:tournamentlist')
+            else:
+                print('form is not valid')
+        else:
+            tournamentobj = SingleEliminationTournament.objects.get(pk=pk)
+            form = EditTournamentForm(instance=tournamentobj)
+            return render(request, 'staff/edittournament.html', {'form': form})
 
 
 class TicketDetail(DetailView):
