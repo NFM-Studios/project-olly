@@ -1,4 +1,5 @@
 from django.contrib import admin
-from .models import Match, MatchReport, Ruleset
+from django.conf.urls import url, include
+from .models import Match, MatchReport
 
-admin.site.register(Match, Ruleset)
+admin.site.register(Match)
