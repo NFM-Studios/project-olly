@@ -9,7 +9,7 @@ from django.utils import timezone
 # team create forms
 from teams.forms import TeamCreateForm
 # team create invite forms
-from .forms import TeamInviteForm, EditTeamProfileForm, ViewInviteForm, LeaderboardSortForm
+from .forms import TeamInviteForm, EditTeamProfileForm, ViewInviteForm
 # import the team models
 from teams.models import Team
 # import the invite models
@@ -198,67 +198,3 @@ class TeamInviteCreateView(View):
         else:
             messages.error(request, "You must be a captain or the founder to invite")
             return redirect('/teams/')
-
-
-class LeaderboardView(View):
-    template_name = 'teams/leaderboard.html'
-    form_class = LeaderboardSortForm
-
-    def get(self, request, **kwargs):
-        user_list = UserProfile.objects.order_by('user__username')  # sort by username default
-        form = self.form_class(None)
-        return render(request, self.template_name, {'user_list': user_list, 'form': form})
-
-    def post(self, request, **kwargs):
-        form = self.form_class(request.POST)
-        xp_asc = False
-        xp_desc = False
-        trophies_asc = False
-        trophies_desc = False
-        try:
-            if form.data['sort_xp_asc']:
-                xp_asc = True
-                xp_desc = False
-                trophies_asc = False
-                trophies_desc = False
-        except:
-            try:
-                if form.data['sort_xp_desc']:
-                    xp_desc = True
-                    xp_asc = False
-                    trophies_asc = False
-                    trophies_desc = False
-            except:
-                try:
-                    if form.data['sort_trophies_asc']:
-                        trophies_asc = True
-                        xp_desc = False
-                        xp_asc = False
-                        trophies_desc = False
-                except:
-                    try:
-                        if form.data['sort_trophies_desc']:
-                            trophies_desc = True
-                            xp_desc = False
-                            trophies_asc = False
-                            xp_desc = False
-                    except:
-                        user_list = UserProfile.objects.order_by('user__username')
-                        messages.error(request, "You have to select an option to sort")
-                        return render(request, self.template_name, {'user_list': user_list, 'form': self.form_class(None)})
-        if xp_asc:
-            user_list = UserProfile.objects.order_by('xp')
-            messages.success(request, "Sorted by ascending XP")
-            return render(request, self.template_name, {'user_list': user_list, 'form': self.form_class(None)})
-        elif xp_desc:
-            user_list = UserProfile.objects.order_by('-xp')
-            messages.success(request, "Sorted by descending XP")
-            return render(request, self.template_name, {'user_list': user_list, 'form': self.form_class(None)})
-        elif trophies_asc:
-            user_list = UserProfile.objects.order_by('num_trophies')
-            messages.success(request, "Sorted by ascending number of trophies")
-            return render(request, self.template_name, {'user_list': user_list, 'form': self.form_class(None)})
-        elif trophies_desc:
-            user_list = UserProfile.objects.order_by('-num_trophies')
-            messages.success(request, "Sorted by descending number of trophies")
-            return render(request, self.template_name, {'user_list': user_list, 'form': self.form_class(None)})
