@@ -84,7 +84,20 @@ class SingleEliminationTournament(models.Model):
         elif tournament.platform == 6:
             platform = "XBOX 360"
 
-        return str(self.teamformat) + " " + str(platform) + " " + str(self.game) + " " + str(self.start)
+        if tournament.teamformat == 0:
+        format = "1v1"
+        elif tournament.teamformat == 1:
+        format = "2v2"
+        elif tournament.teamformat == 2:
+        format = "3v3"
+        elif tournament.teamformat == 3:
+        format = "4v4"
+        elif tournament.teamformat == 4:
+        format = "5v5"
+        elif tournament.teamformat == 5:
+        format = "6v6"
+
+        return format + " " + platform + " " + str(self.game) + " " + str(self.start)
 
     def set_inactive(self, **kwargs):
         pk = self.kwargs['pk']
