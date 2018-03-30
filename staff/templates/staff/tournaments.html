@@ -86,4 +86,13 @@
     </tbody>
     {% endfor %}
 </table>
+
+    <div id="new-tournament">
+    <h2 id="" style="text-decoration: none; margin:8px">
+        <a style="text-decoration:none; color:black;" href="{% url 'staff:create_tournament' %}">
+            <i class="fas fa-plus"></i>  Create a new tournament
+        </a>
+    </h2>
+</div>
+
 {% endblock %}
