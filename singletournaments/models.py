@@ -65,8 +65,26 @@ class SingleEliminationTournament(models.Model):
     # need to figure out how we will work rules
     # rules = models.ForeignKey(Ruleset, related_name='tournamentrules', on_delete=models.CASCADE, blank=False, null=True)
 
-    def __str__(self):
-        return str(self.teamformat) + " " + str(self.platform) + " " + str(self.game) + " " + str(self.start)
+    def __str__(self, **kwargs):
+        pk = self.kwargs['pk']
+        tournament = SingleEliminationTournament.objects.get(id=pk)
+
+        if tournament.platform == 0:
+            platform = "Playstation"
+        elif tournament.platform == 1:
+            platform = "XBOX One"
+        elif tournament.platform == 2:
+            platform = "PC"
+        elif tournament.platform == 3:
+            platform = "Mobile"
+        elif tournament.platform == 4:
+            platform = "Nintendo Switch"
+        elif tournament.platform == 5:
+            platform = "Playstation"
+        elif tournament.platform == 6:
+            platform = "XBOX 360"
+
+        return str(self.teamformat) + " " + str(platform) + " " + str(self.game) + " " + str(self.start)
 
     def set_inactive(self, **kwargs):
         pk = self.kwargs['pk']
