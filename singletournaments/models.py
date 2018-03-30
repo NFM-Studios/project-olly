@@ -97,7 +97,38 @@ class SingleEliminationTournament(models.Model):
         elif tournament.teamformat == 5:
             format = "6v6"
 
-        return format + " " + platform + " " + str(self.game) + " " + str(self.start)
+        if tournament.game == 0:
+            game = 'No Game Set'
+        elif tournament.game == 1:
+            game = 'Call of Duty: Black Ops 3'
+        elif tournament.game == 2:
+            game = 'Call of Duty WWII'
+        elif tournament.game == 3:
+            game = 'Fortnite'
+        elif tournament.game == 4:
+            game = 'Destiny 2'
+        elif tournament.game == 5:
+            game = 'Counter - Strike: Global Offensive'
+        elif tournament.game == 6:
+            game = "PlayerUnknown's BATTLEGROUNDS"
+        elif tournament.game == 7:
+            game = 'Rainbow Six Siege'
+        elif tournament.game == 8:
+            game = 'Overwatch'
+        elif tournament.game == 9:
+            game = 'League of Legends'
+        elif tournament.game == 10:
+            game = 'Hearthstone'
+        elif tournament.game == 11:
+            game = 'World of Warcraft'
+        elif tournament.game == 12:
+            game = 'SMITE'
+        elif tournament.game == 13:
+            game = 'Rocket League'
+        elif tournament.game == 14:
+            game = 'Battlefield 1'
+
+        return format + " " + platform + " " + game + " " + str(self.start)
 
     def set_inactive(self, **kwargs):
         pk = self.kwargs['pk']
