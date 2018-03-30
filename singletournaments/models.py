@@ -85,17 +85,17 @@ class SingleEliminationTournament(models.Model):
             platform = "XBOX 360"
 
         if tournament.teamformat == 0:
-        format = "1v1"
+            format = "1v1"
         elif tournament.teamformat == 1:
-        format = "2v2"
+            format = "2v2"
         elif tournament.teamformat == 2:
-        format = "3v3"
+            format = "3v3"
         elif tournament.teamformat == 3:
-        format = "4v4"
+            format = "4v4"
         elif tournament.teamformat == 4:
-        format = "5v5"
+            format = "5v5"
         elif tournament.teamformat == 5:
-        format = "6v6"
+            format = "6v6"
 
         return format + " " + platform + " " + str(self.game) + " " + str(self.start)
 
