@@ -65,67 +65,67 @@ class SingleEliminationTournament(models.Model):
     # need to figure out how we will work rules
     # rules = models.ForeignKey(Ruleset, related_name='tournamentrules', on_delete=models.CASCADE, blank=False, null=True)
 
-    def __str__(self, **kwargs):
-        pk = self.kwargs['pk']
-        tournament = SingleEliminationTournament.objects.get(id=pk)
+    def __str__(self):
+        # pk = self.kwargs['pk']
+        # tournament = SingleEliminationTournament.objects.get(id=pk)
 
-        if tournament.platform == 0:
+        if self.platform == 0:
             platform = "Playstation"
-        elif tournament.platform == 1:
+        elif self.platform == 1:
             platform = "XBOX One"
-        elif tournament.platform == 2:
+        elif self.platform == 2:
             platform = "PC"
-        elif tournament.platform == 3:
+        elif self.platform == 3:
             platform = "Mobile"
-        elif tournament.platform == 4:
+        elif self.platform == 4:
             platform = "Nintendo Switch"
-        elif tournament.platform == 5:
+        elif self.platform == 5:
             platform = "Playstation"
-        elif tournament.platform == 6:
+        elif self.platform == 6:
             platform = "XBOX 360"
 
-        if tournament.teamformat == 0:
+        if self.teamformat == 0:
             format = "1v1"
-        elif tournament.teamformat == 1:
+        elif self.teamformat == 1:
             format = "2v2"
-        elif tournament.teamformat == 2:
+        elif self.teamformat == 2:
             format = "3v3"
-        elif tournament.teamformat == 3:
+        elif self.teamformat == 3:
             format = "4v4"
-        elif tournament.teamformat == 4:
+        elif self.teamformat == 4:
             format = "5v5"
-        elif tournament.teamformat == 5:
+        elif self.teamformat == 5:
             format = "6v6"
 
-        if tournament.game == 0:
+        if self.game == 0:
             game = 'No Game Set'
-        elif tournament.game == 1:
+        elif self.game == 1:
             game = 'Call of Duty: Black Ops 3'
-        elif tournament.game == 2:
+        elif self.game == 2:
             game = 'Call of Duty WWII'
-        elif tournament.game == 3:
+        elif self.game == 3:
             game = 'Fortnite'
-        elif tournament.game == 4:
+        elif self.game == 4:
             game = 'Destiny 2'
-        elif tournament.game == 5:
+        elif self.game == 5:
             game = 'Counter - Strike: Global Offensive'
-        elif tournament.game == 6:
+        elif self.game == 6:
             game = "PlayerUnknown's BATTLEGROUNDS"
-        elif tournament.game == 7:
+        elif self.game == 7:
             game = 'Rainbow Six Siege'
-        elif tournament.game == 8:
+        elif self.game == 8:
             game = 'Overwatch'
-        elif tournament.game == 9:
+        elif self.game == 9:
             game = 'League of Legends'
-        elif tournament.game == 10:
+        elif self.game == 10:
             game = 'Hearthstone'
-        elif tournament.game == 11:
+        elif self.game == 11:
             game = 'World of Warcraft'
-        elif tournament.game == 12:
+        elif self.game == 12:
             game = 'SMITE'
-        elif tournament.game == 13:
+        elif self.game == 13:
             game = 'Rocket League'
-        elif tournament.game == 14:
+        elif self.game == 14:
             game = 'Battlefield 1'
 
         return format + " " + platform + " " + game + " " + str(self.start)
