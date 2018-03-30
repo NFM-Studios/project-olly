@@ -148,7 +148,7 @@ class SingleEliminationTournament(models.Model):
             seeds = [1, 2, 3, 4]
             possible_seeds = [1, 2, 3, 4]
             for i in numteams:
-                team = Team.get(id=pk)
+                team = Team.objects.get(id=pk)
                 tournament_team = SingleTournamentTeam.objects.get(id=pk)
                 randseed = (random.choice(seeds))
                 possible_seeds.pop(randseed - 1)
