@@ -144,6 +144,7 @@ class TeamCreateView(CreateView):
         invite.expire = timezone.now()
         invite.user = self.request.user
         invite.captain = 'founder'
+        invite.hasPerms = True
         invite.accepted = True
         invite.inviter = self.request.user
         invite.inviter_id = self.request.user.id
@@ -191,6 +192,8 @@ class TeamInviteCreateView(View):
                 TeamInvite.user = invitee.user
                 TeamInvite.expire = timezone.now() + datetime.timedelta(days=1)
                 TeamInvite.captain = form.data['captain']
+                if form.data['captain'] == 'captain' or form.data['captain'] == 'founder':
+                    TeamInvite.hasPerms = True
                 TeamInvite.save()
                 messages.success(request, 'Sent invite successfully')
                 return redirect('/teams/')
