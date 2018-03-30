@@ -96,7 +96,14 @@ class SingleEliminationTournament(models.Model):
             round3.save()
         elif self.size == 16:
             # generate 4 rounds
-            pass
+            round1 = SingleTournamentRound(matchesnum=8, roundnum=1, tournament=self.tournament, teams=self.teams)
+            round2 = SingleTournamentRound(matchesnum=4, roundnum=2, tournament=self.tournament, teams=self.teams)
+            round3 = SingleTournamentRound(matchesnum=2, roundnum=3, tournament=self.tournament, teams=self.teams)
+            round4 = SingleTournamentRound(matchesnum=1, roundnum=4, tournament=self.tournament, teams=self.teams)
+            round1.save()
+            round2.save()
+            round3.save()
+            round4.save()
         elif self.size == 32:
             # generate 5 rounds
             pass
