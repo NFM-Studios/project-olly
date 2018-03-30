@@ -5,7 +5,7 @@ from staff.forms import StaticInfoForm, EditUserForm, TicketCommentCreateForm, E
 from profiles.models import UserProfile, BannedUser
 from django.contrib.auth.models import User
 from django.urls import reverse
-from django.views.generic import View, DetailView
+from django.views.generic import View, DetailView, CreateView
 from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from support.models import Ticket
@@ -173,6 +173,18 @@ def edit_tournament(request, pk):
             tournamentobj = SingleEliminationTournament.objects.get(pk=pk)
             form = EditTournamentForm(instance=tournamentobj)
             return render(request, 'staff/edittournament.html', {'form': form})
+
+
+class CreateTournament(CreateView):
+    form_class = EditTournamentForm
+    template_name = 'staff/edittournament.html'
+
+    def form_valid(self, form):
+        tournament = form.instance
+        tournament.save()
+        self.success_url = reverse('staff:tournamentlist')
+        messages.success(self.request, 'Your tournament has been successfully created')
+        return super(CreateTournament, self).form_valid(form)
 
 
 class TicketDetail(DetailView):
