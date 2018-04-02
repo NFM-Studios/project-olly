@@ -9,7 +9,7 @@ from django.utils import timezone
 # team create forms
 from teams.forms import TeamCreateForm
 # team create invite forms
-from .forms import TeamInviteForm, EditTeamProfileForm, ViewInviteForm
+from .forms import TeamInviteFormGet,TeamInviteFormPost, EditTeamProfileForm, ViewInviteForm
 # import the team models
 from teams.models import Team
 # import the invite models
@@ -102,7 +102,7 @@ class MyTeamDetailView(DetailView):
     # base team template all users can see, inside the template some permissions like viewing the edit team button
     # will be managed
     template_name = 'teams/team.html'
-    form = TeamInviteForm
+    form = TeamInviteFormPost
 
     def get(self, request, pk):
         team = Team.objects.get(id=pk)
@@ -115,7 +115,7 @@ class MyTeamDetailView(DetailView):
         return context
 
     def post(self, request, *args, **kwargs):
-        self.form = TeamInviteForm(request.POST)
+        self.form = TeamInviteFormPost(request.POST)
         if self.form.is_valid():
             self.form_valid(self.form)
             return HttpResponseRedirect(reverse('teams:detail', args=[self.kwargs['pk']]))
@@ -161,14 +161,14 @@ def get_invites(form):
 
 class TeamInviteCreateView(View):
     template_name = 'teams/invite-player.html'
-    form_class = TeamInviteForm
+    form_class = TeamInviteFormGet
 
     def get(self, request):
         form = self.form_class(request)
         return render(request, self.template_name, {'form': form})
 
     def post(self, request):
-        form = self.form_class(request.POST)
+        form = TeamInviteFormPost(request.POST)
         team = Team.objects.get(id=form.data['team'])
         invite = get_invites(form)
         captains = invite.filter(captain='captain')
