@@ -5,6 +5,7 @@ from .models import SingleTournamentRound, SingleEliminationTournament
 from teams.models import TeamInvite, Team
 from django.contrib import messages
 from profiles.models import UserProfile
+from store.models import deduct_credits
 
 
 class List(View):
@@ -68,19 +69,41 @@ class SingleTournamentJoin(View):
             if not teameligible:
                 messages.error(request, "There was an issue with team eligibility for this tournament")
                 return redirect('teams:list')
-            invites = {}
-            teams_ = {}
-            team_users = {}
-            for team_ in teams:
-                invites[team_] = TeamInvite.objects.get(team=team)
-                teams_[team_] = team
-            for invite in invites:
-                team_users[invites[invite].user] = invites[invite]
-            if team in teams_:
+            tournament_teams_query = tournament.teams.all()
+            tournament_teams = []
+            tournament_teams_invites_query = None
+            tournament_teams_invites = []
+            tournament_teams_users = []
+            new_team = Team.objects.get(id=int(form.data['teams']))
+            new_team_invites = TeamInvite.objects.filter(team=new_team)
+            new_team_users = []
+            for team in tournament_teams_query:
+                tournament_teams.append(team)
+            for team in tournament_teams:
+                tournament_teams_invites_query = TeamInvite.objects.filter(team=team)
+            try:
+                for invite in tournament_teams_invites_query:
+                    tournament_teams_invites.append(invite)
+            except:
+                pass
+            try:
+                for invite in tournament_teams_invites:
+                    tournament_teams_users.append(invite.user)
+            except:
+                pass
+            for invite in new_team_invites:
+                new_team_users.append(invite.user)
+            for user in new_team_users:
+                if user in tournament_teams_users:
+                    messages.error(request, "There is overlap between users in teams in the tournament")
+                    return redirect('singletournaments:list')
+            if team in tournament_teams:
                 messages.error(request, message="This team is already in this tournament")
                 return redirect('singletournaments:list')
             else:
                 tournament.teams.add(team)
+                for user in new_team_users:
+                    deduct_credits(user, tournament.req_credits)
                 tournament.save()
                 messages.success(request, message="Joined tournament")
                 return redirect('singletournaments:list')
