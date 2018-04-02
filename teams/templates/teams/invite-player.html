@@ -12,7 +12,7 @@
   </ul>
 {% endif %}
 
-<form method="POST" action="">
+<form method="POST" action="{% url 'teams:invite' %}">
     <table class="table">
         {% csrf_token %}
         {{ form }}

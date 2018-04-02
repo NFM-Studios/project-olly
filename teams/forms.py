@@ -19,7 +19,7 @@ class TeamCreateForm(forms.ModelForm):
 # invite forms to invite players to a team
 
 
-class TeamInviteForm(forms.ModelForm):
+class TeamInviteFormGet(forms.ModelForm):
     user = forms.CharField(required=True, max_length=50)
 
     class Meta:
@@ -28,13 +28,25 @@ class TeamInviteForm(forms.ModelForm):
         # maybe????
         fields = ('user', 'team', 'captain',)
         widgets = {
-            'user':forms.CharField(),
+            'user': forms.CharField(),
          }
 
     def __init__(self, request, *args, **kwargs):
         self.username = request.user
         self.team = forms.ModelChoiceField(queryset=TeamInvite.objects.filter(captain=['captain', 'founder'], user_id=self.username.id))
-        super(TeamInviteForm, self).__init__(*args, **kwargs)
+        super(TeamInviteFormGet, self).__init__(*args, **kwargs)
+
+class TeamInviteFormPost(forms.ModelForm):
+    user = forms.CharField(required=True, max_length=50)
+
+    class Meta:
+        captain = forms.BooleanField(required=False)
+        model = TeamInvite
+        # maybe????
+        fields = ('user', 'team', 'captain',)
+        widgets = {
+            'user': forms.CharField(),
+         }
 
 
 class EditTeamProfileForm(forms.ModelForm):

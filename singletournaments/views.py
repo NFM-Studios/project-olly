@@ -2,8 +2,9 @@ from django.shortcuts import render, redirect
 from django.views.generic import View
 from .forms import SingleEliminationTournamentJoin
 from .models import SingleTournamentRound, SingleEliminationTournament
-from teams.models import TeamInvite
+from teams.models import TeamInvite, Team
 from django.contrib import messages
+from profiles.models import UserProfile
 
 
 class List(View):
@@ -18,12 +19,12 @@ class SingleTournamentJoin(View):
     form_class = SingleEliminationTournamentJoin
 
     def get(self, request):
-        teams = TeamInvite.objects.filter(user_id=request.user.id, captain__in=['founder', 'captain'])
+        teams = TeamInvite.objects.filter(user_id=request.user.id, hasPerms=True)
         if teams.exists():
             form = self.form_class(None)
             return render(request, self.template_name, {'form': form})
         else:
-            messages.error(request, message="You aren't a captain or founder of any teams!")
+            messages.error(request, message="You aren't a captain or founder of any team!")
             return redirect('singletournaments:list')
 
     def post(self, request):
@@ -33,17 +34,56 @@ class SingleTournamentJoin(View):
         except:
             messages.error(request, message="You aren't a captain or founder of this team")
             return redirect('singletournaments:list')
-        if invite.captain == 'captain' or invite.captain == 'founder':
-            tournament = SingleEliminationTournament.objects.get(name=form.data['tournaments'])
-            team = form.data['teams']
-            try:
-                tournament.teams.add(team)
-            except:
+        if invite.hasPerms:
+            tournament = SingleEliminationTournament.objects.get(id=form.data['tournaments'])
+            if tournament.teamformat == 0: players = 1
+            elif tournament.teamformat == 1: players = 2
+            elif tournament.teamformat == 2: players = 3
+            elif tournament.teamformat == 3: players = 4
+            elif tournament.teamformat == 4: players = 5
+            elif tournament.teamformat == 5: players = 6
+            team = Team.objects.get(id=int(form.data['teams']))
+            users = TeamInvite.objects.filter(team=form.data['teams'])
+            teams = tournament.teams.all()
+            teameligible = False
+            if teams.count() >= 2:
+                messages.error(request, "This tournament is full")
+                return redirect('singletournaments:list')
+            for invite in users:
+                user = UserProfile.objects.get(user_id=invite.user.id)
+                if not user.xbl_verified or not user.psn_verified:
+                    teameligible = False
+                    messages.error(request, "One or more users does not have Xbox Live or PSN set")
+                    return redirect('teams:list')
+                elif int(user.credits) < int(tournament.req_credits):
+                    teameligible = False
+                    messages.error(request, "One or more players does not have enough credits")
+                    return redirect('teams:list')
+                else:
+                    teameligible = True
+                if not teameligible:
+                    messages.error(request, "Not all members of your team are eligible to join")
+            if len(users) > players:
+                teameligible = False
+            if not teameligible:
+                messages.error(request, "There was an issue with team eligibility for this tournament")
+                return redirect('teams:list')
+            invites = {}
+            teams_ = {}
+            team_users = {}
+            for team_ in teams:
+                invites[team_] = TeamInvite.objects.get(team=team)
+                teams_[team_] = team
+            for invite in invites:
+                team_users[invites[invite].user] = invites[invite]
+            if team in teams_:
                 messages.error(request, message="This team is already in this tournament")
                 return redirect('singletournaments:list')
-            tournament.save()
-            messages.success(request, message="Joined tournament")
-            return redirect('singletournaments:list')
+            else:
+                tournament.teams.add(team)
+                tournament.save()
+                messages.success(request, message="Joined tournament")
+                return redirect('singletournaments:list')
         else:
             messages.error(request, message="You can't join a tournament if you aren't the captain or founder")
             return redirect('singletournaments:list')

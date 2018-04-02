@@ -16,7 +16,7 @@ SIZE_CHOICES = (
 
 
 class SingleEliminationTournament(models.Model):
-    name = models.CharField(max_length=50, blank=False, default='No name provided')
+    name = models.CharField(max_length=50, blank=False, default='No name provided', unique=True)
     # I know we need the team format, ex 1v1, 2v2, 3v3, 4v4, 5v5, 6v6
     teamformat = models.SmallIntegerField(choices=TEAMFORMAT_CHOICES, default=1)
     # by default its a best of 1. Not sure if we need this here. Finals might be best of 3, etc in
