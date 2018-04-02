@@ -57,14 +57,14 @@ class Transaction(models.Model):
     account = models.CharField(max_length=50)
 
 
-def deduct_credits(request, num):
-    up = UserProfile.objects.get(user__username=request.user)
+def deduct_credits(user, num):
+    up = UserProfile.objects.get(user=user)
     up.credits -= num
     up.save()
 
 
-def give_credits(request, num):  # might not be needed. added it anyway.
-    up = UserProfile.objects.get(user__username=request.user)
+def give_credits(user, num):  # might not be needed. added it anyway.
+    up = UserProfile.objects.get(user=user)
     up.credits += num
     up.save()
 
