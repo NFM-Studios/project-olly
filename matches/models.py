@@ -46,6 +46,35 @@ class MatchReport(models.Model):
     reported_winner = models.ForeignKey(Team, related_name='winnerreporting', on_delete=models.CASCADE)
     proof = models.CharField(max_length=300, default='no text inserted', blank=False)
 
+
+class MatchDispute(models.Model):
+    # save when it  was created and last  updated
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    # save the 2 teams that are  involved in the match,  and thus involved in this dispute
+    # team1 should line up to team1 of the original match, and same for team2.
+    team1 = models.ForeignKey(Team, related_name='team1', on_delete=models.CASCADE)
+    team2 = models.ForeignKey(Team, related_name='team2', on_delete=models.CASCADE)
+
+    # the match object that is currently being disputed
+    match = models.ForeignKey(Match, related_name='disputedMatch', on_delete=models.CASCADE)
+
+    # proof  that each team submits to an admin
+    team1proof = models.CharField(max_length=300, default='(team 1) no text inserted', blank=False)
+    team2proof = models.CharField(max_length=300, default='(team 2) no text inserted', blank=False)
+
+    # who submitted the original match report, hence causing this dispute
+    team1origreporter = models.ForeignKey(User, related_name='team1OriginalReporter', on_delete=models.CASCADE)
+    team2origreporter = models.ForeignKey(User, related_name='team2OriginalReporter', on_delete=models.CASCADE)
+
+    # who is submitting the proof for the dispute - per each team
+    team1reporter = models.ForeignKey(User, related_name='team1Disputer', on_delete=models.CASCADE)
+    team2reporter = models.ForeignKey(User, related_name='team2Disputer', on_delete=models.CASCADE)
+
+    # once all this information is submitted it will be viewable  by an admin that will look at the proof and
+    # determine who the winner is.
+
 # class Ruleset(models.Model):
 # created = models.DateTimeField(auto_now_add=True)
 #  updated = models.DateTimeField(auto_now=True)
