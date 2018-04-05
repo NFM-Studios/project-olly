@@ -61,16 +61,14 @@ class MatchDispute(models.Model):
     match = models.ForeignKey(Match, related_name='disputedMatch', on_delete=models.CASCADE)
 
     # proof  that each team submits to an admin
-    team1proof = models.CharField(max_length=300, default='(team 1) no text inserted', blank=False)
-    team2proof = models.CharField(max_length=300, default='(team 2) no text inserted', blank=False)
+    teamproof = models.CharField(max_length=300, default='(team 1) no text inserted', blank=False)
 
     # who submitted the original match report, hence causing this dispute
     team1origreporter = models.ForeignKey(User, related_name='team1OriginalReporter', on_delete=models.CASCADE)
     team2origreporter = models.ForeignKey(User, related_name='team2OriginalReporter', on_delete=models.CASCADE)
 
-    # who is submitting the proof for the dispute - per each team
-    team1reporter = models.ForeignKey(User, related_name='team1Disputer', on_delete=models.CASCADE)
-    team2reporter = models.ForeignKey(User, related_name='team2Disputer', on_delete=models.CASCADE)
+    # who is submitting the proof for the dispute
+    teamreporter = models.ForeignKey(User, related_name='team1Disputer', on_delete=models.CASCADE)
 
     # once all this information is submitted it will be viewable  by an admin that will look at the proof and
     # determine who the winner is.
