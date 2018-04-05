@@ -36,6 +36,7 @@ class TeamInviteFormGet(forms.ModelForm):
         self.team = forms.ModelChoiceField(queryset=TeamInvite.objects.filter(captain=['captain', 'founder'], user_id=self.username.id))
         super(TeamInviteFormGet, self).__init__(*args, **kwargs)
 
+
 class TeamInviteFormPost(forms.ModelForm):
     user = forms.CharField(required=True, max_length=50)
 
