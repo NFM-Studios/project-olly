@@ -20,7 +20,7 @@ def staffindex(request):
     else:
         return render(request, 'staff/staffindex.html')
 
-
+# start users
 def users(request):
     user = UserProfile.objects.get(user__username=request.user.username)
     allowed = ['superadmin', 'admin']
@@ -134,14 +134,10 @@ def unbanip(request, urlusername):
         return redirect('staff:users')
 
 
-def tickets(request):
-    user = UserProfile.objects.get(user__username=request.user.username)
-    allowed = ['superadmin', 'admin']
-    if user.user_type not in allowed:
-        return render(request, 'staff/permissiondenied.html')
-    else:
-        tickets = Ticket.objects.all()
-        return render(request, 'staff/tickets.html', {'ticket_list': tickets})
+# end users
+
+
+# start tournaments
 
 
 def tournaments(request):
@@ -186,6 +182,21 @@ class CreateTournament(CreateView):
         self.success_url = reverse('staff:tournamentlist')
         messages.success(self.request, 'Your tournament has been successfully created')
         return super(CreateTournament, self).form_valid(form)
+
+# end tournament section
+
+
+# start support section
+
+
+def tickets(request):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        tickets = Ticket.objects.all()
+        return render(request, 'staff/tickets.html', {'ticket_list': tickets})
 
 
 class TicketDetail(DetailView):
@@ -239,6 +250,10 @@ class TicketCommentCreate(View):
         messages.error(self.request, 'An error occurred')
         return render(request, self.template_name, {'form': form})
 
+# end support section
+
+# start static info section
+
 
 def staticinfo(request):
     user = UserProfile.objects.get(user__username=request.user.username)
@@ -257,3 +272,6 @@ def staticinfo(request):
             staticinfoobj = StaticInfo.objects.get(pk=1)
             form = StaticInfoForm(instance=staticinfoobj)
             return render(request, 'staff/staticinfo.html', {'form': form})
+
+
+# end static info section
