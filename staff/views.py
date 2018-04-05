@@ -9,6 +9,7 @@ from django.views.generic import View, DetailView, CreateView
 from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from support.models import Ticket
+from matches.models import Match, MatchReport, MatchDispute
 from singletournaments.models import SingleEliminationTournament
 
 
@@ -184,6 +185,20 @@ class CreateTournament(CreateView):
         return super(CreateTournament, self).form_valid(form)
 
 # end tournament section
+
+# start matches section
+
+
+def matches_index(request):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        matches_list = Match.objects.all()
+        return render(request, 'staff/matches.html', {'matches_list': matches_list})
+
+# end matches section
 
 
 # start support section
