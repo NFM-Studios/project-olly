@@ -31,7 +31,9 @@ class Match(models.Model):
     teamformat = models.SmallIntegerField(choices=TEAMFORMAT_CHOICES, default=1)
 
     team1reported = models.BooleanField(default=False)
+    team1reportedwinner =models.ForeignKey(Team, related_name='team1reportedwinner', on_delete=models.CASCADE, null=True)
     team2reported = models.BooleanField(default=False)
+    team2reportedwinner = models.ForeignKey(Team, related_name='team2reportedwinner', on_delete=models.CASCADE, null=True)
 
 
 class MatchReport(models.Model):
