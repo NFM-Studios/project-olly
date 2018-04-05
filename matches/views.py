@@ -22,7 +22,7 @@ class MatchReportCreateView(CreateView):
     def form_valid(self, form):
         report = form.instance
         report.reporter = self.request.user
-        report.
+        if report.reporter
         report.save()
         self.success_url = reverse('matches:detail', args=[matches.id])
         messages.success(self.request, 'Your Report has been successfully submitted')
