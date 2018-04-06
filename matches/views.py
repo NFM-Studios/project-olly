@@ -4,7 +4,7 @@ from django.contrib import messages
 from singletournaments.models import SingleEliminationTournament, SingleTournamentRound
 from teams.models import Team, TeamInvite
 from matches.models import Match
-from .forms import MatchReportCreateForm
+from .forms import MatchReportCreateForm, DisputeCreateForm
 
 
 class TournamentMatchDetailView(DetailView):
