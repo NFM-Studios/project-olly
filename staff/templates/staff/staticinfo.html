@@ -1,4 +1,6 @@
 {% extends 'staff/staffbase.html' %}
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static "css/staff.css" %}">
 {% block body %}
 <p>{{ staticinfo.about_us }}</p>
 
