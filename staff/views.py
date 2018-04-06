@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from pages.models import StaticInfo
-from staff.forms import StaticInfoForm, EditUserForm, TicketCommentCreateForm, EditTournamentForm
+from staff.forms import StaticInfoForm, ArticleCreateForm, EditUserForm, TicketCommentCreateForm, EditTournamentForm
 from profiles.models import UserProfile, BannedUser
 from django.contrib.auth.models import User
 from django.urls import reverse
@@ -332,6 +332,22 @@ def news_index(request):
         return render(request, 'staff/permissiondenied.html')
     else:
         return render(request, 'staff/news_index.html')
+
+
+def create_article(request):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        if request.method == 'POST':
+            form = ArticleCreateForm(request.POST)
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'Nice job boss, your post has been created')
+                return redirect('staff:news_list')
+        else:
+            messages.error(request, "Gosh darnit, I messed up. I'm sorry")
 
 
 # end news section
