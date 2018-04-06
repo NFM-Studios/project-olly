@@ -53,3 +53,13 @@ class MatchReportCreateView(CreateView):
         else:
             messages.error(self.request, "You don't have permissions to report on this match")
             return redirect('singletournaments:list')
+
+
+class MatchDisputeReportCreateView(CreateView):
+    form_class = DisputeCreateForm
+    template_name = 'matches/tournament_matches_dispute.html'
+
+    def form_valid(self, form):
+        report = form.instance
+        report.reporting_user = self.request.user
+
