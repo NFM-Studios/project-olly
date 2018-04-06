@@ -3,6 +3,7 @@ from pages.models import StaticInfo
 from profiles.models import UserProfile
 from support.models import TicketComment
 from singletournaments.models import SingleEliminationTournament
+from news.models import Post
 
 
 class StaticInfoForm(forms.ModelForm):
@@ -26,4 +27,10 @@ class TicketCommentCreateForm(forms.ModelForm):
 class EditTournamentForm(forms.ModelForm):
     class Meta:
         model = SingleEliminationTournament
+        fields = '__all__'
+
+
+class ArticleCreateForm(forms.ModelForm):
+    class Meta:
+        model = Post
         fields = '__all__'
