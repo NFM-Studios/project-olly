@@ -1,0 +1,45 @@
+{% extends 'staff/staffbase.html' %}
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static "css/staff.css" %}">
+
+{% block body %}
+<table class="table table-hover">
+    <tr id="header">
+        <thead>
+        <th scope="row">ID</th>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Published</th>
+        <th>Created</th>
+        <th>Updated</th>
+        <th>Status</th>
+        </thead>
+    </tr>
+    {% for news in news_list %}
+    <tbody>
+    <tr scope="">
+        <td scope="row"><a href="">#{{news.id}}</a></td>
+        <td>{{news.title}}</td>
+
+        <td>{{ news.author }}</td>
+
+        <td>{{ news.publish }}</td>
+
+        <td>{{news.created}}</td>
+        <td>{{news.updated}}</td>
+        <td>{{news.status}}</td>
+
+    </tr>
+    </tbody>
+    {% endfor %}
+</table>
+
+    <div id="new-article">
+    <h2 id="" style="text-decoration: none; margin:8px">
+        <a style="text-decoration:none; color:black;" href="{% url 'staff:create_article' %}">
+            <i class="fas fa-plus"></i>  Create a new article
+        </a>
+    </h2>
+</div>
+
+{% endblock %}
