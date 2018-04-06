@@ -21,4 +21,3 @@ class DisputeCreateForm(forms.ModelForm):
 
     def __init__(self, request, *args, **kwargs):
         self.teamreporter = request.user
-        
