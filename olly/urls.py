@@ -6,6 +6,7 @@ from store import views as store_views
 from support import views as support_views
 from news import views as news_views
 from teams import views as teams_views
+from matches import views as matches_views
 from django.contrib.auth.views import logout, password_reset, password_reset_done, password_reset_confirm,\
 password_reset_complete
 from django.conf import settings
@@ -41,6 +42,7 @@ urlpatterns = [
     url(r'^paypal/', paypal_views.ipn, name="paypal-ipn"),
     url(r'^staff/', include('staff.urls', namespace='staff')),
     url(r'^tournaments/', include('singletournaments.urls', namespace='singletournaments')),
+    url(r'^matches/', include('matches.urls', namespace='matches'))
 ]
 if settings.DEBUG is True:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
