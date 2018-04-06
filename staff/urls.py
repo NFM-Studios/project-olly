@@ -20,4 +20,6 @@ urlpatterns = [
     url(r'^tournaments/$', login_required(views.tournaments), name='tournamentlist'),
     url(r'^tournaments/edit/(?P<pk>\d+)/$', login_required(views.edit_tournament), name='edit_tournament'),
     url(r'^tournaments/create$', login_required(views.CreateTournament.as_view()), name='create_tournament')
+    url(r'^news/', login_required(views.news_index.as_view()), name='news_index')
+    url(r'^news/list', login_required(views.news_list.as_view()), name='news_list')
 ]
