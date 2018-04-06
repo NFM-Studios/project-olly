@@ -10,6 +10,7 @@ from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from support.models import Ticket
 from matches.models import Match, MatchReport, MatchDispute
+from news.models import Post, Comment, PublishedManager
 from singletournaments.models import SingleEliminationTournament
 
 
@@ -309,3 +310,28 @@ def staticinfo(request):
 
 
 # end static info section
+
+
+# start news section
+
+def news_list(request):
+    # get all teh news articles
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        news_list = Post.objects.all()
+        return render(request, 'staff/news_list.html', {'news_list': news_list})
+
+
+def news_index(request):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        return render(request, 'staff/news_index.html')
+
+
+# end news section
