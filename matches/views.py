@@ -9,7 +9,7 @@ from .forms import MatchReportCreateForm
 
 class TournamentMatchDetailView(DetailView):
     model = Match
-    template_name = 'matches/matches_detail.html'
+    template_name = 'matches/tournament_matches_detail.html'
 
     def get(self, request, **kwargs):
         pk = self.kwargs['pk']
