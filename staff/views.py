@@ -160,6 +160,7 @@ def tournament_detail(request, pk):
         tournament = SingleEliminationTournament.objects.get(pk=pk)
         return render(request, 'staff/tournament.html', {'tournament': tournament})
 
+
 def tournament_matches(request, pk):
     user = UserProfile.objects.get(user__username=request.user.username)
     allowed = ['superadmin', 'admin']
