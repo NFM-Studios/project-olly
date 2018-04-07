@@ -3,7 +3,7 @@ from django.views.generic import ListView, DetailView, CreateView
 from django.contrib import messages
 from singletournaments.models import SingleEliminationTournament, SingleTournamentRound
 from teams.models import Team, TeamInvite
-from matches.models import Match
+from matches.models import Match, MatchReport, MatchDispute
 from .forms import MatchReportCreateForm, DisputeCreateForm
 
 
@@ -47,6 +47,11 @@ class MatchReportCreateView(CreateView):
                 return redirect('singletournaments:list')
             match.save()
             report.save()
+            if match.team1reported and match.team2reported:
+                reports = MatchReport.objects.filter(match_id=form.data['match'])
+                if reports[0].reported_winner != reports[1].reported_winner:
+                    messages.warning(self.request, "Both teams have reported different winners; a dispute has been created")
+                    return redirect('matches:dispute', pk=form.data['match'])
             self.success_url = reverse('matches:detail', args=[match.id])
             messages.success(self.request, 'Your Report has been successfully submitted')
             return super(MatchReportCreateView, self).form_valid(form)
@@ -59,7 +64,21 @@ class MatchDisputeReportCreateView(CreateView):
     form_class = DisputeCreateForm
     template_name = 'matches/tournament_matches_dispute.html'
 
-    def form_valid(self, form):
-        report = form.instance
-        report.reporting_user = self.request.user
+    def get(self, request, **kwargs):
+        form = self.form_class(None)
+        return render(request, self.template_name, {'form': form})
+
+    def form_valid(self, form, **kwargs):
+        match = Match.objects.get(id=self.kwargs['pk'])
+        dispute = form.instance
+        dispute.reporting_user = self.request.user
+        dispute.match_id = self.kwargs['pk']
+        dispute.teamproof = form.data['teamproof']
+        dispute.teamproof_1 = form.data['teamproof_1']
+        dispute.teamproof_2 = form.data['teamproof_2']
+        dispute.teamproof_3 = form.data['teamproof_3']
+        dispute.team1_id = match.hometeam_id
+        dispute.team2_id = match.awayteam_id
+
+
 

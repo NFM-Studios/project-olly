@@ -15,8 +15,9 @@ class Match(models.Model):
     # tournament = models.ForeignKey(SingleEliminationTournament, related_name='tournament', on_delete=models.CASCADE)
     # fk fields for the 2 teams that are competiting,
     # verification for elgible teams happens within the tournament and teams app
-
+    # home team is team 1
     hometeam = models.ForeignKey(Team, related_name='hometeam', on_delete=models.CASCADE)
+    # away team is team 2
     awayteam = models.ForeignKey(Team, related_name='awayteam', on_delete=models.CASCADE)
     start = models.DateTimeField()
     # simple bool field to see if the match scores have been reported
@@ -65,7 +66,9 @@ class MatchDispute(models.Model):
 
     # proof  that each team submits to an admin
     teamproof = models.CharField(max_length=300, default='(team 1) no text inserted', blank=False)
-
+    teamproof_1 = models.URLField(blank=True)
+    teamproof_2 = models.URLField(blank=True)
+    teamproof_3 = models.URLField(blank=True)
     # who submitted the original match report, hence causing this dispute
     team1origreporter = models.ForeignKey(User, related_name='team1OriginalReporter', on_delete=models.CASCADE)
     team2origreporter = models.ForeignKey(User, related_name='team2OriginalReporter', on_delete=models.CASCADE)
