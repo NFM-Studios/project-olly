@@ -16,23 +16,22 @@ class Match(models.Model):
     # fk fields for the 2 teams that are competiting,
     # verification for elgible teams happens within the tournament and teams app
     # home team is team 1
-    hometeam = models.ForeignKey(Team, related_name='hometeam', on_delete=models.CASCADE)
+    hometeam = models.ForeignKey(Team, related_name='hometeam', on_delete=models.CASCADE, null=True)
     # away team is team 2
-    awayteam = models.ForeignKey(Team, related_name='awayteam', on_delete=models.CASCADE)
-    start = models.DateTimeField()
+    awayteam = models.ForeignKey(Team, related_name='awayteam', on_delete=models.CASCADE, null=True)
     # simple bool field to see if the match scores have been reported
     reported = models.BooleanField(default=False)
     # simple bool field to see if the entire match is completed
     completed = models.BooleanField(default=False)
     # field to declare the winner
-    winner = models.ForeignKey(Team, related_name='champions', on_delete=models.CASCADE)
+    winner = models.ForeignKey(Team, related_name='champions', on_delete=models.CASCADE, null=True)
     # set the default map format to best of 1
     bestof = models.SmallIntegerField(choices=MAPFORMAT_CHOICES, default=0)
     #          by default set it to be a 2v2.
     teamformat = models.SmallIntegerField(choices=TEAMFORMAT_CHOICES, default=1)
 
     team1reported = models.BooleanField(default=False)
-    team1reportedwinner =models.ForeignKey(Team, related_name='team1reportedwinner', on_delete=models.CASCADE, null=True)
+    team1reportedwinner = models.ForeignKey(Team, related_name='team1reportedwinner', on_delete=models.CASCADE, null=True)
     team2reported = models.BooleanField(default=False)
     team2reportedwinner = models.ForeignKey(Team, related_name='team2reportedwinner', on_delete=models.CASCADE, null=True)
 
