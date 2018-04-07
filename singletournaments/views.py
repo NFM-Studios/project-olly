@@ -105,9 +105,9 @@ class SingleTournamentJoin(View):
                 for user in new_team_users:
                     deduct_credits(user, tournament.req_credits)
                 tournament.save()
+                tournament_team = SingleTournamentTeam(team_id=team.id, round_id=1, tournament_id=tournament.id)
+                tournament_team.save()
                 messages.success(request, message="Joined tournament")
-                #tournament_team = SingleTournamentTeam(team=team, round=1, tournament=tournament)
-                #tournament_team.save()
                 return redirect('singletournaments:list')
         else:
             messages.error(request, message="You can't join a tournament if you aren't the captain or founder")
