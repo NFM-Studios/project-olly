@@ -35,6 +35,9 @@ class Match(models.Model):
     team2reported = models.BooleanField(default=False)
     team2reportedwinner = models.ForeignKey(Team, related_name='team2reportedwinner', on_delete=models.CASCADE, null=True)
 
+    class Meta:
+        verbose_name_plural = "matches"
+        
 
 class MatchReport(models.Model):
     created = models.DateTimeField(auto_now_add=True)
