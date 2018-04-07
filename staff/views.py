@@ -204,6 +204,18 @@ class CreateTournament(CreateView):
         messages.success(self.request, 'Your tournament has been successfully created')
         return super(CreateTournament, self).form_valid(form)
 
+
+def generate_bracket(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        tournament = SingleEliminationTournament.objects.get(pk=pk)
+        tournament.generate_bracket()
+        messages.success(request, "Bracket Generated")
+        return redirect('staff:tournamentlist')
+
 # end tournament section
 
 # start matches section
