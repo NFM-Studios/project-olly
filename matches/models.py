@@ -37,7 +37,7 @@ class Match(models.Model):
 
     class Meta:
         verbose_name_plural = "matches"
-        
+
 
 class MatchReport(models.Model):
     created = models.DateTimeField(auto_now_add=True)
