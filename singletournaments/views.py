@@ -93,21 +93,21 @@ class SingleTournamentJoin(View):
                 pass
             for invite in new_team_invites:
                 new_team_users.append(invite.user)
+            if new_team in tournament_teams:
+                messages.error(request, message="This team is already in this tournament")
+                return redirect('singletournaments:list')
             for user in new_team_users:
                 if user in tournament_teams_users:
                     messages.error(request, "There is overlap between users in teams in the tournament")
                     return redirect('singletournaments:list')
-            if team in tournament_teams:
-                messages.error(request, message="This team is already in this tournament")
-                return redirect('singletournaments:list')
             else:
                 tournament.teams.add(team)
                 for user in new_team_users:
                     deduct_credits(user, tournament.req_credits)
                 tournament.save()
                 messages.success(request, message="Joined tournament")
-                tournament_team = SingleTournamentTeam(team=team, round=1, tournament=tournament)
-                tournament_team.save()
+                #tournament_team = SingleTournamentTeam(team=team, round=1, tournament=tournament)
+                #tournament_team.save()
                 return redirect('singletournaments:list')
         else:
             messages.error(request, message="You can't join a tournament if you aren't the captain or founder")
