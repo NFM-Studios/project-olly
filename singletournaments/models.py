@@ -181,33 +181,33 @@ class SingleEliminationTournament(models.Model):
             # generate 7 rounds
             pass
 
-    def generate_bracket(self, **kwargs):
+    def generate_bracket(self):
         # seed teams and make matches
-        pk = self.kwargs['pk']
-        tournament = SingleEliminationTournament.objects.get(id=pk)
-        game = tournament.game
-        platform = tournament.platform
-        teamformat = tournament.teamformat
-        bestof = tournament.bestof
-        size = tournament.size
-        numteams = tournament.teams.count
+        game = self.game
+        platform = self.platform
+        teams = self.teams
+        teamformat = self.teamformat
+        bestof = self.bestof
+        size = self.size
+        numteams = self.teams.count()
         bye = size - numteams
+        team = Team
+        teams = self.teams.all()
         if size == 4:
             # 1 play 4
             # 2 plays 3
             # 2 matches need to be played in round 1
             # 1 match needs to be played in round 2
             # total number of rounds = 2
-            round1 = SingleTournamentRound.objects.get(roundnum=1, tournament=tournament)
+            round1 = SingleTournamentRound.objects.get(roundnum=1, tournament=self)
             rounds = 2
             round1matches = 2
             round2matches = 1
             bracketsize = 4
             seeds = [1, 2, 3, 4]
             possible_seeds = [1, 2, 3, 4]
-            for i in numteams:
-                team = Team.objects.get(id=pk)
-                tournament_team = SingleTournamentTeam.objects.get(id=pk)
+            for i in teams:
+                tournament_team = SingleTournamentTeam.objects.get(id=i.pk)
                 randseed = (random.choice(seeds))
                 possible_seeds.pop(randseed - 1)
                 tournament_team.seed = randseed
@@ -217,7 +217,7 @@ class SingleEliminationTournament(models.Model):
                     # they are seeded first they play 4th seeded team
                     match1 = Match(game=game, platform=platform, hometeam=tournament_team, teamformat=teamformat,
                                    bestof=bestof)
-                    round1 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=1)
+                    round1 = SingleTournamentRound.objects.get(tournament=self, roundnum=1)
                     round1.add(matches=match1)
                     round1.save()
                     match1.save()
@@ -225,21 +225,21 @@ class SingleEliminationTournament(models.Model):
                     # hey you play in match2 against seed 3
                     match2 = Match(game=game, platform=platform, hometeam=tournament_team, teamformat=teamformat,
                                    bestof=bestof)
-                    round1 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=1)
+                    round1 = SingleTournamentRound.objects.get(tournament=self, roundnum=1)
                     round1.add(matches=match2)
                     round1.save()
                     match2.save()
                 elif tournament_team.seed == 3:
                     match2 = Match(game=game, platform=platform, awayteam=tournament_team, teamformat=teamformat,
                                    bestof=bestof)
-                    round1 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=1)
+                    round1 = SingleTournamentRound.objects.get(tournament=self, roundnum=1)
                     round1.add(matches=match2)
                     round1.save()
                     match2.save()
                 elif tournament_team.seed == 4:
                     match1 = Match(game=game, platform=platform, awayteam=tournament_team, teamformat=teamformat,
                                    bestof=bestof)
-                    round1 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=1)
+                    round1 = SingleTournamentRound.objects.get(tournament=self, roundnum=1)
                     round1.add(matches=match1)
                     round1.save()
                     match1.save()
