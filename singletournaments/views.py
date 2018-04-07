@@ -101,7 +101,7 @@ class SingleTournamentJoin(View):
                     messages.error(request, "There is overlap between users in teams in the tournament")
                     return redirect('singletournaments:list')
             else:
-                tournament.teams.add(team)
+                tournament.teams.add(new_team)
                 for user in new_team_users:
                     deduct_credits(user, tournament.req_credits)
                 tournament.save()
