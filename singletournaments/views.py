@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.generic import View
 from .forms import SingleEliminationTournamentJoin
-from .models import SingleTournamentRound, SingleEliminationTournament
+from .models import SingleTournamentRound, SingleEliminationTournament, SingleTournamentTeam
 from teams.models import TeamInvite, Team
 from django.contrib import messages
 from profiles.models import UserProfile
@@ -106,6 +106,8 @@ class SingleTournamentJoin(View):
                     deduct_credits(user, tournament.req_credits)
                 tournament.save()
                 messages.success(request, message="Joined tournament")
+                tournament_team = SingleTournamentTeam(team=team, round=1, tournament=tournament)
+                tournament_team.save()
                 return redirect('singletournaments:list')
         else:
             messages.error(request, message="You can't join a tournament if you aren't the captain or founder")
