@@ -22,7 +22,9 @@ def staffindex(request):
     else:
         return render(request, 'staff/staffindex.html')
 
+
 # start users
+
 def users(request):
     user = UserProfile.objects.get(user__username=request.user.username)
     allowed = ['superadmin', 'admin']
@@ -216,6 +218,7 @@ def generate_bracket(request, pk):
         messages.success(request, "Bracket Generated")
         return redirect('staff:tournamentlist')
 
+
 # end tournament section
 
 # start matches section
@@ -229,6 +232,7 @@ def matches_index(request):
     else:
         matches_list = Match.objects.all()
         return render(request, 'staff/matches.html', {'matches_list': matches_list})
+
 
 # end matches section
 
@@ -297,6 +301,7 @@ class TicketCommentCreate(View):
         messages.error(self.request, 'An error occurred')
         return render(request, self.template_name, {'form': form})
 
+
 # end support section
 
 # start static info section
@@ -360,6 +365,5 @@ def create_article(request):
                 return redirect('staff:news_list')
         else:
             messages.error(request, "Gosh darnit, I messed up. I'm sorry")
-
 
 # end news section
