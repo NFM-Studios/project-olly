@@ -25,6 +25,9 @@ class Ticket(models.Model):
     def get_comments_count(self):
         return self.comments.count()
 
+    def get_ticket_count(self):
+        return self.count()
+
     def get_latest_comment(self):
         return self.comments.latest('date')
 
