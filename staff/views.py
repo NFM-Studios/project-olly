@@ -24,7 +24,8 @@ def staffindex(request):
         ticket = Ticket.objects.all()
         news = Post.objects.all()
         teams = Team.objects.all()
-        return render(request, 'staff/staffindex.html', {'ticket': ticket, 'news':news, 'teams': teams})
+        tournaments = SingleEliminationTournament.objects.all()
+        return render(request, 'staff/staffindex.html', {'ticket': ticket, 'news':news, 'teams': teams, 'tournaments': tournaments})
 
 
 # start users
