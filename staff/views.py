@@ -21,7 +21,8 @@ def staffindex(request):
         return render(request, 'staff/permissiondenied.html')
     else:
         ticket = Ticket.objects.all()
-        return render(request, 'staff/staffindex.html', {'ticket': ticket})
+        news = Post.objects.all()
+        return render(request, 'staff/staffindex.html', {'ticket': ticket, 'news':news })
 
 
 # start users
