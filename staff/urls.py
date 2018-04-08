@@ -5,7 +5,7 @@ from . import views
 app_name = 'staff'
 
 urlpatterns = [
-    url(r'^$', login_required(views.staffindex)),
+    url(r'^$', login_required(views.staffindex), name='index'),
     url(r'^users/$', login_required(views.users), name='users'),
     url(r'^tickets/$', login_required(views.tickets), name='tickets'),
     url(r'^ticketdetail/(?P<pk>\d+)/$', login_required(views.TicketDetail.as_view()), name='ticket_detail'),
