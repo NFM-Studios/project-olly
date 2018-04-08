@@ -20,7 +20,8 @@ def staffindex(request):
     if user.user_type not in allowed:
         return render(request, 'staff/permissiondenied.html')
     else:
-        return render(request, 'staff/staffindex.html')
+        ticket = Ticket.objects.all()
+        return render(request, 'staff/staffindex.html', {'ticket': ticket})
 
 
 # start users
