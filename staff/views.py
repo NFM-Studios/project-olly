@@ -9,6 +9,7 @@ from django.views.generic import View, DetailView, CreateView
 from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from support.models import Ticket
+from teams.models import Team
 from matches.models import Match, MatchReport, MatchDispute
 from news.models import Post, Comment, PublishedManager
 from singletournaments.models import SingleEliminationTournament
@@ -22,7 +23,8 @@ def staffindex(request):
     else:
         ticket = Ticket.objects.all()
         news = Post.objects.all()
-        return render(request, 'staff/staffindex.html', {'ticket': ticket, 'news':news })
+        teams = Team.objects.all()
+        return render(request, 'staff/staffindex.html', {'ticket': ticket, 'news':news, 'teams': teams})
 
 
 # start users
