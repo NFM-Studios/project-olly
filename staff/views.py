@@ -201,7 +201,7 @@ def edit_tournament(request, pk):
 
 class CreateTournament(CreateView):
     form_class = EditTournamentForm
-    template_name = 'staff/edittournament.html'
+    template_name = 'staff/createtournament.html'
 
     def form_valid(self, form):
         tournament = form.instance
