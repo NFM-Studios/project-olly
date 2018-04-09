@@ -3,19 +3,46 @@
 <link rel="stylesheet" href="{% static "css/singletournament.css" %}">
 
 {% block body %}
-
-load  the bracket.
-
-
-
-    {% round1.roundnum %} has these teams...
-    {% round1.teams %}
-    playing these matches....
-    {% round1.matches %}
-
-
-    {% round2.roundnum %} has these teams...
-    {% round2.teams %}
-    playing these matches
-    {% round2.matches %}
+<div class="container">
+<div class="col-1-8">
+  <ul class="matchup">
+    <li><span class="seed">1</span> Bill<span class="score"></span></li>
+    <li><span class="seed">8</span> Tom<span class="score"></span></li>
+  </ul>
+  <ul class="matchup">
+    <li><span class="seed">4</span> Chris<span class="score"></span></li>
+    <li><span class="seed">5</span> Bob<span class="score"></span></li>
+  </ul>
+  <ul class="matchup">
+    <li><span class="seed">2</span> Jerry<span class="score"></span></li>
+    <li><span class="seed">7</span> Sam<span class="score"></span></li>
+  </ul>
+  <ul class="matchup">
+    <li><span class="seed">3</span> Ken<span class="score"></span></li>
+    <li><span class="seed">6</span> Bill<span class="score"></span></li>
+  </ul>
+</div>
+<div class="col-1-8">
+  <div class="round-two-top">
+    <ul class="matchup">
+      <li><span class="seed">1</span> Bill<span class="score"></span></li>
+      <li><span class="seed">4</span> Chris<span class="score"></span></li>
+    </ul>
+  </div>
+  <div class="round-two-bottom">
+    <ul class="matchup round-two-bottom">
+      <li><span class="seed">2</span> Jerry<span class="score"></span></li>
+      <li><span class="seed">3</span> Ken<span class="score"></span></li>
+    </ul>
+  </div>
+</div>
+<div class="col-1-8 champ">
+  <div class="round-three">
+    <ul class="matchup">
+      <li><span class="seed">1</span> Bill<span class="score"></span></li>
+      <li><span class="seed">3</span> Ken<span class="score"></span></li>
+    </ul>
+  </div>
+</div>
+</div>
 {% endblock %}
