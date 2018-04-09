@@ -239,7 +239,7 @@ class SingleTournamentBracket(View):
             round1 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=1)
             round2 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=2)
 
-            return render(request, self.template_name,
+            return render(request, template_name,
                           {'x': pk, 'tournament': tournament, 'teams': teams, 'round1': round1, 'round2': round2})
 
         elif tournament.size == 8:
@@ -249,7 +249,7 @@ class SingleTournamentBracket(View):
             round2 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=2)
             round3 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=3)
 
-            return render(request, self.template_name,
+            return render(request, template_name,
                           {'x': pk, 'tournament': tournament, 'teams': teams, 'round1': round1, 'round2': round2,
                            'round3': round3})
 
@@ -261,7 +261,7 @@ class SingleTournamentBracket(View):
             round3 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=3)
             round4 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=4)
 
-            return render(request, self.template_name,
+            return render(request, template_name,
                           {'x': pk, 'tournament': tournament, 'teams': teams, 'round1': round1, 'round2': round2,
                            'round3': round3, 'round4': round4})
 
@@ -274,7 +274,7 @@ class SingleTournamentBracket(View):
             round4 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=4)
             round5 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=5)
 
-            return render(request, self.template_name,
+            return render(request, template_name,
                           {'x': pk, 'tournament': tournament, 'teams': teams, 'round1': round1, 'round2': round2,
                            'round3': round3, 'round4': round4, 'round5': round5})
 
@@ -289,7 +289,7 @@ class SingleTournamentBracket(View):
             round5 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=5)
             round6 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=6)
 
-            return render(request, self.template_name,
+            return render(request, template_name,
                           {'x': pk, 'tournament': tournament, 'teams': teams, 'round1': round1, 'round2': round2,
                            'round3': round3, 'round4': round4, 'round5': round5, 'round6': round6})
 
@@ -305,7 +305,7 @@ class SingleTournamentBracket(View):
             round6 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=6)
             round7 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=7)
 
-            return render(request, self.template_name,
+            return render(request, template_name,
                           {'x': pk, 'tournament': tournament, 'teams': teams, 'round1': round1, 'round2': round2,
                            'round3': round3, 'round4': round4, 'round5': round5, 'round6': round6, 'round7': round7})
 
