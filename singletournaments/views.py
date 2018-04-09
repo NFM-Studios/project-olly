@@ -232,6 +232,7 @@ class SingleTournamentBracket(View):
     def get(self, request, **kwargs):
         pk = self.kwargs['pk']
         tournament = SingleEliminationTournament.objects.get(id=pk)
+        teams = tournament.teams
         if tournament.size == 4:
             # get 2 rounds to pass to the view
             template_name = 'singletournaments/singletournament_bracket4.html'
