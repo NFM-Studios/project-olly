@@ -3,6 +3,10 @@
 <link rel="stylesheet" href="{% static "css/staff.css" %}">
 <link rel="stylesheet" href="{% static "css/fontawesome-all.min.css" %}">
 
+{% block title %}
+    Ticket #{{ ticket.id }}
+{% endblock %}
+
 {% if messages %}
   <ul class="messages">
     {% for message in messages %}
