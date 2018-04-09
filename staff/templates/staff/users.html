@@ -1,6 +1,11 @@
 {% extends 'staff/staffbase.html' %}
 {% load staticfiles %}
 <link rel="stylesheet" href="{% static "css/staff.css" %}">
+
+{% block title %}
+Search Users
+{% endblock %}
+
 {% block body %}
 
 <form id="searchform" action="{% url 'staff:searchusers' %}" method="get" accept-charset="utf-8">
