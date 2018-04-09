@@ -206,7 +206,6 @@ class SingleTournamentDetail(View):
             tournament.teams.add(new_team)
             for user in new_team_users:
                 deduct_credits(user, tournament.req_credits)
-            tournament.generate_rounds()
             tournament.save()
             tournament_team = SingleTournamentTeam(team_id=new_team.id, round_id=1, tournament_id=tournament.id)
             tournament_team.save()
