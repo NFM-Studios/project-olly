@@ -206,14 +206,6 @@ class SingleEliminationTournament(models.Model):
         for i in teams:
             team_seeds.append(i)
 
-        # for i in teams:
-            # tournament_team = SingleTournamentTeam.objects.get(id=i.pk)
-            # randseed = random.choice(seeds)
-            # seeds.pop(randseed - 1)
-            # tournament_team.seed = randseed
-            # tournament_team.save()
-            # team_obj = Team.objects.get(id=tournament_team.id)
-
         m = dict()
 
         for x in range(1, int(max_matches) + 1):
