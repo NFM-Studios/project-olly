@@ -30,7 +30,7 @@ class EditProfileForm(forms.ModelForm):
         )
 
 
-class LeaderboardSortForm(forms.Form):      # it works but is messy af. should be replaced with something like http://img.mulveyben.me/img/chrome_2018-03-11_22-04-28.png
+class SortForm(forms.Form):      # it works but is messy af. should be replaced with something like http://img.mulveyben.me/img/chrome_2018-03-11_22-04-28.png
     sort_xp_asc = forms.BooleanField(required=False)
     sort_xp_desc = forms.BooleanField(required=False)
     sort_trophies_asc = forms.BooleanField(required=False)
