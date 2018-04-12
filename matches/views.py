@@ -49,8 +49,17 @@ class MatchReportCreateView(CreateView):
             report.save()
             if match.team1reported and match.team2reported:
                 reports = MatchReport.objects.filter(match_id=form.data['match'])
+                report1 = MatchReport.objects.get(team=team1)
+                report2 = MatchReport.objects.get(team=team2)
                 if reports[0].reported_winner != reports[1].reported_winner:
                     messages.warning(self.request, "Both teams have reported different winners; a dispute has been created")
+                    dispute = DisputeCreateForm(None)
+                    dispute.auto_id = form.data['match']
+                    dispute.match = form.data['match']
+                    dispute.team1 = team1
+                    dispute.team2 = team2
+                    dispute.team1origreporter = report1.reporter
+                    dispute.team2origreporter = report2.reporter
                     return redirect('matches:dispute', pk=form.data['match'])
             self.success_url = reverse('matches:detail', args=[match.id])
             messages.success(self.request, 'Your Report has been successfully submitted')
