@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from pages.models import StaticInfo
 from staff.forms import StaticInfoForm, ArticleCreateForm, EditUserForm, TicketCommentCreateForm, EditTournamentForm
 from profiles.models import UserProfile, BannedUser
+from profiles.forms import SortForm
 from django.contrib.auth.models import User
 from django.urls import reverse
 from django.views.generic import View, DetailView, CreateView
@@ -12,6 +13,7 @@ from support.models import Ticket
 from matches.models import Match, MatchReport, MatchDispute
 from news.models import Post, Comment, PublishedManager
 from singletournaments.models import SingleEliminationTournament
+from store.models import Transaction, Transfer
 
 
 def staffindex(request):
@@ -363,3 +365,29 @@ def create_article(request):
 
 
 # end news section
+
+# start store section
+
+class TransactionView(View):
+    template_name = 'staff/transaction_list.html'
+    form_class = SortForm
+
+    def get(self, request, **kwargs):
+        transaction_list = Transaction.objects.order_by('date')  # sort by date default
+        form = self.form_class(None)
+        return render(request, self.template_name, {'transaction_list': transaction_list, 'form': form})
+
+    def post(self, request):
+        form = self.form_class(request.POST)
+
+class TransferView(View):
+    template_name = 'staff/transfer_list.html'
+    form_class = SortForm
+
+    def get(self, request, **kwargs):
+        transfer_list = Transfer.objects.order_by('date')  # sort by username default
+        form = self.form_class(None)
+        return render(request, self.template_name, {'transfer_list': transfer_list, 'form': form})
+
+    def post(self, request):
+        form = self.form_class(request.POST)
