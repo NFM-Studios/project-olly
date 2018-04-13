@@ -1,18 +1,24 @@
 from django import forms
 from matches.models import MatchReport, MatchDispute
-from teams.models import Team
+from teams.models import Team, TeamInvite
 
 
-class MatchReportCreateForm(forms.ModelForm):
+class MatchReportCreateFormGet(forms.ModelForm):
     class Meta:
         model = MatchReport
-        fields = ( 'reported_winner', 'match', )
+        fields = ('reported_winner', 'match', )
 
     def __init__(self, request, *args, **kwargs):
         self.username = request.user
         self.reporting_user = request.user
-        self.reporting_team = forms.ModelChoiceField(queryset=Team.objects.filter(captain=['captain', 'founder'], user_id=self.username.id))
-        super(MatchReportCreateForm, self).__init__(*args, **kwargs)
+        self.reporting_team = forms.ModelChoiceField(queryset=TeamInvite.objects.filter(captain=['captain', 'founder'], user_id=self.username.id))
+        super(MatchReportCreateFormGet, self).__init__(*args, **kwargs)
+
+
+class MatchReportCreateFormPost(forms.ModelForm):
+    class Meta:
+        model = MatchReport
+        fields = ('reported_winner', 'match', )
 
 
 class DisputeCreateForm(forms.ModelForm):

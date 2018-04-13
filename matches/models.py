@@ -35,6 +35,8 @@ class Match(models.Model):
     team2reported = models.BooleanField(default=False)
     team2reportedwinner = models.ForeignKey(Team, related_name='team2reportedwinner', on_delete=models.CASCADE, null=True)
 
+    disputed = models.BooleanField(default=False)
+
     class Meta:
         verbose_name_plural = "matches"
 
