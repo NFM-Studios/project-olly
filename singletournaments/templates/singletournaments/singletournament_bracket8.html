@@ -1,48 +1,47 @@
 {% extends "base.html" %}
 {% load staticfiles %}
-<link rel="stylesheet" href="{% static "css/singletournament.css" %}">
 
 {% block body %}
-<div class="container">
-<div class="col-1-8">
-  <ul class="matchup">
-    <li><span class="seed">1</span> Bill<span class="score"></span></li>
-    <li><span class="seed">8</span> Tom<span class="score"></span></li>
-  </ul>
-  <ul class="matchup">
-    <li><span class="seed">4</span> Chris<span class="score"></span></li>
-    <li><span class="seed">5</span> Bob<span class="score"></span></li>
-  </ul>
-  <ul class="matchup">
-    <li><span class="seed">2</span> Jerry<span class="score"></span></li>
-    <li><span class="seed">7</span> Sam<span class="score"></span></li>
-  </ul>
-  <ul class="matchup">
-    <li><span class="seed">3</span> Ken<span class="score"></span></li>
-    <li><span class="seed">6</span> Bill<span class="score"></span></li>
-  </ul>
-</div>
-<div class="col-1-8">
-  <div class="round-two-top">
-    <ul class="matchup">
-      <li><span class="seed">1</span> Bill<span class="score"></span></li>
-      <li><span class="seed">4</span> Chris<span class="score"></span></li>
-    </ul>
-  </div>
-  <div class="round-two-bottom">
-    <ul class="matchup round-two-bottom">
-      <li><span class="seed">2</span> Jerry<span class="score"></span></li>
-      <li><span class="seed">3</span> Ken<span class="score"></span></li>
-    </ul>
-  </div>
-</div>
-<div class="col-1-8 champ">
-  <div class="round-three">
-    <ul class="matchup">
-      <li><span class="seed">1</span> Bill<span class="score"></span></li>
-      <li><span class="seed">3</span> Ken<span class="score"></span></li>
-    </ul>
-  </div>
-</div>
-</div>
+
+    <script type="text/javascript" src="{% static 'js/jquery-1.6.2.min.js' %}"></script>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/jquery.bracket.min.css' %}" />
+<script type="text/javascript" src="{% static 'js/jquery.bracket.min.js' %}"></script>
+<script>
+
+var singleElimination = {
+  "teams": [              // Matchups
+    ["Team 1", "Team 2"], // First match
+    ["Team 3", "Team 4"],  // Second match
+    ["Team 5", "Team 6"],
+    ["Team 7", "Team 8"],
+  ],
+  "results": [            // List of brackets (single elimination, so only one bracket)
+    [                     // List of rounds in bracket
+      [                   // First round in this bracket
+        [1, 2],           // Team 1 vs Team 2
+        [3, 4],            // Team 3 vs Team 4
+        [5, 6],
+        [7, 8],
+      ],
+      [                   // Second (final) round in single elimination bracket
+        [9, 10],           // Match for first place
+        [11, 12],
+                    // Match for 3rd place
+      ],
+        [
+            [13, 14],
+        ]
+    ]
+  ]
+}
+
+$(function() {
+    $('#demo').bracket({
+      init: singleElimination /* data to initialize the bracket with */ })
+  })
+</script>
+
+    <div id="demo"></div>
+
 {% endblock %}
