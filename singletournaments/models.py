@@ -45,7 +45,8 @@ class SingleEliminationTournament(models.Model):
     # when will the first round of matches start?
     start = models.DateTimeField()
 
-    # all the teams that are in the event. elgibility happens inside the view, when they try to register @ben told me how to do this mtm field, i forgot
+    # all the teams that are in the event. elgibility happens inside the view, when they try to register @ben told me
+    #  how to do this mtm field, i forgot
     teams = models.ManyToManyField(Team, blank=True)
 
     # specify the winning team when they are declared
