@@ -1,21 +1,122 @@
 {% extends "base.html" %}
 {% load staticfiles %}
-<link rel="stylesheet" href="{% static "css/singletournament.css" %}">
 
 {% block body %}
 
-load  the bracket.
+    <script type="text/javascript" src="{% static 'js/jquery-1.6.2.min.js' %}"></script>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/jquery.bracket.min.css' %}" />
+<script type="text/javascript" src="{% static 'js/jquery.bracket.min.js' %}"></script>
+<script>
+
+var singleElimination = {
+  "teams": [              // Matchups
+    ["Team 1", "Team 2"], // First match
+    ["Team 3", "Team 4"],  // Second match
+    ["Team 5", "Team 6"],
+    ["Team 7", "Team 8"],
+    ['Team 9', 'Team 10'],
+    ['Team 11', 'Team 12'],
+    ['Team 13', 'Team 14'],
+    ['Team 15', 'Team 16'],
+    ['Team 17', 'Team 18'],
+    ['Team 19', 'Team 20'],
+    ['Team 21', 'Team 22'],
+    ['Team 23', 'Team 24'],
+    ['Team 25', 'Team 26'],
+    ['Team 27', 'Team 28'],
+    ['Team 29', 'Team 30'],
+    ['Team 31', 'Team 32'],
+    ["Team 33", "Team 34"], // First match
+    ["Team 35", "Team 36"],  // Second match
+    ["Team 37", "Team 38"],
+    ["Team 39", "Team 40"],
+    ['Team 41', 'Team 42'],
+    ['Team 43', 'Team 44'],
+    ['Team 45', 'Team 46'],
+    ['Team 47', 'Team 48'],
+    ['Team 49', 'Team 50'],
+    ['Team 51', 'Team 52'],
+    ['Team 53', 'Team 54'],
+    ['Team 55', 'Team 56'],
+    ['Team 57', 'Team 58'],
+    ['Team 59', 'Team 60'],
+    ['Team 61', 'Team 62'],
+    ['Team 63', 'Team 64'],
 
 
+  ],
+  "results": [            // List of brackets (single elimination, so only one bracket)
+    [                     // List of rounds in bracket
+      [                   // First round in this bracket
+        [1, 2],           // Team 1 vs Team 2
+        [3, 4],            // Team 3 vs Team 4
+        [5, 6],
+        [7, 8],
+        [9, 10],
+        [11, 12],
+        [13, 14],
+        [15, 16],
+        [17, 18],           // Team 1 vs Team 2
+        [19, 20],            // Team 3 vs Team 4
+        [21, 22],
+        [23, 24],
+        [25, 26],
+        [27, 28],
+        [29, 30],
+        [31, 32],
+        [33, 34],           // Team 1 vs Team 2
+        [35, 36],            // Team 3 vs Team 4
+        [37, 38],
+        [39, 40],
+        [41, 42],
+        [43, 44],
+        [45, 46],
+        [47, 48],
+        [49, 50],           // Team 1 vs Team 2
+        [51, 52],            // Team 3 vs Team 4
+        [53, 54],
+        [55, 56],
+        [57, 58],
+        [59, 60],
+        [61, 62],
+        [63, 64],
+      ],
+      [                   // Second (final) round in single elimination bracket
+        [33, 34],           // Match for first place
+        [35, 36],
+        [37, 38],
+        [39, 40],
+        [41, 42],           // Match for first place
+        [43, 44],
+        [45, 46],
+        [47, 48],
+                    // Match for 3rd place
+      ],
+        [
+            [49, 50],
+            [51, 52],
+            [53, 54],
+            [55, 56],
+        ],
 
-    {% round1.roundnum %} has these teams...
-    {% round1.teams %}
-    playing these matches....
-    {% round1.matches %}
+        [
+            [57, 58],
+            [59, 60],
+        ],
+        [
+            [61, 62],
+        ],
+    ]
+  ]
+}
 
+$(function() {
+    $('#demo').bracket({
+      init: singleElimination /* data to initialize the bracket with */ })
+  })
+</script>
 
-    {% round2.roundnum %} has these teams...
-    {% round2.teams %}
-    playing these matches
-    {% round2.matches %}
+    <div id="demo"></div>
+
 {% endblock %}
