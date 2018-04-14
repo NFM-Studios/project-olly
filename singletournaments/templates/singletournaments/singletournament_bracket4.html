@@ -9,20 +9,28 @@
 <script type="text/javascript" src="{% static 'js/jquery.bracket.min.js' %}"></script>
 <script>
 
-var minimalData = {
-    teams : [
-      ["Team 1", "Team 2"], /* first matchup */
-      ["Team 3", "Team 4"]  /* second matchup */
-    ],
-    results : [
-      [[1,2], [3,4]],       /* first round */
-      [[4,6], [2,1]]        /* second round */
+var singleElimination = {
+  "teams": [              // Matchups
+    ["Team 1", "Team 2"], // First match
+    ["Team 3", "Team 4"]  // Second match
+  ],
+  "results": [            // List of brackets (single elimination, so only one bracket)
+    [                     // List of rounds in bracket
+      [                   // First round in this bracket
+        [1, 2],           // Team 1 vs Team 2
+        [3, 4]            // Team 3 vs Team 4
+      ],
+      [                   // Second (final) round in single elimination bracket
+        [5, 6],           // Match for first place
+                    // Match for 3rd place
+      ]
     ]
-  }
+  ]
+}
 
 $(function() {
     $('#demo').bracket({
-      init: minimalData /* data to initialize the bracket with */ })
+      init: singleElimination /* data to initialize the bracket with */ })
   })
 </script>
 
