@@ -22,7 +22,7 @@
     {% for tournament in tournament_list %}
     <tbody>
     <tr scope="">
-        <td scope="row"><a href="">#{{tournament.id}}</a></td>
+        <td scope="row"><a href="/tournament/{{ tournament.id }}">#{{tournament.id}}</a></td>
         <td>{{tournament.name}}</td>
 
         {% if tournament.platform == 0 %}
