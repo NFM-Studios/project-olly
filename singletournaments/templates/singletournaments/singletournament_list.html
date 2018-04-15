@@ -85,7 +85,7 @@
 
         <td>{{tournament.size}}</td>
 
-        <td><a href="{% url 'staff:generate_bracket' pk=tournament.id %}" class="btn btn-success">Join</a></td>
+        <td><a href="{% url 'singletournaments:detail' pk=tournament.id %}" class="btn btn-success">Join</a></td>
     </tr>
     </tbody>
     {% endfor %}
