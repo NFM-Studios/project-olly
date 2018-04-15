@@ -234,126 +234,134 @@ class SingleTournamentBracket(View):
         pk = self.kwargs['pk']
         tournament = SingleEliminationTournament.objects.get(id=pk)
         teams = tournament.teams
-        if tournament.size == 4:
-            # get 2 rounds to pass to the view
-            template_name = 'singletournaments/singletournament_bracket4.html'
+        if tournament.bracket_generated:
+            # show the right bracket
+            if tournament.size == 4:
+                # get 2 rounds to pass to the view
+                template_name = 'singletournaments/singletournament_bracket4.html'
 
-            round1 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=1)
-            round2 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=2)
+                round1 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=1)
+                round2 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=2)
 
-            round1matches = round1.matches
-            round2matches = round2.matches
+                round1matches = round1.matches
+                round2matches = round2.matches
 
-            return render(request, template_name,
-                          {'x': pk, 'tournament': tournament, 'teams': teams, 'round1': round1,
-                           'round2': round2, 'round1matches': round1matches, 'round2matches': round2matches})
+                return render(request, template_name,
+                              {'x': pk, 'tournament': tournament, 'teams': teams, 'round1': round1,
+                               'round2': round2, 'round1matches': round1matches, 'round2matches': round2matches})
 
-        elif tournament.size == 8:
-            # get 3 rounds to pass to the view
-            template_name = 'singletournaments/singletournament_bracket8.html'
-            round1 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=1)
-            round2 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=2)
-            round3 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=3)
+            elif tournament.size == 8:
+                # get 3 rounds to pass to the view
+                template_name = 'singletournaments/singletournament_bracket8.html'
+                round1 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=1)
+                round2 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=2)
+                round3 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=3)
 
-            round1matches = round1.matches
-            round2matches = round2.matches
-            round3matches = round3.matches
+                round1matches = round1.matches
+                round2matches = round2.matches
+                round3matches = round3.matches
 
-            return render(request, template_name,
-                          {'x': pk, 'tournament': tournament, 'teams': teams, 'round1': round1, 'round2': round2,
-                           'round3': round3, 'round1matches': round1matches, 'round2matches': round2matches,
-                           'round3matches': round3matches})
+                return render(request, template_name,
+                              {'x': pk, 'tournament': tournament, 'teams': teams, 'round1': round1, 'round2': round2,
+                               'round3': round3, 'round1matches': round1matches, 'round2matches': round2matches,
+                               'round3matches': round3matches})
 
-        elif tournament.size == 16:
-            # get 4 rounds to pass to the view
-            template_name = 'singletournaments/singletournament_bracket16.html'
-            round1 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=1)
-            round2 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=2)
-            round3 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=3)
-            round4 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=4)
+            elif tournament.size == 16:
+                # get 4 rounds to pass to the view
+                template_name = 'singletournaments/singletournament_bracket16.html'
+                round1 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=1)
+                round2 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=2)
+                round3 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=3)
+                round4 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=4)
 
-            round1matches = round1.matches
-            round2matches = round2.matches
-            round3matches = round3.matches
-            round4matches = round4.matches
+                round1matches = round1.matches
+                round2matches = round2.matches
+                round3matches = round3.matches
+                round4matches = round4.matches
 
-            return render(request, template_name,
-                          {'x': pk, 'tournament': tournament, 'teams': teams, 'round1': round1, 'round2': round2,
-                           'round3': round3, 'round4': round4, 'round1matches': round1matches,
-                           'round2matches': round2matches, 'round3matches': round3matches,
-                           'round4matches': round4matches})
+                return render(request, template_name,
+                              {'x': pk, 'tournament': tournament, 'teams': teams, 'round1': round1, 'round2': round2,
+                               'round3': round3, 'round4': round4, 'round1matches': round1matches,
+                               'round2matches': round2matches, 'round3matches': round3matches,
+                               'round4matches': round4matches})
 
-        elif tournament.size == 32:
-            # get 5 rounds to pass to the view
-            template_name = 'singletournaments/singletournament_bracket32.html'
-            round1 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=1)
-            round2 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=2)
-            round3 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=3)
-            round4 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=4)
-            round5 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=5)
+            elif tournament.size == 32:
+                # get 5 rounds to pass to the view
+                template_name = 'singletournaments/singletournament_bracket32.html'
+                round1 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=1)
+                round2 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=2)
+                round3 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=3)
+                round4 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=4)
+                round5 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=5)
 
-            round1matches = round1.matches
-            round2matches = round2.matches
-            round3matches = round3.matches
-            round4matches = round4.matches
-            round5matches = round5.matches
+                round1matches = round1.matches
+                round2matches = round2.matches
+                round3matches = round3.matches
+                round4matches = round4.matches
+                round5matches = round5.matches
 
-            return render(request, template_name,
-                          {'x': pk, 'tournament': tournament, 'teams': teams, 'round1': round1, 'round2': round2,
-                           'round3': round3, 'round4': round4, 'round5': round5,
-                           'round1matches': round1matches, 'round2matches': round2matches,
-                           'round3matches': round3matches, 'round4matches': round4matches,
-                           'round5matches': round5matches})
-
-
-        elif tournament.size == 64:
-            # get 6 rounds to pass to the view
-            template_name = 'singletournaments/singletournament_bracket64.html'
-            round1 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=1)
-            round2 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=2)
-            round3 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=3)
-            round4 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=4)
-            round5 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=5)
-            round6 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=6)
-
-            round1matches = round1.matches
-            round2matches = round2.matches
-            round3matches = round3.matches
-            round4matches = round4.matches
-            round5matches = round5.matches
-            round6matches = round6.matches
-
-            return render(request, template_name,
-                          {'x': pk, 'tournament': tournament, 'teams': teams, 'round1': round1, 'round2': round2,
-                           'round3': round3, 'round4': round4, 'round5': round5, 'round6': round6,
-                           'round1matches': round1matches, 'round2matches': round2matches,
-                           'round3matches': round3matches, 'round4matches': round4matches,
-                           'round5matches': round5matches, 'round6matches': round6matches})
+                return render(request, template_name,
+                              {'x': pk, 'tournament': tournament, 'teams': teams, 'round1': round1, 'round2': round2,
+                               'round3': round3, 'round4': round4, 'round5': round5,
+                               'round1matches': round1matches, 'round2matches': round2matches,
+                               'round3matches': round3matches, 'round4matches': round4matches,
+                               'round5matches': round5matches})
 
 
-        elif tournament.size == 128:
-            # get 7 rounds to pass to the  view
-            template_name = 'singletournaments/singletournament_bracket128.html'
-            round1 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=1)
-            round2 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=2)
-            round3 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=3)
-            round4 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=4)
-            round5 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=5)
-            round6 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=6)
-            round7 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=7)
+            elif tournament.size == 64:
+                # get 6 rounds to pass to the view
+                template_name = 'singletournaments/singletournament_bracket64.html'
+                round1 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=1)
+                round2 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=2)
+                round3 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=3)
+                round4 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=4)
+                round5 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=5)
+                round6 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=6)
 
-            round1matches = round1.matches
-            round2matches = round2.matches
-            round3matches = round3.matches
-            round4matches = round4.matches
-            round5matches = round5.matches
-            round6matches = round6.matches
-            round7matches = round7.matches
+                round1matches = round1.matches
+                round2matches = round2.matches
+                round3matches = round3.matches
+                round4matches = round4.matches
+                round5matches = round5.matches
+                round6matches = round6.matches
 
-            return render(request, template_name,
-                          {'x': pk, 'tournament': tournament, 'teams': teams, 'round1': round1, 'round2': round2,
-                           'round3': round3, 'round4': round4, 'round5': round5, 'round6': round6, 'round7': round7,
-                           'round1mathces': round1matches, 'round2matches': round2matches, 'round3matches': round3matches,
-                           'round4matches': round4matches, 'round5matches': round5matches, 'round6matches': round6matches,
-                           'round7matches': round7matches})
+                return render(request, template_name,
+                              {'x': pk, 'tournament': tournament, 'teams': teams, 'round1': round1, 'round2': round2,
+                               'round3': round3, 'round4': round4, 'round5': round5, 'round6': round6,
+                               'round1matches': round1matches, 'round2matches': round2matches,
+                               'round3matches': round3matches, 'round4matches': round4matches,
+                               'round5matches': round5matches, 'round6matches': round6matches})
+
+
+            elif tournament.size == 128:
+                # get 7 rounds to pass to the  view
+                template_name = 'singletournaments/singletournament_bracket128.html'
+                round1 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=1)
+                round2 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=2)
+                round3 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=3)
+                round4 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=4)
+                round5 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=5)
+                round6 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=6)
+                round7 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=7)
+
+                round1matches = round1.matches
+                round2matches = round2.matches
+                round3matches = round3.matches
+                round4matches = round4.matches
+                round5matches = round5.matches
+                round6matches = round6.matches
+                round7matches = round7.matches
+
+                return render(request, template_name,
+                              {'x': pk, 'tournament': tournament, 'teams': teams, 'round1': round1, 'round2': round2,
+                               'round3': round3, 'round4': round4, 'round5': round5, 'round6': round6, 'round7': round7,
+                               'round1mathces': round1matches, 'round2matches': round2matches,
+                               'round3matches': round3matches,
+                               'round4matches': round4matches, 'round5matches': round5matches,
+                               'round6matches': round6matches,
+                               'round7matches': round7matches})
+        else:
+            # show some template that its not generated yet
+            return render(request, 'singletournaments/no_bracket.html', {'tournament': tournament})
+
 

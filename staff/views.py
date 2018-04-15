@@ -215,6 +215,8 @@ def generate_bracket(request, pk):
     else:
         tournament = SingleEliminationTournament.objects.get(pk=pk)
         tournament.generate_bracket()
+        tournament.bracket_generated = True
+        tournament.save()
         messages.success(request, "Bracket Generated")
         return redirect('staff:tournamentlist')
 
