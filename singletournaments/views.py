@@ -12,7 +12,8 @@ class List(View):
     template_name = 'singletournaments/singletournament_list.html'
 
     def get(self, request):
-        return render(request, self.template_name)
+        tournament_list = SingleEliminationTournament.objects.all()
+        return render(request, self.template_name, {'tournament_list': tournament_list})
 
 
 '''class SingleTournamentJoin(View):
