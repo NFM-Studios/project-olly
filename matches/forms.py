@@ -11,7 +11,7 @@ class MatchReportCreateFormGet(forms.ModelForm):
     def __init__(self, request, *args, **kwargs):
         self.username = request.user
         self.reporting_user = request.user
-        self.reporting_team = forms.ModelChoiceField(queryset=TeamInvite.objects.filter(captain=['captain', 'founder'], user_id=self.username.id))
+        self.reporting_team = forms.ModelChoiceField(queryset=TeamInvite.objects.filter(hasPerms=True, user_id=self.username.id))
         super(MatchReportCreateFormGet, self).__init__(*args, **kwargs)
 
 
