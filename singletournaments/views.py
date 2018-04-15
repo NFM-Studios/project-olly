@@ -305,6 +305,7 @@ class SingleTournamentBracket(View):
                            'round3matches': round3matches, 'round4matches': round4matches,
                            'round5matches': round5matches})
 
+
         elif tournament.size == 64:
             # get 6 rounds to pass to the view
             template_name = 'singletournaments/singletournament_bracket64.html'
@@ -329,6 +330,7 @@ class SingleTournamentBracket(View):
                            'round3matches': round3matches, 'round4matches': round4matches,
                            'round5matches': round5matches, 'round6matches': round6matches})
 
+
         elif tournament.size == 128:
             # get 7 rounds to pass to the  view
             template_name = 'singletournaments/singletournament_bracket128.html'
@@ -351,8 +353,7 @@ class SingleTournamentBracket(View):
             return render(request, template_name,
                           {'x': pk, 'tournament': tournament, 'teams': teams, 'round1': round1, 'round2': round2,
                            'round3': round3, 'round4': round4, 'round5': round5, 'round6': round6, 'round7': round7,
-                           'round1mathces': round1matches, 'round2matches': round2matches,
-                           'round3matches': round3matches,
-                           'round4matches': round4matches, 'round5matches': round5matches,
-                           'round6matches': round6matches,
+                           'round1mathces': round1matches, 'round2matches': round2matches, 'round3matches': round3matches,
+                           'round4matches': round4matches, 'round5matches': round5matches, 'round6matches': round6matches,
                            'round7matches': round7matches})
+
