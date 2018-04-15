@@ -206,7 +206,6 @@ class SingleEliminationTournament(models.Model):
             round6.save()
             round7.save()
 
-
     def generate_bracket(self):
         # seed teams and make matches
         game = self.game
@@ -285,4 +284,5 @@ class SingleTournamentTeam(models.Model):
     team = models.ForeignKey(Team, related_name='actualteam', null=True, on_delete=models.CASCADE)
     round = models.ForeignKey(SingleTournamentRound, related_name='teaminround', null=True, on_delete=models.CASCADE)
     seed = models.PositiveIntegerField(default=0)
-    tournament = models.ForeignKey(SingleEliminationTournament, related_name='intournament', null=True, on_delete=models.CASCADE)
+    tournament = models.ForeignKey(SingleEliminationTournament, related_name='intournament', null=True,
+                                   on_delete=models.CASCADE)
