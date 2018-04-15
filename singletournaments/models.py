@@ -58,6 +58,8 @@ class SingleEliminationTournament(models.Model):
     # specify how many teams the event will be capped at, and the size of the bracket
     size = models.PositiveSmallIntegerField(default=32, choices=SIZE_CHOICES)
 
+    bracket_generated = models.BooleanField(default=False)
+
     # the prizes that they will win, defined in admin panel. 3rd place isnt really needed..... just first and second...
     prize1 = models.CharField(default='no prize specified', max_length=50)
     prize2 = models.CharField(default='no prize specified', max_length=50)
