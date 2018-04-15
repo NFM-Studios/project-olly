@@ -22,7 +22,7 @@
     {% for tournament in tournament_list %}
     <tbody>
     <tr scope="">
-        <td scope="row"><a href="/tournaments/{{ tournament.id }}">#{{tournament.id}}</a></td>
+        <td scope="row"><a href="{% url 'singletournaments:detail' pk=tournament.id %}">#{{tournament.id}}</a></td>
         <td>{{tournament.name}}</td>
 
         {% if tournament.platform == 0 %}
@@ -85,7 +85,7 @@
 
         <td>{{tournament.size}}</td>
 
-        <td><a href="{% url 'staff:generate_bracket' pk=tournament.id %}" class="btn btn-success">LAUNCH</a></td>
+        <td><a href="{% url 'staff:generate_bracket' pk=tournament.id %}" class="btn btn-success">Join</a></td>
     </tr>
     </tbody>
     {% endfor %}
