@@ -241,8 +241,12 @@ class SingleTournamentBracket(View):
             round1 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=1)
             round2 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=2)
 
+            round1matches = round1.matches
+            round2matches = round2.matches
+
             return render(request, template_name,
-                          {'x': pk, 'tournament': tournament, 'teams': teams, 'round1': round1, 'round2': round2})
+                          {'x': pk, 'tournament': tournament, 'teams': teams, 'round1': round1,
+                           'round2': round2, 'round1matches': round1matches, 'round2matches': round2matches})
 
         elif tournament.size == 8:
             # get 3 rounds to pass to the view
@@ -251,9 +255,14 @@ class SingleTournamentBracket(View):
             round2 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=2)
             round3 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=3)
 
+            round1matches = round1.matches
+            round2matches = round2.matches
+            round3matches = round3.matches
+
             return render(request, template_name,
                           {'x': pk, 'tournament': tournament, 'teams': teams, 'round1': round1, 'round2': round2,
-                           'round3': round3})
+                           'round3': round3, 'round1matches': round1matches, 'round2matches': round2matches,
+                           'round3matches': round3matches})
 
         elif tournament.size == 16:
             # get 4 rounds to pass to the view
@@ -263,9 +272,16 @@ class SingleTournamentBracket(View):
             round3 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=3)
             round4 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=4)
 
+            round1matches = round1.matches
+            round2matches = round2.matches
+            round3matches = round3.matches
+            round4matches = round4.matches
+
             return render(request, template_name,
                           {'x': pk, 'tournament': tournament, 'teams': teams, 'round1': round1, 'round2': round2,
-                           'round3': round3, 'round4': round4})
+                           'round3': round3, 'round4': round4, 'round1matches': round1matches,
+                           'round2matches': round2matches, 'round3matches': round3matches,
+                           'round4matches': round4matches})
 
         elif tournament.size == 32:
             # get 5 rounds to pass to the view
@@ -276,9 +292,18 @@ class SingleTournamentBracket(View):
             round4 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=4)
             round5 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=5)
 
+            round1matches = round1.matches
+            round2matches = round2.matches
+            round3matches = round3.matches
+            round4matches = round4.matches
+            round5matches = round5.matches
+
             return render(request, template_name,
                           {'x': pk, 'tournament': tournament, 'teams': teams, 'round1': round1, 'round2': round2,
-                           'round3': round3, 'round4': round4, 'round5': round5})
+                           'round3': round3, 'round4': round4, 'round5': round5,
+                           'round1matches': round1matches, 'round2matches': round2matches,
+                           'round3matches': round3matches, 'round4matches': round4matches,
+                           'round5matches': round5matches})
 
 
         elif tournament.size == 64:
@@ -291,9 +316,19 @@ class SingleTournamentBracket(View):
             round5 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=5)
             round6 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=6)
 
+            round1matches = round1.matches
+            round2matches = round2.matches
+            round3matches = round3.matches
+            round4matches = round4.matches
+            round5matches = round5.matches
+            round6matches = round6.matches
+
             return render(request, template_name,
                           {'x': pk, 'tournament': tournament, 'teams': teams, 'round1': round1, 'round2': round2,
-                           'round3': round3, 'round4': round4, 'round5': round5, 'round6': round6})
+                           'round3': round3, 'round4': round4, 'round5': round5, 'round6': round6,
+                           'round1matches': round1matches, 'round2matches': round2matches,
+                           'round3matches': round3matches, 'round4matches': round4matches,
+                           'round5matches': round5matches, 'round6matches': round6matches})
 
 
         elif tournament.size == 128:
@@ -307,7 +342,18 @@ class SingleTournamentBracket(View):
             round6 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=6)
             round7 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=7)
 
+            round1matches = round1.matches
+            round2matches = round2.matches
+            round3matches = round3.matches
+            round4matches = round4.matches
+            round5matches = round5.matches
+            round6matches = round6.matches
+            round7matches = round7.matches
+
             return render(request, template_name,
                           {'x': pk, 'tournament': tournament, 'teams': teams, 'round1': round1, 'round2': round2,
-                           'round3': round3, 'round4': round4, 'round5': round5, 'round6': round6, 'round7': round7})
+                           'round3': round3, 'round4': round4, 'round5': round5, 'round6': round6, 'round7': round7,
+                           'round1mathces': round1matches, 'round2matches': round2matches, 'round3matches': round3matches,
+                           'round4matches': round4matches, 'round5matches': round5matches, 'round6matches': round6matches,
+                           'round7matches': round7matches})
 
