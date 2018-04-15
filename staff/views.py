@@ -24,6 +24,7 @@ def staffindex(request):
     else:
         return render(request, 'staff/staffindex.html')
 
+
 # start users
 def users(request):
     user = UserProfile.objects.get(user__username=request.user.username)
@@ -58,7 +59,7 @@ def searchusers(request):
         if query:
             return render(request, 'staff/users.html',
                           {'userprofiles': UserProfile.objects.filter
-                           (Q(user__username__icontains=query) | Q(user__email__icontains=query)),
+                          (Q(user__username__icontains=query) | Q(user__email__icontains=query)),
                            'bannedusers': list(BannedUser.objects.all())})
         else:
             return redirect('staff:users')
@@ -218,6 +219,7 @@ def generate_bracket(request, pk):
         messages.success(request, "Bracket Generated")
         return redirect('staff:tournamentlist')
 
+
 # end tournament section
 
 # start matches section
@@ -231,6 +233,7 @@ def matches_index(request):
     else:
         matches_list = Match.objects.all()
         return render(request, 'staff/matches.html', {'matches_list': matches_list})
+
 
 # end matches section
 
@@ -298,6 +301,7 @@ class TicketCommentCreate(View):
 
         messages.error(self.request, 'An error occurred')
         return render(request, self.template_name, {'form': form})
+
 
 # end support section
 
@@ -379,6 +383,7 @@ class TransactionView(View):
 
     def post(self, request):
         form = self.form_class(request.POST)
+
 
 class TransferView(View):
     template_name = 'staff/transfer_list.html'
