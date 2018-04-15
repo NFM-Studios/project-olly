@@ -177,10 +177,35 @@ class SingleEliminationTournament(models.Model):
             round5.save()
         elif self.size == 64:
             # generate 6 rounds
-            pass
+            round1 = SingleTournamentRound(matchesnum=32, roundnum=1, tournament=self)
+            round2 = SingleTournamentRound(matchesnum=16, roundnum=2, tournament=self)
+            round3 = SingleTournamentRound(matchesnum=8, roundnum=3, tournament=self)
+            round4 = SingleTournamentRound(matchesnum=4, roundnum=4, tournament=self)
+            round5 = SingleTournamentRound(matchesnum=2, roundnum=5, tournament=self)
+            round6 = SingleTournamentRound(matchesnum=1, roundnum=6, tournament=self)
+            round1.save()
+            round2.save()
+            round3.save()
+            round4.save()
+            round5.save()
+            round6.save()
         elif self.size == 128:
             # generate 7 rounds
-            pass
+            round1 = SingleTournamentRound(matchesnum=64, roundnum=1, tournament=self)
+            round2 = SingleTournamentRound(matchesnum=32, roundnum=2, tournament=self)
+            round3 = SingleTournamentRound(matchesnum=16, roundnum=3, tournament=self)
+            round4 = SingleTournamentRound(matchesnum=8, roundnum=4, tournament=self)
+            round5 = SingleTournamentRound(matchesnum=4, roundnum=5, tournament=self)
+            round6 = SingleTournamentRound(matchesnum=2, roundnum=6, tournament=self)
+            round7 = SingleTournamentRound(matchesnum=1, roundnum=7, tournament=self)
+            round1.save()
+            round2.save()
+            round3.save()
+            round4.save()
+            round5.save()
+            round6.save()
+            round7.save()
+
 
     def generate_bracket(self):
         # seed teams and make matches
