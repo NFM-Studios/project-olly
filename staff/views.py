@@ -306,7 +306,7 @@ class TicketCommentCreate(View):
 # start static info section
 
 
-def staticinfo(request):
+def pages(request):
     user = UserProfile.objects.get(user__username=request.user.username)
     allowed = ['superadmin', 'admin']
     if user.user_type not in allowed:
@@ -318,7 +318,7 @@ def staticinfo(request):
             if form.is_valid():
                 form.save()
                 messages.success(request, 'Your information has been updated')
-                return redirect('staff:staticinfo')
+                return redirect('staff:pages')
         else:
             staticinfoobj = StaticInfo.objects.get(pk=1)
             form = StaticInfoForm(instance=staticinfoobj)

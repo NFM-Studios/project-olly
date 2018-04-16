@@ -4,13 +4,13 @@
 {% block body %}
 <p>{{ staticinfo.about_us }}</p>
 
-<form method="POST" action="{% url 'staff:staticinfo' %}">
+<form method="POST" action="{% url 'staff:pages' %}">
     <table class="table">
         {% csrf_token %}
         {{form.as_table}}
         <tr>
             <td colspan="2">
-                <input type="submit" value="Submit" />
+                <input type="submit" class="btn btn-success" value="Submit" />
             </td>
         </tr>
     </table>
