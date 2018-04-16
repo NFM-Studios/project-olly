@@ -114,7 +114,6 @@ class MatchReportCreateView(CreateView):
             return redirect('matches:detail', pk=form.data['match'])
 
 
-
 class MatchDisputeReportCreateView(CreateView):
     form_class = DisputeCreateForm
     template_name = 'matches/tournament_matches_dispute.html'
