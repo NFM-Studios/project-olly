@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import StaticInfo
+from .models import StaticInfo, Partner
 from matches.models import Match
 from teams.models import Team
 from news.models import Post
