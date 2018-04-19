@@ -18,6 +18,7 @@ urlpatterns = [
     url(r'^$', pages_views.index, name='index'),
     url(r'^about/', pages_views.about, name='about'),
     url(r'^terms/', pages_views.terms, name='terms'),
+    url(r'^partners/', pages_views.partners_page, name='partners'),
     url(r'^privacy/', pages_views.privacy, name='privacy'),
     url(r'^404/', pages_views.notfound),
     url(r'^register/', profile_views.CreateUserFormView.as_view(), name='register'),
