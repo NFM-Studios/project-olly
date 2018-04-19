@@ -21,6 +21,12 @@ def about(request):
         return render(request, 'pages/about.html', {'staticinfo': staticinfo})
 
 
+def partners_page(request):
+
+    partners = Partner.objects.all()
+    return render(request,  'pages/partners.html', {'partners': partners})
+
+
 def terms(request):
     staticinfo = StaticInfo.objects.get(pk=1)
     return render(request, 'pages/terms.html', {'staticinfo': staticinfo})
