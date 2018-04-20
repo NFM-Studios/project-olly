@@ -11,8 +11,8 @@ class SingleEliminationTournamentJoin(forms.ModelForm):
         model = SingleEliminationTournament
         fields = ()
 
-    def __init__(self, request, *args, **kwargs):
-        self.username = request.user
-        self.team = forms.ModelChoiceField(
-            queryset=TeamInvite.objects.filter(captain=['captain', 'founder'], user_id=self.username.id))
-        super(SingleEliminationTournamentJoin, self).__init__(*args, **kwargs)
+    #def __init__(self, request, *args, **kwargs):
+    #    self.username = request.user
+    #    self.team = forms.ModelChoiceField(
+    #        queryset=TeamInvite.objects.filter(captain=['captain', 'founder'], user_id=self.username.id))
+    #    super(SingleEliminationTournamentJoin, self).__init__(*args, **kwargs)
