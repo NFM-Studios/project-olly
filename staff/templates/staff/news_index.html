@@ -2,12 +2,16 @@
 {% load staticfiles %}
 <link rel="stylesheet" href="{% static "css/staff.css" %}">
 
+{% block title %}
+News Index
+{% endblock %}
 {% block body %}
 
 
-    dank dank dank news index
+             <p>dank dank dank news index</p>
 
 
-    <a href="{% url 'staff:' %}">Click here to view news articles</a>
+            <a href="{% url 'staff:index' %}">Click here to view news articles</a>
+
 
 {% endblock %}
