@@ -1,5 +1,12 @@
 {% extends "base.html" %}
 {% load staticfiles %}
+
+  {% block head %}
+  <title>{{ team.name }} - {{ SITE_NAME }}</title>
+  {% endblock %}
+  
+{% block body %}
+
 <link rel="stylesheet" href="{% static "css/teams.css" %}">
 <link rel="stylesheet" href="{% static "css/fontawesome-all.min.css" %}">
 
@@ -11,7 +18,6 @@
   </ul>
 {% endif %}
 
-{% block body %}
 <p><a href="{% url 'teams:list' %}" style="text-decoration:none"><i class="fas fa-arrow-left"></i> <strong>Back to team list</strong></a></p>
 <table class="table">
     <thead>

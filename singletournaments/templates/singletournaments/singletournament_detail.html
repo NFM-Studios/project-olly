@@ -1,5 +1,11 @@
 {% extends "base.html" %}
 {% load staticfiles %}
+
+  {% block head %}
+  <title>{{ tournament.name }} Details - {{ SITE_NAME }}</title>
+  {% endblock %}
+
+{% block body %}
 <link rel="stylesheet" href="{% static "css/singletournament.css" %}">
 
 {% if messages %}
@@ -10,7 +16,7 @@
   </ul>
 {% endif %}
 
-{% block body %}
+
 <p><a href="{% url 'singletournaments:list' %}"><i class="fas fa-arrow-left"></i> <strong>Back to tournament list</strong></a></p>
 <table class="table">
     <thead>

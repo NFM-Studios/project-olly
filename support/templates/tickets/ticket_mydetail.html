@@ -3,6 +3,12 @@
 <link rel="stylesheet" href="{% static "css/ticket.css" %}">
 <link rel="stylesheet" href="{% static "css/fontawesome-all.min.css" %}">
 
+  {% block head %}
+  <title>Ticket {{ ticket.id }} Details - {{ SITE_NAME }}</title>
+  {% endblock %}
+
+{% block body %}
+
 {% if messages %}
   <ul class="messages">
     {% for message in messages %}
@@ -11,7 +17,7 @@
   </ul>
 {% endif %}
 
-{% block body %}
+
 <p><a href="{% url 'support:list' %}"><i class="fas fa-arrow-left"></i> <strong>Back to ticket list</strong></a></p>
 <table class="table">
     <thead>

@@ -1,5 +1,10 @@
 {% extends "base.html" %}
 {% load staticfiles %}
+
+  {% block head %}
+  <title>Send an Invite - {{ SITE_NAME }}</title>
+  {% endblock %}
+
 <link rel="stylesheet" href="{% static "css/ticket.css" %}">
 
 {% block body %}

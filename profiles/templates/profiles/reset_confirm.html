@@ -1,5 +1,10 @@
 {% extends "base.html" %}
 {% block body %}
+
+  {% block head %}
+  <title>Password Reset - {{ SITE_NAME }}</title>
+  {% endblock %}
+
 {% if validlink %}
 <h3>Forgotten your password?</h3>
 <p>Please enter your new password twice so we can verify you typed it in correctly.</p>

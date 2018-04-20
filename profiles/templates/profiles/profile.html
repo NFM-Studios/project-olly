@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 
+  {% block head %}
+  <title>{{ userprofile.user }} - {{ SITE_NAME }}</title>
+  {% endblock %}
+
 {% block body %}
 
 {% if requestuser == userprofile.user %}
