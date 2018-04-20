@@ -20,7 +20,7 @@
     {% for tournament in tournament_list %}
     <tbody>
     <tr scope="">
-        <td scope="row"><a href="">#{{tournament.id}}</a></td>
+        <td scope="row"><a href="{% url 'staff:edit_tournament' pk=tournament.id %}">#{{tournament.id}}</a></td>
         <td>{{tournament.name}}</td>
 
         {% if tournament.platform == 0 %}
