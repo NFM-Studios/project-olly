@@ -49,7 +49,7 @@ class SingleEliminationTournament(models.Model):
     #  how to do this mtm field, i forgot
     teams = models.ManyToManyField(Team, blank=True)
 
-    current_round = models.SmallIntegerField(default=1)
+    current_round = models.SmallIntegerField(default=1, blank=True)
 
     # specify the winning team when they are declared
     winner = models.ForeignKey(Team, related_name='winningteam', on_delete=models.CASCADE, blank=True, null=True)

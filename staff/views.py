@@ -228,14 +228,23 @@ def advance(request, pk):
         return render(request, 'staff/permissiondenied.html')
     else:
         tournament = SingleEliminationTournament.objects.get(pk=pk)
-        round = SingleTournamentRound.objects.get(tournament=pk, roundnum=tournament.current_round)
-        matches = round.matches.all()
+        currentround = SingleTournamentRound.objects.get(tournament=pk, roundnum=tournament.current_round)
+        matches = currentround.matches.all()
         for i in matches:
-            if i.winner_id is None:
+            if i.winner is None:
                 messages.error(request, "The current round is not complete")
                 return redirect('staff:tournamentlist')
 
+        winners = []
 
+        for i in matches:
+            winners.append(i.winner)
+
+        for i in winners:
+            newmatch = Match(game=tournament.game, platform=tournament.platform, hometeam=winners[0], awayteam=winners[1])
+            newmatch.save()
+            del winners[0]
+            del winners[0]
 
         messages.success(request, "Advanced to next round")
         return redirect('staff:tournamentlist')
