@@ -238,6 +238,22 @@ class SingleEliminationTournament(models.Model):
         m = dict()
 
         for x in range(1, int(max_matches) + 1):
+            
+            if len(team_seeds) == 1:
+                hometeam = team_seeds[0]
+                hometeam.seeds = seeds[0]
+                hometeam.save()
+                
+                m[x] = Match(game=game, platform=platform, hometeam=team_seeds[0],
+                         teamformat=teamformat, bestof=bestof, reported = True,
+                         completed = True, winner = team_seeds[0])
+                m[x].save()
+                
+                round1 = SingleTournamentRound.objects.get(tournament=self, roundnum=1)
+                round1.matches.add(m[x])
+                round1.save()
+                break
+            
             hometeam = team_seeds[0]
             hometeam.seed = seeds[0]
             hometeam.save()
