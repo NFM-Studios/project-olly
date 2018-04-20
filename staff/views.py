@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from pages.models import StaticInfo
 from staff.forms import StaticInfoForm, ArticleCreateForm, EditUserForm, TicketCommentCreateForm, EditTournamentForm
 from profiles.models import UserProfile, BannedUser
+from profiles.forms import SortForm
 from django.contrib.auth.models import User
 from django.urls import reverse
 from django.views.generic import View, DetailView, CreateView
@@ -12,7 +13,8 @@ from support.models import Ticket
 from teams.models import Team
 from matches.models import Match, MatchReport, MatchDispute
 from news.models import Post, Comment, PublishedManager
-from singletournaments.models import SingleEliminationTournament
+from singletournaments.models import SingleEliminationTournament, SingleTournamentRound
+from store.models import Transaction, Transfer
 
 
 def staffindex(request):
@@ -220,9 +222,39 @@ def generate_bracket(request, pk):
     else:
         tournament = SingleEliminationTournament.objects.get(pk=pk)
         tournament.generate_bracket()
+        tournament.bracket_generated = True
+        tournament.save()
         messages.success(request, "Bracket Generated")
         return redirect('staff:tournamentlist')
 
+
+def advance(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        tournament = SingleEliminationTournament.objects.get(pk=pk)
+        currentround = SingleTournamentRound.objects.get(tournament=pk, roundnum=tournament.current_round)
+        matches = currentround.matches.all()
+        for i in matches:
+            if i.winner is None:
+                messages.error(request, "The current round is not complete")
+                return redirect('staff:tournamentlist')
+
+        winners = []
+
+        for i in matches:
+            winners.append(i.winner)
+
+        for i in winners:
+            newmatch = Match(game=tournament.game, platform=tournament.platform, hometeam=winners[0], awayteam=winners[1])
+            newmatch.save()
+            del winners[0]
+            del winners[0]
+
+        messages.success(request, "Advanced to next round")
+        return redirect('staff:tournamentlist')
 
 # end tournament section
 
@@ -312,7 +344,7 @@ class TicketCommentCreate(View):
 # start static info section
 
 
-def staticinfo(request):
+def pages(request):
     user = UserProfile.objects.get(user__username=request.user.username)
     allowed = ['superadmin', 'admin']
     if user.user_type not in allowed:
@@ -324,7 +356,7 @@ def staticinfo(request):
             if form.is_valid():
                 form.save()
                 messages.success(request, 'Your information has been updated')
-                return redirect('staff:staticinfo')
+                return redirect('staff:pages')
         else:
             staticinfoobj = StaticInfo.objects.get(pk=1)
             form = StaticInfoForm(instance=staticinfoobj)
@@ -372,3 +404,30 @@ def create_article(request):
             messages.error(request, "Gosh darnit, I messed up. I'm sorry")
 
 # end news section
+
+# start store section
+
+class TransactionView(View):
+    template_name = 'staff/transaction_list.html'
+    form_class = SortForm
+
+    def get(self, request, **kwargs):
+        transaction_list = Transaction.objects.order_by('date')  # sort by date default
+        form = self.form_class(None)
+        return render(request, self.template_name, {'transaction_list': transaction_list, 'form': form})
+
+    def post(self, request):
+        form = self.form_class(request.POST)
+
+
+class TransferView(View):
+    template_name = 'staff/transfer_list.html'
+    form_class = SortForm
+
+    def get(self, request, **kwargs):
+        transfer_list = Transfer.objects.order_by('date')  # sort by username default
+        form = self.form_class(None)
+        return render(request, self.template_name, {'transfer_list': transfer_list, 'form': form})
+
+    def post(self, request):
+        form = self.form_class(request.POST)

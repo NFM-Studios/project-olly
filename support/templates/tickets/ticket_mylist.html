@@ -14,7 +14,7 @@
     {% for ticket in ticket_list %}
     <tbody>
     <tr scope="">
-        <td scope="row"><a href="/support/my/{{ticket.id}}/">#{{ticket.id}}</a></td>
+        <td scope="row"><a href="{% url 'support:detail' pk=ticket.id %}">#{{ticket.id}}</a></td>
         <td>{{ticket.subject}}</td>
         <td>{{ticket.last_update}}</td>
     </tr>
@@ -23,7 +23,7 @@
 </table>
 <div id="new-ticket">
 <h2 id="" style="text-decoration: none; margin:8px">
-    <a style="text-decoration:none; color:black;" href="/support/create">
+    <a style="text-decoration:none; color:black;" href="{% url 'support:create' %}">
         <i class="fas fa-plus"></i>  Create a new ticket
     </a>
 </h2>

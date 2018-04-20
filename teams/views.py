@@ -107,6 +107,11 @@ class MyTeamDetailView(DetailView):
     def get(self, request, pk):
         team = Team.objects.get(id=pk)
         players = TeamInvite.objects.filter(team=team, accepted=True)
+        user = UserProfile.objects.get(id=request.user.id)
+        if not user.xbl_verified:
+            messages.warning(request, "Xbox Live is not verified")
+        if not user.psn_verified:
+            messages.warning(request, "PSN is not verified")
         return render(request, self.template_name, {'team': team, 'players': players})
 
     def get_context_date(self, **kwargs):
@@ -118,6 +123,10 @@ class MyTeamDetailView(DetailView):
         self.form = TeamInviteFormPost(request.POST)
         if self.form.is_valid():
             self.form_valid(self.form)
+            if not request.user.xbl_verified:
+                messages.warning(request, "Xbox Live is not verified")
+            if not request.user.psn_verified:
+                messages.warning(request, "PSN is not verified")
             return HttpResponseRedirect(reverse('teams:detail', args=[self.kwargs['pk']]))
         return super(MyTeamDetailView, self).get(request, *args, **kwargs)
 

@@ -1,15 +1,30 @@
 from django.shortcuts import render
-from .models import StaticInfo
+from .models import StaticInfo, Partner
+from matches.models import Match
+from teams.models import Team
+from news.models import Post
+from singletournaments.models import SingleEliminationTournament
 # Create your views here.
 
 
 def index(request):
-    return render(request, 'pages/index.html')
+    teams = Team.objects.all()
+    matches = Match.objects.all()
+    news = Post.objects.all()
+    tournaments = SingleEliminationTournament.objects.all()
+    return render(request, 'pages/index.html', {'teams': teams, 'matches': matches, 
+        'news': news, 'tournaments': tournaments})
 
 
 def about(request):
         staticinfo = StaticInfo.objects.get(pk=1)
         return render(request, 'pages/about.html', {'staticinfo': staticinfo})
+
+
+def partners_page(request):
+
+    partners = Partner.objects.all()
+    return render(request,  'pages/partners.html', {'partners': partners})
 
 
 def terms(request):
