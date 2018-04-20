@@ -28,7 +28,11 @@ class EditTournamentForm(forms.ModelForm):
     class Meta:
         model = SingleEliminationTournament
         fields = '__all__'
-
+        widgets = {
+            'open_register': forms.DateTimeInput(attrs={'class': 'datetime-input'}),
+            'close_register': forms.DateTimeInput(attrs={'class': 'datetime-input'}),
+            'start': forms.DateTimeInput(attrs={'class': 'datetime-input'})
+        }
 
 class ArticleCreateForm(forms.ModelForm):
     class Meta:
