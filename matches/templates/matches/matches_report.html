@@ -2,6 +2,10 @@
 {% load staticfiles %}
 <link rel="stylesheet" href="{% static "css/matches.css" %}">
 
+  {% block head %}
+  <title>Report a Match - {{ SITE_NAME }}</title>
+  {% endblock %}
+
 {% block body %}
 
 <form method="POST" action="{% url 'matches:report' %}">

@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 
+  {% block head %}
+  <title>Edit Team - {{ SITE_NAME }}</title>
+  {% endblock %}
+
 {% block body %}
   <form method="post">
     {% csrf_token %}

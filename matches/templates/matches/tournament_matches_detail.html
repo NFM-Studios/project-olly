@@ -2,6 +2,10 @@
 {% load staticfiles %}
 <link rel="stylesheet" href="{% static "css/matches.css" %}">
 
+  {% block head %}
+  <title>Match details - {{ SITE_NAME }}</title>
+  {% endblock %}
+
 {% block body %}
 <h2>Below is the details for Match {{ match.id }}</h2>
 <table class="table">

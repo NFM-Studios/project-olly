@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 
+  {% block head %}
+  <title>{{ tournament.name }} Bracket - {{ SITE_NAME }}</title>
+  {% endblock %}
+
 {% block body %}
 
     <script type="text/javascript" src="{% static 'js/jquery-1.6.2.min.js' %}"></script>

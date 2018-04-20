@@ -2,6 +2,10 @@
 {% load staticfiles %}
 <link rel="stylesheet" href="{% static "css/matches.css" %}">
 
+  {% block head %}
+  <title>Match Dispute - {{ SITE_NAME }}</title>
+  {% endblock %}
+
 {% block body %}
 <h1>There has been a dispute between the 2 teams for this match</h1>
 
