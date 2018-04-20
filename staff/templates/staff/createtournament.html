@@ -1,0 +1,82 @@
+{% extends 'staff/staffbase.html' %}
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static "css/staff.css" %}">
+{% block title %}
+Create Tournament
+{% endblock %}
+{% block body %}
+<form method="post">
+   {% csrf_token %}
+   {{ field.errors }}
+
+   <label>Name</label>
+   {{ form.name }}
+   <br>
+
+   <label>Team Format</label>
+   {{ form.teamformat }}
+   <br>
+
+   <label>Best of</label>
+   {{ form.bestof }}
+   <br>
+
+   <label>Registration Open</label>
+   {{ form.open_register }}
+   <br>
+
+   <label>Registration Close</label>
+   {{ form.close_register }}
+   <br>
+
+   <label>Required Credits</label>
+   {{ form.req_credits }}
+   <br>
+
+   <label>Platform</label>
+   {{ form.platform }}
+   <br>
+
+   <label>Game</label>
+   {{ form.game }}
+   <br>
+
+   <label>Start</label>
+   {{ form.start }}
+   <br>
+
+   <label>Teams</label>
+   {{ form.teams }}
+   <br>
+
+   <label>Winner</label>
+   {{ form.winner }}
+   <br>
+
+   <label>Second Place</label>
+   {{ form.second }}
+   <br>
+
+   <label>Size</label>
+   {{ form.size }}
+   <br>
+
+   <label>Prize 1</label>
+   {{ form.prize1 }}
+   <br>
+
+   <label>Prize 2</label>
+   {{ form.prize2 }}
+   <br>
+
+   <label>Prize 3</label>
+   {{ form.prize3 }}
+   <br>
+
+   <label>Active</label>
+   {{ form.active }}
+   <br>
+
+   <button type="submit" class="btn btn-primary">Create</button>
+</form>
+{% endblock %}

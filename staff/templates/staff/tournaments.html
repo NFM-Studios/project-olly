@@ -2,6 +2,10 @@
 {% load staticfiles %}
 <link rel="stylesheet" href="{% static "css/staff.css" %}">
 
+{% block title %}
+All Tournaments
+{% endblock %}
+
 {% block body %}
 <table class="table table-hover">
     <tr id="header">
@@ -93,7 +97,7 @@
     <div id="new-tournament">
     <h2 id="" style="text-decoration: none; margin:8px">
         <a style="text-decoration:none; color:black;" href="{% url 'staff:create_tournament' %}">
-            <i class="fas fa-plus"></i>  Create a new tournament
+            <i class="fa fa-plus"></i>  Create a new tournament
         </a>
     </h2>
 </div>

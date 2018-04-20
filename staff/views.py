@@ -10,6 +10,7 @@ from django.views.generic import View, DetailView, CreateView
 from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from support.models import Ticket
+from teams.models import Team
 from matches.models import Match, MatchReport, MatchDispute
 from news.models import Post, Comment, PublishedManager
 from singletournaments.models import SingleEliminationTournament, SingleTournamentRound
@@ -22,9 +23,15 @@ def staffindex(request):
     if user.user_type not in allowed:
         return render(request, 'staff/permissiondenied.html')
     else:
-        return render(request, 'staff/staffindex.html')
+        ticket = Ticket.objects.all()
+        news = Post.objects.all()
+        teams = Team.objects.all()
+        tournaments = SingleEliminationTournament.objects.all()
+        return render(request, 'staff/staffindex.html', {'ticket': ticket, 'news':news, 'teams': teams, 'tournaments': tournaments})
+
 
 # start users
+
 def users(request):
     user = UserProfile.objects.get(user__username=request.user.username)
     allowed = ['superadmin', 'admin']
@@ -196,7 +203,7 @@ def edit_tournament(request, pk):
 
 class CreateTournament(CreateView):
     form_class = EditTournamentForm
-    template_name = 'staff/edittournament.html'
+    template_name = 'staff/createtournament.html'
 
     def form_valid(self, form):
         tournament = form.instance
@@ -262,6 +269,7 @@ def matches_index(request):
     else:
         matches_list = Match.objects.all()
         return render(request, 'staff/matches.html', {'matches_list': matches_list})
+
 
 # end matches section
 
@@ -330,6 +338,7 @@ class TicketCommentCreate(View):
         messages.error(self.request, 'An error occurred')
         return render(request, self.template_name, {'form': form})
 
+
 # end support section
 
 # start static info section
@@ -393,7 +402,6 @@ def create_article(request):
                 return redirect('staff:news_list')
         else:
             messages.error(request, "Gosh darnit, I messed up. I'm sorry")
-
 
 # end news section
 
