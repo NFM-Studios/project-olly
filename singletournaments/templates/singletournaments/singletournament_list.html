@@ -4,6 +4,13 @@
 
 {% block body %}
 
+<div id="new-team">
+<h2 id="" style="text-decoration: none; margin:8px">
+    <a style="text-decoration:none; color:black;" href="{% url 'teams:create' %}">
+        <i class="fas fa-plus"></i>  Create a new team
+    </a>
+</h2>
+</div>
 
 <table class="table table-hover">
     <tr id="header">
@@ -88,14 +95,9 @@
         <td><a href="{% url 'singletournaments:detail' pk=tournament.id %}" class="btn btn-success">Join</a></td>
     </tr>
     </tbody>
+</table>
     {% endfor %}
-<div id="new-ticket">
-<h2 id="" style="text-decoration: none; margin:8px">
-    <a style="text-decoration:none; color:black;" href="{% url 'teams:create' %}">
-        <i class="fas fa-plus"></i>  Create a new team
-    </a>
-</h2>
-</div>
+
 
 
 

@@ -115,6 +115,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.media',
+                'olly.context_processors.site_info'
             ],
         },
     },
@@ -177,7 +178,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'olly/media')
 
 # Where to redirect users after login
-LOGIN_URL = '/login'
+# LOGIN_URL = '/login'
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/login/'
 
@@ -189,5 +190,9 @@ EMAIL_HOST_PASSWORD = 'mikemaddem'
 EMAIL_PORT = 587
 PAYPAL_EMAIL = "steven.young.1-merchant@gmail.com"
 
-
+# Captcha
 GOOGLE_RECAPTCHA_SECRET_KEY = '6LdEsEMUAAAAABfKHZo9Ox0j55s2EnANq-wQlUOm'
+
+# Site info
+SITE_NAME = "Project Olly"
+SITE_SERVER = "Dev-Environment"
