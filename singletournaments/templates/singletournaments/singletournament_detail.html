@@ -139,5 +139,19 @@
         <td><a href="#">Read here</a></td>
     </tr>
 
+
 </table>
+
+    <form method="POST" action="">
+    <table class="table">
+        {% csrf_token %}
+        {{ form }}
+
+        <tr>
+            <td colspan="2">
+                <input type="submit" value="Join" />
+            </td>
+        </tr>
+    </table>
+</form>
 {% endblock %}

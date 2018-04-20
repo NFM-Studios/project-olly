@@ -1,21 +1,48 @@
 {% extends "base.html" %}
 {% load staticfiles %}
-<link rel="stylesheet" href="{% static "css/singletournament.css" %}">
 
 {% block body %}
 
-load  the bracket.
+    <script type="text/javascript" src="{% static 'js/jquery-1.6.2.min.js' %}"></script>
 
+    <link rel="stylesheet" type="text/css" href="{% static 'css/jquery.bracket.min.css' %}" />
+<script type="text/javascript" src="{% static 'js/jquery.bracket.min.js' %}"></script>
+<script>
 
+var singleElimination = {
+  "teams": [              // Matchups
+    ["Team 1", "Team 2"], // First match
+    ["Team 3", "Team 4"],  // Second match
+    ["Team 5", "Team 6"],
+    ["Team 7", "Team 8"],
+  ],
+  "results": [            // List of brackets (single elimination, so only one bracket)
+    [                     // List of rounds in bracket
+      [                   // First round in this bracket
+        [1, 2],           // Team 1 vs Team 2
+        [3, 4],            // Team 3 vs Team 4
+        [5, 6],
+        [7, 8],
+      ],
+      [                   // Second (final) round in single elimination bracket
+        [9, 10],           // Match for first place
+        [11, 12],
+                    // Match for 3rd place
+      ],
+        [
+            [13, 14],
+        ]
+    ]
+  ]
+}
 
-    {% round1.roundnum %} has these teams...
-    {% round1.teams %}
-    playing these matches....
-    {% round1.matches %}
+$(function() {
+    $('#demo').bracket({
+        skipConsolationRound: true,
+      init: singleElimination /* data to initialize the bracket with */ })
+  })
+</script>
 
+    <div id="demo"></div>
 
-    {% round2.roundnum %} has these teams...
-    {% round2.teams %}
-    playing these matches
-    {% round2.matches %}
 {% endblock %}

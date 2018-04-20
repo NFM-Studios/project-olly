@@ -15,7 +15,7 @@
     <tbody>
     <tr scope="">
         <td>{{team.name}}</td>
-        <a href="/teams/{{team.id}}/"><td>{{team.id}}</td></a>
+        <a href="{% url 'teams:detail' pk=team.id %}"><td>{{team.id}}</td></a>
     </tr>
     </tbody>
     {% endfor %}

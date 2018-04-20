@@ -4,7 +4,7 @@ from django.contrib.auth import login as auth_login, REDIRECT_FIELD_NAME
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
 from django.views.generic import View
-from .forms import CreateUserForm, EditProfileForm, LeaderboardSortForm
+from .forms import CreateUserForm, EditProfileForm, SortForm
 from .models import UserProfile
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.encoding import force_bytes
@@ -209,7 +209,7 @@ def activate(request, uidb64, token):
 
 class LeaderboardView(View):
     template_name = 'teams/leaderboard.html'
-    form_class = LeaderboardSortForm
+    form_class = SortForm
 
     def get(self, request, **kwargs):
         user_list = UserProfile.objects.order_by('user__username')  # sort by username default
