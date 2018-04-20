@@ -1,7 +1,11 @@
 {% extends 'staff/staffbase.html' %}
 {% load staticfiles %}
-<link rel="stylesheet" href="{% static "css/staff.css" %}">
+
 {% block body %}
+
+<link rel="stylesheet" href="{% static "css/staff.css" %}">
+<link href="//cdn.bootcss.com/bootstrap-datetimepicker/4.17.44/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+<script src="//cdn.bootcss.com/bootstrap-datetimepicker/4.17.44/js/bootstrap-datetimepicker.min.js"></script>
 
 {% if form.errors %}
     {% for field in form %}
@@ -35,13 +39,19 @@
    {{ form.bestof }}
    <br>
 
-   <label>Registration Open</label>
-   {{ form.open_register }}
-   <br>
+   <div class="form-group">
+       <div class="input-group">
+           <label>Registration Open</label>
+           {{ form.open_register }}
+       </div>
+   </div>
 
-   <label>Registration Close</label>
-   {{ form.close_register }}
-   <br>
+   <div class="form-group">
+       <div class="input-group">
+           <label>Registration Close</label>
+           {{ form.close_register }}
+       </div>
+   </div>
 
    <label>Required Credits</label>
    {{ form.req_credits }}
@@ -55,9 +65,12 @@
    {{ form.game }}
    <br>
 
-   <label>Start</label>
-   {{ form.start }}
-   <br>
+   <div class="form-group">
+       <div class="input-group">
+           <label>Start Time</label>
+           {{ form.start }}
+       </div>
+   </div>
 
    <label>Teams</label>
    {{ form.teams }}
@@ -93,4 +106,12 @@
 
    <button type="submit" class="btn btn-primary">Submit</button>
 </form>
+
+<script>
+    $(function () {
+        $('.datetime-input').datetimepicker({
+            format:'YYYY-MM-DD HH:mm:ss'
+        });
+    });
+</script>
 {% endblock %}
