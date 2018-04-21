@@ -1,6 +1,5 @@
 from django.shortcuts import render
 from .models import StaticInfo, Partner
-from .settings import OLLY_VERSION, SERVER_CHOICE
 from matches.models import Match
 from teams.models import Team
 from news.models import Post
@@ -14,7 +13,7 @@ def index(request):
     news = Post.objects.all()
     tournaments = SingleEliminationTournament.objects.all()
     return render(request, 'pages/index.html', {'teams': teams, 'matches': matches, 
-        'news': news, 'tournaments': tournaments, 'olly_version': OLLY_VERSION, 'server': SERVER_CHOICE})
+        'news': news, 'tournaments': tournaments})
 
 
 def about(request):
