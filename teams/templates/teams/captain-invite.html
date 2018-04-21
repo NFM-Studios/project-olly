@@ -2,6 +2,10 @@
 {% load staticfiles %}
 <link rel="stylesheet" type="text/css" href="{% static "css/teams.css" %}">
 
+  {% block head %}
+  <title>Promote a Player - {{ SITE_NAME }}</title>
+  {% endblock %}
+
 {% block body %}
 
 {% if messages %}

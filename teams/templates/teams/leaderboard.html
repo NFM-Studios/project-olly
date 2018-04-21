@@ -2,6 +2,10 @@
 {% load staticfiles %}
 <link rel="stylesheet" href="{% static "css/ticket.css" %}">
 
+  {% block head %}
+  <title>Leaderboard - {{ SITE_NAME }}</title>
+  {% endblock %}
+
 {% block body %}
 
     <form method="POST" action="">
