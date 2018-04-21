@@ -2,6 +2,10 @@
 {% load staticfiles %}
 <link rel="stylesheet" href="{% static "css/teams.css" %}">
 
+  {% block head %}
+  <title>My Teams - {{ SITE_NAME }}</title>
+  {% endblock %}
+
 {% block body %}
 <table class="table table-hover">
     <tr id="header">

@@ -2,7 +2,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>{% block title %}{% endblock %}</title>
+  {% block head %}
+  <title>News - {{ SITE_NAME }}</title>
+  {% endblock %}
     <link href="{% static "css/news.css" %}" rel="stylesheet">
 </head>
 <body>
