@@ -16,7 +16,7 @@ class List(View):
         return render(request, self.template_name, {'tournament_list': tournament_list})
 
 
-'''class SingleTournamentJoin(View):
+class SingleTournamentJoin(View):
     template_name = 'singletournaments/singletournament_join.html'
     form_class = SingleEliminationTournamentJoin
 
@@ -112,7 +112,7 @@ class List(View):
                 return redirect('singletournaments:list')
         else:
             messages.error(request, message="You can't join a tournament if you aren't the captain or founder")
-            return redirect('singletournaments:list')'''
+            return redirect('singletournaments:list')
 
 
 class SingleTournamentDetail(View):
