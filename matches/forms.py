@@ -6,7 +6,7 @@ from teams.models import Team, TeamInvite
 class MatchReportCreateFormGet(forms.ModelForm):
     class Meta:
         model = MatchReport
-        fields = ('reported_winner', 'match', )
+        fields = ('reported_winner',)
 
     def __init__(self, request, *args, **kwargs):
         self.username = request.user
