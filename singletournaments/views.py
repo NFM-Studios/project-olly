@@ -37,12 +37,18 @@ class SingleTournamentJoin(View):
             return redirect('singletournaments:list')
         if invite.hasPerms:
             tournament = SingleEliminationTournament.objects.get(id=self.kwargs['pk'])
-            if tournament.teamformat == 0: players = 1
-            elif tournament.teamformat == 1: players = 2
-            elif tournament.teamformat == 2: players = 3
-            elif tournament.teamformat == 3: players = 4
-            elif tournament.teamformat == 4: players = 5
-            elif tournament.teamformat == 5: players = 6
+            if tournament.teamformat == 0:
+                players = 1
+            elif tournament.teamformat == 1:
+                players = 2
+            elif tournament.teamformat == 2:
+                players = 3
+            elif tournament.teamformat == 3:
+                players = 4
+            elif tournament.teamformat == 4:
+                players = 5
+            elif tournament.teamformat == 5:
+                players = 6
             team = Team.objects.get(id=int(form.data['teams']))
             users = TeamInvite.objects.filter(team=form.data['teams'])
             teams = tournament.teams.all()
@@ -216,7 +222,6 @@ class SingleTournamentBracket(View):
                                'round3matches': round3matches, 'round4matches': round4matches,
                                'round5matches': round5matches})
 
-
             elif tournament.size == 64:
                 # get 6 rounds to pass to the view
                 template_name = 'singletournaments/singletournament_bracket64.html'
@@ -240,7 +245,6 @@ class SingleTournamentBracket(View):
                                'round1matches': round1matches, 'round2matches': round2matches,
                                'round3matches': round3matches, 'round4matches': round4matches,
                                'round5matches': round5matches, 'round6matches': round6matches})
-
 
             elif tournament.size == 128:
                 # get 7 rounds to pass to the  view
@@ -272,5 +276,3 @@ class SingleTournamentBracket(View):
         else:
             # show some template that its not generated yet
             return render(request, 'singletournaments/no_bracket.html', {'tournament': tournament})
-
-
