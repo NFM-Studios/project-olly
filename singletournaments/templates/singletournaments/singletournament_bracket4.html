@@ -6,17 +6,23 @@
   {% endblock %}
 
 {% block body %}
-
+    <script type="text/javascript">
+    var myteams = [];
+    </script>
+    {% for team in teams %}
+    <script>myteams.push("{{ team }}");</script>
+    {% endfor %}
+    <script type="text/javascript">console.log("myteams");</script>
     <script type="text/javascript" src="{% static 'js/jquery-1.6.2.min.js' %}"></script>
 
     <link rel="stylesheet" type="text/css" href="{% static 'css/jquery.bracket.min.css' %}" />
 <script type="text/javascript" src="{% static 'js/jquery.bracket.min.js' %}"></script>
 <script>
-
+console.log(myteams);
 var singleElimination = {
   "teams": [              // Matchups
-    ["Team 1", "Team 2"], // First match
-    ["Team 3", "Team 4"]  // Second match
+    [myteams[0], myteams[1]], // First match
+    [myteams[2], myteams[3]]  // Second match
   ],
   "results": [            // List of brackets (single elimination, so only one bracket)
     [                     // List of rounds in bracket
@@ -39,6 +45,9 @@ $(function() {
   })
 </script>
 
+    <h2>Bracket for {{ tournament.name }}</h2>
+
     <div id="demo"></div>
 
+    <p><script type="text/javascript">//document.write("myteams");</script></p>
 {% endblock %}
