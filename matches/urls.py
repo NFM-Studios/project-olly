@@ -8,7 +8,7 @@ app_name = 'matches'
 
 urlpatterns = [
     url(r'^(?P<pk>\d+)/$', login_required(TournamentMatchDetailView.as_view()), name='detail'),
-    url(r'^report$', login_required(MatchReportCreateView.as_view()), name='report'),
+    url(r'^(?P<pk>\d+)/report$', login_required(MatchReportCreateView.as_view()), name='report'),
     url(r'^(?P<pk>\d+)/dispute', login_required(MatchDisputeReportCreateView.as_view()), name='dispute'),
 
 
