@@ -24,11 +24,11 @@ class MatchReportCreateView(CreateView):
         form = MatchReportCreateFormGet(request)
         return render(request, self.template_name, {'form': form, })
 
-    def post(self, request):
+    def post(self, request, pk, **kwargs):
         form = MatchReportCreateFormPost(request.POST)
         report = form.instance
         report.reporting_user = self.request.user
-        match = Match.objects.get(id=form.data['match'])
+        match = Match.objects.get(id=self.kwargs['pk'])
         team1 = Team.objects.get(id=match.hometeam_id)
         team2 = Team.objects.get(id=match.awayteam_id)
         team1_reporters = TeamInvite.objects.filter(team=team1, hasPerms=True)
