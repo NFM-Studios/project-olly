@@ -8,10 +8,17 @@
 {% block body %}
     <script type="text/javascript">
     var myteams = [];
+    var r1matches = [];
     </script>
     {% for team in teams %}
     <script>myteams.push("{{ team }}");</script>
     {% endfor %}
+    {% for round1 in round1matches %}
+    <script>r1matches.push("{{ round1 }}");</script>
+    {% endfor %}
+
+    # to do - get the specific match1 and match2 out of round1matches
+
     <script type="text/javascript">console.log("myteams");</script>
     <script type="text/javascript" src="{% static 'js/jquery-1.6.2.min.js' %}"></script>
 
