@@ -2,6 +2,7 @@ from django import forms
 from pages.models import StaticInfo
 from profiles.models import UserProfile
 from support.models import TicketComment
+from matches.models import Match
 from singletournaments.models import SingleEliminationTournament
 from news.models import Post
 
@@ -33,6 +34,13 @@ class EditTournamentForm(forms.ModelForm):
             'close_register': forms.DateTimeInput(attrs={'class': 'datetime-input'}),
             'start': forms.DateTimeInput(attrs={'class': 'datetime-input'})
         }
+
+
+class DeclareMatchWinnerForm(forms.ModelForm):
+    class Meta:
+        model = Match
+        fields = ('winner', 'completed', 'disputed')
+
 
 class ArticleCreateForm(forms.ModelForm):
     class Meta:
