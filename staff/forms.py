@@ -2,6 +2,7 @@ from django import forms
 from pages.models import StaticInfo
 from profiles.models import UserProfile
 from support.models import TicketComment
+from matches.models import Match
 from singletournaments.models import SingleEliminationTournament
 from news.models import Post
 
