@@ -20,7 +20,7 @@
     {% for match in matches_list %}
     <tbody>
     <tr scope="">
-        <td scope="row"><a href="">#{{match.id}}</a></td>
+        <td scope="row"><a href="{% url 'staff:match_detail' pk=match.id %}">#{{match.id}}</a></td>
         <td>Get the proper tournament</td>
 
         {% if match.platform == 0 %}
