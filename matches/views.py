@@ -72,20 +72,25 @@ class MatchReportCreateView(View):
                     report1 = MatchReport.objects.get(reporting_team=team1, match_id=match.id)
                     report2 = MatchReport.objects.get(reporting_team=team2, match_id=match.id)
                     if reports[0].reported_winner != reports[1].reported_winner:
-                        messages.warning(self.request, "Both teams have reported different winners; a dispute has been created")
+                        messages.warning(self.request,
+                                         "Both teams have reported different winners; a dispute has been created")
                         # here
-                        dispute = DisputeCreateForm(None)
+                        #dispute = DisputeCreateForm()
                         #dispute.auto_id = match.id
-                        dispute.match = match.id
-                        dispute.team1 = team1
-                        dispute.team2 = team2
-                        dispute.team1origreporter = report1.reporter
-                        dispute.team2origreporter = report2.reporter
+                        #dispute.match = match
+                        #dispute.team1 = team1
+                        #dispute.team2 = team2
+                        #dispute.team1origreporter = report1.reporting_user
+                        #dispute.team2origreporter = report2.reporting_user
+
+                        dispute = MatchDispute(match=match, team1=team1, team2=team2,
+                                               team1origreporter=report1.reporting_user,
+                                               team2origreporter=report2.reporting_user)
                         dispute.save()
                         # to here might not stay
                         match.disputed = True
                         match.save()
-                        return redirect('matches:dispute', pk=pk)
+                        return redirect('matches:dispute', pk=dispute.pk)
                     if match.team1reported:
                         # team 1 reported
                         if match.team1reportedwinner == team2:
@@ -128,7 +133,7 @@ class MatchDisputeReportCreateView(CreateView):
 
     def get(self, request, **kwargs):
         form = self.form_class(None)
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {'form': form, 'dispute': kwargs['pk']})
 
     def form_valid(self, form, **kwargs):
         match = Match.objects.get(id=self.kwargs['pk'])
@@ -141,6 +146,7 @@ class MatchDisputeReportCreateView(CreateView):
         dispute.teamproof_3 = form.data['teamproof_3']
         dispute.team1_id = match.hometeam_id
         dispute.team2_id = match.awayteam_id
+        dispute.save()
 
 
 

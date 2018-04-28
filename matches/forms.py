@@ -22,13 +22,10 @@ class MatchReportCreateFormPost(forms.ModelForm):
 
 
 class DisputeCreateForm(forms.ModelForm):
-    teamproof_1 = forms.URLField()
-    teamproof_2 = forms.URLField()
-    teamproof_3 = forms.URLField()
+    #teamproof_1 = forms.URLField()
+    #teamproof_2 = forms.URLField()
+    #teamproof_3 = forms.URLField()
+
     class Meta:
         model = MatchDispute
-        fields = ('teamproof', 'match')
-
-    def __init__(self, request, *args, **kwargs):
-        self.teamreporter = request.user
-        super(DisputeCreateForm, self).__init__(*args, **kwargs)
+        fields = ['teamproof_1', 'teamproof_2', 'teamproof_3']
