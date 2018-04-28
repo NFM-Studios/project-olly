@@ -80,7 +80,7 @@
 {% for invite in team_list %}
  <tbody>
     <tr scope="">
-        <td scope="row"><a href="/teams//{{ invite.team.id }}/">#{{invite.team.id}}</a></td>
+        <td scope="row"><a href="/teams/{{ invite.team.id }}/">#{{invite.team.id}}</a></td>
         <td>{{invite.team.name}}</td>
         <td>{{invite.captain}}</td>
     </tr>
