@@ -34,6 +34,13 @@ class EditTournamentForm(forms.ModelForm):
             'start': forms.DateTimeInput(attrs={'class': 'datetime-input'})
         }
 
+
+class DeclareMatchWinnerForm(forms.ModelForm):
+    class Meta:
+        model = Match
+        fields = ('winner', 'completed', 'disputed')
+
+
 class ArticleCreateForm(forms.ModelForm):
     class Meta:
         model = Post
