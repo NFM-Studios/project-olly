@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from pages.models import StaticInfo
-from staff.forms import StaticInfoForm, ArticleCreateForm, EditUserForm, TicketCommentCreateForm, EditTournamentForm
+from staff.forms import StaticInfoForm, ArticleCreateForm, EditUserForm, TicketCommentCreateForm, EditTournamentForm, DeclareMatchWinnerForm
 from profiles.models import UserProfile, BannedUser
 from profiles.forms import SortForm
 from django.contrib.auth.models import User
