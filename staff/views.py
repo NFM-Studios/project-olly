@@ -261,6 +261,29 @@ def advance(request, pk):
 # start matches section
 
 
+def declare_match_winner(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        if request.method == 'POST':
+            matchobj = Match.objects.get(pk=pk)
+            form = DeclareMatchWinnerForm(request.POST, instance=matchobj)
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'Match winner has been updated!')
+                return redirect('staff:matches_index')
+            else:
+                print('form is not valid')
+        else:
+            tournamentobj = SingleEliminationTournament.objects.get(pk=pk)
+            form = DeclareMatchWinnerForm(instance=tournamentobj)
+            return render(request, 'staff/edittournament.html', {'form': form})
+        matches_list = Match.objects.all()
+        return render(request, 'staff/matches_winner.html', {'matches_list': matches_list})
+
+
 def matches_index(request):
     user = UserProfile.objects.get(user__username=request.user.username)
     allowed = ['superadmin', 'admin']
