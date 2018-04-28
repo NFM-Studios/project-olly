@@ -271,6 +271,16 @@ def matches_index(request):
         return render(request, 'staff/matches.html', {'matches_list': matches_list})
 
 
+def match_detail(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        match = Match.objects.get(pk=pk)
+        return render(request, 'staff/match_detail.html', {'match': match})
+
+
 # end matches section
 
 
