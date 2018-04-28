@@ -1,2 +1,6 @@
-{% extends 'staffbase.html' %}
+{% extends 'staff/staffbase.html' %}
 {% load staticfiles %}
+
+{% block body %}
+You are currently viewing match #{{ match.id }}
+{% endblock %}
