@@ -33,14 +33,15 @@ class MatchReportCreateView(View):
         team2 = Team.objects.get(id=match.awayteam_id)
         team1_reporters = TeamInvite.objects.filter(team=team1, hasPerms=True)
         team2_reporters = TeamInvite.objects.filter(team=team2, hasPerms=True)
-        try:
+
+        if TeamInvite.objects.filter(user=self.request.user, team=team1).exists():
             reporter_team = TeamInvite.objects.get(user=self.request.user, team=team1)
-        except:
+        elif TeamInvite.objects.filter(user=self.request.user, team=team2).exists():
             reporter_team = TeamInvite.objects.get(user=self.request.user, team=team2)
-        #try:
-        #    report_ = MatchReport.objects.get(match=match.id, reporting_team=team1)
-        #    report__ = MatchReport.objects.get(match=match.id, reporting_team=team2)
-        #except:
+        else:
+            messages.error("Something went wrong, please try again")
+            return redirect('matches:detail', pk=pk)
+
         if MatchReport.objects.filter(match=match.id, reporting_team=team1).exists() and reporter_team.id == team1.id:
             messages.error(request, "Your team has already reported this match")
             return redirect('matches:detail', pk=pk)
