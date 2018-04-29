@@ -53,8 +53,13 @@
         {% if match.awayteam is null and match.hometeam is not null %}
             <!-- there is no team, this is a buy. add this to an array -->
             <script>
+                // let the array know to keep track of this bye
                 matchbyes.push("{{ match }}");
+                // we know there is a bye so push it to the team array
+                // to do sort out the order of myteams
                 myteams.push("BYE");
+                // let the array know that this match is done
+                matchesdone.push("{{ match.id }}");
             </script>
         {% endif %}
 
