@@ -11,6 +11,10 @@
         <script>var haveByes = true;</script>
     {% endif %}
 
+    {% if tournament.size == teams %}
+        <script>var haveByes = false;</script>
+    {% endif %}
+
     <script type="text/javascript">
     var myteams = [];
     var r1matches = [];
