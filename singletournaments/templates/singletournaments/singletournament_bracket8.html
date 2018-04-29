@@ -17,23 +17,77 @@
     <script type="text/javascript">
     var myteams = [];
     var r1matches = [];
+    var matchbyes = [];
+    var matchesdone = [];
     </script>
-    
-    {% for team in teams %}
-        <!-- To do, determine whats passed if it is a bye -->
-        {% if team is NULL %}
-        <script>myteams.push("BYE");</script>
 
-        {% else %}
-        <script>myteams.push("{{ team }}");</script>
+    <script>
+    // round 1
+    // 0 means home
+    // 1 means away
+    var match1score = null;
+    var match2score = null;
+    var match3score = null;
+    var match4score = null;
+    </script>
+
+    <script>
+    // round 2
+    // 0 means home
+    // 1 means away
+    var match10score = null;
+    var match11score = null;
+    </script>
+
+    <script>
+    // round 3
+    // 0 means home
+    // 1 means away
+    var match20score = null;
+    </script>
+
+
+    {% for match in round1matches %}
+
+        <!-- check to make sure there is no away team, if there isnt -->
+        {% if match.awayteam is null and match.hometeam is not null %}
+            <!-- there is no team, this is a buy. add this to an array -->
+            <script>
+                matchbyes.push("{{ match }}");
+                myteams.push("BYE");
+            </script>
         {% endif %}
 
+        {% if match.awayteam is not null and match.hometeam is not null %}
+            <!-- its a legit match -->
+            <script>
+                myteams.push("{{ match.awayteam }}");
+                // add the home team to the array
+                myteams.push("{{ match.hometeam }}");
+            </script>
+        {% endif %}
+
+        {% if match.completed or match.disputed is null or match.winner is not null %}
+            <!-- figure out how to assign this to a js variable -->
+            <script>
+            matchesdone.push("{{ match.id }}")
+            </script>
+        {% endif %}
+        {% for team in teams %}
+            <!-- To do, determine whats passed if it is a bye -->
+            {% if team is NULL %}
+            <script>myteams.push("BYE");</script>
+
+            {% else %}
+            <script>myteams.push("{{ team }}");</script>
+            {% endif %}
+
+        {% endfor %}
+
     {% endfor %}
 
 
-    {% for round1 in round1matches %}
-        <script>r1matches.push("{{ round1 }}");</script>
-    {% endfor %}
+
 
     <!-- to do - get the specific match1 and match2 out of round1matches -->
 
