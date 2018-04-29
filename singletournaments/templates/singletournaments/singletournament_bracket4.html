@@ -11,9 +11,12 @@
     var r1matches = [];
     </script>
     {% for team in teams %}
+        {% if tournament.size > teams %}
+            <!-- there are byes -->
+        {% endif %}
         <script>myteams.push("{{ team }}");</script>
     {% endfor %}
-    
+
     {% for round1 in round1matches %}
         <script>r1matches.push("{{ round1 }}");</script>
     {% endfor %}
