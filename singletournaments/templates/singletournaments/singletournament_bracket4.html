@@ -20,8 +20,14 @@
     var r1matches = [];
     </script>
     {% for team in teams %}
+        <!-- To do, determine whats passed if it is a bye -->
+        {% if team is NULL %}
+        <script>myteams.push("BYE");</script>
 
+        {% else %}
         <script>myteams.push("{{ team }}");</script>
+        {% endif %}
+
     {% endfor %}
 
     {% for round1 in round1matches %}
