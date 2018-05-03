@@ -1,6 +1,142 @@
 {% extends 'staff/staffbase.html' %}
 {% load staticfiles %}
 
+{% block title %}
+Match #{{ match.id }}
+{% endblock %}
+
 {% block body %}
-You are currently viewing match #{{ match.id }}
+    {% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      <li class="{{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+
+
+<p><a href="{% url 'staff:matches_index' %}"><i class="fa fa-arrow-left"></i> <strong>Back to matches list</strong></a></p>
+<table class="table">
+    <thead>
+    <tr>
+        <th>Key</th>
+        <th>Value</th>
+    </tr>
+    </thead>
+    <tr>
+        <td>ID</td>
+        <td>{{match.id}}</td>
+    </tr>
+    <tr>
+        <td>Game</td>
+        {% if match.game == 0 %}
+        <td>No Game Set</td>
+        {% elif match.game == 1 %}
+        <td>Call of Duty: Black Ops 3</td>
+        {% elif match.game == 2 %}
+        <td>Call of Duty WWII</td>
+        {% elif match.game == 3 %}
+        <td>Fortnite</td>
+        {% elif match.game == 4 %}
+        <td>Destiny 2</td>
+        {% elif match.game == 5 %}
+        <td>Counter-Strike: Global Offensive</td>
+        {% elif match.game == 6 %}
+        <td>Player Unknown's BATTLEGROUNDS
+        {% elif match.game == 7 %}
+        <td>Rainbow Six Siege</td>
+        {% elif match.game == 8 %}
+        <td>Overwatch</td>
+        {% elif match.game == 9 %}
+        <td>League of Legends</td>
+        {% elif match.game == 10 %}
+        <td>Hearthstone</td>
+        {% elif match.game == 11 %}
+        <td>World of Warcraft</td>
+        {% elif match.game == 12 %}
+        <td>SMITE</td>
+        {% elif match.game == 13 %}
+        <td>Rocket League</td>
+        {% elif match.game == 14 %}
+        <td>Battlefield 1</td>
+        {% endif %}
+    </tr>
+    <tr>
+        <td>Format</td>
+        {% if match.teamformat == 0 %}
+        <td>1v1</td>
+        {% elif match.teamformat == 1 %}
+        <td>2v2</td>
+        {% elif match.teamformat == 2 %}
+        <td>3v3</td>
+        {% elif match.teamformat == 3 %}
+        <td>4v4</td>
+        {% elif tournament.teamformat == 4 %}
+        <td>5v5</td>
+        {% elif tournament.teamformat == 5 %}
+        <td>6v6</td>
+        {% endif %}}
+    </tr>
+    <tr>
+        <td>Home team</td>
+        <td>Team <a href="">#{{ match.hometeam_id }}</a></td>
+    </tr>
+    <tr>
+        <td>Away Team</td>
+        <td>Team <a href="">#{{ match.awayteam_id }}</a></td>
+    </tr>
+    <tr>
+        <td>Completed</td>
+        <td>{{ match.completed }}</td>
+    </tr>
+    <tr>
+        <td>Reported</td>
+        <td>{{ match.reported }}</td>
+    </tr>
+    <tr>
+        <td>Winner</td>
+        <td>Team #{{ match.winner_id }}</td>
+    </tr>
+    <tr>
+        <td>Winner</td>
+        <td>{{ticket.status}}</td>
+    </tr>
+    <tr>
+        <td>Best Of</td>
+        {% if tournament.bestof == 0 %}
+        <td>Best of 1</td>
+        {% elif tournament.bestof == 1 %}
+        <td>Best of 3</td>
+        {% elif tournament.bestof == 2 %}
+        <td>Best of 5</td>
+        {% elif tournament.bestof == 3 %}
+        <td>Best of 7</td>
+        {% elif tournament.bestof == 4 %}
+        <td>Best of 9</td>
+        {% endif %}
+    </tr>
+</table>
+    <h2>Reports for this match...</h2>
+
+    <table>
+    <tr>
+    <th>Team1</th>
+    <th>Reported Winner</th>
+    </tr>
+    <tbody>
+    <td>Team #{{ team1.reportedwinner_id }}</td>
+    </tbody>
+    </table>
+    <br />
+    <table>
+    <tr>
+    <th>Team2</th>
+    <th>Reported Winner</th>
+    </tr>
+    <tbody>
+    <td>Team #{{ team2.reportedwinner_id }}</td>
+
+    </tbody>
+    </table>
+
 {% endblock %}
