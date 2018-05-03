@@ -1,10 +1,41 @@
-{% extends 'staff/staffbase.html' %}
+
 {% load staticfiles %}
 <link rel="stylesheet" href="{% static "css/staff.css" %}">
 {% block title %}
 Create Tournament
 {% endblock %}
 {% block body %}
+<link rel="stylesheet" href="{% static "css/staff.css" %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet"/>
+
+<link href="http://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/a549aa8780dbda16f6cff545aeabc3d71073911e/build/css/bootstrap-datetimepicker.css" rel="stylesheet"/>
+
+ <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.js"></script>
+<script src="//cdn.bootcss.com/bootstrap-datetimepicker/4.17.44/js/bootstrap-datetimepicker.min.js"></script>
+<link href="//cdn.bootcss.com/bootstrap-datetimepicker/4.17.44/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+
+{% if form.errors %}
+    {% for field in form %}
+        {% for error in field.errors %}
+            <div class="alert alert-danger">
+                <strong>{{ error|escape }}</strong>
+            </div>
+        {% endfor %}
+    {% endfor %}
+    {% for error in form.non_field_errors %}
+        <div class="alert alert-danger">
+            <strong>{{ error|escape }}</strong>
+        </div>
+    {% endfor %}
+{% endif %}
+    <a><a href="{% url 'staff:tournamentlist' %}">Return to tournament list</a></h1>
+
 <form method="post">
    {% csrf_token %}
    {{ field.errors }}
@@ -21,13 +52,19 @@ Create Tournament
    {{ form.bestof }}
    <br>
 
-   <label>Registration Open</label>
-   {{ form.open_register }}
-   <br>
+   <div class="form-group">
+       <div class="input-group">
+           <label>Registration Open</label>
+           {{ form.open_register }}
+       </div>
+   </div>
 
-   <label>Registration Close</label>
-   {{ form.close_register }}
-   <br>
+   <div class="form-group">
+       <div class="input-group">
+           <label>Registration Close</label>
+           {{ form.close_register }}
+       </div>
+   </div>
 
    <label>Required Credits</label>
    {{ form.req_credits }}
@@ -41,9 +78,13 @@ Create Tournament
    {{ form.game }}
    <br>
 
-   <label>Start</label>
-   {{ form.start }}
-   <br>
+   <div class="form-group">
+       <div class="input-group">
+           <label>Start Time</label>
+           {{ form.start }}
+       </div>
+   </div>
+ <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 
    <label>Teams</label>
    {{ form.teams }}
@@ -79,4 +120,14 @@ Create Tournament
 
    <button type="submit" class="btn btn-primary">Create</button>
 </form>
+
+<script>
+    $(function () {
+        $('.datetime-input').datetimepicker({
+            format:'YYYY-MM-DD HH:mm'
+        });
+    });
+</script>
+     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
 {% endblock %}
