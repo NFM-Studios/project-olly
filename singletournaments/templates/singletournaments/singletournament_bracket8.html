@@ -16,6 +16,7 @@
     {% endif %}
     <script type="text/javascript">
     var myteams = [];
+    var myteamids = [];
     var r1matches = [];
     var matchbyes = [];
     var matchesdone = [];
@@ -44,6 +45,11 @@
     // 0 means home
     // 1 means away
     var match20score = null;
+
+    var winners = {{ winners|safe }};
+    var completed = {{ completed|safe }};
+    var doing = {{ doing|safe }};
+    var allMatches = {{ matches|safe }};
     </script>
 
 
