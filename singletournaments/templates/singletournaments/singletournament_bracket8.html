@@ -73,8 +73,10 @@
             <!-- its a legit match -->
             <script>
                 myteams.push("{{ match.awayteam }}");
+                myteamids.push("{{ match.awayteam.id }}");
                 // add the home team to the array
                 myteams.push("{{ match.hometeam }}");
+                myteamids.push("{{ match.hometeam.id }}");
             </script>
         {% endif %}
 
