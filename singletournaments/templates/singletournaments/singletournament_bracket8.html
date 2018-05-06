@@ -112,18 +112,30 @@ var singleElimination = {
     [myteams[0], myteams[1]], // First match
     [myteams[2], myteams[3]],  // Second match
     [myteams[4], myteams[5]],
-    [myteams[6], myteams[7]],
+    [myteams[6], myteams[7]]
   ],
-  "results": [            // List of brackets (single elimination, so only one bracket)
-    [                     // List of rounds in bracket
-      [                   // First round in this bracket
-        [],           // Team 1 vs Team 2
-        [],           // Team 3 vs Team 4
+  "results": [
+    [
+      [
+        [if(completed.indexOf(allMatches[0]) > 0)
+        {
+            // see who the winner is
+            if( winners.indexOf(myteamids[0]) > 0){
+                // team 0 is the winner
+    }
+            else if(winners.indexOf(myteamids[1]) > 0){
+            // TEAM 1 IS THE WINNER
+    }};
+            else{
+         var output = nothing
+        }
+        ],
+        [],
         [],
         []
       ],
-      [                   // Second (final) round in single elimination bracket
-        [], // Match for first place
+      [
+        [],
         []
       ],
         [
@@ -131,7 +143,7 @@ var singleElimination = {
         ]
     ]
   ]
-}
+};
 
 $(function() {
     $('#demo').bracket({
