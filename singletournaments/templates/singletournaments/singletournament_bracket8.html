@@ -78,29 +78,36 @@ var m2t2 = 0;
 var m3t1 = 0;
 var m3t2 = 0;
 // match 4
-var m4
+var m4t1 = 0;
+var m4t2 = 0;
+// match 5 round 2
+var m5t1 = 0;
+var m5t2 = 0;
+// match 6 round 2
+var m6t1 = 0;
+var m5t2 = 0;
 
 </script>
 
 
 <script>
-if(completed.indexOf(allMatches[0]) > 0)
-{
-    // see who the winner is
-    if( winners.indexOf(myteamids[0]) > 0)
-    {
-        // team 0 is the winner
+for(var x=0; x<=allMatches.length(); x++) {
+    if (completed.indexOf(allMatches[x]) > 0) {
+        // see who the winner is
+        if (winners.indexOf(myteamids[x]) > 0) {
+            output1 = 1;
+            output2 = 0;
+        }
+        else if (winners.indexOf(myteamids[x+1]) > 0) {
+            output2 = 0;
+
+        }
     }
-    else if(winners.indexOf(myteamids[1]) > 0)
-    {
-            // TEAM 1 IS THE WINNER
+    else {
+        output1 = 0;
+        output2 = 0;
     }
 }
-else
-    {
-     var output = nothing
-    }
-
 </script>
 
 
