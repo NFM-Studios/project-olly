@@ -68,20 +68,17 @@
     {% endfor %}
 
 <script>
+var matchOutput = [];
 var output1 = 0;
 var output2 = 0;
 // match 1 team 1 or 2
-var m1t1 = 0;
-var m1t2 = 0;
+var match1 = [];
 // match 2
-var m2t1 = 0;
-var m2t2 = 0;
+var match2 = [];
 // match 3
-var m3t1 = 0;
-var m3t2 = 0;
+var match3 = [];
 // match 4
-var m4t1 = 0;
-var m4t2 = 0;
+var match4 = [];
 // match 5 round 2
 var m5t1 = 0;
 var m5t2 = 0;
@@ -99,9 +96,15 @@ for(var x=0; x<=allMatches.length(); x++) {
         if (winners.indexOf(myteamids[x]) > 0) {
             output1 = 1;
             output2 = 0;
+            matchOutput.push(1)
+            matchOutput.push(0)
         }
         else if (winners.indexOf(myteamids[x+1]) > 0) {
-            output2 = 0;
+
+            // push for team 0 first
+            matchOutput.push(0)
+            // then push for team 1
+            matchOutput.push(1)
 
         }
     }
