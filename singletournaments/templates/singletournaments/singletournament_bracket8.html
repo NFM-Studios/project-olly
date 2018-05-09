@@ -67,8 +67,18 @@
 
     {% endfor %}
 
+
+
+
 <script>
-var matchOutput = [];
+var matchOutput = [
+    //match id 
+    [],
+    // team 1 output
+    [],
+    // team 2 output
+    []
+    ];
 var output1 = 0;
 var output2 = 0;
 // match 1 team 1 or 2
@@ -88,6 +98,13 @@ var m5t2 = 0;
 
 </script>
 
+<script>
+for(var x=0; x<=allMatches.length(); x++) {
+    // push all 0's to start for each and every match
+matchOutput.push(allMathces[x], 0, 0)
+}
+</script>
+
 
 <script>
 for(var x=0; x<=allMatches.length(); x++) {
@@ -96,15 +113,12 @@ for(var x=0; x<=allMatches.length(); x++) {
         if (winners.indexOf(myteamids[x]) > 0) {
             output1 = 1;
             output2 = 0;
-            matchOutput.push(1)
-            matchOutput.push(0)
+            matchOutput[x] = (allMatches[x], 1, 0);
+            
         }
         else if (winners.indexOf(myteamids[x+1]) > 0) {
 
-            // push for team 0 first
-            matchOutput.push(0)
-            // then push for team 1
-            matchOutput.push(1)
+            matchOutput[x] = (allMatches[x], 0, 1);
 
         }
     }
