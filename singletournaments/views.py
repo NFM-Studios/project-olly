@@ -53,7 +53,7 @@ class SingleTournamentJoin(View):
             users = TeamInvite.objects.filter(team=form.data['teams'])
             teams = tournament.teams.all()
             teameligible = False
-            if teams.count() >= 2:
+            if teams.count() >= tournament.size:
                 messages.error(request, "This tournament is full")
                 return redirect('singletournaments:list')
             for invite in users:
