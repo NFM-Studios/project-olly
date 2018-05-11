@@ -135,7 +135,7 @@ class SingleTournamentTeamsList(View):
     def get(self, request, **kwargs):
         pk = self.kwargs['pk']
         tournament = SingleEliminationTournament.objects.get(id=pk)
-        teams = tournament.teams
+        teams = tournament.teams.all
         return render(request, self.template_name, {'x': pk, 'tournament': tournament, 'teams': teams})
 
 
