@@ -80,7 +80,7 @@ var output2 = 0;
 <script>
 for(var x=0; x<=allMatches.length(); x++) {
     // push all 0's to start for each and every match
-matchOutput[x]= (0, 0)
+matchOutput[x]= ([0, 0]);
 }
 </script>
 
@@ -92,12 +92,12 @@ for(var x=0; x<=allMatches.length(); x++) {
         if (winners.indexOf(myteamids[x]) > 0) {
             output1 = 1;
             output2 = 0;
-            matchOutput[x] = (1, 0);
+            matchOutput[x] = ([1, 0]);
             
         }
         else if (winners.indexOf(myteamids[x+1]) > 0) {
 
-            matchOutput[x] = (0, 1);
+            matchOutput[x] = ([0, 1]);
 
         }
     }
