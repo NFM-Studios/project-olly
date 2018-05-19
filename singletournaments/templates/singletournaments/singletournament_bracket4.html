@@ -6,105 +6,87 @@
   {% endblock %}
 
 {% block body %}
- {% if tournament.size > teams %}
-            <!-- there are byes -->
-        <script>var haveByes = true;</script>
-    {% endif %}
-
-    {% if tournament.size == teams %}
-        <script>var haveByes = false;</script>
-    {% endif %}
-    <script type="text/javascript">
-    var myteams = [];
-    var myteamids = [];
-    var r1matches = [];
-    var matchbyes = [];
-    var matchesdone = [];
-    </script>
-
-    <script>
-
-    var winners = {{ winners|safe }};
-    var completed = {{ completed|safe }};
-    var doing = {{ doing|safe }};
-    var allMatches = {{ matches|safe }};
-    </script>
-
-
-    {% for match in round1matches %}
-
-        <!-- check to make sure there is no away team, if there isnt -->
-        {% if match.awayteam is null and match.hometeam is not null %}
-            <!-- there is no team, this is a buy. add this to an array -->
-            <script>
-                // let the array know to keep track of this bye
-                matchbyes.push("{{ match }}");
-                // we know there is a bye so push it to the team array
-                // to do sort out the order of myteams
-                myteams.push("BYE");
-                // let the array know that this match is done
-                matchesdone.push("{{ match.id }}");
-            </script>
-        {% endif %}
-
-        {% if match.awayteam is not null and match.hometeam is not null %}
-            <!-- its a legit match -->
-            <script>
-                myteams.push("{{ match.awayteam }}");
-                myteamids.push("{{ match.awayteam.id }}");
-                // add the home team to the array
-                myteams.push("{{ match.hometeam }}");
-                myteamids.push("{{ match.hometeam.id }}");
-            </script>
-        {% endif %}
-
-        {% if match.completed or match.disputed is null or match.winner is not null %}
-            <!-- figure out how to assign this to a js variable -->
-            <script>
-            matchesdone.push("{{ match.id }}")
-            </script>
-        {% endif %}
-
-    {% endfor %}
-
-    <!-- to do - get the specific match1 and match2 out of round1matches -->
-
-    <script type="text/javascript">console.log("myteams");</script>
-    <script type="text/javascript" src="{% static 'js/jquery-1.6.2.min.js' %}"></script>
-
-    <link rel="stylesheet" type="text/css" href="{% static 'css/jquery.bracket.min.css' %}" />
-<script type="text/javascript" src="{% static 'js/jquery.bracket.min.js' %}"></script>
-<script>
-console.log(myteams);
-var singleElimination = {
-  "teams": [              // Matchups
-    [myteams[0], myteams[1]], // First match
-    [myteams[2], myteams[3]]  // Second match
-  ],
-  "results": [            // List of brackets (single elimination, so only one bracket)
-    [                     // List of rounds in bracket
-      [                   // First round in this bracket
-        [],           // Team 1 vs Team 2
-        []            // Team 3 vs Team 4
-      ],
-      [                   // Second (final) round in single elimination bracket
-        [],           // Match for first place
-                    // Match for 3rd place
-      ]
-    ]
-  ]
-}
-
-$(function() {
-    $('#demo').bracket({
-        skipConsolationRound: true,
-      init: singleElimination /* data to initialize the bracket with */ })
-  })
-</script>
+<link rel="stylesheet" href="{% static "css/singletournament.css" %}">
 
     <h2>Bracket for {{ tournament.name }}</h2>
 
-    <div id="demo"></div>
 
-    <p><script type="text/javascript">//document.write("myteams");</script></p>
+    <div class="col-md-12 bot10">
+
+               <div class="round r-of-4">
+                   <!--  start round 1 match 1-->
+                   {% for match in round1matches %}
+                      <div class="bracket-game">
+                        <div class="player top">
+                          {{ match.hometeam }}
+                          <div class="score">
+                            0
+                          </div>
+                        </div>
+                        <div class="player bot">
+                          {{ match.awayteam }}
+                          <div class="score">
+
+                          </div>
+                        </div>
+                      </div>
+                   {% endfor %}
+                   <!-- end round1 match 1 -->
+
+                   <!-- start round1 match 2-->
+  <!-- shouldn't need this
+  <div class="bracket-game cont">
+    <div class="player top">
+      ToD
+      <div class="score">
+        0
+      </div>
+    </div>
+    <div class="player bot">
+      MC
+      <div class="score">
+        3
+      </div>
+    </div>
+  </div>
+  --->
+                   <!-- end round1 match 2--->
+</div>
+
+        <!--- end round1 -->
+
+        <!-- shit --->
+<div class="connectors r-of-2">
+  <div class="top-line"></div>
+  <div class="clear"></div>
+  <div class="bottom-line"></div>
+  <div class="clear"></div>
+  <div class="vert-line"></div>
+  <div class="clear"></div>
+  <div class="next-line"></div>
+  <div class="clear"></div>
+</div>
+        <!-- end of shit
+
+
+        <!-- start round 2 match 1 -->
+<div class="round r-of-2">
+  <div class="bracket-game">
+    <div class="player top">
+      Snute
+      <div class="score">
+        2
+      </div>
+    </div>
+    <div class="player bot">
+      MC
+      <div class="score">
+        3
+      </div>
+    </div>
+  </div>
+</div>
+    <!-- end round2 match 1 -->
+</div>
+
 {% endblock %}
