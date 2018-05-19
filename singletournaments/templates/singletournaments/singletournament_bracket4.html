@@ -20,13 +20,27 @@
                         <div class="player top">
                           {{ match.hometeam }}
                           <div class="score">
-                            0
+                            {% if match.winner is match.hometeam %}
+                              1
+                              {% else %}
+                              0
+                              {% endif %}
                           </div>
                         </div>
-                        <div class="player bot">
+                        <div class="player bot {% if match.winner is match.awayteam %}
+                            win">
+                        {% elif match.winner is match.hometeam %}
+                        loss">
+                        {% else %}
+                        ">
+                        {% endif %}
                           {{ match.awayteam }}
                           <div class="score">
-
+                            {% if match.winner is match.awayteam %}
+                              1
+                              {% else %}
+                              0
+                              {% endif %}
                           </div>
                         </div>
                       </div>
