@@ -197,8 +197,7 @@ class SingleTournamentBracket(View):
                 return render(request, template_name,
                               {'x': pk, 'tournament': tournament, 'teams': teams, 'round1': round1, 'round2': round2,
                                'round3': round3, 'round1matches': round1matches, 'round2matches': round2matches,
-                               'round3matches': round3matches, 'winners':winners, 'completed':completed, 'doing':doing,
-                               'matches':matches})
+                               'round3matches': round3matches})
 
             elif tournament.size == 16:
                 # get 4 rounds to pass to the view
