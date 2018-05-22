@@ -18,11 +18,11 @@
                    {% for match in round1matches %}
                       <div class="bracket-game">
                         <div class="player top {% if match.winner is match.hometeam %}
-                            win">
+                            win
                         {% elif match.winner is match.awayteam %}
-                        loss">
+                        loss
                         {% else %}
-                        ">
+
                         {% endif %}">
                           {{ match.hometeam }}
                           <div class="score">
@@ -34,12 +34,12 @@
                           </div>
                         </div>
                         <div class="player bot {% if match.winner is match.hometeam %}
-                            win">
+                            win
                         {% elif match.winner is match.awayteam %}
-                        loss">
+                        loss
                         {% else %}
-                        ">
-                        {% endif %}
+
+                        {% endif %}">
                           {{ match.awayteam }}
                           <div class="score">
                             {% if match.winner is match.awayteam %}
@@ -94,11 +94,11 @@
   {% for match in round1matches %}
                       <div class="bracket-game">
                         <div class="player top {% if match.winner is match.hometeam %}
-                            win">
+                            win
                         {% elif match.winner is match.awayteam %}
-                        loss">
+                        loss
                         {% else %}
-                        ">
+
                         {% endif %}">
                           {{ match.hometeam }}
                           <div class="score">
@@ -110,12 +110,12 @@
                           </div>
                         </div>
                         <div class="player bot {% if match.winner is match.hometeam %}
-                            win">
+                            win
                         {% elif match.winner is match.awayteam %}
-                        loss">
+                        loss
                         {% else %}
-                        ">
-                        {% endif %}
+
+                        {% endif %}">
                           {{ match.awayteam }}
                           <div class="score">
                             {% if match.winner is match.awayteam %}
