@@ -15,7 +15,11 @@
     <ul class="round round-1">
         <li class="spacer">&nbsp;</li>
         {% for match in round1matches %}
-        <li class="game game-top winner">{{ match.awayteam }} <span>
+        <li class="game game-top {% if match.winner is match.awayteam %}
+            winner
+            {% else %}
+
+            {% endif %}">{{ match.awayteam }} <span>
             {% if match.winner is match.awayteam %}
             1
             {% else %}
@@ -23,7 +27,11 @@
             {% endif %}
         </span></li>
         <li class="game game-spacer">&nbsp;</li>
-        <li class="game game-bottom ">{{ match.hometeam }}<span>
+        <li class="game game-bottom {% if match.winner is match.hometeam %}
+            winner
+            {% else %}
+
+            {% endif %}">{{ match.hometeam }}<span>
             {% if match.winner is match.hometeam %}
             1
             {% else %}
@@ -64,6 +72,13 @@
             {% endif %}
         </span></li>
 {% endfor %}
+    {% if round2matches.count is 0 %}
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+    {% endif %}
         <li class="spacer">&nbsp;</li>
 
 
