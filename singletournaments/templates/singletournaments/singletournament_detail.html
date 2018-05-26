@@ -149,4 +149,14 @@
 </table>
 
     <a href="{% url 'singletournaments:join' pk %}"> Join </a>
+
+    <br />
+    <br />
+    <br />
+    {% if tournament.bracket_generated %}
+    <a href="{% url 'singletournaments:bracket' pk %}">Bracket</a>
+    {% else %}
+    No bracket has been generated yet
+    {% endif %}
+
 {% endblock %}
