@@ -76,7 +76,7 @@
         <th>Match ID</th>
         </thead>
     </tr>
-    {% if round2matches.count == 0 and not tournament.size == 4 %}
+    {% if round2matches.count == 0 and tournament.size != 4 %}
     There are 0 matches in round3
     {% endif %}
     {% for match3 in round3matches %}
@@ -97,9 +97,9 @@
     <br />
     <br />
 
-    <div class="round4matches">
+    <div class="round4matches" style="{% if tournament.size == 4 or tournament.size == 8%}display:none{% endif %}">
     <h2>Round 4 Matches</h2>
-<table class="table table-hover">
+<table class="table table-hover" style="{% if tournament.size == 4 or tournament.size == 8 %}display:none{% endif %}">
     <tr id="header">
         <thead>
         <th>Home Team</th>
@@ -107,15 +107,15 @@
         <th>Match ID</th>
         </thead>
     </tr>
-    {% if round2matches.count == 0 %}
-    There are 0 matches in round2
+    {% if round4matches.count == 0 and tournament.size != 4 or tournament.size != 8 %}
+    There are 0 matches in round4
     {% endif %}
-    {% for match2 in round2matches %}
+    {% for match4 in round4matches %}
     <tbody>
     <tr scope="">
-        <td><a href="{% url 'teams:detail' pk=match2.hometeam.id %}">{{ match2.hometeam }}</a></td>
-        <td><a href="{% url 'teams:detail' pk=match2.awayteam.id %}">{{ match2.awayteam }}</a></td>
-        <td><a href="{% url 'matches:detail' pk=match2.id %}">{{ match2.id }}</td></a>
+        <td><a href="{% url 'teams:detail' pk=match4.hometeam.id %}">{{ match4.hometeam }}</a></td>
+        <td><a href="{% url 'teams:detail' pk=match4.awayteam.id %}">{{ match4.awayteam }}</a></td>
+        <td><a href="{% url 'matches:detail' pk=match4.id %}">{{ match4.id }}</td></a>
     </tr>
     </tbody>
     {% endfor %}
@@ -139,15 +139,15 @@
         <th>Match ID</th>
         </thead>
     </tr>
-    {% if round2matches.count == 0 %}
-    There are 0 matches in round2
+    {% if round5matches.count == 0 and tournament.size != 4 or tournament.size != 8  or  tournament.size != 16%}
+    There are 0 matches in round5
     {% endif %}
-    {% for match2 in round2matches %}
+    {% for match5 in round5matches %}
     <tbody>
     <tr scope="">
-        <td><a href="{% url 'teams:detail' pk=match2.hometeam.id %}">{{ match2.hometeam }}</a></td>
-        <td><a href="{% url 'teams:detail' pk=match2.awayteam.id %}">{{ match2.awayteam }}</a></td>
-        <td><a href="{% url 'matches:detail' pk=match2.id %}">{{ match2.id }}</td></a>
+        <td><a href="{% url 'teams:detail' pk=match5.hometeam.id %}">{{ match5.hometeam }}</a></td>
+        <td><a href="{% url 'teams:detail' pk=match5.awayteam.id %}">{{ match5.awayteam }}</a></td>
+        <td><a href="{% url 'matches:detail' pk=match5.id %}">{{ match5.id }}</td></a>
     </tr>
     </tbody>
     {% endfor %}
