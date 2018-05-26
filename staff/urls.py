@@ -20,6 +20,7 @@ urlpatterns = [
     url(r'^tournaments/$', login_required(views.tournaments), name='tournamentlist'),
     url(r'^tournaments/edit/(?P<pk>\d+)/$', login_required(views.edit_tournament), name='edit_tournament'),
     url(r'^tournaments/create/$', login_required(views.CreateTournament.as_view()), name='create_tournament'),
+    url(r'^tournaments/delete/(?P<pk>\d+)/$', login_required(views.delete_tournament), name='delete_tournament'),
     url(r'^tournaments/generatebracket/(?P<pk>\d+)$', login_required(views.generate_bracket), name='generate_bracket'),
     url(r'^tournaments/advance/(?P<pk>\d+)$', login_required(views.advance), name='advance'),
     url(r'^matches/$', login_required(views.matches_index), name='matches_index'),

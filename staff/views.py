@@ -232,6 +232,18 @@ def generate_bracket(request, pk):
             return redirect('staff:tournamentlist')
 
 
+def delete_tournament(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        tournament = SingleEliminationTournament.objects.get(pk=pk)
+        tournament.delete()
+        messages.success(request, "Tournament Deleted")
+        return redirect('staff:tournamentlist')
+
+
 def advance(request, pk):
     user = UserProfile.objects.get(user__username=request.user.username)
     allowed = ['superadmin', 'admin']
@@ -445,6 +457,7 @@ def create_article(request):
 # end news section
 
 # start store section
+
 
 class TransactionView(View):
     template_name = 'staff/transaction_list.html'
