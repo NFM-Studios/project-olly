@@ -236,6 +236,7 @@ def advance(request, pk):
     else:
         tournament = SingleEliminationTournament.objects.get(pk=pk)
         currentround = SingleTournamentRound.objects.get(tournament=pk, roundnum=tournament.current_round)
+        nextround =  SingleTournamentRound.objects.get(tournament=tournament, roundnum=tournament.current_round+1)
         matches = currentround.matches.all()
         for i in matches:
             if i.winner is None:
@@ -250,6 +251,7 @@ def advance(request, pk):
         for i in winners:
             newmatch = Match(game=tournament.game, platform=tournament.platform, hometeam=winners[0], awayteam=winners[1])
             newmatch.save()
+            nextround.matches.add(newmatch)
             del winners[0]
             del winners[0]
 
