@@ -268,21 +268,30 @@
     </div>
 
 
-  {% if messages %}
-  <ul class="messages">
-      {% for message in messages %}
-      <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-      {% endfor %}
-  </ul>
-  {% endif %}
+
 
 
 
   <div class="content-wrapper">
   <br />
   <br />
+
+
+
+
     <div class="container-fluid">
       <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+            <li  class="breadcrumb-item">
+                {% if messages %}
+                  <ul class="messages">
+                      {% for message in messages %}
+                      <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                      {% endfor %}
+                  </ul>
+                  {% endif %}
+            </li>
+        </ol>
       <ol class="breadcrumb">
         <li class="breadcrumb-item">
           <a href="{% url 'staff:index' %}">Dashboard</a>
