@@ -28,4 +28,26 @@
     </tbody>
     {% endfor %}
 </table>
+    <br />
+    <br />
+    <h2>Round 2 Matches</h2>
+<table class="table table-hover">
+    <tr id="header">
+        <thead>
+        <th>Home Team</th>
+        <th>Away Team</th>
+        <th>Match ID</th>
+        </thead>
+    </tr>
+    {% for match2 in round2matches %}
+    <tbody>
+    <tr scope="">
+        <td><a href="{% url 'teams:detail' pk=match2.hometeam.id %}">{{ match2.hometeam }}</a></td>
+        <td><a href="{% url 'teams:detail' pk=match2.awayteam.id %}">{{ match2.awayteam }}</a></td>
+        <td><a href="{% url 'matches:detail' pk=match2.id %}">{{ match2.id }}</td></a>
+    </tr>
+    </tbody>
+    {% endfor %}
+    
+</table>
 {% endblock %}
