@@ -27,6 +27,9 @@
     </tr>
     </tbody>
     {% endfor %}
+    {% if round1matches.count == 0 %}
+    There are 0 matches in round1
+    {% endif %}
 </table>
     <br />
     <br />
@@ -48,6 +51,9 @@
     </tr>
     </tbody>
     {% endfor %}
-    
+    {% if round2matches.count == 0 %}
+    There are 0 matches in round2
+    {% endif %}
+
 </table>
 {% endblock %}
