@@ -105,6 +105,8 @@ def searchusers(request):
                        (Q(user__username__icontains=query) | Q(user__email__icontains=query))})
     else:
         return redirect('profiles:users')
+
+
 def edit_profile(request):
     if request.method == 'POST':
         userprofileobj = UserProfile.objects.get(user__username=request.user.username)
