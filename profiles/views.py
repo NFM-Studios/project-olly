@@ -56,6 +56,9 @@ def login(request, template_name='profiles/login_form.html',
                 return HttpResponseRedirect(redirect_to)
             else:
                 messages.error(request, 'Invalid or missing reCAPTCHA. Please try again.')
+        else:
+            messages.error(request, message='Error trying to log you in')
+
     else:
         form = authentication_form(request)
 
