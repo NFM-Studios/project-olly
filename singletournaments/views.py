@@ -143,6 +143,39 @@ class SingleTournamentRules(View):
     template_name = 'singletournaments/singletournament_rules.html'
 
 
+class SingleTournamentMatchList(View):
+    template_name = 'singletournaments/singletournament_matches.html'
+
+    def get(self, request, **kwargs):
+        pk = self.kwargs['pk']
+        tournament = SingleEliminationTournament.objects.get(id=pk)
+        if tournament.size == 4:
+            # get only 2 round objects, and the matches inside them.
+            round1 = SingleTournamentRound.objects.get(roundnum=1, tournament=tournament)
+            round2 = SingleTournamentRound.objects.get(roundnum=2, tournament=tournament)
+            round1matches = round1.matches.all()
+            round2matches = round2.matches.all()
+
+            return render(request, self.template_name, {'x': pk, 'tournament': tournament,
+                                                        'round1matches':round1matches, 'round2matches':round2matches})
+
+        elif  tournament.size == 8:
+            pass
+            # get 3 rounds
+        elif tournament.size == 16:
+            pass
+            # get 4 rounds
+        elif tournament.size == 32:
+            pass
+            # get 5 rounds
+        elif tournament.size == 64:
+            pass
+            # get 6 rounds
+        elif tournament.size == 128:
+            pass
+            #  get 7 rounds
+
+
 class SingleTournamentBracket(View):
 
     def get(self, request, **kwargs):
