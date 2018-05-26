@@ -4,7 +4,7 @@ from teams.models import Team, TeamInvite
 
 
 class SingleEliminationTournamentJoinGet(forms.ModelForm):
-    teams = forms.ModelChoiceField(queryset=Team.objects.all())
+    teams = forms.ModelChoiceField(queryset=None)
     # tournaments = forms.ModelChoiceField(queryset=SingleEliminationTournament.objects.all())
 
     class Meta:
@@ -13,9 +13,10 @@ class SingleEliminationTournamentJoinGet(forms.ModelForm):
 
     def __init__(self, request, *args, **kwargs):
         self.username = request.user
-        self.team = forms.ModelChoiceField(
-            queryset=TeamInvite.objects.filter(captain=['captain', 'founder'], user_id=self.username.id))
-        super(SingleEliminationTournamentJoinGet, self).__init__(*args, **kwargs)
+        invites = TeamInvite.objects.filter(hasPerms=True, user_id=self.username.id)
+        team = Team.objects.filter(id__in=invites.values_list('team', flat=True))
+        super().__init__(*args, **kwargs)
+        self.fields['teams'].queryset = team
 
 
 class SingleEliminationTournamentJoinPost(forms.ModelForm):
