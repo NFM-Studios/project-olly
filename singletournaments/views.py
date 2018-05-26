@@ -205,7 +205,24 @@ class SingleTournamentMatchList(View):
                                                         'round5matches': round5matches})
             # get 5 rounds
         elif tournament.size == 64:
-            pass
+            round1 = SingleTournamentRound.objects.get(roundnum=1, tournament=tournament)
+            round2 = SingleTournamentRound.objects.get(roundnum=2, tournament=tournament)
+            round3 = SingleTournamentRound.objects.get(roundnum=3, tournament=tournament)
+            round4 = SingleTournamentRound.objects.get(roundnum=4, tournament=tournament)
+            round5 = SingleTournamentRound.objects.get(roundnum=5, tournament=tournament)
+            round6 = SingleTournamentRound.objects.get(roundnum=6, tournament=tournament)
+
+            round1matches = round1.matches.all()
+            round2matches = round2.matches.all()
+            round3matches = round3.matches.all()
+            round4matches = round4.matches.all()
+            round5matches = round5.matches.all()
+            round6matches = round6.matches.all()
+
+            return render(request, self.template_name, {'x': pk, 'tournament': tournament,
+                                                        'round1matches': round1matches, 'round2matches': round2matches,
+                                                        'round3matches': round3matches, 'round4matches': round4matches,
+                                                        'round5matches': round5matches, 'round6matches': round6matches})
             # get 6 rounds
         elif tournament.size == 128:
             pass
