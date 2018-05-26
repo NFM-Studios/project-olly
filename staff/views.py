@@ -221,11 +221,15 @@ def generate_bracket(request, pk):
         return render(request, 'staff/permissiondenied.html')
     else:
         tournament = SingleEliminationTournament.objects.get(pk=pk)
-        tournament.generate_bracket()
-        tournament.bracket_generated = True
-        tournament.save()
-        messages.success(request, "Bracket Generated")
-        return redirect('staff:tournamentlist')
+        if tournament.bracket_generated:
+            messages.error(request, message='The bracket is already generated.')
+            return redirect('staff:tournamentlist')
+        else:
+            tournament.generate_bracket()
+            tournament.bracket_generated = True
+            tournament.save()
+            messages.success(request, "Bracket Generated")
+            return redirect('staff:tournamentlist')
 
 
 def advance(request, pk):
