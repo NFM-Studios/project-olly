@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+  {% block head %}
+  <title>Matches - {{ SITE_NAME }}</title>
+  {% endblock %}
+
+<link rel="stylesheet" href="{% static "css/singletournament.css" %}">
+
+{% block body %}
+
+    <h2>Round 1 Matches</h2>
+<table class="table table-hover">
+    <tr id="header">
+        <thead>
+        <th>Home Team</th>
+        <th>Away Team</th>
+        <th>Match ID</th>
+        </thead>
+    </tr>
+    {% for match1 in round1matches %}
+    <tbody>
+    <tr scope="">
+        <td><a href="{% url 'teams:detail' pk=match1.hometeam.id %}">{{ match1.hometeam }}</a></td>
+        <td><a href="{% url 'teams:detail' pk=match1.awayteam.id %}">{{ match1.awayteam }}</a></td>
+        <td><a href="{% url 'matches:detail' pk=match1.id %}">{{ match1.id }}</td></a>
+    </tr>
+    </tbody>
+    {% endfor %}
+</table>
+{% endblock %}
