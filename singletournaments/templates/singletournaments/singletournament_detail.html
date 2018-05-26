@@ -147,8 +147,13 @@
 
 
 </table>
-
+    
+    {% if tournament.bracket_generated %}
+    This tournament has started already
+    {% else %}
     <a href="{% url 'singletournaments:join' pk %}"> Join </a>
+    {% endif %}
+
 
     <br />
     <br />
