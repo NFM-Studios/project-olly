@@ -116,6 +116,15 @@ Match #{{ match.id }}
         {% endif %}
     </tr>
 </table>
+    
+    <p>
+    {% if not match.completed %}
+        <a href="{% url 'staff:match_declare_winner' pk=match.id %}" class="btn btn-primary">Declare Winner</a>
+    {% else %}
+        <a href="{% url 'staff:match_delete_winner' pk=match.id %}" class="btn btn-danger">Delete Winner</a>
+    {% endif %}
+    </p>
+
     <h2>Reports for this match...</h2>
 
     <table>
