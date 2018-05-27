@@ -1,19 +1,23 @@
 from django import forms
-from matches.models import MatchReport, MatchDispute
+from matches.models import MatchReport, MatchDispute, Match
 from teams.models import Team, TeamInvite
 
 
 class MatchReportCreateFormGet(forms.ModelForm):
+    reported_winner = forms.ModelChoiceField(queryset=None)
+
     class Meta:
         model = MatchReport
-        fields = ('reported_winner',)
+        fields = ()
 
-    def __init__(self, request, *args, **kwargs):
+    def __init__(self, request, pk, *args, **kwargs):
         self.username = request.user
         self.reporting_user = request.user
-        self.reporting_team = forms.ModelChoiceField(queryset=TeamInvite.objects.filter(hasPerms=True, user_id=self.username.id))
-        super(MatchReportCreateFormGet, self).__init__(*args, **kwargs)
-
+        match = Match.objects.filter(id=pk)
+        team1 = Team.objects.filter(id__in=match.values_list('hometeam', flat=True))
+        team2 = Team.objects.filter(id__in=match.values_list('awayteam', flat=True))
+        super().__init__(*args, **kwargs)
+        self.fields['reported_winner'].queryset = team1 | team2
 
 class MatchReportCreateFormPost(forms.ModelForm):
     class Meta:
