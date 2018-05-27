@@ -6,8 +6,7 @@ STATUS_CHOICES = getattr(settings, 'TICKETS_STATUS_CHOICES', (
     (0, 'New'),
     (1, 'On Hold'),
     (2, 'In Progress'),
-    (3, 'Resolved'),
-    (4, 'Closed'),
+    (3, 'Closed'),
 ))
 
 CATEGORY_CHOICES = getattr(settings, 'TICKETS_CATEGORY_CHOICES', (

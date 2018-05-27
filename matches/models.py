@@ -4,9 +4,6 @@ from teams.models import Team
 from django.contrib.auth.models import User
 
 
-# from singletournaments.models import SingleEliminationTournament
-
-# Create your models here.
 class Match(models.Model):
 
     matchnum =  models.SmallIntegerField(default=0)
@@ -40,6 +37,7 @@ class Match(models.Model):
                                             null=True, blank=True)
 
     disputed = models.BooleanField(default=False)
+
 
     class Meta:
         verbose_name_plural = "matches"

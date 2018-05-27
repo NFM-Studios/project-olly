@@ -12,3 +12,9 @@ class TicketCommentCreateForm(forms.ModelForm):
     class Meta:
         model = TicketComment
         fields = ('comment',)
+
+
+class TicketStatusChangeForm(forms.ModelForm):
+    class Meta:
+        model = Ticket
+        exclude = ['status']
