@@ -1,5 +1,10 @@
 {% extends "base.html" %}
 {% load staticfiles %}
+
+  {% block head %}
+  <title>Send an Invite - {{ SITE_NAME }}</title>
+  {% endblock %}
+
 <link rel="stylesheet" href="{% static "css/ticket.css" %}">
 
 {% block body %}
@@ -12,7 +17,7 @@
   </ul>
 {% endif %}
 
-<form method="POST" action="">
+<form method="POST" action="{% url 'teams:invite' %}">
     <table class="table">
         {% csrf_token %}
         {{ form }}

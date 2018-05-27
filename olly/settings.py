@@ -28,7 +28,7 @@ DEBUG = True
 #SECURITY WARNING: don't run with this set to true in prod
 PAYPAL_TEST = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'ban-mikemaddem.c9users.io', 'olly-techlover1.c9users.io']
+ALLOWED_HOSTS = ['*']
 
 SESSION_COOKIE_AGE = 604800
 
@@ -115,6 +115,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.media',
+                'olly.context_processors.site_info'
             ],
         },
     },
@@ -177,7 +178,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'olly/media')
 
 # Where to redirect users after login
-LOGIN_URL = '/login'
+# LOGIN_URL = '/login'
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/login/'
 
@@ -189,5 +190,10 @@ EMAIL_HOST_PASSWORD = 'mikemaddem'
 EMAIL_PORT = 587
 PAYPAL_EMAIL = "steven.young.1-merchant@gmail.com"
 
-
+# Captcha
 GOOGLE_RECAPTCHA_SECRET_KEY = '6LdEsEMUAAAAABfKHZo9Ox0j55s2EnANq-wQlUOm'
+
+# Site info
+SITE_NAME = "Project Olly"
+SITE_SERVER = "Dev-Environment"
+SITE_VERSION = "2018.05.02"

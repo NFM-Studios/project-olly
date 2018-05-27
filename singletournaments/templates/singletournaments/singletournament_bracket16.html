@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+  {% block head %}
+  <title>{{ tournament.name }} Bracket - {{ SITE_NAME }}</title>
+  {% endblock %}
+
+{% block body %}
+ {% if tournament.size > teams %}
+            <!-- there are byes -->
+        <script>var haveByes = true;</script>
+    {% endif %}
+
+    {% if tournament.size == teams %}
+        <script>var haveByes = false;</script>
+    {% endif %}
+    <script type="text/javascript">
+    var myteams = [];
+    var myteamids = [];
+    var r1matches = [];
+    var matchbyes = [];
+    var matchesdone = [];
+    </script>
+
+    <script>
+
+    var winners = {{ winners|safe }};
+    var completed = {{ completed|safe }};
+    var doing = {{ doing|safe }};
+    var allMatches = {{ matches|safe }};
+    </script>
+
+
+    {% for match in round1matches %}
+
+        <!-- check to make sure there is no away team, if there isnt -->
+        {% if match.awayteam is null and match.hometeam is not null %}
+            <!-- there is no team, this is a buy. add this to an array -->
+            <script>
+                // let the array know to keep track of this bye
+                matchbyes.push("{{ match }}");
+                // we know there is a bye so push it to the team array
+                // to do sort out the order of myteams
+                myteams.push("BYE");
+                // let the array know that this match is done
+                matchesdone.push("{{ match.id }}");
+            </script>
+        {% endif %}
+
+        {% if match.awayteam is not null and match.hometeam is not null %}
+            <!-- its a legit match -->
+            <script>
+                myteams.push("{{ match.awayteam }}");
+                myteamids.push("{{ match.awayteam.id }}");
+                // add the home team to the array
+                myteams.push("{{ match.hometeam }}");
+                myteamids.push("{{ match.hometeam.id }}");
+            </script>
+        {% endif %}
+
+        {% if match.completed or match.disputed is null or match.winner is not null %}
+            <!-- figure out how to assign this to a js variable -->
+            <script>
+            matchesdone.push("{{ match.id }}")
+            </script>
+        {% endif %}
+
+    {% endfor %}
+    <script type="text/javascript" src="{% static 'js/jquery-1.6.2.min.js' %}"></script>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/jquery.bracket.min.css' %}" />
+<script type="text/javascript" src="{% static 'js/jquery.bracket.min.js' %}"></script>
+<script>
+
+var singleElimination = {
+  "teams": [              // Matchups
+    [myteams[0], myteams[1]], // First match
+    [myteams[2], myteams[3]],  // Second match
+    [myteams[4], myteams[5]],
+    [myteams[6], myteams[7]],
+    [myteams[8], myteams[9]],
+    [myteams[10], myteams[11]],
+    [myteams[12], myteams[13]],
+    [myteams[14], myteams[15]],
+  ],
+  "results": [            // List of brackets (single elimination, so only one bracket)
+    [                     // List of rounds in bracket
+      [                   // First round in this bracket
+        [],           // Team 1 vs Team 2
+        [],            // Team 3 vs Team 4
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+      ],
+      [                   
+        [],           
+        [],
+        [],
+        [],
+                    
+      ],
+        [
+            [],
+            [],
+        ],
+
+        [
+            [],
+        ],
+    ]
+  ]
+}
+
+$(function() {
+    $('#demo').bracket({
+        skipConsolationRound: true,
+      init: singleElimination /* data to initialize the bracket with */ })
+  })
+</script>
+
+    <div id="demo"></div>
+
+{% endblock %}

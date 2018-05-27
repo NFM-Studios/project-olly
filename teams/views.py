@@ -9,7 +9,7 @@ from django.utils import timezone
 # team create forms
 from teams.forms import TeamCreateForm
 # team create invite forms
-from .forms import TeamInviteForm, EditTeamProfileForm, ViewInviteForm, LeaderboardSortForm
+from .forms import TeamInviteFormGet,TeamInviteFormPost, EditTeamProfileForm, ViewInviteForm
 # import the team models
 from teams.models import Team
 # import the invite models
@@ -102,11 +102,16 @@ class MyTeamDetailView(DetailView):
     # base team template all users can see, inside the template some permissions like viewing the edit team button
     # will be managed
     template_name = 'teams/team.html'
-    form = TeamInviteForm
+    form = TeamInviteFormPost
 
     def get(self, request, pk):
         team = Team.objects.get(id=pk)
         players = TeamInvite.objects.filter(team=team, accepted=True)
+        user = UserProfile.objects.get(id=request.user.id)
+        if not user.xbl_verified:
+            messages.warning(request, "Xbox Live is not verified")
+        if not user.psn_verified:
+            messages.warning(request, "PSN is not verified")
         return render(request, self.template_name, {'team': team, 'players': players})
 
     def get_context_date(self, **kwargs):
@@ -115,9 +120,13 @@ class MyTeamDetailView(DetailView):
         return context
 
     def post(self, request, *args, **kwargs):
-        self.form = TeamInviteForm(request.POST)
+        self.form = TeamInviteFormPost(request.POST)
         if self.form.is_valid():
             self.form_valid(self.form)
+            if not request.user.xbl_verified:
+                messages.warning(request, "Xbox Live is not verified")
+            if not request.user.psn_verified:
+                messages.warning(request, "PSN is not verified")
             return HttpResponseRedirect(reverse('teams:detail', args=[self.kwargs['pk']]))
         return super(MyTeamDetailView, self).get(request, *args, **kwargs)
 
@@ -144,6 +153,7 @@ class TeamCreateView(CreateView):
         invite.expire = timezone.now()
         invite.user = self.request.user
         invite.captain = 'founder'
+        invite.hasPerms = True
         invite.accepted = True
         invite.inviter = self.request.user
         invite.inviter_id = self.request.user.id
@@ -160,14 +170,14 @@ def get_invites(form):
 
 class TeamInviteCreateView(View):
     template_name = 'teams/invite-player.html'
-    form_class = TeamInviteForm
+    form_class = TeamInviteFormGet
 
     def get(self, request):
-        form = self.form_class(None)
+        form = self.form_class(request)
         return render(request, self.template_name, {'form': form})
 
     def post(self, request):
-        form = self.form_class(request.POST)
+        form = TeamInviteFormPost(request.POST)
         team = Team.objects.get(id=form.data['team'])
         invite = get_invites(form)
         captains = invite.filter(captain='captain')
@@ -191,6 +201,8 @@ class TeamInviteCreateView(View):
                 TeamInvite.user = invitee.user
                 TeamInvite.expire = timezone.now() + datetime.timedelta(days=1)
                 TeamInvite.captain = form.data['captain']
+                if form.data['captain'] == 'captain' or form.data['captain'] == 'founder':
+                    TeamInvite.hasPerms = True
                 TeamInvite.save()
                 messages.success(request, 'Sent invite successfully')
                 return redirect('/teams/')
@@ -198,67 +210,3 @@ class TeamInviteCreateView(View):
         else:
             messages.error(request, "You must be a captain or the founder to invite")
             return redirect('/teams/')
-
-
-class LeaderboardView(View):
-    template_name = 'teams/leaderboard.html'
-    form_class = LeaderboardSortForm
-
-    def get(self, request, **kwargs):
-        user_list = UserProfile.objects.order_by('user__username')  # sort by username default
-        form = self.form_class(None)
-        return render(request, self.template_name, {'user_list': user_list, 'form': form})
-
-    def post(self, request, **kwargs):
-        form = self.form_class(request.POST)
-        xp_asc = False
-        xp_desc = False
-        trophies_asc = False
-        trophies_desc = False
-        try:
-            if form.data['sort_xp_asc']:
-                xp_asc = True
-                xp_desc = False
-                trophies_asc = False
-                trophies_desc = False
-        except:
-            try:
-                if form.data['sort_xp_desc']:
-                    xp_desc = True
-                    xp_asc = False
-                    trophies_asc = False
-                    trophies_desc = False
-            except:
-                try:
-                    if form.data['sort_trophies_asc']:
-                        trophies_asc = True
-                        xp_desc = False
-                        xp_asc = False
-                        trophies_desc = False
-                except:
-                    try:
-                        if form.data['sort_trophies_desc']:
-                            trophies_desc = True
-                            xp_desc = False
-                            trophies_asc = False
-                            xp_desc = False
-                    except:
-                        user_list = UserProfile.objects.order_by('user__username')
-                        messages.error(request, "You have to select an option to sort")
-                        return render(request, self.template_name, {'user_list': user_list, 'form': self.form_class(None)})
-        if xp_asc:
-            user_list = UserProfile.objects.order_by('xp')
-            messages.success(request, "Sorted by ascending XP")
-            return render(request, self.template_name, {'user_list': user_list, 'form': self.form_class(None)})
-        elif xp_desc:
-            user_list = UserProfile.objects.order_by('-xp')
-            messages.success(request, "Sorted by descending XP")
-            return render(request, self.template_name, {'user_list': user_list, 'form': self.form_class(None)})
-        elif trophies_asc:
-            user_list = UserProfile.objects.order_by('num_trophies')
-            messages.success(request, "Sorted by ascending number of trophies")
-            return render(request, self.template_name, {'user_list': user_list, 'form': self.form_class(None)})
-        elif trophies_desc:
-            user_list = UserProfile.objects.order_by('-num_trophies')
-            messages.success(request, "Sorted by descending number of trophies")
-            return render(request, self.template_name, {'user_list': user_list, 'form': self.form_class(None)})

@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 
+  {% block head %}
+  <title>Edit profile - {{ SITE_NAME }}</title>
+  {% endblock %}
+
 {% block body %}
   <form enctype="multipart/form-data" method="post">
     {% csrf_token %}

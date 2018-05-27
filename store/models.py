@@ -32,17 +32,17 @@ def show_me_the_money(sender, **kwargs):
             if num == "15cred":
                 user.credits += 15
                 user.save()
-                tx = Transaction(account=username, cost=5.00)
+                tx = Transaction(account=username, cost=5.00, credits=15)
                 tx.save()
             if num == "25cred":
                 user.credits += 25
                 user.save()
-                tx = Transaction(account=username, cost=20.00)
+                tx = Transaction(account=username, cost=20.00, credits=25)
                 tx.save()
             if num == "50cred":
                 user.credits += 50
                 user.save()
-                tx = Transaction(account=username, cost=45.00)
+                tx = Transaction(account=username, cost=45.00, credits=50)
                 tx.save()
 
 
@@ -55,16 +55,17 @@ class Transaction(models.Model):
     date = models.DateTimeField(auto_now=True)
     cost = models.DecimalField(max_digits=6, decimal_places=2)
     account = models.CharField(max_length=50)
+    credits = models.PositiveSmallIntegerField()
 
 
-def deduct_credits(request, num):
-    up = UserProfile.objects.get(user__username=request.user)
+def deduct_credits(user, num):
+    up = UserProfile.objects.get(user=user)
     up.credits -= num
     up.save()
 
 
-def give_credits(request, num):  # might not be needed. added it anyway.
-    up = UserProfile.objects.get(user__username=request.user)
+def give_credits(user, num):  # might not be needed. added it anyway.
+    up = UserProfile.objects.get(user=user)
     up.credits += num
     up.save()
 
