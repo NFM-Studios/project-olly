@@ -86,6 +86,7 @@ Matches List
         {% endif %}
 
         <td>Something</td>
+        <td><a href="{% url 'staff:match_declare_winner' pk=match.id %}" class="btn btn-primary">Declare Winner</a></td>
     </tr>
     </tbody>
     {% endfor %}
