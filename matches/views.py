@@ -21,8 +21,8 @@ class MatchReportCreateView(View):
     template_name = 'matches/matches_report.html'
 
     def get(self, request, pk):
-        form = MatchReportCreateFormGet(request)
-        return render(request, self.template_name, {'form': form, 'pk':pk})
+        form = MatchReportCreateFormGet(request, pk)
+        return render(request, self.template_name, {'form': form, 'pk': pk})
 
     def post(self, request, pk):
         form = MatchReportCreateFormPost(request.POST)
