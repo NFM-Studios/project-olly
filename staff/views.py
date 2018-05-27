@@ -221,10 +221,26 @@ def generate_bracket(request, pk):
         return render(request, 'staff/permissiondenied.html')
     else:
         tournament = SingleEliminationTournament.objects.get(pk=pk)
-        tournament.generate_bracket()
-        tournament.bracket_generated = True
-        tournament.save()
-        messages.success(request, "Bracket Generated")
+        if tournament.bracket_generated:
+            messages.error(request, message='The bracket is already generated.')
+            return redirect('staff:tournamentlist')
+        else:
+            tournament.generate_bracket()
+            tournament.bracket_generated = True
+            tournament.save()
+            messages.success(request, "Bracket Generated")
+            return redirect('staff:tournamentlist')
+
+
+def delete_tournament(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        tournament = SingleEliminationTournament.objects.get(pk=pk)
+        tournament.delete()
+        messages.success(request, "Tournament Deleted")
         return redirect('staff:tournamentlist')
 
 
@@ -236,6 +252,7 @@ def advance(request, pk):
     else:
         tournament = SingleEliminationTournament.objects.get(pk=pk)
         currentround = SingleTournamentRound.objects.get(tournament=pk, roundnum=tournament.current_round)
+        nextround =  SingleTournamentRound.objects.get(tournament=tournament, roundnum=tournament.current_round+1)
         matches = currentround.matches.all()
         for i in matches:
             if i.winner is None:
@@ -250,6 +267,7 @@ def advance(request, pk):
         for i in winners:
             newmatch = Match(game=tournament.game, platform=tournament.platform, hometeam=winners[0], awayteam=winners[1])
             newmatch.save()
+            nextround.matches.add(newmatch)
             del winners[0]
             del winners[0]
 
@@ -439,6 +457,7 @@ def create_article(request):
 # end news section
 
 # start store section
+
 
 class TransactionView(View):
     template_name = 'staff/transaction_list.html'

@@ -6,72 +6,114 @@
   {% endblock %}
 
 {% block body %}
-    {% if tournament.size > teams %}
-            <!-- there are byes -->
-        <script>var haveByes = true;</script>
-    {% endif %}
-
-    {% if tournament.size == teams %}
-        <script>var haveByes = false;</script>
-    {% endif %}
-
-    <script type="text/javascript">
-    var myteams = [];
-    var r1matches = [];
-    </script>
-    {% for team in teams %}
-        <!-- To do, determine whats passed if it is a bye -->
-        {% if team is NULL %}
-        <script>myteams.push("BYE");</script>
-
-        {% else %}
-        <script>myteams.push("{{ team }}");</script>
-        {% endif %}
-
-    {% endfor %}
-
-    {% for round1 in round1matches %}
-        <script>r1matches.push("{{ round1 }}");</script>
-    {% endfor %}
-
-    <!-- to do - get the specific match1 and match2 out of round1matches -->
-
-    <script type="text/javascript">console.log("myteams");</script>
-    <script type="text/javascript" src="{% static 'js/jquery-1.6.2.min.js' %}"></script>
-
-    <link rel="stylesheet" type="text/css" href="{% static 'css/jquery.bracket.min.css' %}" />
-<script type="text/javascript" src="{% static 'js/jquery.bracket.min.js' %}"></script>
-<script>
-console.log(myteams);
-var singleElimination = {
-  "teams": [              // Matchups
-    [myteams[0], myteams[1]], // First match
-    [myteams[2], myteams[3]]  // Second match
-  ],
-  "results": [            // List of brackets (single elimination, so only one bracket)
-    [                     // List of rounds in bracket
-      [                   // First round in this bracket
-        [],           // Team 1 vs Team 2
-        []            // Team 3 vs Team 4
-      ],
-      [                   // Second (final) round in single elimination bracket
-        [],           // Match for first place
-                    // Match for 3rd place
-      ]
-    ]
-  ]
-}
-
-$(function() {
-    $('#demo').bracket({
-        skipConsolationRound: true,
-      init: singleElimination /* data to initialize the bracket with */ })
-  })
-</script>
+<link rel="stylesheet" href="{% static "css/singletournament.css" %}">
 
     <h2>Bracket for {{ tournament.name }}</h2>
 
-    <div id="demo"></div>
 
-    <p><script type="text/javascript">//document.write("myteams");</script></p>
+<main id="tournament">
+    <ul class="round round-1">
+        <li class="spacer">&nbsp;</li>
+        {% for match in round1matches %}
+        <li class="game game-top {% if match.winner is match.awayteam %}
+            winner
+            {% else %}
+
+            {% endif %}"><a href="{% url 'matches:detail' pk=match.id %}">{{ match.awayteam }}</a><span>
+            {% if match.winner is match.awayteam %}
+            1
+            {% else %}
+            0
+            {% endif %}
+        </span></li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom {% if match.winner is match.hometeam %}
+            winner
+            {% else %}
+
+            {% endif %}"><a href="{% url 'matches:detail' pk=match.id %}">{{ match.hometeam }}</a><span>
+            {% if match.winner is match.hometeam %}
+            1
+            {% else %}
+            0
+            {% endif %}
+        </span></li>
+
+        <li class="spacer">&nbsp;</li>
+        {% endfor %}
+        </ul>
+    <ul class="round round-2">
+
+        <li class="spacer">&nbsp;</li>
+        <li class="spacer">&nbsp;</li>
+
+    {% if round2matches.count is 0 %}
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+    {% else %}
+        {% for match2 in round2matches %}
+
+        <li class="game game-top {% if match2.winner is match2.awayteam %}
+            winner
+            {% else %}
+
+            {% endif %}"><a href="{% url 'matches:detail' pk=match2.id %}">{{ match2.awayteam }}</a><span>
+            {% if match2.winner is match2.awayteam %}
+            1
+            {% else %}
+            0
+            {% endif %}
+        </span></li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom {% if match2.winner is match2.hometeam %}
+            winner
+            {% else %}
+
+            {% endif %}"><a href="{% url 'matches:detail' pk=match2.id %}">{{ match2.hometeam }}</a><span>
+            {% if match2.winner is match2.hometeam %}
+            1
+            {% else %}
+            0
+            {% endif %}
+        </span></li>
+        {% endfor %}
+
+    {% endif %}
+
+
+        <li class="spacer">&nbsp;</li>
+
+
+
+
+        <li class="spacer">&nbsp;</li>
+    </ul>
+<!--     <ul class="round round-3">
+        <li class="spacer">&nbsp;</li>
+
+        <li class="game game-top winner">Lousville <span>77</span></li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">Oregon <span>69</span></li>
+
+        <li class="spacer">&nbsp;</li>
+
+        <li class="game game-top ">Mich St <span>61</span></li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom winner">Duke <span>71</span></li>
+
+        <li class="spacer">&nbsp;</li>
+    </ul>
+    <ul class="round round-4">
+        <li class="spacer">&nbsp;</li>
+
+        <li class="game game-top winner">Lousville <span>85</span></li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">Duke <span>63</span></li>
+
+        <li class="spacer">&nbsp;</li>
+    </ul>-->
+</main>
 {% endblock %}

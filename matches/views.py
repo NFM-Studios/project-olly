@@ -21,8 +21,8 @@ class MatchReportCreateView(View):
     template_name = 'matches/matches_report.html'
 
     def get(self, request, pk):
-        form = MatchReportCreateFormGet(request)
-        return render(request, self.template_name, {'form': form, 'pk':pk})
+        form = MatchReportCreateFormGet(request, pk)
+        return render(request, self.template_name, {'form': form, 'pk': pk})
 
     def post(self, request, pk):
         form = MatchReportCreateFormPost(request.POST)
@@ -39,7 +39,7 @@ class MatchReportCreateView(View):
         elif TeamInvite.objects.filter(user=self.request.user, team=team2).exists():
             reporter_team = TeamInvite.objects.get(user=self.request.user, team=team2)
         else:
-            messages.error("Something went wrong, please try again")
+            messages.error(request, message="Something went wrong, please try again (maybe reporting from the incorrect account?)")
             return redirect('matches:detail', pk=pk)
 
         if MatchReport.objects.filter(match=match.id, reporting_team=team1).exists() and reporter_team.id == team1.id:
