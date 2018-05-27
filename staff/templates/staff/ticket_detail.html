@@ -25,12 +25,28 @@
     </tr>
     </thead>
     <tr>
-        <td>ID</td>
+        <td>Ticket ID</td>
         <td>{{ticket.id}}</td>
     </tr>
     <tr>
-        <td class="ticket-subject">Subject</td>
-        <td>{{ticket.subject}}</td>
+        <td class="ticket-category">Category</td>
+        <td>
+        {% if ticket.category == 0 %}
+        General
+        {% elif ticket.category == 1 %}
+        Prize Claim
+        {% elif ticket.category == 2 %}
+        Tournament Support
+        {% elif ticket.category == 3 %}
+        Billing
+        {% elif ticket.category == 4 %}
+        Refund Request
+        {% elif ticket.category == 5 %}
+        PSN/XBL Issues
+        {% elif ticket.category == 6 %}
+        Match Support/Dispute
+        {% endif %}
+    </td>
     </tr>
     <tr>
         <td class="">Description</td>
@@ -42,7 +58,43 @@
     </tr>
     <tr>
         <td>Status</td>
-        <td>{{ticket.status}}</td>
+        <td>
+        {% if ticket.status == 0 %}
+            New
+        {% elif ticket.status == 1 %}
+            On Hold
+        {% elif ticket.status == 2 %}
+            In Progress
+        {% elif ticket.status == 3 %}
+            Closed
+        {% endif %}
+        </td>
     </tr>
 </table>
+
+{% for i in comments %}
+    {% if i.author.user.user_type == 'admin' or i.author.user.user_type == 'superadmin'%}
+    <b>{{ i.author }}, ({{ i.date }}): {{ i.comment }}</b>
+    {% else %}
+    {{ i.author }}, ({{ i.date }}): {{ i.comment }}
+    {% endif %}
+    <br>
+{% endfor %}
+
+<form method="POST" action="{% url 'staff:ticket_detail' pk=x  %}">
+    <table class="table">
+        {% csrf_token %}
+        {{form.as_table}}
+        <tr>
+            <td colspan="2">
+                <input type="submit" name="post_comment" value="Comment" />
+            </td>
+        </tr>
+    </table>
+</form>
+<form method="POST" action="{% url 'staff:ticket_detail' pk=x %}">
+    {% csrf_token %}
+    {{ form2.as_table }}
+    <input type="submit" name="change_status" value="Change Status">
+</form>
 {% endblock %}
