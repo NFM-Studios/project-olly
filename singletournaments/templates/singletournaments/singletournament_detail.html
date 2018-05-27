@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+  {% block head %}
+  <title>{{ tournament.name }} Details - {{ SITE_NAME }}</title>
+  {% endblock %}
+
+{% block body %}
+<link rel="stylesheet" href="{% static "css/singletournament.css" %}">
+
+{% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      <li class="{{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+
+
+<p><a href="{% url 'singletournaments:list' %}"><i class="fas fa-arrow-left"></i> <strong>Back to tournament list</strong></a></p>
+<table class="table">
+    <thead>
+    <tr>
+        <th>Format</th>
+        {% if tournament.teamformat == 0 %}
+        <th>1v1</th>
+        {% elif tournament.teamformat == 1 %}
+        <th>2v2</th>
+        {% elif tournament.teamformat == 2 %}
+        <th>3v3</th>
+        {% elif tournament.teamformat == 3 %}
+        <th>4v4</th>
+        {% elif tournament.teamformat == 4 %}
+        <th>5v5</th>
+        {% elif tournament.teamformat == 5 %}
+        <th>6v6</th>
+        {% endif %}
+    </tr>
+    </thead>
+    <tr>
+        <td>Game</td>
+        {% if tournament.game == 0 %}
+        <td>No Game Set</td>
+        {% elif tournament.game == 1 %}
+        <td>Call of Duty: Black Ops 3</td>
+        {% elif tournament.game == 2 %}
+        <td>Call of Duty WWII</td>
+        {% elif tournament.game == 3 %}
+        <td>Fortnite</td>
+        {% elif tournament.game == 4 %}
+        <td>Destiny 2</td>
+        {% elif tournament.game == 5 %}
+        <td>Counter-Strike: Global Offensive</td>
+        {% elif tournament.game == 6 %}
+        <td>Player Unknown's BATTLEGROUNDS
+        {% elif tournament.game == 7 %}
+        <td>Rainbow Six Siege</td>
+        {% elif tournament.game == 8 %}
+        <td>Overwatch</td>
+        {% elif tournament.game == 9 %}
+        <td>League of Legends</td>
+        {% elif tournament.game == 10 %}
+        <td>Hearthstone</td>
+        {% elif tournament.game == 11 %}
+        <td>World of Warcraft</td>
+        {% elif tournament.game == 12 %}
+        <td>SMITE</td>
+        {% elif tournament.game == 13 %}
+        <td>Rocket League</td>
+        {% elif tournament.game == 14 %}
+        <td>Battlefield 1</td>
+        {% endif %}
+
+    </tr>
+    <tr>
+        <td>Platform</td>
+        {% if tournament.platform == 0 %}
+        <td>Playstation 4</td>
+        {% elif tournament.platform == 1 %}
+        <td>XBOX One</td>
+        {% elif tournament.platform == 2 %}
+        <td>PC</td>
+        {% elif tournament.platform == 3 %}
+        <td>Mobile</td>
+        {% elif tournament.platform == 4 %}
+        <td>Nintendo Switch</td>
+        {% elif tournament.platform == 5 %}
+        <td>Playstation 3</td>
+        {% elif tournament.platform == 6 %}
+        <td>XBOX 360</td>
+        {% endif %}
+
+    </tr>
+    <tr>
+        <td>Best Of</td>
+        {% if tournament.bestof == 0 %}
+        <td>Best of 1</td>
+        {% elif tournament.bestof == 1 %}
+        <td>Best of 3</td>
+        {% elif tournament.bestof == 2 %}
+        <td>Best of 5</td>
+        {% elif tournament.bestof == 3 %}
+        <td>Best of 7</td>
+        {% elif tournament.bestof == 4 %}
+        <td>Best of 9</td>
+        {% endif %}
+    </tr>
+    <tr>
+        <td>Start</td>
+        <td>{{tournament.start}}</td>
+    </tr>
+    <tr>
+        <td>Active</td>
+        <td>
+            {% if tournament.active %}
+            Yes
+            {% endif %}
+            {% if not tournament.active %}
+            No
+              {% endif %}
+        </td>
+    </tr>
+    <tr>
+        <td>Registration Open/Registration Close</td>
+        <td>{{tournament.open_register}}/{{ tournament.close_register }}</td>
+    </tr>
+    <tr>
+        <td>Required Credits (Per Player)</td>
+        <td>{{tournament.req_credits}}</td>
+    </tr>
+    <tr>
+        <td>1st Place Prize</td>
+        <td>{{tournament.prize1}}</td>
+    </tr>
+    <tr>
+        <td>2nd Place Prize</td>
+        <td>{{tournament.prize2}}</td>
+    </tr>
+    <tr>
+        <td>3rd Place Prize</td>
+        <td>{{tournament.prize3}}</td>
+    </tr>
+    <tr>
+        <td>RULES</td>
+        <td><a href="#">Read here</a></td>
+    </tr>
+
+
+</table>
+
+    {% if tournament.bracket_generated %}
+    This tournament has started already
+    {% else %}
+    <a href="{% url 'singletournaments:join' pk %}"> Join </a>
+    {% endif %}
+
+
+    <br />
+    <br />
+    <br />
+    {% if tournament.bracket_generated %}
+    <a href="{% url 'singletournaments:bracket' pk %}">Bracket</a>
+    {% else %}
+    No bracket has been generated yet
+    {% endif %}
+
+{% endblock %}

@@ -43,6 +43,9 @@ class Team(models.Model):
         if not self.website:
             return True
 
+    def __str__(self):
+        return self.name
+
 
 class TeamInvite(models.Model):
     INVITE_CHOICES = (
@@ -57,6 +60,7 @@ class TeamInvite(models.Model):
     accepted = models.BooleanField(default=False)
     declined = models.BooleanField(default=False)
     active = models.BooleanField(default=True)
+    hasPerms = models.BooleanField(default=False)
 
 
 class CaptainMembership(models.Model):

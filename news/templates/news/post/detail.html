@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 
-{% block title %}{{ post.title }}{% endblock %}
+  {% block head %}
+  <title>{{ post.title }} - {{ SITE_NAME }}</title>
+  {% endblock %}
 
 {% block body %}
     <h1>{{ post.title }}</h1>

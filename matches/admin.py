@@ -1,3 +1,5 @@
 from django.contrib import admin
+from django.conf.urls import url, include
+from .models import Match, MatchReport
 
-# Register your models here.
+admin.site.register(Match)

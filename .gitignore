@@ -47,3 +47,4 @@ db.sqlite3
 venv/
 
 olly/media/profile_images/
+db\.sqlite3\.1

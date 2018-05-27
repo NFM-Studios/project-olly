@@ -1,0 +1,106 @@
+{% extends 'staff/staffbase.html' %}
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static "css/staff.css" %}">
+
+{% block title %}
+All Tournaments
+{% endblock %}
+
+{% block body %}
+<table class="table table-hover">
+    <tr id="header">
+        <thead>
+        <th scope="row">ID</th>
+        <th>Tournament Name</th>
+        <th>Platform</th>
+        <th>Game</th>
+        <th>Start Date/Time</th>
+        <th>Registration Open</th>
+        <th>Required Credits</th>
+        <th>Active</th>
+        <th>Size</th>
+        </thead>
+    </tr>
+    {% for tournament in tournament_list %}
+    <tbody>
+    <tr scope="">
+        <td scope="row"><a href="{% url 'staff:edit_tournament' pk=tournament.id %}">#{{tournament.id}}</a></td>
+        <td>{{tournament.name}}</td>
+
+        {% if tournament.platform == 0 %}
+        <td>Playstation 4</td>
+        {% elif tournament.platform == 1 %}
+        <td>XBOX One</td>
+        {% elif tournament.platform == 2 %}
+        <td>PC</td>
+        {% elif tournament.platform == 3 %}
+        <td>Mobile</td>
+        {% elif tournament.platform == 4 %}
+        <td>Nintendo Switch</td>
+        {% elif tournament.platform == 5 %}
+        <td>Playstation 3</td>
+        {% elif tournament.platform == 6 %}
+        <td>XBOX 360</td>
+        {% endif %}
+
+        {% if tournament.game == 0 %}
+        <td>No Game Set</td>
+        {% elif tournament.game == 1 %}
+        <td>Call of Duty: Black Ops 3</td>
+        {% elif tournament.game == 2 %}
+        <td>Call of Duty WWII</td>
+        {% elif tournament.game == 3 %}
+        <td>Fortnite</td>
+        {% elif tournament.game == 4 %}
+        <td>Destiny 2</td>
+        {% elif tournament.game == 5 %}
+        <td>Counter-Strike: Global Offensive</td>
+        {% elif tournament.game == 6 %}
+        <td>Player Unknown's BATTLEGROUNDS
+        {% elif tournament.game == 7 %}
+        <td>Rainbow Six Siege</td>
+        {% elif tournament.game == 8 %}
+        <td>Overwatch</td>
+        {% elif tournament.game == 9 %}
+        <td>League of Legends</td>
+        {% elif tournament.game == 10 %}
+        <td>Hearthstone</td>
+        {% elif tournament.game == 11 %}
+        <td>World of Warcraft</td>
+        {% elif tournament.game == 12 %}
+        <td>SMITE</td>
+        {% elif tournament.game == 13 %}
+        <td>Rocket League</td>
+        {% elif tournament.game == 14 %}
+        <td>Battlefield 1</td>
+        {% endif %}
+
+        <td>{{tournament.start}}</td>
+        <td>{{tournament.open_register}}</td>
+        <td>{{tournament.req_credits}}</td>
+
+        {% if tournament.active %}
+        <td>Yes</td>
+        {% elif not tournament.active %}
+        <td>No</td>
+        {% endif %}
+
+        <td>{{tournament.size}}</td>
+
+        <td><a href="{% url 'staff:generate_bracket' pk=tournament.id %}" class="btn btn-success">LAUNCH</a></td>
+        <td><a href="{% url 'staff:advance' pk=tournament.id %}" class="btn btn-primary">Advance</a></td>
+        <td><a href="{% url 'staff:delete_tournament' pk=tournament.id %}" class="btn btn-danger">DELETE</a></td>
+    </tr>
+    </tbody>
+    {% endfor %}
+</table>
+
+    <div id="new-tournament">
+    <h2 id="" style="text-decoration: none; margin:8px">
+        <a style="text-decoration:none; color:black;" href="{% url 'staff:create_tournament' %}">
+            <i class="fa fa-plus"></i>  Create a new tournament
+        </a>
+    </h2>
+</div>
+
+{% endblock %}

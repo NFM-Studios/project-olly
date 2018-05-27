@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static "css/matches.css" %}">
+
+  {% block head %}
+  <title>Report a Match - {{ SITE_NAME }}</title>
+  {% endblock %}
+
+{% block body %}
+
+<form method="POST" action="{% url 'matches:report' pk=pk %}">
+    <table class="table">
+        {% csrf_token %}
+        {{form.as_table}}
+        <tr>
+            <td colspan="2">
+                <input type="submit" value="Submit" />
+            </td>
+        </tr>
+    </table>
+</form>
+{% endblock %}

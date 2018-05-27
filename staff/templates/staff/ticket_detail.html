@@ -1,7 +1,11 @@
 {% extends "staff/staffbase.html" %}
 {% load staticfiles %}
-<link rel="stylesheet" href="{% static "css/ticket.css" %}">
+<link rel="stylesheet" href="{% static "css/staff.css" %}">
 <link rel="stylesheet" href="{% static "css/fontawesome-all.min.css" %}">
+
+{% block title %}
+    Ticket #{{ ticket.id }}
+{% endblock %}
 
 {% if messages %}
   <ul class="messages">
@@ -12,7 +16,7 @@
 {% endif %}
 
 {% block body %}
-<p><a href="{% url 'staff:tickets' %}"><i class="fas fa-arrow-left"></i> <strong>Back to ticket list</strong></a></p>
+<p><a href="{% url 'staff:tickets' %}"><i class="fa fa-arrow-left"></i> <strong>Back to ticket list</strong></a></p>
 <table class="table">
     <thead>
     <tr>

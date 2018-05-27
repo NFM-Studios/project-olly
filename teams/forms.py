@@ -1,5 +1,7 @@
 from django import forms
 
+from django.forms import ModelForm
+
 # import the actual team model for the create team forms
 from teams.models import Team
 
@@ -17,18 +19,35 @@ class TeamCreateForm(forms.ModelForm):
 # invite forms to invite players to a team
 
 
-class TeamInviteForm(forms.ModelForm):
+class TeamInviteFormGet(forms.ModelForm):
     user = forms.CharField(required=True, max_length=50)
 
     class Meta:
-        # team = forms.?
         captain = forms.BooleanField(required=False)
         model = TeamInvite
         # maybe????
         fields = ('user', 'team', 'captain',)
-        # widgets = {
-        #    'user':CharField(),
-        # }
+        widgets = {
+            'user': forms.CharField(),
+         }
+
+    def __init__(self, request, *args, **kwargs):
+        self.username = request.user
+        self.team = forms.ModelChoiceField(queryset=TeamInvite.objects.filter(captain=['captain', 'founder'], user_id=self.username.id))
+        super(TeamInviteFormGet, self).__init__(*args, **kwargs)
+
+
+class TeamInviteFormPost(forms.ModelForm):
+    user = forms.CharField(required=True, max_length=50)
+
+    class Meta:
+        captain = forms.BooleanField(required=False)
+        model = TeamInvite
+        # maybe????
+        fields = ('user', 'team', 'captain',)
+        widgets = {
+            'user': forms.CharField(),
+         }
 
 
 class EditTeamProfileForm(forms.ModelForm):
@@ -52,12 +71,5 @@ class ViewInviteForm(forms.ModelForm):
             'accepted',
             'denied'
         }
-
-
-class LeaderboardSortForm(forms.Form):      # it works but is messy af. should be replaced with something like http://img.mulveyben.me/img/chrome_2018-03-11_22-04-28.png
-    sort_xp_asc = forms.BooleanField(required=False)
-    sort_xp_desc = forms.BooleanField(required=False)
-    sort_trophies_asc = forms.BooleanField(required=False)
-    sort_trophies_desc = forms.BooleanField(required=False)
 
 

@@ -1,15 +1,17 @@
 <html>
 <head>
 
-  {% block head %}
+  
   {% load staticfiles %}
   <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-
   <link rel="stylesheet" href="{% static "css/fontawesome-all.min.css" %}">
-  <title>{{ app.title }}</title>
+  
+  {% block head %}
+  <title>PageName - {{ SITE_NAME }}</title>
   {% endblock %}
+  
 </head>
 <body>
 
@@ -32,6 +34,7 @@
               <li><a href="{% url 'news:post_list' %}">News</a></li>
               {% if not user.is_anonymous %}
                   <li><a href="{% url 'profiles:users' %}">Users</a></li>
+                  <li><a href="{% url 'singletournaments:list' %}">Tournaments</a></li>
                   <li><a href="{%  url 'profiles:profile_no_username' %}">My Profile</a></li>
                   <li><a href="{% url 'support:list' %}">My Support Tickets</a></li>
                   <li><a href="{%  url 'store:store' %}">Store</a></li>
@@ -48,7 +51,7 @@
           </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->
       </nav>
-
+<!-- End Static navbar -->
 
   {% if messages %}
   <ul class="messages">
@@ -57,8 +60,18 @@
       {% endfor %}
   </ul>
   {% endif %}
+  
+  
   {% block body %}
   <h1>base</h1>
   {% endblock %}
+  
+  <footer>
+  {% block foot %}
+  Powered by <a href="https://olly.nfmstudios.com" target="_blank">Project Olly</a> Version: {{ SITE_VERSION }} On Server: {{ SITE_SERVER }}
+  {% endblock %}
+  </footer>
+  
 </body>
+
 </html>
