@@ -88,7 +88,8 @@ All Tournaments
         <td>{{tournament.size}}</td>
 
         <td><a href="{% url 'staff:generate_bracket' pk=tournament.id %}" class="btn btn-success">LAUNCH</a></td>
-        <td><a href="{% url 'staff:advance' pk=tournament.id %}" class="btn btn-default">Advance</a></td>
+        <td><a href="{% url 'staff:advance' pk=tournament.id %}" class="btn btn-primary">Advance</a></td>
+        <td><a href="{% url 'staff:delete_tournament' pk=tournament.id %}" class="btn btn-danger">DELETE</a></td>
     </tr>
     </tbody>
     {% endfor %}

@@ -56,6 +56,9 @@ def login(request, template_name='profiles/login_form.html',
                 return HttpResponseRedirect(redirect_to)
             else:
                 messages.error(request, 'Invalid or missing reCAPTCHA. Please try again.')
+        else:
+            messages.error(request, message='Error trying to log you in')
+
     else:
         form = authentication_form(request)
 
@@ -105,6 +108,8 @@ def searchusers(request):
                        (Q(user__username__icontains=query) | Q(user__email__icontains=query))})
     else:
         return redirect('profiles:users')
+
+
 def edit_profile(request):
     if request.method == 'POST':
         userprofileobj = UserProfile.objects.get(user__username=request.user.username)

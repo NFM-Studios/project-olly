@@ -1,67 +1,55 @@
-.col-1-8 {
-	width: 12.5%;
-	float: left;
+/*
+ *  Flex Layout Specifics
+*/
+main{
+  display:flex;
+  flex-direction:row;
 }
-.round-two-top {
-	padding: 45px 0 0;
+.round{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  width:200px;
+  list-style:none;
+  padding:0;
 }
-.round-two-bottom {
-	padding: 80px 0 0;
-}
-.round-three {
-	padding: 127px 0 0;
-}
-.col-1-4 {
-	width: 25%;
-	float: left;
-}
-.col-1-3 {
-	width: 33.333%;
-	float: left;
-}
-.col-1-2 {
-	width: 50%;
-	float: left;
-}
-.col-2-3 {
-	width: 66.66%;
-	float: left;
-}
-.col-100 {
-	width: 100%;
-	float: left;
-}
-ul.matchup {
-	margin: 0;
-	width: 100%;
-	padding: 10px;
-}
-ul.matchup li {
-	padding: 0;
-	margin: 3px 5px;
-	height: 25px;
-	line-height: 25px;
-	white-space: nowrap;
-	overflow: hidden;
-	position: relative;
-	border: 1px solid #cccccc;
-}
-.seed {
-	background: #e7e7e7;
-	padding: 5px 10px;
+  .round .spacer{ flex-grow:1; }
+  .round .spacer:first-child,
+  .round .spacer:last-child{ flex-grow:.5; }
+
+  .round .game-spacer{
+    flex-grow:1;
+  }
+
+/*
+ *  General Styles
+*/
+body{
+  font-family:sans-serif;
+  font-size:small;
+  padding:10px;
+  line-height:1.4em;
 }
 
-@media screen and (min-width: 401px) and (max-width: 680px) {
-.col-1-8 {
-	width: 25%;
-}
+li.game{
+  padding-left:20px;
 }
 
-@media screen and (max-width: 400px) {
-.col-1-8 {
-	width: 33%;
-}
-.champ {
-	width:100%;
-}
-}
+  li.game.winner{
+    font-weight:bold;
+  }
+  li.game span{
+    float:right;
+    margin-right:5px;
+  }
+
+  li.game-top{ border-bottom:1px solid #aaa; }
+
+  li.game-spacer{ 
+    border-right:1px solid #aaa;
+    min-height:75px;
+  }
+
+  li.game-bottom{ 
+    border-top:1px solid #aaa;
+  }
