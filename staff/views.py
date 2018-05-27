@@ -332,6 +332,27 @@ class MatchDeclareWinner(View):
             return redirect('staff:matches_index')
 
 
+def match_delete_winner(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        match = Match.objects.get(pk=pk)
+        match.winner = None
+        match.completed = False
+        match.reported = False
+        match.team1reported = False
+        match.team2reported = False
+        match.team1reportedwinner = None
+        match.team2reportedwinner = None
+        match.disputed = False
+        match.save()
+        for i in MatchReport.objects.filter(match_id=pk):
+            i.delete()
+        messages.success(request, "Winner reset")
+        return redirect('staff:matches_index')
+
 # end matches section
 
 

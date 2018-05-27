@@ -26,6 +26,7 @@ urlpatterns = [
     url(r'^matches/$', login_required(views.matches_index), name='matches_index'),
     url(r'^match/(?P<pk>\d+)$', login_required(views.match_detail), name='match_detail'),
     url(r'^match/(?P<pk>\d+)/declare$', login_required(views.MatchDeclareWinner.as_view()), name='match_declare_winner'),
+    url(r'^match/(?P<pk>\d+)/delete', login_required(views.match_delete_winner), name='match_delete_winner'),
     url(r'^news/', login_required(views.news_index), name='news_index'),
     url(r'^news/list', login_required(views.news_list), name='news_list'),
     url(r'^news/create', login_required(views.create_article), name='create_article'),
