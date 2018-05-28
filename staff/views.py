@@ -1,7 +1,8 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from pages.models import StaticInfo
-from staff.forms import StaticInfoForm, ArticleCreateForm, EditUserForm, TicketCommentCreateForm, TicketStatusChangeForm, EditTournamentForm, DeclareMatchWinnerForm
+from staff.forms import StaticInfoForm, ArticleCreateForm, EditUserForm, TicketCommentCreateForm,\
+    TicketStatusChangeForm, EditTournamentForm, DeclareMatchWinnerForm, DeclareMatchWinnerPost
 from profiles.models import UserProfile, BannedUser
 from profiles.forms import SortForm
 from django.contrib.auth.models import User
@@ -169,7 +170,19 @@ def tournament_detail(request, pk):
         return render(request, 'staff/permissiondenied.html')
     else:
         tournament = SingleEliminationTournament.objects.get(pk=pk)
-        return render(request, 'staff/tournament.html', {'tournament': tournament})
+        rounds = SingleTournamentRound.objects.filter(tournament = tournament)
+        return render(request, 'staff/tournament_detail.html', {'tournament': tournament, 'rounds': rounds})
+
+
+def round_detail(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        tround = SingleTournamentRound.objects.get(pk=pk)
+        matches = tround.matches.all()
+        return render(request, 'staff/round_detail.html', {'round': tround, 'matches': matches})
 
 
 def tournament_matches(request, pk):
@@ -280,29 +293,6 @@ def advance(request, pk):
 # start matches section
 
 
-def declare_match_winner(request, pk):
-    user = UserProfile.objects.get(user__username=request.user.username)
-    allowed = ['superadmin', 'admin']
-    if user.user_type not in allowed:
-        return render(request, 'staff/permissiondenied.html')
-    else:
-        if request.method == 'POST':
-            matchobj = Match.objects.get(pk=pk)
-            form = DeclareMatchWinnerForm(request.POST, instance=matchobj)
-            if form.is_valid():
-                form.save()
-                messages.success(request, 'Match winner has been updated!')
-                return redirect('staff:matches_index')
-            else:
-                print('form is not valid')
-        else:
-            tournamentobj = SingleEliminationTournament.objects.get(pk=pk)
-            form = DeclareMatchWinnerForm(instance=tournamentobj)
-            return render(request, 'staff/edittournament.html', {'form': form})
-        matches_list = Match.objects.all()
-        return render(request, 'staff/matches_winner.html', {'matches_list': matches_list})
-
-
 def matches_index(request):
     user = UserProfile.objects.get(user__username=request.user.username)
     allowed = ['superadmin', 'admin']
@@ -322,6 +312,58 @@ def match_detail(request, pk):
         match = Match.objects.get(pk=pk)
         return render(request, 'staff/match_detail.html', {'match': match})
 
+
+class MatchDeclareWinner(View):
+    template_name = 'staff/matches_winner.html'
+
+    def get(self, request, pk):
+        user = UserProfile.objects.get(user__username=request.user.username)
+        allowed = ['superadmin', 'admin']
+        if user.user_type not in allowed:
+            return render(request, 'staff/permissiondenied.html')
+        else:
+            form = DeclareMatchWinnerForm(request, pk)
+            return render(request, self.template_name, {'form': form, 'pk': pk})
+
+    def post(self, request, pk):
+        user = UserProfile.objects.get(user__username=request.user.username)
+        allowed = ['superadmin', 'admin']
+        if user.user_type not in allowed:
+            return render(request, 'staff/permissiondenied.html')
+        else:
+            matchobj = Match.objects.get(pk=pk)
+            form = DeclareMatchWinnerPost(request.POST, instance=matchobj)
+            instance = form.instance
+            match = Match.objects.get(id=self.kwargs['pk'])
+            winner = Team.objects.get(id=form.data['winner'])
+            instance.match = match
+            instance.winner = winner
+            instance.completed = True
+            instance.save()
+            messages.success(request, "Winner declared")
+            return redirect('staff:matches_index')
+
+
+def match_delete_winner(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        match = Match.objects.get(pk=pk)
+        match.winner = None
+        match.completed = False
+        match.reported = False
+        match.team1reported = False
+        match.team2reported = False
+        match.team1reportedwinner = None
+        match.team2reportedwinner = None
+        match.disputed = False
+        match.save()
+        for i in MatchReport.objects.filter(match_id=pk):
+            i.delete()
+        messages.success(request, "Winner reset")
+        return redirect('staff:matches_index')
 
 # end matches section
 
