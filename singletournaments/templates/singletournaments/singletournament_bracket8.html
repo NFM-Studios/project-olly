@@ -10,176 +10,128 @@
     <h2>Bracket for {{ tournament.name }}</h2>
 
 
-<div class="col-md-12 bot10">
-               <div class="round r-of-4">
-                   <!-- start match 1 of round 1 --->
-  <div class="bracket-game">
-    <div class="player top ">
-      Snute
-      <div class="score">
-        3
-      </div>
-    </div>
-    <div class="player bot ">
-      TLO
-      <div class="score">
-        1
-      </div>
-    </div>
-      <!-- end match 1 of round 1 -->
-  </div>
-    <!-- start match 2 of round 1 -->
-  <div class="bracket-game cont">
-    <div class="player top">
-      ToD
-      <div class="score">
-        0
-      </div>
-    </div>
-    <div class="player bot">
-      MC
-      <div class="score">
-        3
-      </div>
-    </div>
-  </div>
-</div>
-    <!-- end match2 of round 1 --->
-    <!-- connectors and shit--->
-<div class="connectors r-of-2">
-  <div class="top-line"></div>
-  <div class="clear"></div>
-  <div class="bottom-line"></div>
-  <div class="clear"></div>
-  <div class="vert-line"></div>
-  <div class="clear"></div>
-  <div class="next-line"></div>
-  <div class="clear"></div>
-</div>
+
+<main id="tournament">
+    <ul class="round round-1">
+        <li class="spacer">&nbsp;</li>
+        {% for match in round1matches %}
+        <li class="game game-top {% if match.winner is match.awayteam %}
+            winner
+            {% else %}
+
+            {% endif %}"><a href="{% url 'matches:detail' pk=match.id %}">{{ match.awayteam }}</a><span>
+            {% if match.winner is match.awayteam %}
+            1
+            {% else %}
+            0
+            {% endif %}
+        </span></li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom {% if match.winner is match.hometeam %}
+            winner
+            {% else %}
+
+            {% endif %}"><a href="{% url 'matches:detail' pk=match.id %}">{{ match.hometeam }}</a><span>
+            {% if match.winner is match.hometeam %}
+            1
+            {% else %}
+            0
+            {% endif %}
+        </span></li>
+
+        <li class="spacer">&nbsp;</li>
+        {% endfor %}
+        </ul>
+    <ul class="round round-2">
+
+        <li class="spacer">&nbsp;</li>
+        <li class="spacer">&nbsp;</li>
+
+    {% if round2matches.count is 0 %}
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+    {% else %}
+        {% for match2 in round2matches %}
+
+        <li class="game game-top {% if match2.winner is match2.awayteam %}
+            winner
+            {% else %}
+
+            {% endif %}"><a href="{% url 'matches:detail' pk=match2.id %}">{{ match2.awayteam }}</a><span>
+            {% if match2.winner is match2.awayteam %}
+            1
+            {% else %}
+            0
+            {% endif %}
+        </span></li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom {% if match2.winner is match2.hometeam %}
+            winner
+            {% else %}
+
+            {% endif %}"><a href="{% url 'matches:detail' pk=match2.id %}">{{ match2.hometeam }}</a><span>
+            {% if match2.winner is match2.hometeam %}
+            1
+            {% else %}
+            0
+            {% endif %}
+        </span></li>
+        {% endfor %}
+
+    {% endif %}
 
 
-    <!--- start round 2 --->
+        <li class="spacer">&nbsp;</li>
 
 
 
-    <!-- start round2 match1 -->
-<div class="round r-of-2">
-  <div class="bracket-game">
-    <div class="player top">
-      Snute
-      <div class="score">
-        2
-      </div>
-    </div>
-    <div class="player bot">
-      MC
-      <div class="score">
-        3
-      </div>
-    </div>
-  </div>
-    <!-- end round2 match 1--->
-</div>
-<!-- end the big shit-->
-</div>
+<ul class="round round-3">
+<li class="spacer">&nbsp;</li>
+<li class="spacer">&nbsp;</li>
+    {% if round3matches.count is 0 %}
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+    {% else %}
+        {% for match3 in round3matches %}
+
+        <li class="game game-top {% if match3.winner is match3.awayteam %}
+            winner
+            {% else %}
+
+            {% endif %}"><a href="{% url 'matches:detail' pk=match3.id %}">{{ match3.awayteam }}</a><span>
+            {% if match3.winner is match3.awayteam %}
+            1
+            {% else %}
+            0
+            {% endif %}
+        </span></li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom {% if match3.winner is match3.hometeam %}
+            winner
+            {% else %}
+
+            {% endif %}"><a href="{% url 'matches:detail' pk=match3.id %}">{{ match3.hometeam }}</a><span>
+            {% if match3.winner is match3.hometeam %}
+            1
+            {% else %}
+            0
+            {% endif %}
+        </span></li>
+        {% endfor %}
+
+    {% endif %}
 
 
+        <li class="spacer">&nbsp;</li>
+    </ul>
 
-
-   <div class="col-md-12 bot10">
-    <div class="round r-of-4">
-        <!-- start round 1 match 3 -->
-  <div class="bracket-game">
-    <div class="player top">
-      Snute
-      <div class="score">
-        3
-      </div>
-    </div>
-    <div class="player bot ">
-      TLO
-      <div class="score">
-        1
-      </div>
-    </div>
-  </div>
-        <!-- end round 1 match 3--->
-        <!-- start round 1 match 4 -->
-  <div class="bracket-game cont">
-    <div class="player top">
-      ToD
-      <div class="score">
-        0
-      </div>
-    </div>
-    <div class="player bot">
-      MC
-      <div class="score">
-        3
-      </div>
-    </div>
-  </div>
-        <!-- end round 1 match 4--->
-        <!-- end round 1 --->
-</div>
-       <!-- bunch of shit--->
-<div class="connectors r-of-2">
-  <div class="top-line"></div>
-  <div class="clear"></div>
-  <div class="bottom-line"></div>
-  <div class="clear"></div>
-  <div class="vert-line"></div>
-  <div class="clear"></div>
-  <div class="next-line"></div>
-  <div class="clear"></div>
-</div>
-       <!-- end of the shit--->
-       <!-- start round2 match 2 --->
-<div class="round r-of-2">
-  <div class="bracket-game">
-    <div class="player top">
-      mike
-      <div class="score">
-        2
-      </div>
-    </div>
-    <div class="player bot">
-      steffe
-      <div class="score">
-        3
-      </div>
-    </div>
-  </div>
-</div>
-<div class="connectors r-of-2">
-  <div class="top-line"></div>
-  <div class="clear"></div>
-  <div class="bottom-line"></div>
-  <div class="clear"></div>
-  <div class="vert-line"></div>
-  <div class="clear"></div>
-  <div class="next-line"></div>
-  <div class="clear"></div>
-</div>
-
-<div class="round r-of-2">
-  <div class="bracket-game">
-    <div class="player top">
-      Snute
-      <div class="score">
-        2
-      </div>
-    </div>
-    <div class="player bot">
-      MC
-      <div class="score">
-        3
-      </div>
-    </div>
-  </div>
-</div>
-   <!-- end of round2 match 2
-   </div>
+</main>
 
 
 
