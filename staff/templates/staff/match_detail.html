@@ -15,7 +15,7 @@ Match #{{ match.id }}
 {% endif %}
 
 
-<p><a href="{% url 'staff:matches_index' %}"><i class="fa fa-arrow-left"></i> <strong>Back to matches list</strong></a></p>
+<p><a href="{% url 'staff:round_detail' pk=match.singletournamentround_set.get.id %}"><i class="fa fa-arrow-left"></i> <strong>Back to Round</strong></a></p>
 <table class="table">
     <thead>
     <tr>
@@ -79,44 +79,43 @@ Match #{{ match.id }}
     </tr>
     <tr>
         <td>Home team</td>
-        <td>Team <a href="">#{{ match.hometeam_id }}</a></td>
+        <td><a href="{% url 'teams:detail' pk=match.hometeam_id %}">{{ match.hometeam }}</a></td>
     </tr>
     <tr>
         <td>Away Team</td>
-        <td>Team <a href="">#{{ match.awayteam_id }}</a></td>
-    </tr>
-    <tr>
-        <td>Completed</td>
-        <td>{{ match.completed }}</td>
+        <td><a href="{% url 'teams:detail' pk=match.awayteam_id %}">{{ match.awayteam }}</a></td>
     </tr>
     <tr>
         <td>Reported</td>
-        <td>{{ match.reported }}</td>
-    </tr>
-    <tr>
-        <td>Winner</td>
-        <td>Team #{{ match.winner_id }}</td>
-    </tr>
-    <tr>
-        <td>Winner</td>
-        <td>{{ticket.status}}</td>
-    </tr>
-    <tr>
-        <td>Best Of</td>
-        {% if tournament.bestof == 0 %}
-        <td>Best of 1</td>
-        {% elif tournament.bestof == 1 %}
-        <td>Best of 3</td>
-        {% elif tournament.bestof == 2 %}
-        <td>Best of 5</td>
-        {% elif tournament.bestof == 3 %}
-        <td>Best of 7</td>
-        {% elif tournament.bestof == 4 %}
-        <td>Best of 9</td>
+        {% if match.reported %}
+        <td>Yes</td>
+        {% else %}
+        <td>No</td>
         {% endif %}
     </tr>
+    <tr>
+        <td>Disputed</td>
+        {% if match.disputed %}
+        <td>Yes</td>
+        {% else %}
+        <td>No</td>
+        {% endif %}
+    </tr>
+    <tr>
+        <td>Completed</td>
+        {% if match.completed %}
+        <td>Yes</td>
+        {% else %}
+        <td>No</td>
+        {% endif %}
+    </tr>
+    <tr>
+        <td>Winner</td>
+        <td>{{ match.winner }}</td>
+    </tr>
+
 </table>
-    
+
     <p>
     {% if not match.completed %}
         <a href="{% url 'staff:match_declare_winner' pk=match.id %}" class="btn btn-primary">Declare Winner</a>
@@ -129,21 +128,19 @@ Match #{{ match.id }}
 
     <table>
     <tr>
-    <th>Team1</th>
-    <th>Reported Winner</th>
+    <th>{{ match.hometeam }} Reported Winner</th>
     </tr>
     <tbody>
-    <td>Team #{{ team1.reportedwinner_id }}</td>
+    <td>{{ match.team1reportedwinner }}</td>
     </tbody>
     </table>
     <br />
     <table>
     <tr>
-    <th>Team2</th>
-    <th>Reported Winner</th>
+    <th>{{ match.awayteam }} Reported Winner</th>
     </tr>
     <tbody>
-    <td>Team #{{ team2.reportedwinner_id }}</td>
+    <td>{{ match.team2reportedwinner }}</td>
 
     </tbody>
     </table>

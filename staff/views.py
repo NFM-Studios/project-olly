@@ -170,7 +170,19 @@ def tournament_detail(request, pk):
         return render(request, 'staff/permissiondenied.html')
     else:
         tournament = SingleEliminationTournament.objects.get(pk=pk)
-        return render(request, 'staff/tournament.html', {'tournament': tournament})
+        rounds = SingleTournamentRound.objects.filter(tournament = tournament)
+        return render(request, 'staff/tournament_detail.html', {'tournament': tournament, 'rounds': rounds})
+
+
+def round_detail(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        tround = SingleTournamentRound.objects.get(pk=pk)
+        matches = tround.matches.all()
+        return render(request, 'staff/round_detail.html', {'round': tround, 'matches': matches})
 
 
 def tournament_matches(request, pk):
