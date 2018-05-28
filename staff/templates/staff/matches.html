@@ -25,7 +25,8 @@ Matches List
     <tbody>
     <tr scope="">
         <td scope="row"><a href="{% url 'staff:match_detail' pk=match.id %}">#{{match.id}}</a></td>
-        <td>Get the proper tournament</td>
+
+        <td><a href="#">{{ match.tournament }}</a></td>
 
         {% if match.platform == 0 %}
         <td>Playstation 4</td>

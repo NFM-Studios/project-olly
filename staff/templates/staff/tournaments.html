@@ -24,7 +24,7 @@ All Tournaments
     {% for tournament in tournament_list %}
     <tbody>
     <tr scope="">
-        <td scope="row"><a href="{% url 'staff:edit_tournament' pk=tournament.id %}">#{{tournament.id}}</a></td>
+        <td scope="row"><a href="{% url 'staff:tournament_detail' pk=tournament.id %}">#{{tournament.id}}</a></td>
         <td>{{tournament.name}}</td>
 
         {% if tournament.platform == 0 %}
@@ -87,9 +87,7 @@ All Tournaments
 
         <td>{{tournament.size}}</td>
 
-        <td><a href="{% url 'staff:generate_bracket' pk=tournament.id %}" class="btn btn-success">LAUNCH</a></td>
-        <td><a href="{% url 'staff:advance' pk=tournament.id %}" class="btn btn-primary">Advance</a></td>
-        <td><a href="{% url 'staff:delete_tournament' pk=tournament.id %}" class="btn btn-danger">DELETE</a></td>
+
     </tr>
     </tbody>
     {% endfor %}
