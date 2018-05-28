@@ -6,6 +6,7 @@ from matches.models import Match
 from singletournaments.models import SingleEliminationTournament
 from news.models import Post
 from support.models import TicketComment, Ticket
+from teams.models import Team
 
 
 class StaticInfoForm(forms.ModelForm):
@@ -38,9 +39,25 @@ class EditTournamentForm(forms.ModelForm):
 
 
 class DeclareMatchWinnerForm(forms.ModelForm):
+    winner = forms.ModelChoiceField(queryset=None)
+
     class Meta:
         model = Match
-        fields = ('winner', 'completed', 'disputed')
+        #fields = ('winner',)
+        fields = ()
+
+    def __init__(self, request, pk, *args, **kwargs):
+        match = Match.objects.filter(id=pk)
+        team1 = Team.objects.filter(id__in=match.values_list('hometeam', flat=True))
+        team2 = Team.objects.filter(id__in=match.values_list('awayteam', flat=True))
+        super().__init__(*args, **kwargs)
+        self.fields['winner'].queryset = team1 | team2
+
+
+class DeclareMatchWinnerPost(forms.ModelForm):
+    class Meta:
+        model = Match
+        fields = ('winner', 'completed')
 
 
 class ArticleCreateForm(forms.ModelForm):
