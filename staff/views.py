@@ -310,7 +310,11 @@ def match_detail(request, pk):
         return render(request, 'staff/permissiondenied.html')
     else:
         match = Match.objects.get(pk=pk)
-        return render(request, 'staff/match_detail.html', {'match': match})
+        if match.disputed:
+            dispute = MatchDispute.objects.get(match=match)
+            return render(request, 'staff/match_detail.html', {'match': match, 'dispute': dispute})
+        else:
+            return render(request, 'staff/match_detail.html', {'match': match})
 
 
 class MatchDeclareWinner(View):
@@ -364,6 +368,17 @@ def match_delete_winner(request, pk):
             i.delete()
         messages.success(request, "Winner reset")
         return redirect('staff:matches_index')
+
+
+def dispute_detail(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        dispute = MatchDispute.objects.get(pk=pk)
+        return render(request, 'staff/dispute_detail.html', {'dispute': dispute})
+
 
 # end matches section
 

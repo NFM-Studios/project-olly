@@ -1,0 +1,61 @@
+{% extends 'staff/staffbase.html' %}
+{% load staticfiles %}
+
+{% block title %}
+Dispute #{{ dispute.id }}
+{% endblock %}
+
+{% block body %}
+    {% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      <li class="{{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+
+
+<p><a href="{% url 'staff:match_detail' pk=dispute.match_id %}"><i class="fa fa-arrow-left"></i> <strong>Back to Match</strong></a></p>
+<table class="table">
+    <thead>
+    <tr>
+        <th>Key</th>
+        <th>Value</th>
+    </tr>
+    </thead>
+    <tr>
+        <td>ID</td>
+        <td>{{dispute.id}}</td>
+    </tr>
+    <tr>
+        <td>Created at</td>
+        <td>{{ dispute.created }}</td>
+    </tr>
+    <tr>
+        <td>Updated at</td>
+        <td>{{ dispute.updated }}</td>
+    </tr>
+    <tr>
+        <td>Home team</td>
+        <td><a href="{% url 'teams:detail' pk=dispute.team1_id %}">{{ dispute.team1 }}</a></td>
+    </tr>
+    <tr>
+        <td>Away Team</td>
+        <td><a href="{% url 'teams:detail' pk=dispute.team2_id %}">{{ dispute.team2 }}</a></td>
+    </tr>
+    <tr>
+        <td>Team proof 1</td>
+        <td><a href="{{ dispute.teamproof_1 }}"> {{ dispute.teamproof_1 }} </a></td>
+    </tr>
+    <tr>
+        <td>Team proof 2</td>
+        <td><a href="{{ dispute.teamproof_2 }}"> {{ dispute.teamproof_2 }} </a></td>
+    </tr>
+    <tr>
+        <td>Team proof 3</td>
+        <td><a href="{{ dispute.teamproof_3 }}"> {{ dispute.teamproof_3 }} </a></td>
+    </tr>
+
+</table>
+
+{% endblock %}

@@ -96,7 +96,7 @@ Match #{{ match.id }}
     <tr>
         <td>Disputed</td>
         {% if match.disputed %}
-        <td>Yes</td>
+            <td><a href="{% url 'staff:dispute_detail' pk=dispute.id %}">Yes (click to view)</a></td>
         {% else %}
         <td>No</td>
         {% endif %}
