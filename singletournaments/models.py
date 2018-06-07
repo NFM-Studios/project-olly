@@ -133,7 +133,7 @@ class SingleEliminationTournament(models.Model):
         elif self.game == 14:
             game = 'Battlefield 1'
 
-        return format + " " + platform + " " + game + " " + str(self.start)
+        return format + " " + platform + " " + game
 
     def set_inactive(self, **kwargs):
         pk = self.kwargs['pk']
