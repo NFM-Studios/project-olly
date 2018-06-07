@@ -44,10 +44,11 @@
     </tr>
     <tr>
         <td>Players</td>
-
-        <td>{% for player in players %}
-        {{ player.user }},
-        {% endfor %}</td>
+{% for player in players %}
+        <td>
+        <a href="{% url 'profiles:profile' urlusername=player.user %}">{{ player.user }}</a>,
+        </td>
+        {% endfor %}
     </tr>
 </table>
 
