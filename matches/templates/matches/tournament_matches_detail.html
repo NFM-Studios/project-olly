@@ -39,11 +39,13 @@
     </tr>
     <tr>
         <td>Home Team</td>
-        <td><a href="{% url 'teams:detail' pk=match.hometeam_id %}">{{ match.hometeam }} </a></td>
+        <td><a href="{% url 'teams:detail' pk=match.hometeam_id %}">{{ match.hometeam }}</a>  - {% if match.team1reported %}
+            <i class="fa fa-check" style="color:green"></i> Reported{% else %}<i class="fa fa-times" style="color:red"></i> No report submitted{% endif %}</td>
     </tr>
     <tr>
         <td>Away Team</td>
-        <td><a href="{% url 'teams:detail' pk=match.awayteam_id %}">{{ match.awayteam }} </a></td>
+        <td><a href="{% url 'teams:detail' pk=match.awayteam_id %}">{{ match.awayteam }} </a>  - {% if match.team2reported %}
+            <i class="fa fa-check" style="color:green"></i> Reported{% else %}<i class="fa fa-times" style="color:red"></i> No report submitted{% endif %}</td>
     </tr>
     <tr>
         <td>Best Of</td>
