@@ -36,7 +36,7 @@
     </tr>
     <tr>
         <td class="">Founder</td>
-        <td>{{team.founder}}</td>
+        <td><a href="{% url 'profiles:profile' urlusername=team.founder %}">{{team.founder}}</a></td>
     </tr>
     <tr>
         <td>Created</td>
