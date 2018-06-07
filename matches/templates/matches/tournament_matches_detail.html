@@ -12,7 +12,21 @@
     <thead>
     <tr>
         <th>Format</th>
-        <th>{{ match.teamformat }}</th>
+        <th>
+            {% if match.teamformat == 0 %}
+            1v1
+            {% elif match.teamformat == 1 %}
+            2v2
+            {% elif match.teamformat == 2 %}
+            3v3
+            {% elif match.teamformat == 3 %}
+            4v4
+            {% elif match.teamformat == 4 %}
+            5v5
+            {% elif match.teamformat == 5 %}
+            6v6
+            {% endif %}
+        </th>
     </tr>
     </thead>
     <tr>
