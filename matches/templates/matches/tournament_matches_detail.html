@@ -25,11 +25,11 @@
     </tr>
     <tr>
         <td>Home Team</td>
-        <td>{{ match.hometeam }} - Team #{{ match.hometeam_id }}</td>
+        <td><a href="{% url 'teams:detail' pk=match.hometeam_id %}">{{ match.hometeam }} </a></td>
     </tr>
     <tr>
         <td>Away Team</td>
-        <td>{{ match.awayteam }}  - Team #{{ match.awayteam_id }}</td>
+        <td><a href="{% url 'teams:detail' pk=match.awayteam_id %}">{{ match.awayteam }} </a></td>
     </tr>
     <tr>
         <td>Best Of</td>
