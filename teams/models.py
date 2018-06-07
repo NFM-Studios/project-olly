@@ -31,8 +31,10 @@ class Team(models.Model):
     # when they last updated anything in the team
     updated = models.DateTimeField(auto_now=True)
     # num field for the number of losses and wins
-    num_loss = models.SmallIntegerField(default=0)
-    num_win = models.SmallIntegerField(default=0)
+    num_matchloss = models.SmallIntegerField(default=0)
+    num_matchwin = models.SmallIntegerField(default=0)
+    # num field for the number of tournaments won
+    num_tournywin = models.SmallIntegerField(default=0)
 
     class Meta:
         verbose_name = 'Team'
