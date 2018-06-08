@@ -2,6 +2,9 @@ from django import forms
 from support.models import Ticket, TicketComment
 
 
+class ListFilterForm(forms.Form):
+    showClosed = forms.BooleanField(required=False, label='Show closed')
+
 class TicketCreateForm(forms.ModelForm):
     class Meta:
         model = Ticket
