@@ -1,18 +1,31 @@
 from django.contrib import messages
 from django.urls import reverse
 from django.http import HttpResponseRedirect
-from django.views.generic import ListView, DetailView, CreateView
-from support.forms import TicketCreateForm, TicketCommentCreateForm, TicketStatusChangeForm
+from django.views.generic import ListView, DetailView, CreateView, View
+from support.forms import TicketCreateForm, TicketCommentCreateForm, TicketStatusChangeForm, ListFilterForm
 from support.models import Ticket, TicketComment
 from django.shortcuts import render, redirect
 
 
-class MyTicketListView(ListView):
+class MyTicketListView(View):
     model = Ticket
     template_name = 'tickets/ticket_mylist.html'
+    form = ListFilterForm
 
-    def get_queryset(self):
-        return Ticket.objects.filter(creator=self.request.user)
+    def get(self, request):
+        form = self.form
+        ticket_list = Ticket.objects.filter(creator=request.user, status__lte=2)
+        return render(request, self.template_name, {'form': form, 'ticket_list': ticket_list})
+
+    def post(self, request):
+        form = self.form(request.POST)
+        ticket_list = Ticket.objects.filter(creator=request.user, status__lte=2)
+        try:
+            if form.data['showClosed']:
+                ticket_list = Ticket.objects.filter(creator=request.user)
+        except:
+            pass
+        return render(request, self.template_name, {'form': form, 'ticket_list': ticket_list})
 
 
 class MyTicketDetailView(DetailView):
