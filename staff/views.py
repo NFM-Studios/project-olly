@@ -277,6 +277,9 @@ def advance(request, pk):
 
         for i in matches:
             winners.append(i.winner)
+            team = Team.objects.get(id=i.winner)
+            team.num_matchwin += 1
+            team.save()
 
         for i in winners:
             newmatch = Match(game=tournament.game, platform=tournament.platform, hometeam=winners[0], awayteam=winners[1])
@@ -344,6 +347,8 @@ class MatchDeclareWinner(View):
             instance.winner = winner
             instance.completed = True
             instance.save()
+            winner.num_matchwin += 1
+            winner.save()
             messages.success(request, "Winner declared")
             return redirect('staff:matches_index')
 
