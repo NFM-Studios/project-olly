@@ -7,6 +7,18 @@ from matches.models import Match, MatchReport, MatchDispute
 from .forms import MatchReportCreateFormGet, MatchReportCreateFormPost, DisputeCreateForm
 
 
+class MatchList(View):
+    template_name = 'matches/matches_list.html'
+
+    def get(self, request):
+        invites = TeamInvite.objects.filter(hasPerms=True, user_id=request.user.id)
+        team = list(Team.objects.filter(id__in=invites.values_list('team', flat=True)))
+        matches_away = Match.objects.filter(awayteam__in=team)
+        matches_home = Match.objects.filter(hometeam__in=team)
+        matches = matches_away | matches_home
+        return render(request, self.template_name, {'matches': matches})
+
+
 class TournamentMatchDetailView(DetailView):
     model = Match
     template_name = 'matches/tournament_matches_detail.html'
