@@ -24,6 +24,7 @@ urlpatterns = [
     url(r'^tournaments/delete/(?P<pk>\d+)/$', login_required(views.delete_tournament), name='delete_tournament'),
     url(r'^tournaments/generatebracket/(?P<pk>\d+)$', login_required(views.generate_bracket), name='generate_bracket'),
     url(r'^tournaments/advance/(?P<pk>\d+)$', login_required(views.advance), name='advance'),
+    url(r'^tournaments/winner/(?P<pk>\d+)$', login_required(views.DeclareTournamentWinner.as_view()), name='winner'),
     url(r'^matches/$', login_required(views.matches_index), name='matches_index'),
     url(r'^match/(?P<pk>\d+)$', login_required(views.match_detail), name='match_detail'),
     url(r'^match/(?P<pk>\d+)/declare$', login_required(views.MatchDeclareWinner.as_view()), name='match_declare_winner'),

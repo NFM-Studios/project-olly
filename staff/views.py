@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.shortcuts import render, redirect
 from pages.models import StaticInfo
 from staff.forms import StaticInfoForm, ArticleCreateForm, EditUserForm, TicketCommentCreateForm,\
-    TicketStatusChangeForm, EditTournamentForm, DeclareMatchWinnerForm, DeclareMatchWinnerPost
+    TicketStatusChangeForm, EditTournamentForm, DeclareMatchWinnerForm, DeclareMatchWinnerPost, DeclareTournamentWinnerForm
 from profiles.models import UserProfile, BannedUser
 from profiles.forms import SortForm
 from django.contrib.auth.models import User
@@ -212,7 +212,7 @@ def edit_tournament(request, pk):
         else:
             tournamentobj = SingleEliminationTournament.objects.get(pk=pk)
             form = EditTournamentForm(instance=tournamentobj)
-            return render(request, 'staff/edittournament.html', {'form': form})
+            return render(request, 'staff/edittournament.html', {'form': form, 'pk': pk})
 
 
 class CreateTournament(CreateView):
@@ -266,7 +266,7 @@ def advance(request, pk):
     else:
         tournament = SingleEliminationTournament.objects.get(pk=pk)
         currentround = SingleTournamentRound.objects.get(tournament=pk, roundnum=tournament.current_round)
-        nextround =  SingleTournamentRound.objects.get(tournament=tournament, roundnum=tournament.current_round+1)
+        nextround = SingleTournamentRound.objects.get(tournament=tournament, roundnum=tournament.current_round+1)
         matches = currentround.matches.all()
         for i in matches:
             if i.winner is None:
@@ -277,9 +277,12 @@ def advance(request, pk):
 
         for i in matches:
             winners.append(i.winner)
-            team = Team.objects.get(id=i.winner)
+            team = Team.objects.get(id=i.winner_id)
             team.num_matchwin += 1
+            team1 = Team.objects.get(id=i.loser_id)
+            team1.num_matchloss += 1
             team.save()
+            team1.save()
 
         for i in winners:
             newmatch = Match(game=tournament.game, platform=tournament.platform, hometeam=winners[0], awayteam=winners[1])
@@ -290,6 +293,44 @@ def advance(request, pk):
 
         messages.success(request, "Advanced to next round")
         return redirect('staff:tournamentlist')
+
+
+class DeclareTournamentWinner(View):
+    template_name = 'staff/winner_declare.html'
+
+    def get(self, request, pk):
+        user = UserProfile.objects.get(user__username=request.user.username)
+        allowed = ['superadmin', 'admin']
+        if user.user_type not in allowed:
+            return render(request, 'staff/permissiondenied.html')
+        else:
+            form = DeclareTournamentWinnerForm
+            return render(request, self.template_name, {'form': form})
+
+    def post(self, request, pk):
+        user = UserProfile.objects.get(user__username=request.user.username)
+        allowed = ['superadmin', 'admin']
+        if user.user_type not in allowed:
+            return render(request, 'staff/permissiondenied.html')
+        else:
+            tournament = SingleEliminationTournament.objects.get(pk=pk)
+            tournament_teams = list(tournament.teams.all())
+            form = DeclareTournamentWinnerForm(request.POST)
+            first = Team.objects.get(id=form.data['first'])
+            second = Team.objects.get(id=form.data['second'])
+            if (first in tournament_teams) and (second in tournament_teams):
+                tournament.winner = first
+                tournament.second = second
+                tournament.save()
+                first.num_tournywin += 1
+                second.num_tournywin += 1
+                first.save()
+                second.save()
+            else:
+                form = DeclareTournamentWinnerForm
+                messages.error(request, 'One or more teams selected are not in this tournament')
+                return render(request, self.template_name, {'form': form})
+
 
 # end tournament section
 
