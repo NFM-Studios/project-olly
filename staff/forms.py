@@ -70,3 +70,9 @@ class TicketStatusChangeForm(forms.ModelForm):
     class Meta:
         model = Ticket
         fields = ('status',)
+
+
+class DeclareTournamentWinnerForm(forms.ModelForm):
+    class Meta:
+        model = SingleEliminationTournament
+        fields = ('winner', 'second')

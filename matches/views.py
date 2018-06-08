@@ -97,6 +97,7 @@ class MatchReportCreateView(View):
                             # team1 is reporting that team2 won
                             # declare team2 as winner
                             match.winner = team2
+                            match.loser = team1
                             match.save()
                         elif match.team1reportedwinner == team1:
                             # have to wait for the other team to confirm
@@ -105,16 +106,18 @@ class MatchReportCreateView(View):
                         if match.team2reportedwinner == team1:
                             # team 1 wins
                             match.winner = team1
+                            match.loser = team2
                             match.save()
                         elif match.team2reportedwinner == team2:
                             pass
                     if match.team1reported and match.team2reported:
                         if match.team2reportedwinner == team2 and match.team1reportedwinner == team2:
-
                             match.winner = team2
+                            match.loser = team1
                             match.save()
                         elif match.team2reportedwinner == team1 and match.team1reportedwinner == team1:
                             match.winner = team1
+                            match.loser = team2
                             match.save()
                 #self.success_url = reverse('matches:detail', args=[match.id])
                 messages.success(self.request, 'Your Report has been successfully submitted')
