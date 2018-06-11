@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect
 from django.views.generic import ListView, DetailView, CreateView, View
 from support.forms import TicketCreateForm, TicketCommentCreateForm, TicketStatusChangeForm, ListFilterForm
 from support.models import Ticket, TicketComment
+from profiles.models import UserProfile
 from django.shortcuts import render, redirect
 
 
@@ -39,11 +40,14 @@ class MyTicketDetailView(DetailView):
     def get(self, request, **kwargs):
         form1 = self.form1_class(None)
         form2 = self.form2_class(None)
+
         pk = self.kwargs['pk']
         ticket = Ticket.objects.get(id=pk)
+        creator = UserProfile.objects.get(user=ticket.creator)
         comments = TicketComment.objects.filter(ticket=pk)
         return render(request, self.template_name, {'form': form1, 'x': pk,
-                                                    "ticket": ticket, "comments": comments})
+                                                    "ticket": ticket, "comments": comments,
+                                                    'creator':creator})
 
     def get_context_date(self, **kwargs):
         context = super(MyTicketDetailView, self).get_context_data(**kwargs)
