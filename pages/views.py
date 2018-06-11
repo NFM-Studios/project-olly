@@ -18,7 +18,7 @@ def index(request):
     teamlist = teams.reverse()[:5]
     staticinfo = StaticInfo.objects.get(pk=1)
     return render(request, 'pages/index.html', {'list': list, 'staticinfo': staticinfo,
-                                                'newslist': newslist, 'matchlist': matchlist})
+                                                'newslist': newslist, 'matchlist': matchlist, 'teamlist': teamlist})
 
 
 def about(request):
