@@ -31,6 +31,9 @@ class SingleEliminationTournament(models.Model):
     # dont allow people to join once registration is closed
     close_register = models.DateTimeField()
 
+    # general information about the tournament
+    info = models.TextField(default="No information provided")
+
     # the time the specific tournament object was created
     created = models.DateTimeField(auto_now_add=True)
     # last time an admin updated something
