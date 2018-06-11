@@ -8,6 +8,15 @@ class StaticInfo(models.Model):
     terms = models.TextField(default='terms of service')
     privacy = models.TextField(default='privacy policy')
     stream = models.CharField(default='twitch', max_length=25)
+    slide1link = models.TextField(default="#")
+    slide2link = models.TextField(default="#")
+    slide3link = models.TextField(default="#")
+
+    # for steven
+
+    # slide1_pic
+    # slide2_pic
+    # slide3_pic
 
 
 class Partner(models.Model):
