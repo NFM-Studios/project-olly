@@ -384,12 +384,19 @@ class MatchDeclareWinner(View):
             instance = form.instance
             match = Match.objects.get(id=self.kwargs['pk'])
             winner = Team.objects.get(id=form.data['winner'])
+            teams = list()
+            teams.append(match.hometeam)
+            teams.append(match.awayteam)
+            teams.remove(winner)
+            loser = teams[0]
             instance.match = match
             instance.winner = winner
             instance.completed = True
             instance.save()
             winner.num_matchwin += 1
+            loser.num_matchloss += 1
             winner.save()
+            loser.save()
             messages.success(request, "Winner declared")
             return redirect('staff:matches_index')
 
