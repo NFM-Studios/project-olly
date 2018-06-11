@@ -51,7 +51,7 @@ class MatchReportCreateView(View):
         elif TeamInvite.objects.filter(user=self.request.user, team=team2).exists():
             reporter_team = TeamInvite.objects.get(user=self.request.user, team=team2)
         else:
-            messages.error(request, message="Something went wrong, please try again (maybe reporting from the incorrect account?)")
+            messages.error(request, message="You aren't a part of the teams in this match")
             return redirect('matches:detail', pk=pk)
 
         if MatchReport.objects.filter(match=match.id, reporting_team=team1).exists() and reporter_team.id == team1.id:
@@ -95,7 +95,7 @@ class MatchReportCreateView(View):
                         #dispute.team1origreporter = report1.reporting_user
                         #dispute.team2origreporter = report2.reporting_user
 
-                        dispute = MatchDispute(match=match, team1=team1, team2=team2,
+                        dispute = MatchDispute(id=match.id, match=match, team1=team1, team2=team2,
                                                team1origreporter=report1.reporting_user,
                                                team2origreporter=report2.reporting_user)
                         dispute.save()
@@ -155,13 +155,21 @@ class MatchDisputeReportCreateView(CreateView):
         dispute = form.instance
         dispute.reporting_user = self.request.user
         dispute.match_id = self.kwargs['pk']
-        dispute.teamproof = form.data['teamproof']
         dispute.teamproof_1 = form.data['teamproof_1']
         dispute.teamproof_2 = form.data['teamproof_2']
         dispute.teamproof_3 = form.data['teamproof_3']
         dispute.team1_id = match.hometeam_id
         dispute.team2_id = match.awayteam_id
+        matchreport = MatchReport.objects.get(match_id=match.id, reporting_user_id=self.request.user.id)
+        matchreport_1 = MatchReport.objects.filter(match_id=match.id).exclude(reporting_user_id=self.request.user.id).get()
+        if matchreport.reporting_team == match.hometeam:
+            dispute.team1origreporter = matchreport.reporting_user
+            dispute.team2origreporter = matchreport_1.reporting_user
+        else:
+            dispute.team2origreporter = matchreport.reporting_user
+            dispute.team1origreporter = matchreport_1.reporting_user
         dispute.save()
+        return redirect('matches:detail', pk=self.kwargs['pk'])
 
 
 
