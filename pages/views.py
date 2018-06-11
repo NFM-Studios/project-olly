@@ -11,9 +11,10 @@ def index(request):
     teams = Team.objects.all()
     matches = Match.objects.all()
     news = Post.objects.all()
+    stream = StaticInfo.objects.get(pk=1)
     tournaments = SingleEliminationTournament.objects.all()
     return render(request, 'pages/index.html', {'teams': teams, 'matches': matches, 
-        'news': news, 'tournaments': tournaments})
+        'news': news, 'tournaments': tournaments, 'stream': stream})
 
 
 def about(request):
