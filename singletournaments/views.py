@@ -55,7 +55,7 @@ class SingleTournamentJoin(View):
             teams = tournament.teams.all()
             teameligible = False
             now = datetime.datetime.now()
-            
+
             if tournament.open_register <= now:
                 messages.error(request, 'Registration for this tournament is not open yet')
                 return redirect('singletournaments:list')
