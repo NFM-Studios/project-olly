@@ -12,7 +12,7 @@ from teams.models import Team
 class StaticInfoForm(forms.ModelForm):
     class Meta:
         model = StaticInfo
-        fields = ('about_us', 'terms', 'privacy', 'stream')
+        fields = ('about_us', 'terms', 'privacy', 'stream', 'slide1link', 'slide2link', 'slide3link')
 
 
 class EditUserForm(forms.ModelForm):
