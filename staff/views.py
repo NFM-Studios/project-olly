@@ -316,7 +316,7 @@ class DeclareTournamentWinner(View):
             tournament = SingleEliminationTournament.objects.get(pk=pk)
             tournament_teams = list(tournament.teams.all())
             form = DeclareTournamentWinnerForm(request.POST)
-            first = Team.objects.get(id=form.data['first'])
+            first = Team.objects.get(id=form.data['winner'])
             second = Team.objects.get(id=form.data['second'])
             if (first in tournament_teams) and (second in tournament_teams):
                 tournament.winner = first
@@ -326,6 +326,8 @@ class DeclareTournamentWinner(View):
                 second.num_tournywin += 1
                 first.save()
                 second.save()
+                messages.success(request, 'Set tournament winner')
+                return redirect('staff:tournamentlist')
             else:
                 form = DeclareTournamentWinnerForm
                 messages.error(request, 'One or more teams selected are not in this tournament')
@@ -391,6 +393,7 @@ class MatchDeclareWinner(View):
             loser = teams[0]
             instance.match = match
             instance.winner = winner
+            instance.loser = loser
             instance.completed = True
             instance.save()
             winner.num_matchwin += 1
