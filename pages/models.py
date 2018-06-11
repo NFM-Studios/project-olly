@@ -7,6 +7,8 @@ class StaticInfo(models.Model):
     about_us = models.TextField(default='about us')
     terms = models.TextField(default='terms of service')
     privacy = models.TextField(default='privacy policy')
+    stream = models.CharField(default='twitch', max_length=25)
+
 
 class Partner(models.Model):
     name = models.CharField(max_length=80)
