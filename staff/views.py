@@ -42,6 +42,7 @@ def users(request):
     else:
         object_list = UserProfile.objects.get_queryset().order_by('id')
         paginator = Paginator(object_list, 20)
+        numusers = len(UserProfile.objects.all())
         page = request.GET.get('page')
         try:
             users = paginator.page(page)
@@ -53,7 +54,7 @@ def users(request):
             users = paginator.page(paginator.num_pages)
         context = {'page': page, 'userprofiles': users,
                    'bannedusernames': BannedUser.objects.values_list('user', flat=True),
-                   'bannedips': BannedUser.objects.values_list('ip', flat=True)}
+                   'bannedips': BannedUser.objects.values_list('ip', flat=True), 'numusers': numusers}
         return render(request, 'staff/users.html', context)
 
 
@@ -128,10 +129,14 @@ def banip(request, urlusername):
     else:
         buser = User.objects.get(username=urlusername)
         buserprofile = UserProfile.objects.get(user__username=urlusername)
-        b = BannedUser(user=buser, ip=buserprofile.ip)
-        b.save()
-        messages.success(request, 'User ' + urlusername + ' has been banned')
-        return redirect('staff:users')
+        if (buserprofile.ip == '127.0.0.1') or (buserprofile.ip == '0.0.0.0') or (buserprofile.ip == '999.999.999.999'):
+            messages.error(request, 'User has non-bannable IP')
+            return redirect('staff:users')
+        else:
+            b = BannedUser(user=buser, ip=buserprofile.ip)
+            b.save()
+            messages.success(request, 'User ' + urlusername + ' has been banned')
+            return redirect('staff:users')
 
 
 def unbanip(request, urlusername):
