@@ -134,63 +134,71 @@ class CreateUserFormView(View):
     template_name = 'profiles/registration_form.html'
 
     def get(self, request):
-        form = self.form_class(None)
-        return render(request, self.template_name, {'form': form})
+        if request.user.is_anonymous:
+            form = self.form_class(None)
+            return render(request, self.template_name, {'form': form})
+        else:
+            messages.error(request, "You cannot register while logged in")
+            return redirect('index')
 
     def post(self, request):
-        form = self.form_class(request.POST)
+        if request.user.is_anonymous:
+            form = self.form_class(request.POST)
 
-        if form.is_valid():
-            ''' reCAPTCHA validation '''
-            recaptcha_response = request.POST.get('g-recaptcha-response')
-            data = {
-                'secret': settings.GOOGLE_RECAPTCHA_SECRET_KEY,
-                'response': recaptcha_response
-            }
+            if form.is_valid():
+                ''' reCAPTCHA validation '''
+                recaptcha_response = request.POST.get('g-recaptcha-response')
+                data = {
+                    'secret': settings.GOOGLE_RECAPTCHA_SECRET_KEY,
+                    'response': recaptcha_response
+                }
 
-            r = requests.post('https://www.google.com/recaptcha/api/siteverify', data=data)
-            result = r.json()
-            ''' End reCAPTCHA validation'''
-            if result['success']:
-                user = form.save(commit=False)
+                r = requests.post('https://www.google.com/recaptcha/api/siteverify', data=data)
+                result = r.json()
+                ''' End reCAPTCHA validation'''
+                if result['success']:
+                    user = form.save(commit=False)
 
-                username = form.cleaned_data['username']
-                email_address = form.cleaned_data['email']
-                if User.objects.filter(email=email_address).exists():
-                    messages.error(request, 'That email address already exists')
-                    return redirect('register')
-                password = form.cleaned_data['password']
-                password_confirm = form.cleaned_data['password_confirm']
-                if password != password_confirm:
-                    messages.error(request, 'Passwords must match')
-                    return redirect('register')
-                user.set_password(password)
-                user.is_active = False
-                user.save()
+                    username = form.cleaned_data['username']
+                    email_address = form.cleaned_data['email']
+                    if User.objects.filter(email=email_address).exists():
+                        messages.error(request, 'That email address already exists')
+                        return redirect('register')
+                    password = form.cleaned_data['password']
+                    password_confirm = form.cleaned_data['password_confirm']
+                    if password != password_confirm:
+                        messages.error(request, 'Passwords must match')
+                        return redirect('register')
+                    user.set_password(password)
+                    user.is_active = False
+                    user.save()
 
-                current_site = get_current_site(request)
+                    current_site = get_current_site(request)
 
-                mail_subject = 'Activate your "Project Olly" account.'
-                message = render_to_string('profiles/activate_email.html', {
-                    'user': user,
-                    'domain': current_site.domain,
-                    'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                    'token': account_activation_token.make_token(user),
-                })
-                to_email = email_address
-                email = EmailMessage(
-                        mail_subject, message, from_email='NFM Studios', to=[to_email]
-                    )
-                email.send()
-                messages.success(request, "Please confirm your email")
-                return redirect('login')
-            elif not result['success']:
-                messages.error(request, 'Invalid reCAPTCHA. Please try again.')
+                    mail_subject = 'Activate your "Project Olly" account.'
+                    message = render_to_string('profiles/activate_email.html', {
+                        'user': user,
+                        'domain': current_site.domain,
+                        'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                        'token': account_activation_token.make_token(user),
+                    })
+                    to_email = email_address
+                    email = EmailMessage(
+                            mail_subject, message, from_email='NFM Studios', to=[to_email]
+                        )
+                    email.send()
+                    messages.success(request, "Please confirm your email")
+                    return redirect('login')
+                elif not result['success']:
+                    messages.error(request, 'Invalid reCAPTCHA. Please try again.')
 
-        if User.objects.filter(username=form.data['username']).exists():
-            messages.error(request, 'That username already exists')
-            return redirect('register')
-        return render(request, self.template_name, {'form': form})
+            if User.objects.filter(username=form.data['username']).exists():
+                messages.error(request, 'That username already exists')
+                return redirect('register')
+            return render(request, self.template_name, {'form': form})
+        else:
+            messages.error(request, "You cannot register while logged in")
+            return redirect('index')
 
 
 def activate(request, uidb64, token):
