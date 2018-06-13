@@ -42,6 +42,7 @@ def users(request):
     else:
         object_list = UserProfile.objects.get_queryset().order_by('id')
         paginator = Paginator(object_list, 20)
+        numusers = len(UserProfile.objects.all())
         page = request.GET.get('page')
         try:
             users = paginator.page(page)
@@ -53,7 +54,7 @@ def users(request):
             users = paginator.page(paginator.num_pages)
         context = {'page': page, 'userprofiles': users,
                    'bannedusernames': BannedUser.objects.values_list('user', flat=True),
-                   'bannedips': BannedUser.objects.values_list('ip', flat=True)}
+                   'bannedips': BannedUser.objects.values_list('ip', flat=True), 'numusers': numusers}
         return render(request, 'staff/users.html', context)
 
 
