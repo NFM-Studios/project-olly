@@ -128,10 +128,14 @@ def banip(request, urlusername):
     else:
         buser = User.objects.get(username=urlusername)
         buserprofile = UserProfile.objects.get(user__username=urlusername)
-        b = BannedUser(user=buser, ip=buserprofile.ip)
-        b.save()
-        messages.success(request, 'User ' + urlusername + ' has been banned')
-        return redirect('staff:users')
+        if (buserprofile.ip == '127.0.0.1') or (buserprofile.ip == '0.0.0.0') or (buserprofile.ip == '999.999.999.999'):
+            messages.error(request, 'User has non-bannable IP')
+            return redirect('staff:users')
+        else:
+            b = BannedUser(user=buser, ip=buserprofile.ip)
+            b.save()
+            messages.success(request, 'User ' + urlusername + ' has been banned')
+            return redirect('staff:users')
 
 
 def unbanip(request, urlusername):
