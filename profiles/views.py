@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.shortcuts import render, redirect, HttpResponseRedirect, resolve_url
+from django.shortcuts import render, redirect, HttpResponseRedirect, resolve_url, get_object_or_404
 from django.contrib.auth import login as auth_login, REDIRECT_FIELD_NAME
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
@@ -81,7 +81,7 @@ def login(request, template_name='profiles/login_form.html',
 
 def profile(request, urlusername):
     template_name = 'profiles/profile.html'
-    userprofile = UserProfile.objects.get(user__username=urlusername)
+    userprofile = get_object_or_404(UserProfile, user__username=urlusername)
     # following line is not stock olly
     team_list = TeamInvite.objects.filter(accepted=True, user=userprofile.user)
     return render(request, template_name, {'userprofile': userprofile, 'requestuser': request.user, "team_list": team_list})
