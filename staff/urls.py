@@ -34,4 +34,6 @@ urlpatterns = [
     url(r'^news/', login_required(views.news_index), name='news_index'),
     url(r'^news/list', login_required(views.news_list), name='news_list'),
     url(r'^news/create', login_required(views.create_article), name='create_article'),
+    url(r'^news/(?P<pk>\d+)/', login_required(views.detail_article), name='detail_article'),
+    url(r'^news/(?P<pk>\d+)/edit', login_required(views.edit_post), name='edit_article'),
 ]
