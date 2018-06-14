@@ -11,9 +11,14 @@ def index(request):
     teams = Team.objects.all()
     matches = Match.objects.all()
     news = Post.objects.all()
-    tournaments = SingleEliminationTournament.objects.all()
-    return render(request, 'pages/index.html', {'teams': teams, 'matches': matches, 
-        'news': news, 'tournaments': tournaments})
+    tournaments = SingleEliminationTournament.objects.filter(active=True)
+    list = tournaments.reverse()[:4]
+    newslist = news.reverse()[:3]
+    matchlist = matches.reverse()[:5]
+    teamlist = teams.reverse()[:5]
+    staticinfo = StaticInfo.objects.get(pk=1)
+    return render(request, 'pages/index.html', {'list': list, 'staticinfo': staticinfo,
+                                                'newslist': newslist, 'matchlist': matchlist, 'teamlist': teamlist})
 
 
 def about(request):

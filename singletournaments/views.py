@@ -5,7 +5,9 @@ from .models import SingleTournamentRound, SingleEliminationTournament, SingleTo
 from teams.models import TeamInvite, Team
 from django.contrib import messages
 from profiles.models import UserProfile
+import datetime
 from store.models import deduct_credits
+import pytz
 
 
 class List(View):
@@ -53,6 +55,22 @@ class SingleTournamentJoin(View):
             users = TeamInvite.objects.filter(team=form.data['teams'])
             teams = tournament.teams.all()
             teameligible = False
+            utc = pytz.UTC
+            now = utc.localize(datetime.datetime.now())
+
+            if tournament.open_register >= now:
+                messages.error(request, 'Registration for this tournament is not open yet')
+                return redirect('singletournaments:list')
+
+            if tournament.close_register <= now:
+                messages.error(request, 'Registration for this tournament is closed already')
+                return redirect('singletournaments:list')
+
+            if tournament.bracket_generated:
+                messages.error(request, "The bracket has already been generated for this tournament, new teams aren't "
+                                        "permitted")
+                return redirect('singletournaments:list')
+
             if teams.count() >= tournament.size:
                 messages.error(request, "This tournament is full")
                 return redirect('singletournaments:list')

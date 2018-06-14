@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.shortcuts import render, redirect
 from pages.models import StaticInfo
 from staff.forms import StaticInfoForm, ArticleCreateForm, EditUserForm, TicketCommentCreateForm,\
-    TicketStatusChangeForm, EditTournamentForm, DeclareMatchWinnerForm, DeclareMatchWinnerPost
+    TicketStatusChangeForm, EditTournamentForm, DeclareMatchWinnerForm, DeclareMatchWinnerPost, DeclareTournamentWinnerForm
 from profiles.models import UserProfile, BannedUser
 from profiles.forms import SortForm
 from django.contrib.auth.models import User
@@ -42,6 +42,7 @@ def users(request):
     else:
         object_list = UserProfile.objects.get_queryset().order_by('id')
         paginator = Paginator(object_list, 20)
+        numusers = len(UserProfile.objects.all())
         page = request.GET.get('page')
         try:
             users = paginator.page(page)
@@ -53,7 +54,7 @@ def users(request):
             users = paginator.page(paginator.num_pages)
         context = {'page': page, 'userprofiles': users,
                    'bannedusernames': BannedUser.objects.values_list('user', flat=True),
-                   'bannedips': BannedUser.objects.values_list('ip', flat=True)}
+                   'bannedips': BannedUser.objects.values_list('ip', flat=True), 'numusers': numusers}
         return render(request, 'staff/users.html', context)
 
 
@@ -128,10 +129,14 @@ def banip(request, urlusername):
     else:
         buser = User.objects.get(username=urlusername)
         buserprofile = UserProfile.objects.get(user__username=urlusername)
-        b = BannedUser(user=buser, ip=buserprofile.ip)
-        b.save()
-        messages.success(request, 'User ' + urlusername + ' has been banned')
-        return redirect('staff:users')
+        if (buserprofile.ip == '127.0.0.1') or (buserprofile.ip == '0.0.0.0') or (buserprofile.ip == '999.999.999.999'):
+            messages.error(request, 'User has non-bannable IP')
+            return redirect('staff:users')
+        else:
+            b = BannedUser(user=buser, ip=buserprofile.ip)
+            b.save()
+            messages.success(request, 'User ' + urlusername + ' has been banned')
+            return redirect('staff:users')
 
 
 def unbanip(request, urlusername):
@@ -212,7 +217,7 @@ def edit_tournament(request, pk):
         else:
             tournamentobj = SingleEliminationTournament.objects.get(pk=pk)
             form = EditTournamentForm(instance=tournamentobj)
-            return render(request, 'staff/edittournament.html', {'form': form})
+            return render(request, 'staff/edittournament.html', {'form': form, 'pk': pk})
 
 
 class CreateTournament(CreateView):
@@ -266,7 +271,7 @@ def advance(request, pk):
     else:
         tournament = SingleEliminationTournament.objects.get(pk=pk)
         currentround = SingleTournamentRound.objects.get(tournament=pk, roundnum=tournament.current_round)
-        nextround =  SingleTournamentRound.objects.get(tournament=tournament, roundnum=tournament.current_round+1)
+        nextround = SingleTournamentRound.objects.get(tournament=tournament, roundnum=tournament.current_round+1)
         matches = currentround.matches.all()
         for i in matches:
             if i.winner is None:
@@ -277,6 +282,12 @@ def advance(request, pk):
 
         for i in matches:
             winners.append(i.winner)
+            team = Team.objects.get(id=i.winner_id)
+            team.num_matchwin += 1
+            team1 = Team.objects.get(id=i.loser_id)
+            team1.num_matchloss += 1
+            team.save()
+            team1.save()
 
         for i in winners:
             newmatch = Match(game=tournament.game, platform=tournament.platform, hometeam=winners[0], awayteam=winners[1])
@@ -287,6 +298,46 @@ def advance(request, pk):
 
         messages.success(request, "Advanced to next round")
         return redirect('staff:tournamentlist')
+
+
+class DeclareTournamentWinner(View):
+    template_name = 'staff/winner_declare.html'
+
+    def get(self, request, pk):
+        user = UserProfile.objects.get(user__username=request.user.username)
+        allowed = ['superadmin', 'admin']
+        if user.user_type not in allowed:
+            return render(request, 'staff/permissiondenied.html')
+        else:
+            form = DeclareTournamentWinnerForm
+            return render(request, self.template_name, {'form': form})
+
+    def post(self, request, pk):
+        user = UserProfile.objects.get(user__username=request.user.username)
+        allowed = ['superadmin', 'admin']
+        if user.user_type not in allowed:
+            return render(request, 'staff/permissiondenied.html')
+        else:
+            tournament = SingleEliminationTournament.objects.get(pk=pk)
+            tournament_teams = list(tournament.teams.all())
+            form = DeclareTournamentWinnerForm(request.POST)
+            first = Team.objects.get(id=form.data['winner'])
+            second = Team.objects.get(id=form.data['second'])
+            if (first in tournament_teams) and (second in tournament_teams):
+                tournament.winner = first
+                tournament.second = second
+                tournament.save()
+                first.num_tournywin += 1
+                second.num_tournywin += 1
+                first.save()
+                second.save()
+                messages.success(request, 'Set tournament winner')
+                return redirect('staff:tournamentlist')
+            else:
+                form = DeclareTournamentWinnerForm
+                messages.error(request, 'One or more teams selected are not in this tournament')
+                return render(request, self.template_name, {'form': form})
+
 
 # end tournament section
 
@@ -340,10 +391,20 @@ class MatchDeclareWinner(View):
             instance = form.instance
             match = Match.objects.get(id=self.kwargs['pk'])
             winner = Team.objects.get(id=form.data['winner'])
+            teams = list()
+            teams.append(match.hometeam)
+            teams.append(match.awayteam)
+            teams.remove(winner)
+            loser = teams[0]
             instance.match = match
             instance.winner = winner
+            instance.loser = loser
             instance.completed = True
             instance.save()
+            winner.num_matchwin += 1
+            loser.num_matchloss += 1
+            winner.save()
+            loser.save()
             messages.success(request, "Winner declared")
             return redirect('staff:matches_index')
 

@@ -40,6 +40,8 @@ Edit Tournament
    {% csrf_token %}
    {{ field.errors }}
 
+    <a><a href="{% url 'staff:winner' pk %}">Declare tournament winner</a>
+
    <label>Name</label>
    {{ form.name }}
    <br>
@@ -101,6 +103,10 @@ Edit Tournament
    <label>Size</label>
    {{ form.size }}
    <br>
+
+    <label>General Info</label>
+    {{ form.info }}
+    <br>
 
    <label>Prize 1</label>
    {{ form.prize1 }}

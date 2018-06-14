@@ -21,6 +21,7 @@ class TeamCreateForm(forms.ModelForm):
 
 class TeamInviteFormGet(forms.ModelForm):
     user = forms.CharField(required=True, max_length=50)
+    team = forms.ModelChoiceField(queryset=None)
 
     class Meta:
         captain = forms.BooleanField(required=False)
@@ -33,8 +34,11 @@ class TeamInviteFormGet(forms.ModelForm):
 
     def __init__(self, request, *args, **kwargs):
         self.username = request.user
-        self.team = forms.ModelChoiceField(queryset=TeamInvite.objects.filter(captain=['captain', 'founder'], user_id=self.username.id))
-        super(TeamInviteFormGet, self).__init__(*args, **kwargs)
+        invites = TeamInvite.objects.filter(hasPerms=True, user=request.user, accepted=True)
+        teams = Team.objects.filter(id__in=invites.values_list('team'))
+        super().__init__(*args, **kwargs)
+        self.fields['team'].queryset = teams
+
 
 
 class TeamInviteFormPost(forms.ModelForm):

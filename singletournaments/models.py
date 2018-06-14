@@ -31,6 +31,9 @@ class SingleEliminationTournament(models.Model):
     # dont allow people to join once registration is closed
     close_register = models.DateTimeField()
 
+    # general information about the tournament
+    info = models.TextField(default="No information provided")
+
     # the time the specific tournament object was created
     created = models.DateTimeField(auto_now_add=True)
     # last time an admin updated something
@@ -133,7 +136,7 @@ class SingleEliminationTournament(models.Model):
         elif self.game == 14:
             game = 'Battlefield 1'
 
-        return format + " " + platform + " " + game + " " + str(self.start)
+        return format + " " + platform + " " + game
 
     def set_inactive(self, **kwargs):
         pk = self.kwargs['pk']
@@ -303,6 +306,6 @@ class SingleTournamentRound(models.Model):
 class SingleTournamentTeam(models.Model):
     team = models.ForeignKey(Team, related_name='actualteam', null=True, on_delete=models.CASCADE)
     round = models.ForeignKey(SingleTournamentRound, related_name='teaminround', null=True, on_delete=models.CASCADE)
-    seed = models.PositiveIntegerField(default=0)
+    seed = models.PositiveIntegerField(default=0, null=True, blank=True)
     tournament = models.ForeignKey(SingleEliminationTournament, related_name='intournament', null=True,
                                    on_delete=models.CASCADE)
