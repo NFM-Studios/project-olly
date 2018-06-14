@@ -36,6 +36,6 @@ urlpatterns = [
     url(r'^news/create', login_required(views.create_article), name='create_article'),
     url(r'^news/(?P<pk>\d+)/', login_required(views.detail_article), name='detail_article'),
     url(r'^news/(?P<pk>\d+)/edit', login_required(views.edit_post), name='edit_article'),
-    url(r'^store/transactions/list', login_required(views.TransactionView), name='transaction_list'),
-    url(r'^store/transfers/list', login_required(views.TransferView), name='transfer_list'),
+    url(r'^store/transactions/list', login_required(views.TransactionView.as_view()), name='transaction_list'),
+    url(r'^store/transfers/list', login_required(views.TransferView.as_view()), name='transfer_list'),
 ]
