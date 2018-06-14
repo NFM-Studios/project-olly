@@ -43,6 +43,20 @@
         <td>{{team.created}}</td>
     </tr>
     <tr>
+        <td>Twitter</td>
+        <td>{{ team.twitter }}</td>
+    </tr>
+    <tr>
+        <td>Twitch</td>
+        <td><a href="
+    {% if team.twitch == "No Twitch Yet" or team.twitch == "" %}
+    #"
+    {% else %}
+    https://twitch.tv/{{ team.twitch }}">
+            {% endif %}
+            {{ team.twitch }}</a></td>
+    </tr>
+    <tr>
         <td>Players</td>
 {% for player in players %}
         <td>
