@@ -24,6 +24,7 @@ class Match(models.Model):
     completed = models.BooleanField(default=False)
     # field to declare the winner
     winner = models.ForeignKey(Team, related_name='champions', on_delete=models.CASCADE, null=True)
+    loser = models.ForeignKey(Team, related_name='loser', on_delete=models.CASCADE, null=True)
     # set the default map format to best of 1
     bestof = models.SmallIntegerField(choices=MAPFORMAT_CHOICES, default=0)
     #          by default set it to be a 2v2.

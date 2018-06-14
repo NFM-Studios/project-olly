@@ -14,7 +14,8 @@ Search Users
       </button>
       <input class="searchfield" id="searchbox" name="q" type="text" placeholder="Search">
     </form>
-
+<div style="overflow-x:auto;">
+Total users: {{ numusers }}
 <table class="table table-dark">
 <th>Username</th>
 <th>Email address</th>
@@ -55,4 +56,5 @@ Search Users
 {% endfor %}
 </table>
 {% include "pagination.html" with page=userprofiles %}
+</div>
 {% endblock %}

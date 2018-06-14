@@ -12,7 +12,21 @@
     <thead>
     <tr>
         <th>Format</th>
-        <th>{{ match.teamformat }}</th>
+        <th>
+            {% if match.teamformat == 0 %}
+            1v1
+            {% elif match.teamformat == 1 %}
+            2v2
+            {% elif match.teamformat == 2 %}
+            3v3
+            {% elif match.teamformat == 3 %}
+            4v4
+            {% elif match.teamformat == 4 %}
+            5v5
+            {% elif match.teamformat == 5 %}
+            6v6
+            {% endif %}
+        </th>
     </tr>
     </thead>
     <tr>
@@ -25,11 +39,13 @@
     </tr>
     <tr>
         <td>Home Team</td>
-        <td>{{ match.hometeam }} - Team #{{ match.hometeam_id }}</td>
+        <td><a href="{% url 'teams:detail' pk=match.hometeam_id %}">{{ match.hometeam }}</a>  - {% if match.team1reported %}
+            <i class="fa fa-check" style="color:green"></i> Reported{% else %}<i class="fa fa-times" style="color:red"></i> No report submitted{% endif %}</td>
     </tr>
     <tr>
         <td>Away Team</td>
-        <td>{{ match.awayteam }}  - Team #{{ match.awayteam_id }}</td>
+        <td><a href="{% url 'teams:detail' pk=match.awayteam_id %}">{{ match.awayteam }} </a>  - {% if match.team2reported %}
+            <i class="fa fa-check" style="color:green"></i> Reported{% else %}<i class="fa fa-times" style="color:red"></i> No report submitted{% endif %}</td>
     </tr>
     <tr>
         <td>Best Of</td>

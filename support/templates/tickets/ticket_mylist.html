@@ -7,6 +7,13 @@
   {% endblock %}
 
 {% block body %}
+    <form method="POST" action="{% url 'support:list' %}">
+        {% csrf_token %}
+        {{form}}
+
+                <input type="submit" value="Filter" />
+
+</form>
 <table class="table table-hover">
     <tr id="header">
         <thead>
