@@ -619,7 +619,6 @@ def edit_post(request, pk):
         article = get_object_or_404(Post, pk=pk)
 
 
-
 # end news section
 
 # start store section
