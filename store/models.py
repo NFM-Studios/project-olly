@@ -25,6 +25,8 @@ def show_me_the_money(sender, **kwargs):
             price = 20.00
         elif num == "50cred":
             price = 45.00
+        elif num == "ev_pass":
+            price = 10.00
         else:
             price = 0.00
         if ipn_obj.mc_gross == price and ipn_obj.mc_currency == "USD":
@@ -32,17 +34,22 @@ def show_me_the_money(sender, **kwargs):
             if num == "15cred":
                 user.credits += 15
                 user.save()
-                tx = Transaction(account=username, cost=5.00, credits=15)
+                tx = Transaction(account=username, cost=5.00, credits=15, passes=0)
                 tx.save()
             if num == "25cred":
                 user.credits += 25
                 user.save()
-                tx = Transaction(account=username, cost=20.00, credits=25)
+                tx = Transaction(account=username, cost=20.00, credits=25, passes=0)
                 tx.save()
             if num == "50cred":
                 user.credits += 50
                 user.save()
-                tx = Transaction(account=username, cost=45.00, credits=50)
+                tx = Transaction(account=username, cost=45.00, credits=50, passes=0)
+                tx.save()
+            if num == "ev_pass":
+                user.passes += 1
+                user.save()
+                tx = Transaction(account=username, cost=10.00, credits=0, passes=1)
                 tx.save()
 
 
@@ -56,6 +63,7 @@ class Transaction(models.Model):
     cost = models.DecimalField(max_digits=6, decimal_places=2)
     account = models.CharField(max_length=50)
     credits = models.PositiveSmallIntegerField()
+    passes = models.PositiveSmallIntegerField()
 
 
 def deduct_credits(user, num):
