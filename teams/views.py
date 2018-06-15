@@ -84,16 +84,16 @@ class MyTeamsListView(ListView):
 
 
 def EditTeamView(request, pk):
-        if request.method == 'POST':
-            teamobj = Team.objects.get(team__founder=request.user.username)
-            form = EditTeamProfileForm(request.POST, instance=teamobj)
-            if form.is_valid():
-                form.save()
-                return redirect('/teams/' + str(request.user))
-        else:
-            teamobj = Team.objects.get(id=pk)
-            form = EditTeamProfileForm(instance=teamobj)
-            return render(request, 'teams/edit-team.html', {'form': form})
+    if request.method == 'POST':
+        teamobj = Team.objects.get(founder=request.user.username, pk=pk)
+        form = EditTeamProfileForm(request.POST, instance=teamobj)
+        if form.is_valid():
+            form.save()
+            return redirect('/teams/' + str(request.user))
+    else:
+        teamobj = Team.objects.get(id=pk)
+        form = EditTeamProfileForm(instance=teamobj)
+        return render(request, 'teams/edit-team.html', {'form': form})
 
 
 class MyTeamDetailView(DetailView):
