@@ -44,7 +44,14 @@
     </tr>
     <tr>
         <td>Twitter</td>
-        <td>{{ team.twitter }}</td>
+        <td><a href="
+    {% if team.twitter == "No Twitter Linked" or team.twitter == "" %}
+        #
+    {% else %}
+    https://twitter.com/{{ team.twitter }}
+        {% endif %}">
+
+            {{ team.twitter }}</a></td>
     </tr>
     <tr>
         <td>Twitch</td>
