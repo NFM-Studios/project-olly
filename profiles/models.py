@@ -28,6 +28,7 @@ class UserProfile(models.Model):
     xp = models.PositiveSmallIntegerField(default=0)
     # credits they own from purchasing things in the store
     credits = models.PositiveSmallIntegerField(default=0)
+    passes = models.PositiveSmallIntegerField(default=0)
     # amount of money they have cashed out
     total_earning = models.PositiveSmallIntegerField(default=0)
     about_me = models.TextField(default='Forever a mystery', blank=True)

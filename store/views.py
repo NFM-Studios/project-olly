@@ -71,6 +71,22 @@ def buy_credits(request, num):
         form = PayPalPaymentsForm(initial=paypal_dict)
         context = {"form": form, "product": product}
         return render(request, "store/product.html", context)
+    if num == '4':
+        paypal_dict = {
+            "business": settings.PAYPAL_EMAIL,
+            "amount": "10.00",
+            "item_name": "Event pass",
+            "invoice": str(invoice_id),
+            "notify_url": settings.SITE_URL + '/paypal/',
+            "custom": "ev_pass,"+str(request.user),
+        }
+        product = {
+            'item': 'Event pass',
+            'cost': '$10.00',
+        }
+        form = PayPalPaymentsForm(initial=paypal_dict)
+        context = {"form": form, "product": product}
+        return render(request, "store/product.html", context)
 
 
 '''
