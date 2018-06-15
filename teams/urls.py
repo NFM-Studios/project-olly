@@ -12,7 +12,7 @@ urlpatterns = [
     url(r'^(?P<pk>\d+)/$', MyTeamDetailView.as_view(), name='detail'),
     url(r'^create/$', login_required(TeamCreateView.as_view()), name='create'),
     url(r'^invite/$', login_required(TeamInviteCreateView.as_view()), name='invite'),
-    url(r'^edit/(?P<pk>\d+)/$', login_required(views.EditTeamView), name='edit'),
+    url(r'^(?P<pk>\d+)/edit/$', login_required(views.EditTeamView), name='edit'),
 
 
 
