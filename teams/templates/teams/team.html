@@ -50,11 +50,12 @@
         <td>Twitch</td>
         <td>
             <a href="
-    {% if team.twitch == "No Twitch Yet" or team.twitch == "" %}
-    #"
+    {% if team.twitch == "No Twitch Linked" or team.twitch == "" %}
+        #
     {% else %}
-    https://twitch.tv/{{ team.twitch }}">
-            {% endif %}
+    https://twitch.tv/{{ team.twitch }}
+        {% endif %}">
+
             {{ team.twitch }}</a></td>
     </tr>
     <tr>
