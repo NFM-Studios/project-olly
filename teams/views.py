@@ -85,11 +85,14 @@ class MyTeamsListView(ListView):
 
 def EditTeamView(request, pk):
     if request.method == 'POST':
-        teamobj = Team.objects.get(founder=request.user.username, pk=pk)
+        teamobj = Team.objects.get(id=pk)
         form = EditTeamProfileForm(request.POST, instance=teamobj)
-        if form.is_valid():
-            form.save()
-            return redirect('/teams/' + str(request.user))
+        teamobj.about_us = form.data['about_us']
+        teamobj.website = form.data['website']
+        teamobj.twitter = form.data['twitter']
+        teamobj.twitch = form.data['twitch']
+        teamobj.save()
+        return redirect(reverse('teams:detail', args=[pk]))
     else:
         teamobj = Team.objects.get(id=pk)
         form = EditTeamProfileForm(instance=teamobj)
