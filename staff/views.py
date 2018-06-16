@@ -597,7 +597,8 @@ def create_article(request):
                 messages.success(request, 'Nice job boss, your post has been created')
                 return redirect('staff:news_list')
         else:
-            messages.error(request, "Gosh darnit, I messed up. I'm sorry")
+            form = ArticleCreateForm(None)
+            return render(request, 'staff/create_article.html', {'form': form})
 
 
 def detail_article(request, pk):
