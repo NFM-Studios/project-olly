@@ -233,6 +233,9 @@ class SingleEliminationTournament(models.Model):
         team_seeds = []
         max_matches = len(teams) / 2
 
+        if not max_matches.is_integer():
+            max_matches += 0.5
+
         random.shuffle(teams)
 
         for i in teams:
