@@ -129,7 +129,7 @@ class SingleTournamentJoin(View):
                 for user in new_team_users:
                     deduct_credits(user, tournament.req_credits)
                 tournament.save()
-                tournament_team = SingleTournamentTeam(team_id=team.id, round_id=1, tournament_id=tournament.id)
+                tournament_team = SingleTournamentTeam(team_id=team.id, tournament_id=tournament.id)
                 tournament_team.save()
                 messages.success(request, message="Joined tournament")
                 return redirect('singletournaments:list')
