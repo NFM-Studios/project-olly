@@ -17,6 +17,7 @@ from news.models import Post, Comment, PublishedManager
 from singletournaments.models import SingleEliminationTournament, SingleTournamentRound
 from store.models import Transaction, Transfer
 from support.models import Ticket, TicketComment
+from django.shortcuts import get_object_or_404
 
 
 def staffindex(request):
@@ -596,7 +597,28 @@ def create_article(request):
                 messages.success(request, 'Nice job boss, your post has been created')
                 return redirect('staff:news_list')
         else:
-            messages.error(request, "Gosh darnit, I messed up. I'm sorry")
+            form = ArticleCreateForm(None)
+            return render(request, 'staff/create_article.html', {'form': form})
+
+
+def detail_article(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        article = Post.objects.get(id=pk)
+        return render(request, 'staff/news_detail.html', {'article': article})
+
+
+def edit_post(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        article = get_object_or_404(Post, pk=pk)
+
 
 # end news section
 

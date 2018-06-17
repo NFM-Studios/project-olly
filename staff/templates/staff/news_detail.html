@@ -1,0 +1,21 @@
+{% extends 'staff/staffbase.html' %}
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static "css/staff.css" %}">
+
+{% block title %}
+News Index
+{% endblock %}
+{% block body %}
+
+<h1>Title: {{ article.title }}</h1>
+<h2>Author: {{ article.author }}</h2>
+<h2>Created: {{ article.created }}</h2>
+<h2>Status: {{ article.status }}</h2>
+<h2>Tags: {{ article.tags }}</h2>
+
+
+<p>{{ article.body||linebreaks }}</p>
+            <a href="{% url 'staff:news_list' %}">Click here to view news articles</a>
+
+
+{% endblock %}

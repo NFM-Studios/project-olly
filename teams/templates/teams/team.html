@@ -43,6 +43,29 @@
         <td>{{team.created}}</td>
     </tr>
     <tr>
+        <td>Twitter</td>
+        <td><a href="
+    {% if team.twitter == "No Twitter Linked" or team.twitter == "" %}
+        #
+    {% else %}
+    https://twitter.com/{{ team.twitter }}
+        {% endif %}">
+
+            {{ team.twitter }}</a></td>
+    </tr>
+    <tr>
+        <td>Twitch</td>
+        <td>
+            <a href="
+    {% if team.twitch == "No Twitch Linked" or team.twitch == "" %}
+        #
+    {% else %}
+    https://twitch.tv/{{ team.twitch }}
+        {% endif %}">
+
+            {{ team.twitch }}</a></td>
+    </tr>
+    <tr>
         <td>Players</td>
 {% for player in players %}
         <td>
