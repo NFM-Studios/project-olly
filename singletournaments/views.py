@@ -8,6 +8,7 @@ from profiles.models import UserProfile
 import datetime
 from store.models import deduct_credits
 import pytz
+from django.shortcuts import get_object_or_404
 
 
 class List(View):
@@ -143,7 +144,7 @@ class SingleTournamentDetail(View):
 
     def get(self, request, **kwargs):
         pk = self.kwargs['pk']
-        tournament = SingleEliminationTournament.objects.get(id=pk)
+        tournament = get_object_or_404(SingleEliminationTournament, id=pk)
         return render(request, self.template_name, {'pk': pk, 'tournament': tournament})
 
 
