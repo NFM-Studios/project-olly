@@ -76,3 +76,15 @@ class DeclareTournamentWinnerForm(forms.ModelForm):
     class Meta:
         model = SingleEliminationTournament
         fields = ('winner', 'second')
+
+
+class CreateNewsPostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = '__all__'
+
+
+class EditNewsPostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = '__all__'

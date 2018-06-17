@@ -1,0 +1,27 @@
+{% extends 'staff/staffbase.html' %}
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static "css/staff.css" %}">
+
+{% block title %}
+Transfer List
+{% endblock %}
+
+{% block body %}
+
+<div style="overflow-x:auto;">
+<table class="table table-dark">
+<th>Date</th>
+<th>Credits</th>
+<th>Origin</th>
+<th>Destination</th>
+{% for transfer in transfer_list %}
+<tr>
+<td>{{ transfer.date }}</td>
+<td>{{ transfer.credits }}</td>
+<td>{{ transfer.origin }}</td>
+<td>{{ transfer.destination }}</td>
+</tr>
+{% endfor %}
+</table>
+</div>
+{% endblock %}
