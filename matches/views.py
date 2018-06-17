@@ -5,7 +5,7 @@ from singletournaments.models import SingleEliminationTournament, SingleTourname
 from teams.models import Team, TeamInvite
 from matches.models import Match, MatchReport, MatchDispute
 from .forms import MatchReportCreateFormGet, MatchReportCreateFormPost, DisputeCreateForm
-
+from django.shortcuts import get_object_or_404
 
 class MatchList(View):
     template_name = 'matches/matches_list.html'
@@ -25,7 +25,7 @@ class TournamentMatchDetailView(DetailView):
 
     def get(self, request, **kwargs):
         pk = self.kwargs['pk']
-        match = Match.objects.get(id=pk)
+        match = get_object_or_404(Match, id=pk)
         return render(request, self.template_name, {'x': pk, 'match': match})
 
 
