@@ -6,7 +6,7 @@ from support.forms import TicketCreateForm, TicketCommentCreateForm, TicketStatu
 from support.models import Ticket, TicketComment
 from profiles.models import UserProfile
 from django.shortcuts import render, redirect
-
+from django.shortcuts import get_object_or_404
 
 class MyTicketListView(View):
     model = Ticket
@@ -42,7 +42,7 @@ class MyTicketDetailView(DetailView):
         form2 = self.form2_class(None)
 
         pk = self.kwargs['pk']
-        ticket = Ticket.objects.get(id=pk)
+        ticket = get_object_or_404(Ticket, pk=pk)
         creator = UserProfile.objects.get(user=ticket.creator)
         comments = TicketComment.objects.filter(ticket=pk)
         return render(request, self.template_name, {'form': form1, 'x': pk,
