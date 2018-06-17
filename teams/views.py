@@ -15,7 +15,7 @@ from teams.models import Team
 # import the invite models
 from teams.models import TeamInvite
 from profiles.models import UserProfile
-
+from django.shortcuts import get_object_or_404
 
 class MyInvitesListView(ListView):
     # show all the invites, and an accept or deny button.
@@ -85,7 +85,7 @@ class MyTeamsListView(ListView):
 
 def EditTeamView(request, pk):
     if request.method == 'POST':
-        teamobj = Team.objects.get(id=pk)
+        teamobj = get_object_or_404(Team, id=pk)
         form = EditTeamProfileForm(request.POST, instance=teamobj)
         teamobj.about_us = form.data['about_us']
         teamobj.website = form.data['website']
@@ -108,7 +108,7 @@ class MyTeamDetailView(DetailView):
     form = TeamInviteFormPost
 
     def get(self, request, pk):
-        team = Team.objects.get(id=pk)
+        team = get_object_or_404(Team, id=pk)
         players = TeamInvite.objects.filter(team=team, accepted=True)
         user = UserProfile.objects.get(id=request.user.id)
         if not user.xbl_verified:
