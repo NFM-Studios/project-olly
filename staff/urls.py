@@ -38,4 +38,6 @@ urlpatterns = [
     url(r'^news/(?P<pk>\d+)/edit', login_required(views.edit_post), name='edit_article'),
     url(r'^store/transactions/list', login_required(views.TransactionView.as_view()), name='transaction_list'),
     url(r'^store/transfers/list', login_required(views.TransferView.as_view()), name='transfer_list'),
+    url(r'^teams/$', login_required(views.teams_index), name='teamindex'),
+    url(r'^teams/(?P<pk>\d+)/$', login_required(views.teams_detail), name='team_detail'),
 ]
