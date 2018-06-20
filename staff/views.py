@@ -11,7 +11,7 @@ from django.views.generic import View, DetailView, CreateView
 from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from support.models import Ticket
-from teams.models import Team
+from teams.models import Team, TeamInvite
 from matches.models import Match, MatchReport, MatchDispute
 from news.models import Post, Comment, PublishedManager
 from singletournaments.models import SingleEliminationTournament, SingleTournamentRound
@@ -649,3 +649,26 @@ class TransferView(View):
 
     def post(self, request):
         form = self.form_class(request.POST)
+
+# end store section
+
+# start teams section
+
+def teams_index(request):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        teams_list = Team.objects.all()
+        return render(request, 'staff/teams.html', {'teams_list': teams_list})
+
+def teams_detail(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        team = Team.objects.get(id=pk)
+        players = TeamInvite.objects.filter(team=team, accepted=True)
+        return render(request, 'staff/teams_detail.html', {'team': team, 'players': players})

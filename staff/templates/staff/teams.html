@@ -1,0 +1,31 @@
+{% extends 'staff/staffbase.html' %}
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static "css/staff.css" %}">
+
+{% block title %}
+Teams List
+{% endblock %}
+
+{% block body %}
+    <div style="overflow-x:auto;">
+<table class="table table-hover">
+    <tr id="header">
+        <thead>
+        <th scope="row">ID</th>
+        <th>Name</th>
+
+        </thead>
+    </tr>
+    {% for team in teams_list %}
+    <tbody>
+    <tr scope="">
+        <td scope="row"><a href="{% url 'staff:team_detail' pk=team.id %}">#{{team.id}}</a></td>
+        <td>{{ team.name }}</td>
+
+    </tr>
+    </tbody>
+    {% endfor %}
+</table>
+
+    </div>
+{% endblock %}
