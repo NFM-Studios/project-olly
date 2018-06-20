@@ -660,7 +660,7 @@ def teams_index(request):
     if user.user_type not in allowed:
         return render(request, 'staff/permissiondenied.html')
     else:
-        teams_list = Team.objects.all()
+        teams_list = Team.objects.all().order_by('id')
         return render(request, 'staff/teams.html', {'teams_list': teams_list})
 
 def teams_detail(request, pk):
