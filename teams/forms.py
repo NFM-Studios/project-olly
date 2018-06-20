@@ -77,3 +77,5 @@ class ViewInviteForm(forms.ModelForm):
         }
 
 
+class LeaveTeamForm(forms.Form):
+    confirmed = forms.BooleanField(required=False)
