@@ -9,7 +9,7 @@ from django.utils import timezone
 # team create forms
 from teams.forms import TeamCreateForm
 # team create invite forms
-from .forms import TeamInviteFormGet,TeamInviteFormPost, EditTeamProfileForm, ViewInviteForm
+from .forms import TeamInviteFormGet,TeamInviteFormPost, EditTeamProfileForm, ViewInviteForm, LeaveTeamForm
 # import the team models
 from teams.models import Team
 # import the invite models
@@ -115,7 +115,7 @@ class MyTeamDetailView(DetailView):
             messages.warning(request, "Xbox Live is not verified")
         if not user.psn_verified:
             messages.warning(request, "PSN is not verified")
-        return render(request, self.template_name, {'team': team, 'players': players})
+        return render(request, self.template_name, {'team': team, 'players': players, 'pk': pk})
 
     def get_context_date(self, **kwargs):
         context = super(MyTeamDetailView, self).get_context_date(**kwargs)
@@ -213,3 +213,34 @@ class TeamInviteCreateView(View):
         else:
             messages.error(request, "You must be a captain or the founder to invite")
             return redirect('/teams/')
+
+
+class LeaveTeamView(View):
+    template_name = 'teams/leave-team.html'
+    form_class = LeaveTeamForm
+
+    def get(self, request, pk):
+        form = self.form_class()
+        team = Team.objects.get(id=pk)
+        return render(request, self.template_name, {'form': form, 'team': team})
+
+    def post(self, request, pk):
+        form = self.form_class(request.POST)
+        try:
+            if form.data['confirmed']:
+                invite = TeamInvite.objects.get(user=request.user, team_id=pk)
+                try:
+                    invite.delete()
+                    messages.success(request, "Left team")
+                    invites = TeamInvite.objects.filter(team_id=pk)
+                    if not invites.exists():
+                        team = Team.objects.get(id=pk)
+                        team.delete()
+                        messages.success(request, 'Deleted team due to the last user leaving')
+                    return redirect('teams:list')
+                except:
+                    messages.error(request, "You don't appear to be on this team")
+                    return redirect('teams:detail', pk=pk)
+        except:
+            messages.error(request, "You submitted without confirming that you wanted to leave, redirecting to team detail")
+            return redirect('teams:detail', pk=pk)
