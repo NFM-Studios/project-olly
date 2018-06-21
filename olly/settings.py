@@ -85,6 +85,9 @@ INSTALLED_APPS = [
     # single elimination tournaments
     'singletournaments',
 
+    # object storage
+    'storages',
+
 
 ]
 
@@ -173,9 +176,17 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-MEDIA_URL = '/media/'
+#MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'olly/media')
+
+AWS_ACCESS_KEY_ID = 'SFEXIZLBH3QT2TTAMVUG'
+AWS_SECRET_ACCESS_KEY = 'LBPpYOTa22L8e62+yOrh/krtMMplsKlOoZbTFklZLvc'
+AWS_S3_ENDPOINT_URL = 'https://nyc3.digitaloceanspaces.com'
+AWS_STORAGE_BUCKET_NAME = 'olly-dev-space'
+AWS_LOCATION = 'media'
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+MEDIA_URL = "%s/%s/" % (AWS_S3_ENDPOINT_URL, AWS_STORAGE_BUCKET_NAME)
 
 # Where to redirect users after login
 # LOGIN_URL = '/login'
