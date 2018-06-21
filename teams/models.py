@@ -35,6 +35,7 @@ class Team(models.Model):
     num_matchwin = models.SmallIntegerField(default=0)
     # num field for the number of tournaments won
     num_tournywin = models.SmallIntegerField(default=0)
+    numtournyloss = models.SmallIntegerField(default=0)
 
     class Meta:
         verbose_name = 'Team'
