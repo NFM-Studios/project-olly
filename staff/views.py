@@ -10,7 +10,6 @@ from django.urls import reverse
 from django.views.generic import View, DetailView, CreateView
 from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from support.models import Ticket
 from teams.models import Team, TeamInvite
 from matches.models import Match, MatchReport, MatchDispute
 from news.models import Post, Comment, PublishedManager
