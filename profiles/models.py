@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django_countries.fields import CountryField
+from django.dispatch import receiver
 
 # Create your models here.
 
@@ -74,6 +75,28 @@ def create_profile(sender, **kwargs):
 class BannedUser(models.Model):
     user = models.ForeignKey(User, related_name='banned', on_delete=models.CASCADE)
     ip = models.CharField(max_length=12, default='error')
+
+
+@receiver(models.signals.post_delete, sender=UserProfile)
+# This should never be run in theory. It would only be hit if the UserProfile was completely deleted
+def auto_delete_file(sender, instance, **kwargs):
+    if instance.profile_picture:
+        instance.profile_picture.delete()
+
+
+@receiver(models.signals.pre_save, sender=UserProfile)
+def auto_delete_file_on_change(sender, instance, **kwargs):
+    if not instance.pk:
+        return False
+
+    try:
+        old_file = UserProfile.objects.get(pk=instance.pk).profile_picture
+    except UserProfile.DoesNotExist:
+        return False
+
+    new_file = instance.profile_picture
+    if not old_file == new_file:
+        old_file.delete(save=False)
 
 
 post_save.connect(create_profile, sender=User)
