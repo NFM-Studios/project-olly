@@ -25,7 +25,7 @@ SECRET_KEY = 'bcgu@a)k$z!)1qmv@5a)&e$x@+@_tvl-s87)3@n)032*6r6u-2'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-#SECURITY WARNING: don't run with this set to true in prod
+# SECURITY WARNING: don't run with this set to true in prod
 PAYPAL_TEST = True
 
 ALLOWED_HOSTS = ['*']
@@ -38,7 +38,7 @@ SITE_URL = '127.0.0.1'
 
 INSTALLED_APPS = [
 
-    #all stock stuff
+    # all stock stuff
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -58,7 +58,7 @@ INSTALLED_APPS = [
     # news app
     'news',
 
-    #store app
+    # store app
     'store',
 
     # staff admin panel
@@ -73,7 +73,7 @@ INSTALLED_APPS = [
     # ip package
     'ipware',
 
-    #paypal IPN
+    # paypal IPN
     'paypal.standard.ipn',
 
     # the country field
@@ -84,6 +84,9 @@ INSTALLED_APPS = [
 
     # single elimination tournaments
     'singletournaments',
+
+    # object storage
+    'storages',
 
 
 ]
@@ -173,9 +176,17 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-MEDIA_URL = '/media/'
+#MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'olly/media')
+
+AWS_ACCESS_KEY_ID = 'SFEXIZLBH3QT2TTAMVUG'
+AWS_SECRET_ACCESS_KEY = 'LBPpYOTa22L8e62+yOrh/krtMMplsKlOoZbTFklZLvc'
+AWS_S3_ENDPOINT_URL = 'https://nyc3.digitaloceanspaces.com'
+AWS_STORAGE_BUCKET_NAME = 'olly-dev-space'
+AWS_LOCATION = 'media'
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+MEDIA_URL = "%s/%s/" % (AWS_S3_ENDPOINT_URL, AWS_STORAGE_BUCKET_NAME)
 
 # Where to redirect users after login
 # LOGIN_URL = '/login'
