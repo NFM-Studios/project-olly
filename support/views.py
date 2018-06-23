@@ -1,12 +1,12 @@
 from django.contrib import messages
 from django.urls import reverse
-from django.http import HttpResponseRedirect
 from django.views.generic import ListView, DetailView, CreateView, View
 from support.forms import TicketCreateForm, TicketCommentCreateForm, TicketStatusChangeForm, ListFilterForm
 from support.models import Ticket, TicketComment
 from profiles.models import UserProfile
 from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
+
 
 class MyTicketListView(View):
     model = Ticket
