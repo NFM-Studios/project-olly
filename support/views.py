@@ -21,11 +21,14 @@ class MyTicketListView(View):
     def post(self, request):
         form = self.form(request.POST)
         ticket_list = Ticket.objects.filter(creator=request.user, status__lte=2)
-        try:
-            if form.data['showClosed']:
-                ticket_list = Ticket.objects.filter(creator=request.user)
-        except:
-            pass
+        if request.POST.get('showClosed'):
+            ticket_list = Ticket.objects.filter(creator=request.user)
+        if request.POST.get('searchQuery'):
+            query = request.POST.get('searchQuery')
+            try:
+                ticket_list = Ticket.objects.filter(pk=query)
+            except ValueError:
+                ticket_list = Ticket.objects.filter(text__contains=query)
         return render(request, self.template_name, {'form': form, 'ticket_list': ticket_list})
 
 
