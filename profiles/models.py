@@ -61,7 +61,7 @@ class UserProfile(models.Model):
     dubl_tournament_wins = models.PositiveSmallIntegerField(default=0)
 
     # country the dude lives in.
-    country = CountryField(blank_label='(select country)', default='No Country Selected')
+    country = CountryField(blank_label='(select country)', default='US')
 
 
 def create_profile(sender, **kwargs):
