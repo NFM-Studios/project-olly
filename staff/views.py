@@ -2,7 +2,8 @@ from django.contrib import messages
 from django.shortcuts import render, redirect
 from pages.models import StaticInfo
 from staff.forms import StaticInfoForm, ArticleCreateForm, EditUserForm, TicketCommentCreateForm,\
-    TicketStatusChangeForm, EditTournamentForm, DeclareMatchWinnerForm, DeclareMatchWinnerPost, DeclareTournamentWinnerForm
+    TicketStatusChangeForm, EditTournamentForm, DeclareMatchWinnerForm, DeclareMatchWinnerPost,\
+    DeclareTournamentWinnerForm, TicketSearchForm
 from profiles.models import UserProfile, BannedUser
 from profiles.forms import SortForm
 from django.contrib.auth.models import User
@@ -462,8 +463,23 @@ def tickets(request):
     if user.user_type not in allowed:
         return render(request, 'staff/permissiondenied.html')
     else:
-        tickets = Ticket.objects.all()
-        return render(request, 'staff/tickets.html', {'ticket_list': tickets})
+        if request.method == 'GET':
+            form = TicketSearchForm
+            ticket_list = Ticket.objects.filter(status__lte=2)
+            return render(request, 'staff/tickets.html', {'form': form, 'ticket_list': ticket_list})
+
+        elif request.method == 'POST':
+            form = TicketSearchForm(request.POST)
+            ticket_list = Ticket.objects.filter(status__lte=2)
+            if request.POST.get('showClosed'):
+                ticket_list = Ticket.objects.all()
+            if request.POST.get('searchQuery'):
+                query = request.POST.get('searchQuery')
+                try:
+                    ticket_list = Ticket.objects.filter(pk=query)
+                except ValueError:
+                    ticket_list = Ticket.objects.filter(Q(text__contains=query) | Q(creator__username__contains=query))
+            return render(request, 'staff/tickets.html', {'form': form, 'ticket_list': ticket_list})
 
 
 class TicketDetail(DetailView):

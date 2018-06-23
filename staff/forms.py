@@ -21,6 +21,11 @@ class EditUserForm(forms.ModelForm):
         fields = ('user_type',)
 
 
+class TicketSearchForm(forms.Form):
+    showClosed = forms.BooleanField(required=False, label='Show closed')
+    searchQuery = forms.CharField(required=False, label='Search')
+
+
 class TicketCommentCreateForm(forms.ModelForm):
     class Meta:
         model = TicketComment
