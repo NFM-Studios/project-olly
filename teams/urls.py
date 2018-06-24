@@ -14,7 +14,6 @@ urlpatterns = [
     url(r'^invite/$', login_required(TeamInviteCreateView.as_view()), name='invite'),
     url(r'^(?P<pk>\d+)/edit/$', login_required(views.EditTeamView), name='edit'),
     url(r'^(?P<pk>\d+)/leave/$', login_required(views.LeaveTeamView.as_view()), name='leave'),
-
-
+    url(r'^(?P<pk>\d+)/remove/$', login_required(views.RemoveUserView.as_view()), name='remove'),
 
 ]

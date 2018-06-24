@@ -9,7 +9,8 @@ from django.utils import timezone
 # team create forms
 from teams.forms import TeamCreateForm
 # team create invite forms
-from .forms import TeamInviteFormGet,TeamInviteFormPost, EditTeamProfileForm, ViewInviteForm, LeaveTeamForm
+from .forms import TeamInviteFormGet,TeamInviteFormPost, EditTeamProfileForm, ViewInviteForm, LeaveTeamForm,\
+    RemovePlayerFormPost, RemoveUserForm
 # import the team models
 from teams.models import Team
 # import the invite models
@@ -244,3 +245,36 @@ class LeaveTeamView(View):
         except:
             messages.error(request, "You submitted without confirming that you wanted to leave, redirecting to team detail")
             return redirect('teams:detail', pk=pk)
+
+
+class RemoveUserView(View):
+    template_name = 'teams/remove_user.html'
+
+    def get(self, request, pk):
+        team = Team.objects.get(id=pk)
+        if request.user == team.founder:
+            form = RemoveUserForm(request, pk)
+            return render(request, self.template_name, {'form': form, 'pk': pk})
+        else:
+            messages.error(request, "Only the team's founder can remove users")
+            return redirect('teams:detail', pk)
+
+    def post(self, request, pk):
+        team = Team.objects.get(id=pk)
+        if request.user == team.founder:
+            form = RemovePlayerFormPost(request.POST)
+            invite = TeamInvite.objects.get(id=form.data['remove'])
+            messages.success(request, 'Removed user %s from team' % invite)
+            invite.delete()
+            invites = TeamInvite.objects.filter(team=team)
+            if not invites.exists():
+                messages.warning(request, "Last user in team removed, team deleted")
+                team.delete()
+                return redirect('teams:list')
+            else:
+                return redirect('teams:detail', pk)
+        else:
+            messages.error(request, "Only the team's founder can remove users")
+            return redirect('teams:detail', pk)
+                
+
