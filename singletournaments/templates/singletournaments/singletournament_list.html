@@ -8,7 +8,18 @@
 <link rel="stylesheet" href="{% static "css/singletournament.css" %}">
 
 {% block body %}
+<form method="POST" action="">
+    <table class="table">
+        {% csrf_token %}
+        {{ form }}
 
+        <tr>
+            <td colspan="2">
+                <input type="submit" value="Filter" />
+            </td>
+        </tr>
+    </table>
+</form>
 <div id="new-team">
 <h2 id="" style="text-decoration: none; margin:8px">
     <a style="text-decoration:none; color:black;" href="{% url 'teams:create' %}">
