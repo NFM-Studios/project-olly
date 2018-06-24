@@ -700,7 +700,7 @@ def teams_detail(request, pk):
     else:
         team = Team.objects.get(id=pk)
         players = TeamInvite.objects.filter(team=team, accepted=True)
-        return render(request, 'staff/teams_detail.html', {'team': team, 'players': players})
+        return render(request, 'staff/teams_detail.html', {'team': team, 'players': players, 'pk': pk})
 
 
 def remove_user(request, pk):
@@ -724,5 +724,5 @@ def remove_user(request, pk):
                 return redirect('staff:team_detail', pk=pk)
         else:
             form = RemovePlayerForm(request, pk)
-            return render(request, 'staff/remove_player.html', {'form': form})
+            return render(request, 'staff/remove_player.html', {'form': form, 'pk': pk})
 
