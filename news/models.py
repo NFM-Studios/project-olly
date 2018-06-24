@@ -1,12 +1,12 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
-from django.db import IntegrityError
+from django.dispatch import receiver
 
 # not working
 from django.urls import reverse
 
-#tag manager
+# tag manager
 from taggit.managers import TaggableManager
 
 
@@ -30,6 +30,7 @@ class Post(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     status = models.CharField(max_length=12, choices=STATUS_CHOICES, default='draft')
+    image = models.ImageField(upload_to='news_images', blank=True)
 
     # default manager
     objects = models.Manager()
@@ -66,3 +67,25 @@ class Comment(models.Model):
 
     def __str__(self):
         return 'Comment by {} on {}'.format(self.name, self.post)
+
+
+@receiver(models.signals.post_delete, sender=Post)
+# This should never be run in theory. It would only be hit if the Post was completely deleted
+def auto_delete_file(sender, instance, **kwargs):
+    if instance.image:
+        instance.image.delete()
+
+
+@receiver(models.signals.pre_save, sender=Post)
+def auto_delete_file_on_change(sender, instance, **kwargs):
+    if not instance.pk:
+        return False
+
+    try:
+        old_file = Post.objects.get(pk=instance.pk).image
+    except Post.DoesNotExist:
+        return False
+
+    new_file = instance.image
+    if not old_file == new_file:
+        old_file.delete(save=False)

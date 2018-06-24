@@ -615,10 +615,13 @@ def create_article(request):
         return render(request, 'staff/permissiondenied.html')
     else:
         if request.method == 'POST':
-            form = ArticleCreateForm(request.POST)
+            form = ArticleCreateForm(request.POST, request.FILES)
             if form.is_valid():
+                article = form.instance
+                article.author = User.objects.get(username=request.user.username)
+                article.save()
                 form.save()
-                messages.success(request, 'Nice job boss, your post has been created')
+                messages.success(request, 'Your post has been created')
                 return redirect('staff:news_list')
         else:
             form = ArticleCreateForm(None)
@@ -678,6 +681,7 @@ class TransferView(View):
 
 # start teams section
 
+
 def teams_index(request):
     user = UserProfile.objects.get(user__username=request.user.username)
     allowed = ['superadmin', 'admin']
@@ -686,6 +690,7 @@ def teams_index(request):
     else:
         teams_list = Team.objects.all().order_by('id')
         return render(request, 'staff/teams.html', {'teams_list': teams_list})
+
 
 def teams_detail(request, pk):
     user = UserProfile.objects.get(user__username=request.user.username)
