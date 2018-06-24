@@ -77,5 +77,9 @@
 
     <a href="{% url 'teams:leave' pk=pk %}">Leave team</a>
 
+    {% if team.founder == request.user %}
+    <p><a href="{% url 'teams:remove' pk %}">Remove users</a></p>
+    {% endif %}
+
 
 {% endblock %}
