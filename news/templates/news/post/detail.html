@@ -7,6 +7,13 @@
 {% block body %}
     <h1>{{ post.title }}</h1>
     <p class="date">Published {{ post.publish }} by {{ post.author }}</p>
+
+    {% if post.image.url != "" %}
+    <img src="{{ post.image.url }}" width="800"> <br />
+    {% endif %}
+
+    <br>
+
     {{ post.body|linebreaks }}
     <p><a href="{% url "news:post_share" post.id %}">Share this post</a></p>
     

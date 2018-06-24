@@ -14,7 +14,7 @@ News Index
 <h2>Tags: {{ article.tags }}</h2>
 
 
-<p>{{ article.body||linebreaks }}</p>
+<p>{{ article.body | linebreaks }}</p>
             <a href="{% url 'staff:news_list' %}">Click here to view news articles</a>
 
 
