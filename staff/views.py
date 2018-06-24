@@ -617,6 +617,9 @@ def create_article(request):
         if request.method == 'POST':
             form = ArticleCreateForm(request.POST)
             if form.is_valid():
+                article = form.instance
+                article.author = User.objects.get(username=request.user.username)
+                article.save()
                 form.save()
                 messages.success(request, 'Nice job boss, your post has been created')
                 return redirect('staff:news_list')
