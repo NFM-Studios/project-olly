@@ -17,6 +17,7 @@ from teams.models import TeamInvite
 from profiles.models import UserProfile
 from django.shortcuts import get_object_or_404
 
+
 class MyInvitesListView(ListView):
     # show all the invites, and an accept or deny button.
     # check if the invite is expired.
@@ -150,6 +151,10 @@ class TeamCreateView(CreateView):
 
     def form_valid(self, form):
         Team = form.instance
+        if len(Team.name) < 5:
+            messages.error(self.request, 'Your team name must be 5 or more characters')
+            return redirect('teams:create')
+
         Team.founder = self.request.user
         Team.save()
         invite = TeamInvite()
