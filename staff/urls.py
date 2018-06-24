@@ -40,4 +40,6 @@ urlpatterns = [
     url(r'^store/transfers/list', login_required(views.TransferView.as_view()), name='transfer_list'),
     url(r'^teams/$', login_required(views.teams_index), name='teamindex'),
     url(r'^teams/(?P<pk>\d+)/$', login_required(views.teams_detail), name='team_detail'),
+    url(r'^teams/(?P<pk>\d+)/remove/$', login_required(views.remove_user), name='remove_user'),
+
 ]

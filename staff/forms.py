@@ -6,7 +6,7 @@ from matches.models import Match
 from singletournaments.models import SingleEliminationTournament
 from news.models import Post
 from support.models import TicketComment, Ticket
-from teams.models import Team
+from teams.models import Team, TeamInvite
 
 
 class StaticInfoForm(forms.ModelForm):
@@ -93,3 +93,26 @@ class EditNewsPostForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = '__all__'
+
+
+class RemovePlayerForm(forms.ModelForm):
+    remove = forms.ModelChoiceField(queryset=None)
+
+    class Meta:
+        model = TeamInvite
+        fields = ()
+
+    def __init__(self, request, pk, *args, **kwargs):
+        team = Team.objects.get(id=pk)
+        players = TeamInvite.objects.filter(team=team, accepted=True)
+        super().__init__(*args, **kwargs)
+        self.fields['remove'].queryset = players
+
+
+class RemovePlayerFormPost(forms.ModelForm):
+    remove = forms.ModelChoiceField(queryset=None)
+
+    class Meta:
+        model = TeamInvite
+        fields = ()
+

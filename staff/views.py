@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from pages.models import StaticInfo
 from staff.forms import StaticInfoForm, ArticleCreateForm, EditUserForm, TicketCommentCreateForm,\
     TicketStatusChangeForm, EditTournamentForm, DeclareMatchWinnerForm, DeclareMatchWinnerPost,\
-    DeclareTournamentWinnerForm, TicketSearchForm
+    DeclareTournamentWinnerForm, TicketSearchForm, RemovePlayerForm, RemovePlayerFormPost
 from profiles.models import UserProfile, BannedUser
 from profiles.forms import SortForm
 from django.contrib.auth.models import User
@@ -696,3 +696,28 @@ def teams_detail(request, pk):
         team = Team.objects.get(id=pk)
         players = TeamInvite.objects.filter(team=team, accepted=True)
         return render(request, 'staff/teams_detail.html', {'team': team, 'players': players})
+
+
+def remove_user(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        if request.method == 'POST':
+            form = RemovePlayerFormPost(request.POST)
+            invite = TeamInvite.objects.get(id=form.data['remove'])
+            messages.success(request, 'Removed user %s from team' % invite)
+            invite.delete()
+            invites = TeamInvite.objects.filter(team_id=pk)
+            if not invites.exists():
+                team = Team.objects.get(id=pk)
+                team.delete()
+                messages.success(request, 'Deleted team due to the last user being removed')
+                return redirect('staff:teamindex')
+            else:
+                return redirect('staff:team_detail', pk=pk)
+        else:
+            form = RemovePlayerForm(request, pk)
+            return render(request, 'staff/remove_player.html', {'form': form})
+
