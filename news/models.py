@@ -1,12 +1,11 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
-from django.db import IntegrityError
 
 # not working
 from django.urls import reverse
 
-#tag manager
+# tag manager
 from taggit.managers import TaggableManager
 
 

@@ -678,6 +678,7 @@ class TransferView(View):
 
 # start teams section
 
+
 def teams_index(request):
     user = UserProfile.objects.get(user__username=request.user.username)
     allowed = ['superadmin', 'admin']
@@ -686,6 +687,7 @@ def teams_index(request):
     else:
         teams_list = Team.objects.all().order_by('id')
         return render(request, 'staff/teams.html', {'teams_list': teams_list})
+
 
 def teams_detail(request, pk):
     user = UserProfile.objects.get(user__username=request.user.username)
