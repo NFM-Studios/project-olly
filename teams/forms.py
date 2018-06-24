@@ -79,3 +79,17 @@ class ViewInviteForm(forms.ModelForm):
 
 class LeaveTeamForm(forms.Form):
     confirmed = forms.BooleanField(required=False)
+
+
+class RemoveUserForm(forms.Form):
+    remove = forms.ModelChoiceField(queryset=None)
+
+    def __init__(self, request, pk, *args, **kwargs):
+        team = Team.objects.get(id=pk)
+        players = TeamInvite.objects.filter(team=team, accepted=True)
+        super().__init__(*args, **kwargs)
+        self.fields['remove'].queryset = players
+
+
+class RemovePlayerFormPost(forms.Form):
+    remove = forms.ModelChoiceField(queryset=None)
