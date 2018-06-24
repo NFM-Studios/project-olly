@@ -68,6 +68,9 @@ class TeamInvite(models.Model):
     active = models.BooleanField(default=True)
     hasPerms = models.BooleanField(default=False)
 
+    def __str__(self):
+        return str(self.user)
+
 
 class CaptainMembership(models.Model):
     user = models.ForeignKey(User, related_name='captainperson', on_delete=models.CASCADE)
