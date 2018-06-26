@@ -1,8 +1,8 @@
 from django.db import models
 from matches.settings import GAME_CHOICES, PLATFORMS_CHOICES, TEAMFORMAT_CHOICES, MAPFORMAT_CHOICES
 from matches.models import Match
-# from matches.models import Ruleset
 from teams.models import Team
+from profiles.models import User
 import random
 
 SIZE_CHOICES = (
@@ -13,6 +13,13 @@ SIZE_CHOICES = (
     (64, 64),
     (128, 128),
 )
+
+
+class SingleTournamentRuleset(models.Model):
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    text = models.TextField()
+    creator = models.ForeignKey(User, related_name='rulesetCreator', on_delete=models.CASCADE)
 
 
 class SingleEliminationTournament(models.Model):
@@ -33,6 +40,8 @@ class SingleEliminationTournament(models.Model):
 
     # general information about the tournament
     info = models.TextField(default="No information provided")
+
+    ruleset = models.ForeignKey(SingleTournamentRuleset, related_name='tournamentruleset', on_delete=models.CASCADE, null=True)
 
     # the time the specific tournament object was created
     created = models.DateTimeField(auto_now_add=True)
