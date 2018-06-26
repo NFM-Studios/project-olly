@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from pages.models import StaticInfo
 from staff.forms import StaticInfoForm, ArticleCreateForm, EditUserForm, TicketCommentCreateForm,\
     TicketStatusChangeForm, EditTournamentForm, DeclareMatchWinnerForm, DeclareMatchWinnerPost,\
-    DeclareTournamentWinnerForm, TicketSearchForm, RemovePlayerForm, RemovePlayerFormPost
+    DeclareTournamentWinnerForm, TicketSearchForm, RemovePlayerForm, RemovePlayerFormPost, SingleRulesetCreateForm
 from profiles.models import UserProfile, BannedUser
 from profiles.forms import SortForm
 from django.contrib.auth.models import User
@@ -14,7 +14,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from teams.models import Team, TeamInvite
 from matches.models import Match, MatchReport, MatchDispute
 from news.models import Post, Comment, PublishedManager
-from singletournaments.models import SingleEliminationTournament, SingleTournamentRound
+from singletournaments.models import SingleEliminationTournament, SingleTournamentRound, SingleTournamentRuleset
 from store.models import Transaction, Transfer
 from support.models import Ticket, TicketComment
 from django.shortcuts import get_object_or_404
@@ -262,6 +262,35 @@ def delete_tournament(request, pk):
         tournament.delete()
         messages.success(request, "Tournament Deleted")
         return redirect('staff:tournamentlist')
+
+
+def ruleset_list(request):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        pass
+
+
+def ruleset_create(request):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        if request.method == 'POST':
+            form = SingleRulesetCreateForm(request.POST)
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'Ruleset has been created!')
+                return redirect('staff:ruleset_list')
+            else:
+                print('form is not valid')
+        else:
+            tournamentobj = SingleEliminationTournament.objects.get(pk=pk)
+            form = EditTournamentForm(instance=tournamentobj)
+            return render(request, 'staff/edittournament.html', {'form': form, 'pk': pk})
 
 
 def advance(request, pk):
