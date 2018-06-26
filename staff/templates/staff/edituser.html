@@ -1,6 +1,9 @@
 {% extends 'staff/staffbase.html' %}
 {% load staticfiles %}
 <link rel="stylesheet" href="{% static "css/staff.css" %}">
+{% block title %}
+Edit User
+{% endblock %}
 {% block body %}
   <form method="post">
     {% csrf_token %}
