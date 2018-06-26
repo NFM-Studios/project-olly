@@ -582,6 +582,23 @@ def pages(request):
             form = StaticInfoForm(instance=staticinfoobj)
             return render(request, 'staff/staticinfo.html', {'form': form})
 
+def partnerlist(request):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        template = 'staff/partnerslist.html'
+        pass
+
+def createpartner(request):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        template = 'staff/partnercreate.html'
+        pass
 
 # end static info section
 
