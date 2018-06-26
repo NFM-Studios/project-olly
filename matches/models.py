@@ -84,7 +84,4 @@ class MatchDispute(models.Model):
     # once all this information is submitted it will be viewable  by an admin that will look at the proof and
     # determine who the winner is.
 
-# class Ruleset(models.Model):
-# created = models.DateTimeField(auto_now_add=True)
-#  updated = models.DateTimeField(auto_now=True)
-#  text = models.TextField()
+
