@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from pages.models import StaticInfo
 from staff.forms import StaticInfoForm, ArticleCreateForm, EditUserForm, TicketCommentCreateForm,\
     TicketStatusChangeForm, EditTournamentForm, DeclareMatchWinnerForm, DeclareMatchWinnerPost,\
-    DeclareTournamentWinnerForm, TicketSearchForm, RemovePlayerForm, RemovePlayerFormPost
+    DeclareTournamentWinnerForm, TicketSearchForm, RemovePlayerForm, RemovePlayerFormPost, AddCreditsForm
 from profiles.models import UserProfile, BannedUser
 from profiles.forms import SortForm
 from django.contrib.auth.models import User
@@ -15,7 +15,7 @@ from teams.models import Team, TeamInvite
 from matches.models import Match, MatchReport, MatchDispute
 from news.models import Post, Comment, PublishedManager
 from singletournaments.models import SingleEliminationTournament, SingleTournamentRound
-from store.models import Transaction, Transfer
+from store.models import Transaction, Transfer, give_credits
 from support.models import Ticket, TicketComment
 from django.shortcuts import get_object_or_404
 
@@ -151,6 +151,28 @@ def unbanip(request, urlusername):
         b.delete()
         messages.success(request, 'User ' + urlusername + ' has been banned')
         return redirect('staff:users')
+
+
+def givecredits(request, urlusername):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        if request.method == 'GET':
+            form = AddCreditsForm(None)
+            return render(request, 'staff/givecredits.html', {'form': form})
+        else:
+            form = AddCreditsForm(request.POST)
+            username = User.objects.get(username=urlusername)
+            num = int(form.data['credits'])
+            give_credits(username, num)
+            transaction = Transaction(credits=num, account=UserProfile.objects.get(user=username), cost=int(0.00),
+                                      passes=int(0.00))
+            transaction.save()
+            messages.success(request, "Added %s credits to %s" % (credits, urlusername))
+            return redirect('staff:users')
+
 
 
 # end users
