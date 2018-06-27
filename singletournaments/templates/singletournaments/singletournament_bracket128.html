@@ -19,7 +19,10 @@
             winner
             {% else %}
 
-            {% endif %}"><a href="{% url 'matches:detail' pk=match.id %}">{{ match.awayteam }}</a><span>
+            {% endif %}"><a href="{% url 'matches:detail' pk=match.id %}">{% if match.awayteam.name is "None" %}
+            BYE
+            {% else %}
+            {{ match.awayteam }}{% endif %}</a><span>
             {% if match.winner is match.awayteam %}
             1
             {% else %}
