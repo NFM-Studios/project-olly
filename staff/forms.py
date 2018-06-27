@@ -116,3 +116,10 @@ class RemovePlayerFormPost(forms.ModelForm):
         model = TeamInvite
         fields = ()
 
+
+class AddCreditsForm(forms.Form):
+    credits = forms.IntegerField(required=True)
+
+    class Meta:
+        fields = 'credits'
+

@@ -1,0 +1,17 @@
+{% extends 'staff/staffbase.html' %}
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static "css/staff.css" %}">
+{% block title %}
+Give credits
+{% endblock %}
+{% block body %}
+  <form method="post">
+    {% csrf_token %}
+    {{ field.errors }}
+
+      {{ form }}
+
+    <p><button type="submit" class="btn btn-primary">Give credits</button></p>
+
+  </form>
+{% endblock %}
