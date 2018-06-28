@@ -8,56 +8,25 @@ Partners
 {% block body %}
     <div style="overflow-x:auto;">
 
-
 <table class="table table-hover">
     <tr id="header">
         <thead>
         <th scope="row">ID</th>
-        <th>Status</th>
-        <th>Username</th>
-        <th>Category</th>
-        <th>Date Created</th>
+        <th>Name</th>
+        <th>Website</th>
+        <th>Twitter</th>
         </thead>
     </tr>
-    <!-- start for loop -->
+    {% for partner in partner_list %}
     <tbody>
     <tr scope="">
-        <td scope="row"><a href="{% url 'staff:ticket_detail' pk=ticket.id%}">#{{ticket.id}}</a></td>
-        <td>
-        {% if ticket.status == 0 %}
-            New
-        {% elif ticket.status == 1 %}
-            On Hold
-        {% elif ticket.status == 2 %}
-            In Progress
-        {% elif ticket.status == 3 %}
-            Closed
-        {% endif %}
-        </td>
-        <td>
-        {{ ticket.creator }}
-        </td>
-        <td>
-        {% if ticket.category == 0 %}
-        General
-        {% elif ticket.category == 1 %}
-        Prize Claim
-        {% elif ticket.category == 2 %}
-        Tournament Support
-        {% elif ticket.category == 3 %}
-        Billing
-        {% elif ticket.category == 4 %}
-        Refund Request
-        {% elif ticket.category == 5 %}
-        PSN/XBL Issues
-        {% elif ticket.category == 6 %}
-        Match Support/Dispute
-        {% endif %}
-        </td>
-        <td>{{ticket.last_update}}</td>
+        <td scope="row"><a href="{% url 'staff:partner_detail' pk=partner.id %}">#{{partner.id}}</a></td>
+        <td>{{ partner.name }}</td>
+        <td><a target="_blank" href="{{ partner.website }}">{{ partner.website }}</a></td>
+        <td><a target="_blank" href="http://twitter.com/{{ partner.twitter }}">{{ partner.twitter }}</a></td>
     </tr>
     </tbody>
-    <!-- end for -->
+    {% endfor %}
 </table>
     </div>
 {% endblock %}
