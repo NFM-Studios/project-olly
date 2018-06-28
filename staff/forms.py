@@ -1,5 +1,5 @@
 from django import forms
-from pages.models import StaticInfo
+from pages.models import StaticInfo, Partner
 from profiles.models import UserProfile
 from support.models import TicketComment
 from matches.models import Match
@@ -13,6 +13,12 @@ class StaticInfoForm(forms.ModelForm):
     class Meta:
         model = StaticInfo
         fields = ('about_us', 'terms', 'privacy', 'stream', 'slide1link', 'slide2link', 'slide3link')
+
+
+class PartnerForm(forms.ModelForm):
+    class Meta:
+        model = Partner
+        fields = '__all__'
 
 
 class SingleRulesetCreateForm(forms.ModelForm):

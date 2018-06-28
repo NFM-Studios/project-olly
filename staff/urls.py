@@ -46,6 +46,7 @@ urlpatterns = [
     url(r'^teams/(?P<pk>\d+)/$', login_required(views.teams_detail), name='team_detail'),
     url(r'^teams/(?P<pk>\d+)/remove/$', login_required(views.remove_user), name='remove_user'),
     url(r'^partners/$', login_required(views.partnerlist), name='partner_list'),
-    url(r'^partners/create/$', login_required(views.createpartner), name='partner_create')
+    url(r'^partners/create/$', login_required(views.createpartner), name='partner_create'),
+    url(r'^partners/(?P<pk>\d+)/$', login_required(views.partner_detail), name='partner_detail')
 
 ]

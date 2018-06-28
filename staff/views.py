@@ -3,7 +3,8 @@ from django.shortcuts import render, redirect
 from pages.models import StaticInfo
 from staff.forms import StaticInfoForm, ArticleCreateForm, EditUserForm, TicketCommentCreateForm,\
     TicketStatusChangeForm, EditTournamentForm, DeclareMatchWinnerForm, DeclareMatchWinnerPost,\
-    DeclareTournamentWinnerForm, TicketSearchForm, RemovePlayerForm, RemovePlayerFormPost, SingleRulesetCreateForm
+    DeclareTournamentWinnerForm, TicketSearchForm, RemovePlayerForm, RemovePlayerFormPost, SingleRulesetCreateForm,\
+    PartnerForm
 from profiles.models import UserProfile, BannedUser
 from profiles.forms import SortForm
 from django.contrib.auth.models import User
@@ -18,6 +19,7 @@ from singletournaments.models import SingleEliminationTournament, SingleTourname
 from store.models import Transaction, Transfer
 from support.models import Ticket, TicketComment
 from django.shortcuts import get_object_or_404
+from pages.models import Partner
 
 
 def staffindex(request):
@@ -611,14 +613,16 @@ def pages(request):
             form = StaticInfoForm(instance=staticinfoobj)
             return render(request, 'staff/staticinfo.html', {'form': form})
 
+
 def partnerlist(request):
     user = UserProfile.objects.get(user__username=request.user.username)
     allowed = ['superadmin', 'admin']
     if user.user_type not in allowed:
         return render(request, 'staff/permissiondenied.html')
     else:
-        template = 'staff/partnerslist.html'
-        pass
+        partner_list = Partner.objects.all()
+        return render(request, 'staff/partnerslist.html', {'partner_list': partner_list})
+
 
 def createpartner(request):
     user = UserProfile.objects.get(user__username=request.user.username)
@@ -626,8 +630,37 @@ def createpartner(request):
     if user.user_type not in allowed:
         return render(request, 'staff/permissiondenied.html')
     else:
-        template = 'staff/partnercreate.html'
-        pass
+        if request.method == 'POST':
+            form = PartnerForm(request.POST, request.FILES)
+            if form.is_valid():
+                #partner = form.instance
+                #partner.author = User.objects.get(username=request.user.username)
+                #partner.save()
+                form.save()
+                messages.success(request, 'Your partner has been created')
+                return redirect('staff:partner_list')
+        else:
+            form = PartnerForm(None)
+            return render(request, 'staff/partnercreate.html', {'form': form})
+
+
+def partner_detail(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        if request.method == 'POST':
+            partner = Partner.objects.get(pk=pk)
+            form = PartnerForm(request.POST, request.FILES, instance=partner)
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'Your information has been updated')
+                return redirect('staff:partner_list')
+        else:
+            partner = Partner.objects.get(pk=pk)
+            form = PartnerForm(instance=partner)
+            return render(request, 'staff/partnercreate.html', {'form': form})
 
 # end static info section
 
