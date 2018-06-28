@@ -198,6 +198,27 @@ class SingleTournamentJoin(View):
             return redirect('singletournaments:list')
 
 
+class SingleTournamentLeave(View):
+    def get(self, request):
+        pass
+
+    def post(self, request, pk):
+        form = SingleEliminationTournamentLeave
+        user_teams = Team.objects.filter(players=request.user.id)
+        tournament = SingleEliminationTournament.objects.get(pk=pk)
+
+        for i in user_teams:
+            if i in tournament.teams:
+                is_in = True
+                break
+
+        if not is_in:
+            messages.error(request, 'You are not in this tournament')
+            return redirect('singletournaments:list', pk=pk)
+
+        
+
+
 class SingleTournamentDetail(View):
     template_name = 'singletournaments/singletournament_detail.html'
 
