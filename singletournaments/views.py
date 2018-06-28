@@ -1,12 +1,13 @@
 from django.shortcuts import render, redirect
 from django.views.generic import View
-from .forms import SingleEliminationTournamentJoinGet, SingleEliminationTournamentJoinPost, SingleEliminationTournamentSort
+from .forms import SingleEliminationTournamentJoinGet, SingleEliminationTournamentJoinPost,\
+    SingleEliminationTournamentSort, SingleTournamentLeaveForm
 from .models import SingleTournamentRound, SingleEliminationTournament, SingleTournamentTeam
 from teams.models import TeamInvite, Team
 from django.contrib import messages
 from profiles.models import UserProfile
 import datetime
-from store.models import deduct_credits
+from store.models import deduct_credits, give_credits
 import pytz
 from django.shortcuts import get_object_or_404
 
@@ -199,24 +200,36 @@ class SingleTournamentJoin(View):
 
 
 class SingleTournamentLeave(View):
-    def get(self, request):
-        pass
+    def get(self, request, pk):
+        form = SingleTournamentLeaveForm()
+        return render(request, 'singletournaments/singletournament_leave.html', {'form': form})
 
     def post(self, request, pk):
-        form = SingleEliminationTournamentLeave
-        user_teams = Team.objects.filter(players=request.user.id)
-        tournament = SingleEliminationTournament.objects.get(pk=pk)
-
-        for i in user_teams:
-            if i in tournament.teams:
-                is_in = True
-                break
-
-        if not is_in:
-            messages.error(request, 'You are not in this tournament')
-            return redirect('singletournaments:list', pk=pk)
-
-        
+        form = SingleTournamentLeaveForm(request.POST)
+        tournament = SingleEliminationTournament.objects.filter(id=pk)
+        user_teams = Team.objects.filter(id__in=tournament.values('teams'), founder=request.user)
+        if not user_teams.exists():
+            messages.error(request, "You are not in this tournament")
+            return redirect('singletournaments:list')
+        else:
+            form.is_valid()
+            if not form.cleaned_data['confirm']:
+                messages.error(request, "You submitted without confirming that you wanted to leave")
+                return redirect('singletournaments:leave', pk=pk)
+            else:
+                user_team = Team.objects.get(id__in=tournament.values('teams'), founder=request.user)
+                tournament = SingleEliminationTournament.objects.get(id=pk)
+                team = SingleTournamentTeam.objects.get(team_id=user_team.id, tournament=tournament)
+                team.delete()
+                team_users = TeamInvite.objects.filter(team=user_team)
+                users = []
+                for invite in team_users:
+                    users.append(invite.user)
+                for user in users:
+                    give_credits(user=user, num=tournament.req_credits)
+                messages.success(request, "Gave %s credits to %s users" % (tournament.req_credits, len(users)))
+                messages.success(request, "Left tournament %s" % tournament.name)
+                return redirect('singletournaments:list')
 
 
 class SingleTournamentDetail(View):

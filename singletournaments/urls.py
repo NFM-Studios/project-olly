@@ -8,6 +8,7 @@ urlpatterns = [
 
     url(r'^$', login_required(tournament_views.List.as_view()), name='list'),
     url(r'^(?P<pk>\d+)/join/$', login_required(tournament_views.SingleTournamentJoin.as_view()), name='join'),
+    url(r'^(?P<pk>\d+)/leave/$', login_required(tournament_views.SingleTournamentLeave.as_view()), name='leave'),
     url(r'^(?P<pk>\d+)/$', login_required(tournament_views.SingleTournamentDetail.as_view()), name='detail'),
     url(r'^(?P<pk>\d+)/bracket/$', login_required(tournament_views.SingleTournamentBracket.as_view()), name='bracket'),
     url(r'^(?P<pk>\d+)/teams/$', login_required(tournament_views.SingleTournamentTeamsList.as_view()), name='teams'),
