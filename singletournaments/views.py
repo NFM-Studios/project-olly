@@ -221,6 +221,7 @@ class SingleTournamentLeave(View):
                 tournament = SingleEliminationTournament.objects.get(id=pk)
                 team = SingleTournamentTeam.objects.get(team_id=user_team.id, tournament=tournament)
                 team.delete()
+                tournament.teams.remove(user_team)
                 team_users = TeamInvite.objects.filter(team=user_team)
                 users = []
                 for invite in team_users:
