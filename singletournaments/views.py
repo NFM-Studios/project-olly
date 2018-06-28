@@ -221,6 +221,7 @@ class SingleTournamentRules(View):
     template_name = 'singletournaments/singletournament_rules.html'
 
 
+
 class SingleTournamentMatchList(View):
     template_name = 'singletournaments/singletournament_matches.html'
 

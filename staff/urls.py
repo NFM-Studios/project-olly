@@ -19,7 +19,8 @@ urlpatterns = [
     url(r'^users/edit/(?P<urlusername>\w+)/$', login_required(views.edituser)),
     url(r'^tournaments/$', login_required(views.tournaments), name='tournamentlist'),
 
-    url(r'^tournaments/rulesets$', login_required(views.ruleset_list), name='tournamentrulesetlist'),
+    url(r'^tournaments/rulesets/$', login_required(views.ruleset_list), name='tournamentrulesetlist'),
+    url(r'^tournaments/rulesets/(?P<pk>\d+)/$', login_required(views.ruleset_detail), name='tournamentrulesetdetail'),
     url(r'^tournaments/rulesets/create$', login_required(views.ruleset_create), name='tournamentrulesetcreate'),
 
     url(r'^tournaments/(?P<pk>\d+)/$', login_required(views.tournament_detail), name='tournament_detail'),
