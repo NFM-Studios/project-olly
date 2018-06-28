@@ -272,7 +272,12 @@ def ruleset_list(request):
     if user.user_type not in allowed:
         return render(request, 'staff/permissiondenied.html')
     else:
-        pass
+        if request.method == 'GET':
+            rulesets = SingleTournamentRuleset.objects.all()
+            return render(request, 'staff/ruleset_list.html', {'rulesets': rulesets})
+        else:
+            rulesets = SingleTournamentRuleset.objects.all()
+            return render(request, 'staff/ruleset_list.html', {'rulesets': rulesets})
 
 
 def ruleset_create(request):
@@ -284,15 +289,30 @@ def ruleset_create(request):
         if request.method == 'POST':
             form = SingleRulesetCreateForm(request.POST)
             if form.is_valid():
-                form.save()
+                ruleset = form.instance
+                ruleset.creator = request.user
+                ruleset.save()
                 messages.success(request, 'Ruleset has been created!')
-                return redirect('staff:ruleset_list')
+                return redirect('staff:tournamentrulesetlist')
             else:
                 print('form is not valid')
         else:
-            tournamentobj = SingleEliminationTournament.objects.get(pk=pk)
-            form = EditTournamentForm(instance=tournamentobj)
-            return render(request, 'staff/edittournament.html', {'form': form, 'pk': pk})
+            form = SingleRulesetCreateForm(None)
+            return render(request, 'staff/createruleset.html', {'form': form})
+
+
+def ruleset_detail(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        if request.method == 'POST':
+            ruleset = SingleTournamentRuleset.objects.get(id=pk)
+            return render(request, 'staff/ruleset_detail.html', {'ruleset': ruleset})
+        else:
+            ruleset = SingleTournamentRuleset.objects.get(id=pk)
+            return render(request, 'staff/ruleset_detail.html', {'ruleset': ruleset})
 
 
 def advance(request, pk):
