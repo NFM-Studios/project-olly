@@ -212,25 +212,29 @@ class SingleTournamentLeave(View):
             messages.error(request, "You are not in this tournament")
             return redirect('singletournaments:list')
         else:
-            form.is_valid()
-            if not form.cleaned_data['confirm']:
-                messages.error(request, "You submitted without confirming that you wanted to leave")
-                return redirect('singletournaments:leave', pk=pk)
+            tournament = SingleEliminationTournament.objects.get(id=pk)
+            if not tournament.bracket_generated:
+                form.is_valid()
+                if not form.cleaned_data['confirm']:
+                    messages.error(request, "You submitted without confirming that you wanted to leave")
+                    return redirect('singletournaments:leave', pk=pk)
+                else:
+                    user_team = Team.objects.get(id__in=tournament.values('teams'), founder=request.user)
+                    team = SingleTournamentTeam.objects.get(team_id=user_team.id, tournament=tournament)
+                    team.delete()
+                    tournament.teams.remove(user_team)
+                    team_users = TeamInvite.objects.filter(team=user_team)
+                    users = []
+                    for invite in team_users:
+                        users.append(invite.user)
+                    for user in users:
+                        give_credits(user=user, num=tournament.req_credits)
+                    messages.success(request, "Gave %s credits to %s users" % (tournament.req_credits, len(users)))
+                    messages.success(request, "Left tournament %s" % tournament.name)
+                    return redirect('singletournaments:list')
             else:
-                user_team = Team.objects.get(id__in=tournament.values('teams'), founder=request.user)
-                tournament = SingleEliminationTournament.objects.get(id=pk)
-                team = SingleTournamentTeam.objects.get(team_id=user_team.id, tournament=tournament)
-                team.delete()
-                tournament.teams.remove(user_team)
-                team_users = TeamInvite.objects.filter(team=user_team)
-                users = []
-                for invite in team_users:
-                    users.append(invite.user)
-                for user in users:
-                    give_credits(user=user, num=tournament.req_credits)
-                messages.success(request, "Gave %s credits to %s users" % (tournament.req_credits, len(users)))
-                messages.success(request, "Left tournament %s" % tournament.name)
-                return redirect('singletournaments:list')
+                messages.error(request, "The bracket has been generated already, you cannot leave the tournament")
+                return redirect('singletournaments:detail', pk=pk)
 
 
 class SingleTournamentDetail(View):
