@@ -123,3 +123,18 @@ class AddCreditsForm(forms.Form):
     class Meta:
         fields = 'credits'
 
+
+class AddXPForm(forms.Form):
+    xp = forms.IntegerField(required=True)
+
+    class Meta:
+        fields = "XP"
+
+
+class AddTrophiesForm(forms.Form):
+    bronze = forms.IntegerField(required=True)
+    silver = forms.IntegerField(required=True)
+    gold = forms.IntegerField(required=True)
+
+    class Meta:
+        fields = ('Bronze', 'Silver', 'Gold')

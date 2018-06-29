@@ -40,6 +40,8 @@ Total users: {{ numusers }}
 
 <td><a href="/staff/users/edit/{{ up.user }}" class="btn btn-primary">Edit User Type</a></td>
 <td><a href="/staff/users/givecredits/{{ up.user }}" class="btn btn-primary">Give Credits</a></td>
+<td><a href="/staff/users/givexp/{{ up.user }}" class="btn btn-primary">Give XP</a></td>
+<td><a href="/staff/users/givetrophies/{{ up.user }}" class="btn btn-primary">Give Trophies</a></td>
 
 {% if up.user.id in bannedusernames %}
     <td> <a href="/staff/users/unban/{{ up.user }}" class="btn btn-warning">UNBAN USERNAME</a> </td>
