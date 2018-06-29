@@ -24,7 +24,7 @@ class PartnerForm(forms.ModelForm):
 class SingleRulesetCreateForm(forms.ModelForm):
     class Meta:
         model = SingleTournamentRuleset
-        fields = ('text',)
+        fields = ('name', 'text')
 
 
 class EditUserForm(forms.ModelForm):
