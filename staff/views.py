@@ -3,7 +3,8 @@ from django.shortcuts import render, redirect
 from pages.models import StaticInfo
 from staff.forms import StaticInfoForm, ArticleCreateForm, EditUserForm, TicketCommentCreateForm,\
     TicketStatusChangeForm, EditTournamentForm, DeclareMatchWinnerForm, DeclareMatchWinnerPost,\
-    DeclareTournamentWinnerForm, TicketSearchForm, RemovePlayerForm, RemovePlayerFormPost, AddCreditsForm
+    DeclareTournamentWinnerForm, TicketSearchForm, RemovePlayerForm, RemovePlayerFormPost, AddCreditsForm,\
+    AddTrophiesForm, AddXPForm
 from profiles.models import UserProfile, BannedUser
 from profiles.forms import SortForm
 from django.contrib.auth.models import User
@@ -174,6 +175,44 @@ def givecredits(request, urlusername):
             return redirect('staff:users')
 
 
+def givexp(request, urlusername):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        if request.method == 'GET':
+            form = AddXPForm(None)
+            return render(request, 'staff/givexp.html', {'form': form})
+        else:
+            form = AddXPForm(request.POST)
+            user = UserProfile.objects.get(user__username=urlusername)
+            num = int(form.data['xp'])
+            user.xp += num
+            user.save()
+            messages.success(request, "Added %s xp to %s" % (num, urlusername))
+            return redirect('staff:users')
+
+
+def givetrophies(request, urlusername):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        if request.method == 'GET':
+            form = AddTrophiesForm(None)
+            return render(request, 'staff/givetrophies.html', {'form': form})
+        else:
+            form = AddTrophiesForm(request.POST)
+            form.is_valid()
+            user = UserProfile.objects.get(user__username=urlusername)
+            user.num_bronze += form.cleaned_data['bronze']
+            user.num_silver += form.cleaned_data['silver']
+            user.num_gold += form.cleaned_data['gold']
+            user.save()
+            messages.success(request, "Added trophies to %s" % urlusername)
+            return redirect('staff:users')
 
 # end users
 
