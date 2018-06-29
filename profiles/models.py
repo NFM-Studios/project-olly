@@ -32,6 +32,7 @@ class UserProfile(models.Model):
     passes = models.PositiveSmallIntegerField(default=0)
     # amount of money they have cashed out
     total_earning = models.PositiveSmallIntegerField(default=0)
+    current_earning = models.PositiveSmallIntegerField(default=0)
     about_me = models.TextField(default='Forever a mystery', blank=True)
     xbl = models.CharField(max_length=30, default='No Xbox Live Linked', blank=True)
     psn = models.CharField(max_length=30, default='No PSN Linked', blank=True)
