@@ -1,9 +1,9 @@
 from django import forms
-from pages.models import StaticInfo
+from pages.models import StaticInfo, Partner
 from profiles.models import UserProfile
 from support.models import TicketComment
 from matches.models import Match
-from singletournaments.models import SingleEliminationTournament
+from singletournaments.models import SingleEliminationTournament, SingleTournamentRuleset
 from news.models import Post
 from support.models import TicketComment, Ticket
 from teams.models import Team, TeamInvite
@@ -13,6 +13,18 @@ class StaticInfoForm(forms.ModelForm):
     class Meta:
         model = StaticInfo
         fields = ('about_us', 'terms', 'privacy', 'stream', 'slide1link', 'slide2link', 'slide3link')
+
+
+class PartnerForm(forms.ModelForm):
+    class Meta:
+        model = Partner
+        fields = '__all__'
+
+
+class SingleRulesetCreateForm(forms.ModelForm):
+    class Meta:
+        model = SingleTournamentRuleset
+        fields = ('name', 'text')
 
 
 class EditUserForm(forms.ModelForm):

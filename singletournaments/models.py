@@ -20,6 +20,10 @@ class SingleTournamentRuleset(models.Model):
     updated = models.DateTimeField(auto_now=True)
     text = models.TextField()
     creator = models.ForeignKey(User, related_name='rulesetCreator', on_delete=models.CASCADE)
+    name = models.CharField(max_length=25)
+
+    def __str__(self):
+        return self.name
 
 
 class SingleEliminationTournament(models.Model):

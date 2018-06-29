@@ -1,6 +1,5 @@
 from django.db import models
-
-# Create your models here.
+from django.dispatch import receiver
 
 
 class StaticInfo(models.Model):
@@ -21,7 +20,28 @@ class StaticInfo(models.Model):
 
 class Partner(models.Model):
     name = models.CharField(max_length=80)
-    website = models.CharField(max_length=100, default="#", blank=True)
+    website = models.URLField(default="#", blank=True)
     twitter = models.CharField(max_length=100, default="#", blank=True)
     bio = models.TextField()
-    # logo = 
+    logo = models.ImageField(upload_to='partner_images', blank=True)
+
+
+@receiver(models.signals.post_delete, sender=Partner)
+def auto_delete_file(sender, instance, **kwargs):
+    if instance.logo:
+        instance.logo.delete()
+
+
+@receiver(models.signals.pre_save, sender=Partner)
+def auto_delete_file_on_change(sender, instance, **kwargs):
+    if not instance.pk:
+        return False
+
+    try:
+        old_file = Partner.objects.get(pk=instance.pk).logo
+    except Partner.DoesNotExist:
+        return False
+
+    new_file = instance.logo
+    if not old_file == new_file:
+        old_file.delete(save=False)

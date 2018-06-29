@@ -1,11 +1,11 @@
 {% extends 'staff/staffbase.html' %}
 {% load staticfiles %}
+<link rel="stylesheet" href="{% static "css/staff.css" %}">
 {% block title %}
-Create Partner
+Create Ruleset
 {% endblock %}
 {% block body %}
 <link rel="stylesheet" href="{% static "css/staff.css" %}">
-
 {% if form.errors %}
     {% for field in form %}
         {% for error in field.errors %}
@@ -21,32 +21,25 @@ Create Partner
     {% endfor %}
 {% endif %}
 
-   <form enctype="multipart/form-data" method="post">
-   {% csrf_token %}
+
+    <form method="post">
    {{ field.errors }}
+     <table class="table">
+        {% csrf_token %}
+        {{ form.as_table }}
 
-    <label>Name</label>
-    {{ form.name }}
-    <br>
+        <tr>
+            <td colspan="2">
+                <input type="submit" value="Create" />
+            </td>
+        </tr>
+    </table>
 
-    <label>Website</label>
-    {{ form.website }}
-    <br>
 
-    <label>twitter</label>
-    {{ form.twitter }}
-    <br>
-
-    <label>Bio</label>
-    {{ form.bio }}
-    <br>
-
-    <label>Logo</label>
-    {{ form.logo }}
-    <br>
-
-    <button type="submit" class="btn btn-primary">Submit</button>
 
     </form>
 
-    {% endblock %}
+
+
+
+{% endblock %}

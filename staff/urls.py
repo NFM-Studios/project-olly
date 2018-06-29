@@ -21,6 +21,11 @@ urlpatterns = [
     url(r'^users/givexp/(?P<urlusername>\w+)/$', login_required(views.givexp)),
     url(r'^users/givetrophies/(?P<urlusername>\w+)/$', login_required(views.givetrophies)),
     url(r'^tournaments/$', login_required(views.tournaments), name='tournamentlist'),
+
+    url(r'^tournaments/rulesets/$', login_required(views.ruleset_list), name='tournamentrulesetlist'),
+    url(r'^tournaments/rulesets/(?P<pk>\d+)/$', login_required(views.ruleset_detail), name='tournamentrulesetdetail'),
+    url(r'^tournaments/rulesets/create$', login_required(views.ruleset_create), name='tournamentrulesetcreate'),
+
     url(r'^tournaments/(?P<pk>\d+)/$', login_required(views.tournament_detail), name='tournament_detail'),
     url(r'^tournaments/edit/(?P<pk>\d+)/$', login_required(views.edit_tournament), name='edit_tournament'),
     url(r'^tournaments/create/$', login_required(views.CreateTournament.as_view()), name='create_tournament'),
@@ -45,6 +50,7 @@ urlpatterns = [
     url(r'^teams/(?P<pk>\d+)/$', login_required(views.teams_detail), name='team_detail'),
     url(r'^teams/(?P<pk>\d+)/remove/$', login_required(views.remove_user), name='remove_user'),
     url(r'^partners/$', login_required(views.partnerlist), name='partner_list'),
-    url(r'^partners/create/$', login_required(views.createpartner), name='partner_create')
+    url(r'^partners/create/$', login_required(views.createpartner), name='partner_create'),
+    url(r'^partners/(?P<pk>\d+)/$', login_required(views.partner_detail), name='partner_detail')
 
 ]
