@@ -804,6 +804,7 @@ def edit_post(request, pk):
         return render(request, 'staff/permissiondenied.html')
     else:
         article = get_object_or_404(Post, pk=pk)
+        form = ArticleEditForm(instance=article)
 
 
 # end news section
