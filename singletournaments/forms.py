@@ -65,3 +65,9 @@ class SingleEliminationTournamentSort(forms.Form):
         super().__init__(*args, **kwargs)
         self.fields['platform'].choices = platforms
         self.fields['game'].choices = games
+
+
+class SingleTournamentLeaveForm(forms.Form):
+    confirm = forms.BooleanField(required=False)
+    class Meta:
+        fields = 'Confirm'
