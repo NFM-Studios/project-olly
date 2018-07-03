@@ -6,6 +6,18 @@ from django.contrib.auth.models import User
 from profiles.models import UserProfile
 # Create your models here.
 
+
+class Product(models.Model):
+    # paypal dict info
+    business = models.EmailField()
+    amount = models.FloatField()
+    item_name = models.CharField(max_length=50)
+
+    # displayed on store
+    price = models.CharField(max_length=50)
+    name = models.CharField(max_length=50)
+
+
 '''
 each product gets an elif to set price and then another to create the tx in the db and apply credits, etc to profile
 '''

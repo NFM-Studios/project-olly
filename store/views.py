@@ -1,92 +1,37 @@
 from django.shortcuts import render, redirect
 from paypal.standard.forms import PayPalPaymentsForm
 from django.conf import settings
-from django.urls import reverse
-from paypal.standard.models import ST_PP_COMPLETED
-from paypal.standard.ipn.signals import valid_ipn_received
 from .forms import TransferCreditsForm
 from profiles.models import UserProfile
 from django.contrib import messages
 from django.views.generic import View
-from .models import Transfer
+from .models import Product
 from .invoice_generator import generateinvoice
 
 
 def store(request):
-    return render(request, 'store/store.html')
+    products = Product.objects.all()
+    return render(request, 'store/store.html', {'products': products})
 
 
-'''
-each product has 2 dicts, paypal and general info that gets displayed on the site
-'''
-
-
-def buy_credits(request, num):
+def detail(request, pk):
+    template_name = 'store/product.html'
+    product = Product.objects.get(id=pk)
     invoice_id = generateinvoice()
-    if num == '1':
-        paypal_dict = {
-            "business": settings.PAYPAL_EMAIL,
-            "amount": "5.00",
-            "item_name": "15 Credits",
-            "invoice": str(invoice_id),
-            "notify_url": settings.SITE_URL + '/paypal/',
-            "custom": "15cred,"+str(request.user),
-        }
-        product = {
-            'item': '15 Credits',
-            'cost': '$5.00',
-        }
-        form = PayPalPaymentsForm(initial=paypal_dict)
-        context = {"form": form, "product": product}
-        return render(request, "store/product.html", context)
-    if num == '2':
-        paypal_dict = {
-            "business": settings.PAYPAL_EMAIL,
-            "amount": "20.00",
-            "item_name": "25 Credits",
-            "invoice": str(invoice_id),
-            "notify_url": settings.SITE_URL + '/paypal/',
-            "custom": "25cred,"+str(request.user),
-        }
-        product = {
-            'item': '25 Credits',
-            'cost': '$20.00',
-        }
-        form = PayPalPaymentsForm(initial=paypal_dict)
-        context = {"form": form, "product": product}
-        return render(request, "store/product.html", context)
-    if num == '3':
-        paypal_dict = {
-            "business": settings.PAYPAL_EMAIL,
-            "amount": "45.00",
-            "item_name": "50 Credits",
-            "invoice": str(invoice_id),
-            "notify_url": settings.SITE_URL + '/paypal/',
-            "custom": "50cred,"+str(request.user),
-        }
-        product = {
-            'item': '50 Credits',
-            'cost': '$45.00',
-        }
-        form = PayPalPaymentsForm(initial=paypal_dict)
-        context = {"form": form, "product": product}
-        return render(request, "store/product.html", context)
-    if num == '4':
-        paypal_dict = {
-            "business": settings.PAYPAL_EMAIL,
-            "amount": "10.00",
-            "item_name": "Event pass",
-            "invoice": str(invoice_id),
-            "notify_url": settings.SITE_URL + '/paypal/',
-            "custom": "ev_pass,"+str(request.user),
-        }
-        product = {
-            'item': 'Event pass',
-            'cost': '$10.00',
-        }
-        form = PayPalPaymentsForm(initial=paypal_dict)
-        context = {"form": form, "product": product}
-        return render(request, "store/product.html", context)
+    paypal_dict = {
+        "business": product.business,
+        "amount": product.amount,
+        "item_name": product.name,
+        "invoice": str(invoice_id),
+        "notify_url": settings.SITE_URL + '/paypal/',
+        "custom": product.item_name + ' ,' + str(request.user),
+    }
+    product = {
+        'item': product.name,
+        'cost': product.price
+    }
+    form = PayPalPaymentsForm(initial=paypal_dict)
+    return render(request, template_name, {'product': product, 'form': form})
 
 
 '''
