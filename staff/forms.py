@@ -24,7 +24,7 @@ class PartnerForm(forms.ModelForm):
 class SingleRulesetCreateForm(forms.ModelForm):
     class Meta:
         model = SingleTournamentRuleset
-        fields = ('text',)
+        fields = ('name', 'text')
 
 
 class EditUserForm(forms.ModelForm):
@@ -128,3 +128,25 @@ class RemovePlayerFormPost(forms.ModelForm):
         model = TeamInvite
         fields = ()
 
+
+class AddCreditsForm(forms.Form):
+    credits = forms.IntegerField(required=True)
+
+    class Meta:
+        fields = 'credits'
+
+
+class AddXPForm(forms.Form):
+    xp = forms.IntegerField(required=True)
+
+    class Meta:
+        fields = "XP"
+
+
+class AddTrophiesForm(forms.Form):
+    bronze = forms.IntegerField(required=True)
+    silver = forms.IntegerField(required=True)
+    gold = forms.IntegerField(required=True)
+
+    class Meta:
+        fields = ('Bronze', 'Silver', 'Gold')

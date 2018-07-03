@@ -257,7 +257,13 @@ class SingleTournamentTeamsList(View):
 
 
 class SingleTournamentRules(View):
-    template_name = 'singletournaments/singletournament_rules.html'
+    template_name = 'singletournaments/ruleset_detail.html'
+
+    def get(self, request, pk):
+        pk = pk
+        tournament = SingleEliminationTournament.objects.get(id=pk)
+        ruleset = tournament.ruleset
+        return render(request, self.template_name, {'pk': pk, 'ruleset': ruleset})
 
 
 class SingleTournamentMatchList(View):
@@ -274,7 +280,7 @@ class SingleTournamentMatchList(View):
             round2matches = round2.matches.all()
 
             return render(request, self.template_name, {'x': pk, 'tournament': tournament,
-                                                        'round1matches':round1matches, 'round2matches':round2matches})
+                                                        'round1matches': round1matches, 'round2matches': round2matches})
 
         elif tournament.size == 8:
             round1 = SingleTournamentRound.objects.get(roundnum=1, tournament=tournament)
