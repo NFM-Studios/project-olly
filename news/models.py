@@ -38,8 +38,6 @@ class Post(models.Model):
     # specific manager
     published = PublishedManager()
 
-    tags = TaggableManager(blank=True)
-
     class Meta:
         ordering = ('-publish',)
 
