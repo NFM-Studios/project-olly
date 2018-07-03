@@ -602,6 +602,10 @@ class TicketDetail(DetailView):
     form2_class = TicketStatusChangeForm
 
     def get(self, request, **kwargs):
+        user = UserProfile.objects.get(user__username=request.user.username)
+        allowed = ['superadmin', 'admin']
+        if user.user_type not in allowed:
+            return render(request, 'staff/permissiondenied.html')
         form1 = self.form1_class(None)
         form2 = self.form2_class(None)
         pk = self.kwargs['pk']
@@ -616,6 +620,10 @@ class TicketDetail(DetailView):
         return context
 
     def post(self, request, *args, **kwargs):
+        user = UserProfile.objects.get(user__username=request.user.username)
+        allowed = ['superadmin', 'admin']
+        if user.user_type not in allowed:
+            return render(request, 'staff/permissiondenied.html')
         if 'post_comment' in request.POST:
             self.form1 = TicketCommentCreateForm(request.POST)
             if self.form1.is_valid():
@@ -651,10 +659,18 @@ class TicketCommentCreate(View):
     template_name = 'staff/ticketcomment.html'
 
     def get(self, request, pk):
+        user = UserProfile.objects.get(user__username=request.user.username)
+        allowed = ['superadmin', 'admin']
+        if user.user_type not in allowed:
+            return render(request, 'staff/permissiondenied.html')
         form = self.form_class(None)
         return render(request, self.template_name, {'form': form})
 
     def post(self, request, pk):
+        user = UserProfile.objects.get(user__username=request.user.username)
+        allowed = ['superadmin', 'admin']
+        if user.user_type not in allowed:
+            return render(request, 'staff/permissiondenied.html')
         form = self.form_class(request.POST)
 
         if form.is_valid():
@@ -827,11 +843,19 @@ class TransactionView(View):
     form_class = SortForm
 
     def get(self, request, **kwargs):
+        user = UserProfile.objects.get(user__username=request.user.username)
+        allowed = ['superadmin', 'admin']
+        if user.user_type not in allowed:
+            return render(request, 'staff/permissiondenied.html')
         transaction_list = Transaction.objects.order_by('date')  # sort by date default
         form = self.form_class(None)
         return render(request, self.template_name, {'transaction_list': transaction_list, 'form': form})
 
     def post(self, request):
+        user = UserProfile.objects.get(user__username=request.user.username)
+        allowed = ['superadmin', 'admin']
+        if user.user_type not in allowed:
+            return render(request, 'staff/permissiondenied.html')
         form = self.form_class(request.POST)
 
 
@@ -840,11 +864,19 @@ class TransferView(View):
     form_class = SortForm
 
     def get(self, request, **kwargs):
+        user = UserProfile.objects.get(user__username=request.user.username)
+        allowed = ['superadmin', 'admin']
+        if user.user_type not in allowed:
+            return render(request, 'staff/permissiondenied.html')
         transfer_list = Transfer.objects.order_by('date')  # sort by username default
         form = self.form_class(None)
         return render(request, self.template_name, {'transfer_list': transfer_list, 'form': form})
 
     def post(self, request):
+        user = UserProfile.objects.get(user__username=request.user.username)
+        allowed = ['superadmin', 'admin']
+        if user.user_type not in allowed:
+            return render(request, 'staff/permissiondenied.html')
         form = self.form_class(request.POST)
 
 # end store section
