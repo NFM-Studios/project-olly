@@ -16,8 +16,12 @@
   </ul>
 {% endif %}
 
-
+ {% if not user.is_anonymous %}
 <p><a href="{% url 'singletournaments:list' %}"><i class="fas fa-arrow-left"></i> <strong>Back to tournament list</strong></a></p>
+{% else %}
+<a href="{% url 'index' %}"><i class="fas fa-arrow-left"></i> <strong>Back to home</strong></a></a>
+{% endif %}
+    
 <table class="table">
     <thead>
     <tr>
@@ -151,7 +155,11 @@
     {% if tournament.bracket_generated %}
     This tournament has started already
     {% else %}
-    <a href="{% url 'singletournaments:join' pk %}"> Join </a>
+        {% if not user.is_anonymous %}
+        <a href="{% url 'singletournaments:join' pk %}"> Join </a>
+        {% else %}
+        Login to join tournament
+        {% endif %}
     {% endif %}
 
 
