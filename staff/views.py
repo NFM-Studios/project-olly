@@ -4,7 +4,7 @@ from pages.models import StaticInfo
 from staff.forms import StaticInfoForm, ArticleCreateForm, EditUserForm, TicketCommentCreateForm,\
     TicketStatusChangeForm, EditTournamentForm, DeclareMatchWinnerForm, DeclareMatchWinnerPost,\
     DeclareTournamentWinnerForm, TicketSearchForm, RemovePlayerForm, RemovePlayerFormPost, AddCreditsForm,\
-    AddTrophiesForm, AddXPForm, SingleRulesetCreateForm, PartnerForm
+    AddTrophiesForm, AddXPForm, SingleRulesetCreateForm, PartnerForm, EditNewsPostForm
 from profiles.models import UserProfile, BannedUser
 from profiles.forms import SortForm
 from django.contrib.auth.models import User
@@ -803,9 +803,19 @@ def edit_post(request, pk):
     if user.user_type not in allowed:
         return render(request, 'staff/permissiondenied.html')
     else:
-        article = get_object_or_404(Post, pk=pk)
-        form = ArticleEditForm(instance=article)
-
+        if request.method == 'GET':
+            article = get_object_or_404(Post, pk=pk)
+            form = EditNewsPostForm(instance=article)
+            return render(request, 'staff/edit_article.html', {'form': form})
+        else:
+            article = get_object_or_404(Post, pk=pk)
+            form = EditNewsPostForm(request.POST, instance=article)
+            if form.is_valid():
+                form.save()
+                messages.success(request, "Updated post")
+                return redirect('staff:detail_article', pk=pk)
+            else:
+                return render(request, 'staff/edit_article.html', {'form': form})
 
 # end news section
 
