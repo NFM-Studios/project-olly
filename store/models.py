@@ -64,6 +64,7 @@ class Transaction(models.Model):
     account = models.CharField(max_length=50)
     credits = models.PositiveSmallIntegerField()
     passes = models.PositiveSmallIntegerField()
+    staff = models.CharField(max_length=50, blank=True)
 
 
 def deduct_credits(user, num):

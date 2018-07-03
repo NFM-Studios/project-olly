@@ -3,8 +3,8 @@ from django.shortcuts import render, redirect
 from pages.models import StaticInfo
 from staff.forms import StaticInfoForm, ArticleCreateForm, EditUserForm, TicketCommentCreateForm,\
     TicketStatusChangeForm, EditTournamentForm, DeclareMatchWinnerForm, DeclareMatchWinnerPost,\
-    DeclareTournamentWinnerForm, TicketSearchForm, RemovePlayerForm, RemovePlayerFormPost, SingleRulesetCreateForm,\
-    PartnerForm
+    DeclareTournamentWinnerForm, TicketSearchForm, RemovePlayerForm, RemovePlayerFormPost, AddCreditsForm,\
+    AddTrophiesForm, AddXPForm, SingleRulesetCreateForm, PartnerForm, EditNewsPostForm
 from profiles.models import UserProfile, BannedUser
 from profiles.forms import SortForm
 from django.contrib.auth.models import User
@@ -15,8 +15,8 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from teams.models import Team, TeamInvite
 from matches.models import Match, MatchReport, MatchDispute
 from news.models import Post, Comment, PublishedManager
+from store.models import Transaction, Transfer, give_credits
 from singletournaments.models import SingleEliminationTournament, SingleTournamentRound, SingleTournamentRuleset
-from store.models import Transaction, Transfer
 from support.models import Ticket, TicketComment
 from django.shortcuts import get_object_or_404
 from pages.models import Partner
@@ -155,6 +155,66 @@ def unbanip(request, urlusername):
         return redirect('staff:users')
 
 
+def givecredits(request, urlusername):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        if request.method == 'GET':
+            form = AddCreditsForm(None)
+            return render(request, 'staff/givecredits.html', {'form': form})
+        else:
+            form = AddCreditsForm(request.POST)
+            username = User.objects.get(username=urlusername)
+            num = int(form.data['credits'])
+            give_credits(username, num)
+            transaction = Transaction(credits=num, account=UserProfile.objects.get(user=username), cost=int(0.00),
+                                      passes=int(0.00), staff=user.username)
+            transaction.save()
+            messages.success(request, "Added %s credits to %s" % (credits, urlusername))
+            return redirect('staff:users')
+
+
+def givexp(request, urlusername):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        if request.method == 'GET':
+            form = AddXPForm(None)
+            return render(request, 'staff/givexp.html', {'form': form})
+        else:
+            form = AddXPForm(request.POST)
+            user = UserProfile.objects.get(user__username=urlusername)
+            num = int(form.data['xp'])
+            user.xp += num
+            user.save()
+            messages.success(request, "Added %s xp to %s" % (num, urlusername))
+            return redirect('staff:users')
+
+
+def givetrophies(request, urlusername):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        if request.method == 'GET':
+            form = AddTrophiesForm(None)
+            return render(request, 'staff/givetrophies.html', {'form': form})
+        else:
+            form = AddTrophiesForm(request.POST)
+            form.is_valid()
+            user = UserProfile.objects.get(user__username=urlusername)
+            user.num_bronze += form.cleaned_data['bronze']
+            user.num_silver += form.cleaned_data['silver']
+            user.num_gold += form.cleaned_data['gold']
+            user.save()
+            messages.success(request, "Added trophies to %s" % urlusername)
+            return redirect('staff:users')
+
 # end users
 
 
@@ -272,7 +332,12 @@ def ruleset_list(request):
     if user.user_type not in allowed:
         return render(request, 'staff/permissiondenied.html')
     else:
-        pass
+        if request.method == 'GET':
+            rulesets = SingleTournamentRuleset.objects.all()
+            return render(request, 'staff/ruleset_list.html', {'rulesets': rulesets})
+        else:
+            rulesets = SingleTournamentRuleset.objects.all()
+            return render(request, 'staff/ruleset_list.html', {'rulesets': rulesets})
 
 
 def ruleset_create(request):
@@ -284,15 +349,30 @@ def ruleset_create(request):
         if request.method == 'POST':
             form = SingleRulesetCreateForm(request.POST)
             if form.is_valid():
-                form.save()
+                ruleset = form.instance
+                ruleset.creator = request.user
+                ruleset.save()
                 messages.success(request, 'Ruleset has been created!')
-                return redirect('staff:ruleset_list')
+                return redirect('staff:tournamentrulesetlist')
             else:
                 print('form is not valid')
         else:
-            tournamentobj = SingleEliminationTournament.objects.get(pk=pk)
-            form = EditTournamentForm(instance=tournamentobj)
-            return render(request, 'staff/edittournament.html', {'form': form, 'pk': pk})
+            form = SingleRulesetCreateForm(None)
+            return render(request, 'staff/createruleset.html', {'form': form})
+
+
+def ruleset_detail(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        if request.method == 'POST':
+            ruleset = SingleTournamentRuleset.objects.get(id=pk)
+            return render(request, 'staff/ruleset_detail.html', {'ruleset': ruleset})
+        else:
+            ruleset = SingleTournamentRuleset.objects.get(id=pk)
+            return render(request, 'staff/ruleset_detail.html', {'ruleset': ruleset})
 
 
 def advance(request, pk):
@@ -522,6 +602,10 @@ class TicketDetail(DetailView):
     form2_class = TicketStatusChangeForm
 
     def get(self, request, **kwargs):
+        user = UserProfile.objects.get(user__username=request.user.username)
+        allowed = ['superadmin', 'admin']
+        if user.user_type not in allowed:
+            return render(request, 'staff/permissiondenied.html')
         form1 = self.form1_class(None)
         form2 = self.form2_class(None)
         pk = self.kwargs['pk']
@@ -536,6 +620,10 @@ class TicketDetail(DetailView):
         return context
 
     def post(self, request, *args, **kwargs):
+        user = UserProfile.objects.get(user__username=request.user.username)
+        allowed = ['superadmin', 'admin']
+        if user.user_type not in allowed:
+            return render(request, 'staff/permissiondenied.html')
         if 'post_comment' in request.POST:
             self.form1 = TicketCommentCreateForm(request.POST)
             if self.form1.is_valid():
@@ -571,10 +659,18 @@ class TicketCommentCreate(View):
     template_name = 'staff/ticketcomment.html'
 
     def get(self, request, pk):
+        user = UserProfile.objects.get(user__username=request.user.username)
+        allowed = ['superadmin', 'admin']
+        if user.user_type not in allowed:
+            return render(request, 'staff/permissiondenied.html')
         form = self.form_class(None)
         return render(request, self.template_name, {'form': form})
 
     def post(self, request, pk):
+        user = UserProfile.objects.get(user__username=request.user.username)
+        allowed = ['superadmin', 'admin']
+        if user.user_type not in allowed:
+            return render(request, 'staff/permissiondenied.html')
         form = self.form_class(request.POST)
 
         if form.is_valid():
@@ -723,8 +819,19 @@ def edit_post(request, pk):
     if user.user_type not in allowed:
         return render(request, 'staff/permissiondenied.html')
     else:
-        article = get_object_or_404(Post, pk=pk)
-
+        if request.method == 'GET':
+            article = get_object_or_404(Post, pk=pk)
+            form = EditNewsPostForm(instance=article)
+            return render(request, 'staff/edit_article.html', {'form': form})
+        else:
+            article = get_object_or_404(Post, pk=pk)
+            form = EditNewsPostForm(request.POST, instance=article)
+            if form.is_valid():
+                form.save()
+                messages.success(request, "Updated post")
+                return redirect('staff:detail_article', pk=pk)
+            else:
+                return render(request, 'staff/edit_article.html', {'form': form})
 
 # end news section
 
@@ -736,11 +843,19 @@ class TransactionView(View):
     form_class = SortForm
 
     def get(self, request, **kwargs):
+        user = UserProfile.objects.get(user__username=request.user.username)
+        allowed = ['superadmin', 'admin']
+        if user.user_type not in allowed:
+            return render(request, 'staff/permissiondenied.html')
         transaction_list = Transaction.objects.order_by('date')  # sort by date default
         form = self.form_class(None)
         return render(request, self.template_name, {'transaction_list': transaction_list, 'form': form})
 
     def post(self, request):
+        user = UserProfile.objects.get(user__username=request.user.username)
+        allowed = ['superadmin', 'admin']
+        if user.user_type not in allowed:
+            return render(request, 'staff/permissiondenied.html')
         form = self.form_class(request.POST)
 
 
@@ -749,11 +864,19 @@ class TransferView(View):
     form_class = SortForm
 
     def get(self, request, **kwargs):
+        user = UserProfile.objects.get(user__username=request.user.username)
+        allowed = ['superadmin', 'admin']
+        if user.user_type not in allowed:
+            return render(request, 'staff/permissiondenied.html')
         transfer_list = Transfer.objects.order_by('date')  # sort by username default
         form = self.form_class(None)
         return render(request, self.template_name, {'transfer_list': transfer_list, 'form': form})
 
     def post(self, request):
+        user = UserProfile.objects.get(user__username=request.user.username)
+        allowed = ['superadmin', 'admin']
+        if user.user_type not in allowed:
+            return render(request, 'staff/permissiondenied.html')
         form = self.form_class(request.POST)
 
 # end store section
