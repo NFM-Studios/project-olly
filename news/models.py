@@ -6,9 +6,6 @@ from django.dispatch import receiver
 # not working
 from django.urls import reverse
 
-# tag manager
-from taggit.managers import TaggableManager
-
 
 class PublishedManager(models.Manager):
     def get_queryset(self):
