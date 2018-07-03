@@ -20,6 +20,7 @@ class Product(models.Model):
 
 '''
 each product gets an elif to set price and then another to create the tx in the db and apply credits, etc to profile
+this needs to be able to determine what product is being bought without anything being hardcoded to allow for new items
 '''
 
 
