@@ -80,7 +80,7 @@ class DeclareMatchWinnerPost(forms.ModelForm):
 class ArticleCreateForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ('title', 'image', 'slug', 'body', 'publish', 'status', 'tags')
+        fields = ('title', 'image', 'slug', 'body', 'publish', 'status')
 
 
 class TicketStatusChangeForm(forms.ModelForm):
