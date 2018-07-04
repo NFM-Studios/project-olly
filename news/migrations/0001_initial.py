@@ -12,7 +12,6 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('taggit', '0002_auto_20150616_2121'),
     ]
 
     operations = [
@@ -44,7 +43,6 @@ class Migration(migrations.Migration):
                 ('status', models.CharField(choices=[('draft', 'Draft'), ('scheduled', 'Scheduled'), ('published', 'Published'), ('private', 'Private')], default='draft', max_length=12)),
                 ('image', models.ImageField(blank=True, upload_to='news_images')),
                 ('author', models.ForeignKey(blank=True, on_delete=django.db.models.deletion.CASCADE, related_name='blog_posts', to=settings.AUTH_USER_MODEL)),
-                ('tags', taggit.managers.TaggableManager(blank=True, help_text='A comma-separated list of tags.', through='taggit.TaggedItem', to='taggit.Tag', verbose_name='Tags')),
             ],
             options={
                 'ordering': ('-publish',),
