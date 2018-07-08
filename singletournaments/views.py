@@ -149,7 +149,7 @@ class SingleTournamentJoin(View):
                     teameligible = True
                 if not teameligible:
                     messages.error(request, "Not all members of your team are eligible to join")
-            if len(users) > players:
+            if len(users) != players:
                 teameligible = False
             if not teameligible:
                 messages.error(request, "There was an issue with team eligibility for this tournament")
