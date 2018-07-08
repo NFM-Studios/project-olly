@@ -435,13 +435,16 @@ class DeclareTournamentWinner(View):
             form = DeclareTournamentWinnerForm(request.POST)
             first = Team.objects.get(id=form.data['winner'])
             second = Team.objects.get(id=form.data['second'])
-            if (first in tournament_teams) and (second in tournament_teams):
+            third = Team.objects.get(id=form.data['third'])
+            if (first in tournament_teams) and (second in tournament_teams) and (third in tournament_teams):
                 tournament.winner = first
                 tournament.second = second
+                tournament.third = third
 
                 # Add losses to all other teams in tournament
                 tournament_teams.remove(first)
                 tournament_teams.remove(second)
+                tournament_teams.remove(third)
                 for team in tournament_teams:
                     team.num_matchloss += 1
                     team.save()
@@ -450,8 +453,10 @@ class DeclareTournamentWinner(View):
                 tournament.save()
                 first.num_tournywin += 1
                 second.num_tournywin += 1
+                third.num_tournywin += 1
                 first.save()
                 second.save()
+                third.save()
                 messages.success(request, 'Set tournament winner')
                 return redirect('staff:tournamentlist')
             else:
