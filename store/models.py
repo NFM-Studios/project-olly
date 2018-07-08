@@ -34,22 +34,22 @@ def show_me_the_money(sender, **kwargs):
             if num == "15cred":
                 user.credits += 15
                 user.save()
-                tx = Transaction(account=username, cost=5.00, credits=15, passes=0)
+                tx = Transaction(account=username, cost=5.00, num=15, type='Credit')
                 tx.save()
             if num == "25cred":
                 user.credits += 25
                 user.save()
-                tx = Transaction(account=username, cost=20.00, credits=25, passes=0)
+                tx = Transaction(account=username, cost=20.00, num=25, type='Credit')
                 tx.save()
             if num == "50cred":
                 user.credits += 50
                 user.save()
-                tx = Transaction(account=username, cost=45.00, credits=50, passes=0)
+                tx = Transaction(account=username, cost=45.00, num=50, type='Credit')
                 tx.save()
             if num == "ev_pass":
                 user.passes += 1
                 user.save()
-                tx = Transaction(account=username, cost=10.00, credits=0, passes=1)
+                tx = Transaction(account=username, cost=10.00, num=1, type='Pass')
                 tx.save()
 
 
@@ -58,13 +58,13 @@ valid_ipn_received.connect(show_me_the_money)
 
 class Transaction(models.Model):
     def __str__(self):
-        return str(self.user)
+        return str(self.account)
     date = models.DateTimeField(auto_now=True)
-    cost = models.DecimalField(max_digits=6, decimal_places=2)
+    cost = models.DecimalField(max_digits=6, decimal_places=2, blank=True)
     account = models.CharField(max_length=50)
-    credits = models.PositiveSmallIntegerField()
-    passes = models.PositiveSmallIntegerField()
     staff = models.CharField(max_length=50, blank=True)
+    num = models.SmallIntegerField()
+    type = models.CharField(max_length=50)
 
 
 def deduct_credits(user, num):
