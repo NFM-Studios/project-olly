@@ -4,7 +4,7 @@ from pages.models import StaticInfo
 from staff.forms import StaticInfoForm, ArticleCreateForm, EditUserForm, TicketCommentCreateForm,\
     TicketStatusChangeForm, EditTournamentForm, DeclareMatchWinnerForm, DeclareMatchWinnerPost,\
     DeclareTournamentWinnerForm, TicketSearchForm, RemovePlayerForm, RemovePlayerFormPost, AddCreditsForm,\
-    AddTrophiesForm, AddXPForm, SingleRulesetCreateForm, PartnerForm, EditNewsPostForm
+    AddTrophiesForm, AddXPForm, SingleRulesetCreateForm, PartnerForm, EditNewsPostForm, RemovePostForm
 from profiles.models import UserProfile, BannedUser
 from profiles.forms import SortForm
 from django.contrib.auth.models import User
@@ -849,6 +849,24 @@ def edit_post(request, pk):
                 return redirect('staff:detail_article', pk=pk)
             else:
                 return render(request, 'staff/edit_article.html', {'form': form})
+
+
+def remove_article(request):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        if request.method == 'GET':
+            form = RemovePostForm(None)
+            return render(request, 'staff/remove_post.html', {'form': form})
+        else:
+            form = RemovePostForm(request.POST)
+            if form.is_valid():
+                post = Post.objects.get(slug=form.data['slug'])
+                messages.success(request, 'Removed post %s' % post.title)
+                post.delete()
+                return redirect('staff:news_index')
 
 # end news section
 

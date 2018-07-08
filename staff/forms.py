@@ -150,3 +150,7 @@ class AddTrophiesForm(forms.Form):
 
     class Meta:
         fields = ('Bronze', 'Silver', 'Gold')
+
+
+class RemovePostForm(forms.Form):
+    slug = forms.CharField(required=True, max_length=250)
