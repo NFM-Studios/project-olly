@@ -4,7 +4,7 @@ from pages.models import StaticInfo
 from staff.forms import StaticInfoForm, ArticleCreateForm, EditUserForm, TicketCommentCreateForm,\
     TicketStatusChangeForm, EditTournamentForm, DeclareMatchWinnerForm, DeclareMatchWinnerPost,\
     DeclareTournamentWinnerForm, TicketSearchForm, RemovePlayerForm, RemovePlayerFormPost, AddCreditsForm,\
-    AddTrophiesForm, AddXPForm, SingleRulesetCreateForm, PartnerForm, EditNewsPostForm
+    AddTrophiesForm, AddXPForm, SingleRulesetCreateForm, PartnerForm, EditNewsPostForm, CreateProductForm
 from profiles.models import UserProfile, BannedUser
 from profiles.forms import SortForm
 from django.contrib.auth.models import User
@@ -20,6 +20,7 @@ from singletournaments.models import SingleEliminationTournament, SingleTourname
 from support.models import Ticket, TicketComment
 from django.shortcuts import get_object_or_404
 from pages.models import Partner
+from olly import settings
 
 
 def staffindex(request):
@@ -846,6 +847,23 @@ class TransferView(View):
 
     def post(self, request):
         form = self.form_class(request.POST)
+
+
+def create_product(request):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        if request.method == 'GET':
+            form = CreateProductForm(None)
+            return render(request, 'staff/create_product.html', {'form': form})
+        else:
+            form = CreateProductForm(request.POST)
+            if form.is_valid():
+                product = form.instance
+                product.business = settings.PAYPAL_EMAIL
+                product.save()
 
 # end store section
 
