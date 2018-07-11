@@ -815,6 +815,8 @@ def create_article(request):
                 form.save()
                 messages.success(request, 'Your post has been created')
                 return redirect('staff:news_list')
+            else:
+                return render(request, 'staff/create_article.html', {'form': form})
         else:
             form = ArticleCreateForm(None)
             return render(request, 'staff/create_article.html', {'form': form})
@@ -844,7 +846,9 @@ def edit_post(request, pk):
             article = get_object_or_404(Post, pk=pk)
             form = EditNewsPostForm(request.POST, instance=article)
             if form.is_valid():
-                form.save()
+                post = form.instance
+                post.author = request.user
+                post.save()
                 messages.success(request, "Updated post")
                 return redirect('staff:detail_article', pk=pk)
             else:
