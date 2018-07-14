@@ -158,3 +158,11 @@ class CreateProductForm(forms.ModelForm):
     class Meta:
         model = Product
         fields = ('amount', 'item_name', 'price', 'name')
+
+
+class DeleteProductForm(forms.Form):
+    price = forms.CharField(max_length=50)
+    name = forms.CharField(max_length=50)
+
+    class Meta:
+        fields = ('price', 'name')

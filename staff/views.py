@@ -4,7 +4,8 @@ from pages.models import StaticInfo
 from staff.forms import StaticInfoForm, ArticleCreateForm, EditUserForm, TicketCommentCreateForm,\
     TicketStatusChangeForm, EditTournamentForm, DeclareMatchWinnerForm, DeclareMatchWinnerPost,\
     DeclareTournamentWinnerForm, TicketSearchForm, RemovePlayerForm, RemovePlayerFormPost, AddCreditsForm,\
-    AddTrophiesForm, AddXPForm, SingleRulesetCreateForm, PartnerForm, EditNewsPostForm, CreateProductForm
+    AddTrophiesForm, AddXPForm, SingleRulesetCreateForm, PartnerForm, EditNewsPostForm, CreateProductForm,\
+    DeleteProductForm
 from profiles.models import UserProfile, BannedUser
 from profiles.forms import SortForm
 from django.contrib.auth.models import User
@@ -15,7 +16,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from teams.models import Team, TeamInvite
 from matches.models import Match, MatchReport, MatchDispute
 from news.models import Post, Comment, PublishedManager
-from store.models import Transaction, Transfer, give_credits
+from store.models import Transaction, Transfer, give_credits, Product
 from singletournaments.models import SingleEliminationTournament, SingleTournamentRound, SingleTournamentRuleset
 from support.models import Ticket, TicketComment
 from django.shortcuts import get_object_or_404
@@ -864,6 +865,26 @@ def create_product(request):
                 product = form.instance
                 product.business = settings.PAYPAL_EMAIL
                 product.save()
+                return redirect('staff:index')  # need detail view
+
+
+def delete_product(request):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        if request.method == 'GET':
+            form = DeleteProductForm(None)
+            return render(request, 'staff/delete_product.html', {'form': form})
+        else:
+            form = DeleteProductForm(request.POST)
+            if form.is_valid():
+                product = Product.objects.get(price=form.data['price'], name=form.data['name'])
+                messages.success(request, "Deleted product %s" % product.name)
+                product.delete()
+                return redirect('staff:index')  # need list view
+
 
 # end store section
 
