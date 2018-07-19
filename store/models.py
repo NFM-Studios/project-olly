@@ -71,13 +71,14 @@ valid_ipn_received.connect(show_me_the_money)
 
 class Transaction(models.Model):
     def __str__(self):
-        return str(self.user)
+        return str(self.account)
     date = models.DateTimeField(auto_now=True)
-    cost = models.DecimalField(max_digits=6, decimal_places=2)
+    cost = models.DecimalField(max_digits=6, decimal_places=2, blank=True)
     account = models.CharField(max_length=50)
-    credits = models.PositiveSmallIntegerField()
-    passes = models.PositiveSmallIntegerField()
     staff = models.CharField(max_length=50, blank=True)
+    num = models.SmallIntegerField()
+    type = models.CharField(max_length=50)
+
 
 
 def deduct_credits(user, num):

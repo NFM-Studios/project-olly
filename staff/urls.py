@@ -49,9 +49,13 @@ urlpatterns = [
     url(r'^news/(?P<pk>\d+)/$', login_required(views.detail_article), name='detail_article'),
     url(r'^news/(?P<pk>\d+)/edit', login_required(views.edit_post), name='edit_article'),
 
+    url(r'^store/$', login_required(views.store_index), name='store'),
     url(r'^store/transactions/list', login_required(views.TransactionView.as_view()), name='transaction_list'),
     url(r'^store/transfers/list', login_required(views.TransferView.as_view()), name='transfer_list'),
+    url(r'^store/products/$', login_required(views.products), name='product_list'),
     url(r'^store/products/create/$', login_required(views.create_product), name='create_product'),
+    url(r'^store/products/delete/$', login_required(views.delete_product), name='delete_product'),
+    url(r'^store/products/(?P<pk>\d+)/$', login_required(views.product_detail), name='product_detail'),
 
     url(r'^teams/$', login_required(views.teams_index), name='teamindex'),
     url(r'^teams/(?P<pk>\d+)/$', login_required(views.teams_detail), name='team_detail'),
