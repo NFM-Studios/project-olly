@@ -18,7 +18,12 @@
   </ul>
 {% endif %}
 
-<p><a href="{% url 'teams:list' %}" style="text-decoration:none"><i class="fas fa-arrow-left"></i> <strong>Back to team list</strong></a></p>
+ {% if not user.is_anonymous %}
+<p><a href="{% url 'teams:list' %}"><i class="fas fa-arrow-left"></i> <strong>Back to team list</strong></a></p>
+{% else %}
+<a href="{% url 'index' %}"><i class="fas fa-arrow-left"></i> <strong>Back to home</strong></a></a>
+{% endif %}
+
 <table class="table">
     <thead>
     <tr>
