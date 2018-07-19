@@ -824,6 +824,19 @@ def edit_post(request, pk):
 # start store section
 
 
+def store_index(request):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        if request.method == 'GET':
+            products = len(Product.objects.all())
+            transactions = len(Transaction.objects.all())
+            transfers = len(Transfer.objects.all())
+            return render(request, 'staff/store.html', {'products': products, 'transactions': transactions, 'transfers': transfers})
+
+
 class TransactionView(View):
     template_name = 'staff/transaction_list.html'
     form_class = SortForm
@@ -848,6 +861,28 @@ class TransferView(View):
 
     def post(self, request):
         form = self.form_class(request.POST)
+
+
+def products(request):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        if request.method == 'GET':
+            product_list = Product.objects.all()
+            return render(request, 'staff/product_list.html', {'product_list': product_list})
+
+
+def product_detail(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        if request.method == 'GET':
+            product = Product.objects.get(id=pk)
+            return render(request, 'staff/product_detail.html', {'product': product})
 
 
 def create_product(request):

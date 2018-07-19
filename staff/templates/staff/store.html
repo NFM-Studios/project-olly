@@ -1,0 +1,78 @@
+{% extends 'staff/staffbase.html' %}
+{% load staticfiles %}
+{% block title %}
+Store Index
+{% endblock %}
+{% block body %}
+    <p><a href="{% url 'staff:index' %}"><i class="fa fa-arrow-left"></i> <strong>Back to staff index</strong></a></p>
+
+
+      <!-- Icon Cards-->
+      <div class="row">
+        <div class="col-xl-3 col-sm-6 mb-3" >
+          <div class="card text-white bg-primary o-hidden h-100" style="max-height:250px">
+            <div class="card-body">
+              <div class="card-body-icon">
+                <i class="fa fa-fw fa-users"></i>
+              </div>
+              <div class="mr-5">{{ products }} Total Products!</div>
+            </div>
+            <a class="card-footer text-white clearfix small z-1" href="{% url 'staff:product_list' %}">
+              <span class="float-left">View Details</span>
+              <span class="float-right">
+                <i class="fa fa-angle-right"></i>
+              </span>
+            </a>
+          </div>
+        </div>
+        <div class="col-xl-3 col-sm-6 mb-3">
+          <div class="card text-white bg-warning o-hidden h-100" style="max-height:250px">
+            <div class="card-body">
+              <div class="card-body-icon">
+                <i class="fa fa-fw fa-shield"></i>
+              </div>
+              <div class="mr-5">{{ transactions }} Total Transactions!</div>
+            </div>
+            <a class="card-footer text-white clearfix small z-1" href="{% url 'staff:transaction_list' %}">
+              <span class="float-left">View Details</span>
+              <span class="float-right">
+                <i class="fa fa-angle-right"></i>
+              </span>
+            </a>
+          </div>
+        </div>
+        <div class="col-xl-3 col-sm-6 mb-3">
+          <div class="card text-white bg-success o-hidden h-100" style="max-height:250px">
+            <div class="card-body">
+              <div class="card-body-icon">
+                <i class="fa fa-fw fa-newspaper-o"></i>
+              </div>
+              <div class="mr-5">{{ transfers }} Total Transfers!</div>
+            </div>
+            <a class="card-footer text-white clearfix small z-1" href="{% url 'staff:transfer_list' %}">
+              <span class="float-left">View Details</span>
+              <span class="float-right">
+                <i class="fa fa-angle-right"></i>
+              </span>
+            </a>
+          </div>
+        </div>
+
+
+        </div>
+
+      </div>
+
+
+
+
+    <!-- /.container-fluid-->
+    <!-- /.content-wrapper-->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fa fa-angle-up"></i>
+    </a>
+
+
+{% endblock %}
