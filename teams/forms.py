@@ -93,3 +93,7 @@ class RemoveUserForm(forms.Form):
 
 class RemovePlayerFormPost(forms.Form):
     remove = forms.ModelChoiceField(queryset=None)
+
+
+class DissolveTeamForm(forms.Form):
+    confirmed = forms.BooleanField(required=False)
