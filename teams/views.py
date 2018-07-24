@@ -302,6 +302,9 @@ class DissolveTeamView(View):
             if form.is_valid():
                 if form.cleaned_data['confirmed']:
                     team = Team.objects.get(id=pk)
+                    invites = list(TeamInvite.objects.filter(team=team))
+                    for invite in invites:
+                        invite.delete()
                     messages.success(request, 'Dissolved team %s' % team)
                     team.delete()
                     return redirect('teams:list')
