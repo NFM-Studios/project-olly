@@ -5,6 +5,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from profiles.models import UserProfile
 from django.core.validators import RegexValidator
+import ast
 # Create your models here.
 
 
@@ -34,45 +35,26 @@ enforce a specific structure(type_num)
 '''
 
 
+# NEEDS TESTING
 def show_me_the_money(sender, **kwargs):
     ipn_obj = sender
-    custom_field = ipn_obj.custom.split(',', 2)
-    num = custom_field[0]
-    username = custom_field[1]
+    custom = ast.literal_eval(ipn_obj.custom)
+    item = custom['item_name']
+    username = custom['user']
+    user = UserProfile.objects.get(user__username=username)
+    product = Product.objects.get(item_name=item)
+    item = item.split('_')
+    itemtype = item[0]
+    num = item[1]
     if ipn_obj.payment_status == ST_PP_COMPLETED:
         if ipn_obj.receiver_email != settings.PAYPAL_EMAIL:
             return
-        if num == "15cred":
-            price = 5.00
-        elif num == "25cred":
-            price = 20.00
-        elif num == "50cred":
-            price = 45.00
-        elif num == "ev_pass":
-            price = 10.00
-        else:
-            price = 0.00
+        price = Product.amount
         if ipn_obj.mc_gross == price and ipn_obj.mc_currency == "USD":
-            user = UserProfile.objects.get(user__username=custom_field[1])
-            if num == "15cred":
-                user.credits += 15
+            if itemtype == ('credit' or 'cred' or 'credits'):
+                user.credits += num
                 user.save()
-                tx = Transaction(account=username, cost=5.00, credits=15, passes=0)
-                tx.save()
-            if num == "25cred":
-                user.credits += 25
-                user.save()
-                tx = Transaction(account=username, cost=20.00, credits=25, passes=0)
-                tx.save()
-            if num == "50cred":
-                user.credits += 50
-                user.save()
-                tx = Transaction(account=username, cost=45.00, credits=50, passes=0)
-                tx.save()
-            if num == "ev_pass":
-                user.passes += 1
-                user.save()
-                tx = Transaction(account=username, cost=10.00, credits=0, passes=1)
+                tx = Transaction(cost=product.amount, account=username, num=num, type='Credits')
                 tx.save()
 
 
@@ -88,7 +70,6 @@ class Transaction(models.Model):
     staff = models.CharField(max_length=50, blank=True)
     num = models.SmallIntegerField()
     type = models.CharField(max_length=50)
-
 
 
 def deduct_credits(user, num):
