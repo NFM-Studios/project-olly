@@ -56,6 +56,7 @@ urlpatterns = [
     url(r'^store/products/create/$', login_required(views.create_product), name='create_product'),
     url(r'^store/products/delete/$', login_required(views.delete_product), name='delete_product'),
     url(r'^store/products/(?P<pk>\d+)/$', login_required(views.product_detail), name='product_detail'),
+    url(r'^store/products/(?P<pk>\d+)/edit/$', login_required(views.edit_product), name='product_edit'),
 
     url(r'^teams/$', login_required(views.teams_index), name='teamindex'),
     url(r'^teams/(?P<pk>\d+)/$', login_required(views.teams_detail), name='team_detail'),

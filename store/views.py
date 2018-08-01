@@ -10,7 +10,7 @@ from .invoice_generator import generateinvoice
 
 
 def store(request):
-    products = Product.objects.all()
+    products = Product.objects.filter(active=True)
     return render(request, 'store/store.html', {'products': products})
 
 
