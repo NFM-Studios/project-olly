@@ -45,13 +45,13 @@ def show_me_the_money(sender, **kwargs):
     product = Product.objects.get(item_name=item)
     item = item.split('_')
     itemtype = item[0]
-    num = item[1]
+    num = int(item[1])
     if ipn_obj.payment_status == ST_PP_COMPLETED:
         if ipn_obj.receiver_email != settings.PAYPAL_EMAIL:
             return
-        price = Product.amount
+        price = int(product.amount)
         if ipn_obj.mc_gross == price and ipn_obj.mc_currency == "USD":
-            if itemtype == ('credit' or 'cred' or 'credits'):
+            if itemtype in ['cred', 'credit', 'credits']:
                 user.credits += num
                 user.save()
                 tx = Transaction(cost=product.amount, account=username, num=num, type='Credits')
