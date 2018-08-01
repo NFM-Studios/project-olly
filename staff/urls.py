@@ -20,6 +20,7 @@ urlpatterns = [
     url(r'^users/unbanip/(?P<urlusername>\w+)/$', login_required(views.unbanip)),
     url(r'^users/search/$', login_required(views.searchusers), name='searchusers'),
     url(r'^users/edit/(?P<urlusername>\w+)/$', login_required(views.edituser)),
+    url(r'^users/(?P<urlusername>\w+)/$', login_required(views.userdetail)),
     url(r'^users/givecredits/(?P<urlusername>\w+)/$', login_required(views.givecredits)),
     url(r'^users/givexp/(?P<urlusername>\w+)/$', login_required(views.givexp)),
     url(r'^users/givetrophies/(?P<urlusername>\w+)/$', login_required(views.givetrophies)),
