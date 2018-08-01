@@ -882,7 +882,7 @@ def product_detail(request, pk):
     else:
         if request.method == 'GET':
             product = Product.objects.get(id=pk)
-            return render(request, 'staff/product_detail.html', {'product': product})
+            return render(request, 'staff/product_detail.html', {'product': product, 'pk': pk})
 
 
 def create_product(request):
@@ -900,7 +900,29 @@ def create_product(request):
                 product = form.instance
                 product.business = settings.PAYPAL_EMAIL
                 product.save()
-                return redirect('staff:index')  # need detail view
+                return redirect('staff:product_detail', pk=product.id)
+
+
+def edit_product(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        if request.method == 'GET':
+            form = CreateProductForm(instance=Product.objects.get(id=pk))
+            return render(request, 'staff/edit_product.html', {'form': form, 'pk': pk})
+        else:
+            form = CreateProductForm(request.POST)
+            if form.is_valid():
+                product = Product.objects.get(id=pk)
+                product.price = form.cleaned_data['price']
+                product.amount = form.cleaned_data['amount']
+                product.name = form.cleaned_data['name']
+                product.item_name = form.cleaned_data['item_name']
+                product.active = form.cleaned_data['active']
+                product.save()
+                return redirect('staff:product_detail', pk=product.id)
 
 
 def delete_product(request):

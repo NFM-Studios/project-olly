@@ -8,6 +8,7 @@ from profiles.models import UserProfile
 
 
 class Product(models.Model):
+    active = models.BooleanField()
     # paypal dict info
     business = models.EmailField()
     amount = models.FloatField()

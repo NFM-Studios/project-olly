@@ -21,6 +21,7 @@ Create Product
     {% endfor %}
 {% endif %}
 
+<p><a href="{% url 'staff:product_detail' pk %}"><i class="fa fa-arrow-left"></i> <strong>Back to product detail</strong></a></p>
 
     <form method="post">
    {{ field.errors }}
@@ -52,7 +53,7 @@ Create Product
 
         <tr>
             <td colspan="2">
-                <input type="submit" value="Create" />
+                <input type="submit" value="Save" />
             </td>
         </tr>
     </table>

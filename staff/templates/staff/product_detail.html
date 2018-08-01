@@ -24,22 +24,26 @@ Product #{{ product.id }}
     </tr>
     </thead>
     <tr>
-        <td>ID</td>
+        <td>ID </td>
         <td>{{product.id}}</td>
     </tr>
     <tr>
-        <td>Name</td>
+        <td>Name </td>
         <td>{{ product.name }}</td>
     </tr>
     <tr>
-        <td>Price</td>
+        <td>Price </td>
         <td>{{ product.price }}</td>
+    </tr>
+    <tr>
+        <td>Active </td>
+        <td>{{ product.active }}</td>
     </tr>
     
 </table>
 
     <p>
-        
+        <a href="{% url 'staff:product_edit' pk %}" class="btn btn-primary">EDIT</a>
         <a href="{% url 'staff:delete_product' %}" class="btn btn-danger">DELETE</a>
     </p>
 
