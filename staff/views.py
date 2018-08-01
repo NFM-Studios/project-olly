@@ -227,6 +227,16 @@ def givetrophies(request, urlusername):
             messages.success(request, "Added trophies to %s" % urlusername)
             return redirect('staff:users')
 
+
+def userdetail(request, urlusername):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        userprofile = UserProfile.objects.get(user__username=urlusername)
+        return render(request, 'staff/profile_detail.html', {'userprofile': userprofile})
+
 # end users
 
 
