@@ -4,6 +4,7 @@ from paypal.standard.ipn.signals import valid_ipn_received
 from django.conf import settings
 from django.contrib.auth.models import User
 from profiles.models import UserProfile
+from django.core.validators import RegexValidator
 # Create your models here.
 
 
@@ -12,7 +13,14 @@ class Product(models.Model):
     # paypal dict info
     business = models.EmailField()
     amount = models.FloatField()
-    item_name = models.CharField(max_length=50)
+    item_name = models.CharField(max_length=50, validators=[
+        RegexValidator(
+            regex='^[a-zA-z]+_\d+',
+            message="Item name must not have whitespace, and must be in the format 'type_num'",
+            code='invalid_name'
+        )
+    ]
+                                 )
 
     # displayed on store
     price = models.CharField(max_length=50)
@@ -22,6 +30,7 @@ class Product(models.Model):
 '''
 each product gets an elif to set price and then another to create the tx in the db and apply credits, etc to profile
 this needs to be able to determine what product is being bought without anything being hardcoded to allow for new items
+enforce a specific structure(type_num) 
 '''
 
 

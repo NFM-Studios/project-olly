@@ -24,7 +24,8 @@ def detail(request, pk):
         "item_name": product.name,
         "invoice": str(invoice_id),
         "notify_url": settings.SITE_URL + '/paypal/',
-        "custom": product.item_name + ' ,' + str(request.user),
+        "custom": "{'item_name' : '%s', 'user' : '%s'}" % (product.item_name, str(request.user)),
+
     }
     product = {
         'item': product.name,
