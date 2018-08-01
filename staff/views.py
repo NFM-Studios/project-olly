@@ -923,6 +923,8 @@ def edit_product(request, pk):
                 product.active = form.cleaned_data['active']
                 product.save()
                 return redirect('staff:product_detail', pk=product.id)
+            else:
+                return render(request, 'staff/edit_product.html', {'form': form, 'pk': pk})
 
 
 def delete_product(request):
