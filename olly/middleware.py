@@ -12,11 +12,10 @@ class CheckBanListMiddleware:
         return response
 
     def process_view(self, request, view_func, view_args, view_kwargs):
-        # ip = get_real_ip(request)
         ip = get_client_ip(request)
         ip = ip[0]
 
-        if not (request.path_info == '/profile/banned/' or not request.path_info == '/admin'):
+        if not (request.path_info == '/profile/banned/' and not request.path_info == '/admin'):
             if ip is not None:
                 if not request.user.is_anonymous:
                     user = UserProfile.objects.get(user__username=request.user.username)

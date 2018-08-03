@@ -20,6 +20,7 @@ urlpatterns = [
     url(r'^users/unbanip/(?P<urlusername>\w+)/$', login_required(views.unbanip)),
     url(r'^users/search/$', login_required(views.searchusers), name='searchusers'),
     url(r'^users/edit/(?P<urlusername>\w+)/$', login_required(views.edituser)),
+    url(r'^users/(?P<urlusername>\w+)/$', login_required(views.userdetail)),
     url(r'^users/givecredits/(?P<urlusername>\w+)/$', login_required(views.givecredits)),
     url(r'^users/givexp/(?P<urlusername>\w+)/$', login_required(views.givexp)),
     url(r'^users/givetrophies/(?P<urlusername>\w+)/$', login_required(views.givetrophies)),
@@ -48,6 +49,7 @@ urlpatterns = [
     url(r'^news/create/$', login_required(views.create_article), name='create_article'),
     url(r'^news/(?P<pk>\d+)/$', login_required(views.detail_article), name='detail_article'),
     url(r'^news/(?P<pk>\d+)/edit', login_required(views.edit_post), name='edit_article'),
+    url(r'^news/remove', login_required(views.remove_article), name='remove_article'),
 
     url(r'^store/$', login_required(views.store_index), name='store'),
     url(r'^store/transactions/list', login_required(views.TransactionView.as_view()), name='transaction_list'),

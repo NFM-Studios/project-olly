@@ -50,9 +50,9 @@ class EditTournamentForm(forms.ModelForm):
         model = SingleEliminationTournament
         fields = '__all__'
         widgets = {
-            'open_register': forms.DateTimeInput(attrs={'class': 'datetime-input'}),
-            'close_register': forms.DateTimeInput(attrs={'class': 'datetime-input'}),
-            'start': forms.DateTimeInput(attrs={'class': 'datetime-input'})
+            'open_register': forms.DateTimeInput(attrs={'class': 'form-control datetimepicker-input', 'id': 'datetimepicker1', 'data-toggle': 'datetimepicker', 'data-target': '#datetimepicker1'}),
+            'close_register': forms.DateTimeInput(attrs={'class': 'form-control datetimepicker-input', 'id': 'datetimepicker2', 'data-toggle': 'datetimepicker', 'data-target': '#datetimepicker2'}),
+            'start': forms.DateTimeInput(attrs={'class': 'form-control datetimepicker-input', 'id': 'datetimepicker3', 'data-toggle': 'datetimepicker', 'data-target': '#datetimepicker3'})
         }
 
 
@@ -81,7 +81,13 @@ class DeclareMatchWinnerPost(forms.ModelForm):
 class ArticleCreateForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ('title', 'image', 'slug', 'body', 'publish', 'status', 'tags')
+        fields = ('title', 'image', 'slug', 'body', 'publish', 'status')
+        widgets = {
+            'publish': forms.DateTimeInput(
+                attrs={'class': 'form-control datetimepicker-input', 'id': 'datetimepicker1',
+                       'data-toggle': 'datetimepicker', 'data-target': '#datetimepicker1'}),
+
+        }
 
 
 class TicketStatusChangeForm(forms.ModelForm):
@@ -93,7 +99,7 @@ class TicketStatusChangeForm(forms.ModelForm):
 class DeclareTournamentWinnerForm(forms.ModelForm):
     class Meta:
         model = SingleEliminationTournament
-        fields = ('winner', 'second')
+        fields = ('winner', 'second', 'third')
 
 
 class CreateNewsPostForm(forms.ModelForm):
@@ -106,6 +112,11 @@ class EditNewsPostForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = '__all__'
+        widgets = {
+            'publish': forms.DateTimeInput(
+                attrs={'class': 'form-control datetimepicker-input', 'id': 'datetimepicker1',
+                       'data-toggle': 'datetimepicker', 'data-target': '#datetimepicker1'}),
+        }
 
 
 class RemovePlayerForm(forms.ModelForm):
@@ -173,3 +184,8 @@ class DeleteProductForm(forms.Form):
 
     class Meta:
         fields = ('price', 'name')
+
+
+class RemovePostForm(forms.Form):
+    slug = forms.CharField(required=True, max_length=250)
+

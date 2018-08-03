@@ -10,7 +10,7 @@ from django.utils import timezone
 from teams.forms import TeamCreateForm
 # team create invite forms
 from .forms import TeamInviteFormGet,TeamInviteFormPost, EditTeamProfileForm, ViewInviteForm, LeaveTeamForm,\
-    RemovePlayerFormPost, RemoveUserForm
+    RemovePlayerFormPost, RemoveUserForm, DissolveTeamForm
 # import the team models
 from teams.models import Team
 # import the invite models
@@ -281,5 +281,36 @@ class RemoveUserView(View):
         else:
             messages.error(request, "Only the team's founder can remove users")
             return redirect('teams:detail', pk)
-                
 
+
+class DissolveTeamView(View):
+    template_name = 'teams/dissolve_team.html'
+
+    def get(self, request, pk):
+        team = Team.objects.get(id=pk)
+        if request.user == team.founder:
+            form = DissolveTeamForm(request, pk)
+            return render(request, self.template_name, {'form': form, 'pk': pk})
+        else:
+            messages.error(request, "Only the team's founder can dissolve the team")
+            return redirect('teams:detail', pk)
+
+    def post(self, request, pk):
+        team = Team.objects.get(id=pk)
+        if request.user == team.founder:
+            form = DissolveTeamForm(request.POST)
+            if form.is_valid():
+                if form.cleaned_data['confirmed']:
+                    team = Team.objects.get(id=pk)
+                    invites = list(TeamInvite.objects.filter(team=team))
+                    for invite in invites:
+                        invite.delete()
+                    messages.success(request, 'Dissolved team %s' % team)
+                    team.delete()
+                    return redirect('teams:list')
+                else:
+                    messages.warning(request, "You didn't confirm that you wanted to dissolve the team")
+                    return redirect('teams:detail', pk)
+        else:
+            messages.error(request, "Only the team's founder can remove users")
+            return redirect('teams:detail', pk)

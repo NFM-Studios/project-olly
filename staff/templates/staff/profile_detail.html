@@ -1,0 +1,93 @@
+{% extends 'staff/staffbase.html' %}
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static "css/staff.css" %}">
+
+{% block title %}
+Profile Detail
+{% endblock %}
+{% block body %}
+
+
+<div style="text-align:center">
+{% if userprofile.profile_picture.url != "" %}
+<img src="{{ userprofile.profile_picture.url }}" align="center" width="200"> <br />
+{% else %}
+<img src="{{ MEDIA_URL }}default_profile.png" align="center" width="200"/> <br />
+{% endif %}
+</div>
+
+<br />
+<table class="table">
+<tr>
+    <td><strong>Username:</strong></td> <td>{{ userprofile.user }}</td>
+</tr>
+<tr>
+    <td><strong>XP:</strong> </td><td>{{ userprofile.xp }}</td>
+</tr>
+<tr>
+    <td><strong>XBL: </strong></td><td>{{ userprofile.xbl }}</td>
+</tr>
+<tr>
+    <td><strong>PSN:</strong> </td><td>{{ userprofile.psn }} </td>
+</tr>
+<tr>
+    <td><strong>Twitter:</strong></td><td> <a href="http://twitter.com/{{ userprofile.twitter_profile }}">{{ userprofile.twitter_profile }}</a></td>
+</tr>
+<tr>
+    <td><strong>Twitch: </strong>  </td> <td> <a href="http://twitch.tv/{{ userprofile.twitch_channel }}">{{ userprofile.twitch_channel }}</a></td>
+</tr>
+<tr>
+    <td><strong>Favorite Game:</strong></td><td> {{ userprofile.favorite_game }} </td>
+</tr>
+<tr>
+    <td><strong>Favorite Console: </strong></td> <td>{{ userprofile.favorite_console }} </td>
+</tr>
+<tr>
+    <td><strong>About me:</strong></td><td> {{ userprofile.about_me }}</td>
+</tr>
+<tr>
+    <td><strong>Country:</strong></td><td> {{ userprofile.country }}</td>
+</tr>
+<tr>
+    <td><strong>Gold Trophies #:</strong></td><td> {{ userprofile.num_gold }}</td>
+</tr>
+<tr>
+    <td><strong>Silver Trophies #:</strong></td><td> {{ userprofile.num_silver }}</td>
+</tr>
+<tr>
+    <td><strong>Bronze Trophies #:</strong></td><td> {{ userprofile.num_bronze }}</td>
+</tr>
+<tr>
+    <td><strong>Total Earnings:</strong></td><td> {{ userprofile.total_earning }}</td>
+</tr>
+</table>
+<!-- email_verified total_earning -->
+
+
+<!-- this is not stock olly -->
+<!-- from here -->
+<table class="table">
+
+<tr id="header">
+        <thead>
+        <th scope="row">Team ID</th>
+        <th>Team Name</th>
+        <th>Team Role</th>
+        </thead>
+    </tr>
+{% for invite in team_list %}
+ <tbody>
+    <tr scope="">
+        <td scope="row"><a href="/teams/{{ invite.team.id }}/">#{{invite.team.id}}</a></td>
+        <td>{{invite.team.name}}</td>
+        <td>{{invite.captain}}</td>
+    </tr>
+    </tbody>
+
+
+{% endfor %}
+</table>
+
+<!-- to here -->
+
+{% endblock %}
