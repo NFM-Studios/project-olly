@@ -5,7 +5,7 @@ from staff.forms import StaticInfoForm, ArticleCreateForm, EditUserForm, TicketC
     TicketStatusChangeForm, EditTournamentForm, DeclareMatchWinnerForm, DeclareMatchWinnerPost,\
     DeclareTournamentWinnerForm, TicketSearchForm, RemovePlayerForm, RemovePlayerFormPost, AddCreditsForm,\
     AddTrophiesForm, AddXPForm, SingleRulesetCreateForm, PartnerForm, EditNewsPostForm, CreateProductForm,\
-    DeleteProductForm
+    DeleteProductForm, RemovePostForm
 from profiles.models import UserProfile, BannedUser
 from profiles.forms import SortForm
 from django.contrib.auth.models import User
@@ -171,8 +171,8 @@ def givecredits(request, urlusername):
             username = User.objects.get(username=urlusername)
             num = int(form.data['credits'])
             give_credits(username, num)
-            transaction = Transaction(credits=num, account=UserProfile.objects.get(user=username), cost=int(0.00),
-                                      passes=int(0.00), staff=user.username)
+            transaction = Transaction(num=num, account=UserProfile.objects.get(user=username), cost=int(0.00),
+                                      type='Credit', staff=user.username)
             transaction.save()
             messages.success(request, "Added %s credits to %s" % (credits, urlusername))
             return redirect('staff:users')
@@ -193,6 +193,9 @@ def givexp(request, urlusername):
             num = int(form.data['xp'])
             user.xp += num
             user.save()
+            transaction = Transaction(num=num, account=UserProfile.objects.get(user=user), cost=int(0.00),
+                                      type='XP', staff=user.username)
+            transaction.save()
             messages.success(request, "Added %s xp to %s" % (num, urlusername))
             return redirect('staff:users')
 
@@ -214,8 +217,27 @@ def givetrophies(request, urlusername):
             user.num_silver += form.cleaned_data['silver']
             user.num_gold += form.cleaned_data['gold']
             user.save()
+            transaction = Transaction(num=form.cleaned_data['bronze'], account=UserProfile.objects.get(user=user),
+                                      cost=int(0.00), type='Bronze Trophies', staff=user.username)
+            transaction.save()
+            transaction = Transaction(num=form.cleaned_data['silver'], account=UserProfile.objects.get(user=user),
+                                      cost=int(0.00), type='Silver Trophies', staff=user.username)
+            transaction.save()
+            transaction = Transaction(num=form.cleaned_data['gold'], account=UserProfile.objects.get(user=user),
+                                      cost=int(0.00), type='Gold Trophies', staff=user.username)
+            transaction.save()
             messages.success(request, "Added trophies to %s" % urlusername)
             return redirect('staff:users')
+
+
+def userdetail(request, urlusername):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        userprofile = UserProfile.objects.get(user__username=urlusername)
+        return render(request, 'staff/profile_detail.html', {'userprofile': userprofile})
 
 # end users
 
@@ -437,13 +459,16 @@ class DeclareTournamentWinner(View):
             form = DeclareTournamentWinnerForm(request.POST)
             first = Team.objects.get(id=form.data['winner'])
             second = Team.objects.get(id=form.data['second'])
-            if (first in tournament_teams) and (second in tournament_teams):
+            third = Team.objects.get(id=form.data['third'])
+            if (first in tournament_teams) and (second in tournament_teams) and (third in tournament_teams):
                 tournament.winner = first
                 tournament.second = second
+                tournament.third = third
 
                 # Add losses to all other teams in tournament
                 tournament_teams.remove(first)
                 tournament_teams.remove(second)
+                tournament_teams.remove(third)
                 for team in tournament_teams:
                     team.num_matchloss += 1
                     team.save()
@@ -452,8 +477,10 @@ class DeclareTournamentWinner(View):
                 tournament.save()
                 first.num_tournywin += 1
                 second.num_tournywin += 1
+                third.num_tournywin += 1
                 first.save()
                 second.save()
+                third.save()
                 messages.success(request, 'Set tournament winner')
                 return redirect('staff:tournamentlist')
             else:
@@ -604,6 +631,10 @@ class TicketDetail(DetailView):
     form2_class = TicketStatusChangeForm
 
     def get(self, request, **kwargs):
+        user = UserProfile.objects.get(user__username=request.user.username)
+        allowed = ['superadmin', 'admin']
+        if user.user_type not in allowed:
+            return render(request, 'staff/permissiondenied.html')
         form1 = self.form1_class(None)
         form2 = self.form2_class(None)
         pk = self.kwargs['pk']
@@ -618,6 +649,10 @@ class TicketDetail(DetailView):
         return context
 
     def post(self, request, *args, **kwargs):
+        user = UserProfile.objects.get(user__username=request.user.username)
+        allowed = ['superadmin', 'admin']
+        if user.user_type not in allowed:
+            return render(request, 'staff/permissiondenied.html')
         if 'post_comment' in request.POST:
             self.form1 = TicketCommentCreateForm(request.POST)
             if self.form1.is_valid():
@@ -653,10 +688,18 @@ class TicketCommentCreate(View):
     template_name = 'staff/ticketcomment.html'
 
     def get(self, request, pk):
+        user = UserProfile.objects.get(user__username=request.user.username)
+        allowed = ['superadmin', 'admin']
+        if user.user_type not in allowed:
+            return render(request, 'staff/permissiondenied.html')
         form = self.form_class(None)
         return render(request, self.template_name, {'form': form})
 
     def post(self, request, pk):
+        user = UserProfile.objects.get(user__username=request.user.username)
+        allowed = ['superadmin', 'admin']
+        if user.user_type not in allowed:
+            return render(request, 'staff/permissiondenied.html')
         form = self.form_class(request.POST)
 
         if form.is_valid():
@@ -784,6 +827,8 @@ def create_article(request):
                 form.save()
                 messages.success(request, 'Your post has been created')
                 return redirect('staff:news_list')
+            else:
+                return render(request, 'staff/create_article.html', {'form': form})
         else:
             form = ArticleCreateForm(None)
             return render(request, 'staff/create_article.html', {'form': form})
@@ -813,11 +858,31 @@ def edit_post(request, pk):
             article = get_object_or_404(Post, pk=pk)
             form = EditNewsPostForm(request.POST, instance=article)
             if form.is_valid():
-                form.save()
+                post = form.instance
+                post.author = request.user
+                post.save()
                 messages.success(request, "Updated post")
                 return redirect('staff:detail_article', pk=pk)
             else:
                 return render(request, 'staff/edit_article.html', {'form': form})
+
+
+def remove_article(request):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        if request.method == 'GET':
+            form = RemovePostForm(None)
+            return render(request, 'staff/remove_post.html', {'form': form})
+        else:
+            form = RemovePostForm(request.POST)
+            if form.is_valid():
+                post = Post.objects.get(slug=form.data['slug'])
+                messages.success(request, 'Removed post %s' % post.title)
+                post.delete()
+                return redirect('staff:news_index')
 
 # end news section
 
@@ -842,11 +907,19 @@ class TransactionView(View):
     form_class = SortForm
 
     def get(self, request, **kwargs):
+        user = UserProfile.objects.get(user__username=request.user.username)
+        allowed = ['superadmin', 'admin']
+        if user.user_type not in allowed:
+            return render(request, 'staff/permissiondenied.html')
         transaction_list = Transaction.objects.order_by('date')  # sort by date default
         form = self.form_class(None)
         return render(request, self.template_name, {'transaction_list': transaction_list, 'form': form})
 
     def post(self, request):
+        user = UserProfile.objects.get(user__username=request.user.username)
+        allowed = ['superadmin', 'admin']
+        if user.user_type not in allowed:
+            return render(request, 'staff/permissiondenied.html')
         form = self.form_class(request.POST)
 
 
@@ -855,11 +928,19 @@ class TransferView(View):
     form_class = SortForm
 
     def get(self, request, **kwargs):
+        user = UserProfile.objects.get(user__username=request.user.username)
+        allowed = ['superadmin', 'admin']
+        if user.user_type not in allowed:
+            return render(request, 'staff/permissiondenied.html')
         transfer_list = Transfer.objects.order_by('date')  # sort by username default
         form = self.form_class(None)
         return render(request, self.template_name, {'transfer_list': transfer_list, 'form': form})
 
     def post(self, request):
+        user = UserProfile.objects.get(user__username=request.user.username)
+        allowed = ['superadmin', 'admin']
+        if user.user_type not in allowed:
+            return render(request, 'staff/permissiondenied.html')
         form = self.form_class(request.POST)
 
 

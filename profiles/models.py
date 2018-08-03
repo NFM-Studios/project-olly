@@ -45,7 +45,7 @@ class UserProfile(models.Model):
     favorite_console = models.CharField(max_length=50, default='N/A', blank=True)
     profile_picture = models.ImageField(upload_to='profile_images', blank=True)
     user_type = models.CharField(max_length=10, default='user')
-    ip = models.CharField(max_length=16, default='0.0.0.0')
+    ip = models.CharField(max_length=45, default='0.0.0.0')
     num_trophies = models.PositiveSmallIntegerField(default=0)
     xbl_verified = models.BooleanField(default=False, null=False, blank=True)
     psn_verified = models.BooleanField(default=False, null=False, blank=False)

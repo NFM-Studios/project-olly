@@ -19,7 +19,7 @@
     {% for news in news_list %}
     <tbody>
     <tr scope="">
-        <td scope="row"><a href="">#{{news.id}}</a></td>
+        <td scope="row"><a href="{% url 'staff:detail_article' pk=news.id %}">#{{news.id}}</a></td>
         <td>{{news.title}}</td>
 
         <td>{{ news.author }}</td>

@@ -66,9 +66,6 @@ INSTALLED_APPS = [
 
     # teams
     'teams',
-    
-    # tag manager package
-    'taggit',
 
     # ip package
     'ipware',

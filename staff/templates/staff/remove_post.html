@@ -1,17 +1,16 @@
-{% extends "base.html" %}
+{% extends 'staff/staffbase.html' %}
 {% load staticfiles %}
-
 
 {% block body %}
 
     <form method="POST" action="">
     <table class="table">
         {% csrf_token %}
-        {{ form }}
+        {{ form.as_table }}
 
         <tr>
             <td colspan="2">
-                <input type="submit" value="Join" />
+                <input type="submit" value="Submit" />
             </td>
         </tr>
     </table>
