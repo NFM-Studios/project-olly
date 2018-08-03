@@ -2,7 +2,6 @@
 
 from django.db import migrations, models
 import django.utils.timezone
-import taggit.managers
 
 
 class Migration(migrations.Migration):
@@ -17,9 +16,5 @@ class Migration(migrations.Migration):
             name='publish',
             field=models.DateTimeField(blank=True, default=django.utils.timezone.now),
         ),
-        migrations.AlterField(
-            model_name='post',
-            name='tags',
-            field=taggit.managers.TaggableManager(blank=True, help_text='A comma-separated list of tags.', through='taggit.TaggedItem', to='taggit.Tag', verbose_name='Tags'),
-        ),
+
     ]
