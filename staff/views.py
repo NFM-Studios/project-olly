@@ -4,7 +4,8 @@ from pages.models import StaticInfo
 from staff.forms import StaticInfoForm, ArticleCreateForm, EditUserForm, TicketCommentCreateForm,\
     TicketStatusChangeForm, EditTournamentForm, DeclareMatchWinnerForm, DeclareMatchWinnerPost,\
     DeclareTournamentWinnerForm, TicketSearchForm, RemovePlayerForm, RemovePlayerFormPost, AddCreditsForm,\
-    AddTrophiesForm, AddXPForm, SingleRulesetCreateForm, PartnerForm, EditNewsPostForm, RemovePostForm
+    AddTrophiesForm, AddXPForm, SingleRulesetCreateForm, PartnerForm, EditNewsPostForm, CreateProductForm,\
+    DeleteProductForm, RemovePostForm
 from profiles.models import UserProfile, BannedUser
 from profiles.forms import SortForm
 from django.contrib.auth.models import User
@@ -15,11 +16,12 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from teams.models import Team, TeamInvite
 from matches.models import Match, MatchReport, MatchDispute
 from news.models import Post, Comment, PublishedManager
-from store.models import Transaction, Transfer, give_credits
+from store.models import Transaction, Transfer, give_credits, Product
 from singletournaments.models import SingleEliminationTournament, SingleTournamentRound, SingleTournamentRuleset
 from support.models import Ticket, TicketComment
 from django.shortcuts import get_object_or_404
 from pages.models import Partner
+from olly import settings
 
 
 def staffindex(request):
@@ -887,6 +889,19 @@ def remove_article(request):
 # start store section
 
 
+def store_index(request):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        if request.method == 'GET':
+            products = len(Product.objects.all())
+            transactions = len(Transaction.objects.all())
+            transfers = len(Transfer.objects.all())
+            return render(request, 'staff/store.html', {'products': products, 'transactions': transactions, 'transfers': transfers})
+
+
 class TransactionView(View):
     template_name = 'staff/transaction_list.html'
     form_class = SortForm
@@ -927,6 +942,89 @@ class TransferView(View):
         if user.user_type not in allowed:
             return render(request, 'staff/permissiondenied.html')
         form = self.form_class(request.POST)
+
+
+def products(request):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        if request.method == 'GET':
+            product_list = Product.objects.all()
+            return render(request, 'staff/product_list.html', {'product_list': product_list})
+
+
+def product_detail(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        if request.method == 'GET':
+            product = Product.objects.get(id=pk)
+            return render(request, 'staff/product_detail.html', {'product': product, 'pk': pk})
+
+
+def create_product(request):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        if request.method == 'GET':
+            form = CreateProductForm(None)
+            return render(request, 'staff/create_product.html', {'form': form})
+        else:
+            form = CreateProductForm(request.POST)
+            if form.is_valid():
+                product = form.instance
+                product.business = settings.PAYPAL_EMAIL
+                product.save()
+                return redirect('staff:product_detail', pk=product.id)
+
+
+def edit_product(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        if request.method == 'GET':
+            form = CreateProductForm(instance=Product.objects.get(id=pk))
+            return render(request, 'staff/edit_product.html', {'form': form, 'pk': pk})
+        else:
+            form = CreateProductForm(request.POST)
+            if form.is_valid():
+                product = Product.objects.get(id=pk)
+                product.price = form.cleaned_data['price']
+                product.amount = form.cleaned_data['amount']
+                product.name = form.cleaned_data['name']
+                product.item_name = form.cleaned_data['item_name']
+                product.active = form.cleaned_data['active']
+                product.save()
+                return redirect('staff:product_detail', pk=product.id)
+            else:
+                return render(request, 'staff/edit_product.html', {'form': form, 'pk': pk})
+
+
+def delete_product(request):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        if request.method == 'GET':
+            form = DeleteProductForm(None)
+            return render(request, 'staff/delete_product.html', {'form': form})
+        else:
+            form = DeleteProductForm(request.POST)
+            if form.is_valid():
+                product = Product.objects.get(price=form.data['price'], name=form.data['name'])
+                messages.success(request, "Deleted product %s" % product.name)
+                product.delete()
+                return redirect('staff:index')  # need list view
+
 
 # end store section
 

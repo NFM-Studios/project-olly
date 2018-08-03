@@ -7,6 +7,7 @@ from singletournaments.models import SingleEliminationTournament, SingleTourname
 from news.models import Post
 from support.models import TicketComment, Ticket
 from teams.models import Team, TeamInvite
+from store.models import Product
 
 
 class StaticInfoForm(forms.ModelForm):
@@ -163,5 +164,28 @@ class AddTrophiesForm(forms.Form):
         fields = ('Bronze', 'Silver', 'Gold')
 
 
+class CreateProductForm(forms.ModelForm):
+
+    class Meta:
+        model = Product
+        fields = ('amount', 'item_name', 'price', 'name', 'active')
+
+
+class EditProductForm(forms.ModelForm):
+
+    class Meta:
+        model = Product
+        fields = ('amount', 'item_name', 'price', 'name', 'active')
+
+
+class DeleteProductForm(forms.Form):
+    price = forms.CharField(max_length=50)
+    name = forms.CharField(max_length=50)
+
+    class Meta:
+        fields = ('price', 'name')
+
+
 class RemovePostForm(forms.Form):
     slug = forms.CharField(required=True, max_length=250)
+
