@@ -1,0 +1,52 @@
+{% extends 'staff/staffbase.html' %}
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static "css/staff.css" %}">
+{% block title %}
+Delete Product
+{% endblock %}
+{% block body %}
+<link rel="stylesheet" href="{% static "css/staff.css" %}">
+{% if form.errors %}
+    {% for field in form %}
+        {% for error in field.errors %}
+            <div class="alert alert-danger">
+                <strong>{{ error|escape }}</strong>
+            </div>
+        {% endfor %}
+    {% endfor %}
+    {% for error in form.non_field_errors %}
+        <div class="alert alert-danger">
+            <strong>{{ error|escape }}</strong>
+        </div>
+    {% endfor %}
+{% endif %}
+
+
+    <form method="post">
+   {{ field.errors }}
+     <table class="table">
+        {% csrf_token %}
+
+         <h3>All fields use the info displayed in the store app</h3>
+
+         <label>Price</label>
+         {{ form.price }}
+         <br>
+
+         <label>Item name </label>
+         {{ form.name }}
+         <br>
+
+        <tr>
+            <td colspan="2">
+                <input type="submit" value="Delete" />
+            </td>
+        </tr>
+    </table>
+
+        </form>
+
+
+
+
+{% endblock %}

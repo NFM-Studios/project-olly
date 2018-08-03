@@ -1,0 +1,30 @@
+{% extends 'staff/staffbase.html' %}
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static "css/staff.css" %}">
+
+{% block title %}
+Products
+{% endblock %}
+{% block body %}
+    <div style="overflow-x:auto;">
+<p><a href="{% url 'staff:store' %}"><i class="fa fa-arrow-left"></i> <strong>Back to store index</strong></a></p>
+<table class="table table-hover">
+    <tr id="header">
+        <thead>
+        <th scope="row">ID</th>
+        <th>Name</th>
+        <th>Price</th>
+        </thead>
+    </tr>
+    {% for product in product_list %}
+    <tbody>
+    <tr scope="">
+        <td scope="row"><a href="{% url 'staff:product_detail' pk=product.id %}">#{{product.id}}</a></td>
+        <td>{{ product.name }}</td>
+        <td>{{ product.price }}</td>
+    </tr>
+    </tbody>
+    {% endfor %}
+</table>
+    </div>
+{% endblock %}

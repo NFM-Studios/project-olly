@@ -1,0 +1,50 @@
+{% extends 'staff/staffbase.html' %}
+{% load staticfiles %}
+
+{% block title %}
+Product #{{ product.id }}
+{% endblock %}
+
+{% block body %}
+    {% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      <li class="{{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+
+
+<p><a href="{% url 'staff:product_list' %}"><i class="fa fa-arrow-left"></i> <strong>Back to product list</strong></a></p>
+<table class="table">
+    <thead>
+    <tr>
+        <th>Key</th>
+        <th>Value</th>
+    </tr>
+    </thead>
+    <tr>
+        <td>ID </td>
+        <td>{{product.id}}</td>
+    </tr>
+    <tr>
+        <td>Name </td>
+        <td>{{ product.name }}</td>
+    </tr>
+    <tr>
+        <td>Price </td>
+        <td>{{ product.price }}</td>
+    </tr>
+    <tr>
+        <td>Active </td>
+        <td>{{ product.active }}</td>
+    </tr>
+    
+</table>
+
+    <p>
+        <a href="{% url 'staff:product_edit' pk %}" class="btn btn-primary">EDIT</a>
+        <a href="{% url 'staff:delete_product' %}" class="btn btn-danger">DELETE</a>
+    </p>
+
+{% endblock %}
