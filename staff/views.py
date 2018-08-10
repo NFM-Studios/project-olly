@@ -93,7 +93,7 @@ def edituser(request, urlusername):
                 messages.success(request, 'User type has been updated')
                 return redirect('staff:users')
             else:
-                print('form is not valid')
+                return render(request, 'staff/edituser.html', {'form': form})
         else:
             userprofileobj = UserProfile.objects.get(user__username=urlusername)
             form = EditUserForm(instance=userprofileobj)
@@ -300,7 +300,7 @@ def edit_tournament(request, pk):
                 messages.success(request, 'Tournament has been updated')
                 return redirect('staff:tournamentlist')
             else:
-                print('form is not valid')
+                return render(request, 'staff/edittournament.html', {'form': form})
         else:
             tournamentobj = SingleEliminationTournament.objects.get(pk=pk)
             form = EditTournamentForm(instance=tournamentobj)
@@ -379,7 +379,7 @@ def ruleset_create(request):
                 messages.success(request, 'Ruleset has been created!')
                 return redirect('staff:tournamentrulesetlist')
             else:
-                print('form is not valid')
+                return render(request, 'staff/createruleset.html', {'form': form})
         else:
             form = SingleRulesetCreateForm(None)
             return render(request, 'staff/createruleset.html', {'form': form})
@@ -710,9 +710,9 @@ class TicketCommentCreate(View):
             comment.save()
             messages.success(self.request, 'Comment successfully added')
             return redirect('staff:tickets')
-
-        messages.error(self.request, 'An error occurred')
-        return render(request, self.template_name, {'form': form})
+        else:
+            messages.error(self.request, 'An error occurred')
+            return render(request, self.template_name, {'form': form})
 
 
 # end support section
@@ -733,6 +733,8 @@ def pages(request):
                 form.save()
                 messages.success(request, 'Your information has been updated')
                 return redirect('staff:pages')
+            else:
+                return render(request, 'staff/staticinfo.html', {'form': form})
         else:
             staticinfoobj = StaticInfo.objects.get(pk=1)
             form = StaticInfoForm(instance=staticinfoobj)
@@ -764,6 +766,8 @@ def createpartner(request):
                 form.save()
                 messages.success(request, 'Your partner has been created')
                 return redirect('staff:partner_list')
+            else:
+                return render(request, 'staff/partnercreate.html', {'form': form})
         else:
             form = PartnerForm(None)
             return render(request, 'staff/partnercreate.html', {'form': form})
@@ -782,6 +786,8 @@ def partner_detail(request, pk):
                 form.save()
                 messages.success(request, 'Your information has been updated')
                 return redirect('staff:partner_list')
+            else:
+                return render(request, 'staff/partnercreate.html', {'form': form})
         else:
             partner = Partner.objects.get(pk=pk)
             form = PartnerForm(instance=partner)
@@ -883,6 +889,8 @@ def remove_article(request):
                 messages.success(request, 'Removed post %s' % post.title)
                 post.delete()
                 return redirect('staff:news_index')
+            else:
+                return render(request, 'staff/remove_post.html', {'form': form})
 
 # end news section
 
@@ -982,6 +990,8 @@ def create_product(request):
                 product.business = settings.PAYPAL_EMAIL
                 product.save()
                 return redirect('staff:product_detail', pk=product.id)
+            else:
+                return render(request, 'staff/create_product.html', {'form': form})
 
 
 def edit_product(request, pk):
@@ -1024,6 +1034,8 @@ def delete_product(request):
                 messages.success(request, "Deleted product %s" % product.name)
                 product.delete()
                 return redirect('staff:index')  # need list view
+            else:
+                return render(request, 'staff/delete_product.html', {'form': form})
 
 
 # end store section
