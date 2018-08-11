@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+
+  {% load staticfiles %}
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <title>EOT</title>
+    <meta name="description" content="">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static 'css/bootstrap337.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="{% static 'js/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap337.min.js' %}"></script>
+
+      {% block head %}
+      <title>PageName - {{ SITE_NAME }}</title>
+      {% endblock %}
+
+</head>
+
+<body>
+
+<div class="container-fluid" style="z-index:999;position:fixed;top:0px;width:100%;">
+<div class="row">
+<div class="navbar navbar-default" role="navigation">
+
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+              <a class="navbar-brand" href="/"><img src="{% static 'images/logo.png' %}"></a>
+            </div>
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav">
+                    <li class="menu-item"><a href="/">Home</a></li>
+                    <li class="menu-item"><a href="{% url 'events:list' %}">Events</a></li>
+                    <li class="menu-item"><a href="{% url 'singletournaments:list' %}">Tournaments</a></li>
+                    <li class="menu-item"><a href="{% url 'news:post_list' %}">News</a></li>
+                    <li class="menu-item"><a href="#">FAQ</a></li>
+                    <li class="menu-item"><a href="{% url 'store:store' %}">Store</a></li>
+
+                <li class="dropdown hidden-md hidden-lg" style="padding-right:100px;">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                    </a>
+                    {% if not user.is_anonymous %}
+                    <ul class="dropdown-menu dropdown-user">
+                        <li class="hidden-xs hidden-sm"><a href="{% url 'profiles:profile' urlusername=request.user %}"><i class="fal fa-arrow-square-right"></i> User Profile</a>
+                        <li class="hidden-md hidden-lg"><a href="{% url 'profiles:profile' urlusername=request.user %}"><i class=""></i> My Profile</a></li>
+                        <li class="hidden-md hidden-lg"><a href="{% url 'teams:list' %}"><i class=""></i> My Teams</a></li>
+                        <li class="hidden-md hidden-lg"><a href="{% url 'teams:myinvitelist' %}"><i class=""></i> Team Invites</a></li>
+                        <li class="hidden-md hidden-lg"><a href="{% url 'support:list' %}"><i class=""></i> Ticket Center</a></li>
+                        <li class="hidden-md hidden-lg"><a href="#"><i class=""></i> Prize Claims</a></li>
+                        <li class="hidden-md hidden-lg"><a href="#"><i class=""></i> My Bank</a></li>
+                        <!--<li class="hidden-md hidden-lg"><a href="#"><i class=""></i> Friend Requests</a></li>-->
+                        <li><a href="{% url 'profiles:edit_profile' %}"><i class=""></i> Settings</a></li>
+                        <li class="divider"></li>
+                        <li><a href="{% url 'logout' %}"><i class=""></i> Logout</a>
+                        </li>
+                    </ul>
+                    {% else %}
+                    <ul class="dropdown-menu dropdown-user">
+                        <li class="hidden-xs hidden-sm"><a href="{% url 'profiles:profile' urlusername=request.user %}"><i class="fal fa-arrow-square-right"></i> User Profile</a>
+                        <li class="hidden-md hidden-lg"><a href="{% url 'login' %}"><i class=""></i> Login</a></li>
+                        <li class="hidden-md hidden-lg"><a href="{% url 'register' %}"><i class=""></i> Register</a></li>
+                        </li>
+                    </ul>
+                    {% endif %}
+                </li>
+                </ul>
+
+
+            </div>
+        </div>
+    </div>
+   </div>
+
+
+  <div class="container-fluid page">
+    {% if not user.is_anonymous %}
+   <div class="hidden-xs hidden-sm col-md-2 col-lg-2 fix1">
+    <div class="panel-body" style="padding-top:105px;">
+
+      <ul class="user-menu1">
+       <li><i class="fal fa-arrow-square-right"></i> <a href="{% url 'profiles:profile' urlusername=request.user %}">My Profile</a></li>
+       <li><i class="fal fa-arrow-square-right"></i> <a href="{% url 'teams:list' %}">My Teams</a></li>
+       <li><i class="fal fa-arrow-square-right"></i> <a href="{% url 'teams:myinvitelist' %}">Team Invites</a></li>
+       <li><i class="fal fa-arrow-square-right"></i> <a href="{% url 'support:list' %}">Ticket Center</a></li>
+       <li><i class="fal fa-arrow-square-right"></i> <a href="#">Prize Claims</a></li>
+       <li><i class="fal fa-arrow-square-right"></i> <a href="#">My Bank</a></li>
+       <li><i class="fal fa-arrow-square-right"></i> <a href="{% url 'profiles:edit_profile' %}">Settings</a></li>
+      </ul>
+
+   </div>
+   </div>
+        {% else %}
+        <div class="hidden-xs hidden-sm col-md-2 col-lg-2 fix1">
+    <div class="panel-body" style="padding-top:105px;">
+
+      <ul class="user-menu1">
+       <li><i class="fal fa-arrow-square-right"></i> <a href="{% url 'login' %}">Login</a></li>
+       <li><i class="fal fa-arrow-square-right"></i> <a href="{% url 'register' %}">Register</a></li>
+      </ul>
+
+   </div>
+   </div>
+    {% endif %}
+
