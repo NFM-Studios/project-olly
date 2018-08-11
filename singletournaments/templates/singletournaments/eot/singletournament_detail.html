@@ -1,0 +1,455 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+  {% block head %}
+  <title>{{ tournament.name }} Details - {{ SITE_NAME }}</title>
+  {% endblock %}
+
+{% block body %}
+<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 col-md-offset-2 col-lg-offset-2 wrap">
+<link rel="stylesheet" href="{% static "css/singletournament.css" %}">
+
+           <div class="panel">
+              <div class="panel-body">
+              {% if messages %}
+                  <ul class="messages">
+                    {% for message in messages %}
+                      <li class="{{ message.tags }}">{{ message }}</li>
+                    {% endfor %}
+                  </ul>
+                {% endif %}
+
+                  <div class="col-xs-12 banner-head bot20">
+                   <div class="row">
+                   <div class="col-xs-12 col-sm-4">
+                    <img src="{% if tournament.game == 0 %}
+            {% static 'images/ww2.jpg' %}
+           {% elif tournament.game == 1 %}
+            {% static 'images/bo3.jpg' %}
+           {% elif tournament.game == 2 %}
+            {% static 'images/ww2.jpg' %}
+           {% elif tournament.game == 3 %}
+            {% static 'images/fortnitecover.jpg' %}
+           {% elif tournament.game == 4 %}
+            {% static 'images/destiny2cover.jpg' %}
+           {% elif tournament.game == 5 %}
+            {% static 'images/csgocover.jpg' %}
+           {% elif tournament.game == 6 %}
+            {% static 'images/pubgcover.jpg' %}
+           {% elif tournament.game == 7 %}
+            {% static 'images/rs6cover.jpg' %}
+           {% elif tournament.game == 8 %}
+            {% static 'images/overwatchcover.jpg' %}
+           {% elif tournament.game == 9 %}
+            {% static 'images/lolcover.jpg' %}
+           {% elif tournament.game == 10 %}
+            {% static 'images/hearthstonecover.jpg' %}
+           {% elif tournament.game == 11 %}
+            {% static 'images/wowcover.jpg' %}
+           {% elif tournament.game == 12 %}
+            {% static 'images/smitecover.jpg' %}
+           {% elif tournament.game == 13 %}
+            {% static 'images/rocketleaguecover.jpeg' %}
+           {% elif tournament.game == 14 %}
+            {% static 'images/bf1cover.jpg' %}
+           {% endif %}"/>
+                   </div>
+                   <div class="col-xs-12 col-sm-8">
+                   <br>
+                    <h2><b>{{ tournament.name }}</b></h2>
+                    <h4>{% if tournament.platform == 0 %}
+        Playstation 4
+        {% elif tournament.platform == 1 %}
+        XBOX One
+        {% elif tournament.platform == 2 %}
+        PC<
+        {% elif tournament.platform == 3 %}
+        Mobile
+        {% elif tournament.platform == 4 %}
+        Nintendo Switch
+        {% elif tournament.platform == 5 %}
+        Playstation 3
+        {% elif tournament.platform == 6 %}
+        XBOX 360
+        {% endif %}</h4>
+                    8PM GMT | 1st Place: {{ tournament.prize1 }}<br>
+                    <br>
+                    <ul class="nav nav-pills">
+			<li class="active"><a href="#1" data-toggle="tab" aria-expanded="true" style="margin-bottom:4px;">INFO</a></li>
+            <li class=""><a href="#3" data-toggle="tab" aria-expanded="false" style="margin-bottom:4px;">TEAMS</a></li>
+			<li class=""><a href="#2" data-toggle="tab" aria-expanded="false" style="margin-bottom:4px;">BRACKET</a></li>
+            <li class=""><a href="#4" data-toggle="tab" aria-expanded="false" style="margin-bottom:4px;">RULES</a></li>
+            <li class=""><a href="#5" data-toggle="tab" aria-expanded="false" style="margin-bottom:4px;">JOIN</a></li>
+</ul>
+                   </div>
+
+                   </div>
+                  </div>
+
+
+<div class="row">
+<div class="col-xs-12">
+
+		<div class="tab-content clearfix">
+           <div class="tab-pane info active" id="1">
+             <div class="row bot10">
+              <div class="col-xs-6 center">
+               <div class="panel-default">
+                <div class="panel-body">
+                  <h4><b>PLATFORM</b></h4>
+                  {% if tournament.platform == 0 %}
+        Playstation 4
+        {% elif tournament.platform == 1 %}
+        XBOX One
+        {% elif tournament.platform == 2 %}
+        PC<
+        {% elif tournament.platform == 3 %}
+        Mobile
+        {% elif tournament.platform == 4 %}
+        Nintendo Switch
+        {% elif tournament.platform == 5 %}
+        Playstation 3
+        {% elif tournament.platform == 6 %}
+        XBOX 360
+        {% endif %}
+                </div>
+               </div>
+              </div>
+              <div class="col-xs-6 center">
+               <div class="panel-default">
+                <div class="panel-body">
+                  <h4><b>GAME</b></h4>
+                  {% if tournament.game == 0 %}
+        No Game Set
+        {% elif tournament.game == 1 %}
+        Call of Duty: Black Ops 3
+        {% elif tournament.game == 2 %}
+        Call of Duty WWII
+        {% elif tournament.game == 3 %}
+        Fortnite
+        {% elif tournament.game == 4 %}
+        Destiny 2
+        {% elif tournament.game == 5 %}
+        Counter-Strike: Global Offensive
+        {% elif tournament.game == 6 %}
+        Player Unknown's BATTLEGROUNDS
+        {% elif tournament.game == 7 %}
+        Rainbow Six Siege
+        {% elif tournament.game == 8 %}
+        Overwatch
+        {% elif tournament.game == 9 %}
+        League of Legends
+        {% elif tournament.game == 10 %}
+        Hearthstone
+        {% elif tournament.game == 11 %}
+        World of Warcraft
+        {% elif tournament.game == 12 %}
+        SMITE
+        {% elif tournament.game == 13 %}
+        Rocket League
+        {% elif tournament.game == 14 %}
+        Battlefield 1
+        {% endif %}
+                </div>
+               </div>
+              </div>
+              <div class="col-xs-6 center">
+               <div class="panel-default">
+                <div class="panel-body">
+                  <h4><b>START</b></h4>
+                  {{ tournament.start }}
+                </div>
+               </div>
+              </div>
+              <div class="col-xs-6 center">
+               <div class="panel-default">
+                <div class="panel-body">
+                  <h4><b>REGISTRATION OPENS</b></h4>
+                  {{ tournament.open_register }}
+                </div>
+               </div>
+              </div>
+             </div>
+             <div class="row bot10">
+              <div class="col-xs-6 center">
+               <div class="panel-default">
+                <div class="panel-body">
+                  <h4><b>REGISTRATION CLOSES</b></h4>
+                  {{ tournament.close_register }}
+                </div>
+               </div>
+              </div>
+              <div class="col-xs-6 center">
+               <div class="panel-default">
+                <div class="panel-body">
+                  <h4><b>STARTS</b></h4>
+                  {{ tournament.start }}
+                </div>
+               </div>
+              </div>
+              <div class="col-xs-6 center">
+               <div class="panel-default">
+                <div class="panel-body">
+                  <h4><b>SIZE</b></h4>
+                  {{ tournament.size }}
+                </div>
+               </div>
+              </div>
+              <div class="col-xs-6 center">
+               <div class="panel-default">
+                <div class="panel-body">
+                  <h4><b>ENTRY FEE</b></h4>
+                  {{ tournament.req_credits }}
+                </div>
+               </div>
+              </div>
+             </div>
+
+           </div>
+
+			<div class="tab-pane" id="2">
+             <div class="col-md-12 bot10">
+               <div class="round r-of-4">
+  <div class="bracket-game">
+    <div class="player top win">
+      Snute
+      <div class="score">
+        3
+      </div>
+    </div>
+    <div class="player bot loss">
+      TLO
+      <div class="score">
+        1
+      </div>
+    </div>
+  </div>
+  <div class="bracket-game cont">
+    <div class="player top loss">
+      ToD
+      <div class="score">
+        0
+      </div>
+    </div>
+    <div class="player bot win">
+      MC
+      <div class="score">
+        3
+      </div>
+    </div>
+  </div>
+</div>
+<div class="connectors r-of-2">
+  <div class="top-line"></div>
+  <div class="clear"></div>
+  <div class="bottom-line"></div>
+  <div class="clear"></div>
+  <div class="vert-line"></div>
+  <div class="clear"></div>
+  <div class="next-line"></div>
+  <div class="clear"></div>
+</div>
+<div class="round r-of-2">
+  <div class="bracket-game">
+    <div class="player top loss">
+      Snute
+      <div class="score">
+        2
+      </div>
+    </div>
+    <div class="player bot win">
+      MC
+      <div class="score">
+        3
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+   <div class="col-md-12 bot10">
+    <div class="round r-of-4">
+  <div class="bracket-game">
+    <div class="player top win">
+      Snute
+      <div class="score">
+        3
+      </div>
+    </div>
+    <div class="player bot loss">
+      TLO
+      <div class="score">
+        1
+      </div>
+    </div>
+  </div>
+  <div class="bracket-game cont">
+    <div class="player top loss">
+      ToD
+      <div class="score">
+        0
+      </div>
+    </div>
+    <div class="player bot win">
+      MC
+      <div class="score">
+        3
+      </div>
+    </div>
+  </div>
+</div>
+<div class="connectors r-of-2">
+  <div class="top-line"></div>
+  <div class="clear"></div>
+  <div class="bottom-line"></div>
+  <div class="clear"></div>
+  <div class="vert-line"></div>
+  <div class="clear"></div>
+  <div class="next-line"></div>
+  <div class="clear"></div>
+</div>
+<div class="round r-of-2">
+  <div class="bracket-game">
+    <div class="player top loss">
+      Snute
+      <div class="score">
+        2
+      </div>
+    </div>
+    <div class="player bot win">
+      MC
+      <div class="score">
+        3
+      </div>
+    </div>
+  </div>
+</div>
+   </div>
+
+
+   <div class="col-md-12 bot10">
+    <div class="round r-of-4">
+  <div class="bracket-game">
+    <div class="player top win">
+      Snute
+      <div class="score">
+        3
+      </div>
+    </div>
+    <div class="player bot loss">
+      TLO
+      <div class="score">
+        1
+      </div>
+    </div>
+  </div>
+  <div class="bracket-game cont">
+    <div class="player top loss">
+      ToD
+      <div class="score">
+        0
+      </div>
+    </div>
+    <div class="player bot win">
+      MC
+      <div class="score">
+        3
+      </div>
+    </div>
+  </div>
+</div>
+<div class="connectors r-of-2">
+  <div class="top-line"></div>
+  <div class="clear"></div>
+  <div class="bottom-line"></div>
+  <div class="clear"></div>
+  <div class="vert-line"></div>
+  <div class="clear"></div>
+  <div class="next-line"></div>
+  <div class="clear"></div>
+</div>
+<div class="round r-of-2">
+  <div class="bracket-game">
+    <div class="player top loss">
+      Snute
+      <div class="score">
+        2
+      </div>
+    </div>
+    <div class="player bot win">
+      MC
+      <div class="score">
+        3
+      </div>
+    </div>
+  </div>
+</div>
+   </div>
+		    </div>
+
+             <div class="tab-pane" id="3">
+
+{% include 'singletournaments/singletournament_teams.html' %}
+
+                </div>
+
+                 <div class="tab-pane" id="4">
+                 <div class="col-md-12">
+
+                   <h3>Rule Title</h3>
+                   <br>
+                  <p>Vestibulum sit amet nulla lacinia, rutrum nunc sed, lobortis dui. Donec eget risus pellentesque, tristique arcu ac, congue est. Cras et dolor aliquet, interdum dui volutpat, faucibus diam. Fusce eu erat luctus, porttitor sapien in, convallis magna. Fusce eget ipsum in risus fermentum maximus quis eget massa. Donec semper, justo vitae dignissim mattis, dolor sapien sollicitudin mauris, sed euismod nisi purus quis mauris. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. In hendrerit justo vel dui ultricies eleifend. Donec dapibus egestas ante, quis egestas lorem facilisis vel.</p>
+                  <br>
+                  <h3>Rule Title</h3>
+                  <br>
+                  <p>Vestibulum sit amet nulla lacinia, rutrum nunc sed, lobortis dui. Donec eget risus pellentesque, tristique arcu ac, congue est. Cras et dolor aliquet, interdum dui volutpat, faucibus diam. Fusce eu erat luctus, porttitor sapien in, convallis magna. Fusce eget ipsum in risus fermentum maximus quis eget massa. Donec semper, justo vitae dignissim mattis, dolor sapien sollicitudin mauris, sed euismod nisi purus quis mauris. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. In hendrerit justo vel dui ultricies eleifend. Donec dapibus egestas ante, quis egestas lorem facilisis vel.</p>
+                  <br>
+                  <h3>Rule Title</h3>
+                  <br>
+                  <p>Vestibulum sit amet nulla lacinia, rutrum nunc sed, lobortis dui. Donec eget risus pellentesque, tristique arcu ac, congue est. Cras et dolor aliquet, interdum dui volutpat, faucibus diam. Fusce eu erat luctus, porttitor sapien in, convallis magna. Fusce eget ipsum in risus fermentum maximus quis eget massa. Donec semper, justo vitae dignissim mattis, dolor sapien sollicitudin mauris, sed euismod nisi purus quis mauris. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. In hendrerit justo vel dui ultricies eleifend. Donec dapibus egestas ante, quis egestas lorem facilisis vel.</p>
+                  <br>
+                  <h3>World War II Support</h3>
+                  <br>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+                  </p>
+                  <br>
+                  </div>
+                 </div>
+
+                 <div class="tab-pane" id="5">
+                 <div class="col-md-12">
+
+                   <div class="panel-title bold">JOIN THE COMPETITION OR CREATE A TEAM</div>
+
+                   <form method="POST" action="">
+                        <table class="table">
+                            {% csrf_token %}
+                            {{ form }}
+
+                            <tr>
+                                <td colspan="2">
+                                    <input type="submit" value="Join" />
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                     <h4><a href="{% url 'teams:create' %}">CREATE A TEAM</a></h4>
+                  </div>
+                 </div>
+
+				</div>
+
+            </div>
+
+</div>
+
+                 </div>
+
+    </div>
+
+   </div>
+
+
+
+
+{% endblock %}
