@@ -1,0 +1,14 @@
+<div class="form-group">
+    {{ field.errors }}
+    <label>Username</label>
+    <div>{{ form.username }}</div>
+    <label>Email Address</label>
+    <div>{{ form.email }}</div>
+    <label>Password</label>
+    <div>{{ form.password }}</div>
+    <label>Confirm Password</label>
+    <div>{{ form.password_confirm }}</div>
+      <label>By checking the following box, I agree to the <a href="/terms" target="_blank">Terms of Service</a> and <a href="/privacy" target="_blank">Privacy Policy</a> and certify that I
+      am at least 16 years of age, or 13 years of age with Parental Consent, in order to use this website (per GDPR regulations)</label><br>
+      {{ form.tos }}
+  </div>

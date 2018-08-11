@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+  {% block head %}
+  <title>{{ userprofile.user }} - {{ SITE_NAME }}</title>
+  {% endblock %}
+
+{% block body %}
+
+    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 col-md-offset-2 col-lg-offset-2 wrap">
+
+           <div class="panel">
+              <div class="panel-body">
+                         <div class="col-xs-12 banner-head bot20">
+                   <div class="row">
+                   <div class="col-xs-5 col-sm-3">
+                    {% if userprofile.profile_picture.url != "" %}
+                        <img src="{{ userprofile.profile_picture.url }}" align="center" width="200"> <br />
+                        {% else %}
+                        <img src="{{ MEDIA_URL }}default_profile.png" align="center" width="200"/> <br />
+                    {% endif %}
+                   </div>
+                   <div class="col-xs-7 col-sm-9">
+                    <h2><b>{{ user.username }}</b></h2>
+                    <h4>United States</h4>
+                    <br>
+                        PSN: <a href="#">{{ userprofile.psn }}
+                       {% if userprofile.psn_verified %}
+                           <i class="fa fa-check-circle" style="color:green"></i>
+                           {% else %}
+                           <i class="fa fa-times-circle" style="color:red"></i>
+                           {% endif %}
+                       </a>
+                       <br>
+                        XBL: <a href="#">{{ userprofile.xbl }}
+                       {% if userprofile.xbl_verified %}
+                            <i class="fa fa-check-circle" style="color:green"></i>
+                           {% else %}
+                           <i class="fa fa-times-circle" style="color:red"></i>
+                           {% endif %}
+                       </a>
+                       <br>
+                        <br>
+                        Twitter: <a href="http://twitter.com/{{ userprofile.twitter_profile }}">@{{ userprofile.twitter_profile }}</a><br>
+                        Twitch: <a href="http://twitch.tv/{{ userprofile.twitch_channel }}">{{ userprofile.twitch_channel }}</a><br>
+
+
+
+                   </div>
+                    {% if requestuser == userprofile.user %}
+                        <a style="margin:12px;" href="/profile/edit"> <i class="fas fa-pencil-alt"></i>  Edit Profile</a><br />
+                        <a style="margin:12px;" href="/store/transfer"><i class="fas fa-arrow-right"></i> Transfer Credits</a><br />
+                    {% endif %}
+                   </div>
+               </div>
+
+
+                <div class="row gutter-10 bot20">
+
+                     <div class="col-cs-12 col-sm-4">
+                      <div class="panel-title bold">My Info</div>
+                       <div class="panel-default">
+                       <div class="panel-body">
+                        <h4>Bio:</h4>
+                        {{ userprofile.about_me }}<br><br>
+                        <h4>Gear:</h4>
+                    Headset: Something | Controller: Something<br>
+                    </div>
+                    </div>
+                     </div>
+                     <div class="col-xs-12 col-sm-4">
+                       <div class="panel-title bold">Tournament Standings</div>
+                         <div class="panel-default">
+                         <div class="panel-body">
+                         <h5>WINS</h5>
+                         <h3>16</h3>
+                         </div>
+                        </div>
+                         <div class="panel-default">
+                         <div class="panel-body">
+                         <h5>LOSSES</h5>
+                         <h3>3</h3>
+                         </div>
+                         </div>
+                     </div>
+                     <div class="col-xs-12 col-sm-4">
+                     <div class="panel-title bold">Points Per Game</div>
+                       <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <tbody>
+                                        <tr>
+                                            <td valign="middle"><img src="{% static 'images/ww2.jpg' %}"></td>
+                                            <td valign="middle">COD WWII</td>
+                                            <td valign="middle">198 Points</td>
+                                        </tr>
+                                        <tr>
+                                            <td valign="middle"><img src="{% static 'images/ww2.jpg' %}"></td>
+                                            <td valign="middle">COD WWII</td>
+                                            <td valign="middle">198 Points</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+     				 </div>
+
+                    </div>
+
+
+<h4>Teams {{ userprofile.user }} is apart of</h4>
+
+<!-- this is not stock olly -->
+<!-- from here -->
+<table class="table">
+
+<tr id="header">
+        <thead>
+        <th scope="row">Team ID</th>
+        <th>Team Name</th>
+        <th>Team Role</th>
+        </thead>
+    </tr>
+{% for invite in team_list %}
+ <tbody>
+    <tr scope="">
+        <td scope="row"><a href="/teams/{{ invite.team.id }}/">#{{invite.team.id}}</a></td>
+        <td>{{invite.team.name}}</td>
+        <td>{{invite.captain}}</td>
+    </tr>
+    </tbody>
+
+
+{% endfor %}
+</table>
+
+
+      </div>
+
+    </div>
+
+</div>
+
+<!-- to here -->
+
+{% endblock %}
