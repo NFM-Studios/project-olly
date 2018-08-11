@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+  {% block head %}
+  <title>Login - {{ SITE_NAME }}</title>
+  {% endblock %}
+
+{% block body %}
+
+    <div class="container page">
+
+<div class="col-xs-12">
+           <div class="panel">
+              <div class="panel-body">
+
+                <div class="row">
+                    <div class="col-xs-12">
+    					<div class="panel-title bold">Login</div>
+                           <div class="col-xs-12">
+
+
+
+
+<br />
+<form method="post">
+  {% csrf_token %}
+  <label>Username</label>
+  {{ form.username }}
+    <br />
+  <label>Password</label>
+  {{ form.password }}
+{% include 'profiles/captcha.html' %}
+  <label><input name="remember me" type="checkbox">Keep me logged in</label> <br />
+  <button class="btn btn-success" type="submit">Login</button> <a href="/reset-password" class="btn btn-primary">Forgot password?</a>
+</form>
+                           </div>
+                    </div>
+                </div>
+              </div>
+           </div>
+</div>
+    </div>
+{% endblock %}

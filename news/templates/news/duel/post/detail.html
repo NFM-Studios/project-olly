@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+  {% block head %}
+  <title>{{ post.title }} - {{ SITE_NAME }}</title>
+  {% endblock %}
+
+{% block body %}
+
+
+    <div class="container page">
+
+      <div class="panel">
+      <div class="panel-body">
+      <div class="panel-title"><b>{{ post.title }}</b></div>
+      <h5>Posted By: {{ post.author }} | {{ post.publish }}</h5><br>
+      <img src="{% static 'images/big-banner.jpg' %}"/>
+
+     <div class="panel-default">
+      <div class="panel-body">
+
+        <p>{{ post.body|linebreaks }}</p>
+
+      </div>
+     </div>
+
+
+      </div>
+     </div>
+
+</div>
+
+
+
+{% endblock %}
