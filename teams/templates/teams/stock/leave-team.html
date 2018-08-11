@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+  {% block head %}
+  <title>{{ team.name }} - {{ SITE_NAME }}</title>
+  {% endblock %}
+
+{% block body %}
+
+<link rel="stylesheet" href="{% static "css/teams.css" %}">
+<link rel="stylesheet" href="{% static "css/fontawesome-all.min.css" %}">
+
+{% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      <li class="{{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+
+
+<form method="post">
+    {% csrf_token %}
+
+    {{ field.errors }}
+
+    Confirm: {{ form.confirmed }}
+
+
+
+    <p><button type="submit" class="btn btn-primary">Leave</button></p>
+  </form>
+
+
+
+{% endblock %}
