@@ -1,0 +1,228 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+  {% block head %}
+  <title>{{ tournament.name }} Details - {{ SITE_NAME }}</title>
+  {% endblock %}
+
+{% block body %}
+<link rel="stylesheet" href="{% static "css/singletournament.css" %}">
+
+{% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      <li class="{{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+
+{% if not user.is_anonymous %}
+<p><a href="{% url 'teams:list' %}"><i class="fas fa-arrow-left"></i> <strong>Back to team list</strong></a></p>
+{% else %}
+<a href="{% url 'index' %}"><i class="fas fa-arrow-left"></i> <strong>Back to home</strong></a></a>
+{% endif %}
+
+<div class="container wrap">
+
+           <div class="panel">
+              <div class="panel-body">
+
+                  <div class="col-xs-12 banner-head bot20">
+                   <div class="row">
+                   <div class="col-xs-12 col-sm-4">
+                    <img src="{% static 'images/ps4-game.jpg' %}"/>
+                   </div>
+                   <div class="col-xs-12 col-sm-8">
+                   <br>
+                    <h2><b>{{ tournament.name }}</b></h2>
+                    <h4>Playstation 4</h4>
+                    8PM GMT | 1st Place: 180 Credits<br>
+                    <br>
+                    <ul class="nav nav-pills">
+			<li class="active"><a href="#1" data-toggle="tab" aria-expanded="true" style="margin-bottom:4px;">INFO</a></li>
+            <li class=""><a href="#3" data-toggle="tab" aria-expanded="false" style="margin-bottom:4px;">TEAMS</a></li>
+			<li class=""><a href="#2" data-toggle="tab" aria-expanded="false" style="margin-bottom:4px;">BRACKET</a></li>
+            <li class=""><a href="{% url 'singletournaments:ruleset' pk=tournament.id %}" data-toggle="tab" aria-expanded="false" style="margin-bottom:4px;">RULES</a></li>
+            <li class=""><a href="#5" data-toggle="tab" aria-expanded="false" style="margin-bottom:4px;">JOIN</a></li>
+</ul>
+                   </div>
+
+                   </div>
+                  </div>
+
+
+<div class="row">
+<div class="col-xs-12">
+
+		<div class="tab-content clearfix">
+           <div class="tab-pane info active" id="1">
+             <div class="row bot10">
+              <div class="col-xs-6 center">
+               <div class="panel-default">
+                <div class="panel-body">
+                  <h4><b>PLATFORM</b></h4>
+                  Playstation 4
+                </div>
+               </div>
+              </div>
+              <div class="col-xs-6 center">
+               <div class="panel-default">
+                <div class="panel-body">
+                  <h4><b>GAME</b></h4>
+                  {% if tournament.game == 0 %}
+        No Game Set
+        {% elif tournament.game == 1 %}
+        Call of Duty: Black Ops 3
+        {% elif tournament.game == 2 %}
+        Call of Duty WWII
+        {% elif tournament.game == 3 %}
+        Fortnite
+        {% elif tournament.game == 4 %}
+        Destiny 2
+        {% elif tournament.game == 5 %}
+        Counter-Strike: Global Offensive
+        {% elif tournament.game == 6 %}
+        Player Unknown's BATTLEGROUNDS
+        {% elif tournament.game == 7 %}
+        Rainbow Six Siege
+        {% elif tournament.game == 8 %}
+        Overwatch
+        {% elif tournament.game == 9 %}
+        League of Legends
+        {% elif tournament.game == 10 %}
+        Hearthstone
+        {% elif tournament.game == 11 %}
+        World of Warcraft
+        {% elif tournament.game == 12 %}
+        SMITE
+        {% elif tournament.game == 13 %}
+        Rocket League
+        {% elif tournament.game == 14 %}
+        Battlefield 1
+        {% endif %}
+                </div>
+               </div>
+              </div>
+              <div class="col-xs-6 center">
+               <div class="panel-default">
+                <div class="panel-body">
+                  <h4><b>START</b></h4>
+                  {{ tournament.start }}
+                </div>
+               </div>
+              </div>
+              <div class="col-xs-6 center">
+               <div class="panel-default">
+                <div class="panel-body">
+                  <h4><b>CREDITS REQUIRED</b></h4>
+                  {{ tournament.req_credits}}
+                </div>
+               </div>
+              </div>
+             </div>
+             <div class="row bot10">
+              <div class="col-xs-6 center">
+               <div class="panel-default">
+                <div class="panel-body">
+                  <h4><b>REGISTRATION OPENS</b></h4>
+                  {{ tournament.open_register }}
+                </div>
+               </div>
+              </div>
+              <div class="col-xs-6 center">
+               <div class="panel-default">
+                <div class="panel-body">
+                  <h4><b>REGISTRATION CLOSES</b></h4>
+                  {{ tournament.close_register }}
+                </div>
+               </div>
+              </div>
+
+             </div>
+
+           </div>
+
+
+
+			<div class="tab-pane" id="2">
+
+                {% if tournament.size == 4 and tournament.bracket_generated %}
+                {% include 'singletournaments/singletournament_bracket4.html' %}
+                {% endif %}
+
+                {% if tournament.size == 8 and tournament.bracket_generated %}
+                {% include 'singletournaments/singletournament_bracket8.html' %}
+                {% endif %}
+
+                {% if tournament.size == 16 and tournament.bracket_generated %}
+                {% include 'singletournaments/singletournament_bracket16.html' %}
+                {% endif %}
+
+                {% if tournament.size == 32 and tournament.bracket_generated %}
+                {% include 'singletournaments/singletournament_bracket32.html' %}
+                {% endif %}
+
+                {% if tournament.size == 64 and tournament.bracket_generated %}
+                {% include 'singletournaments/singletournament_bracket64.html' %}
+                {% endif %}
+
+                {% if tournament.size == 128 and tournament.bracket_generated %}
+                {% include 'singletournaments/singletournament_bracket128.html' %}
+                {% endif %}
+
+                {% if tournament.size != 128 or tournament.size != 64 or tournament.size != 32 or tournament.size != 16 or tournament.size != 8 or tournament.size != 4 %}
+                {% include 'singletournaments/no_bracket.html' %}
+                {% endif %}
+
+
+		    </div>
+
+
+             <div class="tab-pane" id="3">
+
+
+               {% include 'singletournaments/singletournament_teams.html' %}
+
+                </div>
+
+                 <div class="tab-pane" id="4">
+                 <div class="col-md-12">
+
+                   <h3>Rule Title</h3>
+                   <br>
+                  <p>Vestibulum sit amet nulla lacinia, rutrum nunc sed, lobortis dui. Donec eget risus pellentesque, tristique arcu ac, congue est. Cras et dolor aliquet, interdum dui volutpat, faucibus diam. Fusce eu erat luctus, porttitor sapien in, convallis magna. Fusce eget ipsum in risus fermentum maximus quis eget massa. Donec semper, justo vitae dignissim mattis, dolor sapien sollicitudin mauris, sed euismod nisi purus quis mauris. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. In hendrerit justo vel dui ultricies eleifend. Donec dapibus egestas ante, quis egestas lorem facilisis vel.</p>
+                  <br>
+                  <h3>Rule Title</h3>
+                  <br>
+                  <p>Vestibulum sit amet nulla lacinia, rutrum nunc sed, lobortis dui. Donec eget risus pellentesque, tristique arcu ac, congue est. Cras et dolor aliquet, interdum dui volutpat, faucibus diam. Fusce eu erat luctus, porttitor sapien in, convallis magna. Fusce eget ipsum in risus fermentum maximus quis eget massa. Donec semper, justo vitae dignissim mattis, dolor sapien sollicitudin mauris, sed euismod nisi purus quis mauris. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. In hendrerit justo vel dui ultricies eleifend. Donec dapibus egestas ante, quis egestas lorem facilisis vel.</p>
+                  <br>
+                  <h3>Rule Title</h3>
+                  <br>
+                  <p>Vestibulum sit amet nulla lacinia, rutrum nunc sed, lobortis dui. Donec eget risus pellentesque, tristique arcu ac, congue est. Cras et dolor aliquet, interdum dui volutpat, faucibus diam. Fusce eu erat luctus, porttitor sapien in, convallis magna. Fusce eget ipsum in risus fermentum maximus quis eget massa. Donec semper, justo vitae dignissim mattis, dolor sapien sollicitudin mauris, sed euismod nisi purus quis mauris. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. In hendrerit justo vel dui ultricies eleifend. Donec dapibus egestas ante, quis egestas lorem facilisis vel.</p>
+                  <br>
+                  <h3>World War II Support</h3>
+                  <br>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+                  </p>
+                  <br>
+                  </div>
+                 </div>
+
+                 <div class="tab-pane" id="5">
+                 <div class="col-md-12">
+
+                   <a href="{% url 'singletournaments:join' pk=pk %}">Join</a>
+                 </div>
+
+				</div>
+
+            </div>
+
+</div>
+
+                 </div>
+
+    </div>
+
+   </div>
+{% endblock %}
