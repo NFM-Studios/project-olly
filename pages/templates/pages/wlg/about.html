@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+  {% block head %}
+  <title>About Us - {{ SITE_NAME }}</title>
+  {% endblock %}
+
+{% block body %}
+<div class="container wrap">
+
+ <div class="panel">
+    <div class="panel-body">
+    <div class="panel-title">ABOUT US</div>
+    <br>
+<h4>{{ SITE_NAME }}</h4>
+<br>
+
+<p>{{ staticinfo.about_us }}</p>
+    </div>
+ </div>
+</div>
+{% endblock %}
