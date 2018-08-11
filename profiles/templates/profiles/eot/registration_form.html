@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+  {% block head %}
+  <title>Register - {{ SITE_NAME }}</title>
+  {% endblock %}
+
+{% block body %}
+<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 col-md-offset-2
+col-lg-offset-2 wrap">
+    <div class="panel">
+    <div class="panel-body">
+{% if messages %}
+  <ul class="messages">
+      {% for message in messages %}
+      <li class="{{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+  </ul>  {% endif %}
+        <h3>Add a new account</h3>
+
+
+  <form class="form-horizonal" role="form" action="" method="post">
+    {% csrf_token %}
+    {% include 'profiles/form_template.html' %}
+    {% include 'profiles/captcha.html' %}
+    <button type="submit" class="btn btn-success">Submit</button>
+  </form>
+              </div>
+           </div>
+    </div>
+{% endblock %}
