@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "duel/base.html" %}
 {% load staticfiles %}
   {% block head %}
   <title>{{ SITE_NAME }}</title>
@@ -23,13 +23,13 @@
   <div class="container-fluid">
    <div class="row">
      <div class="col-xs-12 col-sm-4 center">
-       <a href="{% url 'register' %}"><img src="{% static 'images/signup.jpg' %}"></a>
+       <a href="{% url 'register' %}"><img src="{% static 'duel/images/signup.jpg' %}"></a>
      </div>
      <div class="col-xs-12 col-sm-4 center">
-	   <a href="{% url 'singletournaments:list' %}"><img src="{% static 'images/find.jpg' %}"></a>
+	   <a href="{% url 'singletournaments:list' %}"><img src="{% static 'duel/images/find.jpg' %}"></a>
      </div>
      <div class="col-xs-12 col-sm-4 center">
-	  <a href="#"><img src="{% static 'images/challenge.jpg' %}"></a>
+	  <a href="#"><img src="{% static 'duel/images/challenge.jpg' %}"></a>
      </div>
    </div>
    </div>
@@ -48,7 +48,7 @@
      <div class="col-xs-12 col-sm-4 col-md-3">
 	   <div class="panel">
         <div class="panel-body">
-          <img src="{% static 'images/fortnite.jpg' %}"/><br>
+          <img src="{% static 'duel/images/fortnite.jpg' %}"/><br>
           <h4>{{ fortnitetourny.name }}e</h4>
           <b>Platform: {% if fortnitetourny.platform == 0 %}
         Playstation 4
@@ -99,7 +99,7 @@
   <section class="blue2">
    <div class="container">
     <div class="row">
-     <div class="col-xs-12 center" style="position:relative;"><img style="position:absolute;z-index:999;width:387px;height:75px;top:-2px;left:0px;right:0px;margin:0 auto;" src="{% static 'images/featured.png' %}"/></div>
+     <div class="col-xs-12 center" style="position:relative;"><img style="position:absolute;z-index:999;width:387px;height:75px;top:-2px;left:0px;right:0px;margin:0 auto;" src="{% static 'duel/images/featured.png' %}"/></div>
      <div class="hidden-xs hidden-sm col-md-1"></div>
      <div class="col-xs-12 col-sm-12 col-md-10 center">
       <div style="z-index:100;">

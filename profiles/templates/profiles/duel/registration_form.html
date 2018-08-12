@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "duel/base.html" %}
 
   {% block head %}
   <title>Register - {{ SITE_NAME }}</title>
@@ -18,8 +18,8 @@
                                <br>
   <form class="form-horizonal" role="form" action="" method="post">
     {% csrf_token %}
-    {% include 'profiles/form_template.html' %}
-    {% include 'profiles/captcha.html' %}
+    {% include 'profiles/duel/form_template.html' %}
+    {% include 'profiles/duel/captcha.html' %}
     <button type="submit" class="btn btn-success">Submit</button>
   </form>
                            </div>
