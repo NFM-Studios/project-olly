@@ -5,6 +5,10 @@
   {% endblock %}
 
 {% block body %}
+    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 col-md-offset-2 col-lg-offset-2 wrap">
+
+           <div class="panel">
+              <div class="panel-body">
   <form method="post">
     {% csrf_token %}
 
@@ -13,15 +17,21 @@
     <label>About Us</label>
     <div class="form-group">{{ form.about_us }}</div>
 
-    <label>Website</label>
+    <label>Website (Do not include HTTP or www)</label>
     <div class="form-group">{{form.website}}</div>
 
-    <label>Twitter</label>
+    <label>Twitter (Not including the @)</label>
     <div class="form-group">{{form.twitter}}</div>
 
-    <label>Twitch Username</label>
+    <label>Twitch Username (just the username, no link)</label>
     <div class="form-group">{{form.twitch}}</div>
 
     <button type="submit" class="btn btn-primary">Update</button>
+
   </form>
+
+              </div>
+           </div>
+    </div>
+
 {% endblock %}

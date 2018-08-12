@@ -7,7 +7,10 @@
   {% endblock %}
 
 {% block body %}
+    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 col-md-offset-2 col-lg-offset-2 wrap">
 
+           <div class="panel">
+              <div class="panel-body">
     <form method="POST" action="">
         {% csrf_token %}
         {{ form }}
@@ -33,5 +36,7 @@
     {% endfor %}
 </table>
 
-
+              </div>
+           </div>
+    </div>
 {% endblock %}

@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+  {% block head %}
+  <title>Team Invite - {{ SITE_NAME }}</title>
+  {% endblock %}
+
+<link rel="stylesheet" href="{% static "css/teams.css" %}">
+
+{% block body %}
+    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 col-md-offset-2 col-lg-offset-2 wrap">
+
+
+
+        <div class="panel">
+              <div class="panel-body">
+
+
+
+    <div class="col-xs-12 bot10">
+    					<div class="panel-title">Team Invites</div>
+                          <div class="table-responsive">
+                                <table class="table table-hover">
+                                 <thead>
+      							<tr>
+                                    <th>Invite ID</th>
+                                    <th>From</th>
+                                    <th>Team Name</th>
+                                    <th>Team Role</th>
+                                    <th>Active?</th>
+     							 </tr>
+    							</thead>
+
+                                    <tbody>
+                                        <tr>
+                                            <td valign="middle"><a href="/teams/invites/{{ invite.id }}/"><h5>#{{invite.id}}</h5></a></td>
+                                            <td valign="middle">{{invite.inviter}}</td>
+                                            <td valign="middle">{{invite.team.name}}</td>
+                                            <td valign="middle">{{invite.captain}}</td>
+                                            <td valign="middle">{% if invite.active %}
+                                                Yes
+                                                {% else %}
+                                                No{% endif %}</td>
+                                        </tr>
+
+                                    </tbody>
+
+                                </table>
+                                          <form class="form-horizontal" role='form' action="" method="post">
+                                            {% csrf_token %}
+                                            <label>Accept invitation</label>
+                                            <div>{{ form.accepted }}</div>
+                                            <label>Deny invitation</label>
+                                            <div>{{ form.denied }}</div>
+                                            <button type="Submit" class="btn btn-success">Submit</button>
+                                        </form>
+                                        </div>
+                                    </div>
+
+                       </div>
+                       </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+{% endblock %}

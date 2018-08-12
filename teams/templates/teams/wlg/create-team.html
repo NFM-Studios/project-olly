@@ -8,13 +8,14 @@
 
 {% block body %}
 
-{% if messages %}
-  <ul class="messages">
-    {% for message in messages %}
-      <li class="{{ message.tags }}">{{ message }}</li>
-    {% endfor %}
-  </ul>
-{% endif %}
+
+
+    <div class="container page">
+
+     <div class="panel">
+         <div class="panel-title">Create a new Team</div>
+      <div class="panel-body">
+      <br>
 
 <form method="POST" action="{% url 'teams:create' %}">
     <table class="table">
@@ -27,4 +28,7 @@
         </tr>
     </table>
 </form>
+      </div>
+     </div>
+    </div>
 {% endblock %}

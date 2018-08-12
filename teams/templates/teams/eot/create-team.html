@@ -1,13 +1,16 @@
 {% extends "base.html" %}
 {% load staticfiles %}
-<link rel="stylesheet" type="text/css" href="{% static "css/teams.css" %}">
+<link rel="stylesheet" href="{% static "css/teams.css" %}">
 
   {% block head %}
-  <title>Promote a Player - {{ SITE_NAME }}</title>
+  <title>Create a Team - {{ SITE_NAME }}</title>
   {% endblock %}
 
 {% block body %}
+    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 col-md-offset-2 col-lg-offset-2 wrap">
 
+           <div class="panel">
+              <div class="panel-body">
 {% if messages %}
   <ul class="messages">
     {% for message in messages %}
@@ -15,12 +18,6 @@
     {% endfor %}
   </ul>
 {% endif %}
-
-<h2 id="captain-header" style="">Promote a player from a player to a captain</h2>
-<p id="captain-text" style> Captains have added permissions, such as editing the team profile,
-  inviting players, and reporting matches.
-<br />
-Captains <strong>do not</strong> have permissions to remove players from a team.
 
 <form method="POST" action="{% url 'teams:create' %}">
     <table class="table">
@@ -33,4 +30,7 @@ Captains <strong>do not</strong> have permissions to remove players from a team.
         </tr>
     </table>
 </form>
+              </div>
+           </div>
+    </div>
 {% endblock %}
