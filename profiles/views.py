@@ -131,12 +131,12 @@ def edit_profile(request):
 
 class CreateUserFormView(View):
     form_class = CreateUserForm
-    template_name = 'profiles/registration_form.html'
+    #template_name = 'profiles/registration_form.html'
 
     def get(self, request):
         if request.user.is_anonymous:
             form = self.form_class(None)
-            return render(request, self.template_name, {'form': form})
+            return render(request, 'profiles/' + request.tenant + '/registration_form.html', {'form': form})
         else:
             messages.error(request, "You cannot register while logged in")
             return redirect('index')
@@ -176,7 +176,7 @@ class CreateUserFormView(View):
                     current_site = get_current_site(request)
 
                     mail_subject = 'Activate your "Project Olly" account.'
-                    message = render_to_string('profiles/activate_email.html', {
+                    message = render_to_string('profiles/' + request.tenant + '/activate_email.html', {
                         'user': user,
                         'domain': current_site.domain,
                         'uid': urlsafe_base64_encode(force_bytes(user.pk)),
@@ -195,7 +195,7 @@ class CreateUserFormView(View):
             if User.objects.filter(username=form.data['username']).exists():
                 messages.error(request, 'That username already exists')
                 return redirect('register')
-            return render(request, self.template_name, {'form': form})
+            return render(request, 'profiles/' + request.tenant + '/registration_form.html', {'form': form})
         else:
             messages.error(request, "You cannot register while logged in")
             return redirect('index')
