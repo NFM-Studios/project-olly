@@ -9,15 +9,12 @@
 
 {% block body %}
 
-{% if messages %}
-  <ul class="messages">
-    {% for message in messages %}
-      <li class="{{ message.tags }}">{{ message }}</li>
-    {% endfor %}
-  </ul>
-{% endif %}
+ <div class="container wrap">
 
-<form method="POST" action="{% url 'teams:invite' %}">
+           <div class="panel">
+              <div class="panel-body">
+
+<form class="" method="POST" action="{% url 'teams:invite' %}">
     <table class="table">
         {% csrf_token %}
         {{ form }}
@@ -29,4 +26,8 @@
         </tr>
     </table>
 </form>
+              </div>
+           </div>
+ </div>
+
 {% endblock %}
