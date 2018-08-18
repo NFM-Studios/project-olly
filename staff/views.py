@@ -21,7 +21,7 @@ from singletournaments.models import SingleEliminationTournament, SingleTourname
 from support.models import Ticket, TicketComment
 from django.shortcuts import get_object_or_404
 from pages.models import Partner
-from olly import settings
+from django.conf import settings
 
 
 def staffindex(request):
