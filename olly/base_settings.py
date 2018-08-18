@@ -19,20 +19,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'bcgu@a)k$z!)1qmv@5a)&e$x@+@_tvl-s87)3@n)032*6r6u-2'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-# SECURITY WARNING: don't run with this set to true in prod
-PAYPAL_TEST = True
-
-ALLOWED_HOSTS = ['*']
-
 SESSION_COOKIE_AGE = 604800
-
-SITE_URL = '127.0.0.1'
 
 # Application definition
 
@@ -122,20 +109,6 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'olly.wsgi.application'
-
-
-# Database
-# https://docs.djangoproject.com/en/1.11/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
-
-
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
 
@@ -174,35 +147,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-#MEDIA_URL = '/media/'
-
-MEDIA_ROOT = os.path.join(BASE_DIR, 'olly/media')
-
-AWS_ACCESS_KEY_ID = 'SFEXIZLBH3QT2TTAMVUG'
-AWS_SECRET_ACCESS_KEY = 'LBPpYOTa22L8e62+yOrh/krtMMplsKlOoZbTFklZLvc'
-AWS_S3_ENDPOINT_URL = 'https://nyc3.digitaloceanspaces.com'
-AWS_STORAGE_BUCKET_NAME = 'olly-dev-space'
-AWS_LOCATION = 'media'
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-MEDIA_URL = "%s/%s/" % (AWS_S3_ENDPOINT_URL, AWS_STORAGE_BUCKET_NAME)
 
 # Where to redirect users after login
-# LOGIN_URL = '/login'
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/login/'
-
-# Email stuff
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'nfm.studios@gmail.com'
-EMAIL_HOST_PASSWORD = 'mikemaddem'
-EMAIL_PORT = 587
-PAYPAL_EMAIL = "steven.young.1-merchant@gmail.com"
-
-# Captcha
-GOOGLE_RECAPTCHA_SECRET_KEY = '6LdEsEMUAAAAABfKHZo9Ox0j55s2EnANq-wQlUOm'
-
-# Site info
-SITE_NAME = "Project Olly"
-SITE_SERVER = "Dev-Environment"
-SITE_VERSION = "2018.06.03"
