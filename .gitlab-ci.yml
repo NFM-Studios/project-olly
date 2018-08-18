@@ -23,7 +23,7 @@ before_script:
   - python -V                                   # Print out python version for debugging
   # Uncomment next line if your Django app needs a JS runtime:
   # - apt-get update -q && apt-get install nodejs -yqq
-  - apk add gcc musl-dev postgresql-libs # install stuff so psycopg2 doesn't kill itself
+  - apk add gcc musl-dev postgresql-dev python3-dev # install stuff so psycopg2 doesn't kill itself
   - pip install -r requirements.txt
 
 # To get Django tests to work you may need to create a settings file using
