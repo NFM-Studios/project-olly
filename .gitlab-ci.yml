@@ -1,13 +1,12 @@
 # Official framework image. Look for the different tagged releases at:
 # https://hub.docker.com/r/library/python
-image: python:latest
+image: python:alpine
 
 # Pick zero or more services to be used on all builds.
 # Only needed when using a docker container to run your tests in.
 # Check out: http://docs.gitlab.com/ce/ci/docker/using_docker_images.html#what-is-a-service
 services:
-  - mysql:latest
-  - postgres:latest
+  - postgres:alpine
 
 variables:
   POSTGRES_DB: database_name
@@ -46,4 +45,4 @@ test:
   variables:
     DATABASE_URL: "postgresql://postgres:postgres@postgres:5432/$POSTGRES_DB"
   script:
-  - python manage.py test
+  - python manage.py test --settings olly.duel_settings
