@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from ipware import get_client_ip
 from profiles.models import UserProfile, BannedUser
-from django.conf import settings
 
 
 class CheckBanListMiddleware:
@@ -24,9 +23,9 @@ class CheckBanListMiddleware:
                     user.save()  # this will update only
                     if not BannedUser.objects.filter(ip=ip).exists():
                         if BannedUser.objects.filter(user=request.user):
-                            return render(request, 'profiles/banned.html')
+                            return render(request, 'profiles/' + request.tenant + '/banned.html')
                 if BannedUser.objects.filter(ip=ip).exists():
-                    return render(request, 'profiles/banned.html')
+                    return render(request, 'profiles/' + request.tenant + '/banned.html')
 
 
 def tenant_middleware(get_response):
@@ -40,8 +39,6 @@ def tenant_middleware(get_response):
 
         if domain == 'duelbattleroyale' or subdomain == 'duel':
             request.tenant = 'duel'
-            settings.SITE_NAME = "Duel Battle Royale"
-            settings.GOOGLE_RECAPTCHA_SECRET_KEY = 'asdf6LcSkGkUAAAAAFpieiMszPml-M8MsQUupv1fgN9X'
         elif domain == 'esportsopentour' or subdomain == 'eot':
             request.tenant = 'eot'
 
