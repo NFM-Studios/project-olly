@@ -24,25 +24,25 @@ def index(request):
 
 def about(request):
         staticinfo = StaticInfo.objects.get(pk=1)
-        return render(request, 'pages/about.html', {'staticinfo': staticinfo})
+        return render(request, 'pages/' + request.tenant + '/about.html', {'staticinfo': staticinfo})
 
 
 def partners_page(request):
 
     partners = Partner.objects.all()
-    return render(request,  'pages/partners.html', {'partners': partners})
+    return render(request,  'pages/' + request.tenant + '/partners.html', {'partners': partners})
 
 
 def terms(request):
     staticinfo = StaticInfo.objects.get(pk=1)
-    return render(request, 'pages/terms.html', {'staticinfo': staticinfo})
+    return render(request, 'pages/' + request.tenant + '/terms.html', {'staticinfo': staticinfo})
 
 
 def privacy(request):
     staticinfo = StaticInfo.objects.get(pk=1)
-    return render(request, 'pages/privacy.html', {'staticinfo': staticinfo})
+    return render(request, 'pages/' + request.tenant + '/privacy.html', {'staticinfo': staticinfo})
 
 
 def notfound(request):
     staticinfo = StaticInfo.objects.get(pk=1)
-    return render(request, 'pages/404.html', {'staticinfo': staticinfo})
+    return render(request, 'pages/' + request.tenant + '/404.html', {'staticinfo': staticinfo})

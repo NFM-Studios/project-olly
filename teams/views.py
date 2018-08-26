@@ -3,7 +3,6 @@ from django.contrib import messages
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.views.generic import ListView, DetailView, CreateView, View
-from django.contrib.auth.models import User
 import datetime
 from django.utils import timezone
 # team create forms
@@ -31,7 +30,7 @@ class MyInvitesListView(ListView):
 
 
 def InviteView(request, num):
-    template_name = 'teams/invite.html'
+    template_name = 'teams/' + request.tenant + '/invite.html'
 
     if request.method == "GET":
         form = ViewInviteForm()
@@ -72,11 +71,10 @@ class MyTeamsListView(ListView):
     # list all the teams they are apart of
     # maybe list the role they have?
     model = Team
-    template_name = 'teams/my-teams.html'
 
     def get(self, request):
         team_list = TeamInvite.objects.filter(user=self.request.user, accepted=True)
-        return render(request, self.template_name, {'team_list': team_list})
+        return render(request, 'teams/' + request.tenant + '/my-teams.html', {'team_list': team_list})
 
     def get_queryset(self, **kwargs):
         # TO DO switch the filter to the players field not just the founder field.
@@ -98,7 +96,7 @@ def EditTeamView(request, pk):
     else:
         teamobj = Team.objects.get(id=pk)
         form = EditTeamProfileForm(instance=teamobj)
-        return render(request, 'teams/edit-team.html', {'form': form})
+        return render(request, 'teams/' + request.tenant + '/edit-team.html', {'form': form})
 
 
 class MyTeamDetailView(DetailView):
@@ -106,7 +104,6 @@ class MyTeamDetailView(DetailView):
     model = Team
     # base team template all users can see, inside the template some permissions like viewing the edit team button
     # will be managed
-    template_name = 'teams/team.html'
     form = TeamInviteFormPost
 
     def get(self, request, pk):
@@ -117,7 +114,7 @@ class MyTeamDetailView(DetailView):
             messages.warning(request, "Xbox Live is not verified")
         if not user.psn_verified:
             messages.warning(request, "PSN is not verified")
-        return render(request, self.template_name, {'team': team, 'players': players, 'pk': pk})
+        return render(request, 'teams/' + request.tenant + '/team.html', {'team': team, 'players': players, 'pk': pk})
 
     def get_context_date(self, **kwargs):
         context = super(MyTeamDetailView, self).get_context_date(**kwargs)
@@ -146,31 +143,38 @@ class MyTeamDetailView(DetailView):
         return Team.objects.filter(founder=self.request.user)
 
 
-class TeamCreateView(CreateView):
+class TeamCreateView(View):
     form_class = TeamCreateForm
-    template_name = 'teams/create-team.html'
+    # template_name = 'teams/' + request.tenant + '/create-team.html'
 
-    def form_valid(self, form):
-        Team = form.instance
-        if len(Team.name) < 5:
-            messages.error(self.request, 'Your team name must be 5 or more characters')
-            return redirect('teams:create')
+    def get(self, request):
+        form = self.form_class(request)
+        return render(request, 'teams/' + request.tenant + '/create-team.html', {'form': form})
 
-        Team.founder = self.request.user
-        Team.save()
-        invite = TeamInvite()
-        invite.expire = timezone.now()
-        invite.user = self.request.user
-        invite.captain = 'founder'
-        invite.hasPerms = True
-        invite.accepted = True
-        invite.inviter = self.request.user
-        invite.inviter_id = self.request.user.id
-        invite.team_id = Team.id
-        invite.save()
-        self.success_url = reverse('teams:detail', args=[Team.id])
-        messages.success(self.request, 'Your Team has been created successfully')
-        return super(TeamCreateView, self).form_valid(form)
+    def post(self, request):
+        form = self.form_class(request.POST)
+
+        if form.is_valid():
+            Team = form.instance
+            if len(Team.name) < 5:
+                messages.error(self.request, 'Your team name must be 5 or more characters')
+                return redirect('teams:create')
+
+            Team.founder = self.request.user
+            Team.save()
+            invite = TeamInvite()
+            invite.expire = timezone.now()
+            invite.user = self.request.user
+            invite.captain = 'founder'
+            invite.hasPerms = True
+            invite.accepted = True
+            invite.inviter = self.request.user
+            invite.inviter_id = self.request.user.id
+            invite.team_id = Team.id
+            invite.save()
+
+            messages.success(self.request, 'Your Team has been created successfully')
+            return redirect('teams:list')
 
 
 def get_invites(form):
