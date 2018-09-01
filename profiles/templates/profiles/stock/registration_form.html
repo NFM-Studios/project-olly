@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "stock/base.html" %}
 
   {% block head %}
   <title>Register - {{ SITE_NAME }}</title>
@@ -8,8 +8,8 @@
   <h3>Add a new account</h3>
   <form class="form-horizonal" role="form" action="" method="post">
     {% csrf_token %}
-    {% include 'profiles/form_template.html' %}
-    {% include 'profiles/captcha.html' %}
+    {% include 'profiles/stock/form_template.html' %}
+    {% include 'profiles/stock/captcha.html' %}
     <button type="submit" class="btn btn-success">Submit</button>
   </form>
 {% endblock %}

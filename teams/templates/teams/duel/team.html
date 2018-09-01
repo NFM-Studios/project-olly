@@ -6,9 +6,6 @@
   {% endblock %}
   
 {% block body %}
-
-<link rel="stylesheet" href="{% static "css/teams.css" %}">
-<link rel="stylesheet" href="{% static "css/fontawesome-all.min.css" %}">
 <div class="container wrap">
 
            <div class="panel">
@@ -23,7 +20,7 @@
                        Founded by <a href="{% url 'profiles:profile' urlusername=team.founder %}">{{ team.founder }}</a> on {{ team.created }}<br><br>
                    </div>
                    <div class="col-xs-12 col-sm-6 center">
-                    <img src="{% static 'images/avatar.jpg' %}"/>
+                    <img src="{% static 'duel/images/avatar.jpg' %}"/>
                    </div>
 
                    </div>
@@ -78,7 +75,7 @@
                                     <tbody>
                                     {% for player in players %}
                                         <tr>
-                                            <td valign="middle"><img src="{% static 'images/avatar.jpg' %}"></td>
+                                            <td valign="middle"><img src="{% static 'duel/images/avatar.jpg' %}"></td>
                                             <td valign="middle"><a href="{% url 'profiles:profile' urlusername=player %}">{{ player }}</a></td>
                                             <td valign="middle">unknown</td>
                                         </tr>

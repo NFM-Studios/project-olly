@@ -1,21 +1,11 @@
-{% extends "base.html" %}
+{% extends "stock/base.html" %}
 {% load staticfiles %}
-<link rel="stylesheet" href="{% static "css/ticket.css" %}">
-<link rel="stylesheet" href="{% static "css/fontawesome-all.min.css" %}">
-
   {% block head %}
   <title>Ticket {{ ticket.id }} Details - {{ SITE_NAME }}</title>
   {% endblock %}
 
 {% block body %}
 
-{% if messages %}
-  <ul class="messages">
-    {% for message in messages %}
-      <li class="{{ message.tags }}">{{ message }}</li>
-    {% endfor %}
-  </ul>
-{% endif %}
 
 
 <p><a href="{% url 'support:list' %}"><i class="fas fa-arrow-left"></i> <strong>Back to ticket list</strong></a></p>
