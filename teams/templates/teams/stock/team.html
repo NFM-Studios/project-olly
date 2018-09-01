@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "stock/base.html" %}
 {% load staticfiles %}
 
   {% block head %}
@@ -6,17 +6,6 @@
   {% endblock %}
   
 {% block body %}
-
-<link rel="stylesheet" href="{% static "css/teams.css" %}">
-<link rel="stylesheet" href="{% static "css/fontawesome-all.min.css" %}">
-
-{% if messages %}
-  <ul class="messages">
-    {% for message in messages %}
-      <li class="{{ message.tags }}">{{ message }}</li>
-    {% endfor %}
-  </ul>
-{% endif %}
 
  {% if not user.is_anonymous %}
 <p><a href="{% url 'teams:list' %}"><i class="fas fa-arrow-left"></i> <strong>Back to team list</strong></a></p>

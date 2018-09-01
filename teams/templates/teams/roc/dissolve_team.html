@@ -1,0 +1,38 @@
+{% extends "roc/base.html" %}
+{% load staticfiles %}
+
+  {% block head %}
+  <title>{{ team.name }} - {{ SITE_NAME }}</title>
+  {% endblock %}
+
+{% block body %}
+<div class="container page">
+
+<div class="col-xs-12">
+           <div class="panel">
+              <div class="panel-body">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="panel-title bold">Dissolve a team</div>
+
+<form method="post">
+    {% csrf_token %}
+
+    {{ field.errors }}
+
+    Confirm: {{ form.confirmed }}
+
+
+
+    <p><button type="submit" class="btn btn-primary">Dissolve team</button></p>
+  </form>
+                    </div>
+                </div>
+              </div>
+           </div>
+</div>
+</div>
+
+
+
+{% endblock %}

@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "eot/base.html" %}
 {% load staticfiles %}
 
   {% block head %}
@@ -6,17 +6,6 @@
   {% endblock %}
   
 {% block body %}
-
-<link rel="stylesheet" href="{% static "css/teams.css" %}">
-<link rel="stylesheet" href="{% static "css/fontawesome-all.min.css" %}">
-
-{% if messages %}
-  <ul class="messages">
-    {% for message in messages %}
-      <li class="{{ message.tags }}">{{ message }}</li>
-    {% endfor %}
-  </ul>
-{% endif %}
 
 
 <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 col-md-offset-2 col-lg-offset-2 wrap">
@@ -27,7 +16,7 @@
                    <div class="col-xs-12 banner-head bot20">
                    <div class="row">
                    <div class="col-xs-5 col-sm-3">
-                    <img src="{% static 'images/avatar.jpg' %}"/>
+                    <img src="{% static 'eot/images/avatar.jpg' %}"/>
                    </div>
                    <div class="col-xs-7 col-sm-5">
                     <h2><b>{{ team.name }}</b></h2>
@@ -166,7 +155,7 @@
                                     {% for player in players %}
 
                                         <tr>
-                                            <td valign="middle"><img src="{% static 'images/avatar.jpg' %}"></td>
+                                            <td valign="middle"><img src="{% static 'eot/images/avatar.jpg' %}"></td>
                                             <td valign="middle">{{ player.user }}</td>
                                             <td valign="middle">169 Points</td>
                                             <td valign="middle">Maybe?</td>

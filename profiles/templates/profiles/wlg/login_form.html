@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'wlg/base.html' %}
 {% load staticfiles %}
 
 
@@ -13,13 +13,7 @@
 
  <div class="panel">
     <div class="panel-body">
-    {% if messages %}
-      <ul class="messages">
-          {% for message in messages %}
-          <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-          {% endfor %}
-      </ul>
-    {% endif %}
+
 	<div class="panel-title">Login</div>
 
 <br />
@@ -30,7 +24,7 @@
     <br />
   <label>Password</label>
   {{ form.password }}
-{% include 'profiles/captcha.html' %}
+{% include 'profiles/wlg/captcha.html' %}
   <label><input name="remember me" type="checkbox">Keep me logged in</label> <br />
   <button class="btn btn-success" type="submit">Login</button> <a href="/reset-password" class="btn btn-primary">Forgot password?</a>
 </form>
