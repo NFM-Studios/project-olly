@@ -1,6 +1,5 @@
 {% extends 'duel/base.html' %}
 {% load staticfiles %}
-<link rel="stylesheet" href="{% static "css/ticket.css" %}">
 
   {% block head %}
   <title>Leaderboard - {{ SITE_NAME }}</title>
@@ -25,9 +24,8 @@
      <table class="table table-hover">
      <thead>
       <tr>
-        <th width="10%">RANK</th>
         <th width="30%">PLAYER</th>
-        <th width="20%">SOCIAL</th>
+        <th width="30%">SOCIAL</th>
         <th width="20%">TOURNY WINS</th>
         <th width="20%">DUEL EARNINGS</th>
 
@@ -36,9 +34,8 @@
     <tbody>
     {% for user in user_list %}
       <tr>
-        <td width="10%" valign="middle">1st Place</td>
         <td width="30%" valign="middle"><img src="{% static 'images/avatar.jpg' %}" width="30" height="30"> <b>{{ user }}</b></td>
-        <td width="20%" valign="middle" style="font-size:20px;"><a href="{% if user.twitter_profile == "No Twitter Linked" or user.twitter_profile == "" %}
+        <td width="30%" valign="middle" style="font-size:20px;"><a href="{% if user.twitter_profile == "No Twitter Linked" or user.twitter_profile == "" %}
         #
     {% else %}
     https://twitter.com/{{ user.twitter_profile }}

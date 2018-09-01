@@ -7,17 +7,11 @@
 
 {% block body %}
 
-<link rel="stylesheet" href="{% static "css/teams.css" %}">
-<link rel="stylesheet" href="{% static "css/fontawesome-all.min.css" %}">
+    <div class="container page">
 
-{% if messages %}
-  <ul class="messages">
-    {% for message in messages %}
-      <li class="{{ message.tags }}">{{ message }}</li>
-    {% endfor %}
-  </ul>
-{% endif %}
-
+     <div class="panel">
+         <div class="panel-title">Dissolve Team</div>
+      <div class="panel-body">
 
 <form method="post">
     {% csrf_token %}
@@ -32,5 +26,8 @@
   </form>
 
 
+</div>
+     </div>
+    </div>
 
 {% endblock %}
