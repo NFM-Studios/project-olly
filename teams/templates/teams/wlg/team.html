@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "wlg/base.html" %}
 {% load staticfiles %}
 
   {% block head %}
@@ -6,9 +6,6 @@
   {% endblock %}
   
 {% block body %}
-
-<link rel="stylesheet" href="{% static "css/teams.css" %}">
-<link rel="stylesheet" href="{% static "css/fontawesome-all.min.css" %}">
 
  
  {% if not user.is_anonymous %}

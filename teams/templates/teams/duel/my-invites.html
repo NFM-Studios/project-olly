@@ -1,6 +1,5 @@
 {% extends 'duel/base.html' %}
 {% load staticfiles %}
-<link rel="stylesheet" href="{% static "css/teams.css" %}">
 
   {% block head %}
   <title>My Invites - {{ SITE_NAME }}</title>
@@ -27,8 +26,8 @@
     					<div class="panel-title bold">Team Invites</div>
                            <div>
                                <h5 style="float:left;">You have been invited by <a href="{% url 'profiles:profile' urlusername=invite.inviter %}"><span class="highlight">{{ invite.inviter }}</span></a> to join <a href="{% url 'teams:detail' pk=invite.team_id %}">{{ invite.team }}</a> {% if invite.captain %} as captain {% endif %}</h5>
-          <input type="submit" href="/teams/invites/{{ invite.id }}/" value="Decline" class="btn btn-danger btn-xs" name="decline-LEAGUE-invite" style="float:right;margin-top:14px;margin-right:13px;">
-           <input type="submit" href="/teams/invites/{{ invite.id }}/" value="Accept" class="btn btn-success btn-xs" name="accept-LEAGUE-invite" style="float:right;margin-top:14px;margin-right:13px;">
+                               <a href="/teams/invites/{{ invite.id }}/"><input type="submit"  value="Decline" class="btn btn-danger btn-xs" name="decline-LEAGUE-invite" style="float:right;margin-top:14px;margin-right:13px;"></a>
+                               <a href="/teams/invites/{{ invite.id }}/"><input type="submit"  value="Accept" class="btn btn-success btn-xs" name="accept-LEAGUE-invite" style="float:right;margin-top:14px;margin-right:13px;"></a>
            <div style="clear:both;"></div>
                          </div>
                          <br><br>

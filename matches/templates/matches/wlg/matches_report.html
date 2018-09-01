@@ -1,6 +1,5 @@
-{% extends "base.html" %}
+{% extends "wlg/base.html" %}
 {% load staticfiles %}
-<link rel="stylesheet" href="{% static "css/matches.css" %}">
 
   {% block head %}
   <title>Report a Match - {{ SITE_NAME }}</title>
@@ -8,7 +7,7 @@
 
 {% block body %}
 
-<form method="POST" action="{% url 'matches:report' %}">
+<form method="POST" action="{% url 'matches:report' pk=pk %}">
     <table class="table">
         {% csrf_token %}
         {{form.as_table}}

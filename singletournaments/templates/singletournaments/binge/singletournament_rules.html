@@ -1,0 +1,18 @@
+{% load staticfiles %}
+
+  {% block head %}
+  <title>{{ tournament.name }} Rules - {{ SITE_NAME }}</title>
+  {% endblock %}
+
+
+{% block body %}
+
+    					<div class="panel-title bold">Ruleset - {{ ruleset.name }}</div>
+                           <div class="col-xs-12">
+
+
+{{ ruleset.text|linebreaks }}
+                           </div>
+
+
+{% endblock %}

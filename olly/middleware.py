@@ -39,6 +39,13 @@ def tenant_middleware(get_response):
 
         if domain == 'duelbattleroyale' or subdomain == 'duel':
             request.tenant = 'duel'
+        if domain == 'roc' or subdomain == 'roc':
+            request.tenant = 'roc'
+
+        if domain == 'binge' or subdomain == 'binge':
+            request.tenant = 'binge'
+
+
         elif domain == 'esportsopentour' or subdomain == 'eot':
             request.tenant = 'eot'
 
