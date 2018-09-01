@@ -1,6 +1,5 @@
-{% extends "base.html" %}
+{% extends "wlg/base.html" %}
 {% load staticfiles %}
-<link rel="stylesheet" href="{% static "css/matches.css" %}">
 
   {% block head %}
   <title>Match details - {{ SITE_NAME }}</title>
@@ -20,26 +19,25 @@
                    <div class="row">
                    <div class="col-xs-12 col-sm-4">
                     <img src="{% if match.platform == 0 %}
-                    {% static 'images/ps4.jpg' %}
+                    {% static 'wlg/images/ps4.jpg' %}
                        {% elif match.platform == 1 %}
-                       {% static 'images/xb1.jpg' %}
+                       {% static 'wlg/images/xb1.jpg' %}
                         {% elif match.platform == 2 %}
-                        {% static 'images/pc.jpg' %}
+                        {% static 'wlg/images/pc.jpg' %}
                         {% elif match.platform == 3 %}
-                        {% static 'images/mobile.png' %}
+                        {% static 'wlg/images/mobile.png' %}
                         {% elif match.platform == 4 %}
-                        {% static 'images/switch.jpg' %}
+                        {% static 'wlg/images/switch.jpg' %}
                         {% elif match.platform == 5 %}
-                        {% static 'images/ps3.png' %}
+                        {% static 'wlg/images/ps3.png' %}
                         {% elif match.platform == 6 %}
-                        {% static 'images/xbox360.jpg' %}
+                        {% static 'wlg/images/xbox360.jpg' %}
                        {% endif %}"/>
                    </div>
                    <div class="col-xs-12 col-sm-8">
                    <br>
-                    <h2><b>COMPETITION NAME HERE</b></h2>
                     <h4 style="font-weight:200;">Platform: {% if match.platform == 0 %}
-                    {% static 'images/ps4.jpg' %}
+                    {% static 'wlg/images/ps4.jpg' %}
                        {% elif match.platform == 1 %}
                        Xbox One
                         {% elif match.platform == 2 %}
@@ -115,7 +113,7 @@
   <div class="col-xs-12 align-self-center bot20">
 
   <div class="col-xs-4 center">
-  <img src="{% static 'images/avatar.jpg' %}"/><br>
+  <img src="{% static 'wlg/images/avatar.jpg' %}"/><br>
    <h1 style="font-size:60px;font-weight:800;margin-top:40px;"><span style="color:
            {% if match.winner_id == match.awayteam_id %}green;
            {% elif match.winner_id == match.hometeam_id %}red;
@@ -130,11 +128,11 @@
   </div>
 
   <div class="col-xs-4 center">
-   <img src="{% static 'images/vs.png' %}"/>
+   <img src="{% static 'wlg/images/vs.png' %}"/>
   </div>
 
   <div class="col-xs-4 center">
-  <img src="{% static 'images/avatar.jpg' %}"/><br>
+  <img src="{% static 'wlg/images/avatar.jpg' %}"/><br>
    <h1 style="font-size:60px;font-weight:800;margin-top:40px;"><span style="color:
            {% if match.winner_id == match.awayteam_id %}red;
            {% elif match.winner_id == match.hometeam_id %}green;
@@ -173,7 +171,7 @@
     <tbody>
     {% for player in aplayers %}
       <tr>
-        <td valign="middle"><img src="{% static 'images/avatar.jpg' %}" width="30" height="30"> <b>{{ player.user }}</b></td>
+        <td valign="middle"><img src="{% static 'wlg/images/avatar.jpg' %}" width="30" height="30"> <b>{{ player.user }}</b></td>
         <td valign="middle"></td>
         <td valign="middle"><span class="highlight"><b>YES</b></span></td>
       </tr>
@@ -204,7 +202,7 @@
     <tbody>
     {% for player2 in hplayers %}
       <tr>
-        <td valign="middle"><img src="{% static 'images/avatar.jpg' %}" width="30" height="30"> <b>{{ player2.user }}</b></td>
+        <td valign="middle"><img src="{% static 'wlg/images/avatar.jpg' %}" width="30" height="30"> <b>{{ player2.user }}</b></td>
         <td valign="middle"></td>
         <td valign="middle"><span class="highlight"><b>YES</b></span></td>
       </tr>

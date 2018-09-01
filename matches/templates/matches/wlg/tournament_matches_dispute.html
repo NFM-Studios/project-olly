@@ -1,6 +1,5 @@
-{% extends "base.html" %}
+{% extends "wlg/base.html" %}
 {% load staticfiles %}
-<link rel="stylesheet" href="{% static "css/matches.css" %}">
 
   {% block head %}
   <title>Match Dispute - {{ SITE_NAME }}</title>
@@ -12,7 +11,7 @@
     <h2>In order to properly resolve this conflict both teams are required to submit proof</h2>
 
     <h2>Failure to submit proof in a timely fashion will result in in a forfeit for your team</h2>
-<form method="POST" action="{% url 'matches:dispute' %}">
+<form method="POST" action="{% url 'matches:dispute' pk=pk %}">
     <table class="table">
         {% csrf_token %}
         {{form.as_table}}

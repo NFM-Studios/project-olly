@@ -1,0 +1,259 @@
+{% extends "roc/base.html" %}
+{% load staticfiles %}
+  {% block head %}
+  <title>{{ SITE_NAME }}</title>
+  {% endblock %}
+
+{% block body %}
+
+<section>
+
+   <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 nopad">
+     <div id="myCarousel" class="carousel slide" data-ride="carousel">
+
+  <ol class="carousel-indicators">
+    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+    <li data-target="#myCarousel" data-slide-to="1"></li>
+    <li data-target="#myCarousel" data-slide-to="2"></li>
+  </ol>
+
+  <div class="carousel-inner">
+    <div class="item active">
+      <img src="{% static 'roc/images/slider1.jpg' %}" alt="Season1">
+      <div class="carousel-caption">
+        <h3>NEW SEASON<br>
+        STARTING</h3>
+        <p>JOIN OUR MONTHLY LEAGUES!</p>
+      </div>
+    </div>
+
+    <div class="item">
+      <img src="{% static 'roc/images/slider1.jpg' %}" alt="Season2">
+      <div class="carousel-caption">
+        <h3>NEW SEASON<br>
+        STARTING</h3>
+        <p>JOIN OUR MONTHLY LEAGUES!</p>
+      </div>
+    </div>
+
+    <div class="item">
+      <img src="{% static 'roc/images/slider1.jpg' %}" alt="Season3">
+      <div class="carousel-caption">
+        <h3>NEW SEASON<br>
+        STARTING</h3>
+        <p>JOIN OUR MONTHLY LEAGUES!</p>
+      </div>
+    </div>
+    </div>
+
+    </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 nopad">
+     <div class="row">
+     <div class="col-xs-12 col-sm-4 col-md-4 col-lg-12">
+      <a href="#"><img src="{% static 'roc/images/banner1.jpg' %}"/></a>
+     </div>
+     <div class="col-xs-12 col-sm-4 col-md-4 col-lg-12">
+       <a href="#"><img src="{% static 'roc/images/banner2.jpg' %}"/></a>
+     </div>
+     <div class="col-xs-12 col-sm-4 col-md-4 col-lg-12">
+       <a href="#"><img src="{% static 'roc/images/banner3.jpg' %}"/></a>
+     </div>
+     </div>
+    </div>
+   </div>
+
+  </section>
+
+  <section class="hidden-xs hidden-sm map">
+   <div class="container-fluid">
+
+    <div class"col-xs-12" style="position:relative;">
+    <div class="city-info">
+      <h3>CHOOSE<br>YOUR CITY</h3>
+      <p>FIND TEAMS IN YOUR AREA</p>
+     </div>
+      <div class="litetooltip-hotspot-wrapper" style="max-width: 982px">
+<div class="litetooltip-hotspot-container" style="padding-bottom: 53.86965376782077%">
+<img src="http://ivgrafix.com/roc/images/map.png" data-width="982" data-height="529" />
+<div class="hotspot blink" style="top: 34.593572778827976%; left: 0.6109979633401221%; width: 17.209775967413442%; height: 4.725897920604915%; background: transparent; border: 1px solid transparent; border-radius: 0px; opacity: 0.8" id="hotspot_1532532740509" data-location="top" data-template="template" data-templatename="" data-opacity="0.8" data-backcolor="#000000" data-textcolor="#ffffff" data-textalign="center" data-margin="5" data-padding="10" data-width="0" data-delay="0" data-trigger="hover" data-issticky="true" data-hotspot-x="0.6109979633401221" data-hotspot-y="34.593572778827976" data-hotspot-blink="true" data-hotspot-bgcolor="transparent" data-hotspot-bordercolor="transparent" data-hotspot-borderradius="0">
+<div class="data-container">12 Teams looking for Players</div>
+</div>
+
+<div class="hotspot blink" style="top: 25.330812854442343%; left: 17.820773930753564%; width: 14.765784114052954%; height: 4.158790170132325%; background: transparent; border: 1px solid transparent; border-radius: 0px; opacity: 0.8" id="hotspot_1532532897430" data-location="top" data-template="" data-templatename="" data-opacity="0.8" data-backcolor="#000000" data-textcolor="#ffffff" data-textalign="center" data-margin="5" data-padding="10" data-width="0" data-delay="0" data-trigger="hover" data-issticky="true" data-hotspot-x="17.820773930753564" data-hotspot-y="25.330812854442343" data-hotspot-blink="true" data-hotspot-bgcolor="transparent" data-hotspot-bordercolor="transparent" data-hotspot-borderradius="0">
+<div class="data-container">12 Teams looking for Players</div>
+</div>
+
+<div class="hotspot blink" style="top: 58.41209829867675%; left: 43.4826883910387%; width: 10.79429735234216%; height: 4.3478260869565215%; background: transparent; border: 1px solid transparent; border-radius: 0px; opacity: 0.8" id="hotspot_1532532908988" data-location="top" data-template="" data-templatename="" data-opacity="0.8" data-backcolor="#000000" data-textcolor="#ffffff" data-textalign="center" data-margin="5" data-padding="10" data-width="0" data-delay="0" data-trigger="hover" data-issticky="true" data-hotspot-x="43.4826883910387" data-hotspot-y="58.41209829867675" data-hotspot-blink="true" data-hotspot-bgcolor="transparent" data-hotspot-bordercolor="transparent" data-hotspot-borderradius="0">
+<div class="data-container">12 Teams looking for Players</div>
+</div>
+
+<div class="hotspot blink" style="top: 28.733459357277884%; left: 53.05498981670061%; width: 11.812627291242363%; height: 3.5916824196597354%; background: transparent; border: 1px solid transparent; border-radius: 0px; opacity: 0.8" id="hotspot_1532532927901" data-location="top" data-template="" data-templatename="" data-opacity="0.8" data-backcolor="#000000" data-textcolor="#ffffff" data-textalign="center" data-margin="5" data-padding="10" data-width="0" data-delay="0" data-trigger="hover" data-issticky="true" data-hotspot-x="53.05498981670061" data-hotspot-y="28.733459357277884" data-hotspot-blink="true" data-hotspot-bgcolor="transparent" data-hotspot-bordercolor="transparent" data-hotspot-borderradius="0">
+<div class="data-container">12 Teams looking for Players</div>
+</div>
+
+<div class="hotspot blink" style="top: 10.207939508506616%; left: 77.80040733197556%; width: 12.729124236252545%; height: 4.914933837429111%; background: transparent; border: 1px solid transparent; border-radius: 0px; opacity: 0.8" id="hotspot_1532532939374" data-location="top" data-template="" data-templatename="" data-opacity="0.8" data-backcolor="#000000" data-textcolor="#ffffff" data-textalign="center" data-margin="5" data-padding="10" data-width="0" data-delay="0" data-trigger="hover" data-issticky="true" data-hotspot-x="77.80040733197556" data-hotspot-y="10.207939508506616" data-hotspot-blink="true" data-hotspot-bgcolor="transparent" data-hotspot-bordercolor="transparent" data-hotspot-borderradius="0">
+<div class="data-container">12 Teams looking for Players</div>
+</div>
+
+<div class="hotspot blink" style="top: 69.37618147448015%; left: 84.72505091649694%; width: 7.026476578411406%; height: 3.780718336483932%; background: transparent; border: 1px solid transparent; border-radius: 0px; opacity: 0.8" id="hotspot_1532532972816" data-location="left" data-template="" data-templatename="" data-opacity="0.8" data-backcolor="#000000" data-textcolor="#ffffff" data-textalign="center" data-margin="5" data-padding="10" data-width="0" data-delay="0" data-trigger="hover" data-issticky="true" data-hotspot-x="84.72505091649694" data-hotspot-y="69.37618147448015" data-hotspot-blink="true" data-hotspot-bgcolor="transparent" data-hotspot-bordercolor="transparent" data-hotspot-borderradius="0">
+<div class="data-container">12 Teams looking for Players</div>
+</div>
+
+</div>
+</div>
+
+<script>
+$('.litetooltip-hotspot-wrapper .hotspot').each(function () {
+    $(this).LiteTooltip({ title: $(this).find('.data-container').html() });
+ });
+
+</script>
+
+    </div>
+
+   </div>
+  </section>
+
+  <section class="competitions">
+   <div class="container">
+     <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-8">
+      <div class="row">
+       <div class="col-xs-12">
+        <div class="main-title">NEW<br>
+        <span>TOURNAMENTS</span></div>
+       </div>
+      </div>
+       <div class="row">
+           {% for tournamenet in list %}
+        <div class="col-xs-12 col-sm-6 bot10">
+         <div class="panel">
+          <div class="panel-body">
+            <div class="game-icon">
+             <img src="{% static 'roc/images/game-icon.png' %}"/>
+            </div>
+            <div class="game-info">
+            <h4>{{ tournament.name }}</h4>
+            Size: {{ tournament.teams.count }}/{{ tournamenet.size }} Teams<br>
+            Start Date: {{ tournament.start }}<br>
+            <b><a href="{% url 'singletournaments:detail' pk=tournament.id %}">JOIN TOURNAMENT</a></b>
+            </div>
+          </div>
+         </div>
+        </div>
+           {% endfor %}
+       {% if list.count == 0 %}
+        No tournaments!
+       {% endif %}
+
+       </div>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-4">
+      <div class="row">
+       <div class="col-xs-12">
+        <div class="main-title">RECENT<br>
+        <span>MATCHES</span></div>
+       </div>
+      </div>
+
+      <div class="row">
+          {% for match in matchlist %}
+        <div class="col-xs-12 bot10">
+         <div class="panel yleft">
+          <div class="panel-body">
+            <div class="game-icon">
+             <img src="{% static 'roc/images/game-icon.png' %}"/>
+            </div>
+            <div class="game-info">
+            <h4>{% if tournament.game == 0 %}
+        No Game Set
+        {% elif match.game == 1 %}
+        Call of Duty: Black Ops 3
+        {% elif match.game == 2 %}
+        Call of Duty WWII
+        {% elif match.game == 3 %}
+        Fortnite
+        {% elif match.game == 4 %}
+        Destiny 2
+        {% elif match.game == 5 %}
+        Counter-Strike: Global Offensive
+        {% elif match.game == 6 %}
+        Player Unknown's BATTLEGROUNDS
+        {% elif match.game == 7 %}
+        Rainbow Six Siege
+        {% elif match.game == 8 %}
+        Overwatch
+        {% elif match.game == 9 %}
+        League of Legends
+        {% elif match.game == 10 %}
+        Hearthstone
+        {% elif match.game == 11 %}
+        World of Warcraft
+        {% elif match.game == 12 %}
+        SMITE
+        {% elif match.game == 13 %}
+        Rocket League
+        {% elif match.game == 14 %}
+        Battlefield 1
+        {% endif %}</h4>
+            Friday, August 1st | 9PM EST<br>
+            </div>
+            <div class="table-responsive">
+             <table class="table responsive">
+              <tr>
+               <td><img src="{% static 'roc/images/team.png' %}"/></td>
+               <td>TeamName</td>
+               <td>3</td>
+                <td><img src="{% static 'roc/images/team.png' %}"/></td>
+               <td>TeamName</td>
+               <td>3</td>
+              </tr>
+             </table>
+            </div>
+          </div>
+         </div>
+        </div>
+          {% endfor %}
+      {% if matchlist.count == 0 %}
+        No matches to display
+      {% endif %}
+
+      </div>
+
+
+      </div>
+
+
+
+     </div>
+   </div>
+  </section>
+
+  <section class="news-row">
+   <div class="container">
+   <div class="row">
+   <div class="col-xs-12">
+    <div class="main-title">
+    <b style="font-weight:800;">LATEST</b><br>
+    <span>ROC NEWS</span>
+    </div>
+   </div>
+   </div>
+{% for news in newslist %}
+   <div class="col-xs-12 col-sm-4 news">
+     <img src="{% static 'roc/images/news.jpg' %}"/>
+     <div class="news-overlay">
+     {{ news.title }}<br>
+         <small><a href="{% url 'profiles:profile' urlusername=news.author %}">{{ news.author }}</a></small>
+     </div>
+   </div>
+{% endfor %}
+   {% if newslist.count == 0 %}
+   No news posts!
+   {% endif %}
+   </div>
+  </section>
+
+{% endblock %}

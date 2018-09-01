@@ -76,7 +76,7 @@ def login(request, template_name='profiles/login_form.html',
     if current_app is not None:
         request.current_app = current_app
 
-    return TemplateResponse(request, template_name, context)
+    return TemplateResponse(request, 'profiles/' + request.tenant + '/login_form.html', context)
 
 
 def profile(request, urlusername):

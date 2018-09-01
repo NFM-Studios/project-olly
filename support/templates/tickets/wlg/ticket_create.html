@@ -1,6 +1,5 @@
-{% extends "base.html" %}
+{% extends "wlg/base.html" %}
 {% load staticfiles %}
-<link rel="stylesheet" href="{% static "css/ticket.css" %}">
 
   {% block head %}
   <title>Create a Ticket - {{ SITE_NAME }}</title>
@@ -12,14 +11,6 @@
 
   <div class="panel">
     <div class="panel-body">
-
-{% if messages %}
-  <ul class="messages">
-    {% for message in messages %}
-      <li class="{{ message.tags }}">{{ message }}</li>
-    {% endfor %}
-  </ul>
-{% endif %}
 
 <form method="POST" action="{% url 'support:create' %}">
     <table class="table">

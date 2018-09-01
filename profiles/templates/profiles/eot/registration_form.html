@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "eotbase.html" %}
 
   {% block head %}
   <title>Register - {{ SITE_NAME }}</title>
@@ -20,8 +20,8 @@ col-lg-offset-2 wrap">
 
   <form class="form-horizonal" role="form" action="" method="post">
     {% csrf_token %}
-    {% include 'profiles/form_template.html' %}
-    {% include 'profiles/captcha.html' %}
+    {% include 'profiles/eot/form_template.html' %}
+    {% include 'profiles/eot/captcha.html' %}
     <button type="submit" class="btn btn-success">Submit</button>
   </form>
               </div>
