@@ -382,6 +382,7 @@ class SingleEliminationTournament(models.Model):
                 del seeds[0]
                 del seeds[-1]
 
+
     def get_round1_byes(self, **kwargs):
         # only used for round 1 purposes
         pk = self.kwargs['pk']
