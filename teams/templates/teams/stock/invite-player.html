@@ -1,21 +1,11 @@
-{% extends "base.html" %}
+{% extends "stock/base.html" %}
 {% load staticfiles %}
 
   {% block head %}
   <title>Send an Invite - {{ SITE_NAME }}</title>
   {% endblock %}
 
-<link rel="stylesheet" href="{% static "css/ticket.css" %}">
-
 {% block body %}
-
-{% if messages %}
-  <ul class="messages">
-    {% for message in messages %}
-      <li class="{{ message.tags }}">{{ message }}</li>
-    {% endfor %}
-  </ul>
-{% endif %}
 
 <form method="POST" action="{% url 'teams:invite' %}">
     <table class="table">

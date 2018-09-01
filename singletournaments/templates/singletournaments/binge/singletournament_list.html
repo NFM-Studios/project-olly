@@ -1,0 +1,151 @@
+{% extends "duel/base.html" %}
+{% load staticfiles %}
+
+  {% block head %}
+  <title>Tournaments - {{ SITE_NAME }}</title>
+  {% endblock %}
+
+<link rel="stylesheet" href="{% static "css/singletournament.css" %}">
+
+{% block body %}
+
+
+    <div class="container page">
+<div id="new-team">
+<h2 id="" style="text-decoration: none; margin:8px">
+    <a style="text-decoration:none; color:white;" href="{% url 'teams:create' %}">
+        <i class="fa fa-plus"></i>  Create a new team
+    </a>
+</h2>
+</div>
+<div class="col-xs-12">
+
+
+<div class="row">
+<div class="col-xs-12">
+<div class="panel">
+<div class="panel-body">
+
+
+    {% if tournament_list.count == 0 %}
+    <b>No tournaments yet!</b>
+    {% endif %}
+    {% for tournament in tournament_list %}
+     <div class="col-xs-12 col-sm-6 col-md-4 league">
+      <img src="{% if tournament.game == 0 %}
+
+        {% elif tournament.game == 1 %}
+        {% static 'images/bo3.jpg' %}
+        {% elif tournament.game == 2 %}
+        {% static 'images/ww2.jpg' %}
+        {% elif tournament.game == 3 %}
+        {% static 'images/fortnitecover.jpg' %}
+        {% elif tournament.game == 4 %}
+        {% static 'images/destiny2cover.jpg' %}
+        {% elif tournament.game == 5 %}
+        {% static 'images/csgocover.jpg' %}
+        {% elif tournament.game == 6 %}
+        {% static 'images/pubgcover.jpg' %}
+        {% elif tournament.game == 7 %}
+        {% static 'images/rs6cover.jpg' %}
+        {% elif tournament.game == 8 %}
+        {% static 'images/overwatchcover.jpg' %}
+        {% elif tournament.game == 9 %}
+        {% static 'images/lolcover.jpg' %}
+        {% elif tournament.game == 10 %}
+        {% static 'images/hearthstonecover.jpg' %}
+        {% elif tournament.game == 11 %}
+        {% static 'images/wowcover.jpg' %}
+        {% elif tournament.game == 12 %}
+        {% static 'images/smitecover.jpg' %}
+        {% elif tournament.game == 13 %}
+        {% static 'images/rocketleaguecover.jpeg' %}
+        {% elif tournament.game == 14 %}
+        {% static 'images/bf1cover.jpg' %}
+        {% endif %}"><br>
+      <h6><b>{{ tournament.name }}</b></h6>
+     <br />
+      <ul>
+       <li><b>Platform:</b> {% if tournament.platform == 0 %}
+        Playstation 4
+        {% elif tournament.platform == 1 %}
+        XBOX One
+        {% elif tournament.platform == 2 %}
+        PC
+        {% elif tournament.platform == 3 %}
+        Mobile
+        {% elif tournament.platform == 4 %}
+        Nintendo Switch
+        {% elif tournament.platform == 5 %}
+        Playstation 3
+        {% elif tournament.platform == 6 %}
+        XBOX 360
+        {% endif %}</li>
+       <li><b>Starts:</b> {{ tournament.start }}</li>
+      <li><b>Teams: </b> {{ tournament.teams.count }}/{{ tournament.size }}</li>
+      <li><b>Game:</b> {% if tournament.game == 0 %}
+        No Game Set
+        {% elif tournament.game == 1 %}
+        Call of Duty: Black Ops 3
+        {% elif tournament.game == 2 %}
+        Call of Duty WWII
+        {% elif tournament.game == 3 %}
+        Fortnite
+        {% elif tournament.game == 4 %}
+        Destiny 2
+        {% elif tournament.game == 5 %}
+        Counter-Strike: Global Offensive
+        {% elif tournament.game == 6 %}
+        Player Unknown's BATTLEGROUNDS
+        {% elif tournament.game == 7 %}
+        Rainbow Six Siege
+        {% elif tournament.game == 8 %}
+        Overwatch
+        {% elif tournament.game == 9 %}
+        League of Legends
+        {% elif tournament.game == 10 %}
+        Hearthstone
+        {% elif tournament.game == 11 %}
+        World of Warcraft
+        {% elif tournament.game == 12 %}
+        SMITE
+        {% elif tournament.game == 13 %}
+        Rocket League
+        {% elif tournament.game == 14 %}
+        Battlefield 1
+        {% endif %}</li>
+
+      </ul>
+      <ul>
+
+       <li><b>Registration Opens:</b> {{ tournament.open_register }}</li>
+       <li><b>Registration Closes</b> {{ tournament.close_register }}</li>
+          <li><b>Registration Fee: </b>{{ tournament.req_credits }}</li>
+      </ul>
+      <a class="btn btn-primary btn-block btn-xs jleague" href="{% url 'singletournaments:detail' pk=tournament.id %}">JOIN TOURNAMENT</a>
+     </div>
+    {% endfor %}
+
+
+
+     </div>
+     </div>
+     </div>
+     </div>
+
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

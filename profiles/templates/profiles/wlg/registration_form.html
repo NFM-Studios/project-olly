@@ -1,5 +1,5 @@
 
-{% extends 'base.html' %}
+{% extends 'wlg/base.html' %}
   {% block head %}
   <title>Register - {{ SITE_NAME }}</title>
   {% endblock %}
@@ -21,8 +21,8 @@
     <div class="panel-title">Register</div>
   <form class="form-horizonal" role="form" action="" method="post">
     {% csrf_token %}
-    {% include 'profiles/form_template.html' %}
-    {% include 'profiles/captcha.html' %}
+    {% include 'profiles/wlg/form_template.html' %}
+    {% include 'profiles/wlg/captcha.html' %}
     <button type="submit" class="btn btn-success">Submit</button>
   </form>
     </div>
