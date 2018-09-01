@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "wlg/base.html" %}
 
   {% block head %}
   <title>Transfer Credits - {{ SITE_NAME }}</title>
@@ -14,8 +14,8 @@
 
     <form class="form-horizonal" role="form" action="" method="post">
         {% csrf_token %}
-        {% include 'store/xfer_form.html' %}
-        <button type="Transfer" class="btn btn-success">Transfer</button>
+        {% include 'store/wlg/xfer_form.html' %}
+        <button type="submit" class="btn btn-success">Transfer</button>
     </form>
 
     </div>
