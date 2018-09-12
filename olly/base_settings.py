@@ -151,3 +151,5 @@ STATIC_URL = '/static/'
 # Where to redirect users after login
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/login/'
+
+SITE_VERSION = "2018.06.03"

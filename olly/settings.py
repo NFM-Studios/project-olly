@@ -52,4 +52,3 @@ GOOGLE_RECAPTCHA_SITE_KEY = '6LcSkGkUAAAAAPUR-nM9Fh_L4b3cYm75_Hwp6mRd'
 # Site info
 SITE_NAME = "Dev-Environment"
 SITE_SERVER = "Dev-Environment"
-SITE_VERSION = "2018.06.03"

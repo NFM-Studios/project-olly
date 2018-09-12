@@ -56,4 +56,3 @@ GOOGLE_RECAPTCHA_SITE_KEY = '6Lcj1GYUAAAAAKzN1gxoYx-_Q6h0zagkwr9wpc_S'
 # Site info
 SITE_NAME = "DuelChallenge"
 SITE_SERVER = "Wheezy"
-SITE_VERSION = "2018.06.03"
