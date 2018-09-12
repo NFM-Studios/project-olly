@@ -12,5 +12,8 @@ RUN mkdir /src/
 WORKDIR /src/
 ADD . /src/
 
+# Ensure the start script is executable
+RUN chmod +x /src/start.sh
+
 # Run the start script
 CMD /src/start.sh
