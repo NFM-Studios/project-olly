@@ -4,7 +4,6 @@ from matches.models import Match
 from teams.models import Team
 from news.models import Post
 from singletournaments.models import SingleEliminationTournament
-# Create your views here.
 
 
 def index(request):
@@ -17,6 +16,8 @@ def index(request):
     matchlist = matches.reverse()[:5]
     teamlist = teams.reverse()[:5]
     staticinfo = StaticInfo.objects.get(pk=1)
+    if request.tenant == 'binge':
+        newslist = newslist.reverse()[:2]
     return render(request, 'pages/' + request.tenant + '/index.html', {'list': tournament_list, 'staticinfo': staticinfo,
                                                                        'newslist': newslist, 'matchlist': matchlist,
                                                                        'teamlist': teamlist})
