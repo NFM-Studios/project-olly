@@ -20,7 +20,7 @@
                     {% if userprofile.profile_picture.url != "" %}
                         <img src="{{ userprofile.profile_picture.url }}" align="center" width="200"> <br />
                         {% else %}
-                        <img src="{% static 'images/avatar.jpg' %}" align="center" width="200"/> <br />
+                        <img src="{% static 'duel/images/avatar.jpg' %}" align="center" width="200"/> <br />
                         {% endif %}
                    </div>
                    <div class="col-xs-12 col-sm-4">
@@ -61,7 +61,7 @@ Twitch: <a href="{% if userprofile.twitch_channel == "No Twitch Linked" or userp
                    <div class="col-xs-12 col-sm-5 center">
                     <div class="row">
                      <div class="col-xs-12 center">
-                     <img src="{% static 'images/twitch-vs.png' %}"/><br>
+                     <img src="{% static 'duel/images/twitch-vs.png' %}"/><br>
                      <h5>Twitch Duel Challenges Won</h5>
                      <h1><b>tbd</b></h1>
                      <br>
