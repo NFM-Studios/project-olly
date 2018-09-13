@@ -165,22 +165,17 @@
     <div class="col-xs-12">
      <div class="news-title">NEWS & <span>ANNOUNCEMENTS</span></div>
     </div>
+    {% for news in newslist %}
     <div class="col-xs-12 col-sm-6 bot20">
      <img src="{% static 'binge/images/fortnite1.jpg' %}">
      <div class="text">
-       <h2><b>News Headline</b></h2>
-       <h4><a href="#"><span>READ FULL ARTICLE</span></a></h4>
-       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec qu lorem, imperdiet sit amet faucibus quis, euismod sit amet dui. Mauris tincidunt consequat sollicitudin. Nunc vehicula, ante molestie consectetur fermentum, libero tortor porttitor ipsum, id sodales metus dui id augue. Vestibulum imperdiet. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec qu lorem, imperdiet sit amet faucibus quis, euismod sit amet dui.
+       <h2><b>{{ news.title }}</b></h2>
+       <h4><a href="{{ news.get_absolute_url }}"><span>READ FULL ARTICLE</span></a></h4>
+       {{ post.body|truncatewords:30|linebreaks }}
      </div>
     </div>
-     <div class="col-xs-12 col-sm-6 bot20">
-     <img src="{% static 'binge/images/fortnite1.jpg' %}">
-     <div class="text">
-       <h2><b>News Headline</b></h2>
-       <h4><a href="#"><span>READ FULL ARTICLE</span></a></h4>
-       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec qu lorem, imperdiet sit amet faucibus quis, euismod sit amet dui. Mauris tincidunt consequat sollicitudin. Nunc vehicula, ante molestie consectetur fermentum, libero tortor porttitor ipsum, id sodales metus dui id augue. Vestibulum imperdiet. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec qu lorem, imperdiet sit amet faucibus quis, euismod sit amet dui.
-     </div>
-    </div>
+       {% endfor %}
+
    </div>
 
   </section>
