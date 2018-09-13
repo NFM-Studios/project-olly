@@ -76,13 +76,14 @@
 
   <section>
    <div class="container">
+       <!--
      <div class="col-xs-12 col-sm-12 col-md-6">
         <div class="row"><div class="col-xs-12"><div class="main-title">LADDERS<br>
    <span>JOIN AN UPCOMING LADDER</span></div></div></div>
       <div class="row">
        <div class="col-xs-12 col-sm-6 bot10">
         <div class="game1">
-         <img src="{% static 'binge/images/bops4.jpg' %}"><br>
+         <img src=" static 'binge/images/bops4.jpg' %}"><br>
          <div class="join-b"><a class="btn btn-primary btn-xs" href="#">JOIN NOW</a></div>
          <div class="overlay1"><b>FALL LADDER</b><br>
          Starts: August 31st, 2018 | 9PM EST</div>
@@ -90,7 +91,7 @@
        </div>
        <div class="col-xs-12 col-sm-6 bot10">
         <div class="game1">
-         <img src="{% static 'binge/images/ww2.jpg' %}"><br>
+         <img src=" static 'binge/images/ww2.jpg' %}"><br>
          <div class="join-b"><a class="btn btn-primary btn-xs" href="#">JOIN NOW</a></div>
          <div class="overlay1"><b>FALL LADDER</b><br>
          Starts: August 31st, 2018 | 9PM EST</div>
@@ -100,7 +101,7 @@
       <div class="row">
        <div class="col-xs-12 col-sm-6 bot10">
         <div class="game1">
-         <img src="{% static 'binge/images/fortnite1.jpg' %}"><br>
+         <img src=" static 'binge/images/fortnite1.jpg' %}"><br>
          <div class="join-b"><a class="btn btn-primary btn-xs" href="#">JOIN NOW</a></div>
          <div class="overlay1"><b>FALL LADDER</b><br>
          Starts: August 31st, 2018 | 9PM EST</div>
@@ -108,55 +109,31 @@
        </div>
        <div class="col-xs-12 col-sm-6 bot10">
         <div class="game1">
-         <img src="{% static 'binge/images/h1z1.jpg' %}"><br>
+         <img src=" static 'binge/images/h1z1.jpg' %}"><br>
          <div class="join-b"><a class="btn btn-primary btn-xs" href="#">JOIN NOW</a></div>
          <div class="overlay1"><b>FALL LADDER</b><br>
          Starts: August 31st, 2018 | 9PM EST</div>
         </div>
        </div>
       </div>
-     </div>
+     </div>--->
 
       <div class="col-xs-12 col-sm-12 col-md-6">
       <div class="row"><div class="col-xs-12"><div class="main-title">TOURNAMENTS<br>
    <span>JOIN AN UPCOMING TOURNAMENT</span></div></div></div>
 
       <div class="row">
+          {% for tournament in list %}
        <div class="col-xs-12 col-sm-6 bot10">
         <div class="game1">
          <img src="{% static 'binge/images/ww2.jpg' %}"><br>
-         <div class="join-b"><a class="btn btn-primary btn-xs" href="#">JOIN NOW</a></div>
-         <div class="overlay1"><b>FALL LADDER</b><br>
-         Starts: August 31st, 2018 | 9PM EST</div>
+         <div class="join-b"><a class="btn btn-primary btn-xs" href="{% url 'singletournaments:detail' pk=tournament.id %}">JOIN NOW</a></div>
+         <div class="overlay1"><b>{{ tournament.name }}</b><br>
+         Starts: {{ tournament.start }}</div>
         </div>
+           {% endfor %}
        </div>
-       <div class="col-xs-12 col-sm-6 bot10">
-        <div class="game1">
-         <img src="{% static 'binge/images/fortnite1.jpg' %}"><br>
-         <div class="join-b"><a class="btn btn-primary btn-xs" href="#">JOIN NOW</a></div>
-         <div class="overlay1"><b>FALL LADDER</b><br>
-         Starts: August 31st, 2018 | 9PM EST</div>
-        </div>
        </div>
-      </div>
-      <div class="row">
-       <div class="col-xs-12 col-sm-6 bot10">
-        <div class="game1">
-         <img src="{% static 'binge/images/bops4.jpg' %}"><br>
-         <div class="join-b"><a class="btn btn-primary btn-xs" href="#">JOIN NOW</a></div>
-         <div class="overlay1"><b>FALL LADDER</b><br>
-         Starts: August 31st, 2018 | 9PM EST</div>
-        </div>
-       </div>
-       <div class="col-xs-12 col-sm-6 bot10">
-        <div class="game1">
-         <img src="{% static 'binge/images/h1z1.jpg' %}"><br>
-         <div class="join-b"><a class="btn btn-primary btn-xs" href="#">JOIN NOW</a></div>
-         <div class="overlay1"><b>FALL LADDER</b><br>
-         Starts: August 31st, 2018 | 9PM EST</div>
-        </div>
-       </div>
-      </div>
      </div>
 
         <div class="col-xs-12 col-sm-12 col-md-6 bot20">
