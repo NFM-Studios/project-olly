@@ -157,6 +157,19 @@ def unbanip(request, urlusername):
         return redirect('staff:users')
 
 
+def getrank(request):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        allusers = UserProfile.objects.all()
+        for i in allusers:
+            i.calculate_rank()
+        messages.success(request, "Calculated rank for %s users" % allusers.count())
+        return redirect('staff:users')
+
+
 def givecredits(request, urlusername):
     user = UserProfile.objects.get(user__username=request.user.username)
     allowed = ['superadmin', 'admin']

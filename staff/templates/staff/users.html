@@ -59,5 +59,6 @@ Total users: {{ numusers }}
 {% endfor %}
 </table>
 {% include "pagination.html" with page=userprofiles %}
+<td><a href="/staff/users/getrank/" class="btn btn-primary">Calculate rank for all users</a></td>
 </div>
 {% endblock %}
