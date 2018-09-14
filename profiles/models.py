@@ -62,8 +62,12 @@ class UserProfile(models.Model):
     tournament_wins = models.PositiveSmallIntegerField(default=0)
     dubl_tournament_wins = models.PositiveSmallIntegerField(default=0)
 
+    rank = models.PositiveSmallIntegerField(default=100)
     # country the dude lives in.
     country = CountryField(blank_label='(select country)', default='US')
+
+    def calculate_rank(self):
+        self.rank = UserProfile.objects.filter(xp__lt=UserProfile.xp).count()
 
 
 def create_profile(sender, **kwargs):
