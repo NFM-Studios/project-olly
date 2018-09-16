@@ -1,4 +1,4 @@
-{% extends 'binge/base.html' %}
+{% extends 'ot/base.html' %}
 
   {% block head %}
   <title>Login - {{ SITE_NAME }}</title>
@@ -28,7 +28,7 @@
     <br />
   <label>Password</label>
   {{ form.password }}
-{% include 'profiles/binge/captcha.html' %}
+{% include 'profiles/ot/captcha.html' %}
   <label><input name="remember me" type="checkbox">Keep me logged in</label> <br />
   <button class="btn btn-success" type="submit">Login</button> <a href="{% url 'reset_password' %}" class="btn btn-primary">Forgot password?</a>
 </form>
