@@ -1,0 +1,138 @@
+
+{% load staticfiles %}
+
+  {% block head %}
+  <title>{{ tournament.name }} Bracket - {{ SITE_NAME }}</title>
+  {% endblock %}
+
+{% block body %}
+    <link rel="stylesheet" href="{% static "css/singletournament.css" %}">
+    <h2>Bracket for {{ tournament.name }}</h2>
+
+
+
+<main id="tournament">
+    <ul class="round round-1">
+        <li class="spacer">&nbsp;</li>
+        {% for match in round1matches %}
+        <li class="game game-top {% if match.winner is match.awayteam %}
+            winner
+            {% else %}
+
+            {% endif %}"><a href="{% url 'matches:detail' pk=match.id %}">{{ match.awayteam }}</a><span>
+            {% if match.winner is match.awayteam %}
+            1
+            {% else %}
+            0
+            {% endif %}
+        </span></li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom {% if match.winner is match.hometeam %}
+            winner
+            {% else %}
+
+            {% endif %}"><a href="{% url 'matches:detail' pk=match.id %}">{{ match.hometeam }}</a><span>
+            {% if match.winner is match.hometeam %}
+            1
+            {% else %}
+            0
+            {% endif %}
+        </span></li>
+
+        <li class="spacer">&nbsp;</li>
+        {% endfor %}
+        </ul>
+    <ul class="round round-2">
+
+        <li class="spacer">&nbsp;</li>
+        <li class="spacer">&nbsp;</li>
+
+    {% if round2matches.count is 0 %}
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+    {% else %}
+        {% for match2 in round2matches %}
+
+        <li class="game game-top {% if match2.winner is match2.awayteam %}
+            winner
+            {% else %}
+
+            {% endif %}"><a href="{% url 'matches:detail' pk=match2.id %}">{{ match2.awayteam }}</a><span>
+            {% if match2.winner is match2.awayteam %}
+            1
+            {% else %}
+            0
+            {% endif %}
+        </span></li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom {% if match2.winner is match2.hometeam %}
+            winner
+            {% else %}
+
+            {% endif %}"><a href="{% url 'matches:detail' pk=match2.id %}">{{ match2.hometeam }}</a><span>
+            {% if match2.winner is match2.hometeam %}
+            1
+            {% else %}
+            0
+            {% endif %}
+        </span></li>
+        {% endfor %}
+
+    {% endif %}
+
+
+        <li class="spacer">&nbsp;</li>
+
+
+
+<ul class="round round-3">
+<li class="spacer">&nbsp;</li>
+<li class="spacer">&nbsp;</li>
+    {% if round3matches.count is 0 %}
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+    {% else %}
+        {% for match3 in round3matches %}
+
+        <li class="game game-top {% if match3.winner is match3.awayteam %}
+            winner
+            {% else %}
+
+            {% endif %}"><a href="{% url 'matches:detail' pk=match3.id %}">{{ match3.awayteam }}</a><span>
+            {% if match3.winner is match3.awayteam %}
+            1
+            {% else %}
+            0
+            {% endif %}
+        </span></li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom {% if match3.winner is match3.hometeam %}
+            winner
+            {% else %}
+
+            {% endif %}"><a href="{% url 'matches:detail' pk=match3.id %}">{{ match3.hometeam }}</a><span>
+            {% if match3.winner is match3.hometeam %}
+            1
+            {% else %}
+            0
+            {% endif %}
+        </span></li>
+        {% endfor %}
+
+    {% endif %}
+
+
+        <li class="spacer">&nbsp;</li>
+    </ul>
+
+</main>
+
+
+
+{% endblock %}
