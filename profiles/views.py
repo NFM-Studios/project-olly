@@ -76,34 +76,33 @@ def login(request, template_name='profiles/login_form.html',
     if current_app is not None:
         request.current_app = current_app
 
-    return TemplateResponse(request, template_name, context)
+    return TemplateResponse(request, 'profiles/' + request.tenant + '/login_form.html', context)
 
 
 def profile(request, urlusername):
-    template_name = 'profiles/profile.html'
     userprofile = get_object_or_404(UserProfile, user__username=urlusername)
     # following line is not stock olly
     team_list = TeamInvite.objects.filter(accepted=True, user=userprofile.user)
-    return render(request, template_name, {'userprofile': userprofile, 'requestuser': request.user, "team_list": team_list})
+    return render(request, 'profiles/' + request.tenant + '/profile.html', {'userprofile': userprofile, 'requestuser': request.user, "team_list": team_list})
 
 
 def profile_no_username(request):
     if not request.user.is_anonymous:
         userprofile = UserProfile.objects.get(user__username=request.user)
         team_list = TeamInvite.objects.filter(accepted=True, user = request.user)
-        return render(request, 'profiles/profile.html', {'userprofile': userprofile, 'requestuser': request.user, "team_list": team_list})
+        return render(request, 'profiles/' + request.tenant + '/profile.html', {'userprofile': userprofile, 'requestuser': request.user, "team_list": team_list})
     else:
         return redirect('login')
 
 
 def users(request):
-    return render(request, 'profiles/users.html')
+    return render(request, 'profiles/' + request.tenant + '/users.html')
 
 
 def searchusers(request):
     query = request.GET.get('q')
     if query:
-        return render(request, 'profiles/users.html',
+        return render(request, 'profiles/' + request.tenant + '/users.html',
                       {'userprofiles': UserProfile.objects.filter
                        (Q(user__username__icontains=query) | Q(user__email__icontains=query))})
     else:
@@ -126,17 +125,17 @@ def edit_profile(request):
     else:
         userprofileobj = UserProfile.objects.get(user__username=request.user.username)
         form = EditProfileForm(instance=userprofileobj)
-        return render(request, 'profiles/edit_profile.html', {'form': form})
+        return render(request, 'profiles/' + request.tenant + '/edit_profile.html', {'form': form})
 
 
 class CreateUserFormView(View):
     form_class = CreateUserForm
-    template_name = 'profiles/registration_form.html'
 
     def get(self, request):
         if request.user.is_anonymous:
             form = self.form_class(None)
-            return render(request, self.template_name, {'form': form})
+            return render(request, 'profiles/' + request.tenant + '/registration_form.html',
+                          {'form': form, 'site_key': settings.GOOGLE_RECAPTCHA_SITE_KEY})
         else:
             messages.error(request, "You cannot register while logged in")
             return redirect('index')
@@ -175,8 +174,8 @@ class CreateUserFormView(View):
 
                     current_site = get_current_site(request)
 
-                    mail_subject = 'Activate your "Project Olly" account.'
-                    message = render_to_string('profiles/activate_email.html', {
+                    mail_subject = 'Activate your ' + settings.SITE_NAME + ' account.'
+                    message = render_to_string('profiles/' + request.tenant + '/activate_email.html', {
                         'user': user,
                         'domain': current_site.domain,
                         'uid': urlsafe_base64_encode(force_bytes(user.pk)),
@@ -184,7 +183,7 @@ class CreateUserFormView(View):
                     })
                     to_email = email_address
                     email = EmailMessage(
-                            mail_subject, message, from_email='NFM Studios', to=[to_email]
+                            mail_subject, message, from_email=settings.FROM_EMAIL, to=[to_email]
                         )
                     email.send()
                     messages.success(request, "Please confirm your email")
@@ -195,7 +194,7 @@ class CreateUserFormView(View):
             if User.objects.filter(username=form.data['username']).exists():
                 messages.error(request, 'That username already exists')
                 return redirect('register')
-            return render(request, self.template_name, {'form': form})
+            return render(request, 'profiles/' + request.tenant + '/registration_form.html', {'form': form})
         else:
             messages.error(request, "You cannot register while logged in")
             return redirect('index')
@@ -217,17 +216,16 @@ def activate(request, uidb64, token):
         messages.success(request, 'Thank you for your email confirmation. You are now logged in.')
         return redirect('profiles:profile_no_username')
     else:
-        return render(request, 'profiles/activation_invalid.html')
+        return render(request, 'profiles/' + request.tenant + '/activation_invalid.html')
 
 
 class LeaderboardView(View):
-    template_name = 'teams/leaderboard.html'
     form_class = SortForm
 
     def get(self, request, **kwargs):
         user_list = UserProfile.objects.order_by('user__username')  # sort by username default
         form = self.form_class(None)
-        return render(request, self.template_name, {'user_list': user_list, 'form': form})
+        return render(request, 'teams/' + request.tenant + '/leaderboard.html', {'user_list': user_list, 'form': form})
 
     def post(self, request, **kwargs):
         form = self.form_class(request.POST)
@@ -235,20 +233,20 @@ class LeaderboardView(View):
         if form.cleaned_data['sort_xp_asc']:
             user_list = UserProfile.objects.order_by('xp')
             messages.success(request, "Sorted by ascending XP")
-            return render(request, self.template_name, {'user_list': user_list, 'form': self.form_class(None)})
+            return render(request, 'teams/' + request.tenant + '/leaderboard.html', {'user_list': user_list, 'form': self.form_class(None)})
         elif form.cleaned_data['sort_xp_desc']:
             user_list = UserProfile.objects.order_by('-xp')
             messages.success(request, "Sorted by descending XP")
-            return render(request, self.template_name, {'user_list': user_list, 'form': self.form_class(None)})
+            return render(request, 'teams/' + request.tenant + '/leaderboard.html', {'user_list': user_list, 'form': self.form_class(None)})
         elif form.cleaned_data['sort_trophies_asc']:
             user_list = UserProfile.objects.order_by('num_trophies')
             messages.success(request, "Sorted by ascending number of trophies")
-            return render(request, self.template_name, {'user_list': user_list, 'form': self.form_class(None)})
+            return render(request, 'teams/' + request.tenant + '/leaderboard.html', {'user_list': user_list, 'form': self.form_class(None)})
         elif form.cleaned_data['sort_trophies_desc']:
             user_list = UserProfile.objects.order_by('-num_trophies')
             messages.success(request, "Sorted by descending number of trophies")
-            return render(request, self.template_name, {'user_list': user_list, 'form': self.form_class(None)})
+            return render(request, 'teams/' + request.tenant + '/leaderboard.html', {'user_list': user_list, 'form': self.form_class(None)})
         else:
             user_list = UserProfile.objects.order_by('user__username')
             messages.error(request, 'No sort option selected, sorting by username')
-            return render(request, self.template_name, {'user_list': user_list, 'form': self.form_class(None)})
+            return render(request, 'teams/' + request.tenant + '/leaderboard.html', {'user_list': user_list, 'form': self.form_class(None)})

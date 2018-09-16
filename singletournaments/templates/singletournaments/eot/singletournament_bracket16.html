@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+  {% block head %}
+  <title>{{ tournament.name }} Bracket - {{ SITE_NAME }}</title>
+  {% endblock %}
+
+{% block body %}
+
+    <script type="text/javascript" src="{% static 'js/jquery-1.6.2.min.js' %}"></script>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/jquery.bracket.min.css' %}" />
+<script type="text/javascript" src="{% static 'js/jquery.bracket.min.js' %}"></script>
+<script>
+
+var singleElimination = {
+  "teams": [              // Matchups
+    ["Team 1", "Team 2"], // First match
+    ["Team 3", "Team 4"],  // Second match
+    ["Team 5", "Team 6"],
+    ["Team 7", "Team 8"],
+    ['Team 9', 'Team 10'],
+    ['Team 11', 'Team 12'],
+    ['Team 13', 'Team 14'],
+    ['Team 15', 'Team 16'],
+  ],
+  "results": [            // List of brackets (single elimination, so only one bracket)
+    [                     // List of rounds in bracket
+      [                   // First round in this bracket
+        [1, 2],           // Team 1 vs Team 2
+        [3, 4],            // Team 3 vs Team 4
+        [5, 6],
+        [7, 8],
+        [9, 10],
+        [11, 12],
+        [13, 14],
+        [15, 16],
+      ],
+      [                   // Second (final) round in single elimination bracket
+        [17, 18],           // Match for first place
+        [19, 20],
+        [21, 22],
+        [23, 24],
+                    // Match for 3rd place
+      ],
+        [
+            [25, 26],
+            [27, 28],
+        ],
+
+        [
+            [29, 30],
+        ],
+    ]
+  ]
+}
+
+$(function() {
+    $('#demo').bracket({
+        skipConsolationRound: true,
+      init: singleElimination /* data to initialize the bracket with */ })
+  })
+</script>
+
+    <div id="demo"></div>
+
+{% endblock %}

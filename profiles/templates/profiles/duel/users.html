@@ -1,0 +1,35 @@
+{% extends 'duel/base.html' %}
+
+  {% block head %}
+  <title>User Search - {{ SITE_NAME }}</title>
+  {% endblock %}
+
+{% block body %}
+
+<form id="searchform" action="{% url 'profiles:searchusers' %}" method="get" accept-charset="utf-8">
+      <button class="searchbutton" type="submit">
+        <i class="fa fa-search"></i>
+      </button>
+      <input class="searchfield" id="searchbox" name="q" type="text" placeholder="Search">
+    </form>
+
+{% if not userprofiles %}
+    <h3>Search for a username or email address</h3>
+{% else %}
+
+<table class="table">
+<th>Username</th>
+<th>XBOX Live</th>
+<th>PSN</th>
+
+{% for up in userprofiles %}
+<tr>
+<td><strong><a href="/profile/user/{{ up.user }}">{{ up.user }}</a></strong></td>
+<td> {{ up.xbl }} </td>
+<td> {{ up.psn }}</td>
+
+</tr>
+{% endfor %}
+{% endif %}
+</table>
+{% endblock %}

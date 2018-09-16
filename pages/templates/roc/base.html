@@ -1,0 +1,31 @@
+{% include 'pages/roc/header.html' %}
+
+
+
+
+<body>
+
+  {% block head %}
+  <title>PageName - {{ SITE_NAME }}</title>
+  {% endblock %}
+  {% if messages %}
+      <br>
+      <br>
+      <br>
+  <ul class="messages">
+      {% for message in messages %}
+          <div class="{{ message.tags }}">
+  <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+      <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+          </div>
+      {% endfor %}
+  </ul>
+  {% endif %}
+  
+  {% block body %}
+
+  {% endblock %}
+  
+{% include 'pages/roc/footer.html' %}
+  
+</body>

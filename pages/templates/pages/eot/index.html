@@ -1,0 +1,188 @@
+{% extends "eot/base.html" %}
+
+{% load staticfiles %}
+  {% block head %}
+  <title>{{ SITE_NAME }}</title>
+  {% endblock %}
+
+{% block body %}
+
+   <div class="col-xs-12 col-sm-12 col-md-10 col-md-offset-2 bot20">
+    <div id="myCarousel" class="carousel slide bot10">
+                  <ol class="carousel-indicators">
+                    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                    <li data-target="#myCarousel" data-slide-to="1"></li>
+                    <li data-target="#myCarousel" data-slide-to="2"></li>
+                  </ol>
+                <div class="carousel-inner">
+                    <figure class="item active">
+                        <img src="{% static 'images/slider1.jpg' %}" alt="Slide1">
+                    </figure>
+                    <figure class="item">
+                        <img src="{% static 'images/slider2.jpg' %}" alt="Slide2">
+                     </figure>
+                    <figure class="item">
+                        <img src="{% static 'images/slider1.jpg' %}" alt="Slide3">
+                    </figure>
+                </div>
+    </div>
+   </div>
+
+ <div class="col-xs-12 col-sm-12 col-md-7 col-md-offset-2 bot10">
+
+      <div class="panel">
+      <div class="panel-body">
+      <div class="panel-title">&nbsp; <a href="#">upcoming tournaments</a></div>
+
+            {% if list.count == 0 %}
+            No tournaments have been posted yet!
+            {% endif %}
+
+          {% for tournament in list %}
+
+        <div class="col-xs-12 col-sm-6 col-md-4">
+         <div class="panel-default blue1">
+          <div class="panel-body">
+          <h4><a href="{% url 'singletournaments:detail' pk=tournament.id %}"><b>{{ tournament.name }}</b></a></h4>
+          <br>
+           <div class="tourn-img"><img src="
+           {% if tournament.game == 0 %}
+            {% static 'images/ww2.jpg' %}
+           {% elif tournament.game == 1 %}
+            {% static 'images/bo3.jpg' %}
+           {% elif tournament.game == 2 %}
+            {% static 'images/ww2.jpg' %}
+           {% elif tournament.game == 3 %}
+            {% static 'images/fortnitecover.jpg' %}
+           {% elif tournament.game == 4 %}
+            {% static 'images/destiny2cover.jpg' %}
+           {% elif tournament.game == 5 %}
+            {% static 'images/csgocover.jpg' %}
+           {% elif tournament.game == 6 %}
+            {% static 'images/pubgcover.jpg' %}
+           {% elif tournament.game == 7 %}
+            {% static 'images/rs6cover.jpg' %}
+           {% elif tournament.game == 8 %}
+            {% static 'images/overwatchcover.jpg' %}
+           {% elif tournament.game == 9 %}
+            {% static 'images/lolcover.jpg' %}
+           {% elif tournament.game == 10 %}
+            {% static 'images/hearthstonecover.jpg' %}
+           {% elif tournament.game == 11 %}
+            {% static 'images/wowcover.jpg' %}
+           {% elif tournament.game == 12 %}
+            {% static 'images/smitecover.jpg' %}
+           {% elif tournament.game == 13 %}
+            {% static 'images/rocketleaguecover.jpeg' %}
+           {% elif tournament.game == 14 %}
+            {% static 'images/bf1cover.jpg' %}
+           {% endif %}
+"/></div>
+           <div class="tourn-info">
+            Console: {% if tournament.platform == 0 %}
+        Playstation 4
+        {% elif tournament.platform == 1 %}
+        XBOX One
+        {% elif tournament.platform == 2 %}
+        PC
+        {% elif tournament.platform == 3 %}
+        Mobile
+        {% elif tournament.platform == 4 %}
+        Nintendo Switch
+        {% elif tournament.platform == 5 %}
+        Playstation 3
+        {% elif tournament.platform == 6 %}
+        XBOX 360
+        {% endif %}<br>
+Starts: 04:30pm , 10/20/2018<br>
+Bracket Size: {{ tournament.size }}<br><br>
+             <a class="btn btn-default btn-sm" href="{% url 'singletournaments:detail' pk=tournament.id %}">JOIN TOURNAMENT</a>
+           </div>
+          </div>
+         </div>
+        </div>
+          {% endfor %}
+
+
+
+      </div>
+      </div>
+
+   <div class="panel bot20">
+     <div class="panel-body">
+     <div class="panel-title">latest news</div>
+
+        {% if newslist.count == 0 %}
+        <h2>No news post have been created yet!</h2>
+        {% endif %}
+
+         {% for post in newslist %}
+    <div class="col-xs-12 col-sm-4 news">
+      <img src="{% static 'images/news1.jpg' %}">
+      <div class="news-overlay">{{ post.title }}<br>
+      <small>By: {{ post.author }}</small></div>
+    </div>
+         {% endfor %}
+
+
+    </div>
+   </div>
+
+   <div class="col-xs-12">
+   <br><br>
+    <img src="{% static 'images/event-banner.png' %}"/><br><br>
+     <a class="btn btn-default btn-block" href="#">VIEW ALL UPCOMING EVENTS AND INFORMATION</a>
+   </div>
+
+
+
+   </div>
+
+  <div class="col-xs-12 col-sm-12 col-md-3 bot10">
+
+    <div class="panel">
+     <div class="panel-body">
+     <div class="panel-title">top players (EOT points)</div>
+    <div class="table-responsive">
+     <table class="table table-bordered">
+        <tbody>
+            {% for player in players %}
+            <tr>
+             <td width="40"><img class="circle1" src="{% static 'images/avatar.jpg' %}"/></td>
+                <td align="left"> <small style="color:rgba(38,150,255,1.00);">RANK 1ST</small><br><a style="text-decoration: none; color:#fff;" href="{% url 'profiles:profile' urlusername=player.user %}"><h4>{{ player.user }}</h4></a></td>
+             <td align="right"> <h3>{{ player.xp }}</h3> EOT POINTS</td>
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+     </table>
+
+    </div>
+
+     </div>
+    </div>
+
+    <div class="panel">
+     <div class="panel-body">
+     <div class="panel-title">featured livestream</div>
+       <div class="center"><iframe src="https://player.twitch.tv/?channel={{ staticinfo.stream }}" frameborder="0" allowfullscreen="true" scrolling="no" height="280" width="100%"></iframe></div>
+     </div>
+    </div>
+
+    <div class="panel">
+     <div class="panel-body">
+     <div class="center">
+       <h2 style="font-family:'Rajdhani', Arial;">OUT OF</h2>
+       <h1 style="font-family:'Rajdhani', Arial;font-weight:600;">EOT CREDITS?</h1>
+       <br>
+       <img src="{% static 'images/credits.png' %}"/><br>
+       <a class="btn btn-default btn-block" href="{% url 'store:store' %}">VISIT THE STORE</a>
+       </div>
+     </div>
+    </div>
+
+   </div>
+
+
+{% endblock %}

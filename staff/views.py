@@ -21,7 +21,7 @@ from singletournaments.models import SingleEliminationTournament, SingleTourname
 from support.models import Ticket, TicketComment
 from django.shortcuts import get_object_or_404
 from pages.models import Partner
-from olly import settings
+from django.conf import settings
 
 
 def staffindex(request):
@@ -154,6 +154,19 @@ def unbanip(request, urlusername):
         b = BannedUser.objects.get(ip=buserprofile.ip)
         b.delete()
         messages.success(request, 'User ' + urlusername + ' has been banned')
+        return redirect('staff:users')
+
+
+def getrank(request):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        allusers = UserProfile.objects.all()
+        for i in allusers:
+            i.calculate_rank()
+        messages.success(request, "Calculated rank for %s users" % allusers.count())
         return redirect('staff:users')
 
 

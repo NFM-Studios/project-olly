@@ -1,0 +1,27 @@
+{% extends "stock/base.html" %}
+
+  {% block head %}
+  <title>Edit Team - {{ SITE_NAME }}</title>
+  {% endblock %}
+
+{% block body %}
+  <form method="post">
+    {% csrf_token %}
+
+    {{ field.errors }}
+
+    <label>About Us</label>
+    <div class="form-group">{{ form.about_us }}</div>
+
+    <label>Website</label>
+    <div class="form-group">{{form.website}}</div>
+
+    <label>Twitter</label>
+    <div class="form-group">{{form.twitter}}</div>
+
+    <label>Twitch Username</label>
+    <div class="form-group">{{form.twitch}}</div>
+
+    <button type="submit" class="btn btn-primary">Update</button>
+  </form>
+{% endblock %}
