@@ -1,0 +1,27 @@
+{% load staticfiles %}
+<section class="footer">
+
+  <div class="container">
+   <div class="row">
+    <div class="col-xs-4 col-sm-4 col-md-1 center">
+     <img src="{% static 'binge/images/footer-logo.png' %}"/>
+    </div>
+    <div class="col-xs-8 col-sm-8 col-md-9" style="padding-top:20px;">
+     <a href="https://twitter.com/bingeplay"> <i class="fa fa-twitter"></i> </a> &nbsp; <a href="#">&nbsp; <a href="https://www.twitch.tv/bingeplay"> <i class="fa fa-twitch"></i> </a> &nbsp; <a href="https://www.youtube.com/channel/UCXHxNBBieIM5A3QR5XeIcgA/featured?disable_polymer=1"> <i class="fa fa-youtube"></i> </a>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-2 center" style="padding-top:20px;">
+     Copyright 2018 (c) BingePlay<br>
+     All Rights Reserved <br>
+        {% block foot %}
+  Powered by <a href="https://olly.nfmstudios.com" target="_blank">Project Olly</a> Version: {{ SITE_VERSION }} On Server: {{ SITE_SERVER }}
+  {% endblock %}
+
+    </div>
+   </div>
+   </div>
+
+</section>
+
+  </body>
+</html>
+
