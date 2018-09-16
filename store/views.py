@@ -11,11 +11,10 @@ from .invoice_generator import generateinvoice
 
 def store(request):
     products = Product.objects.filter(active=True)
-    return render(request, 'store/store.html', {'products': products})
+    return render(request, 'store/' + request.tenant + '/store.html', {'products': products})
 
 
 def detail(request, pk):
-    template_name = 'store/product.html'
     product = Product.objects.get(id=pk)
     invoice_id = generateinvoice()
     paypal_dict = {
@@ -32,7 +31,7 @@ def detail(request, pk):
         'cost': product.price
     }
     form = PayPalPaymentsForm(initial=paypal_dict)
-    return render(request, template_name, {'product': product, 'form': form})
+    return render(request, 'store/' + request.tenant + '/product.html', {'product': product, 'form': form})
 
 
 '''
@@ -58,12 +57,12 @@ class Transfer(View):
             try:
                 d_up = UserProfile.objects.get(user__username=dest_user)
             except:
-                messages.error(request, 'That isn\'t a valid user')
+                messages.error(request, "That isn't a valid user")
                 return render(request, self.template_name, {'form': form})
             if up.credits - num < 0:
-                messages.error(request, 'You don\'t have enough credits')
+                messages.error(request, "You don't have enough credits")
             elif num <= 0:
-                messages.error(request, 'You can\'t transfer 0 or negative credits')
+                messages.error(request, "You can't transfer 0 or negative credits")
             else:
                 up.credits -= num
                 d_up.credits += num
@@ -77,5 +76,5 @@ class Transfer(View):
                 xfer.save()
                 return redirect('/profile/')
 
-        return render(request, self.template_name, {'form': form})
+        return render(request, 'store/' + request.tenant + '/product.html', {'form': form})
 

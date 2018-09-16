@@ -1,0 +1,26 @@
+{% extends "roc/base.html" %}
+{% load staticfiles %}
+
+  {% block head %}
+  <title>{{ team.name }} - {{ SITE_NAME }}</title>
+  {% endblock %}
+
+{% block body %}
+
+
+
+<form method="post">
+    {% csrf_token %}
+
+    {{ field.errors }}
+
+    Confirm: {{ form.confirmed }}
+
+
+
+    <p><button type="submit" class="btn btn-primary">Leave</button></p>
+  </form>
+
+
+
+{% endblock %}

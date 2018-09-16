@@ -1,0 +1,31 @@
+
+{% extends 'wlg/base.html' %}
+  {% block head %}
+  <title>Register - {{ SITE_NAME }}</title>
+  {% endblock %}
+
+{% block body %}
+
+{% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      <li class="{{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+
+<div class="container wrap">
+
+ <div class="panel">
+    <div class="panel-body">
+    <div class="panel-title">Register</div>
+  <form class="form-horizonal" role="form" action="" method="post">
+    {% csrf_token %}
+    {% include 'profiles/wlg/form_template.html' %}
+    {% include 'profiles/wlg/captcha.html' %}
+    <button type="submit" class="btn btn-success">Submit</button>
+  </form>
+    </div>
+ </div>
+</div>
+{% endblock %}

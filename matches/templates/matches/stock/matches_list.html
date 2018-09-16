@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+  {% block head %}
+  <title>Matches - {{ SITE_NAME }}</title>
+  {% endblock %}
+
+<link rel="stylesheet" href="{% static "css/matches.css" %}">
+
+{% block body %}
+
+
+<table class="table table-hover">
+    <tr id="header">
+        <thead>
+        <th scope="row">ID</th>
+        </thead>
+    </tr>
+    {% for match in matches %}
+    <tbody>
+    <tr scope="">
+        <td scope="row"><a href="{% url 'matches:detail' pk=match.id %}">#{{match.id}}</a></td>
+    </tr>
+    </tbody>
+    {% endfor %}
+</table>
+
+
+
+{% endblock %}

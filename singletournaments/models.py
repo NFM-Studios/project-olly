@@ -45,7 +45,7 @@ class SingleEliminationTournament(models.Model):
     # general information about the tournament
     info = models.TextField(default="No information provided")
 
-    ruleset = models.ForeignKey(SingleTournamentRuleset, related_name='tournamentruleset', on_delete=models.CASCADE, null=True, blank=True)
+    ruleset = models.ForeignKey(SingleTournamentRuleset, related_name='tournamentruleset', on_delete=models.CASCADE, null=True)
 
     # the time the specific tournament object was created
     created = models.DateTimeField(auto_now_add=True)
@@ -74,7 +74,6 @@ class SingleEliminationTournament(models.Model):
     second = models.ForeignKey(Team, related_name='secondplaceteam', on_delete=models.CASCADE, blank=True, null=True)
 
     third = models.ForeignKey(Team, related_name='thirdplaceteam', on_delete=models.CASCADE, blank=True, null=True)
-
 
     # specify how many teams the event will be capped at, and the size of the bracket
     size = models.PositiveSmallIntegerField(default=32, choices=SIZE_CHOICES)
@@ -247,10 +246,7 @@ class SingleEliminationTournament(models.Model):
             count += 1
 
         team_seeds = []
-        max_matches = len(teams) / 2
-
-        if not max_matches.is_integer():
-            max_matches += 0.5
+        max_matches = size / 2
 
         random.shuffle(teams)
 
@@ -258,42 +254,133 @@ class SingleEliminationTournament(models.Model):
             team_seeds.append(i)
 
         m = dict()
-
-        for x in range(1, int(max_matches) + 1):
-            
-            if len(team_seeds) == 1:
+        
+        if bye >= 3:
+            if bye % 2 != 0:
                 hometeam = team_seeds[0]
                 hometeam.seeds = seeds[0]
                 hometeam.save()
 
-                m[x] = Match(game=game, matchnum=x, platform=platform, hometeam=team_seeds[0],
+                m[1] = Match(game=game, matchnum=1, platform=platform, hometeam=team_seeds[0],
                              teamformat=teamformat, bestof=bestof, reported=True,
                              completed=True, winner=team_seeds[0])
+                m[1].save()
+
+                round1 = SingleTournamentRound.objects.get(tournament=self, roundnum=1)
+                round1.matches.add(m[1])
+                round1.save()
+                del team_seeds[0]
+                del seeds[0]
+
+                bye -= 1
+
+            if bye % 2 == 0:
+                byematches = bye / 2
+
+                for i in range(1, int(byematches) + 1):
+                    team1 = Team(name='bye%s' % i, founder=User.objects.get(id=1))
+                    team2 = Team(name='bye%s' % str(i+1), founder=User.objects.get(id=1))
+                    team1.save()
+                    team2.save()
+
+                    m[i] = Match(game=game, matchnum=i, platform=platform, hometeam=team1,
+                                 teamformat=teamformat, bestof=bestof, reported=True,
+                                 completed=True, winner=team1, awayteam=team2, loser=team2)
+                    m[i].save()
+
+                    round1 = SingleTournamentRound.objects.get(tournament=self, roundnum=1)
+                    round1.matches.add(m[i])
+                    round1.save()
+        elif bye == 2:
+            team1 = Team(name='bye%s' % 1, founder=User.objects.get(id=1))
+            team2 = Team(name='bye%s' % 2, founder=User.objects.get(id=1))
+            team1.save()
+            team2.save()
+
+            m[1] = Match(game=game, matchnum=i, platform=platform, hometeam=team1,
+                         teamformat=teamformat, bestof=bestof, reported=True,
+                         completed=True, winner=team1, awayteam=team2, loser=team2)
+            m[1].save()
+
+            round1 = SingleTournamentRound.objects.get(tournament=self, roundnum=1)
+            round1.matches.add(m[2])
+            round1.save()
+        if bye != 0:
+            for x in range(bye + 1, int(max_matches) + bye - 2):
+
+                if len(team_seeds) == 1:
+                    hometeam = team_seeds[0]
+                    hometeam.seeds = seeds[0]
+                    hometeam.save()
+                    team1 = Team(name='bye%s' % 1, founder=User.objects.get(id=1))
+                    team1.save()
+
+                    m[x] = Match(game=game, matchnum=x, platform=platform, hometeam=team_seeds[0],
+                                 teamformat=teamformat, bestof=bestof, reported=True,
+                                 completed=True, winner=team_seeds[0], awayteam=team1, loser=team1)
+                    m[x].save()
+
+                    round1 = SingleTournamentRound.objects.get(tournament=self, roundnum=1)
+                    round1.matches.add(m[x])
+                    round1.save()
+                    break
+
+                hometeam = team_seeds[0]
+                hometeam.seed = seeds[0]
+                hometeam.save()
+                awayteam = team_seeds[-1]
+                awayteam.seed = seeds[-1]
+                awayteam.save()
+
+                m[x] = Match(game=game, platform=platform, hometeam=team_seeds[0], awayteam=team_seeds[-1],
+                             teamformat=teamformat, bestof=bestof)
                 m[x].save()
-                
                 round1 = SingleTournamentRound.objects.get(tournament=self, roundnum=1)
                 round1.matches.add(m[x])
                 round1.save()
-                break
-            
-            hometeam = team_seeds[0]
-            hometeam.seed = seeds[0]
-            hometeam.save()
-            awayteam = team_seeds[-1]
-            awayteam.seed = seeds[-1]
-            awayteam.save()
 
-            m[x] = Match(game=game, platform=platform, hometeam=team_seeds[0], awayteam=team_seeds[-1],
-                         teamformat=teamformat, bestof=bestof)
-            m[x].save()
-            round1 = SingleTournamentRound.objects.get(tournament=self, roundnum=1)
-            round1.matches.add(m[x])
-            round1.save()
+                del team_seeds[0]
+                del team_seeds[-1]
+                del seeds[0]
+                del seeds[-1]
+        else:
+            for x in range(1, int(max_matches) + 1):
 
-            del team_seeds[0]
-            del team_seeds[-1]
-            del seeds[0]
-            del seeds[-1]
+                if len(team_seeds) == 1:
+                    hometeam = team_seeds[0]
+                    hometeam.seeds = seeds[0]
+                    hometeam.save()
+                    team1 = Team(name='bye%s' % 1, founder=User.objects.get(id=1))
+                    team1.save()
+
+                    m[x] = Match(game=game, matchnum=x, platform=platform, hometeam=team_seeds[0],
+                                 teamformat=teamformat, bestof=bestof, reported=True,
+                                 completed=True, winner=team_seeds[0], awayteam=team1, loser=team1)
+                    m[x].save()
+
+                    round1 = SingleTournamentRound.objects.get(tournament=self, roundnum=1)
+                    round1.matches.add(m[x])
+                    round1.save()
+                    break
+
+                hometeam = team_seeds[0]
+                hometeam.seed = seeds[0]
+                hometeam.save()
+                awayteam = team_seeds[-1]
+                awayteam.seed = seeds[-1]
+                awayteam.save()
+
+                m[x] = Match(game=game, platform=platform, hometeam=team_seeds[0], awayteam=team_seeds[-1],
+                             teamformat=teamformat, bestof=bestof)
+                m[x].save()
+                round1 = SingleTournamentRound.objects.get(tournament=self, roundnum=1)
+                round1.matches.add(m[x])
+                round1.save()
+
+                del team_seeds[0]
+                del team_seeds[-1]
+                del seeds[0]
+                del seeds[-1]
 
     def get_round1_byes(self, **kwargs):
         # only used for round 1 purposes

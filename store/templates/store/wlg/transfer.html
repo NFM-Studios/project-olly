@@ -1,0 +1,25 @@
+{% extends "wlg/base.html" %}
+
+  {% block head %}
+  <title>Transfer Credits - {{ SITE_NAME }}</title>
+  {% endblock %}
+
+{% block body %}
+        <div class="container wrap">
+
+ <div class="panel">
+    <div class="panel-body">
+    <div class="panel-title">Transfer Credits</div>
+    <br>
+
+    <form class="form-horizonal" role="form" action="" method="post">
+        {% csrf_token %}
+        {% include 'store/wlg/xfer_form.html' %}
+        <button type="submit" class="btn btn-success">Transfer</button>
+    </form>
+
+    </div>
+ </div>
+        </div>
+
+{% endblock %}

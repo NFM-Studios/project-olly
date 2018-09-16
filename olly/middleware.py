@@ -23,6 +23,33 @@ class CheckBanListMiddleware:
                     user.save()  # this will update only
                     if not BannedUser.objects.filter(ip=ip).exists():
                         if BannedUser.objects.filter(user=request.user):
-                            return render(request, 'profiles/banned.html')
+                            return render(request, 'profiles/' + request.tenant + '/banned.html')
                 if BannedUser.objects.filter(ip=ip).exists():
-                    return render(request, 'profiles/banned.html')
+                    return render(request, 'profiles/' + request.tenant + '/banned.html')
+
+
+def tenant_middleware(get_response):
+    def middleware(request):
+
+        host = request.get_host()
+        # the following line is probably not needed
+        # host = host.split(':')[1]  # we remove the protocol part: 'ibm.spinnertracking.com'
+        subdomain = host.split('.')[0]
+        domain = host.split('.')[-2]
+
+        if domain == 'duelbattleroyale' or subdomain == 'duel':
+            request.tenant = 'duel'
+        if domain == 'roc' or subdomain == 'roc':
+            request.tenant = 'roc'
+
+        if domain == 'binge' or subdomain == 'binge':
+            request.tenant = 'binge'
+
+
+        elif domain == 'esportsopentour' or subdomain == 'eot':
+            request.tenant = 'eot'
+
+        # all done, the view will receive a request with a tenant attribute
+        return get_response(request)
+
+    return middleware
