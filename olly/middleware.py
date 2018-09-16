@@ -6,7 +6,7 @@ from profiles.models import UserProfile, BannedUser
 class CheckBanListMiddleware:
     def __init__(self, get_response):
         self.get_response = get_response
-        
+
     def __call__(self, request):
         response = self.get_response(request)
         return response
@@ -39,15 +39,18 @@ def tenant_middleware(get_response):
 
         if domain == 'duelbattleroyale' or subdomain == 'duel':
             request.tenant = 'duel'
-        if domain == 'roc' or subdomain == 'roc':
+
+        elif domain == 'roc' or subdomain == 'roc':
             request.tenant = 'roc'
 
-        if domain == 'binge' or subdomain == 'binge':
+        elif domain == 'binge' or subdomain == 'binge':
             request.tenant = 'binge'
-
 
         elif domain == 'esportsopentour' or subdomain == 'eot':
             request.tenant = 'eot'
+
+        elif domain == 'playot' or subdomain == 'online':
+            request.tenant = 'online'
 
         # all done, the view will receive a request with a tenant attribute
         return get_response(request)
