@@ -24,8 +24,9 @@
      <table class="table table-hover">
      <thead>
       <tr>
+        <th width="10%">RANK</th>
         <th width="30%">PLAYER</th>
-        <th width="30%">SOCIAL</th>
+        <th width="20%">SOCIAL</th>
         <th width="20%">TOURNY WINS</th>
         <th width="20%">DUEL EARNINGS</th>
 
@@ -34,6 +35,7 @@
     <tbody>
     {% for user in user_list %}
       <tr>
+        <td>{{ user.rank }}</td>
         <td width="30%" valign="middle"><img src="{% static 'binge/images/avatar.jpg' %}" width="30" height="30"> <b>{{ user }}</b></td>
         <td width="30%" valign="middle" style="font-size:20px;"><a href="{% if user.twitter_profile == "No Twitter Linked" or user.twitter_profile == "" %}
         #
