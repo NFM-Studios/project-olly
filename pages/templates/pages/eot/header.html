@@ -9,7 +9,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/x-icon" href="{% static 'eot/images/favicon.ico' %}" />
-    <title>EOT</title>
+      {% block head %}
+      <title>PageName - {{ SITE_NAME }}</title>
+     {% endblock %}
     <meta name="description" content="">
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -18,9 +20,6 @@
     <script src="{% static 'eot/js/jquery/jquery.min.js' %}"></script>
     <script src="{% static 'eot/js/bootstrap337.min.js' %}"></script>
 
-      {% block head %}
-      <title>PageName - {{ SITE_NAME }}</title>
-      {% endblock %}
 
 </head>
 
