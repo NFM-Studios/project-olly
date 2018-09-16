@@ -6,69 +6,21 @@
 
 {% block body %}
 
-    <div class="container page">
+<div class="container min-width page1">
+ <div class="space90"></div>
+ {% for product in products %}
+ <div class="col-xs-12 col-sm-6 col-md-3">
+  <div class="panel panel-default">
+  <div class="panel-title center">{{ product.price }}</div>
+   <div class="panel-body center">
+       <h1><b>{{ product.name }}</b> <small>Credits</small></h1>
+       <a class="btn btn-transparent btn-block btn-sm" href="{% url 'store:detail' pk=product.id %}"> PURCHASE </a>
+   </div>
+  </div>
+ </div>
+{% endfor %}
 
-   <div class="panel">
-      <div class="panel-body">
-
-       <div class="col-xs-6 col-sm-3 bot10">
-        <div class="panel-default">
-         <div class="panel-body center">
-          <img src="{% static 'binge/images/credits.png' %}"><br>
-          <h5><b>1 Credit</b></h5>
-          <br><br>
-          <a class="btn btn-primary btn-xs btn-block center" href="/store/product/1"> $1.00 ORDER NOW </a>
-         </div>
-         </div>
-       </div>
-
-       <div class="col-xs-6 col-sm-3 bot10">
-        <div class="panel-default">
-         <div class="panel-body center">
-          <img src="{% static 'binge/images/credits.png' %}"><br>
-          <h5><b>5 Credits</b></h5>
-          <br><br>
-          <a class="btn btn-primary btn-xs btn-block center" href="/store/product/2"> $4.00 ORDER NOW </a>
-         </div>
-         </div>
-       </div>
-       <div class="col-xs-6 col-sm-3 bot10">
-        <div class="panel-default">
-         <div class="panel-body center">
-          <img src="{% static 'binge/images/credits.png' %}"><br>
-          <h5><b>10 Credits</b></h5>
-          <br><br>
-          <a class="btn btn-primary btn-xs btn-block center" href="/store/product/3"> $8.00 ORDER NOW </a>
-         </div>
-         </div>
-       </div>
-          <div class="col-xs-6 col-sm-3 bot10">
-        <div class="panel-default">
-         <div class="panel-body center">
-          <img src="{% static 'binge/images/credits.png' %}"><br>
-          <h5><b>25 Credits</b></h5>
-          <br><br>
-          <a class="btn btn-primary btn-xs btn-block center" href="/store/product/4"> $19.00 ORDER NOW </a>
-         </div>
-         </div>
-       </div>
-          <div class="col-xs-6 col-sm-3 bot10">
-        <div class="panel-default">
-         <div class="panel-body center">
-          <img src="{% static 'binge/images/credits.png' %}"><br>
-          <h5><b>55 Credits</b></h5>
-          <br><br>
-          <a class="btn btn-primary btn-xs btn-block center" href="/store/product/5"> $38.00 ORDER NOW </a>
-         </div>
-         </div>
-       </div>
-
-
-      </div>
-      </div>
-     </div>
-
-
+</div>
 
 
 {% endblock %}
