@@ -50,7 +50,7 @@ def tenant_middleware(get_response):
             request.tenant = 'eot'
 
         elif domain == 'playot' or subdomain == 'online':
-            request.tenant = 'online'
+            request.tenant = 'ot'
 
         # all done, the view will receive a request with a tenant attribute
         return get_response(request)
