@@ -10,6 +10,8 @@ class StaticInfo(models.Model):
     slide1link = models.TextField(default="#")
     slide2link = models.TextField(default="#")
     slide3link = models.TextField(default="#")
+    welcomeln1 = models.CharField(default='welcome text', max_length=25)
+    welcomeln2 = models.CharField(default='', max_length=25)
 
     # for steven
 
