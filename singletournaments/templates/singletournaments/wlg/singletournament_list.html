@@ -1,0 +1,114 @@
+{% extends "wlg/base.html" %}
+{% load staticfiles %}
+
+  {% block head %}
+  <title>Tournaments - {{ SITE_NAME }}</title>
+  {% endblock %}
+
+<link rel="stylesheet" href="{% static "css/singletournament.css" %}">
+
+{% block body %}
+<div class="container wrap">
+
+ <div class="row bot10">
+  <div class="col-xs-4 center">
+   <a class="btn btn-success btn-xs btn-block" href="{% url 'singletournaments:xbox' %}"><img src="{% static 'images/xbl-white.png' %}"> XBOX</a>
+  </div>
+  <div class="col-xs-4 center">
+  <a class="btn btn-primary btn-xs btn-block" href="{% url 'singletournaments:ps4' %}"><img src="{% static 'images/psn-white.png' %}"> PS4</a>
+  </div>
+  <div class="col-xs-4 center">
+  <a class="btn btn-warning btn-xs btn-block" href="{% url 'singletournaments:pc' %}"><i class="fa fa-desktop"></i> PC</a>
+  </div>
+</div>
+
+<div class="row">
+<div class="col-xs-12">
+<div class="panel">
+<div class="panel-body">
+
+
+
+
+{% for tournament in tournament_list %}
+
+    <div class="col-xs-12 col-sm-6 col-md-4 league">
+      <img src="{% static 'images/game-banner.jpg' %}"><br>
+      <h6><b>{{tournament.name}}</b></h6>
+    <br />
+      <ul>
+       <li><b>Platform:</b> {% if tournament.platform == 0 %}
+        Playstation 4
+        {% elif tournament.platform == 1 %}
+        XBOX One
+        {% elif tournament.platform == 2 %}
+        PC
+        {% elif tournament.platform == 3 %}
+        Mobile
+        {% elif tournament.platform == 4 %}
+        Nintendo Switch
+        {% elif tournament.platform == 5 %}
+        Playstation 3
+        {% elif tournament.platform == 6 %}
+        XBOX 360
+        {% endif %}</li>
+      <li><br /></li>
+       <li><b>Registration Opens:</b> <br />{{tournament.open_register}}</li>
+      <li><br /></li>
+       <li><b>Starts:</b> <br/>{{tournament.start}}</li>
+      </ul>
+      <ul>
+       <li><b>Game:</b>{% if tournament.game == 0 %}
+        No Game Set
+        {% elif tournament.game == 1 %}
+        Call of Duty: Black Ops 3
+        {% elif tournament.game == 2 %}
+        Call of Duty WWII
+        {% elif tournament.game == 3 %}
+        Fortnite
+        {% elif tournament.game == 4 %}
+        Destiny 2
+        {% elif tournament.game == 5 %}
+        Counter-Strike: Global Offensive
+        {% elif tournament.game == 6 %}
+        Player Unknown's BATTLEGROUNDS
+        {% elif tournament.game == 7 %}
+        Rainbow Six Siege
+        {% elif tournament.game == 8 %}
+        Overwatch
+        {% elif tournament.game == 9 %}
+        League of Legends
+        {% elif tournament.game == 10 %}
+        Hearthstone
+        {% elif tournament.game == 11 %}
+        World of Warcraft
+        {% elif tournament.game == 12 %}
+        SMITE
+        {% elif tournament.game == 13 %}
+        Rocket League
+        {% elif tournament.game == 14 %}
+        Battlefield 1
+        {% endif %}</li>
+      <br />
+       <li><b>Registration Closes:</b> <br />{{ tournament.close_register }}</li>
+      <br>
+      <li><b>Registration Fee: </b>{{ tournament.req_credits }}</li>
+      <br />
+
+      <br />
+      </ul>
+      <a class="btn btn-primary btn-block btn-xs jleague" href="{% url 'singletournaments:detail' pk=tournament.id %}">JOIN TOURNAMENT</a>
+     </div>
+{% endfor %}
+
+
+
+     </div>
+    </div>
+    </div>
+</div>
+</div>
+
+
+
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "wlg/base.html" %}
+
+  {% block head %}
+  <title>{{ product.item }} - {{ SITE_NAME }}</title>
+  {% endblock %}
+
+{% block body %}
+    <div class="container wrap">
+
+ <div class="panel">
+    <div class="panel-body">
+    <div class="panel-title">{{ product.item }}</div>
+    <br>
+    <h3>{{ product.cost }}</h3>
+    <br>
+    {{ form.render }}
+    </div>
+ </div>
+    </div>
+
+{% endblock %}

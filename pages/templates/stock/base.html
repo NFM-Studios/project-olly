@@ -1,0 +1,79 @@
+<html>
+<head>
+
+  
+  {% load staticfiles %}
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="{% static "stock/css/fontawesome-all.min.css" %}">
+  <script src="{% static 'stock/js/nfm.js' %}"></script>
+  
+  {% block head %}
+  <title>PageName - {{ SITE_NAME }}</title>
+  {% endblock %}
+  
+</head>
+<body>
+
+ <!-- Static navbar -->
+      <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Project Olly (DEV BUILD)</a>
+          </div>
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+              <li><a href="{% url 'index' %}">Home</a></li>
+              <li><a href="{% url 'about' %}">About Us</a></li>
+              <li><a href="{% url 'news:post_list' %}">News</a></li>
+              {% if not user.is_anonymous %}
+                  <li><a href="{% url 'profiles:users' %}">Users</a></li>
+                  <li><a href="{% url 'singletournaments:list' %}">Tournaments</a></li>
+                  <li><a href="{%  url 'profiles:profile_no_username' %}">My Profile</a></li>
+                  <li><a href="{% url 'support:list' %}">My Support Tickets</a></li>
+                  <li><a href="{%  url 'store:store' %}">Store</a></li>
+                  <li><a href="{%  url 'teams:list' %}">Teams</a></li>
+              {% endif %}
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                {% if user.is_anonymous %}
+                    <li><a href="{% url 'login' %}">Login</a></li>
+                    <li><a href="{% url 'register' %}">Register</a></li>
+                {% elif not user.is_anonymous %}
+                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                {% endif %}
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div><!--/.container-fluid -->
+      </nav>
+<!-- End Static navbar -->
+
+  {% if messages %}
+  <ul class="messages">
+      {% for message in messages %}
+      <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+      {% endfor %}
+  </ul>
+  {% endif %}
+  
+  
+  {% block body %}
+  <h1>base</h1>
+  {% endblock %}
+  
+  <footer>
+  {% block foot %}
+  Powered by <a href="https://olly.nfmstudios.com" target="_blank">Project Olly</a> Version: {{ SITE_VERSION }} On Server: {{ SITE_SERVER }}
+  {% endblock %}
+  </footer>
+  
+</body>
+
+</html>

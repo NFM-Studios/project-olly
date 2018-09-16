@@ -1,0 +1,22 @@
+{% extends "stock/base.html" %}
+{% load staticfiles %}
+
+  {% block head %}
+  <title>Send an Invite - {{ SITE_NAME }}</title>
+  {% endblock %}
+
+{% block body %}
+
+<form method="POST" action="{% url 'teams:invite' %}">
+    <table class="table">
+        {% csrf_token %}
+        {{ form }}
+
+        <tr>
+            <td colspan="2">
+                <input type="submit" value="Invite" />
+            </td>
+        </tr>
+    </table>
+</form>
+{% endblock %}

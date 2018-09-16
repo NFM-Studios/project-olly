@@ -1,0 +1,36 @@
+{% extends 'duel/base.html' %}
+{% load staticfiles %}
+  {% block head %}
+  <title>Store - {{ SITE_NAME }}</title>
+  {% endblock %}
+
+{% block body %}
+
+    <div class="container page">
+
+   <div class="panel">
+      <div class="panel-body">
+
+          {% for product in products %}
+       <div class="col-xs-6 col-sm-3 bot10">
+        <div class="panel-default">
+         <div class="panel-body center">
+          <img src="{% static 'duel/images/coin.png' %}"><br>
+          <h5><b>{{ product.name }}</b></h5>
+          <br><br>
+          <a class="btn btn-primary btn-xs btn-block center" href="{% url 'store:detail' pk=product.id %}"> {{ product.price }} ORDER NOW </a>
+         </div>
+         </div>
+       </div>
+    {% endfor %}
+
+
+
+      </div>
+      </div>
+     </div>
+
+
+
+
+{% endblock %}

@@ -1,0 +1,28 @@
+
+{% load staticfiles %}
+
+  {% block head %}
+  <title>Teams - {{ SITE_NAME }}</title>
+  {% endblock %}
+
+<link rel="stylesheet" href="{% static "css/singletournament.css" %}">
+
+{% block body %}
+
+<table class="table table-hover">
+    <tr id="header">
+        <thead>
+        <th>Team Name</th>
+        <th>Team ID</th>
+        </thead>
+    </tr>
+    {% for team in teams %}
+    <tbody>
+    <tr scope="">
+        <td>{{team.name}}</td>
+        <a href="{% url 'teams:detail' pk=team.id %}"><td>{{team.id}}</td></a>
+    </tr>
+    </tbody>
+    {% endfor %}
+</table>
+{% endblock %}

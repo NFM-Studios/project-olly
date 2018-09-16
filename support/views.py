@@ -10,13 +10,12 @@ from django.shortcuts import get_object_or_404
 
 class MyTicketListView(View):
     model = Ticket
-    template_name = 'tickets/ticket_mylist.html'
     form = ListFilterForm
 
     def get(self, request):
         form = self.form
         ticket_list = Ticket.objects.filter(creator=request.user, status__lte=2)
-        return render(request, self.template_name, {'form': form, 'ticket_list': ticket_list})
+        return render(request, 'tickets/' + request.tenant + '/ticket_mylist.html', {'form': form, 'ticket_list': ticket_list})
 
     def post(self, request):
         form = self.form(request.POST)
@@ -29,12 +28,11 @@ class MyTicketListView(View):
                 ticket_list = Ticket.objects.filter(pk=query)
             except ValueError:
                 ticket_list = Ticket.objects.filter(text__contains=query)
-        return render(request, self.template_name, {'form': form, 'ticket_list': ticket_list})
+        return render(request, 'tickets/' + request.tenant + '/ticket_mylist.html', {'form': form, 'ticket_list': ticket_list})
 
 
 class MyTicketDetailView(DetailView):
     model = Ticket
-    template_name = 'tickets/ticket_mydetail.html'
     form1 = TicketCommentCreateForm()
     form1_class = TicketCommentCreateForm
     form2 = TicketStatusChangeForm()
@@ -48,7 +46,7 @@ class MyTicketDetailView(DetailView):
         ticket = get_object_or_404(Ticket, pk=pk)
         creator = UserProfile.objects.get(user=ticket.creator)
         comments = TicketComment.objects.filter(ticket=pk)
-        return render(request, self.template_name, {'form': form1, 'x': pk,
+        return render(request, 'tickets/' + request.tenant + '/ticket_mydetail.html', {'form': form1, 'x': pk,
                                                     "ticket": ticket, "comments": comments,
                                                     'creator':creator})
 
@@ -87,14 +85,19 @@ class MyTicketDetailView(DetailView):
         return Ticket.objects.filter(creator=self.request.user)
 
 
-class TicketCreateView(CreateView):
+class TicketCreateView(View):
     form_class = TicketCreateForm
-    template_name = 'tickets/ticket_create.html'
 
-    def form_valid(self, form):
-        ticket = form.instance
-        ticket.creator = self.request.user
-        ticket.save()
-        self.success_url = reverse('support:detail', args=[ticket.id])
-        messages.success(self.request, 'Your ticket has been successfully created')
-        return super(TicketCreateView, self).form_valid(form)
+    def get(self, request):
+        form = self.form_class(request)
+        return render(request, 'tickets/' + request.tenant + '/ticket_create.html', {'form': form})
+
+    def post(self, request):
+        form = self.form_class(request.POST)
+
+        if form.is_valid:
+            ticket = form.instance
+            ticket.creator = self.request.user
+            ticket.save()
+            messages.success(self.request, 'Your ticket has been successfully created')
+            return redirect('support:detail', pk=[ticket.id])

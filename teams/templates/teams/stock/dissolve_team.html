@@ -1,0 +1,25 @@
+{% extends "stock/base.html" %}
+{% load staticfiles %}
+
+  {% block head %}
+  <title>{{ team.name }} - {{ SITE_NAME }}</title>
+  {% endblock %}
+
+{% block body %}
+
+
+<form method="post">
+    {% csrf_token %}
+
+    {{ field.errors }}
+
+    Confirm: {{ form.confirmed }}
+
+
+
+    <p><button type="submit" class="btn btn-primary">Dissolve team</button></p>
+  </form>
+
+
+
+{% endblock %}

@@ -42,7 +42,7 @@ coverage.xml
 
 # Sphinx documentation
 docs/_build/
-db.sqlite3
+*.sqlite3
 
 venv/
 

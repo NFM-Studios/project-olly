@@ -1,0 +1,94 @@
+{% extends "duel/base.html" %}
+{% load staticfiles %}
+  {% block head %}
+  <title>My Tickets - {{ SITE_NAME }}</title>
+  {% endblock %}
+
+{% block body %}
+
+<div class="container page">
+
+           <div class="panel">
+              <div class="panel-body">
+
+
+                  <div class="row">
+                    <div class="col-xs-12 col-sm-6">
+                        <div class="panel-title"><a href="{% url 'support:create' %}">Create a Ticket</a></div>
+
+                        </div>
+
+                    <div class="col-xs-12 col-sm-6">
+    					<div class="panel-title">My Tickets</div>
+                            <form method="POST" action="{% url 'support:list' %}">
+        {% csrf_token %}
+        {{form}}
+
+                <input type="submit" value="Filter" />
+
+</form>
+                                <div class="table-responsive">
+     <table class="table table-hover">
+     <thead>
+      <tr>
+        <th width="20%">ID</th>
+        <th width="20%">SUBJECT</th>
+        <th width="20%">STATUS</th>
+        <th width="20%">CREATED</th>
+        <th width="20%">ACTION</th>
+
+      </tr>
+    </thead>
+    <tbody>
+    {% if ticket_list.count == 0 %}
+    <div class="panel title">No support tickets</div>
+    {% endif %}
+    {% for ticket in ticket_list %}
+      <tr>
+        <td width="20%" valign="middle">#{{ ticket.id }}</td>
+        <td width="20%" valign="middle">{% if ticket.category == 0 %}
+            General
+        {% elif ticket.category == 1 %}
+            Prize Claim
+        {% elif ticket.category == 2 %}
+            Tournament Support
+        {% elif ticket.category == 3 %}
+            Billing
+        {% elif ticket.category == 4 %}
+            Refund Request
+        {% elif ticket.category == 5 %}
+            PSN/XBL Issues
+        {% elif ticket.category == 6 %}
+            Match Support/Dispute
+        {% endif %}</td>
+        <td width="20%" valign="middle">{% if ticket.status == 0 %}
+            New
+        {% elif ticket.status == 1 %}
+            On Hold
+        {% elif ticket.status == 2 %}
+            In Progress
+        {% elif ticket.status == 3 %}
+            Closed
+        {% endif %}</td>
+        <td width="20%" valign="middle">{{ ticket.date }}</td>
+          <td width="20%" valign="middle"><a href="{% url 'support:detail' pk=ticket.id %}">View Ticket</a></td>
+      </tr>
+    {% endfor %}
+
+    </tbody>
+  </table>
+  </div>
+                        </div>
+     	 </div>
+
+      </div>
+     </div>
+
+
+  </div>
+
+
+
+
+{% endblock %}
+

@@ -11,5 +11,5 @@ urlpatterns = [
     url(r'^users/$', views.users, name='users'),
     url(r'^users/search/$', login_required(views.searchusers), name='searchusers'),
     url(r'^user/(?P<urlusername>\w+)/$', views.profile, name='profile'),
-    url(r'^leaderboards/$', login_required(views.LeaderboardView.as_view()), name='leaderboard'),
+    url(r'^leaderboards/$', views.LeaderboardView.as_view(), name='leaderboard'),
 ]

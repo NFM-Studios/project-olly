@@ -1,0 +1,184 @@
+{% extends "wlg/base.html" %}
+{% load staticfiles %}
+
+  {% block head %}
+  <title>Edit profile - {{ SITE_NAME }}</title>
+  {% endblock %}
+
+{% block body %}
+
+
+
+    <div class="container wrap">
+
+           <div class="panel">
+              <div class="panel-body">
+    <div class="col-xs-12 banner-head bot20">
+                   <div class="row">
+                   <div class="col-xs-12 col-sm-4">
+                    <h2><b>{{ userprofile.user }}</b></h2>
+
+                    About Me:<br>
+                    {{ userprofile.about_me }}<br>
+                    <br>
+                     PSN: <a href="#">{{ userprofile.psn }}
+                   {% if userprofile.psn_verified %}
+                       <i class="fa fa-check-circle" style="color:green"></i>
+                       {% else %}
+                       <i class="fa fa-times-circle" style="color:red"></i>
+                       {% endif %}
+                   </a><br>
+                    XBL: <a href="#">{{ userprofile.xbl }}
+                   {% if userprofile.xbl_verified %}
+                        <i class="fa fa-check-circle" style="color:green"></i>
+                       {% else %}
+                       <i class="fa fa-times-circle" style="color:red"></i>
+                       {% endif %}
+                   </a><br>
+                    <br>
+                    Twitter: <a href="{% if userprofile.twitter_profile == "No Twitter Linked" or userprofile.twitter_profile == "" %}
+        #
+    {% else %}
+    https://twitter.com/{{ userprofile.twitter_profile }}
+        {% endif %}">@{{ userprofile.twitter_profile }}</a><br>
+                    Twitch: <a href="{% if userprofile.twitch_channel == "No Twitch Linked" or userprofile.twitch_channel == "" %}
+        #
+    {% else %}
+    https://twitch.tv/{{ userprofile.twitch_channel }}
+        {% endif %}">{{ userprofile.twitch_channel }}</a><br>
+                    <br>
+
+                   </div>
+
+                   <div class="col-xs-12 col-sm-3">
+                    {% if userprofile.profile_picture.url != "" %}
+                        <img src="{{ userprofile.profile_picture.url }}" align="center" width="200"> <br />
+                        {% else %}
+                        <img src="{{ MEDIA_URL }}default_profile.png" align="center" width="200"/> <br />
+                        {% endif %}
+                   </div>
+
+                   <div class="col-xs-12 col-sm-5 center">
+                    <div class="row">
+                     <div class="col-xs-12 center">
+                     <h2>TROPHIES</h2><br>
+                     <br>
+                     </div>
+                    </div>
+                    <div class="row">
+                     <div class="col-xs-4 center">
+                      <img src="{% static 'images/gold.png' %}"/><br>
+                      <h1><b>{{ userprofile.num_gold }}</b></h1>
+                     </div>
+                     <div class="col-xs-4 center">
+                      <img src="{% static 'images/silver.png' %}"/><br>
+                      <h1><b>{{ userprofile.num_silver }}</b></h1>
+                     </div>
+                     <div class="col-xs-4 center">
+                      <img src="{% static 'images/bronze.png' %}"/><br>
+                      <h1><b>{{ userprofile.num_bronze }}</b></h1>
+                     </div>
+                    </div>
+                   </div>
+
+                   </div>
+               </div>
+
+
+
+
+                <div class="row gutter-10 bot20">
+
+
+
+
+  <form enctype="multipart/form-data" method="post">
+    {% csrf_token %}
+
+    {{ field.errors }}
+
+
+   <!-- <div class="form-group">
+      <label for="AboutMe">Profile Picture</label>
+      <input type="file" class="form-control-file" id="profile-picture" aria-describedby="profile-picture">
+    </div>
+      <div class="form-group">
+        <label for="AboutMe">About Me</label>
+        <input type="text" class="form-control" id="about-me" aria-describedby="aboutMe" placeholder="{{userprofile.about_me}}">
+        <!--<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
+      <!--</div>
+      <div class="form-group">
+        <label for="xbl">Xbox Live</label>
+        <input type="text" class="form-control" id="xbl" aria-describedby="xbl" placeholder="{{userprofile.xbl}}">
+      </div>
+      <div class="form-group">
+        <label for="psn">PSN</label>
+        <input type="text" class="form-control" id="psn" aria-describedby="psn" placeholder="{{userprofile.psn}}">
+      </div>
+      <div class="form-group">
+        <label for="twitter">Twitter Username</label>
+        <input type="text" class="form-control" id="twitter" aria-describedby="twitter" placeholder="{{userprofile.twitter}}">
+      </div>
+      <div class="form-group">
+        <label for="twitch">Twitch Username</label>
+        <input type="text" class="form-control" id="twitch_channel" aria-describedby="twitch" placeholder="{{userprofile.twitch}}">
+      </div>
+      <div class="form-group">
+        <label for="favorite_game">Favorite Game</label>
+        <input type="text" class="form-control" id="favorite_game" aria-describedby="favorite_game" placeholder="{{userprofile.favorite_game}}">
+      </div>
+      <div class="form-group">
+        <label for="favorite_console">Favorite Console</label>
+        <input type="text" class="form-control" id="favorite_console" aria-describedby="favorite_console" placeholder="{{userprofile.favorite_console}}">
+      </div>
+
+      <button type="submit" class="btn btn-primary">Submit</button>
+
+    -->
+
+
+  <!--  <label>Profile Picture</label>
+    <div>{{ form.profile_picture }}</div>--->
+
+    <label>About Me</label>
+    <div class="form-group">{{ form.about_me }}</div>
+
+      <div class="col-md-6 col-sm-6">
+    <label>Xbox Live</label>
+    <div class="form-group">{{ form.xbl }}</div>
+
+    <label>PSN</label>
+    <div class="form-group">{{ form.psn }}</div>
+
+    <label>Twitter Username (No @)</label>
+    <div class="form-group">{{ form.twitter_profile }}</div>
+
+    <label>Twitch Username</label>
+    <div class="form-group">{{ form.twitch_channel }}</div>
+      </div>
+      <div class="col-md-6 col-sm-6">
+    <label>Preferred Game</label>
+    <div class="form-group">{{ form.favorite_game }}</div>
+
+    <label>Preferred Console</label>
+    <div class="form-group">{{ form.favorite_console }}</div>
+
+    <label>Country</label>
+    <div class="form-group">{{ form.country }}</div>
+
+    <label>Profile Picture</label>
+    <div class="form-group">{{ form.profile_picture }}</div>
+
+
+      </div>
+      <br>
+      <br>
+
+    <button type="submit" class="btn btn-primary">Update</button>
+  </form>
+                </div>
+              </div>
+           </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "eot/base.html" %}
+
+  {% block head %}
+  <title>New Comment - {{ SITE_NAME }}</title>
+  {% endblock %}
+
+{% block content %}
+        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 col-md-offset-2 col-lg-offset-2 wrap">
+
+           <div class="panel">
+              <div class="panel-body">
+    <h1>New comment for post "{{ post.title }}"</h1>
+    <form action="." method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Add comment">
+    </form>
+              </div>
+           </div>
+        </div>
+{% endblock %}

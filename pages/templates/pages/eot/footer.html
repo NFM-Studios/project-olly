@@ -1,0 +1,56 @@
+ {% load staticfiles %}
+
+  </div>
+
+<section class="footer">
+
+  <div class="container-fluid">
+
+    <div class="col-xs-4 col-sm-4 col-md-3">
+     <div class="links1">
+     <br>
+     <a href="/">Home</a><br>
+     <a href="{% url 'news:post_list' %}">News</a><br>
+     <!--<a href="#">Live Events</a><br>-->
+     <a href="{% url 'singletournaments:list' %}">Tournaments</a><br>
+     </div>
+    </div>
+
+    <div class="col-xs-4 col-sm-4 col-md-3">
+     <div class="links1">
+      <br>
+     <a href="#">FAQ</a><br>
+     <a href="{% url 'store:store' %}">Store</a><br>
+     <a href="{% url 'support:list' %}">Get Support</a><br>
+     <!--<a href="#">Contact Us</a><br>-->
+     </div>
+    </div>
+
+    <div class="col-xs-4 col-sm-4 col-md-3">
+     <div class="links1">
+      <br>
+     <a href="{% url 'profiles:leaderboard' %}">Standings</a><br>
+     <!--<a href="#">New Jersey Open</a><br>-->
+     <a href="#">Venue</a><br>
+     <a href="#">Buy Tickets</a><br>
+     </div>
+    </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-3 center">
+      <img src="{% static 'images/footer-logo.jpg' %}"/><br>
+      Copyright 2018 &copy; EOT <br>
+      <a href="{% url 'terms' %}">Terms</a> | <a href="{% url 'privacy' %}">Privacy Policy</a>
+        <br/>
+        <br />
+        {% block foot %}
+            Powered by <a href="https://olly.nfmstudios.com" target="_blank">Project Olly</a> Version: {{ SITE_VERSION }} On Server: {{ SITE_SERVER }}
+        {% endblock %}
+    </div>
+
+   </div>
+
+</section>
+
+
+  </body>
+</html>
