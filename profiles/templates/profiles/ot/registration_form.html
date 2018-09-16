@@ -1,4 +1,4 @@
-{% extends 'binge/base.html' %}
+{% extends 'ot/base.html' %}
 
   {% block head %}
   <title>Register - {{ SITE_NAME }}</title>
@@ -18,8 +18,8 @@
                                <br>
   <form class="form-horizonal" role="form" action="" method="post">
     {% csrf_token %}
-    {% include 'profiles/binge/form_template.html' %}
-    {% include 'profiles/binge/captcha.html' %}
+    {% include 'profiles/ot/form_template.html' %}
+    {% include 'profiles/ot/captcha.html' %}
     <button type="submit" class="btn btn-success">Submit</button>
   </form>
                            </div>
