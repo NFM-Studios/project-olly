@@ -15,7 +15,7 @@
         <div class="panel-default">
          <div class="panel-body center">
           <img src="{% static 'binge/images/credits.png' %}"><br>
-          <h5><b>1 Credit</b></h5>
+          <h5><b>{{ product.name }}</b></h5>
           <br><br>
           <a class="btn btn-primary btn-xs btn-block center" href="{% url 'store:detail' pk=product.id %}"> {{ product.price }} ORDER NOW </a>
          </div>
