@@ -12,12 +12,11 @@ def index(request):
     news = Post.objects.all()
     tournaments = SingleEliminationTournament.objects.filter(active=True)
     tournament_list = tournaments.reverse()[:4]
-    newslist = news.reverse()[:3]
+
     matchlist = matches.reverse()[:5]
     teamlist = teams.reverse()[:5]
     staticinfo = StaticInfo.objects.get(pk=1)
-    if request.tenant == 'binge':
-        newslist = newslist.reverse()[:2]
+
     return render(request, 'pages/' + request.tenant + '/index.html', {'list': tournament_list, 'staticinfo': staticinfo,
                                                                        'newslist': newslist, 'matchlist': matchlist,
                                                                        'teamlist': teamlist})
