@@ -5,7 +5,7 @@ import os
 SECRET_KEY = 'bcgu@a)k$z!)1qmv@5a)&e$x@+@_tvl-s87)3@n)032*6r6u-2'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = os.environ['debug']
 
 # SECURITY WARNING: don't run with this set to true in prod
 PAYPAL_TEST = False

@@ -5,10 +5,10 @@ import os
 SECRET_KEY = 'mag2$s![w,bVphL(L@)b#GTzBB9QeG"_h[4<{ww6<af5/?/&m9'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ['debug']
 
 # SECURITY WARNING: don't run with this set to true in prod
-PAYPAL_TEST = True
+PAYPAL_TEST = False
 
 ALLOWED_HOSTS = ['*']
 
