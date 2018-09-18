@@ -385,18 +385,16 @@
     <div class="col-xs-12 col-sm-12 col-md-6">
     <div class="title">Featured News</div>
      <div class="row">
-      <div class="col-xs-12 col-sm-12 col-md-6 bot10">
+
+         {% for news in newslist %}
+         <div class="col-xs-12 col-sm-12 col-md-6 bot10">
        <img src="{% static 'ot/images/slider1.jpg' %}"><br>
-       <h4><b>News Title Headline</b></h4>
-       <p>Cras mattis augue et tortor mattis, non dapibus nisi egestas. Proin luctus odio vitae condimentum bibendum. Aliquam ac imperdiet sapien, ut imperdiet mi. Vivamus pharetra justo vel mauris maximus cursus lobortis nec nisi. Nulla auctor leo in tellus mollis, ornare consequat ante tempor. Quisque aliquet </p>
-       <a class="btn btn-transparent btn-block btn-sm" href="#"> READ MORE </a>
+       <h4><b>{{ news.title }}</b></h4>
+       <p>{{ news.body|truncatewords:30|linebreaks }} </p>
+       <a class="btn btn-transparent btn-block btn-sm" href="{{ news.get_absolute_url }}"> READ MORE </a>
       </div>
-      <div class="col-xs-12 col-sm-12 col-md-6 bot10">
-       <img src="{% static 'ot/images/slider1.jpg' %}"><br>
-       <h4><b>News Title Headline</b></h4>
-       <p>Cras mattis augue et tortor mattis, non dapibus nisi egestas. Proin luctus odio vitae condimentum bibendum. Aliquam ac imperdiet sapien, ut imperdiet mi. Vivamus pharetra justo vel mauris maximus cursus lobortis nec nisi. Nulla auctor leo in tellus mollis, ornare consequat ante tempor. Quisque aliquet </p>
-       <a class="btn btn-transparent btn-block btn-sm" href="#"> READ MORE </a>
-      </div>
+        {% endfor %}
+
      </div>
     </div>
 
