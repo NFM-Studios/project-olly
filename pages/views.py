@@ -11,10 +11,15 @@ def index(request):
     matchlist = Match.objects.all().order_by('-id')[:5]
     tournament_list = SingleEliminationTournament.objects.filter(active=True).order_by('-id')[:4]
     #tournament_list = tournaments.reverse()[:4]
-    newslist = Post.objects.all().order_by('-id')[:3]
     #matchlist = matches.reverse()[:5]
     #teamlist = teams.reverse()[:5]
     staticinfo = StaticInfo.objects.get(pk=1)
+    if request.tennant == 'online' or request.tennant == 'binge':
+        newslist = Post.objects.all().order_by('-id')[:2]
+    elif request.tennant == 'roc':
+        newslist = Post.objects.all().order_by('-id')[:3]
+    else:
+        newslist = Post.objects.all().order_by('-id')[:3]
 
     return render(request, 'pages/' + request.tenant + '/index.html', {'list': tournament_list, 'staticinfo': staticinfo,
                                                                        'newslist': newslist, 'matchlist': matchlist,
