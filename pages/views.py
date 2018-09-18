@@ -7,14 +7,13 @@ from singletournaments.models import SingleEliminationTournament
 
 
 def index(request):
-    teams = Team.objects.all()
-    matches = Match.objects.all()
-    news = Post.objects.all()
-    tournaments = SingleEliminationTournament.objects.filter(active=True)
-    tournament_list = tournaments.reverse()[:4]
-
-    matchlist = matches.reverse()[:5]
-    teamlist = teams.reverse()[:5]
+    teamlist = Team.objects.all().order_by('-id')[:5]
+    matchlist = Match.objects.all().order_by('-id')[:5]
+    tournament_list = SingleEliminationTournament.objects.filter(active=True).order_by('-id')[:4]
+    #tournament_list = tournaments.reverse()[:4]
+    newslist = Post.objects.all().order_by('-id')[:3]
+    #matchlist = matches.reverse()[:5]
+    #teamlist = teams.reverse()[:5]
     staticinfo = StaticInfo.objects.get(pk=1)
 
     return render(request, 'pages/' + request.tenant + '/index.html', {'list': tournament_list, 'staticinfo': staticinfo,
