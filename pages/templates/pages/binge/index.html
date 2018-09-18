@@ -171,7 +171,7 @@
      <div class="text">
        <h2><b>{{ news.title }}</b></h2>
        <h4><a href="{{ news.get_absolute_url }}"><span>READ FULL ARTICLE</span></a></h4>
-       {{ post.body|truncatewords:30|linebreaks }}
+       {{ news.body|truncatewords:30|linebreaks }}
      </div>
     </div>
        {% endfor %}
