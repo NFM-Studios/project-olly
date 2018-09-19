@@ -14,9 +14,9 @@ def index(request):
     #matchlist = matches.reverse()[:5]
     #teamlist = teams.reverse()[:5]
     staticinfo = StaticInfo.objects.get(pk=1)
-    if request.tennant == 'online' or request.tennant == 'binge':
+    if request.tenant == 'online' or request.tenant == 'binge':
         newslist = Post.objects.all().order_by('-id')[:2]
-    elif request.tennant == 'roc':
+    elif request.tenant == 'roc':
         newslist = Post.objects.all().order_by('-id')[:3]
     else:
         newslist = Post.objects.all().order_by('-id')[:3]
