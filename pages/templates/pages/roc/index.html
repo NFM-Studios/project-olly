@@ -127,7 +127,7 @@ $('.litetooltip-hotspot-wrapper .hotspot').each(function () {
        </div>
       </div>
        <div class="row">
-           {% for tournamenet in list %}
+           {% for tournament in list %}
         <div class="col-xs-12 col-sm-6 bot10">
          <div class="panel">
           <div class="panel-body">
@@ -136,7 +136,7 @@ $('.litetooltip-hotspot-wrapper .hotspot').each(function () {
             </div>
             <div class="game-info">
             <h4>{{ tournament.name }}</h4>
-            Size: {{ tournament.teams.count }}/{{ tournamenet.size }} Teams<br>
+            Size: {{ tournament.teams.count }}/{{ tournament.size }} Teams<br>
             Start Date: {{ tournament.start }}<br>
             <b><a href="{% url 'singletournaments:detail' pk=tournament.id %}">JOIN TOURNAMENT</a></b>
             </div>
