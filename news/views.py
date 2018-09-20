@@ -27,7 +27,7 @@ def post_list(request, tag_slug=None):
     except EmptyPage:
         # if the page is out of range deliver last page of results
         posts = paginator.page(paginator.num_pages)
-    return render(request, 'news/post/list.html', {'page': page, 'posts': posts, 'tag': tag})
+    return render(request, 'news/' + request.tenant + '/post/list.html', {'page': page, 'posts': posts, 'tag': tag})
 
 
 class PostListView(ListView): 
@@ -62,7 +62,7 @@ def post_detail(request, year, month, day, post):
     post_tags_ids = post.tags.values_list('id', flat=True)
     similar_posts = Post.published.filter(tags__in=post_tags_ids).exclude(id=post.id)
     similar_posts = similar_posts.annotate(same_tags=Count('tags')).order_by('-same_tags', '-publish')[:4]
-    return render(request, 'news/post/detail.html', {'post': post,
+    return render(request, 'news/' + request.tenant + 'post/detail.html', {'post': post,
                                                      'comments': comments,
                                                      'comment_form': comment_form,
                                                      'similar_posts': similar_posts})
@@ -88,4 +88,4 @@ def post_share(request, post_id):
             sent = True
     else:
         form = EmailPostForm()
-    return render(request, 'news/post/share.html', {'post': post, 'form': form, 'sent': sent})
+    return render(request, 'news/' + request.tenant + 'post/share.html', {'post': post, 'form': form, 'sent': sent})
