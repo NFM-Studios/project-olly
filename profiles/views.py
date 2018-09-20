@@ -69,6 +69,7 @@ def login(request, template_name='profiles/login_form.html',
         redirect_field_name: redirect_to,
         'site': current_site,
         'site_name': current_site.name,
+        'site_key': settings.GOOGLE_RECAPTCHA_SITE_KEY
     }
     if extra_context is not None:
         context.update(extra_context)
