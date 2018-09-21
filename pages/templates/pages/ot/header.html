@@ -39,11 +39,11 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
         <li><a href="/">HOME</a></li>
-        <li><a href="#">TOURNAMENTS</a></li>
-        <li><a href="#">LADDERS</a></li>
-        <li><a href="#">LEADERBOARDS</a></li>
-        <li><a href="#">NEWS</a></li>
-        <li><a href="#">SHOP</a></li>
+        <li><a href="{% url 'singletournaments:list' %}">TOURNAMENTS</a></li>
+        <!--<li><a href="#">LADDERS</a></li>--->
+        <li><a href="{% url 'profiles:leaderboard' %}">LEADERBOARDS</a></li>
+        <li><a href="{% url 'news:post_list' %}">NEWS</a></li>
+        <li><a href="{% url 'store:store' %}">SHOP</a></li>
       </ul>
 
     </div>
@@ -55,13 +55,18 @@
                         <i class="fa fa-user fa-fw" style="color:#fff;"></i> <span style="color:#0cfbf3;font-weight:bold;">Profile</span> <i class="fa fa-caret-down" style="color:#fff;"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                        {% if not user.is_anonymous %}
+                        <li><a href="{% url 'profiles:profile' urlusername=user %}"><i class="fa fa-user fa-fw"></i> {{ user }}</a>
                         </li>
-                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                        <li><a href="{% url 'profiles:edit_profile' %}"><i class="fa fa-gear fa-fw"></i> Edit Profile</a>
                         </li>
                         <li class="divider"></li>
-                        <li><a href="#"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        <li><a href="{% url 'logout' %}"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                         </li>
+                        {% else %}
+                        <li><a href="{% url 'login' %}"><i class="fa fa-user fa-fw"></i>Login</a></li>
+                        <li><a href="{% url 'register' %}"><i class="fa fa-user fa-fw"></i>Register</a></li>
+                        {% endif %}
                     </ul>
                     <!-- /.dropdown-user -->
                 </li>
