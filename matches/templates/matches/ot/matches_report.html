@@ -6,10 +6,10 @@
   {% endblock %}
 
 {% block body %}
-    <div class="container page">
+    <div class="container">
 
-     <div class="panel">
-         <div class="panel-title">Report Match Result</div>
+     <div class="col-xs-12">
+         <h1>Report Match Result</h1>
       <div class="panel-body">
 <form method="POST" action="{% url 'matches:report' pk=pk %}">
     <table class="table">
