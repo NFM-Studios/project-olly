@@ -6,33 +6,25 @@
 
 {% block body %}
 
-    <div class="container page">
 
-    <div class="row gutter-10 bot10">
-    <div class="panel">
-     <div class="panel-body">
-     <div class="panel-title bold">Latest News</div>
-     {% if posts.object_list.count == 0 %}
-         <h5>No news posts!</h5>
-     {% endif %}
-       {% for post in posts %}
-         <div class="col-xs-6 col-sm-6 col-md-3 bot10">
-         <img src="{% static 'images/news.jpg' %}"/><br>
-         <br>
-         <h5><b>{{ post.title }}</b></h5>
-             <h5><b>Author: {{ post.author }}</b> <br /><b>Published: {{ post.publish }}</b></h5>
-         <p>{{ post.body|truncatewords:30|linebreaks }}<br>
-         <a class="btn btn-primary btn-xs" href="{{ post.get_absolute_url }}">READ MORE	</a>
-       </div>
-         {% endfor %}
 
-     </div>
+<div class="container min-width page1">
+ <div class="space90"></div>
+{% for post in posts %}
+ <div class="col-xs-12 col-sm-6 col-md-4">
+  <div class="panel panel-default">
+   <div class="panel-body">
+      <img src="{% static 'ot/images/slider1.jpg' %}"><br>
+       <h4><b>{{ post.title }}</b></h4>
+       <h4><b>Author: {{ post.author }}</b> <br /><b>Published: {{ post.publish }}</b></h4>
+       <p>{{ post.body|truncatewords:30|linebreaks }} </p>
+       <a class="btn btn-transparent btn-block btn-sm" href="{{ post.get_absolute_url }}"> READ MORE </a>
+   </div>
+  </div>
+ </div>
+{% endfor %}
     {% include "pagination.html" with page=posts %}
-     </div>
 
-     </div>
 
-     </div>
-    
-
+</div>
 {% endblock %}
