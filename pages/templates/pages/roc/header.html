@@ -93,8 +93,8 @@
       <li><a href="/">HOME</a></li>
       <li><a href="{% url 'news:post_list' %}">NEWS</a></li>
       <li><a href="{% url 'singletournaments:list' %}">TOURNAMENTS</a></li>
-      <li><a href="#">LEAGUES</a></li>
-      <!--<li><a href="">TEAMS</a></li>--->
+      <!__<li><a href="#">LEAGUES</a></li>-->
+
       <li><a href="{% url 'profiles:leaderboard' %}">LEADERBOARDS</a></li>
       <li><a href="{% url 'support:create' %}">SUPPORT</a></li>
         {% if user.is_anonymous %}
@@ -102,6 +102,7 @@
             <li><a href="{% url 'register' %}">Register</a></li>
         {% elif not user.is_anonymous %}
             <li><a href="{% url 'profiles:profile' urlusername=user %}">{{ user }}</a></li>
+            <li><a href="{% url 'teams:list' %}">TEAMS</a></li>
             <li><a href="{% url 'logout' %}">Logout</a></li>
         {% endif %}
 
