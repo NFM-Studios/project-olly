@@ -13,8 +13,8 @@ from store.models import Product
 class StaticInfoForm(forms.ModelForm):
     class Meta:
         model = StaticInfo
-        fields = ('about_us', 'terms', 'privacy', 'stream', 'slide1link', 'slide1_img',
-                  'slide2link', 'slide2_img', 'slide3link', 'slide3_img')
+        fields = ('about_us', 'terms', 'stream', 'slide1link', 'slide1_img',
+                  'slide2link', 'slide2)img', 'slide3link', 'slide3_img')
 
 
 class PartnerForm(forms.ModelForm):

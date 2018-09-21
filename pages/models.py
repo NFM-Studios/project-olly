@@ -5,7 +5,7 @@ from django.dispatch import receiver
 class StaticInfo(models.Model):
     about_us = models.TextField(default='about us')
     terms = models.TextField(default='terms of service')
-    privacy = models.TextField(default='privacy policy')
+    #privacy = models.TextField(default='privacy policy')
     stream = models.CharField(default='twitch', max_length=25)
     slide1link = models.TextField(default="#")
     slide2link = models.TextField(default="#")
