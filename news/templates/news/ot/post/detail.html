@@ -7,28 +7,21 @@
 {% block body %}
 
 
-    <div class="container page">
+<div class="container">
+ <div class="space90"></div>
 
-      <div class="panel">
-      <div class="panel-body">
-      <div class="panel-title"><b>{{ post.title }}</b></div>
-      <h5>Posted By: {{ post.author }} | {{ post.publish }}</h5><br>
-      <img src="{% static 'images/big-banner.jpg' %}"/>
+ <div class="col-xs-12">
 
-     <div class="panel-default">
-      <div class="panel-body">
+      <img src="{% static 'ot/images/slider1.jpg' %}"><br><br>
+       <h1><b>{{ post.title }}</b></h1>
+       <h5>Posted By: {{ post.author }} | {{ post.publish }}</h5><br>
 
         <p>{{ post.body|linebreaks }}</p>
 
-      </div>
-     </div>
 
-
-      </div>
-     </div>
+ </div>
 
 </div>
-
 
 
 {% endblock %}
