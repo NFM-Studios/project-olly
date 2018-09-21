@@ -89,7 +89,7 @@ class TicketCreateView(View):
     form_class = TicketCreateForm
 
     def get(self, request):
-        form = self.form_class(request)
+        form = self.form_class()
         return render(request, 'tickets/' + request.tenant + '/ticket_create.html', {'form': form})
 
     def post(self, request):
