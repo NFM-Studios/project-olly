@@ -51,8 +51,8 @@ FROM_EMAIL = "ROC eSports League <noreply@rocesportsleague.com>"
 PAYPAL_EMAIL = "steven.young.1-merchant@gmail.com"
 
 # Captcha
-GOOGLE_RECAPTCHA_SECRET_KEY = '6LcbdWwUAAAAAG7fJWJNsbqRqfSJSxqKklsnZAim'
-GOOGLE_RECAPTCHA_SITE_KEY = '6LcbdWwUAAAAAO9elu8TeJ3WDeDZsOPpoXwW5xXD'
+GOOGLE_RECAPTCHA_SECRET_KEY = '6LcbdWwUAAAAAO9elu8TeJ3WDeDZsOPpoXwW5xXD'
+GOOGLE_RECAPTCHA_SITE_KEY = '6LcbdWwUAAAAAG7fJWJNsbqRqfSJSxqKklsnZAim'
 
 # Site info
 SITE_NAME = "RightOfChange"
