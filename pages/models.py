@@ -12,6 +12,9 @@ class StaticInfo(models.Model):
     slide3link = models.TextField(default="#")
     welcomeln1 = models.CharField(default='welcome text', max_length=25)
     welcomeln2 = models.CharField(default='', max_length=25)
+    slide1_img = models.ImageField(upload_to='carousel_images', blank=True)
+    slide2_img = models.ImageField(upload_to='carousel_images', blank=True)
+    slide3_img = models.ImageField(upload_to='carousel_images', blank=True)
 
     # for steven
 
