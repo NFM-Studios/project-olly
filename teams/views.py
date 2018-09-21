@@ -148,7 +148,7 @@ class TeamCreateView(View):
     # template_name = 'teams/' + request.tenant + '/create-team.html'
 
     def get(self, request):
-        form = self.form_class(request)
+        form = self.form_class()
         return render(request, 'teams/' + request.tenant + '/create-team.html', {'form': form})
 
     def post(self, request):

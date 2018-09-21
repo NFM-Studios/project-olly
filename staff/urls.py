@@ -14,6 +14,7 @@ urlpatterns = [
     url(r'^ticketcomment/(?P<pk>\d+)/$', login_required(views.TicketCommentCreate.as_view()), name='ticket_comment_create'),
     url(r'^pages/$', login_required(views.pages), name='pages'),
 
+    url(r'^users/getrank/$', login_required(views.getrank)),
     url(r'^users/ban/(?P<urlusername>\w+)/$', login_required(views.banuser)),
     url(r'^users/unban/(?P<urlusername>\w+)/$', login_required(views.unbanuser)),
     url(r'^users/banip/(?P<urlusername>\w+)/$', login_required(views.banip)),
@@ -24,7 +25,7 @@ urlpatterns = [
     url(r'^users/givecredits/(?P<urlusername>\w+)/$', login_required(views.givecredits)),
     url(r'^users/givexp/(?P<urlusername>\w+)/$', login_required(views.givexp)),
     url(r'^users/givetrophies/(?P<urlusername>\w+)/$', login_required(views.givetrophies)),
-    url(r'^users/getrank/$', login_required(views.getrank)),
+
 
     url(r'^tournaments/$', login_required(views.tournaments), name='tournamentlist'),
     url(r'^tournaments/rulesets/$', login_required(views.ruleset_list), name='tournamentrulesetlist'),
