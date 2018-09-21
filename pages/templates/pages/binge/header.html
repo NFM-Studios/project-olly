@@ -62,7 +62,13 @@
 </div>
 <!-------------------------->
 <div class="hidden-xs hidden-sm hidden-md" style="position:fixed;top:0px;right:10px;z-index:999999;">
-<a class="btn btn-default" href="# " data-toggle="modal" data-target="#myModal"> SIGN UP </a> <a class="btn btn-primary" href="#  " data-toggle="modal" data-target="#myModal"> LOGIN </a>
+
+                            {% if user.is_anonymous %}
+
+<a class="btn btn-default" href="{% url 'register' %}" data-toggle="modal" data-target="#myModal"> SIGN UP </a> <a class="btn btn-primary" href="{% url 'login' %}" data-toggle="modal" data-target="#myModal"> LOGIN </a>
+{% else %}
+  <a class="btn btn-default" href="{% url 'profiles:profile' urlusername=user %}" data-toggle="modal" data-target="#myModal"> {{ user }} </a>
+    {% endif %}
 </div>
  <nav class="navbar navbar-default" role="navigation">
    <div class="container-fluid" style="position:relative;">
