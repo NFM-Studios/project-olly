@@ -9,7 +9,7 @@ Static Info
 {% block body %}
 <p>{{ staticinfo.about_us }}</p>
 
-<form method="POST" action="{% url 'staff:pages' %}">
+<form method="POST" enctype="multipart/form-data" action="{% url 'staff:pages' %}">
     <table class="table">
         {% csrf_token %}
         {{form.as_table}}
