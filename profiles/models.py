@@ -67,7 +67,8 @@ class UserProfile(models.Model):
     country = CountryField(blank_label='(select country)', default='US')
 
     def calculate_rank(self):
-        self.rank = UserProfile.objects.filter(xp__lt=UserProfile.xp).count()
+        self.rank = int(UserProfile.objects.filter(xp__gt=self.xp).count()) + 1
+        self.save()
 
 
 def create_profile(sender, **kwargs):
