@@ -191,31 +191,31 @@
 
 			<div class="tab-pane" id="2">
              {% if tournament.size == 4 and tournament.bracket_generated %}
-                {% include 'singletournaments/singletournament_bracket4.html' %}
+                {% include 'singletournaments/roc/singletournament_bracket4.html' %}
                 {% endif %}
 
                 {% if tournament.size == 8 and tournament.bracket_generated %}
-                {% include 'singletournaments/singletournament_bracket8.html' %}
+                {% include 'singletournaments/roc/singletournament_bracket8.html' %}
                 {% endif %}
 
                 {% if tournament.size == 16 and tournament.bracket_generated %}
-                {% include 'singletournaments/singletournament_bracket16.html' %}
+                {% include 'singletournaments/roc/singletournament_bracket16.html' %}
                 {% endif %}
 
                 {% if tournament.size == 32 and tournament.bracket_generated %}
-                {% include 'singletournaments/singletournament_bracket32.html' %}
+                {% include 'singletournaments/roc/singletournament_bracket32.html' %}
                 {% endif %}
 
                 {% if tournament.size == 64 and tournament.bracket_generated %}
-                {% include 'singletournaments/singletournament_bracket64.html' %}
+                {% include 'singletournaments/roc/singletournament_bracket64.html' %}
                 {% endif %}
 
                 {% if tournament.size == 128 and tournament.bracket_generated %}
-                {% include 'singletournaments/singletournament_bracket128.html' %}
+                {% include 'singletournaments/roc/singletournament_bracket128.html' %}
                 {% endif %}
 
                 {% if tournament.size != 128 or tournament.size != 64 or tournament.size != 32 or tournament.size != 16 or tournament.size != 8 or tournament.size != 4 %}
-                {% include 'singletournaments/no_bracket.html' %}
+                {% include 'singletournaments/roc/no_bracket.html' %}
                 {% endif %}
 		    </div>
 
@@ -230,7 +230,7 @@
                <div class="panel-default">
                 <div class="panel-body">
                    <div class="col-xs-4">
-                   <img src="{% static 'images/avatar.jpg' %}"/>
+                   <img src="{% static 'roc/images/avatar.jpg' %}"/>
                    </div>
                    <div class="col-xs-8">
                     <br>

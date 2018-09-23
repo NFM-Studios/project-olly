@@ -191,31 +191,31 @@
 
 			<div class="tab-pane" id="2">
              {% if tournament.size == 4 and tournament.bracket_generated %}
-                {% include 'singletournaments/duel/singletournament_bracket4.html' %}
+                {% include 'singletournaments/ot/singletournament_bracket4.html' %}
                 {% endif %}
 
                 {% if tournament.size == 8 and tournament.bracket_generated %}
-                {% include 'singletournaments/duel/singletournament_bracket8.html' %}
+                {% include 'singletournaments/ot/singletournament_bracket8.html' %}
                 {% endif %}
 
                 {% if tournament.size == 16 and tournament.bracket_generated %}
-                {% include 'singletournaments/duel/singletournament_bracket16.html' %}
+                {% include 'singletournaments/ot/singletournament_bracket16.html' %}
                 {% endif %}
 
                 {% if tournament.size == 32 and tournament.bracket_generated %}
-                {% include 'singletournaments/duel/singletournament_bracket32.html' %}
+                {% include 'singletournaments/ot/singletournament_bracket32.html' %}
                 {% endif %}
 
                 {% if tournament.size == 64 and tournament.bracket_generated %}
-                {% include 'singletournaments/duel/singletournament_bracket64.html' %}
+                {% include 'singletournaments/ot/singletournament_bracket64.html' %}
                 {% endif %}
 
                 {% if tournament.size == 128 and tournament.bracket_generated %}
-                {% include 'singletournaments/duel/singletournament_bracket128.html' %}
+                {% include 'singletournaments/ot/singletournament_bracket128.html' %}
                 {% endif %}
 
                 {% if tournament.size != 128 or tournament.size != 64 or tournament.size != 32 or tournament.size != 16 or tournament.size != 8 or tournament.size != 4 %}
-                {% include 'singletournaments/duel/no_bracket.html' %}
+                {% include 'singletournaments/ot/no_bracket.html' %}
                 {% endif %}
 		    </div>
 
