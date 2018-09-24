@@ -245,7 +245,7 @@ $('.litetooltip-hotspot-wrapper .hotspot').each(function () {
    <div class="col-xs-12 col-sm-4 news">
      <img src="{% static 'roc/images/news.jpg' %}"/>
      <div class="news-overlay">
-     {{ news.title }}<br>
+         <a href="{{ news.get_absolute_url }}">{{ news.title }}</a><br>
          <small><a href="{% url 'profiles:profile' urlusername=news.author %}">{{ news.author }}</a></small>
      </div>
    </div>
