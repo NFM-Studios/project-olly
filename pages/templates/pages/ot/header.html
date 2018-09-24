@@ -44,6 +44,11 @@
         <li><a href="{% url 'profiles:leaderboard' %}">LEADERBOARDS</a></li>
         <li><a href="{% url 'news:post_list' %}">NEWS</a></li>
         <li><a href="{% url 'store:store' %}">SHOP</a></li>
+        {% if user.is_anonymous %}
+            <li><a href="{% url 'login' %}">LOGIN</a></li>
+            <li><a href="{% url 'register' %}">REGISTER</a></li>
+          {% endif %}
+
       </ul>
 
     </div>
@@ -66,11 +71,6 @@
                             </ul>
                            {% else %}
 
-
-                    <ul class="dropdown-menu dropdown-user">
-                        <li><a href="{% url 'login' %}"><i class="fa fa-user fa-fw"></i>Login</a></li>
-                        <li><a href="{% url 'register' %}"><i class="fa fa-user fa-fw"></i>Register</a></li>
-                    </ul>
                         {% endif %}
                             </a>
                     <!-- /.dropdown-user -->
