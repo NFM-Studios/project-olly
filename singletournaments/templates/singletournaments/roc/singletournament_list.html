@@ -28,7 +28,7 @@
 
         <tr>
             <td colspan="2">
-                <input type="submit" value="Filter" />
+                <input class="btn btn-md btn-success" type="submit" value="Filter" />
             </td>
         </tr>
     </table>
@@ -40,7 +40,7 @@
 
 <div id="new-team">
 <h2 id="" style="text-decoration: none; margin:8px">
-    <a style="text-decoration:none; color:black;" href="{% url 'teams:create' %}">
+    <a style="text-decoration:none; color:white;" href="{% url 'teams:create' %}">
         <i class="fa fa-plus"></i>  Create a new team
     </a>
 </h2>
@@ -50,7 +50,7 @@
      <div class="col-xs-12 col-sm-6 col-md-4 league">
      <div class="panel">
      <div class="panel-body">
-      <img src="{% static 'images/game-banner.jpg' %}"><br>
+      <img src="{% static 'roc/images/game-banner.jpg' %}"><br>
       <h6><b>{{ tournament.name }}</b></h6>
       <ul>
        <li><b>Platform:</b> {% if tournament.platform == 0 %}
