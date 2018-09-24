@@ -39,18 +39,31 @@ def tenant_middleware(get_response):
 
         if domain == 'duelbattleroyale' or subdomain == 'duel':
             request.tenant = 'duel'
+            request.package = 'bobcat'
 
-        elif domain == 'roc' or subdomain == 'roc':
+        elif domain == 'rocesportsleague' or subdomain == 'roc':
             request.tenant = 'roc'
+            request.package = 'bobcat'
 
-        elif domain == 'binge' or subdomain == 'binge':
+        elif domain == 'bingeplay' or subdomain == 'binge':
             request.tenant = 'binge'
+            request.package = 'bobcat'
 
         elif domain == 'esportsopentour' or subdomain == 'eot':
             request.tenant = 'eot'
+            request.package = 'bobcat'
 
         elif domain == 'playot' or subdomain == 'online':
             request.tenant = 'ot'
+            request.package = 'bobcat'
+        
+        elif domain == 'worldleagueofgaming' or subdomain == 'wlg':
+            request.tenant = 'wlg'
+            request.package = 'bobcat'
+            
+        else:
+            request.tenant = 'stock'
+            request.package = 'leopard'
 
         # all done, the view will receive a request with a tenant attribute
         return get_response(request)
