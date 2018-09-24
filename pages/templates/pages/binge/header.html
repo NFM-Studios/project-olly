@@ -67,8 +67,9 @@
 
 <a class="btn btn-default" href="{% url 'register' %}" data-toggle="modal" data-target="#myModal"> SIGN UP </a> <a class="btn btn-primary" href="{% url 'login' %}" data-toggle="modal" data-target="#myModal"> LOGIN </a>
 {% else %}
-  <a class="btn btn-default" href="{% url 'profiles:profile' urlusername=user %}" data-toggle="modal" data-target="#myModal"> {{ user }} </a>
+  <a class="btn btn-default" href="{% url 'profiles:profile' urlusername=user %}"> {{ user }} </a>
     {% endif %}
+<!--  data-toggle="modal" data-target="#myModal"--->
 </div>
  <nav class="navbar navbar-default" role="navigation">
    <div class="container-fluid" style="position:relative;">
