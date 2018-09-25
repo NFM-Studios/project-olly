@@ -45,7 +45,7 @@ class Transfer(View):
 
     def get(self, request):
         form = self.form_class(None)
-        return render(request, self.template_name, {'form': form})
+        return render(request, 'store/' + request.tenant + '/transfer.html', {'form': form})
 
     def post(self, request):
         form = self.form_class(request.POST)
