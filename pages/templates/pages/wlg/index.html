@@ -19,13 +19,13 @@
                   </ol>
                 <div class="carousel-inner">
                     <figure class="item active">
-                        <a href="{{ staticinfo.slide1link }}"><img src="{% static 'images/slider1.jpg' %}" alt="Slide1"></a>
+                        <a href="{{ staticinfo.slide1link }}"><img src="{% static 'wlg/images/slider1.jpg' %}" alt="Slide1"></a>
                     </figure>
                     <figure class="item">
-                        <a href="{{ staticinfo.slide2link }}"><img src="{% static 'images/slider2.jpg' %}" alt="Slide2"></a>
+                        <a href="{{ staticinfo.slide2link }}"><img src="{% static 'wlg/images/slider2.jpg' %}" alt="Slide2"></a>
                      </figure>
                     <figure class="item">
-                        <a href="{{ staticinfo.slide3link }}"><img src="{% static 'images/slider1.jpg' %}" alt="Slide3"></a>
+                        <a href="{{ staticinfo.slide3link }}"><img src="{% static 'wlg/images/slider1.jpg' %}" alt="Slide3"></a>
                     </figure>
                 </div>
     </div>
@@ -137,7 +137,7 @@ Bracket Size: {{ tournament.size }}<br>
         {% for match in matchlist %}
             <tr>
                 <td width="40"><span style="text-align: center"><a href="{% url 'matches:detail' pk=match.id %}">Match #{{ match.id }}</a></span></td>
-                <td width="40"><img src="{% static 'images/avatar.jpg' %}"/></td>
+                <td width="40"><img src="{% static 'wlg/images/avatar.jpg' %}"/></td>
                 <td align="left"> <a href="{% url 'teams:detail' pk=match.hometeam_id %}">{{ match.hometeam }}</a>
                  <span style="
                  {% if match.winner == match.hometeam %}
@@ -147,7 +147,7 @@ Bracket Size: {{ tournament.size }}<br>
                      {% else %}">(0)
                      {% endif %}
                  </span> </td>
-             <td width="40"><img src="{% static 'images/avatar.jpg' %}"/></td>
+             <td width="40"><img src="{% static 'wlg/images/avatar.jpg' %}"/></td>
                 <td align="left"><a href="{% url 'teams:detail' pk=match.awayteam_id %}"> {{ match.awayteam }}</a>
                  <span style="
                  {% if match.winner == match.awayteam %}
