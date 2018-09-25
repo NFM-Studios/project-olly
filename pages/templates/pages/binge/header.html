@@ -64,8 +64,9 @@
 <div class="hidden-xs hidden-sm hidden-md" style="position:fixed;top:0px;right:10px;z-index:999999;">
 
                             {% if user.is_anonymous %}
-
-<a class="btn btn-default" href="{% url 'register' %}" data-toggle="modal" data-target="#myModal"> SIGN UP </a> <a class="btn btn-primary" href="{% url 'login' %}" data-toggle="modal" data-target="#myModal"> LOGIN </a>
+<!--  data-toggle="modal" data-target="#myModal" -->
+                                <!--data-toggle="modal" data-target="#myModal" --->
+<a class="btn btn-default" href="{% url 'register' %}"> SIGN UP </a> <a class="btn btn-primary" href="{% url 'login' %}" > LOGIN </a>
 {% else %}
   <a class="btn btn-default" href="{% url 'profiles:profile' urlusername=user %}"> {{ user }} </a>
     {% endif %}
