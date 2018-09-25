@@ -3,27 +3,44 @@ from .models import StaticInfo, Partner
 from matches.models import Match
 from teams.models import Team
 from news.models import Post
+from profiles.models import UserProfile
 from singletournaments.models import SingleEliminationTournament
 
 
 def index(request):
-    teamlist = Team.objects.all().order_by('-id')[:5]
-    matchlist = Match.objects.all().order_by('-id')[:5]
-    tournament_list = SingleEliminationTournament.objects.filter(active=True).order_by('-id')[:4]
+
     #tournament_list = tournaments.reverse()[:4]
     #matchlist = matches.reverse()[:5]
     #teamlist = teams.reverse()[:5]
     staticinfo = StaticInfo.objects.get(pk=1)
-    if request.tenant == 'online' or request.tenant == 'binge':
+    if request.tenant == 'online':
+        teamlist = Team.objects.all().order_by('-id')[:5]
+        matchlist = Match.objects.all().order_by('-id')[:4]
         newslist = Post.objects.all().order_by('-id')[:2]
+        playerlist = UserProfile.objects.all().order_by('-id')[:3]
+        tournament_list = SingleEliminationTournament.objects.filter(active=True).order_by('-id')[:6]
+    elif request.tenant == 'binge':
+        teamlist = Team.objects.all().order_by('-id')[:5]
+        matchlist = Match.objects.all().order_by('-id')[:5]
+        newslist = Post.objects.all().order_by('-id')[:2]
+        tournament_list = SingleEliminationTournament.objects.filter(active=True).order_by('-id')[:4]
+        playerlist = UserProfile.objects.all().order_by('-id')[:3]
     elif request.tenant == 'roc':
+        teamlist = Team.objects.all().order_by('-id')[:5]
+        playerlist = UserProfile.objects.all().order_by('-id')[:3]
         newslist = Post.objects.all().order_by('-id')[:3]
+        matchlist = Match.objects.all().order_by('-id')[:3]
+        tournament_list = SingleEliminationTournament.objects.filter(active=True).order_by('-id')[:8]
     else:
+        teamlist = Team.objects.all().order_by('-id')[:5]
+        playerlist = UserProfile.objects.all().order_by('-id')[:3]
         newslist = Post.objects.all().order_by('-id')[:3]
+        matchlist = Match.objects.all().order_by('-id')[:3]
+        tournament_list = SingleEliminationTournament.objects.filter(active=True).order_by('-id')[:8]
 
     return render(request, 'pages/' + request.tenant + '/index.html', {'list': tournament_list, 'staticinfo': staticinfo,
                                                                        'newslist': newslist, 'matchlist': matchlist,
-                                                                       'teamlist': teamlist})
+                                                                       'teamlist': teamlist, 'playerlist': playerlist})
 
 
 def about(request):
