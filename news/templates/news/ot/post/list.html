@@ -10,6 +10,9 @@
 
 <div class="container min-width page1">
  <div class="space90"></div>
+{% if posts.count == 0 %}
+No posts yet
+{% endif %}
 {% for post in posts %}
  <div class="col-xs-12 col-sm-6 col-md-4">
   <div class="panel panel-default">
