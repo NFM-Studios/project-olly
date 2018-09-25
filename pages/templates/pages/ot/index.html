@@ -92,39 +92,43 @@
   <div class="tab-pane fade active in" id="current">
 
      <div class="row">
-
+     {% if list.count == 0  %}
+     No tournaments yet
+     {% endif %}
+    {% for tournament in list %}
       <div class="col-xs-12 col-sm-6">
        <div class="panel-default">
         <div class="panel-body current-home">
-         <div class="console-label">XB1</div>
-         <div class="join-label"><a href="#">JOIN NOW</a></div>
+         <div class="console-label">{% if tournament.platform == 0 %}
+        Playstation 4
+        {% elif tournament.platform == 1 %}
+        Xbox One
+        {% elif tournament.platform == 2 %}
+        PC
+        {% elif tournament.platform == 3 %}
+        Mobile
+        {% elif tournament.platform == 4 %}
+        Nintendo Switch
+        {% elif tournament.platform == 5 %}
+        Playstation 3
+        {% elif tournament.platform == 6 %}
+        Xbox 360
+        {% endif %}</div>
+         <div class="join-label"><a href="{% url 'singletournaments:detail' pk=tournament.id %}">JOIN NOW</a></div>
          <div class="col-xs-3 info1"><img src="{% static 'ot/images/fortnite-icon.png' %}"/></div>
          <div class="col-xs-9 info1">
           <div class="desc">
-           <h3>TOURNAMENT NAME</h3>
-           Size: 32 Teams<br>
-           Start Date: 9:00 PM EST 10-10-2018
+           <h3>{{ tournament.name }}</h3>
+           Size: {{ tournament.size }} Teams<br>
+           Starts: {{ tournament.start }}
           </div>
          </div>
         </div>
        </div>
       </div>
+         {% endfor %}
 
-      <div class="col-xs-12 col-sm-6">
-       <div class="panel-default">
-        <div class="panel-body current-home">
-         <div class="console-label">XB1</div>
-         <div class="join-label"><a href="#">JOIN NOW</a></div>
-         <div class="col-xs-3 info1"><img src="{% static 'ot/images/fortnite-icon.png' %}"/></div>
-         <div class="col-xs-9 info1">
-          <div class="desc">
-           <h3>TOURNAMENT NAME</h3>
-           Size: 32 Teams<br>
-           Start Date: 9:00 PM EST 10-10-2018
-          </div>
-         </div>
-        </div>
-       </div>
+
       </div>
 
      </div>
