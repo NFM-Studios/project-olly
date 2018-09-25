@@ -123,6 +123,9 @@
    <span>JOIN AN UPCOMING TOURNAMENT</span></div></div></div>
 
       <div class="row">
+      {% if list.count == 0 %}
+      No Tournaments!
+      {% endif %}
           {% for tournament in list %}
        <div class="col-xs-12 col-sm-6 bot10">
         <div class="game1">
