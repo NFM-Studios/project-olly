@@ -64,8 +64,7 @@ def post_detail(request, year, month, day, post):
     #similar_posts = similar_posts.annotate(same_tags=Count('tags')).order_by('-same_tags', '-publish')[:4]
     return render(request, 'news/' + request.tenant + 'post/detail.html', {'post': post,
                                                      'comments': comments,
-                                                     'comment_form': comment_form,
-                                                     'similar_posts': similar_posts})
+                                                     'comment_form': comment_form})
 
 
 def post_share(request, post_id):
