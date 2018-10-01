@@ -16,6 +16,11 @@ class TeamCreateForm(forms.ModelForm):
         model = Team
         fields = ('name',)
 
+    def __init__(self, *args, **kwargs):
+        super(TeamCreateForm, self).__init__(*args, **kwargs)
+        self.fields['name'].widget.attrs.update({'name': 'name', 'class': 'form-control', 'style': 'width:30%'})
+
+
 # invite forms to invite players to a team
 
 
@@ -40,7 +45,6 @@ class TeamInviteFormGet(forms.ModelForm):
         self.fields['team'].queryset = teams
 
 
-
 class TeamInviteFormPost(forms.ModelForm):
     user = forms.CharField(required=True, max_length=50)
 
@@ -63,6 +67,13 @@ class EditTeamProfileForm(forms.ModelForm):
             'twitter',
             'twitch',
         )
+
+    def __init__(self, *args, **kwargs):
+        super(EditTeamProfileForm, self).__init__(*args, **kwargs)
+        self.fields['about_us'].widget.attrs.update({'name': 'about_us', 'class': 'form-control', 'style': 'width:30%'})
+        self.fields['website'].widget.attrs.update({'name': 'website', 'class': 'form-control', 'style': 'width:30%'})
+        self.fields['twitter'].widget.attrs.update({'name': 'twitter', 'class': 'form-control', 'style': 'width:30%'})
+        self.fields['twitch'].widget.attrs.update({'name': 'twitch', 'class': 'form-control', 'style': 'width:30%'})
 
 
 class ViewInviteForm(forms.ModelForm):
