@@ -35,4 +35,4 @@ class TicketStatusChangeForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(TicketStatusChangeForm, self).__init__(*args, **kwargs)
-        self.fields['status'].widget.attrs.update({'name': 'status', 'class': 'form-control'})
+        #self.fields['status'].widget.attrs.update({'name': 'status', 'class': 'form-control'})
