@@ -47,7 +47,7 @@ EMAIL_HOST_USER = 'binge@mg.nfmstudios.com'
 EMAIL_HOST_PASSWORD = 'U7THcY3Pam5vBaQWkNeasY6NYUCXgKTd'
 FROM_EMAIL = "Bingeplay <noreply@bingeplay.com>"
 EMAIL_PORT = 587
-PAYPAL_EMAIL = "omega.competitions@gmail.com"
+PAYPAL_EMAIL = "BingePlay2018@gmail.com"
 
 # Captcha
 GOOGLE_RECAPTCHA_SECRET_KEY = '6LcrGnAUAAAAAJiks5oavN9q3tcjgbRvrUE_hEna'
