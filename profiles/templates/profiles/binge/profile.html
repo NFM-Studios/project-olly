@@ -71,9 +71,11 @@ Twitch: <a href="{% if userprofile.twitch_channel == "No Twitch Linked" or userp
                    </div>
                         <br>
 {% if requestuser == userprofile.user %}
-<a style="margin:12px;" href="{% url 'profiles:edit_profile' %}"> <i class="fas fa-pencil-alt"></i>  Edit Profile</a><br />
+<a style="margin:12px;" href="{% url 'profiles:edit_profile' %}"> <i class="fa fa-pencil"></i>  Edit Profile</a><br />
 <a style="margin:12px;" href="{% url 'store:transfer' %}"><i class="fa fa-arrow-right"></i> Transfer Credits</a><br />
 <a style="margin:12px;" href="{% url 'store:store' %}"><i class="fa fa-coins"></i> {{ userprofile.credits }} Credits in your account</a><br />
+<a style="margin:12px;" href="{% url 'teams:myinvitelist' %}"><i class="fa fa-user"></i> View my team invites</a><br />
+
 {% endif %}
                   </div>
 
