@@ -14,7 +14,8 @@ class StaticInfoForm(forms.ModelForm):
     class Meta:
         model = StaticInfo
         fields = ('about_us', 'terms', 'stream', 'slide1link', 'slide1_img',
-                  'slide2link', 'slide2_img', 'slide3link', 'slide3_img')
+                  'slide2link', 'slide2_img', 'slide3link', 'slide3_img', 'welcomeln1',
+                  'welcomeln2')
 
 
 class PartnerForm(forms.ModelForm):
