@@ -3,6 +3,7 @@ from matches.settings import GAME_CHOICES, PLATFORMS_CHOICES, TEAMFORMAT_CHOICES
 from matches.models import Match
 from teams.models import Team
 from profiles.models import User
+from django.dispatch import receiver
 import random
 
 SIZE_CHOICES = (
@@ -84,6 +85,8 @@ class SingleEliminationTournament(models.Model):
     prize1 = models.CharField(default='no prize specified', max_length=50)
     prize2 = models.CharField(default='no prize specified', max_length=50)
     prize3 = models.CharField(default='no prize specified', max_length=50)
+
+    image = models.ImageField(upload_to='tournament_images', blank=True)
 
     # need to figure out how we will work rules rules = models.ForeignKey(Ruleset, related_name='tournamentrules',
     # on_delete=models.CASCADE, blank=False, null=True)
@@ -414,3 +417,24 @@ class SingleTournamentTeam(models.Model):
     seed = models.PositiveIntegerField(default=0, null=True, blank=True)
     tournament = models.ForeignKey(SingleEliminationTournament, related_name='intournament', null=True,
                                    on_delete=models.CASCADE)
+
+
+@receiver(models.signals.post_delete, sender=SingleEliminationTournament)
+def auto_delete_file(sender, instance, **kwargs):
+    if instance.image:
+        instance.image.delete()
+
+
+@receiver(models.signals.pre_save, sender=SingleEliminationTournament)
+def auto_delete_file_on_change(sender, instance, **kwargs):
+    if not instance.pk:
+        return False
+
+    try:
+        old_file = SingleEliminationTournament.objects.get(pk=instance.pk).image
+    except SingleEliminationTournament.DoesNotExist:
+        return False
+
+    new_file = instance.image
+    if not old_file == new_file:
+        old_file.delete(save=False)
