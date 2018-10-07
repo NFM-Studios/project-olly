@@ -17,9 +17,9 @@ class Team(models.Model):
     # link your website in case its an org?
     website = models.CharField(max_length=100, default='No Website', blank=True)
     # link ur twitter, and maybe eventually embed the twitter feed
-    twitter = models.CharField(max_length=15, default='No Twitter Linked', blank=True)
+    twitter = models.CharField(max_length=15, default='None Linked', blank=True)
     # link ur twitch, maybe integrate the twitch api
-    twitch = models.CharField(max_length=15, default='No Twitch Linked', blank=True)
+    twitch = models.CharField(max_length=15, default='None Linked', blank=True)
     # whoever filled out the form to create the team, limited to only one
     founder = models.ForeignKey(User, related_name='founder', on_delete=models.CASCADE)
     # basically founder permissions, but to other people that didn't create the actual team
