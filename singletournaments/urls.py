@@ -6,7 +6,7 @@ app_name = 'singletournaments'
 
 urlpatterns = [
 
-    url(r'^$', login_required(tournament_views.List.as_view()), name='list'),
+    url(r'^$', tournament_views.List.as_view(), name='list'),
     url(r'^(?P<pk>\d+)/join/$', login_required(tournament_views.SingleTournamentJoin.as_view()), name='join'),
     url(r'^(?P<pk>\d+)/$', tournament_views.SingleTournamentDetail.as_view(), name='detail'),
     url(r'^(?P<pk>\d+)/rules/$', login_required(tournament_views.SingleTournamentRules.as_view()), name='ruleset'),
