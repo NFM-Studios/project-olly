@@ -49,6 +49,7 @@ class UserProfile(models.Model):
     num_trophies = models.PositiveSmallIntegerField(default=0)
     xbl_verified = models.BooleanField(default=False, null=False, blank=True)
     psn_verified = models.BooleanField(default=False, null=False, blank=False)
+    user_verified = models.BooleanField(default=False, null=False, blank=True)
     # default trophies
     num_bronze = models.PositiveSmallIntegerField(default=0)
     num_silver = models.PositiveSmallIntegerField(default=0)

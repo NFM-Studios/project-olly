@@ -25,6 +25,7 @@ urlpatterns = [
     url(r'^users/givecredits/(?P<urlusername>\w+)/$', login_required(views.givecredits)),
     url(r'^users/givexp/(?P<urlusername>\w+)/$', login_required(views.givexp)),
     url(r'^users/givetrophies/(?P<urlusername>\w+)/$', login_required(views.givetrophies)),
+    url(r'^users/verify/(?P<urlusername>\w+)/$', login_required(views.verify)),
 
 
     url(r'^tournaments/$', login_required(views.tournaments), name='tournamentlist'),
