@@ -22,6 +22,7 @@ from support.models import Ticket, TicketComment
 from django.shortcuts import get_object_or_404
 from pages.models import Partner
 from django.conf import settings
+from . import calculaterank
 
 
 def staffindex(request):
@@ -164,8 +165,7 @@ def getrank(request):
         return render(request, 'staff/permissiondenied.html')
     else:
         allusers = UserProfile.objects.all()
-        for i in allusers:
-            i.calculate_rank()
+        calculaterank.calculaterank()
         messages.success(request, "Calculated rank for %s users" % allusers.count())
         return redirect('staff:users')
 
@@ -344,6 +344,7 @@ def generate_bracket(request, pk):
             messages.error(request, message='The bracket is already generated.')
             return redirect('staff:tournamentlist')
         else:
+            calculaterank.calculaterank()
             tournament.generate_bracket()
             tournament.bracket_generated = True
             tournament.save()
