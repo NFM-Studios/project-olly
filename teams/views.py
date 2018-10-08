@@ -109,12 +109,15 @@ class MyTeamDetailView(DetailView):
     def get(self, request, pk):
         team = get_object_or_404(Team, id=pk)
         players = TeamInvite.objects.filter(team=team, accepted=True)
-        user = UserProfile.objects.get(id=request.user.id)
-        if not user.xbl_verified:
-            messages.warning(request, "Xbox Live is not verified")
-        if not user.psn_verified:
-            messages.warning(request, "PSN is not verified")
-        return render(request, 'teams/' + request.tenant + '/team.html', {'team': team, 'players': players, 'pk': pk})
+        if not request.user.is_anonymous():
+            user = UserProfile.objects.get(id=request.user.id)
+            if not user.xbl_verified:
+                messages.warning(request, "Xbox Live is not verified")
+            if not user.psn_verified:
+                messages.warning(request, "PSN is not verified")
+            return render(request, 'teams/' + request.tenant + '/team.html', {'team': team, 'players': players, 'pk': pk})
+        else:
+            return render(request, 'teams/' + request.tenant + '/team.html', {'team': team, 'pk': pk})
 
     def get_context_date(self, **kwargs):
         context = super(MyTeamDetailView, self).get_context_date(**kwargs)
