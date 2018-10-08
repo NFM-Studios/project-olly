@@ -239,6 +239,9 @@ class SingleEliminationTournament(models.Model):
         bye = size - numteams
         teams = list(self.teams.all())
 
+        for team in teams:
+            team.get_total_xp()
+
         count = 1
         seeds = []
         while count <= size:
