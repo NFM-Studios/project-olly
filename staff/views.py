@@ -34,7 +34,7 @@ def staffindex(request):
         news = Post.objects.all()
         teams = Team.objects.all()
         tournaments = SingleEliminationTournament.objects.all()
-        return render(request, 'staff/staffindex.html', {'ticket': ticket, 'news':news, 'teams': teams, 'tournaments': tournaments})
+        return render(request, 'staff/staffindex.html', {'ticket': ticket, 'news': news, 'teams': teams, 'tournaments': tournaments})
 
 
 # start users
@@ -59,7 +59,8 @@ def users(request):
             users = paginator.page(paginator.num_pages)
         context = {'page': page, 'userprofiles': users,
                    'bannedusernames': BannedUser.objects.values_list('user', flat=True),
-                   'bannedips': BannedUser.objects.values_list('ip', flat=True), 'numusers': numusers}
+                   'bannedips': BannedUser.objects.values_list('ip', flat=True), 'numusers': numusers,
+                   'request': request}
         return render(request, 'staff/users.html', context)
 
 
@@ -251,6 +252,17 @@ def userdetail(request, urlusername):
     else:
         userprofile = UserProfile.objects.get(user__username=urlusername)
         return render(request, 'staff/profile_detail.html', {'userprofile': userprofile})
+
+
+def verify(request, urlusername):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        userprofile = UserProfile.objects.get(user__username=urlusername)
+        userprofile.user_verified = not userprofile.user_verified
+        userprofile.save()
 
 # end users
 
