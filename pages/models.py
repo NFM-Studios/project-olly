@@ -16,6 +16,37 @@ class StaticInfo(models.Model):
     welcomeln1 = models.CharField(default='welcome1', max_length=25)
     welcomeln2 = models.CharField(default='welcome2', max_length=25)
 
+    bingeslide1big = models.TextField(default="Coming Soon!")
+    bingeslide1small = models.TextField(default="Coming Soon!")
+    bingeslide1link = models.URLField(max_length=200, default="#")
+    # bingeslide1image =
+
+    bingeslide2big = models.TextField(default="Coming Soon!")
+    bingeslide2small = models.TextField(default="Coming Soon!")
+    bingeslide2link = models.URLField(max_length=200, default='#')
+    # bingeslide2image
+
+    bingeslide3big = models.TextField(default="Coming Soon!")
+    bingeslide3small = models.TextField(default="Coming Soon!")
+    bingeslide3link = models.URLField(max_length=200, default="#")
+    # bingeslide3image
+
+    bingetop1 = models.TextField(default="Coming Soon!")
+    #bingetop1image =
+    bingetop1link = models.URLField(max_length=200, default="#")
+
+
+    bingetop2 = models.TextField(default="Coming Soon!")
+    #bingetop2image =
+    bingetop2link = models.URLField(max_length=200, default="#")
+
+
+    bingetop3 = models.TextField(default="Coming Soon!")
+    #bingetop3image =
+    bingetop3link = models.URLField(max_length=200, default="#")
+
+
+
     # for steven
 
     # slide1_pic
