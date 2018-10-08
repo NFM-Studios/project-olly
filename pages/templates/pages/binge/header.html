@@ -91,10 +91,9 @@
 
       <li><a href="{% url 'profiles:leaderboard' %}">LEADERBOARDS</a></li>
 
-{% if not user.is_anonymous %}
+
       <li><a href="{% url 'teams:list' %}">TEAMS</a></li>
       <li><a href="{% url 'support:list' %}">SUPPORT</a></li>
-{% endif %}
         <!--
       <li><a href="index.php">FREE AGENTS</a></li>
       <li><a href="index.php">STAFF</a></li>-->
