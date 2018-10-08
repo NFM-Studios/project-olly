@@ -13,25 +13,25 @@
 
      <div class="col-xs-12 col-sm-4 col-md-4 col-lg-12">
       <div class="event" style="background-image:url({% static 'binge/images/event1.jpg' %});">
-       <h1>5v5</h1>
-       <h2>SEASON ONE</h2>
-       <a class="btn btn-primary btn-md" href="#">VIEW DETAILS</a>
+       <h1>{{ staticinfo.bingetop1 }}</h1>
+       <!--<h2>SEASON ONE</h2>-->
+       <a class="btn btn-primary btn-md" href="{{ staticinfo.bingetop1link }}">VIEW DETAILS</a>
       </div>
      </div>
 
      <div class="col-xs-12 col-sm-4 col-md-4 col-lg-12">
       <div class="event" style="background-image:url({% static 'binge/images/event2.jpg' %});">
-       <h1>5v5</h1>
-       <h2>SEASON ONE</h2>
-       <a class="btn btn-primary btn-md" href="#">VIEW DETAILS</a>
+       <h1>{{ staticinfo.bingetop2 }}</h1>
+       <!--<h2>SEASON ONE</h2>-->
+       <a class="btn btn-primary btn-md" href="{{ staticinfo.bingetop2link }}">VIEW DETAILS</a>
       </div>
      </div>
 
      <div class="col-xs-12 col-sm-4 col-md-4 col-lg-12">
       <div class="event" style="background-image:url({% static 'binge/images/event3.jpg' %});">
-       <h1>5v5</h1>
-       <h2>SEASON ONE</h2>
-       <a class="btn btn-primary btn-md" href="#">VIEW DETAILS</a>
+       <h1>{{ staticinfo.bingetop3 }}</h1>
+       <!--<h2>SEASON ONE</h2>-->
+       <a class="btn btn-primary btn-md" href="{{ staticinfo.bingetop3link }}">VIEW DETAILS</a>
       </div>
      </div>
 
@@ -49,23 +49,33 @@
 
   <div class="carousel-inner">
     <div class="item active">
-      <img src="{% static 'binge/images/slider1.jpg' %}" alt="Season1">
+      <img src="{% static 'binge/images/slider1.jpg' %}" alt="Slide1">
       <div class="carousel-caption">
-        <h3>FORTNITE<br>
-        ALL NITE</h3>
-        <p>JOIN THE TOURNAMENT</p>
+        <h3>{{ staticinfo.bingeslide1big|linebreaksbr }}</h3>
+        <p>{{ staticinfo.bingeslide1small }}</p>
+          <a class="btn btn-primary btn-md" href="{{ staticinfo.bingeslide1link }}">VIEW DETAILS</a>
       </div>
     </div>
 
     <div class="item">
-      <img src="{% static 'binge/images/slider2.jpg' %}" alt="Season2">
+      <img src="{% static 'binge/images/slider2.jpg' %}" alt="Slide2">
       <div class="carousel-caption">
-        <h3>NEW SEASON<br>
-        STARTING</h3>
-        <p>JOIN OUR MONTHLY LEAGUES!</p>
+        <h3>{{ staticinfo.bingeslide2big|linebreaksbr }}</h3>
+        <p>{{ staticinfo.bingeslide2small }}</p>
+          <a class="btn btn-primary btn-md" href="{{ staticinfo.bingeslide2link }}">VIEW DETAILS</a>
       </div>
     </div>
+
+    <div class="item">
+      <img src="{% static 'binge/images/slider1.jpg' %}" alt="Slide3">
+      <div class="carousel-caption">
+        <h3>{{ staticinfo.bingeslide3big|linebreaksbr }}</h3>
+        <p>{{ staticinfo.bingeslide3small }}</p>
+          <a class="btn btn-primary btn-md" href="{{ staticinfo.bingeslide3link }}">VIEW DETAILS</a>
+      </div>
     </div>
+
+  </div>
 
     </div>
     </div>
@@ -161,7 +171,7 @@
       </div>
       </div>
 
-      <div class="col-xs-12 col-sm-12 col-md-6 bot20" style="width:75%">
+      <div class="col-xs-12 col-sm-12 col-md-6 bot20" style="width:75%; align-content: center">
         <div class="row"><div class="col-xs-12"><div class="main-title">TWITTER<br>
    <span>FOLLOW OUR TWEETS FOR UPDATES</span></div></div></div>
       <div class="row">
