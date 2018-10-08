@@ -6,7 +6,7 @@ app_name = 'store'
 
 urlpatterns = [
 
-    url(r'^$', login_required(store_views.store), name='store'),
+    url(r'^$', store_views.store, name='store'),
     url(r'^product/(?P<pk>[0-9])/$', login_required(store_views.detail), name='detail'),
     url(r'^transfer/', login_required(store_views.Transfer.as_view()), name='transfer')
 ]
