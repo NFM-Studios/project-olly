@@ -8,7 +8,6 @@ from .forms import MatchReportCreateFormGet, MatchReportCreateFormPost, DisputeC
 from django.shortcuts import get_object_or_404
 
 class MatchList(View):
-    template_name = 'matches/matches_list.html'
 
     def get(self, request):
         invites = TeamInvite.objects.filter(hasPerms=True, user_id=request.user.id)
@@ -16,17 +15,16 @@ class MatchList(View):
         matches_away = Match.objects.filter(awayteam__in=team)
         matches_home = Match.objects.filter(hometeam__in=team)
         matches = matches_away | matches_home
-        return render(request, self.template_name, {'matches': matches})
+        return render(request, 'matches/' + request.tenant + '/matches_list.html', {'matches': matches})
 
 
 class TournamentMatchDetailView(DetailView):
     model = Match
-    template_name = 'matches/tournament_matches_detail.html'
 
     def get(self, request, **kwargs):
         pk = self.kwargs['pk']
         match = get_object_or_404(Match, id=pk)
-        return render(request, self.template_name, {'x': pk, 'match': match})
+        return render(request, 'matches/' + request.tenant + '/tournament_matches_detail.html', {'x': pk, 'match': match})
 
 
 class MatchReportCreateView(View):
@@ -34,7 +32,7 @@ class MatchReportCreateView(View):
 
     def get(self, request, pk):
         form = MatchReportCreateFormGet(request, pk)
-        return render(request, self.template_name, {'form': form, 'pk': pk})
+        return render(request, 'matches/' + request.tenant + '/matches_report.html', {'form': form, 'pk': pk})
 
     def post(self, request, pk):
         form = MatchReportCreateFormPost(request.POST)
@@ -144,11 +142,10 @@ class MatchReportCreateView(View):
 
 class MatchDisputeReportCreateView(CreateView):
     form_class = DisputeCreateForm
-    template_name = 'matches/tournament_matches_dispute.html'
 
     def get(self, request, **kwargs):
         form = self.form_class(None)
-        return render(request, self.template_name, {'form': form, 'dispute': kwargs['pk']})
+        return render(request, 'matches/' + request.tenant + '/tournament_matches_dispute.html', {'form': form, 'dispute': kwargs['pk']})
 
     def form_valid(self, form, **kwargs):
         match = Match.objects.get(id=self.kwargs['pk'])

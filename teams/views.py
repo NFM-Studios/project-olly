@@ -190,7 +190,7 @@ class TeamInviteCreateView(View):
 
     def get(self, request):
         form = self.form_class(request)
-        return render(request, self.template_name, {'form': form})
+        return render(request, 'teams/' + request.tenant + '/invite-player.html', {'form': form})
 
     def post(self, request):
         form = TeamInviteFormPost(request.POST)
@@ -235,7 +235,7 @@ class LeaveTeamView(View):
     def get(self, request, pk):
         form = self.form_class()
         team = Team.objects.get(id=pk)
-        return render(request, self.template_name, {'form': form, 'team': team})
+        return render(request, 'teams/' + request.tenant + '/leave-team.html', {'form': form, 'team': team})
 
     def post(self, request, pk):
         form = self.form_class(request.POST)
@@ -266,7 +266,7 @@ class RemoveUserView(View):
         team = Team.objects.get(id=pk)
         if request.user == team.founder:
             form = RemoveUserForm(request, pk)
-            return render(request, self.template_name, {'form': form, 'pk': pk})
+            return render(request, 'teams/' + request.tenant + '/remove_user.html', {'form': form, 'pk': pk})
         else:
             messages.error(request, "Only the team's founder can remove users")
             return redirect('teams:detail', pk)
@@ -297,7 +297,7 @@ class DissolveTeamView(View):
         team = Team.objects.get(id=pk)
         if request.user == team.founder:
             form = DissolveTeamForm(request, pk)
-            return render(request, self.template_name, {'form': form, 'pk': pk})
+            return render(request, 'teams/' + request.tenant + '/dissolve_team.html', {'form': form, 'pk': pk})
         else:
             messages.error(request, "Only the team's founder can dissolve the team")
             return redirect('teams:detail', pk)

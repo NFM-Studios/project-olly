@@ -22,8 +22,6 @@ from teams.models import Team, TeamInvite
 from django.urls import reverse
 
 
-
-
 def login(request, template_name='profiles/login_form.html',
           redirect_field_name=REDIRECT_FIELD_NAME,
           authentication_form=AuthenticationForm,
