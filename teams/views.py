@@ -109,7 +109,7 @@ class MyTeamDetailView(DetailView):
     def get(self, request, pk):
         team = get_object_or_404(Team, id=pk)
         players = TeamInvite.objects.filter(team=team, accepted=True)
-        if not request.user.is_anonymous():
+        if not request.user.is_anonymous:
             user = UserProfile.objects.get(id=request.user.id)
             if not user.xbl_verified:
                 messages.warning(request, "Xbox Live is not verified")
