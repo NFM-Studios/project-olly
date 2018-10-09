@@ -311,6 +311,9 @@ class SingleEliminationTournament(models.Model):
         if bye != 0:
             for x in range(bye + 1, int(max_matches) + bye - 2):
 
+                if len(team_seeds) == 0:
+                    break
+
                 if len(team_seeds) == 1:
                     hometeam = team_seeds[0]
                     hometeam.seeds = seeds[0]
