@@ -20,11 +20,14 @@
                         {% else %}
                         <a href="{% url 'index' %}"><i class="fa fa-arrow-left"></i> <strong>Back to home</strong></a></a>
                         {% endif %}
-
+<br />
+              <br />
                   <div class="col-xs-12 banner-head bot20">
                    <div class="row">
                    <div class="col-xs-12 col-sm-4">
-                    <img src="{% if tournament.game == 0 %}
+                    <img style="size:auto" src="{% if not tournament.image == "" %}{{ tournament.image }}{% else %}
+
+{% if tournament.game == 0 %}
 
         {% elif tournament.game == 1 %}
         {% static 'images/bo3.jpg' %}
@@ -54,7 +57,9 @@
         {% static 'images/rocketleaguecover.jpeg' %}
         {% elif tournament.game == 14 %}
         {% static 'images/bf1cover.jpg' %}
-        {% endif %}"/>
+        {% endif %}
+
+                    {% endif %}"/>
                    </div>
                    <div class="col-xs-12 col-sm-8">
                    <br>
