@@ -1,5 +1,19 @@
-{% extends "roc/base.html" %}
+{% extends 'binge/base.html' %}
 {% block body %}
+    <div class="container page">
+
+<div class="col-xs-12">
+           <div class="panel">
+              <div class="panel-body">
+
+                <div class="row">
+                    <div class="col-xs-12">
+    					<div class="panel-title bold">Password Reset</div>
+                           <div class="col-xs-12">
+
+
+
+
 
   {% block head %}
   <title>Password Reset - {{ SITE_NAME }}</title>
@@ -30,5 +44,12 @@
 <p>"The password reset link was invalid, possibly because it has already been used.  Please request a new password reset.</p>
 
 {% endif %}
+                           </div>
+                    </div>
+                </div>
+              </div>
+           </div>
+</div>
+    </div>
 
 {% endblock %}
