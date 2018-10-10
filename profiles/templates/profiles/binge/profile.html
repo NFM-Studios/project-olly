@@ -24,7 +24,7 @@
                         {% endif %}
                    </div>
                    <div class="col-xs-12 col-sm-4">
-                    <h2><b>{{ userprofile.user }}</b></h2>
+                    <h2><b>{{ userprofile.user }} {% if userprofile.user_verified %}<i style="color:green" class="fa fa-check"></i>{% endif %}</b></h2>
 
 About Me:<br>
 {{ userprofile.about_me }}<br>
