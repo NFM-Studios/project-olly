@@ -100,4 +100,4 @@ class TicketCreateView(View):
             ticket.creator = self.request.user
             ticket.save()
             messages.success(self.request, 'Your ticket has been successfully created')
-            return redirect('support:detail', pk=[ticket.id])
+            return redirect('support:detail', pk=ticket.id)
