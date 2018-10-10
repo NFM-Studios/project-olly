@@ -24,7 +24,9 @@
                   <div class="col-xs-12 banner-head bot20">
                    <div class="row">
                    <div class="col-xs-12 col-sm-4">
-                    <img src="{% if tournament.game == 0 %}
+                    <img src="{% if not tournament.image == "" %}{{ tournament.image }}{% else %}
+
+{% if tournament.game == 0 %}
 
         {% elif tournament.game == 1 %}
         {% static 'images/bo3.jpg' %}
@@ -54,7 +56,9 @@
         {% static 'images/rocketleaguecover.jpeg' %}
         {% elif tournament.game == 14 %}
         {% static 'images/bf1cover.jpg' %}
-        {% endif %}"/>
+        {% endif %}
+
+                    {% endif %}"/>
                    </div>
                    <div class="col-xs-12 col-sm-8">
                    <br>
@@ -104,7 +108,7 @@
         {% elif tournament.game == 14 %}
         Battlefield 1
         {% endif %}</h4>
-                    8PM GMT | 1st Place: {{ tournament.prize1 }}, 2nd Place: {{ tournament.prize2 }}<br>
+                    {{ tournament.start }}| 1st Place: {{ tournament.prize1 }}, 2nd Place: {{ tournament.prize2 }}<br>
                     <br>
                     <ul class="nav nav-pills">
 			<li class="active"><a href="#1" data-toggle="tab" aria-expanded="true" style="margin-bottom:4px;">INFO</a></li>
