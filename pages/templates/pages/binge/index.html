@@ -139,7 +139,7 @@
           {% for tournament in list %}
        <div class="col-xs-12 col-sm-6 bot10">
         <div class="game1">
-         <img src="{% static 'binge/images/ww2.jpg' %}"><br>
+         <img src="{{ tournament.image.url }}"><br>
          <div class="join-b"><a class="btn btn-primary btn-xs" href="{% url 'singletournaments:detail' pk=tournament.id %}">JOIN NOW</a></div>
          <div class="overlay1"><b>{{ tournament.name }}</b><br>
          Starts: {{ tournament.start }}</div>
