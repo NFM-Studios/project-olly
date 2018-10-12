@@ -57,6 +57,8 @@ class List(View):
         elif game == '14':
             tournament_list_ = SingleEliminationTournament.objects.filter(game=14)
         elif game == '15':
+            tournament_list_ = SingleEliminationTournament.objects.filter(game=15)
+        elif game == '16':
             tournament_list_ = SingleEliminationTournament.objects.all()
 
         if platform == '0':

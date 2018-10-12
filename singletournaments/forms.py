@@ -60,7 +60,8 @@ class SingleEliminationTournamentSort(forms.Form):
             (12, 'Smite'),
             (13, 'Rocket League'),
             (14, 'Battlefield 1'),
-            (15, 'Any')
+            (15, 'Black Ops 4'),
+            (16, 'Any')
         )
         super(SingleEliminationTournamentSort, self).__init__(*args, **kwargs)
         self.fields['platform'].choices = platforms
