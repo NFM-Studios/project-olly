@@ -16,6 +16,7 @@ GAME_CHOICES = getattr(settings, 'MATCHES_GAMES_CHOICES', (
     (12, 'Smite'),
     (13, 'Rocket League'),
     (14, 'Battlefield 1'),
+    (15, 'Black Ops 4'),
 
 ))
 
