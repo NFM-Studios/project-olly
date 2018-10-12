@@ -7,39 +7,38 @@ class StaticInfo(models.Model):
     terms = models.TextField(default='terms of service')
     #privacy = models.TextField(default='privacy policy')
     stream = models.CharField(default='twitch', max_length=25)
-    slide1link = models.TextField(default="#")
-    slide2link = models.TextField(default="#")
-    slide3link = models.TextField(default="#")
+    slide1link = models.TextField(default="#", blank=True, null=True)
+    slide2link = models.TextField(default="#", blank=True, null=True)
+    slide3link = models.TextField(default="#", blank=True, null=True)
     slide1_img = models.ImageField(upload_to='carousel_images', blank=True)
     slide2_img = models.ImageField(upload_to='carousel_images', blank=True)
     slide3_img = models.ImageField(upload_to='carousel_images', blank=True)
     welcomeln1 = models.CharField(default='welcome1', max_length=25)
     welcomeln2 = models.CharField(default='welcome2', max_length=25)
 
-    bingeslide1big = models.TextField(default="Coming Soon!")
-    bingeslide1small = models.TextField(default="Coming Soon!")
-    bingeslide1link = models.URLField(max_length=200, default="#")
+    bingeslide1big = models.TextField(default="Coming Soon!", blank=True, null=True)
+    bingeslide1small = models.TextField(default="Coming Soon!", blank=True, null=True)
+    bingeslide1link = models.URLField(max_length=200, default="#", blank=True, null=True)
 
-    bingeslide2big = models.TextField(default="Coming Soon!")
-    bingeslide2small = models.TextField(default="Coming Soon!")
-    bingeslide2link = models.URLField(max_length=200, default='#')
+    bingeslide2big = models.TextField(default="Coming Soon!", blank=True, null=True)
+    bingeslide2small = models.TextField(default="Coming Soon!", blank=True, null=True)
+    bingeslide2link = models.URLField(max_length=200, default='#', blank=True, null=True)
 
-    bingeslide3big = models.TextField(default="Coming Soon!")
-    bingeslide3small = models.TextField(default="Coming Soon!")
-    bingeslide3link = models.URLField(max_length=200, default="#")
+    bingeslide3big = models.TextField(default="Coming Soon!", blank=True, null=True)
+    bingeslide3small = models.TextField(default="Coming Soon!", blank=True, null=True)
+    bingeslide3link = models.URLField(max_length=200, default="#", blank=True, null=True)
 
-    bingetop1 = models.TextField(default="Coming Soon!")
+    bingetop1 = models.TextField(default="Coming Soon!", blank=True, null=True)
     bingetop1image = models.ImageField(upload_to='carousel_images', blank=True)
-    bingetop1link = models.URLField(max_length=200, default="#")
+    bingetop1link = models.URLField(max_length=200, default="#", blank=True, null=True)
 
-
-    bingetop2 = models.TextField(default="Coming Soon!")
+    bingetop2 = models.TextField(default="Coming Soon!", blank=True, null=True)
     bingetop2image = models.ImageField(upload_to='carousel_images', blank=True)
-    bingetop2link = models.URLField(max_length=200, default="#")
+    bingetop2link = models.URLField(max_length=200, default="#", blank=True, null=True)
 
-    bingetop3 = models.TextField(default="Coming Soon!")
+    bingetop3 = models.TextField(default="Coming Soon!", blank=True, null=True)
     bingetop3image = models.ImageField(upload_to='carousel_images', blank=True)
-    bingetop3link = models.URLField(max_length=200, default="#")
+    bingetop3link = models.URLField(max_length=200, default="#", blank=True, null=True)
 
 
 class Partner(models.Model):
