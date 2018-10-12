@@ -763,8 +763,8 @@ def pages(request):
                 return render(request, 'staff/staticinfo.html', {'form': form})
         else:
             staticinfoobj = StaticInfo.objects.get(pk=1)
-            form = StaticInfoForm(request, instance=staticinfoobj)
-            return render(request, 'staff/staticinfo.html', {'form': form})
+            form = StaticInfoForm(instance=staticinfoobj)
+            return render(request, 'staff/staticinfo.html', {'form': form, 'tenant': request.tenant})
 
 
 def partnerlist(request):
