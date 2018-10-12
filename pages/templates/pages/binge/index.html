@@ -139,7 +139,7 @@
           {% for tournament in list %}
        <div class="col-xs-12 col-sm-6 bot10">
         <div class="game1">
-         <img src="{% if tournament.image %}{{ tournament.image.url }}{% endif %}"><br>
+         <img src="{% if tournament.image != "" %}{{ tournament.image.url }}{% endif %}"><br>
          <div class="join-b"><a class="btn btn-primary btn-xs" href="{% url 'singletournaments:detail' pk=tournament.id %}">JOIN NOW</a></div>
          <div class="overlay1"><b>{{ tournament.name }}</b><br>
          Starts: {{ tournament.start }}</div>
@@ -200,7 +200,7 @@
     </div>
     {% for news in newslist %}
     <div class="col-xs-12 col-sm-6 bot20">
-     <img src="{% static 'binge/images/fortnite1.jpg' %}">
+     <img src="{% if news.image != "" %}{{ news.image.url }}{% endif %}">
      <div class="text">
        <h2><b>{{ news.title }}</b></h2>
        <h4><a href="{{ news.get_absolute_url }}"><span>READ FULL ARTICLE</span></a></h4>
