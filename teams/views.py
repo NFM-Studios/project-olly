@@ -22,7 +22,11 @@ class MyInvitesListView(ListView):
     # show all the invites, and an accept or deny button.
     # check if the invite is expired.
     model = TeamInvite
-    template_name = 'teams/my-invites.html'
+    #template_name = 'teams/' + request.tenant + 'my-invites.html'
+
+    def get(self, request):
+        teaminvite_list = TeamInvite.objects.filter(user=self.request.user, active=True)
+        return render(request, 'teams/' + request.tenant + '/my-invites.html', {'teaminvite_list': teaminvite_list})
 
     def get_queryset(self):
         # make sure that the invites are for the requested user
