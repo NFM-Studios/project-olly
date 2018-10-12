@@ -116,7 +116,7 @@
                     <ul class="nav nav-pills">
 			<li class="active"><a href="#1" data-toggle="tab" aria-expanded="true" style="margin-bottom:4px;">INFO</a></li>
             <li class=""><a href="#3" data-toggle="tab" aria-expanded="false" style="margin-bottom:4px;">TEAMS</a></li>
-			<li class=""><a href="#2" data-toggle="tab" aria-expanded="false" style="margin-bottom:4px;">BRACKET</a></li>
+			<li class=""><a href="{% url 'singletournaments:bracket' pk=tournament.id %}"  style="margin-bottom:4px;">BRACKET</a></li>
             <li class=""><a href="#4" data-toggle="tab" aria-expanded="false" style="margin-bottom:4px;">RULES</a></li>
             <li class=""><a href="{% url 'singletournaments:join' pk=tournament.id %}" style="margin-bottom:4px;">JOIN</a></li>
 </ul>
@@ -196,35 +196,8 @@
 
            </div>
 
-			<div class="tab-pane" id="2">
-             {% if tournament.size == 4 and tournament.bracket_generated %}
-                {% include 'singletournaments/binge/singletournament_bracket4.html' %}
-                {% endif %}
-
-                {% if tournament.size == 8 and tournament.bracket_generated %}
-                {% include 'singletournaments/binge/singletournament_bracket8.html' %}
-                {% endif %}
-
-                {% if tournament.size == 16 and tournament.bracket_generated %}
-                {% include 'singletournaments/binge/singletournament_bracket16.html' %}
-                {% endif %}
-
-                {% if tournament.size == 32 and tournament.bracket_generated %}
-                {% include 'singletournaments/binge/singletournament_bracket32.html' %}
-                {% endif %}
-
-                {% if tournament.size == 64 and tournament.bracket_generated %}
-                {% include 'singletournaments/binge/singletournament_bracket64.html' %}
-                {% endif %}
-
-                {% if tournament.size == 128 and tournament.bracket_generated %}
-                {% include 'singletournaments/binge/singletournament_bracket128.html' %}
-                {% endif %}
-
-                {% if tournament.size != 128 or tournament.size != 64 or tournament.size != 32 or tournament.size != 16 or tournament.size != 8 or tournament.size != 4 %}
-                {% include 'singletournaments/binge/no_bracket.html' %}
-                {% endif %}
-		    </div>
+			<!--<div class="tab-pane" id="2">
+            </div>-->
 
              <div class="tab-pane" id="3">
 
