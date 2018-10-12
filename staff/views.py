@@ -754,7 +754,7 @@ def pages(request):
     else:
         if request.method == 'POST':
             staticinfoobj = StaticInfo.objects.get(pk=1)
-            form = StaticInfoForm(request, request.POST, request.FILES, instance=staticinfoobj)
+            form = StaticInfoForm(request.POST, request.FILES, instance=staticinfoobj)
             if form.is_valid():
                 form.save()
                 messages.success(request, 'Your information has been updated')
