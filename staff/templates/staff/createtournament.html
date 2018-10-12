@@ -30,7 +30,7 @@ Create Tournament
 	    <br>
     <a href="{% url 'staff:tournamentrulesetcreate' %}"><i class="fa fa-plus"></i> Create a new ruleset</a>
 
-<form method="post">
+<form enctype="multipart/form-data" method="post">
    {% csrf_token %}
    {{ field.errors }}
 

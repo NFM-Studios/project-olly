@@ -28,7 +28,7 @@ Edit Tournament
 {% endif %}
     <a><a href="{% url 'staff:tournamentlist' %}">Return to tournament list</a></a>
 
-<form method="post">
+<form enctype="multipart/form-data" method="post">
    {% csrf_token %}
    {{ field.errors }}
 

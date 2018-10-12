@@ -320,7 +320,7 @@ def edit_tournament(request, pk):
     else:
         if request.method == 'POST':
             tournamentobj = SingleEliminationTournament.objects.get(pk=pk)
-            form = EditTournamentForm(request.POST, instance=tournamentobj)
+            form = EditTournamentForm(request.POST, request.FILES, instance=tournamentobj)
             if form.is_valid():
                 form.save()
                 messages.success(request, 'Tournament has been updated')
