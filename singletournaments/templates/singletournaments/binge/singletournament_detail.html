@@ -28,7 +28,7 @@
                     <img style="size:auto" src="{% if tournament.image != "" %}{{ tournament.image.url }}{% else %}
 
 {% if tournament.game == 0 %}
-        
+
         {% elif tournament.game == 1 %}
         {% static 'images/bo3.jpg' %}
         {% elif tournament.game == 2 %}
@@ -196,35 +196,8 @@
 
            </div>
 
-			<div class="tab-pane" id="2">
-             {% if tournament.size == 4 and tournament.bracket_generated %}
-                {% include 'singletournaments/binge/singletournament_bracket4.html' %}
-                {% endif %}
-
-                {% if tournament.size == 8 and tournament.bracket_generated %}
-                {% include 'singletournaments/binge/singletournament_bracket8.html' %}
-                {% endif %}
-
-                {% if tournament.size == 16 and tournament.bracket_generated %}
-                {% include 'singletournaments/binge/singletournament_bracket16.html' %}
-                {% endif %}
-
-                {% if tournament.size == 32 and tournament.bracket_generated %}
-                {% include 'singletournaments/binge/singletournament_bracket32.html' %}
-                {% endif %}
-
-                {% if tournament.size == 64 and tournament.bracket_generated %}
-                {% include 'singletournaments/binge/singletournament_bracket64.html' %}
-                {% endif %}
-
-                {% if tournament.size == 128 and tournament.bracket_generated %}
-                {% include 'singletournaments/binge/singletournament_bracket128.html' %}
-                {% endif %}
-
-                {% if tournament.size != 128 or tournament.size != 64 or tournament.size != 32 or tournament.size != 16 or tournament.size != 8 or tournament.size != 4 %}
-                {% include 'singletournaments/binge/no_bracket.html' %}
-                {% endif %}
-		    </div>
+			<!--<div class="tab-pane" id="2">
+            </div>-->
 
              <div class="tab-pane" id="3">
 
