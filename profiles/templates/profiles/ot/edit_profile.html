@@ -5,11 +5,16 @@
   {% endblock %}
 
 {% block body %}
-    <div class="container page">
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <div class="container">
+    <div class="col-xs-12">
 
-     <div class="panel">
-         <div class="panel-title">Edit Profile</div>
-      <div class="panel-body">
+         <h2 class="center">Edit Profile</h2>
+
 
   <form enctype="multipart/form-data" method="post">
     {% csrf_token %}
@@ -86,7 +91,7 @@
     <button type="submit" class="btn btn-primary">Update</button>
   </form>
       </div>
-     </div>
+
     </div>
 
 {% endblock %}
