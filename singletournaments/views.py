@@ -250,8 +250,9 @@ class SingleTournamentDetail(View):
         pk = self.kwargs['pk']
         tournament = get_object_or_404(SingleEliminationTournament, id=pk)
         ruleset = tournament.ruleset
+        teams = tournament.teams.all()
         return render(request, 'singletournaments/' + request.tenant + '/singletournament_detail.html',
-                      {'pk': pk, 'tournament': tournament, 'ruleset': ruleset})
+                      {'pk': pk, 'tournament': tournament, 'ruleset': ruleset, 'teams': teams})
 
 
 class SingleTournamentTeamsList(View):
