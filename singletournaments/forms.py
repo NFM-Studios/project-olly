@@ -16,6 +16,7 @@ class SingleEliminationTournamentJoinGet(forms.ModelForm):
         invites = TeamInvite.objects.filter(hasPerms=True, user_id=self.username.id)
         team = Team.objects.filter(id__in=invites.values_list('team', flat=True))
         super().__init__(*args, **kwargs)
+        self.fields['teams'].widget.attrs.update({'name': 'teams', 'class': 'form-control'})
         self.fields['teams'].queryset = team
 
 
