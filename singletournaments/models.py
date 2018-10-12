@@ -302,13 +302,13 @@ class SingleEliminationTournament(models.Model):
             team1.save()
             team2.save()
 
-            m[1] = Match(game=game, matchnum=i, platform=platform, hometeam=team1,
+            m[1] = Match(game=game, matchnum=1, platform=platform, hometeam=team1,
                          teamformat=teamformat, bestof=bestof, reported=True,
                          completed=True, winner=team1, awayteam=team2, loser=team2)
             m[1].save()
 
             round1 = SingleTournamentRound.objects.get(tournament=self, roundnum=1)
-            round1.matches.add(m[2])
+            round1.matches.add(m[1])
             round1.save()
         if bye != 0:
             for x in range(bye + 1, int(max_matches) + bye - 2):
