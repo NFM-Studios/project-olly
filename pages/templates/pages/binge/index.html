@@ -12,7 +12,7 @@
      <div class="row">
 
      <div class="col-xs-12 col-sm-4 col-md-4 col-lg-12">
-      <div class="event" style="background-image:url({% static 'binge/images/event1.jpg' %});">
+      <div class="event" style="background-image:url({% if staticinfo.bingetop1image.url != "" %}{{ staticinfo.bingetop1image.url }}{% else %}{% static 'binge/images/event1.jpg' %}{% endif %});">
        <h1>{{ staticinfo.bingetop1 }}</h1>
        <!--<h2>SEASON ONE</h2>-->
        <a class="btn btn-primary btn-md" href="{{ staticinfo.bingetop1link }}">VIEW DETAILS</a>
@@ -20,7 +20,7 @@
      </div>
 
      <div class="col-xs-12 col-sm-4 col-md-4 col-lg-12">
-      <div class="event" style="background-image:url({% static 'binge/images/event2.jpg' %});">
+      <div class="event" style="background-image:url({% if staticinfo.bingetop2image.url != "" %}{{ staticinfo.bingetop2image.url }}{% else %}{% static 'binge/images/event2.jpg' %}{% endif %});">
        <h1>{{ staticinfo.bingetop2 }}</h1>
        <!--<h2>SEASON ONE</h2>-->
        <a class="btn btn-primary btn-md" href="{{ staticinfo.bingetop2link }}">VIEW DETAILS</a>
@@ -28,7 +28,7 @@
      </div>
 
      <div class="col-xs-12 col-sm-4 col-md-4 col-lg-12">
-      <div class="event" style="background-image:url({% static 'binge/images/event3.jpg' %});">
+      <div class="event" style="background-image:url({% if staticinfo.bingetop3image.url != "" %}{{ staticinfo.bingetop3image.url }}{% else %}{% static 'binge/images/event3.jpg' %}{% endif %});">
        <h1>{{ staticinfo.bingetop3 }}</h1>
        <!--<h2>SEASON ONE</h2>-->
        <a class="btn btn-primary btn-md" href="{{ staticinfo.bingetop3link }}">VIEW DETAILS</a>
