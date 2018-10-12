@@ -1113,3 +1113,15 @@ def remove_user(request, pk):
             form = RemovePlayerForm(request, pk)
             return render(request, 'staff/remove_player.html', {'form': form, 'pk': pk})
 
+
+def getteamrank(request):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        allteams = Team.objects.all()
+        for i in allteams:
+            i.get_rank()
+        messages.success(request, "Calculated rank for %s teams" % allteams.count())
+
