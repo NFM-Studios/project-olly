@@ -24,7 +24,7 @@ class StaticInfoForm(forms.ModelForm):
                          'bingeslide1small', 'bingeslide2small', 'bingeslide3small', 'bingeslide1link',
                          'bingeslide1link', 'bingeslide2link', 'bingeslide3link')
         super().__init__(request, *args, **kwargs)
-        self.fields = self.fields + newfields
+        self.fields.update(newfields)
 
 
 class PartnerForm(forms.ModelForm):
