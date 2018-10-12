@@ -231,32 +231,14 @@
      <!--<div class="top-players center">
        <!--<img src=" static 'ot/images/csgo-wide.png' %}">-->
       <!--</div>-->
+         {% for team in teamlist %}
       <div class="top-players">
-       <div class="rank"><i class="fa fa-caret-up"></i> 1</div>
+       <div class="rank"><!--<i class="fa fa-caret-up"></i> 1--></div>
        <div class="ava"><img src="{% static 'ot/images/blank-avatar.jpg' %}"></div>
-       <div class="player">Top Teamname</div>
+          <div class="player"><a href="{% url 'teams:detail' pk=team.id %}">{{ team.name }}</a></div>
       </div>
-      <div class="top-players">
-       <div class="rank"><i class="fa fa-caret-up"></i> 2</div>
-       <div class="ava"><img src="{% static 'ot/images/blank-avatar.jpg' %}"></div>
-       <div class="player">Top Teamname</div>
+         {% endfor %}
       </div>
-      <div class="top-players">
-       <div class="rank"><i class="fa fa-caret-up"></i> 3</div>
-       <div class="ava"><img src="{% static 'ot/images/blank-avatar.jpg' %}"></div>
-       <div class="player">Top Teamname</div>
-      </div>
-      <div class="top-players">
-       <div class="rank"><i class="fa fa-caret-up"></i> 4</div>
-       <div class="ava"><img src="{% static 'ot/images/blank-avatar.jpg' %}"></div>
-       <div class="player">Top Teamname</div>
-      </div>
-      <div class="top-players">
-       <div class="rank"><i class="fa fa-caret-up"></i> 5</div>
-       <div class="ava"><img src="{% static 'ot/images/blank-avatar.jpg' %}"></div>
-       <div class="player">Top Teamname</div>
-      </div>
-     </div>
     </div>
 
 </div>
