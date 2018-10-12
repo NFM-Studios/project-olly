@@ -153,6 +153,8 @@ class SingleEliminationTournament(models.Model):
             game = 'Rocket League'
         elif self.game == 14:
             game = 'Battlefield 1'
+        elif self.game == 15:
+            game = 'Black Ops 4'
 
         return format + " " + platform + " " + game
 
