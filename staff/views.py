@@ -340,13 +340,12 @@ class CreateTournament(CreateView):
     def form_valid(self, form):
         tournament = form.instance
         tournament.save()
-        tournament.generate_rounds()
         self.success_url = reverse('staff:tournamentlist')
         messages.success(self.request, 'Your tournament has been successfully created')
         return super(CreateTournament, self).form_valid(form)
 
 
-def generate_bracket(request, pk):
+def generate_bracket(request, pk):  # Launch tournament
     user = UserProfile.objects.get(user__username=request.user.username)
     allowed = ['superadmin', 'admin']
     if user.user_type not in allowed:
@@ -357,6 +356,7 @@ def generate_bracket(request, pk):
             messages.error(request, message='The bracket is already generated.')
             return redirect('staff:tournamentlist')
         else:
+            tournament.generate_rounds()
             tournament.generate_bracket()
             tournament.bracket_generated = True
             tournament.save()
