@@ -115,7 +115,7 @@
                     <ul class="nav nav-pills">
 			<li class="active"><a href="#1" data-toggle="tab" aria-expanded="true" style="margin-bottom:4px;">INFO</a></li>
             <li class=""><a href="#3" data-toggle="tab" aria-expanded="false" style="margin-bottom:4px;">TEAMS</a></li>
-			<li class=""><a href="#2" data-toggle="tab" aria-expanded="false" style="margin-bottom:4px;">BRACKET</a></li>
+			<li class=""><a href="{% url 'singletournaments:bracket' pk=tournament.id %}"  style="margin-bottom:4px;">BRACKET</a></li>
             <li class=""><a href="#4" data-toggle="tab" aria-expanded="false" style="margin-bottom:4px;">RULES</a></li>
             <li class=""><a href="{% url 'singletournaments:join' pk=tournament.id %}" style="margin-bottom:4px;">JOIN</a></li>
 </ul>
