@@ -23,7 +23,7 @@ class StaticInfoForm(forms.ModelForm):
                          'bingetop3link', 'bingeslide1big', 'bingeslide2big', 'bingeslide3big',
                          'bingeslide1small', 'bingeslide2small', 'bingeslide3small', 'bingeslide1link',
                          'bingeslide1link', 'bingeslide2link', 'bingeslide3link')
-        super().__init__(*args, **kwargs)
+        super().__init__(request, *args, **kwargs)
         self.fields = self.fields + newfields
 
 
