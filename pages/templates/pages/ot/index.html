@@ -153,7 +153,7 @@
       <!--</div>-->
          {% for team in teamlist %}
       <div class="top-players">
-       <div class="rank"><!--<i class="fa fa-caret-up"></i> 1--></div>
+       <div class="rank"><i class="fa fa-caret-up"></i> {{ team.rank }}</div>
        <div class="ava"><img src="{% static 'ot/images/blank-avatar.jpg' %}"></div>
           <div class="player"><a href="{% url 'teams:detail' pk=team.id %}">{{ team.name }}</a></div>
       </div>
