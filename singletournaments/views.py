@@ -116,7 +116,7 @@ class SingleTournamentJoin(View):
             elif tournament.teamformat == 5:
                 players = 6
             team = Team.objects.get(id=int(form.data['teams']))
-            users = TeamInvite.objects.filter(team=form.data['teams'])
+            users = TeamInvite.objects.filter(team=form.data['teams'], accepted=True)
             teams = tournament.teams.all()
             teameligible = False
             utc = pytz.UTC

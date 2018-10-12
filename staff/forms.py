@@ -13,18 +13,19 @@ from store.models import Product
 class StaticInfoForm(forms.ModelForm):
     class Meta:
         model = StaticInfo
-        fields = ('about_us', 'terms', 'stream', 'slide1link', 'slide1_img',
-                  'slide2link', 'slide2_img', 'slide3link', 'slide3_img', 'welcomeln1',
-                  'welcomeln2')
+        fields = '__all__'
+        #fields = ('about_us', 'terms', 'stream', 'slide1link', 'slide1_img',
+        #          'slide2link', 'slide2_img', 'slide3link', 'slide3_img', 'welcomeln1',
+        #          'welcomeln2')
 
-    def __init__(self, request, *args, **kwargs):
-        if request.tenant == 'binge':
-            newfields = ('bingetop1', 'bingetop2', 'bingetop3', 'bingetop1link', 'bingetop2link',
-                         'bingetop3link', 'bingeslide1big', 'bingeslide2big', 'bingeslide3big',
-                         'bingeslide1small', 'bingeslide2small', 'bingeslide3small', 'bingeslide1link',
-                         'bingeslide1link', 'bingeslide2link', 'bingeslide3link')
-        super().__init__(request, *args, **kwargs)
-        self.fields.update(newfields)
+    #def __init__(self, request, *args, **kwargs):
+    #    if request.tenant == 'binge':
+    #        newfields = ('bingetop1', 'bingetop2', 'bingetop3', 'bingetop1link', 'bingetop2link',
+    ##                     'bingetop3link', 'bingeslide1big', 'bingeslide2big', 'bingeslide3big',
+    #                    'bingeslide1small', 'bingeslide2small', 'bingeslide3small', 'bingeslide1link',
+    #                     'bingeslide1link', 'bingeslide2link', 'bingeslide3link')
+    #    super().__init__(request, *args, **kwargs)
+    #    self.fields.update(newfields)
 
 
 class PartnerForm(forms.ModelForm):

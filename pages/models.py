@@ -19,39 +19,27 @@ class StaticInfo(models.Model):
     bingeslide1big = models.TextField(default="Coming Soon!")
     bingeslide1small = models.TextField(default="Coming Soon!")
     bingeslide1link = models.URLField(max_length=200, default="#")
-    # bingeslide1image =
 
     bingeslide2big = models.TextField(default="Coming Soon!")
     bingeslide2small = models.TextField(default="Coming Soon!")
     bingeslide2link = models.URLField(max_length=200, default='#')
-    # bingeslide2image
 
     bingeslide3big = models.TextField(default="Coming Soon!")
     bingeslide3small = models.TextField(default="Coming Soon!")
     bingeslide3link = models.URLField(max_length=200, default="#")
-    # bingeslide3image
 
     bingetop1 = models.TextField(default="Coming Soon!")
-    #bingetop1image =
+    bingetop1image = models.ImageField(upload_to='carousel_images', blank=True)
     bingetop1link = models.URLField(max_length=200, default="#")
 
 
     bingetop2 = models.TextField(default="Coming Soon!")
-    #bingetop2image =
+    bingetop2image = models.ImageField(upload_to='carousel_images', blank=True)
     bingetop2link = models.URLField(max_length=200, default="#")
 
-
     bingetop3 = models.TextField(default="Coming Soon!")
-    #bingetop3image =
+    bingetop3image = models.ImageField(upload_to='carousel_images', blank=True)
     bingetop3link = models.URLField(max_length=200, default="#")
-
-
-
-    # for steven
-
-    # slide1_pic
-    # slide2_pic
-    # slide3_pic
 
 
 class Partner(models.Model):
@@ -81,3 +69,85 @@ def auto_delete_file_on_change(sender, instance, **kwargs):
     new_file = instance.logo
     if not old_file == new_file:
         old_file.delete(save=False)
+
+
+@receiver(models.signals.post_delete, sender=StaticInfo)
+def auto_delete_file(sender, instance, **kwargs):
+    if instance.slide1_img:
+        instance.slide1_img.delete()
+    if instance.slide2_img:
+        instance.slide2_img.delete()
+    if instance.slide3_img:
+        instance.slide3_img.delete()
+    if instance.bingetop1image:
+        instance.bingetop1image.delete()
+    if instance.bingetop2image:
+        instance.bingetop2image.delete()
+    if instance.bingetop3image:
+        instance.bingetop3image.delete()
+
+
+@receiver(models.signals.pre_save, sender=StaticInfo)
+def auto_delete_file_on_change(sender, instance, **kwargs):
+    if not instance.pk:
+        return False
+
+    # Slide 1
+    try:
+        old_slide1 = StaticInfo.objects.get(pk=instance.pk).slide1_img
+    except StaticInfo.DoesNotExist:
+        return False
+
+    new_slide1 = instance.slide1_img
+    if not old_slide1 == new_slide1:
+        old_slide1.delete(save=False)
+
+    # Slide 2
+    try:
+        old_slide2 = StaticInfo.objects.get(pk=instance.pk).slide2_img
+    except StaticInfo.DoesNotExist:
+        return False
+
+    new_slide2 = instance.slide2_img
+    if not old_slide2 == new_slide2:
+        old_slide2.delete(save=False)
+
+    # Slide 3
+    try:
+        old_slide3 = StaticInfo.objects.get(pk=instance.pk).slide3_img
+    except StaticInfo.DoesNotExist:
+        return False
+
+    new_slide3 = instance.slide3_img
+    if not old_slide3 == new_slide3:
+        old_slide3.delete(save=False)
+
+    # Binge top 1
+    try:
+        old_top1 = StaticInfo.objects.get(pk=instance.pk).bingetop1image
+    except StaticInfo.DoesNotExist:
+        return False
+
+    new_top1 = instance.bingetop1image
+    if not old_top1 == new_top1:
+        old_top1.delete(save=False)
+
+    # Binge top 2
+    try:
+        old_top2 = StaticInfo.objects.get(pk=instance.pk).bingetop2image
+    except StaticInfo.DoesNotExist:
+        return False
+
+    new_top2 = instance.bingetop2image
+    if not old_top2 == new_top2:
+        old_top2.delete(save=False)
+
+    # Binge top 3
+    try:
+        old_top3 = StaticInfo.objects.get(pk=instance.pk).bingetop3image
+    except StaticInfo.DoesNotExist:
+        return False
+
+    new_top3 = instance.bingetop3image
+    if not old_top3 == new_top3:
+        old_top3.delete(save=False)
