@@ -85,7 +85,7 @@
       <div class="panel-body">
        <ul class="nav nav-tabs">
         <li class="active"><a href="#current" data-toggle="tab">CURRENT TOURNAMENTS</a></li>
-        <li><a href="#past" data-toggle="tab">UPCOMING TOURNAMENTS</a></li>
+        <!--<li><a href="#past" data-toggle="tab">UPCOMING TOURNAMENTS</a></li>-->
        </ul>
 
 <div id="myTabContent" class="tab-content">
@@ -136,43 +136,7 @@
 
      </div>
 
-     <div class="row">
 
-      <div class="col-xs-12 col-sm-6">
-       <div class="panel-default">
-        <div class="panel-body current-home">
-         <div class="console-label">XB1</div>
-         <div class="join-label"><a href="#">JOIN NOW</a></div>
-         <div class="col-xs-3 info1"><img src="{% static 'ot/images/fortnite-icon.png' %}"/></div>
-         <div class="col-xs-9 info1">
-          <div class="desc">
-           <h3>TOURNAMENT NAME</h3>
-           Size: 32 Teams<br>
-           Start Date: 9:00 PM EST 10-10-2018
-          </div>
-         </div>
-        </div>
-       </div>
-      </div>
-
-      <div class="col-xs-12 col-sm-6">
-       <div class="panel-default">
-        <div class="panel-body current-home">
-         <div class="console-label">XB1</div>
-         <div class="join-label"><a href="#">JOIN NOW</a></div>
-         <div class="col-xs-3 info1"><img src="{% static 'ot/images/fortnite-icon.png' %}"/></div>
-         <div class="col-xs-9 info1">
-          <div class="desc">
-           <h3>TOURNAMENT NAME</h3>
-           Size: 32 Teams<br>
-           Start Date: 9:00 PM EST 10-10-2018
-          </div>
-         </div>
-        </div>
-       </div>
-      </div>
-
-     </div>
 
      <div class="row">
 
@@ -253,43 +217,7 @@
 
      </div>
 
-          <div class="row">
 
-      <div class="col-xs-12 col-sm-6">
-       <div class="panel-default">
-        <div class="panel-body current-home">
-         <div class="console-label">XB1</div>
-         <div class="join-label"><a href="#">JOIN NOW</a></div>
-         <div class="col-xs-3 info1"><img src="{% static 'ot/images/fortnite-icon.png' %}"/></div>
-         <div class="col-xs-9 info1">
-          <div class="desc">
-           <h3>TOURNAMENT NAME</h3>
-           Size: 32 Teams<br>
-           Start Date: 9:00 PM EST 10-10-2018
-          </div>
-         </div>
-        </div>
-       </div>
-      </div>
-
-      <div class="col-xs-12 col-sm-6">
-       <div class="panel-default">
-        <div class="panel-body current-home">
-         <div class="console-label">XB1</div>
-         <div class="join-label"><a href="#">JOIN NOW</a></div>
-         <div class="col-xs-3 info1"><img src="{% static 'ot/images/fortnite-icon.png' %}"/></div>
-         <div class="col-xs-9 info1">
-          <div class="desc">
-           <h3>TOURNAMENT NAME</h3>
-           Size: 32 Teams<br>
-           Start Date: 9:00 PM EST 10-10-2018
-          </div>
-         </div>
-        </div>
-       </div>
-      </div>
-
-     </div>
 
 </div>
       </div>
@@ -300,9 +228,9 @@
     <div class="col-xs-12 col-sm-12 col-md-3">
     <div class="title">Top Teams</div>
      <div class="panel grad">
-     <div class="top-players center">
-       <img src="{% static 'ot/images/csgo-wide.png' %}">
-      </div>
+     <!--<div class="top-players center">
+       <!--<img src=" static 'ot/images/csgo-wide.png' %}">-->
+      <!--</div>-->
       <div class="top-players">
        <div class="rank"><i class="fa fa-caret-up"></i> 1</div>
        <div class="ava"><img src="{% static 'ot/images/blank-avatar.jpg' %}"></div>
@@ -350,41 +278,20 @@
     <div class="title">Latest Matches</div>
      <div class="panel grad">
 
+     {% if matchlist.count == 0 %}
+     No matches!
+     {% endif %}
+        {% for match in matchlist %}
       <div class="top-players">
        <div class="ava2"><img src="{% static 'ot/images/blank-avatar.jpg' %}"></div>
-       <div class="team">Top Teamname</div>
+       <div class="team">{{ match.hometeam }}</div>
        <div class="game"><img src="{% static 'ot/images/fortnite-logo.png' %}"><br>
-       <span class="score">10-3</span></div>
+       <span class="score">{% if match.winner.id == match.hometeam.id %}1-0{% elif match.winner.id == match.awayteam.id %}0-1{% else %}0-0{% endif %}</span></div>
        <div class="ava2"><img src="{% static 'ot/images/blank-avatar.jpg' %}"></div>
-       <div class="team">Top Teamname</div>
+       <div class="team">{{ match.awayteam }}</div>
       </div>
+        {% endfor %}
 
-      <div class="top-players">
-       <div class="ava2"><img src="{% static 'ot/images/blank-avatar.jpg' %}"></div>
-       <div class="team">Top Teamname</div>
-       <div class="game"><img src="{% static 'ot/images/fortnite-logo.png' %}"><br>
-       <span class="score">10-3</span></div>
-       <div class="ava2"><img src="{% static 'ot/images/blank-avatar.jpg' %}"></div>
-       <div class="team">Top Teamname</div>
-      </div>
-
-      <div class="top-players">
-       <div class="ava2"><img src="{% static 'ot/images/blank-avatar.jpg' %}"></div>
-       <div class="team">Top Teamname</div>
-       <div class="game"><img src="{% static 'ot/images/fortnite-logo.png' %}"><br>
-       <span class="score">10-3</span></div>
-       <div class="ava2"><img src="{% static 'ot/images/blank-avatar.jpg' %}"></div>
-       <div class="team">Top Teamname</div>
-      </div>
-
-      <div class="top-players">
-       <div class="ava2"><img src="{% static 'ot/images/blank-avatar.jpg' %}"></div>
-       <div class="team">Top Teamname</div>
-       <div class="game"><img src="{% static 'ot/images/fortnite-logo.png' %}"><br>
-       <span class="score">10-3</span></div>
-       <div class="ava2"><img src="{% static 'ot/images/blank-avatar.jpg' %}"></div>
-       <div class="team">Top Teamname</div>
-      </div>
 
      </div>
     </div>
@@ -393,6 +300,10 @@
     <div class="title">Featured News</div>
      <div class="row">
 
+
+        {% if newslist.count == 0 %}
+     No News Posts!
+     {% endif %}
          {% for news in newslist %}
          <div class="col-xs-12 col-sm-12 col-md-6 bot10">
        <img src="{% static 'ot/images/slider1.jpg' %}"><br>
