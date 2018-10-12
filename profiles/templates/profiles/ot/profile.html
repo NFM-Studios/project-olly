@@ -81,12 +81,20 @@ Twitch: <a href="{% if userprofile.twitch_channel == "No Twitch Linked" or userp
 
                 <div class="row gutter-10 bot20">
 
-                     <!--<div class="col-xs-12 col-sm-6">
-                     <div class="panel-title bold">Latest Tournament Matches</div>
-
+                     <div class="col-xs-12 col-sm-6">
+                     <div class="panel-title bold">Statistics</div>
+                        <h1>
+                         <i style="color:gold" class="fa fa-trophy"> {{ userprofile.num_gold }} Gold</i>
+                         <i style="color:silver" class="fa fa-trophy"> {{ userprofile.num_silver }} Silver</i>
+                         <i style="color:#cd7f32" class="fa fa-trophy"> {{ userprofile.num_bronze }} Bronze</i>
+                            <br />
+                         <i class="fa fa-play"> {{ userprofile.xp }} XP</i>
+                            <br />
+                         <i class="fa fa-dollar"> {{ userprofile.total_earning }} Won</i>
+                        </h1>
      				 </div>
 
-                        <div class="col-xs-12 col-sm-6">
+                     <!--   <div class="col-xs-12 col-sm-6">
                      <div class="panel-title bold">Latest Twitch Duels</div>
 
      				 </div>--->
