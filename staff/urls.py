@@ -66,6 +66,7 @@ urlpatterns = [
     url(r'^teams/$', login_required(views.teams_index), name='teamindex'),
     url(r'^teams/(?P<pk>\d+)/$', login_required(views.teams_detail), name='team_detail'),
     url(r'^teams/(?P<pk>\d+)/remove/$', login_required(views.remove_user), name='remove_user'),
+    url(r'^teams/getrank/$', login_required(views.getteamrank), name='getteamrank'),
 
     url(r'^partners/$', login_required(views.partnerlist), name='partner_list'),
     url(r'^partners/create/$', login_required(views.createpartner), name='partner_create'),

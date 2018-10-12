@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 from django.db import IntegrityError
-# from profiles import UserProfile
+from profiles.models import UserProfile
 
 from django.urls import reverse
 
@@ -37,6 +37,9 @@ class Team(models.Model):
     num_tournywin = models.SmallIntegerField(default=0)
     numtournyloss = models.SmallIntegerField(default=0)
 
+    totalxp = models.PositiveSmallIntegerField(default=0)
+    rank = models.PositiveSmallIntegerField(default=100)
+
     class Meta:
         verbose_name = 'Team'
         verbose_name_plural = 'Teams'
@@ -48,6 +51,16 @@ class Team(models.Model):
     def website_linked(self):
         if not self.website:
             return True
+
+    def get_total_xp(self):
+        for invite in TeamInvite.objects.filter(team_id=self.id):
+            userprofile = UserProfile.objects.get(user=invite.user)
+            self.totalxp += userprofile.xp
+        self.save()
+
+    def get_rank(self):
+        self.rank = int(Team.objects.filter(xp__gt=self.totalxp).count()) + 1
+        self.save()
 
     def __str__(self):
         return self.name
