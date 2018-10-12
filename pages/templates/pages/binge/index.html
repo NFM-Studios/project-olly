@@ -159,6 +159,8 @@
           Ladders are coming soon
        </div>
        </div>
+              <a class="twitter-timeline" data-height="450" data-theme="dark" data-link-color="#2B7BB9" data-chrome="noheader nofooter noborders transparent noscrollbar" href="https://twitter.com/BingePlay?ref_src=twsrc%5Etfw">Tweets by BingePlay</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
 -->
 
         <div class="col-xs-12 col-sm-12 col-md-6 bot20">
@@ -170,16 +172,19 @@
        </div>
       </div>
       </div>
+   <div style="clear: both;"></div>
+      <div class="" style="display: grid; grid-template-columns: 1fr 1fr; grid-gap: 15px;">
+        <div >
+            <div class="main-title">TWITTER<br>
+                <span>FOLLOW OUR TWEETS FOR UPDATES</span>
+            </div>
+            <a class="twitter-timeline" data-height="450" data-theme="dark" data-link-color="#2B7BB9" data-chrome="noheader nofooter noborders transparent noscrollbar" href="https://twitter.com/BingePlay?ref_src=twsrc%5Etfw">Tweets by BingePlay</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </div>
+        <div >
+            <img style="display: block; width:100%" src="{% static 'binge/images/steps.png' %}">
+        </div>
+      </div>
 
-      <div class="col-xs-12 col-sm-12 col-md-6 bot20" style="width:75%; align-content: center">
-        <div class="row"><div class="col-xs-12"><div class="main-title">TWITTER<br>
-   <span>FOLLOW OUR TWEETS FOR UPDATES</span></div></div></div>
-      <div class="row">
-       <div class="col-xs-12">
-        <a class="twitter-timeline" data-height="450" data-theme="dark" data-link-color="#2B7BB9" data-chrome="noheader nofooter noborders transparent noscrollbar" href="https://twitter.com/BingePlay?ref_src=twsrc%5Etfw">Tweets by BingePlay</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-       </div>
-      </div>
-      </div>
 
       </div>
    </div>
@@ -219,7 +224,7 @@
             <div class="name"><h4><b><a href="{% url 'profiles:profile' urlusername=player %}">{{ player }}</a></b></h4>
          <!--<h6><span>Rank 1st</span></h6>-->
          <h5>{{ player.xp }} XP</h5></div>
-         <div class="rank"><b>{{ player.rank }}st</b><br>
+         <div class="rank"><b>{{ player.rank }}</b><br>
          <small>PLACE</small></div>
         </div>
 {% endfor %}
