@@ -53,7 +53,7 @@
     {% for TeamInvite in team_list %}
       <tr>
         <td width="10%" valign="middle">{{ TeamInvite.team.id }}</td>
-          <td width="30%" valign="middle"><a href="{% url 'teams:detail' pk=TeamInvite.team.id %}"><img src="{% static 'images/avatar.jpg' %}" width="30" height="30"> <b>{{TeamInvite.team.name}}</b></a></td>
+          <td width="30%" valign="middle"><a href="{% url 'teams:detail' pk=TeamInvite.team.id %}"><img src="{% static 'binge/images/avatar.jpg' %}" width="30" height="30"> <b>{{TeamInvite.team.name}}</b></a></td>
         <td width="20%" valign="middle" style="font-size:20px;"><a href="#"><i class="fa fa-twitter"></i></a> <a href="#"><i class="fa fa-twitch"></i></a></td>
         <td width="20%" valign="middle">{{ TeamInvite.team.founder }}</td>
         <td width="20%" valign="middle">{{TeamInvite.team.created}}</td>
