@@ -25,24 +25,24 @@
     <ul class="round round-1">
         <li class="spacer">&nbsp;</li>
         {% for match in round1matches %}
-        <li class="game game-top {% if match.winner is match.awayteam %}
+        <li class="game game-top {% if match.winner.id == match.awayteam.id %}
             winner
             {% else %}
 
             {% endif %}"><a href="{% url 'matches:detail' pk=match.id %}">{{ match.awayteam }}</a><span>
-            {% if match.winner is match.awayteam %}
+            {% if match.winner.id == match.awayteam.id %}
             1
             {% else %}
             0
             {% endif %}
         </span></li>
         <li class="game game-spacer">&nbsp;</li>
-        <li class="game game-bottom {% if match.winner is match.hometeam %}
+        <li class="game game-bottom {% if match.winner.id == match.hometeam.id %}
             winner
             {% else %}
 
             {% endif %}"><a href="{% url 'matches:detail' pk=match.id %}">{{ match.hometeam }}</a><span>
-            {% if match.winner is match.hometeam %}
+            {% if match.winner.id == match.hometeam.id %}
             1
             {% else %}
             0
