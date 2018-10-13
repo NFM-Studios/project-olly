@@ -270,10 +270,11 @@ class SingleEliminationTournament(models.Model):
                 hometeam = team_seeds[0]
                 hometeam.seeds = seeds[0]
                 hometeam.save()
+                team1 = Team(name='bye%s' % 1, founder=User.objects.get(id=1))
 
                 m[1] = Match(game=game, matchnum=1, platform=platform, hometeam=team_seeds[0],
                              teamformat=teamformat, bestof=bestof, reported=True,
-                             completed=True, winner=team_seeds[0])
+                             completed=True, winner=team_seeds[0], loser=team1)
                 m[1].save()
 
                 round1 = SingleTournamentRound.objects.get(tournament=self, roundnum=1)
