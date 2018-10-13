@@ -37,6 +37,8 @@ class Match(models.Model):
     team2reportedwinner = models.ForeignKey(Team, related_name='team2reportedwinner', on_delete=models.CASCADE,
                                             null=True, blank=True)
 
+    info = models.TextField(default="Match Info: ")
+
     disputed = models.BooleanField(default=False)
 
 
