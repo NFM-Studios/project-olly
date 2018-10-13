@@ -24,7 +24,13 @@ class TournamentMatchDetailView(DetailView):
     def get(self, request, **kwargs):
         pk = self.kwargs['pk']
         match = get_object_or_404(Match, id=pk)
-        return render(request, 'matches/' + request.tenant + '/tournament_matches_detail.html', {'x': pk, 'match': match})
+        team1 = Team.objects.get(id=match.hometeam_id)
+        team2 = Team.objects.get(id=match.awayteam_id)
+        aplayers = team2.players.all()
+        hplayers = team1.players.all()
+        return render(request, 'matches/' + request.tenant + '/tournament_matches_detail.html', {'x': pk, 'match': match,
+                                                                                                 'aplayers': aplayers,
+                                                                                                 'hplayers': hplayers})
 
 
 class MatchReportCreateView(View):
