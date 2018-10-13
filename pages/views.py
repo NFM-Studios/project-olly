@@ -24,7 +24,7 @@ def index(request):
         matchlist = Match.objects.all().order_by('-id')[:5]
         newslist = Post.objects.all().order_by('-id')[:2]
         tournament_list = SingleEliminationTournament.objects.filter(active=True).order_by('-id')[:4]
-        playerlist = UserProfile.objects.all().order_by('-id')[:3]
+        playerlist = UserProfile.objects.all().order_by('-rank')[:3]
     elif request.tenant == 'roc':
         teamlist = Team.objects.all().order_by('-id')[:5]
         playerlist = UserProfile.objects.all().order_by('-id')[:3]
