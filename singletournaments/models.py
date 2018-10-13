@@ -271,6 +271,7 @@ class SingleEliminationTournament(models.Model):
                 hometeam.seeds = seeds[0]
                 hometeam.save()
                 team1 = Team(name='bye%s' % 1, founder=User.objects.get(id=1))
+                team1.save()
 
                 m[1] = Match(game=game, matchnum=1, platform=platform, hometeam=team_seeds[0],
                              teamformat=teamformat, bestof=bestof, reported=True,
