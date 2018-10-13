@@ -329,8 +329,12 @@ def edit_tournament(request, pk):
                 return render(request, 'staff/edittournament.html', {'form': form})
         else:
             tournamentobj = SingleEliminationTournament.objects.get(pk=pk)
-            form = EditTournamentForm(instance=tournamentobj)
-            return render(request, 'staff/edittournament.html', {'form': form, 'pk': pk})
+            if not tournamentobj.bracket_generated:
+                form = EditTournamentForm(instance=tournamentobj)
+                return render(request, 'staff/edittournament.html', {'form': form, 'pk': pk})
+            else:
+                messages.error(request, "The bracket has been generated, you cannot edit the tournament further")
+                return redirect('staff:tournamentlist')
 
 
 class CreateTournament(CreateView):
