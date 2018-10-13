@@ -462,6 +462,8 @@ def advance(request, pk):
             del winners[0]
             del winners[0]
 
+        tournament.current_round = tournament.current_round + 1
+        tournament.save()
         messages.success(request, "Advanced to next round")
         return redirect('staff:tournamentlist')
 
