@@ -7,8 +7,7 @@
 
 {% block body %}
     <link rel="stylesheet" href="{% static "css/singletournament.css" %}">
-
-    <br />
+<br />
     <br />
     <br />
     <br />
@@ -20,6 +19,7 @@
 <div class="col-xs-12">
            <div class="panel">
               <div class="panel-body">
+
 
 <main id="tournament">
     <ul class="round round-1">
@@ -55,7 +55,6 @@
     <ul class="round round-2">
 
         <li class="spacer">&nbsp;</li>
-        <li class="spacer">&nbsp;</li>
 
     {% if round2matches.count is 0 %}
 
@@ -89,6 +88,7 @@
             0
             {% endif %}
         </span></li>
+            <li class="spacer"></li>
         {% endfor %}
 
     {% endif %}
@@ -99,7 +99,6 @@
 
 
 <ul class="round round-3">
-<li class="spacer">&nbsp;</li>
 <li class="spacer">&nbsp;</li>
     {% if round3matches.count is 0 %}
 
@@ -133,6 +132,7 @@
             0
             {% endif %}
         </span></li>
+            <li class="spacer"></li>
         {% endfor %}
 
     {% endif %}
@@ -142,7 +142,9 @@
     </ul>
 
 </main>
-              </div>
+
+
+</div>
            </div>
 </div>
 </div>
