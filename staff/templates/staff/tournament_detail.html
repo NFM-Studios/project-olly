@@ -149,11 +149,13 @@ Tournament #{{ tournament.id }}
 
     <p>
         <a href="{% url 'staff:edit_tournament' pk=tournament.id %}" class="btn btn-primary">Edit</a>
+    {% if tournament.active %}
         {% if not tournament.bracket_generated %}
             <a href="{% url 'staff:generate_bracket' pk=tournament.id %}" class="btn btn-success">LAUNCH</a>
         {% else %}
             <a href="{% url 'staff:advance' pk=tournament.id %}" class="btn btn-success">Advance</a>
         {% endif %}
+    {% endif %}
         <a href="{% url 'staff:delete_tournament' pk=tournament.id %}" class="btn btn-danger">DELETE</a>
     </p>
 
