@@ -454,13 +454,12 @@ def advance(request, pk):
             team1.num_matchloss += 1
             team.save()
             team1.save()
-
-        for i in winners:
-            newmatch = Match(game=tournament.game, platform=tournament.platform, hometeam=winners[0], awayteam=winners[1])
+        i = 0
+        while i <= len(winners):
+            newmatch = Match(game=tournament.game, platform=tournament.platform, hometeam=winners[i], awayteam=winners[i+1])
             newmatch.save()
             nextround.matches.add(newmatch)
-            del winners[0]
-            del winners[0]
+            i += 2
 
         tournament.current_round = tournament.current_round + 1
         tournament.save()
