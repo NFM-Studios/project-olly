@@ -14,7 +14,7 @@ class TicketCreateForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(TicketCreateForm, self).__init__(*args, **kwargs)
-        self.fields['category'].widget.attrs.update({'name': 'subject', 'class': 'form-control'})
+        self.fields['category'].widget.attrs.update({'name': 'subject', 'class': 'form-control', 'style': 'background-color:black'})
         self.fields['text'].widget.attrs.update({'class': 'form-control', 'name': 'texts', 'rows': '4', 'cols': '40'})
 
 
