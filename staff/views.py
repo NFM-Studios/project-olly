@@ -5,7 +5,7 @@ from staff.forms import StaticInfoForm, ArticleCreateForm, EditUserForm, TicketC
     TicketStatusChangeForm, EditTournamentForm, DeclareMatchWinnerForm, DeclareMatchWinnerPost,\
     DeclareTournamentWinnerForm, TicketSearchForm, RemovePlayerForm, RemovePlayerFormPost, AddCreditsForm,\
     AddTrophiesForm, AddXPForm, SingleRulesetCreateForm, PartnerForm, EditNewsPostForm, CreateProductForm,\
-    DeleteProductForm, RemovePostForm
+    DeleteProductForm, RemovePostForm, EditMatchForm
 from profiles.models import UserProfile, BannedUser
 from profiles.forms import SortForm
 from django.contrib.auth.models import User
@@ -553,6 +553,27 @@ def match_detail(request, pk):
             return render(request, 'staff/match_detail.html', {'match': match, 'dispute': dispute})
         else:
             return render(request, 'staff/match_detail.html', {'match': match})
+
+
+def match_edit(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        if request.method == 'POST':
+            matchobj = Match.objects.get(pk=pk)
+            form = EditMatchForm(request.POST, instance=matchobj)
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'Match has been updated')
+                return redirect('staff:match_detail', pk=pk)
+            else:
+                return render(request, 'staff/match_edit.html', {'form': form})
+        else:
+            matchobj = Match.objects.get(pk=pk)
+            form = EditMatchForm(instance=matchobj)
+            return render(request, 'staff/match_edit.html', {'form': form, 'pk': pk})
 
 
 class MatchDeclareWinner(View):
