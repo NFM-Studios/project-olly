@@ -63,7 +63,7 @@
         {{form.as_table}}
         <tr>
             <td colspan="2">
-                <input type="submit" name="post_comment" value="Comment" />
+                <input type="submit" name="post_comment" value="Comment" class="btn btn-success" />
             </td>
         </tr>
     </table>
@@ -72,7 +72,7 @@
 <form method="POST" action="{% url 'support:detail' pk=x %}">
     {% csrf_token %}
     {{ form2.as_table }}
-    <input type="submit" name="change_status" value="Close Ticket">
+    <input type="submit" name="change_status" value="Close Ticket" class="btn warning">
 </form>
 
         </div>
