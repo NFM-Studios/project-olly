@@ -8,25 +8,21 @@
 
 
 
-
-
 <section class="prof-top page1">
 <div class="container-fluid min-page">
 
 <div class="col-xs-12 bot20">
                    <div class="row">
-                   <div class="col-xs-12 col-sm-3">
+                   <div class="col-xs-12 col-sm-3 col-md-3">
                     {% if userprofile.profile_picture.url != "" %}
                         <img src="{{ userprofile.profile_picture.url }}" align="center" width="200"> <br />
                         {% else %}
                         <img src="{% static 'ot/images/avatar.jpg' %}" align="center" width="200"/> <br />
                         {% endif %}
                    </div>
-                   <div class="col-xs-12 col-sm-4">
+                   <div class="col-xs-12 col-sm-4 col-md-6 fa2">
+                   <br>
                     <h2><b>{{ userprofile.user }}</b></h2>
-
-About Me:<br>
-{{ userprofile.about_me }}<br>
 <br>
 PSN: <a href="#">{{ userprofile.psn }}
                    {% if userprofile.psn_verified %}
@@ -35,6 +31,8 @@ PSN: <a href="#">{{ userprofile.psn }}
                        <i class="fa fa-times-circle" style="color:red"></i>
                        {% endif %}
                    </a><br>
+Steam: <a href="#">{{ userprofile.steam }}</a><br>
+Epic ID: <a href="#">{{ userprofile.epic }}</a><br>
 XBL: <a href="#">{{ userprofile.xbl }}
                    {% if userprofile.xbl_verified %}
                         <i class="fa fa-check-circle" style="color:green"></i>
@@ -42,68 +40,140 @@ XBL: <a href="#">{{ userprofile.xbl }}
                        <i class="fa fa-times-circle" style="color:red"></i>
                        {% endif %}
                    </a><br>
-<br>
-Twitter: <a href="{% if userprofile.twitter_profile == "No Twitter Linked" or userprofile.twitter_profile == "" %}
+<a href="{% if userprofile.twitter_profile == "No Twitter Linked" or userprofile.twitter_profile == "" %}
         #
     {% else %}
     https://twitter.com/{{ userprofile.twitter_profile }}
-        {% endif %}">@{{ userprofile.twitter_profile }}</a><br>
-Twitch: <a href="{% if userprofile.twitch_channel == "No Twitch Linked" or userprofile.twitch_channel == "" %}
+        {% endif %}"><i class="fa fa-twitter"></i></a> <a href="#"><i class="fa fa-facebook"></i></a> <a href="{% if userprofile.twitch_channel == "No Twitch Linked" or userprofile.twitch_channel == "" %}
         #
     {% else %}
     https://twitch.tv/{{ userprofile.twitch_channel }}
-        {% endif %}">{{ userprofile.twitch_channel }}</a><br>
+        {% endif %}"><i class="fa fa-twitch"></i></a> <a href="#"><i class="fa fa-youtube"></i></a>
 <br>
 
                    </div>
 
-                   <!--<div class="col-xs-12 col-sm-5 center">
-                    <div class="row">
-                     <div class="col-xs-12 center">
-                     <img src=""/><br>
-                     <h5>Twitch Duel Challenges Won</h5>
-                     <h1><b>tbd</b></h1>
+                   <div class="col-xs-12 col-sm-5 col-md-3 prof1 center">
+                   <br><br>
+                     <img src="{% static 'ot/images/gold.png' %}"> <b>{{ userprofile.num_gold }}</b> &nbsp;&nbsp;&nbsp; <img src="{% static 'ot/images/silver.png' %}"> <b>{{ userprofile.num_silver }}</b> &nbsp;&nbsp;&nbsp; <img src="{% static 'ot/images/bronze.png' %}"> <b>{{ userprofile.num_bronze }}</b><br>
                      <br>
-                     </div>
-                    </div>
-                   </div>-->
+                     <h3 style="font-weight:300;">Rank: <b>{{ userprofile.rank }}</b></h3>
+                     <br>
+                     <h3 style="font-weight:300;">XP Points: <b>{{ userprofile.xp }}</b></h3>
+                     <br>
+                      <h3 style="font-weight:300;">Earnings: <b>${{ userprofile.total_earning }}</b></h3>
                    </div>
-                        <br>
-{% if requestuser == userprofile.user %}
+
+                   </div>
+                  </div>
+</div>
+</section>
+
+<div class="container-fluid min-page">
+
+                  <div class="row gutter-10 bot20">
+
+                      {% if requestuser == userprofile.user %}
 <a style="margin:12px;" href="{% url 'profiles:edit_profile' %}"> <i class="fa fa-pencil"></i>  Edit Profile</a><br />
 <a style="margin:12px;" href="{% url 'store:transfer' %}"><i class="fa fa-arrow-right"></i> Transfer Credits</a><br />
 <a style="margin:12px;" href="{% url 'store:store' %}"><i class="fa fa-coins"></i> {{ userprofile.credits }} Credits in your account</a><br />
 <a style="margin:12px;" href="{% url 'teams:myinvitelist' %}"><i class="fa fa-user"></i> View my team invites</a><br />
 <a style="margin:12px;" href="{% url 'support:create' %}"><i class="fa fa-user"></i> Create Cashout Request</a><br />
 {% endif %}
-                  </div>
+                    <!--<div class="col-xs-12 col-sm-4">
+                     <div class="panel-title bold">Latest Tournament Matches</div>
+                       <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <tbody>
+                                        <tr>
+                                            <td valign="middle"><img src="images/team1.png"> Team Name</td>
+                                            <td valign="middle"><b>vs</b></td>
+                                            <td valign="middle"><img src="images/team1.png"> Team Name</td>
+                                            <td valign="middle" align="right" style="color:#3cf4fb;"><b>WON</b></td>
+                                        </tr>
+                                         <tr>
+                                            <td valign="middle"><img src="images/team1.png"> Team Name</td>
+                                            <td valign="middle"><b>vs</b></td>
+                                            <td valign="middle"><img src="images/team1.png"> Team Name</td>
+                                            <td valign="middle" align="right" style="color:#3cf4fb;"><b>WON</b></td>
+                                        </tr>
+                                         <tr>
+                                            <td valign="middle"><img src="images/team1.png"> Team Name</td>
+                                            <td valign="middle"><b>vs</b></td>
+                                            <td valign="middle"><img src="images/team1.png"> Team Name</td>
+                                            <td valign="middle" align="right" style="color:#3cf4fb;"><b>WON</b></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+     				 </div>-->
 
+                     <!--<div class="col-xs-12 col-sm-4">
+                     <div class="panel-title bold">Latest Ladder Matches</div>
+                       <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <tbody>
+                                        <tr>
+                                            <td valign="middle"><img src="images/team1.png"> Team Name</td>
+                                            <td valign="middle"><b>vs</b></td>
+                                            <td valign="middle"><img src="images/team1.png"> Team Name</td>
+                                            <td valign="middle" align="right" style="color:#3cf4fb;"><b>WON</b></td>
+                                        </tr>
+                                         <tr>
+                                            <td valign="middle"><img src="images/team1.png"> Team Name</td>
+                                            <td valign="middle"><b>vs</b></td>
+                                            <td valign="middle"><img src="images/team1.png"> Team Name</td>
+                                            <td valign="middle" align="right" style="color:#3cf4fb;"><b>WON</b></td>
+                                        </tr>
+                                         <tr>
+                                            <td valign="middle"><img src="images/team1.png"> Team Name</td>
+                                            <td valign="middle"><b>vs</b></td>
+                                            <td valign="middle"><img src="images/team1.png"> Team Name</td>
+                                            <td valign="middle" align="right" style="color:#3cf4fb;"><b>WON</b></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+     				 </div>-->
 
-                <div class="row gutter-10 bot20">
-
-                     <div class="col-xs-12 col-sm-6">
-                     <div class="panel-title bold">Statistics</div>
-                        <h1>
-                         <i style="color:gold" class="fa fa-trophy"> {{ userprofile.num_gold }} Gold</i>
-                         <i style="color:silver" class="fa fa-trophy"> {{ userprofile.num_silver }} Silver</i>
-                         <i style="color:#cd7f32" class="fa fa-trophy"> {{ userprofile.num_bronze }} Bronze</i>
-                            <br />
-                         <i class="fa fa-play"> {{ userprofile.xp }} XP</i>
-                            <br />
-                         <i class="fa fa-dollar"> {{ userprofile.total_earning }} Won</i>
-                        </h1>
-     				 </div>
-
-                     <!--   <div class="col-xs-12 col-sm-6">
-                     <div class="panel-title bold">Latest Twitch Duels</div>
-
+                     <!--<div class="col-xs-12 col-sm-4">
+                     <div class="panel-title bold">Game Records</div>
+                       <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <tbody>
+                                        <tr>
+                                            <td valign="middle"><img src="images/xb1-icon.png"> Fortnite </td>
+                                            <td>3 Wins</td>
+                                            <td>1 Loss</td>
+                                        </tr>
+                                        <tr>
+                                            <td valign="middle"><img src="images/pc-button.png"> CSGO </td>
+                                            <td>3 Wins</td>
+                                            <td>1 Loss</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
      				 </div>--->
 
                     </div>
 
-                 </div>
+                     <div class="row gutter-10 bot20">
 
-</section>
+                     <!--<div class="col-xs-12 col-sm-6">
+                     <div class="panel-title bold">Twitter Feed</div>
+                    <a class="twitter-timeline" data-height="400" data-theme="dark" data-link-color="#3cf4fb" data-chrome="noheader nofooter noscrollbar noborders transparent" href="https://twitter.com/redditCSGO?ref_src=twsrc%5Etfw">Tweets by redditCSGO</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                     </div>
+                     <div class="col-xs-12 col-sm-6">
+                     <div class="panel-title bold">Featured Video</div>
+                   <iframe width="100%" height="400" src="https://www.youtube.com/embed/OxXeaTE0R7U?rel=0&amp;controls=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                     </div>-->
+
+                     </div>
+
+</div>
+
+
 
 
 
