@@ -44,15 +44,15 @@
                            <br>
                            <hr>
                            <br>
-                           <h5><b>Message</b></h5>
-                           <p>{{ ticket.text|linebreaks }}</p>
+                           <h4><b>Message</b></h4>
+                           <div style="font-size:14px;">{{ ticket.text|linebreaks }}</div>
 
                            <br>
                                    {% for i in comments %}
     {% if i.author.user.user_type == 'admin' or i.author.user.user_type == 'superadmin'%}
-    <b>{{ i.author }}, ({{ i.date }}): {{ i.comment }}</b>
+    <b style="font-size:14px;">{{ i.author }}, ({{ i.date }}): {{ i.comment }}</b>
     {% else %}
-    {{ i.author }}, ({{ i.date }}): {{ i.comment }}
+    <p style="font-size:14px;">{{ i.author }}, ({{ i.date }}): {{ i.comment }}</p>
     {% endif %}
     <br>
 {% endfor %}
