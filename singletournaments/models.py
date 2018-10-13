@@ -259,7 +259,12 @@ class SingleEliminationTournament(models.Model):
             team_seeds.append(i)
 
         m = dict()
-        
+        if bye == 2:
+            offset = 0
+        else:
+            offset = -2
+        skipotherbye = False
+
         if bye >= 3:
             if bye % 2 != 0:
                 hometeam = team_seeds[0]
@@ -296,7 +301,8 @@ class SingleEliminationTournament(models.Model):
                     round1 = SingleTournamentRound.objects.get(tournament=self, roundnum=1)
                     round1.matches.add(m[i])
                     round1.save()
-        elif bye == 2:
+                skipotherbye = True
+        elif bye == 2 and not skipotherbye:
             team1 = Team(name='bye%s' % 1, founder=User.objects.get(id=1))
             team2 = Team(name='bye%s' % 2, founder=User.objects.get(id=1))
             team1.save()
@@ -311,7 +317,7 @@ class SingleEliminationTournament(models.Model):
             round1.matches.add(m[1])
             round1.save()
         if bye != 0:
-            for x in range(bye + 1, int(max_matches) + bye - 2):
+            for x in range(bye + 1, int(max_matches) + bye + offset):
 
                 if len(team_seeds) == 0:
                     break
