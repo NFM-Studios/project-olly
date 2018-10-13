@@ -437,7 +437,13 @@ def advance(request, pk):
     else:
         tournament = SingleEliminationTournament.objects.get(pk=pk)
         currentround = SingleTournamentRound.objects.get(tournament=pk, roundnum=tournament.current_round)
-        nextround = SingleTournamentRound.objects.get(tournament=tournament, roundnum=tournament.current_round+1)
+        try:
+            nextround = SingleTournamentRound.objects.get(tournament=tournament, roundnum=tournament.current_round+1)
+        except:
+            messages.warning(request, "All rounds are complete")
+            tournament.active = False
+            tournament.save()
+            return redirect('staff:tournamentlist')
         matches = currentround.matches.all()
         for i in matches:
             if i.winner is None:
