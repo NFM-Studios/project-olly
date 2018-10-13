@@ -259,7 +259,7 @@ class SingleEliminationTournament(models.Model):
             team_seeds.append(i)
 
         m = dict()
-        if bye == 2:
+        if bye == 2 or bye == 1:
             offset = 0
         else:
             offset = -2
