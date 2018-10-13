@@ -49,7 +49,7 @@
 
   <div class="carousel-inner">
     <div class="item active">
-      <img src="{% if staticinfo.slide1_image.url != "" %}{{ staticinfo.slide1_image.url }}{% else %}{% static 'binge/images/slider1.jpg' %}{% endif %}" alt="Slide1">
+      <img src="{% if staticinfo.slide1_img.url != "" %}{{ staticinfo.slide1_img.url }}{% else %}{% static 'binge/images/slider1.jpg' %}{% endif %}" alt="Slide1">
       <div class="carousel-caption">
         <h3>{{ staticinfo.bingeslide1big|linebreaksbr }}</h3>
         <p>{{ staticinfo.bingeslide1small }}</p>
@@ -58,7 +58,7 @@
     </div>
 
     <div class="item">
-      <img src="{% if staticinfo.slide2_image.url != "" %}{{ staticinfo.slide2_image.url }}{% else %}{% static 'binge/images/slider2.jpg' %}{% endif %}" alt="Slide2">
+      <img src="{% if staticinfo.slide2_img.url != "" %}{{ staticinfo.slide2_img.url }}{% else %}{% static 'binge/images/slider2.jpg' %}{% endif %}" alt="Slide2">
       <div class="carousel-caption">
         <h3>{{ staticinfo.bingeslide2big|linebreaksbr }}</h3>
         <p>{{ staticinfo.bingeslide2small }}</p>
@@ -67,7 +67,7 @@
     </div>
 
     <div class="item">
-      <img src="{% if staticinfo.slide3_image.url != "" %}{{ staticinfo.slide3_image.url }}{% else %}{% static 'binge/images/slider1.jpg' %}{% endif %}" alt="Slide3">
+      <img src="{% if staticinfo.slide3_img.url != "" %}{{ staticinfo.slide3_img.url }}{% else %}{% static 'binge/images/slider1.jpg' %}{% endif %}" alt="Slide3">
       <div class="carousel-caption">
         <h3>{{ staticinfo.bingeslide3big|linebreaksbr }}</h3>
         <p>{{ staticinfo.bingeslide3small }}</p>
