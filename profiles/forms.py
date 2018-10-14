@@ -30,6 +30,10 @@ class EditProfileForm(forms.ModelForm):
             'about_me',
             'xbl',
             'psn',
+            'steam',
+            'epic',
+            'lol',
+            'battlenet',
             'twitter_profile',
             'twitch_channel',
             'favorite_game',
@@ -44,10 +48,20 @@ class EditProfileForm(forms.ModelForm):
         self.fields['xbl'].widget.attrs.update({'name': 'password', 'class': 'form-control', 'style': 'width:30%'})
         self.fields['psn'].widget.attrs.update({'name': 'password_confirm', 'class': 'form-control',
                                                              'style': 'width:30%'})
-        self.fields['twitter_profile'].widget.attrs.update({'name': 'password', 'class': 'form-control', 'style': 'width:30%'})
-        self.fields['twitch_channel'].widget.attrs.update({'name': 'password', 'class': 'form-control', 'style': 'width:30%'})
-        self.fields['favorite_game'].widget.attrs.update({'name': 'password', 'class': 'form-control', 'style': 'width:30%'})
-        self.fields['favorite_console'].widget.attrs.update({'name': 'password', 'class': 'form-control', 'style': 'width:30%'})
+        self.fields['steam'].widget.attrs.update({'name': 'password_confirm', 'class': 'form-control', 'style':
+                                                  'width:30%'})
+        self.fields['epic'].widget.attrs.update({'name': 'password_confirm', 'class': 'form-control', 'style':
+                                                 'width:30%'})
+        self.fields['battlenet'].widget.attrs.update({'name': 'password_confirm', 'class': 'form-control', 'style':
+                                                      'width:30%'})
+        self.fields['twitter_profile'].widget.attrs.update({'name': 'password', 'class': 'form-control', 'style':
+                                                            'width:30%'})
+        self.fields['twitch_channel'].widget.attrs.update({'name': 'password', 'class': 'form-control', 'style':
+                                                           'width:30%'})
+        self.fields['favorite_game'].widget.attrs.update({'name': 'password', 'class': 'form-control', 'style':
+                                                          'width:30%'})
+        self.fields['favorite_console'].widget.attrs.update({'name': 'password', 'class': 'form-control', 'style':
+                                                             'width:30%'})
         self.fields['country'].widget.attrs.update({'name': 'password', 'class': 'form-control', 'style': 'width:30%'})
 
 
