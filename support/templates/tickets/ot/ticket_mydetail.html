@@ -5,8 +5,8 @@
   {% endblock %}
 
 {% block body %}
-
-<div class="container page">
+<div class="container page1">
+<div class="space90"></div>
 
            <div class="panel">
               <div class="panel-body">
@@ -50,9 +50,9 @@
                            <br>
                                    {% for i in comments %}
     {% if i.author.user.user_type == 'admin' or i.author.user.user_type == 'superadmin'%}
-    <b>{{ i.author }}, ({{ i.date }}): {{ i.comment }}</b>
+    <b style="font-size:14pt">{{ i.author }}, ({{ i.date }}): {{ i.comment }}</b>
     {% else %}
-    {{ i.author }}, ({{ i.date }}): {{ i.comment }}
+        <b style="font-size:14pt">{{ i.author }}, ({{ i.date }}): {{ i.comment }}</b>
     {% endif %}
     <br>
 {% endfor %}
