@@ -188,7 +188,7 @@ def givecredits(request, urlusername):
             transaction = Transaction(num=num, account=UserProfile.objects.get(user=username), cost=int(0.00),
                                       type='Credit', staff=request.user.username)
             transaction.save()
-            messages.success(request, "Added %s credits to %s" % (credits, urlusername))
+            messages.success(request, "Added %s credits to %s" % (num, urlusername))
             return redirect('staff:users')
 
 
