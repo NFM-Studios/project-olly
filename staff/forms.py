@@ -171,9 +171,10 @@ class AddTrophiesForm(forms.Form):
     bronze = forms.IntegerField(required=True)
     silver = forms.IntegerField(required=True)
     gold = forms.IntegerField(required=True)
+    earnings = forms.IntegerField(required=True)
 
     class Meta:
-        fields = ('Bronze', 'Silver', 'Gold')
+        fields = ('Bronze', 'Silver', 'Gold', 'earnings')
 
 
 class CreateProductForm(forms.ModelForm):
