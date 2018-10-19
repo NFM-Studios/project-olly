@@ -403,6 +403,6 @@ class LeaderboardView(View):
             messages.success(request, "Sorted by descending number of trophies")
             return render(request, 'teams/' + request.tenant + '/leaderboard.html', {'user_list': user_list, 'form': self.form_class(None)})
         else:
-            user_list = UserProfile.objects.order_by('user__username')
-            messages.error(request, 'No sort option selected, sorting by username')
+            user_list = UserProfile.objects.order_by('-xp')
+            messages.error(request, 'No sort option selected, sorting by descending xp')
             return render(request, 'teams/' + request.tenant + '/leaderboard.html', {'user_list': user_list, 'form': self.form_class(None)})
