@@ -28,6 +28,8 @@ PLATFORMS_CHOICES = getattr(settings, 'MATCHES_PLATFORMS_CHOICES', (
     (4, 'Nintendo Switch'),
     (5, 'Playstation 3'),
     (6, 'Xbox 360'),
+    (7, 'All Consoles'),
+    (8, 'All Platforms'),
 ))
 
 TEAMFORMAT_CHOICES = getattr(settings, 'MATCHES_TEAMFORMAT_CHOICES', (
