@@ -66,7 +66,12 @@
         {% elif tournament.platform == 5 %}
         Playstation 3
         {% elif tournament.platform == 6 %}
-        XBOX 360{% endif %}</li>
+        XBOX 360
+        {% elif tournament.platform == 7 %}
+        All Consoles
+        {% elif tournament.platform == 8 %}
+        All Platforms
+       {% endif %}</li>
        <li><b>Starts:</b> {{ tournament.start }}</li>
       <li><b>Game:</b> {% if tournament.game == 0 %}
         No Game Set
