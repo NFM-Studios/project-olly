@@ -231,13 +231,13 @@ def givetrophies(request, urlusername):
             user.num_silver += form.cleaned_data['silver']
             user.num_gold += form.cleaned_data['gold']
             user.save()
-            transaction = Transaction(num=form.cleaned_data['bronze'], account=UserProfile.objects.get(user=user),
+            transaction = Transaction(num=form.cleaned_data['bronze'], account=user,
                                       cost=int(0.00), type='Bronze Trophies', staff=user.username)
             transaction.save()
-            transaction = Transaction(num=form.cleaned_data['silver'], account=UserProfile.objects.get(user=user),
+            transaction = Transaction(num=form.cleaned_data['silver'], account=user,
                                       cost=int(0.00), type='Silver Trophies', staff=user.username)
             transaction.save()
-            transaction = Transaction(num=form.cleaned_data['gold'], account=UserProfile.objects.get(user=user),
+            transaction = Transaction(num=form.cleaned_data['gold'], account=user,
                                       cost=int(0.00), type='Gold Trophies', staff=user.username)
             transaction.save()
             messages.success(request, "Added trophies to %s" % urlusername)
