@@ -105,6 +105,8 @@ class RemoveUserForm(forms.Form):
         players = TeamInvite.objects.filter(team=team, accepted=True)
         super().__init__(*args, **kwargs)
         self.fields['remove'].queryset = players
+        self.fields['remove'].widget.attrs.update({'name': 'remove', 'class': 'form-control', 'style': 'background-color: black'})
+
 
 
 class RemovePlayerFormPost(forms.Form):
