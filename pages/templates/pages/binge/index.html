@@ -227,6 +227,7 @@
          <img src="{% static 'binge/images/avatar.jpg' %}">
 		 {% else %}
 		 <img src="{{ player.image.url }}">
+		 {% endif %}
             <div class="name"><h4><b><a href="{% url 'profiles:profile' urlusername=player %}">{{ player }}</a></b></h4>
          <!--<h6><span>Rank 1st</span></h6>-->
          <h5>{{ player.xp }} XP</h5></div>
