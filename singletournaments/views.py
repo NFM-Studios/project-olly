@@ -122,12 +122,17 @@ class SingleTournamentJoin(View):
             utc = pytz.UTC
             now = utc.localize(datetime.datetime.now())
 
-            if tournament.open_register >= now:
+            """if tournament.open_register >= now:
                 messages.error(request, 'Registration for this tournament is not open yet')
                 return redirect('singletournaments:list')
 
             if tournament.close_register <= now:
                 messages.error(request, 'Registration for this tournament is closed already')
+                return redirect('singletournaments:list')
+            """
+
+            if not tournament.allow_register:
+                messages.error(request, 'Registration for this tournament is not open currently')
                 return redirect('singletournaments:list')
 
             if tournament.bracket_generated:
