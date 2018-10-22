@@ -43,6 +43,9 @@ class SingleEliminationTournament(models.Model):
     # dont allow people to join once registration is closed
     close_register = models.DateTimeField()
 
+    # temp fix for registration since timezones are being a bitch
+    allow_register = models.BooleanField(default=False)
+
     # general information about the tournament
     info = models.TextField(default="No information provided")
 
