@@ -14,16 +14,20 @@ Transaction List
 <table class="table table-dark">
 <th>ID</th>
 <th>Date</th>
+<th>Type</th>
 <th>Cost</th>
 <th>Account</th>
-<th>Credits</th>
+<th>Staff</th>
+<th>Number</th>
 {% for transaction in transaction_list %}
 <tr>
 <td>{{ transaction.id }}</td>
 <td>{{ transaction.date }}</td>
+<td>{{ transaction.type }}</td>
 <td>{{ transaction.cost }}</td>
 <td>{{ transaction.account }}</td>
-<td>{{ transaction.credits }}</td>
+<td>{{ transaction.staff }}</td>
+<td>{{ transaction.num }}</td>
 </tr>
 {% endfor %}
 </table>
