@@ -223,10 +223,10 @@
 
            {% for player in playerlist %}
         <div class="top-player">
-		{% if player.image.url == "" %}
-         <img src="{% static 'binge/images/avatar.jpg' %}">
-		 {% else %}
-		 <img src="{{ player.image.url }}">
+		{% if player.image.url != "" %}
+         <img src="{{ player.image.url }}">
+         {% else %}
+           <img src="{% static 'binge/images/avatar.jpg' %}">
 		 {% endif %}
             <div class="name"><h4><b><a href="{% url 'profiles:profile' urlusername=player %}">{{ player }}</a></b></h4>
          <!--<h6><span>Rank 1st</span></h6>-->
