@@ -29,7 +29,7 @@ class Ticket(models.Model):
         return self.comments.latest('date')
 
     def __unicode__(self):
-        return "%s# %s" % (self.id, self.subject)
+        return "%s# %s" % (self.id, self.category)
 
     def is_closed(self):
         return self.status in CLOSED_STATUSES
