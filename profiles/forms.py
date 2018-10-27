@@ -70,3 +70,5 @@ class SortForm(forms.Form):      # it works but is messy af. should be replaced 
     sort_xp_desc = forms.BooleanField(required=False)
     sort_trophies_asc = forms.BooleanField(required=False)
     sort_trophies_desc = forms.BooleanField(required=False)
+    sort_rank_asc = forms.BooleanField(required=False)
+    sort_rank_desc = forms.BooleanField(required=False)
