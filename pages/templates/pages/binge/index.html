@@ -223,8 +223,8 @@
 
            {% for player in playerlist %}
         <div class="top-player">
-		{% if player.image.url != "" %}
-         <img src="{{ player.image.url }}">
+		{% if player.profile_picture.url != "" %}
+         <img src="{{ player.profile_picture.url }}">
          {% else %}
            <img src="{% static 'binge/images/avatar.jpg' %}">
 		 {% endif %}
