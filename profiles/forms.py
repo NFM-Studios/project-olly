@@ -62,7 +62,8 @@ class EditProfileForm(forms.ModelForm):
                                                           'width:30%'})
         self.fields['favorite_console'].widget.attrs.update({'name': 'password', 'class': 'form-control', 'style':
                                                              'width:30%'})
-        self.fields['country'].widget.attrs.update({'name': 'password', 'class': 'form-control', 'style': 'width:30%'})
+        self.fields['country'].widget.attrs.update({'name': 'password', 'class': 'form-control',
+                                                   'style': 'background-color: black;width:30%'})
 
 
 class SortForm(forms.Form):      # it works but is messy af. should be replaced with something like http://img.mulveyben.me/img/chrome_2018-03-11_22-04-28.png
