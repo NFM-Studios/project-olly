@@ -47,7 +47,7 @@ def show_me_the_money(sender, **kwargs):
     itemtype = item[0]
     num = int(item[1])
     if ipn_obj.payment_status == ST_PP_COMPLETED:
-        if ipn_obj.receiver_email != settings.PAYPAL_EMAIL:
+        if ipn_obj.business != settings.PAYPAL_EMAIL:
             tx = Transaction(cost=0, account=username, num=0, type='PayPal issue - mismatch with email')
             tx.save()
         price = int(product.amount)
