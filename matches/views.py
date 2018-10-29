@@ -24,13 +24,24 @@ class TournamentMatchDetailView(DetailView):
     def get(self, request, **kwargs):
         pk = self.kwargs['pk']
         match = get_object_or_404(Match, id=pk)
-        team1 = Team.objects.get(id=match.hometeam_id)
-        team2 = Team.objects.get(id=match.awayteam_id)
-        aplayers = team2.players.all()
-        hplayers = team1.players.all()
-        return render(request, 'matches/' + request.tenant + '/tournament_matches_detail.html', {'x': pk, 'match': match,
-                                                                                                 'aplayers': aplayers,
-                                                                                                 'hplayers': hplayers})
+        if not match.bye_2 and not match.bye_1:
+            team1 = Team.objects.get(id=match.hometeam_id)
+            team2 = Team.objects.get(id=match.awayteam_id)
+            aplayers = team2.players.all()
+            hplayers = team1.players.all()
+            return render(request, 'matches/' + request.tenant + '/tournament_matches_detail.html',
+                          {'x': pk, 'match': match,
+                           'aplayers': aplayers,
+                           'hplayers': hplayers})
+        elif match.bye_1:
+            team1 = Team.objects.get(id=match.hometeam_id)
+            hplayers = team1.players.all()
+            return render(request, 'matches/' + request.tenant + '/tournament_matches_detail.html',
+                          {'x': pk, 'match': match,
+                           'hplayers': hplayers})
+        elif match.bye_2:
+            return render(request, 'matches/' + request.tenant + '/tournament_matches_detail.html',
+                          {'x': pk, 'match': match})
 
 
 class MatchReportCreateView(View):
