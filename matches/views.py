@@ -56,105 +56,103 @@ class MatchReportCreateView(View):
         report = form.instance
         report.reporting_user = self.request.user
         match = Match.objects.get(id=self.kwargs['pk'])
-        team1 = Team.objects.get(id=match.hometeam_id)
-        team2 = Team.objects.get(id=match.awayteam_id)
-        team1_reporters = TeamInvite.objects.filter(team=team1, hasPerms=True)
-        team2_reporters = TeamInvite.objects.filter(team=team2, hasPerms=True)
+        if not match.bye_2 and not match.bye_1:
+            team1 = Team.objects.get(id=match.hometeam_id)
+            team2 = Team.objects.get(id=match.awayteam_id)
+            team1_reporters = TeamInvite.objects.filter(team=team1, hasPerms=True)
+            team2_reporters = TeamInvite.objects.filter(team=team2, hasPerms=True)
 
-        if TeamInvite.objects.filter(user=self.request.user, team=team1).exists():
-            reporter_team = TeamInvite.objects.get(user=self.request.user, team=team1)
-        elif TeamInvite.objects.filter(user=self.request.user, team=team2).exists():
-            reporter_team = TeamInvite.objects.get(user=self.request.user, team=team2)
-        else:
-            messages.error(request, message="You aren't a part of the teams in this match")
-            return redirect('matches:detail', pk=pk)
+            if TeamInvite.objects.filter(user=self.request.user, team=team1).exists():
+                reporter_team = TeamInvite.objects.get(user=self.request.user, team=team1)
+            elif TeamInvite.objects.filter(user=self.request.user, team=team2).exists():
+                reporter_team = TeamInvite.objects.get(user=self.request.user, team=team2)
+            else:
+                messages.error(request, message="You aren't a part of the teams in this match")
+                return redirect('matches:detail', pk=pk)
 
-        if MatchReport.objects.filter(match=match.id, reporting_team=team1).exists() and reporter_team.id == team1.id:
-            messages.error(request, "Your team has already reported this match")
-            return redirect('matches:detail', pk=pk)
-        elif MatchReport.objects.filter(match=match.id, reporting_team=team2).exists() and reporter_team.id == team2.id:
-            messages.error(request, "Your team has already reported this match")
-            return redirect('matches:detail', pk=pk)
-        else:
-            if reporter_team in team1_reporters or reporter_team in team2_reporters:
-                report.match = match
-                report.reporting_team = reporter_team.team
-                reported_team = Team.objects.get(id=form.data['reported_winner'])
-                report.reported_winner = reported_team
-                if reporter_team.team == team1:
-                    match.team1reported = True
-                    match.team1reportedwinner = report.reported_winner
-                    match.team1reportedwinner_id = report.reported_winner.id
-                elif reporter_team.team == team2:
-                    match.team2reported = True
-                    match.team2reportedwinner = report.reported_winner
-                    match.team2reportedwinner_id = report.reported_winner.id
-                else:
-                    messages.error(self.request, "Something went wrong (this shouldn't be seen)")
-                    return redirect('singletournaments:list')
-                match.save()
-                report.save()
-                if match.team1reported and match.team2reported:
-                    reports = MatchReport.objects.filter(match_id=match.id)
-                    report1 = MatchReport.objects.get(reporting_team=team1, match_id=match.id)
-                    report2 = MatchReport.objects.get(reporting_team=team2, match_id=match.id)
-                    if reports[0].reported_winner != reports[1].reported_winner:
-                        messages.warning(self.request,
-                                         "Both teams have reported different winners; a dispute has been created")
-                        # here
-                        #dispute = DisputeCreateForm()
-                        #dispute.auto_id = match.id
-                        #dispute.match = match
-                        #dispute.team1 = team1
-                        #dispute.team2 = team2
-                        #dispute.team1origreporter = report1.reporting_user
-                        #dispute.team2origreporter = report2.reporting_user
-
-                        dispute = MatchDispute(id=match.id, match=match, team1=team1, team2=team2,
-                                               team1origreporter=report1.reporting_user,
-                                               team2origreporter=report2.reporting_user)
-                        dispute.save()
-                        # to here might not stay
-                        match.disputed = True
-                        match.save()
-                        return redirect('matches:dispute', pk=dispute.pk)
-                    if match.team1reported:
-                        # team 1 reported
-                        if match.team1reportedwinner == team2:
-                            # team1 is reporting that team2 won
-                            # declare team2 as winner
-                            match.winner = team2
-                            match.loser = team1
-                            match.save()
-                        elif match.team1reportedwinner == team1:
-                            # have to wait for the other team to confirm
-                            pass
-                    elif match.team2reported:
-                        if match.team2reportedwinner == team1:
-                            # team 1 wins
-                            match.winner = team1
-                            match.loser = team2
-                            match.save()
-                        elif match.team2reportedwinner == team2:
-                            pass
-                    if match.team1reported and match.team2reported:
-                        if match.team2reportedwinner == team2 and match.team1reportedwinner == team2:
-                            match.winner = team2
-                            match.loser = team1
-                            match.save()
-                        elif match.team2reportedwinner == team1 and match.team1reportedwinner == team1:
-                            match.winner = team1
-                            match.loser = team2
-                            match.save()
-                #self.success_url = reverse('matches:detail', args=[match.id])
-                messages.success(self.request, 'Your Report has been successfully submitted')
+            if MatchReport.objects.filter(match=match.id, reporting_team=team1).exists() and reporter_team.id == team1.id:
+                messages.error(request, "Your team has already reported this match")
+                return redirect('matches:detail', pk=pk)
+            elif MatchReport.objects.filter(match=match.id, reporting_team=team2).exists() and reporter_team.id == team2.id:
+                messages.error(request, "Your team has already reported this match")
                 return redirect('matches:detail', pk=pk)
             else:
-                messages.error(self.request, "You don't have permissions to report on this match")
-                return redirect('singletournaments:list')
-        #else:
-        #    messages.error(request, "A report has already been created for this match")
-        #    return redirect('matches:detail', pk=pk)
+                if reporter_team in team1_reporters or reporter_team in team2_reporters:
+                    report.match = match
+                    report.reporting_team = reporter_team.team
+                    reported_team = Team.objects.get(id=form.data['reported_winner'])
+                    report.reported_winner = reported_team
+                    if reporter_team.team == team1:
+                        match.team1reported = True
+                        match.team1reportedwinner = report.reported_winner
+                        match.team1reportedwinner_id = report.reported_winner.id
+                    elif reporter_team.team == team2:
+                        match.team2reported = True
+                        match.team2reportedwinner = report.reported_winner
+                        match.team2reportedwinner_id = report.reported_winner.id
+                    else:
+                        messages.error(self.request, "Something went wrong (this shouldn't be seen)")
+                        return redirect('singletournaments:list')
+                    match.save()
+                    report.save()
+                    if match.team1reported and match.team2reported:
+                        reports = MatchReport.objects.filter(match_id=match.id)
+                        report1 = MatchReport.objects.get(reporting_team=team1, match_id=match.id)
+                        report2 = MatchReport.objects.get(reporting_team=team2, match_id=match.id)
+                        if reports[0].reported_winner != reports[1].reported_winner:
+                            messages.warning(self.request,
+                                             "Both teams have reported different winners; a dispute has been created")
+
+                            dispute = MatchDispute(id=match.id, match=match, team1=team1, team2=team2,
+                                                   team1origreporter=report1.reporting_user,
+                                                   team2origreporter=report2.reporting_user)
+                            dispute.save()
+                            match.disputed = True
+                            match.save()
+                            return redirect('matches:dispute', pk=dispute.pk)
+                        if match.team1reported:
+                            # team 1 reported
+                            if match.team1reportedwinner == team2:
+                                # team1 is reporting that team2 won
+                                # declare team2 as winner
+                                match.winner = team2
+                                match.loser = team1
+                                match.save()
+                            elif match.team1reportedwinner == team1:
+                                # have to wait for the other team to confirm
+                                pass
+                        elif match.team2reported:
+                            if match.team2reportedwinner == team1:
+                                # team 1 wins
+                                match.winner = team1
+                                match.loser = team2
+                                match.save()
+                            elif match.team2reportedwinner == team2:
+                                pass
+                        if match.team1reported and match.team2reported:
+                            if match.team2reportedwinner == team2 and match.team1reportedwinner == team2:
+                                match.winner = team2
+                                match.loser = team1
+                                match.save()
+                            elif match.team2reportedwinner == team1 and match.team1reportedwinner == team1:
+                                match.winner = team1
+                                match.loser = team2
+                                match.save()
+                    #self.success_url = reverse('matches:detail', args=[match.id])
+                    messages.success(self.request, 'Your Report has been successfully submitted')
+                    return redirect('matches:detail', pk=pk)
+                else:
+                    messages.error(self.request, "You don't have permissions to report on this match")
+                    return redirect('singletournaments:list')
+            #else:
+            #    messages.error(request, "A report has already been created for this match")
+            #    return redirect('matches:detail', pk=pk)
+        elif match.bye_1:
+            messages.error(request, 'There is only one team in this match, reporting is unnecessary')
+            return redirect('matches:list')
+        elif match.bye_2:
+            messages.error(request, 'There are no teams in this match')
+            return redirect('matches:list')
 
 
 class MatchDisputeReportCreateView(CreateView):
