@@ -109,6 +109,8 @@
                    </div>
                   </div>
 
+{% if not match.bye_1 and not match.bye_2 %}
+
   <div class="col-xs-12 align-self-center bot20">
 
   <div class="col-xs-4 center">
@@ -181,6 +183,17 @@
 				</div>
 
             </div>
+{% endif %}
+
+{% if match.bye_1 %}
+  <h2>BYE MATCH with Team {{ match.hometeam }}</h2>
+{% endif %}
+
+ {% if match.bye_2 %}
+
+     <h2>BYE</h2>
+
+ {% endif %}
 </div>
 </div>
 </div>
