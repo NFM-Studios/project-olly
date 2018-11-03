@@ -41,6 +41,9 @@ class Match(models.Model):
 
     disputed = models.BooleanField(default=False)
 
+    bye_1 = models.BooleanField(default=False)
+
+    bye_2 = models.BooleanField(default=False)
 
     class Meta:
         verbose_name_plural = "matches"

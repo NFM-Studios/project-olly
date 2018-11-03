@@ -23,7 +23,7 @@
     <br />
   <label>Password</label>
   {{ form.password }}
-{% include 'profiles/captcha.html' %}
+{% include 'profiles/stock/captcha.html' %}
   <label><input name="remember me" type="checkbox">Keep me logged in</label> <br />
   <button class="btn btn-success" type="submit">Login</button> <a href="{% url 'reset_password' %}" class="btn btn-primary">Forgot password?</a>
 </form>
