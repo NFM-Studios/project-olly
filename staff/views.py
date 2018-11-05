@@ -5,7 +5,7 @@ from staff.forms import StaticInfoForm, ArticleCreateForm, EditUserForm, TicketC
     TicketStatusChangeForm, EditTournamentForm, DeclareMatchWinnerForm, DeclareMatchWinnerPost,\
     DeclareTournamentWinnerForm, TicketSearchForm, RemovePlayerForm, RemovePlayerFormPost, AddCreditsForm,\
     AddTrophiesForm, AddXPForm, SingleRulesetCreateForm, PartnerForm, EditNewsPostForm, CreateProductForm,\
-    DeleteProductForm, RemovePostForm, EditMatchForm
+    DeleteProductForm, RemovePostForm, EditMatchForm, CreateTournamentForm
 from profiles.models import UserProfile, BannedUser
 from profiles.forms import SortForm
 from django.contrib.auth.models import User
@@ -330,23 +330,32 @@ def edit_tournament(request, pk):
         else:
             tournamentobj = SingleEliminationTournament.objects.get(pk=pk)
             if not tournamentobj.bracket_generated:
-                form = EditTournamentForm(instance=tournamentobj)
+                form = EditTournamentForm(obj=tournamentobj)
                 return render(request, 'staff/edittournament.html', {'form': form, 'pk': pk})
             else:
                 messages.error(request, "The bracket has been generated, you cannot edit the tournament further")
                 return redirect('staff:tournamentlist')
 
 
-class CreateTournament(CreateView):
-    form_class = EditTournamentForm
-    template_name = 'staff/createtournament.html'
-
-    def form_valid(self, form):
-        tournament = form.instance
-        tournament.save()
-        self.success_url = reverse('staff:tournamentlist')
-        messages.success(self.request, 'Your tournament has been successfully created')
-        return super(CreateTournament, self).form_valid(form)
+def create_tournament(request):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        if request.method == 'GET':
+            form = CreateTournamentForm()
+            return render(request, 'staff/createtournament.html', {'form': form})
+        else:
+            form = CreateTournamentForm(request.POST)
+            if form.is_valid():
+                tournament = form.instance
+                tournament.save()
+                messages.success(request, 'Created tournament')
+                return redirect('staff:tournament_detail', pk=tournament.id)
+            else:
+                form = CreateTournamentForm(request.POST)
+                return render(request, 'staff/createtournament.html', {'form':form})
 
 
 def generate_bracket(request, pk):  # Launch tournament
