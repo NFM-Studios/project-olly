@@ -32,16 +32,17 @@
      <div class="panel">
       <div class="panel-body">
 
+      {% for tournament in list %}
       <div class="col-xs-12 col-sm-6 bot10">
        <div class="panel-default">
         <div class="panel-body current-home">
          <div class="col-xs-3 info1" style="padding:5px;"><img src="{% static 'cashout/images/bops4-icon.png' %}"/></div>
          <div class="col-xs-9 info1">
           <div class="desc">
-           <h3>4V4 SND  Launch</h3>
-           Size: 32 Teams<br>
-           Prize Pool: $100<br>
-           Start Date: Thursday 9:00 PM EST<br>
+           <h3>{{ tournament.name }}</h3>
+           Size: {{ tournament.size }} Teams<br>
+           Prize Pool: {{ tournament.prize1 }}<br>
+           Start Date: {{ tournament.start }}<br>
           </div>
          </div>
          <div style="clear:both;"></div>
@@ -50,101 +51,8 @@
         </div>
        </div>
       </div>
+          {% endfor %}
 
-     <div class="col-xs-12 col-sm-6 bot10">
-       <div class="panel-default">
-        <div class="panel-body current-home">
-         <div class="col-xs-3 info1" style="padding:5px;"><img src="{% static 'cashout/images/bops4-icon.png' %}"/></div>
-         <div class="col-xs-9 info1">
-          <div class="desc">
-           <h3>4V4 SND  Launch</h3>
-           Size: 32 Teams<br>
-           Prize Pool: $100<br>
-           Start Date: Thursday 9:00 PM EST<br>
-          </div>
-         </div>
-         <div style="clear:both;"></div>
-         <div class="col-xs-3" style="padding:5px;"><img src="{% static 'cashout/images/ps4-icon.png' %}"></div>
-         <div class="col-xs-9"><a class="btn btn-success btn-sm btn-block btn-grad1" href="#"><b style="color:#FFF;">JOIN NOW</b> </a></div>
-        </div>
-       </div>
-      </div>
-
-      <div class="col-xs-12 col-sm-6 bot10">
-       <div class="panel-default">
-        <div class="panel-body current-home">
-         <div class="col-xs-3 info1" style="padding:5px;"><img src="{% static 'cashout/images/bops4-icon.png' %}"/></div>
-         <div class="col-xs-9 info1">
-          <div class="desc">
-           <h3>4V4 SND  Launch</h3>
-           Size: 32 Teams<br>
-           Prize Pool: $100<br>
-           Start Date: Thursday 9:00 PM EST<br>
-          </div>
-         </div>
-         <div style="clear:both;"></div>
-         <div class="col-xs-3" style="padding:5px;"><img src="{% static 'cashout/images/ps4-icon.png' %}"></div>
-         <div class="col-xs-9"><a class="btn btn-success btn-sm btn-block btn-grad1" href="#"><b style="color:#FFF;">JOIN NOW</b> </a></div>
-        </div>
-       </div>
-      </div>
-
-      <div class="col-xs-12 col-sm-6 bot10">
-       <div class="panel-default">
-        <div class="panel-body current-home">
-         <div class="col-xs-3 info1" style="padding:5px;"><img src="{% static 'cashout/images/bops4-icon.png' %}"/></div>
-         <div class="col-xs-9 info1">
-          <div class="desc">
-           <h3>4V4 SND  Launch</h3>
-           Size: 32 Teams<br>
-           Prize Pool: $100<br>
-           Start Date: Thursday 9:00 PM EST<br>
-          </div>
-         </div>
-         <div style="clear:both;"></div>
-         <div class="col-xs-3" style="padding:5px;"><img src="{% static 'cashout/images/ps4-icon.png' %}"></div>
-         <div class="col-xs-9"><a class="btn btn-success btn-sm btn-block btn-grad1" href="#"><b style="color:#FFF;">JOIN NOW</b> </a></div>
-        </div>
-       </div>
-      </div>
-
-      <div class="col-xs-12 col-sm-6 bot10">
-       <div class="panel-default">
-        <div class="panel-body current-home">
-         <div class="col-xs-3 info1" style="padding:5px;"><img src="{% static 'cashout/images/bops4-icon.png' %}"/></div>
-         <div class="col-xs-9 info1">
-          <div class="desc">
-           <h3>4V4 SND  Launch</h3>
-           Size: 32 Teams<br>
-           Prize Pool: $100<br>
-           Start Date: Thursday 9:00 PM EST<br>
-          </div>
-         </div>
-         <div style="clear:both;"></div>
-         <div class="col-xs-3" style="padding:5px;"><img src="{% static 'cashout/images/ps4-icon.png' %}"></div>
-         <div class="col-xs-9"><a class="btn btn-success btn-sm btn-block btn-grad1" href="#"><b style="color:#FFF;">JOIN NOW</b> </a></div>
-        </div>
-       </div>
-      </div>
-
-      <div class="col-xs-12 col-sm-6 bot10">
-       <div class="panel-default">
-        <div class="panel-body current-home">
-         <div class="col-xs-3 info1" style="padding:5px;"><img src="{% static 'cashout/images/bops4-icon.png' %}"/></div>
-         <div class="col-xs-9 info1">
-          <div class="desc">
-           <h3>4V4 SND  Launch</h3>
-           Size: 32 Teams<br>
-           Prize Pool: $100<br>
-           Start Date: Thursday 9:00 PM EST<br>
-          </div>
-         </div>
-         <div style="clear:both;"></div>
-         <div class="col-xs-3" style="padding:5px;"><img src="{% static 'cashout/images/ps4-icon.png' %}"></div>
-         <div class="col-xs-9"><a class="btn btn-success btn-sm btn-block btn-grad1" href="#"><b style="color:#FFF;">JOIN NOW</b> </a></div>
-        </div>
-       </div>
-      </div>
 
       <div class="col-xs-12 center">
        <a href="#"><img src="{% static 'cashout/images/order-premium.jpg' %}"></a>
@@ -160,7 +68,12 @@
      <div class="title">PLAYER<br><b>LEADERBOARD</b></div>
      <div class="panel">
       <div class="panel-body">
+      {% if player_list.count == 0 %}
+      No players!
+      {% endif %}
 
+
+   {% for player in player_list %}
         <div class="col-xs-12 current-home bot10" style="background:#1d1d1d;border-right:4px solid #02b264;border-bottom:1px solid #02b264;padding:10px;">
           <div class="row">
             <div class="col-xs-4 info1">
@@ -168,148 +81,17 @@
             </div>
             <div class="col-xs-8 info1">
               <div class="desc">
-              <h3>JANKDUB</h3>
+                  <h3><a href="{% url 'profiles:profile' urlusername=player %}">{{ player }}</a></h3>
               XP POINTS
-              <b style="color:#02b264;">9,911</b></b>
+              <b style="color:#02b264;">{{ player.xp }}</b>
               </div>
             </div>
            </div>
           </div>
+    {% endfor %}
 
-          <div class="col-xs-12 current-home bot10" style="background:#1d1d1d;border-right:4px solid #02b264;border-bottom:1px solid #02b264;padding:10px;">
-          <div class="row">
-            <div class="col-xs-4 info1">
-             <img class="ava1" src="{% static 'cashout/images/avatar.png' %}">
-            </div>
-            <div class="col-xs-8 info1">
-              <div class="desc">
-              <h3>JANKDUB</h3>
-              XP POINTS
-              <b style="color:#02b264;">9,911</b></b>
-              </div>
-            </div>
-           </div>
-          </div>
 
-          <div class="col-xs-12 current-home bot10" style="background:#1d1d1d;border-right:4px solid #02b264;border-bottom:1px solid #02b264;padding:10px;">
-          <div class="row">
-            <div class="col-xs-4 info1">
-             <img class="ava1" src="{% static 'cashout/images/avatar.png' %}">
-            </div>
-            <div class="col-xs-8 info1">
-              <div class="desc">
-              <h3>JANKDUB</h3>
-              XP POINTS
-              <b style="color:#02b264;">9,911</b></b>
-              </div>
-            </div>
-           </div>
-          </div>
 
-          <div class="col-xs-12 current-home bot10" style="background:#1d1d1d;border-right:4px solid #02b264;border-bottom:1px solid #02b264;padding:10px;">
-          <div class="row">
-            <div class="col-xs-4 info1">
-             <img class="ava1" src="{% static 'cashout/images/avatar.png' %}">
-            </div>
-            <div class="col-xs-8 info1">
-              <div class="desc">
-              <h3>JANKDUB</h3>
-              XP POINTS
-              <b style="color:#02b264;">9,911</b></b>
-              </div>
-            </div>
-           </div>
-          </div>
-
-          <div class="col-xs-12 current-home bot10" style="background:#1d1d1d;border-right:4px solid #02b264;border-bottom:1px solid #02b264;padding:10px;">
-          <div class="row">
-            <div class="col-xs-4 info1">
-             <img class="ava1" src="{% static 'cashout/images/avatar.png' %}">
-            </div>
-            <div class="col-xs-8 info1">
-              <div class="desc">
-              <h3>JANKDUB</h3>
-              XP POINTS
-              <b style="color:#02b264;">9,911</b></b>
-              </div>
-            </div>
-           </div>
-          </div>
-
-          <div class="col-xs-12 current-home bot10" style="background:#1d1d1d;border-right:4px solid #02b264;border-bottom:1px solid #02b264;padding:10px;">
-          <div class="row">
-            <div class="col-xs-4 info1">
-             <img class="ava1" src="{% static 'cashout/images/avatar.png' %}">
-            </div>
-            <div class="col-xs-8 info1">
-              <div class="desc">
-              <h3>JANKDUB</h3>
-              XP POINTS
-              <b style="color:#02b264;">9,911</b></b>
-              </div>
-            </div>
-           </div>
-          </div>
-
-          <div class="col-xs-12 current-home bot10" style="background:#1d1d1d;border-right:4px solid #02b264;border-bottom:1px solid #02b264;padding:10px;">
-          <div class="row">
-            <div class="col-xs-4 info1">
-             <img class="ava1" src="{% static 'cashout/images/avatar.png' %}">
-            </div>
-            <div class="col-xs-8 info1">
-              <div class="desc">
-              <h3>JANKDUB</h3>
-              XP POINTS
-              <b style="color:#02b264;">9,911</b></b>
-              </div>
-            </div>
-           </div>
-          </div>
-
-          <div class="col-xs-12 current-home bot10" style="background:#1d1d1d;border-right:4px solid #02b264;border-bottom:1px solid #02b264;padding:10px;">
-          <div class="row">
-            <div class="col-xs-4 info1">
-             <img class="ava1" src="{% static 'cashout/images/avatar.png' %}">
-            </div>
-            <div class="col-xs-8 info1">
-              <div class="desc">
-              <h3>JANKDUB</h3>
-              XP POINTS
-              <b style="color:#02b264;">9,911</b></b>
-              </div>
-            </div>
-           </div>
-          </div>
-
-          <div class="col-xs-12 current-home bot10" style="background:#1d1d1d;border-right:4px solid #02b264;border-bottom:1px solid #02b264;padding:10px;">
-          <div class="row">
-            <div class="col-xs-4 info1">
-             <img class="ava1" src="{% static 'cashout/images/avatar.png' %}">
-            </div>
-            <div class="col-xs-8 info1">
-              <div class="desc">
-              <h3>JANKDUB</h3>
-              XP POINTS
-              <b style="color:#02b264;">9,911</b></b>
-              </div>
-            </div>
-           </div>
-          </div>
-
-          <div class="col-xs-12 current-home bot10" style="background:#1d1d1d;border-right:4px solid #02b264;border-bottom:1px solid #02b264;padding:10px;">
-          <div class="row">
-            <div class="col-xs-4 info1">
-             <img class="ava1" src="{% static 'cashout/images/avatar.png' %}">
-            </div>
-            <div class="col-xs-8 info1">
-              <div class="desc">
-              <h3>JANKDUB</h3>
-              XP POINTS
-              <b style="color:#02b264;">9,911</b></b>
-              </div>
-            </div>
-           </div>
-          </div>
 
       </div>
      </div>
