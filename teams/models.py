@@ -17,9 +17,9 @@ class Team(models.Model):
     # link your website in case its an org?
     website = models.CharField(max_length=100, default='No Website', blank=True)
     # link ur twitter, and maybe eventually embed the twitter feed
-    twitter = models.CharField(max_length=15, default='No Twitter Linked', blank=True)
+    twitter = models.CharField(max_length=15, default='None Linked', blank=True)
     # link ur twitch, maybe integrate the twitch api
-    twitch = models.CharField(max_length=15, default='No Twitch Linked', blank=True)
+    twitch = models.CharField(max_length=15, default='None Linked', blank=True)
     # whoever filled out the form to create the team, limited to only one
     founder = models.ForeignKey(User, related_name='founder', on_delete=models.CASCADE)
     # basically founder permissions, but to other people that didn't create the actual team
@@ -38,6 +38,7 @@ class Team(models.Model):
     numtournyloss = models.SmallIntegerField(default=0)
 
     totalxp = models.PositiveSmallIntegerField(default=0)
+    rank = models.PositiveSmallIntegerField(default=100)
 
     class Meta:
         verbose_name = 'Team'
@@ -55,6 +56,11 @@ class Team(models.Model):
         for invite in TeamInvite.objects.filter(team_id=self.id):
             userprofile = UserProfile.objects.get(user=invite.user)
             self.totalxp += userprofile.xp
+        self.save()
+
+    def get_rank(self):
+        self.rank = int(Team.objects.filter(xp__gt=self.totalxp).count()) + 1
+        self.save()
 
     def __str__(self):
         return self.name

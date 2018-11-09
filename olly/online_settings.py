@@ -46,9 +46,9 @@ EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.mailgun.org'
 EMAIL_HOST_USER = 'online@mg.nfmstudios.com'
 EMAIL_HOST_PASSWORD = 'W4kw86E9D9LunBcSaZSycgVpvHLPyAgf'
-FROM_EMAIL = "NFM Dev Environment <noreply@nfmstudios.com>"
+FROM_EMAIL = "Online Tournament <noreply@playot.se>"
 EMAIL_PORT = 587
-PAYPAL_EMAIL = "steven.young.1-merchant@gmail.com"
+PAYPAL_EMAIL = "pay@playot.se"
 
 # Captcha
 GOOGLE_RECAPTCHA_SECRET_KEY = '6LeDXnEUAAAAAMzomeFz_-ZOn3vJW3Dm9FIsoYUt'

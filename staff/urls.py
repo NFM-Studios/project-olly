@@ -25,6 +25,7 @@ urlpatterns = [
     url(r'^users/givecredits/(?P<urlusername>\w+)/$', login_required(views.givecredits)),
     url(r'^users/givexp/(?P<urlusername>\w+)/$', login_required(views.givexp)),
     url(r'^users/givetrophies/(?P<urlusername>\w+)/$', login_required(views.givetrophies)),
+    url(r'^users/verify/(?P<urlusername>\w+)/$', login_required(views.verify)),
 
 
     url(r'^tournaments/$', login_required(views.tournaments), name='tournamentlist'),
@@ -33,7 +34,7 @@ urlpatterns = [
     url(r'^tournaments/rulesets/create$', login_required(views.ruleset_create), name='tournamentrulesetcreate'),
     url(r'^tournaments/(?P<pk>\d+)/$', login_required(views.tournament_detail), name='tournament_detail'),
     url(r'^tournaments/edit/(?P<pk>\d+)/$', login_required(views.edit_tournament), name='edit_tournament'),
-    url(r'^tournaments/create/$', login_required(views.CreateTournament.as_view()), name='create_tournament'),
+    url(r'^tournaments/create/$', login_required(views.create_tournament), name='create_tournament'),
     url(r'^tournaments/delete/(?P<pk>\d+)/$', login_required(views.delete_tournament), name='delete_tournament'),
     url(r'^tournaments/generatebracket/(?P<pk>\d+)$', login_required(views.generate_bracket), name='generate_bracket'),
     url(r'^tournaments/advance/(?P<pk>\d+)$', login_required(views.advance), name='advance'),
@@ -43,6 +44,7 @@ urlpatterns = [
     url(r'^match/(?P<pk>\d+)$', login_required(views.match_detail), name='match_detail'),
     url(r'^match/(?P<pk>\d+)/declare$', login_required(views.MatchDeclareWinner.as_view()), name='match_declare_winner'),
     url(r'^match/(?P<pk>\d+)/delete', login_required(views.match_delete_winner), name='match_delete_winner'),
+    url(r'^match/(?P<pk>\d+)/edit', login_required(views.match_edit), name='match_edit'),
     url(r'^round/(?P<pk>\d+)/', login_required(views.round_detail), name='round_detail'),
     url(r'^dispute/(?P<pk>\d+)/', login_required(views.dispute_detail), name='dispute_detail'),
 
@@ -65,6 +67,7 @@ urlpatterns = [
     url(r'^teams/$', login_required(views.teams_index), name='teamindex'),
     url(r'^teams/(?P<pk>\d+)/$', login_required(views.teams_detail), name='team_detail'),
     url(r'^teams/(?P<pk>\d+)/remove/$', login_required(views.remove_user), name='remove_user'),
+    url(r'^teams/getrank/$', login_required(views.getteamrank), name='getteamrank'),
 
     url(r'^partners/$', login_required(views.partnerlist), name='partner_list'),
     url(r'^partners/create/$', login_required(views.createpartner), name='partner_create'),

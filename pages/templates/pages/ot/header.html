@@ -44,6 +44,8 @@
         <li><a href="{% url 'profiles:leaderboard' %}">LEADERBOARDS</a></li>
         <li><a href="{% url 'news:post_list' %}">NEWS</a></li>
         <li><a href="{% url 'store:store' %}">SHOP</a></li>
+        <li><a href="{% url 'support:list' %}">SUPPORT</a></li>
+        <li><a href="{% url 'teams:list' %}">TEAMS</a></li>
         {% if user.is_anonymous %}
             <li><a href="{% url 'login' %}">LOGIN</a></li>
             <li><a href="{% url 'register' %}">REGISTER</a></li>

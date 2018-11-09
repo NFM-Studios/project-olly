@@ -3,6 +3,7 @@ from matches.settings import GAME_CHOICES, PLATFORMS_CHOICES, TEAMFORMAT_CHOICES
 from matches.models import Match
 from teams.models import Team
 from profiles.models import User
+from django.dispatch import receiver
 import random
 
 SIZE_CHOICES = (
@@ -41,6 +42,9 @@ class SingleEliminationTournament(models.Model):
     open_register = models.DateTimeField()
     # dont allow people to join once registration is closed
     close_register = models.DateTimeField()
+
+    # temp fix for registration since timezones are being a bitch
+    allow_register = models.BooleanField(default=False)
 
     # general information about the tournament
     info = models.TextField(default="No information provided")
@@ -86,6 +90,8 @@ class SingleEliminationTournament(models.Model):
     prize1 = models.CharField(default='no prize specified', max_length=50)
     prize2 = models.CharField(default='no prize specified', max_length=50)
     prize3 = models.CharField(default='no prize specified', max_length=50)
+
+    image = models.ImageField(upload_to='tournament_images', blank=True)
 
     # need to figure out how we will work rules rules = models.ForeignKey(Ruleset, related_name='tournamentrules',
     # on_delete=models.CASCADE, blank=False, null=True)
@@ -152,6 +158,8 @@ class SingleEliminationTournament(models.Model):
             game = 'Rocket League'
         elif self.game == 14:
             game = 'Battlefield 1'
+        elif self.game == 15:
+            game = 'Black Ops 4'
 
         return format + " " + platform + " " + game
 
@@ -261,7 +269,12 @@ class SingleEliminationTournament(models.Model):
             team_seeds.append(i)
 
         m = dict()
-        
+        if bye == 2 or bye == 1:
+            offset = 0
+        else:
+            offset = -2
+        skipotherbye = False
+
         if bye >= 3:
             if bye % 2 != 0:
                 hometeam = team_seeds[0]
@@ -270,7 +283,7 @@ class SingleEliminationTournament(models.Model):
 
                 m[1] = Match(game=game, matchnum=1, platform=platform, hometeam=team_seeds[0],
                              teamformat=teamformat, bestof=bestof, reported=True,
-                             completed=True, winner=team_seeds[0])
+                             completed=True, winner=team_seeds[0], bye_1=True)
                 m[1].save()
 
                 round1 = SingleTournamentRound.objects.get(tournament=self, roundnum=1)
@@ -285,46 +298,40 @@ class SingleEliminationTournament(models.Model):
                 byematches = bye / 2
 
                 for i in range(1, int(byematches) + 1):
-                    team1 = Team(name='bye%s' % i, founder=User.objects.get(id=1))
-                    team2 = Team(name='bye%s' % str(i+1), founder=User.objects.get(id=1))
-                    team1.save()
-                    team2.save()
 
-                    m[i] = Match(game=game, matchnum=i, platform=platform, hometeam=team1,
+                    m[i] = Match(game=game, matchnum=i, platform=platform,
                                  teamformat=teamformat, bestof=bestof, reported=True,
-                                 completed=True, winner=team1, awayteam=team2, loser=team2)
+                                 completed=True, bye_2=True)
                     m[i].save()
 
                     round1 = SingleTournamentRound.objects.get(tournament=self, roundnum=1)
                     round1.matches.add(m[i])
                     round1.save()
-        elif bye == 2:
-            team1 = Team(name='bye%s' % 1, founder=User.objects.get(id=1))
-            team2 = Team(name='bye%s' % 2, founder=User.objects.get(id=1))
-            team1.save()
-            team2.save()
+                skipotherbye = True
+        elif bye == 2 and not skipotherbye:
 
-            m[1] = Match(game=game, matchnum=i, platform=platform, hometeam=team1,
+            m[1] = Match(game=game, matchnum=1, platform=platform,
                          teamformat=teamformat, bestof=bestof, reported=True,
-                         completed=True, winner=team1, awayteam=team2, loser=team2)
+                         completed=True, bye_2=True)
             m[1].save()
 
             round1 = SingleTournamentRound.objects.get(tournament=self, roundnum=1)
-            round1.matches.add(m[2])
+            round1.matches.add(m[1])
             round1.save()
         if bye != 0:
-            for x in range(bye + 1, int(max_matches) + bye - 2):
+            for x in range(bye + 1, int(max_matches) + bye + offset):
+
+                if len(team_seeds) == 0:
+                    break
 
                 if len(team_seeds) == 1:
                     hometeam = team_seeds[0]
                     hometeam.seeds = seeds[0]
                     hometeam.save()
-                    team1 = Team(name='bye%s' % 1, founder=User.objects.get(id=1))
-                    team1.save()
 
                     m[x] = Match(game=game, matchnum=x, platform=platform, hometeam=team_seeds[0],
                                  teamformat=teamformat, bestof=bestof, reported=True,
-                                 completed=True, winner=team_seeds[0], awayteam=team1, loser=team1)
+                                 completed=True, winner=team_seeds[0], bye_1=True)
                     m[x].save()
 
                     round1 = SingleTournamentRound.objects.get(tournament=self, roundnum=1)
@@ -357,12 +364,10 @@ class SingleEliminationTournament(models.Model):
                     hometeam = team_seeds[0]
                     hometeam.seeds = seeds[0]
                     hometeam.save()
-                    team1 = Team(name='bye%s' % 1, founder=User.objects.get(id=1))
-                    team1.save()
 
                     m[x] = Match(game=game, matchnum=x, platform=platform, hometeam=team_seeds[0],
                                  teamformat=teamformat, bestof=bestof, reported=True,
-                                 completed=True, winner=team_seeds[0], awayteam=team1, loser=team1)
+                                 completed=True, winner=team_seeds[0], bye_1=True)
                     m[x].save()
 
                     round1 = SingleTournamentRound.objects.get(tournament=self, roundnum=1)
@@ -421,3 +426,24 @@ class SingleTournamentTeam(models.Model):
     seed = models.PositiveIntegerField(default=0, null=True, blank=True)
     tournament = models.ForeignKey(SingleEliminationTournament, related_name='intournament', null=True,
                                    on_delete=models.CASCADE)
+
+
+@receiver(models.signals.post_delete, sender=SingleEliminationTournament)
+def auto_delete_file(sender, instance, **kwargs):
+    if instance.image:
+        instance.image.delete()
+
+
+@receiver(models.signals.pre_save, sender=SingleEliminationTournament)
+def auto_delete_file_on_change(sender, instance, **kwargs):
+    if not instance.pk:
+        return False
+
+    try:
+        old_file = SingleEliminationTournament.objects.get(pk=instance.pk).image
+    except SingleEliminationTournament.DoesNotExist:
+        return False
+
+    new_file = instance.image
+    if not old_file == new_file:
+        old_file.delete(save=False)

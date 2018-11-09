@@ -50,37 +50,7 @@
     {% endif %}
     {% for tournament in tournament_list %}
      <div class="col-xs-12 col-sm-6 col-md-4 league">
-      <img src="{% if tournament.game == 0 %}
-
-        {% elif tournament.game == 1 %}
-        {% static 'images/bo3.jpg' %}
-        {% elif tournament.game == 2 %}
-        {% static 'images/ww2.jpg' %}
-        {% elif tournament.game == 3 %}
-        {% static 'images/fortnitecover.jpg' %}
-        {% elif tournament.game == 4 %}
-        {% static 'images/destiny2cover.jpg' %}
-        {% elif tournament.game == 5 %}
-        {% static 'images/csgocover.jpg' %}
-        {% elif tournament.game == 6 %}
-        {% static 'images/pubgcover.jpg' %}
-        {% elif tournament.game == 7 %}
-        {% static 'images/rs6cover.jpg' %}
-        {% elif tournament.game == 8 %}
-        {% static 'images/overwatchcover.jpg' %}
-        {% elif tournament.game == 9 %}
-        {% static 'images/lolcover.jpg' %}
-        {% elif tournament.game == 10 %}
-        {% static 'images/hearthstonecover.jpg' %}
-        {% elif tournament.game == 11 %}
-        {% static 'images/wowcover.jpg' %}
-        {% elif tournament.game == 12 %}
-        {% static 'images/smitecover.jpg' %}
-        {% elif tournament.game == 13 %}
-        {% static 'images/rocketleaguecover.jpeg' %}
-        {% elif tournament.game == 14 %}
-        {% static 'images/bf1cover.jpg' %}
-        {% endif %}"><br>
+      <img src="{% if tournament.image != "" %}{{ tournament.image }}{% else %}{% static 'ot/images/logo.png' %}{% endif %}"><br>
       <h6><b>{{ tournament.name }}</b></h6>
      <br />
       <ul>
@@ -98,6 +68,10 @@
         Playstation 3
         {% elif tournament.platform == 6 %}
         XBOX 360
+        {% elif tournament.platform == 7 %}
+        All Consoles
+        {% elif tournament.platform == 8 %}
+        All Platforms
         {% endif %}</li>
        <li><b>Starts:</b> {{ tournament.start }}</li>
       <li><b>Teams: </b> {{ tournament.teams.count }}/{{ tournament.size }}</li>
@@ -131,6 +105,8 @@
         Rocket League
         {% elif tournament.game == 14 %}
         Battlefield 1
+        {% elif tournament.game == 15 %}
+        Call of Duty: Black Ops 4
         {% endif %}</li>
 
       </ul>
