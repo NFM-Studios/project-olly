@@ -18,7 +18,39 @@
   <div class="col-xs-12 banner-head bot20">
                    <div class="row">
                    <div class="col-xs-12 col-sm-4">
-                    <img src="{% static 'duel/images/ps4-game.jpg' %}"/>
+                    <img src="{% if match.game == 0 %}
+        {% static 'binge/images/logo.png' %}
+        {% elif match.game == 1 %}
+        {% static 'images/bo3.jpg' %}
+        {% elif match.game == 2 %}
+        {% static 'images/ww2.jpg' %}
+        {% elif match.game == 3 %}
+        {% static 'images/fortnitecover.jpg' %}
+        {% elif match.game == 4 %}
+        {% static 'images/destiny2cover.jpg' %}
+        {% elif match.game == 5 %}
+        {% static 'images/csgocover.jpg' %}
+        {% elif match.game == 6 %}
+        {% static 'images/pubgcover.jpg' %}
+        {% elif match.game == 7 %}
+        {% static 'images/rs6cover.jpg' %}
+        {% elif match.game == 8 %}
+        {% static 'images/overwatchcover.jpg' %}
+        {% elif match.game == 9 %}
+        {% static 'images/lolcover.jpg' %}
+        {% elif match.game == 10 %}
+        {% static 'images/hearthstonecover.jpg' %}
+        {% elif match.game == 11 %}
+        {% static 'images/wowcover.jpg' %}
+        {% elif match.game == 12 %}
+        {% static 'images/smitecover.jpg' %}
+        {% elif match.game == 13 %}
+        {% static 'images/rocketleaguecover.jpeg' %}
+        {% elif match.game == 14 %}
+        {% static 'images/bf1cover.jpg' %}
+        {% else %}
+        {% static 'binge/images/logo.png' %}
+{% endif %}"/>
                    </div>
                    <div class="col-xs-12 col-sm-8">
                    <br>
@@ -54,6 +86,8 @@
         Rocket League
         {% elif match.game == 14 %}
         Battlefield 1
+        {% elif match.game == 15 %}
+        Black Ops 4
         {% endif %}</h3><br />
                     <h3 style="font-weight:200;">{% if match.teamformat == 0 %}
             1v1
@@ -69,16 +103,19 @@
             6v6
             {% endif %}</h3>
                     <br>
+                   <h3>{{ match.info }}</h3>
                    </div>
 
                    </div>
                   </div>
 
+{% if not match.bye_1 and not match.bye_2 %}
+
   <div class="col-xs-12 align-self-center bot20">
 
   <div class="col-xs-4 center">
   <img src="{% static 'binge/images/avatar.jpg' %}"/><br>
-  <a href="#">{{ match.awayteam }} - {% if match.team2reported %}
+  <a href="{% url 'teams:detail' pk=match.awayteam.id %}">{{ match.awayteam }} - {% if match.team2reported %}
             <i class="fa fa-check" style="color:green"></i> Reported{% else %}<i class="fa fa-times" style="color:red"></i> No report submitted{% endif %}</a>
   </div>
 
@@ -88,7 +125,7 @@
 
   <div class="col-xs-4 center">
   <img src="{% static 'binge/images/avatar.jpg' %}"/><br>
-  <a href="#">{{ match.hometeam }}  - {% if match.team1reported %}
+  <a href="{% url 'teams:detail' pk=match.hometeam.id %}">{{ match.hometeam }}  - {% if match.team1reported %}
             <i class="fa fa-check" style="color:green"></i> Reported{% else %}<i class="fa fa-times" style="color:red"></i> No report submitted{% endif %}</a>
   </div>
 
@@ -146,6 +183,17 @@
 				</div>
 
             </div>
+{% endif %}
+
+{% if match.bye_1 %}
+  <h2>BYE MATCH with Team {{ match.hometeam }}</h2>
+{% endif %}
+
+ {% if match.bye_2 %}
+
+     <h2>BYE</h2>
+
+ {% endif %}
 </div>
 </div>
 </div>

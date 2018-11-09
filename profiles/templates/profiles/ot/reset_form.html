@@ -1,11 +1,23 @@
-{% extends 'ot/base.html' %}
+{% extends 'binge/base.html' %}
 
   {% block head %}
   <title>Password Reset - {{ SITE_NAME }}</title>
   {% endblock %}
 
 {% block body %}
-    <h3>Forgotten your password?</h3>
+        <div class="container page">
+
+<div class="col-xs-12">
+           <div class="panel">
+              <div class="panel-body">
+
+                <div class="row">
+                    <div class="col-xs-12">
+    					<div class="panel-title bold">Forgot your password?</div>
+                           <div class="col-xs-12">
+
+
+
     <p>Enter your email address below, and we'll email instructions for setting a new one.</p>
 
 <form method="post">{% csrf_token %}
@@ -18,4 +30,12 @@
     <input type="submit" value="Reset my password" class="" />
 </fieldset>
 </form>
+                           </div>
+                    </div>
+                </div>
+              </div>
+           </div>
+</div>
+        </div>
+    
 {% endblock %}

@@ -1,13 +1,14 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, HttpResponseRedirect, resolve_url, get_object_or_404
-from django.contrib.auth import login as auth_login, REDIRECT_FIELD_NAME
+from django.contrib.auth import login as auth_login, REDIRECT_FIELD_NAME, logout as auth_logout, get_user_model
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm, PasswordChangeForm, SetPasswordForm
 from django.views.generic import View
+from django.contrib.auth.tokens import default_token_generator
 from .forms import CreateUserForm, EditProfileForm, SortForm
 from .models import UserProfile
 from django.contrib.sites.shortcuts import get_current_site
-from django.utils.encoding import force_bytes
+from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode, is_safe_url
 from django.template.loader import render_to_string
 from .tokens import account_activation_token
@@ -18,6 +19,7 @@ from django.conf import settings
 from django.template.response import TemplateResponse
 from django.db.models import Q
 from teams.models import Team, TeamInvite
+from django.urls import reverse
 
 
 def login(request, template_name='profiles/login_form.html',
@@ -78,6 +80,159 @@ def login(request, template_name='profiles/login_form.html',
         request.current_app = current_app
 
     return TemplateResponse(request, 'profiles/' + request.tenant + '/login_form.html', context)
+
+
+def logout(request, next_page=None,
+           redirect_field_name=REDIRECT_FIELD_NAME,
+           current_app=None, extra_context=None):
+    """
+    Logs out the user and displays 'You are logged out' message.
+    """
+    auth_logout(request)
+
+    if next_page is not None:
+        next_page = resolve_url(next_page)
+
+    if (redirect_field_name in request.POST or
+            redirect_field_name in request.GET):
+        next_page = request.POST.get(redirect_field_name,
+                                     request.GET.get(redirect_field_name))
+        # Security check -- don't allow redirection to a different host.
+        if not is_safe_url(url=next_page, host=request.get_host()):
+            next_page = request.path
+
+    if next_page:
+        # Redirect to this page until the session has been cleared.
+        return HttpResponseRedirect(next_page)
+
+    current_site = get_current_site(request)
+    context = {
+        'site': current_site,
+        'site_name': current_site.name,
+    }
+    if extra_context is not None:
+        context.update(extra_context)
+
+    if current_app is not None:
+        request.current_app = current_app
+
+    return redirect('index')
+
+
+def password_reset(request, is_admin_site=False,
+                   subject_template_name='registration/password_reset_subject.txt',
+                   password_reset_form=PasswordResetForm,
+                   token_generator=default_token_generator,
+                   post_reset_redirect=None,
+                   from_email=None,
+                   current_app=None,
+                   extra_context=None,
+                   html_email_template_name=None):
+    if post_reset_redirect is None:
+        post_reset_redirect = reverse('password_reset_done')
+    else:
+        post_reset_redirect = resolve_url(post_reset_redirect)
+    if request.method == "POST":
+        form = password_reset_form(request.POST)
+        if form.is_valid():
+            opts = {
+                'use_https': request.is_secure(),
+                'token_generator': token_generator,
+                'from_email': from_email,
+                'email_template_name': 'profiles/' + request.tenant + '/reset_email.html',
+                'subject_template_name': subject_template_name,
+                'request': request,
+                'html_email_template_name': html_email_template_name,
+            }
+            if is_admin_site:
+                opts = dict(opts, domain_override=request.get_host())
+            form.save(**opts)
+            return HttpResponseRedirect(post_reset_redirect)
+    else:
+        form = password_reset_form()
+    context = {
+        'form': form,
+    }
+    if extra_context is not None:
+        context.update(extra_context)
+
+    if current_app is not None:
+        request.current_app = current_app
+
+    return TemplateResponse(request, 'profiles/' + request.tenant + '/reset_form.html', context)
+
+
+def password_reset_done(request, current_app=None, extra_context=None):
+    context = {
+
+    }
+    if extra_context is not None:
+        context.update(extra_context)
+
+    if current_app is not None:
+        request.current_app = current_app
+
+    return TemplateResponse(request, 'profiles/' + request.tenant + '/reset_done.html', context)
+
+
+def password_reset_confirm(request, uidb64=None, token=None,
+                           token_generator=default_token_generator,
+                           set_password_form=SetPasswordForm,
+                           post_reset_redirect=None,
+                           current_app=None, extra_context=None):
+    """
+    View that checks the hash in a password reset link and presents a
+    form for entering a new password.
+    """
+    UserModel = get_user_model()
+    assert uidb64 is not None and token is not None  # checked by URLconf
+    if post_reset_redirect is None:
+        post_reset_redirect = reverse('password_reset_complete')
+    else:
+        post_reset_redirect = resolve_url(post_reset_redirect)
+    try:
+        # urlsafe_base64_decode() decodes to bytestring on Python 3
+        uid = force_text(urlsafe_base64_decode(uidb64))
+        user = UserModel._default_manager.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, UserModel.DoesNotExist):
+        user = None
+
+    if user is not None and token_generator.check_token(user, token):
+        validlink = True
+        if request.method == 'POST':
+            form = set_password_form(user, request.POST)
+            if form.is_valid():
+                form.save()
+                return HttpResponseRedirect(post_reset_redirect)
+        else:
+            form = set_password_form(user)
+    else:
+        validlink = False
+        form = None
+    context = {
+        'form': form,
+        'validlink': validlink,
+    }
+    if extra_context is not None:
+        context.update(extra_context)
+
+    if current_app is not None:
+        request.current_app = current_app
+
+    return TemplateResponse(request, 'profiles/' + request.tenant + '/reset_confirm.html', context)
+
+
+def password_reset_complete(request, current_app=None, extra_context=None):
+    context = {
+        'login_url': resolve_url(settings.LOGIN_URL),
+    }
+    if extra_context is not None:
+        context.update(extra_context)
+
+    if current_app is not None:
+        request.current_app = current_app
+
+    return TemplateResponse(request, 'profiles/' + request.tenant + '/reset_complete.html', context)
 
 
 def profile(request, urlusername):
@@ -224,7 +379,7 @@ class LeaderboardView(View):
     form_class = SortForm
 
     def get(self, request, **kwargs):
-        user_list = UserProfile.objects.order_by('user__username')  # sort by username default
+        user_list = UserProfile.objects.order_by('rank')  # sort by rank default
         form = self.form_class(None)
         return render(request, 'teams/' + request.tenant + '/leaderboard.html', {'user_list': user_list, 'form': form})
 
@@ -247,7 +402,15 @@ class LeaderboardView(View):
             user_list = UserProfile.objects.order_by('-num_trophies')
             messages.success(request, "Sorted by descending number of trophies")
             return render(request, 'teams/' + request.tenant + '/leaderboard.html', {'user_list': user_list, 'form': self.form_class(None)})
+        elif form.cleaned_data['sort_rank_asc']:
+            user_list = UserProfile.objects.order_by('rank')
+            messages.success(request, "Sorted by ascending rank")
+            return render(request, 'teams/' + request.tenant + '/leaderboard.html', {'user_list': user_list, 'form': self.form_class(None)})
+        elif form.cleaned_data['sort_rank_desc']:
+            user_list = UserProfile.objects.order_by('-rank')
+            messages.success(request, "Sorted by descending rank")
+            return render(request, 'teams/' + request.tenant + '/leaderboard.html', {'user_list': user_list, 'form': self.form_class(None)})
         else:
-            user_list = UserProfile.objects.order_by('user__username')
-            messages.error(request, 'No sort option selected, sorting by username')
+            user_list = UserProfile.objects.order_by('-xp')
+            messages.error(request, 'No sort option selected, sorting by descending xp')
             return render(request, 'teams/' + request.tenant + '/leaderboard.html', {'user_list': user_list, 'form': self.form_class(None)})

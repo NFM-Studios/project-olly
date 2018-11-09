@@ -28,6 +28,10 @@ Match #{{ match.id }}
         <td>{{match.id}}</td>
     </tr>
     <tr>
+        <td>Info:</td>
+        <td>{{ match.info }}</td>
+    </tr>
+    <tr>
         <td>Game</td>
         {% if match.game == 0 %}
         <td>No Game Set</td>
@@ -79,11 +83,20 @@ Match #{{ match.id }}
     </tr>
     <tr>
         <td>Home team</td>
+        {% if not match.bye_2 %}
         <td><a href="{% url 'teams:detail' pk=match.hometeam_id %}">{{ match.hometeam }}</a></td>
+        {% else %}
+        <td>BYE</td>
+        {% endif %}
+
     </tr>
     <tr>
         <td>Away Team</td>
+        {% if not match.bye_2 and not match.bye_1 %}
         <td><a href="{% url 'teams:detail' pk=match.awayteam_id %}">{{ match.awayteam }}</a></td>
+        {% else %}
+        <td>BYE</td>
+        {% endif %}
     </tr>
     <tr>
         <td>Reported</td>
@@ -122,6 +135,8 @@ Match #{{ match.id }}
     {% else %}
         <a href="{% url 'staff:match_delete_winner' pk=match.id %}" class="btn btn-danger">Delete Winner</a>
     {% endif %}
+    &nbsp;
+    <a href="{% url 'staff:match_edit' pk=match.id %}" class="btn btn-primary">Edit Match</a>
     </p>
 
     <h2>Reports for this match...</h2>

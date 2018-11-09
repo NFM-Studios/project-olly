@@ -5,11 +5,12 @@
   {% endblock %}
 
 {% block body %}
-    <div class="container page">
+    <div class="container">
+    <div class="space90"></div>
+    <div class="col-xs-12">
 
-     <div class="panel">
-         <div class="panel-title">Edit Profile</div>
-      <div class="panel-body">
+         <h2 class="center">Edit Profile</h2>
+
 
   <form enctype="multipart/form-data" method="post">
     {% csrf_token %}
@@ -68,6 +69,15 @@
     <label>PSN</label>
     <div class="form-group">{{ form.psn }}</div>
 
+    <label>Steam Name</label>
+    <div class="form-group">{{ form.steam }}</div>
+
+    <label>Epic Games Username</label>
+    <div class="form-group">{{ form.epic }}</div>
+
+    <label>Battle.Net BattleTag</label>
+    <div class="form-group">{{ form.battlenet }}</div>
+
     <label>Twitter Username</label>
     <div class="form-group">{{ form.twitter_profile }}</div>
 
@@ -83,10 +93,15 @@
     <label>Country</label>
     <div class="form-group">{{ form.country }}</div>
 
+
+      <label>Profile Picture</label>
+    <div class="form-group">{{ form.profile_picture}}</div>
+
+
     <button type="submit" class="btn btn-primary">Update</button>
   </form>
       </div>
-     </div>
+
     </div>
 
 {% endblock %}

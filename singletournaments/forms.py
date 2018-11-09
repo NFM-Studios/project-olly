@@ -16,6 +16,7 @@ class SingleEliminationTournamentJoinGet(forms.ModelForm):
         invites = TeamInvite.objects.filter(hasPerms=True, user_id=self.username.id)
         team = Team.objects.filter(id__in=invites.values_list('team', flat=True))
         super().__init__(*args, **kwargs)
+        self.fields['teams'].widget.attrs.update({'name': 'teams', 'class': 'form-control'})
         self.fields['teams'].queryset = team
 
 
@@ -60,13 +61,14 @@ class SingleEliminationTournamentSort(forms.Form):
             (12, 'Smite'),
             (13, 'Rocket League'),
             (14, 'Battlefield 1'),
-            (15, 'Any')
+            (15, 'Black Ops 4'),
+            (16, 'Any')
         )
         super(SingleEliminationTournamentSort, self).__init__(*args, **kwargs)
         self.fields['platform'].choices = platforms
         self.fields['game'].choices = games
-        self.fields['platform'].widget.attrs.update({'name': 'subject', 'class': 'form-control'})
-        self.fields['game'].widget.attrs.update({'name': 'subject', 'class': 'form-control'})
+        self.fields['platform'].widget.attrs.update({'name': 'subject', 'class': 'form-control', 'style': 'background-color: black'})
+        self.fields['game'].widget.attrs.update({'name': 'subject', 'class': 'form-control', 'style': 'background-color: black'})
 
 
 class SingleTournamentLeaveForm(forms.Form):

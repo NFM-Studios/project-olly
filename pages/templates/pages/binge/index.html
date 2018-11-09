@@ -5,33 +5,33 @@
   {% endblock %}
 
 {% block body %}
- <section>
+ <section class="hidden-xs hidden-sm">
 
    <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 nopad">
      <div class="row">
 
      <div class="col-xs-12 col-sm-4 col-md-4 col-lg-12">
-      <div class="event" style="background-image:url({% static 'binge/images/event1.jpg' %});">
-       <h1>5v5</h1>
-       <h2>SEASON ONE</h2>
-       <a class="btn btn-primary btn-md" href="#">VIEW DETAILS</a>
+      <div class="event" style="background-image:url({% if staticinfo.bingetop1image.url != "" %}{{ staticinfo.bingetop1image.url }}{% else %}{% static 'binge/images/event1.jpg' %}{% endif %});">
+       <h1>{{ staticinfo.bingetop1 }}</h1>
+       <!--<h2>SEASON ONE</h2>-->
+       <a class="btn btn-primary btn-md" href="{{ staticinfo.bingetop1link }}">VIEW DETAILS</a>
       </div>
      </div>
 
      <div class="col-xs-12 col-sm-4 col-md-4 col-lg-12">
-      <div class="event" style="background-image:url({% static 'binge/images/event2.jpg' %});">
-       <h1>5v5</h1>
-       <h2>SEASON ONE</h2>
-       <a class="btn btn-primary btn-md" href="#">VIEW DETAILS</a>
+      <div class="event" style="background-image:url({% if staticinfo.bingetop2image.url != "" %}{{ staticinfo.bingetop2image.url }}{% else %}{% static 'binge/images/event2.jpg' %}{% endif %});">
+       <h1>{{ staticinfo.bingetop2 }}</h1>
+       <!--<h2>SEASON ONE</h2>-->
+       <a class="btn btn-primary btn-md" href="{{ staticinfo.bingetop2link }}">VIEW DETAILS</a>
       </div>
      </div>
 
      <div class="col-xs-12 col-sm-4 col-md-4 col-lg-12">
-      <div class="event" style="background-image:url({% static 'binge/images/event3.jpg' %});">
-       <h1>5v5</h1>
-       <h2>SEASON ONE</h2>
-       <a class="btn btn-primary btn-md" href="#">VIEW DETAILS</a>
+      <div class="event" style="background-image:url({% if staticinfo.bingetop3image.url != "" %}{{ staticinfo.bingetop3image.url }}{% else %}{% static 'binge/images/event3.jpg' %}{% endif %});">
+       <h1>{{ staticinfo.bingetop3 }}</h1>
+       <!--<h2>SEASON ONE</h2>-->
+       <a class="btn btn-primary btn-md" href="{{ staticinfo.bingetop3link }}">VIEW DETAILS</a>
       </div>
      </div>
 
@@ -49,23 +49,33 @@
 
   <div class="carousel-inner">
     <div class="item active">
-      <img src="{% static 'binge/images/slider1.jpg' %}" alt="Season1">
+      <img src="{% if staticinfo.slide1_img.url != "" %}{{ staticinfo.slide1_img.url }}{% else %}{% static 'binge/images/slider1.jpg' %}{% endif %}" alt="Slide1">
       <div class="carousel-caption">
-        <h3>FORTNITE<br>
-        ALL NITE</h3>
-        <p>JOIN THE TOURNAMENT</p>
+        <h3>{{ staticinfo.bingeslide1big|linebreaksbr }}</h3>
+        <p>{{ staticinfo.bingeslide1small }}</p>
+          <a class="btn btn-primary btn-md" href="{{ staticinfo.bingeslide1link }}">VIEW DETAILS</a>
       </div>
     </div>
 
     <div class="item">
-      <img src="{% static 'binge/images/slider2.jpg' %}" alt="Season2">
+      <img src="{% if staticinfo.slide2_img.url != "" %}{{ staticinfo.slide2_img.url }}{% else %}{% static 'binge/images/slider2.jpg' %}{% endif %}" alt="Slide2">
       <div class="carousel-caption">
-        <h3>NEW SEASON<br>
-        STARTING</h3>
-        <p>JOIN OUR MONTHLY LEAGUES!</p>
+        <h3>{{ staticinfo.bingeslide2big|linebreaksbr }}</h3>
+        <p>{{ staticinfo.bingeslide2small }}</p>
+          <a class="btn btn-primary btn-md" href="{{ staticinfo.bingeslide2link }}">VIEW DETAILS</a>
       </div>
     </div>
+
+    <div class="item">
+      <img src="{% if staticinfo.slide3_img.url != "" %}{{ staticinfo.slide3_img.url }}{% else %}{% static 'binge/images/slider1.jpg' %}{% endif %}" alt="Slide3">
+      <div class="carousel-caption">
+        <h3>{{ staticinfo.bingeslide3big|linebreaksbr }}</h3>
+        <p>{{ staticinfo.bingeslide3small }}</p>
+          <a class="btn btn-primary btn-md" href="{{ staticinfo.bingeslide3link }}">VIEW DETAILS</a>
+      </div>
     </div>
+
+  </div>
 
     </div>
     </div>
@@ -129,7 +139,7 @@
           {% for tournament in list %}
        <div class="col-xs-12 col-sm-6 bot10">
         <div class="game1">
-         <img src="{% static 'binge/images/ww2.jpg' %}"><br>
+         <img src="{% if tournament.image != "" %}{{ tournament.image.url }}{% endif %}"><br>
          <div class="join-b"><a class="btn btn-primary btn-xs" href="{% url 'singletournaments:detail' pk=tournament.id %}">JOIN NOW</a></div>
          <div class="overlay1"><b>{{ tournament.name }}</b><br>
          Starts: {{ tournament.start }}</div>
@@ -149,6 +159,8 @@
           Ladders are coming soon
        </div>
        </div>
+              <a class="twitter-timeline" data-height="450" data-theme="dark" data-link-color="#2B7BB9" data-chrome="noheader nofooter noborders transparent noscrollbar" href="https://twitter.com/BingePlay?ref_src=twsrc%5Etfw">Tweets by BingePlay</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
 -->
 
         <div class="col-xs-12 col-sm-12 col-md-6 bot20">
@@ -160,29 +172,35 @@
        </div>
       </div>
       </div>
+   <div style="clear: both;"></div>
+      <div class="" style="display: grid; grid-template-columns: 1fr 1fr; grid-gap: 15px;">
+        <div >
+            <div class="main-title">TWITTER<br>
+                <span>FOLLOW OUR TWEETS FOR UPDATES</span>
+            </div>
+            <a class="twitter-timeline" data-height="400" data-theme="dark" data-link-color="#2B7BB9" data-chrome="noheader nofooter noborders transparent noscrollbar" href="https://twitter.com/BingePlay?ref_src=twsrc%5Etfw">Tweets by BingePlay</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </div>
+        <div >
+            <img style="display: block; width:100%" src="{% static 'binge/images/steps.png' %}">
+        </div>
+      </div>
 
-      <div class="col-xs-12 col-sm-12 col-md-6 bot20" style="width:75%">
-        <div class="row"><div class="col-xs-12"><div class="main-title">TWITTER<br>
-   <span>FOLLOW OUR TWEETS FOR UPDATES</span></div></div></div>
-      <div class="row">
-       <div class="col-xs-12">
-        <a class="twitter-timeline" data-height="450" data-theme="dark" data-link-color="#2B7BB9" data-chrome="noheader nofooter noborders transparent noscrollbar" href="https://twitter.com/BingePlay?ref_src=twsrc%5Etfw">Tweets by BingePlay</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-       </div>
-      </div>
-      </div>
 
       </div>
    </div>
+  <br />
+  <br />
+  <br />
   </section>
 
-  <section class="news-row">
+  <section class="news-row hidden-xs hidden-sm">
    <div class="container">
     <div class="col-xs-12">
      <div class="news-title">NEWS & <span>ANNOUNCEMENTS</span></div>
     </div>
     {% for news in newslist %}
     <div class="col-xs-12 col-sm-6 bot20">
-     <img src="{% static 'binge/images/fortnite1.jpg' %}">
+     <img src="{% if news.image != "" %}{{ news.image.url }}{% endif %}">
      <div class="text">
        <h2><b>{{ news.title }}</b></h2>
        <h4><a href="{{ news.get_absolute_url }}"><span>READ FULL ARTICLE</span></a></h4>
@@ -205,11 +223,15 @@
 
            {% for player in playerlist %}
         <div class="top-player">
-         <img src="{% static 'binge/images/avatar.jpg' %}">
+		{% if player.profile_picture.url != "" %}
+         <img src="{{ player.profile_picture.url }}">
+         {% else %}
+           <img src="{% static 'binge/images/avatar.jpg' %}">
+		 {% endif %}
             <div class="name"><h4><b><a href="{% url 'profiles:profile' urlusername=player %}">{{ player }}</a></b></h4>
          <!--<h6><span>Rank 1st</span></h6>-->
          <h5>{{ player.xp }} XP</h5></div>
-         <div class="rank"><b>{{ player.rank }}st</b><br>
+         <div class="rank"><b>{{ player.rank }}</b><br>
          <small>PLACE</small></div>
         </div>
 {% endfor %}

@@ -47,8 +47,9 @@ def show_me_the_money(sender, **kwargs):
     itemtype = item[0]
     num = int(item[1])
     if ipn_obj.payment_status == ST_PP_COMPLETED:
-        if ipn_obj.receiver_email != settings.PAYPAL_EMAIL:
-            return
+        if ipn_obj.business != settings.PAYPAL_EMAIL:
+            tx = Transaction(cost=0, account=username, num=0, type='PayPal issue - mismatch with email')
+            tx.save()
         price = int(product.amount)
         if ipn_obj.mc_gross == price and ipn_obj.mc_currency == "USD":
             if itemtype in ['cred', 'credit', 'credits']:
@@ -56,6 +57,15 @@ def show_me_the_money(sender, **kwargs):
                 user.save()
                 tx = Transaction(cost=product.amount, account=username, num=num, type='Credits')
                 tx.save()
+            else:
+                tx = Transaction(cost=0, account=username, num=0, type='Local issue - not a valid item type')
+                tx.save()
+        else:
+            tx = Transaction(cost=0, account=username, num=0, type='PayPal issue - price or currency mismatch')
+            tx.save()
+    else:
+        tx = Transaction(cost=0, account=username, num=0, type='PayPal issue - payment not completed')
+        tx.save()
 
 
 valid_ipn_received.connect(show_me_the_money)
