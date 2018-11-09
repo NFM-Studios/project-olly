@@ -82,6 +82,8 @@ class SingleEliminationTournament(models.Model):
     # specify how many teams the event will be capped at, and the size of the bracket
     size = models.PositiveSmallIntegerField(default=32, choices=SIZE_CHOICES)
 
+    xp_seed = models.BooleanField(default=False)
+
     bracket_generated = models.BooleanField(default=False)
 
     # the prizes that they will win, defined in admin panel. 3rd place isnt really needed..... just first and second...
@@ -247,6 +249,9 @@ class SingleEliminationTournament(models.Model):
         bye = size - numteams
         teams = list(self.teams.all())
 
+        for team in teams:
+            team.get_total_xp()
+
         count = 1
         seeds = []
         while count <= size:
@@ -255,8 +260,10 @@ class SingleEliminationTournament(models.Model):
 
         team_seeds = []
         max_matches = size / 2
-
-        random.shuffle(teams)
+        if not self.xp_seed:
+            random.shuffle(teams)
+        else:
+            teams = self.teams.order_by('-totalxp')
 
         for i in teams:
             team_seeds.append(i)
