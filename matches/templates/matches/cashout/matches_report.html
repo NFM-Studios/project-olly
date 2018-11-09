@@ -1,0 +1,28 @@
+{% extends "binge/base.html" %}
+{% load staticfiles %}
+
+  {% block head %}
+  <title>Report a Match - {{ SITE_NAME }}</title>
+  {% endblock %}
+
+{% block body %}
+    <div class="container page">
+
+     <div class="panel">
+         <div class="panel-title">Report Match Result</div>
+      <div class="panel-body">
+<form method="POST" action="{% url 'matches:report' pk=pk %}">
+    <table class="table">
+        {% csrf_token %}
+        {{form.as_table}}
+        <tr>
+            <td colspan="2">
+                <input type="submit" value="Submit" class="btn btn-success"/>
+            </td>
+        </tr>
+    </table>
+</form>
+      </div>
+     </div>
+    </div>
+{% endblock %}
