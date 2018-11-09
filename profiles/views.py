@@ -379,7 +379,7 @@ class LeaderboardView(View):
     form_class = SortForm
 
     def get(self, request, **kwargs):
-        user_list = UserProfile.objects.order_by('user__username')  # sort by username default
+        user_list = UserProfile.objects.order_by('rank')  # sort by rank default
         form = self.form_class(None)
         return render(request, 'teams/' + request.tenant + '/leaderboard.html', {'user_list': user_list, 'form': form})
 
@@ -401,6 +401,14 @@ class LeaderboardView(View):
         elif form.cleaned_data['sort_trophies_desc']:
             user_list = UserProfile.objects.order_by('-num_trophies')
             messages.success(request, "Sorted by descending number of trophies")
+            return render(request, 'teams/' + request.tenant + '/leaderboard.html', {'user_list': user_list, 'form': self.form_class(None)})
+        elif form.cleaned_data['sort_rank_asc']:
+            user_list = UserProfile.objects.order_by('rank')
+            messages.success(request, "Sorted by ascending rank")
+            return render(request, 'teams/' + request.tenant + '/leaderboard.html', {'user_list': user_list, 'form': self.form_class(None)})
+        elif form.cleaned_data['sort_rank_desc']:
+            user_list = UserProfile.objects.order_by('-rank')
+            messages.success(request, "Sorted by descending rank")
             return render(request, 'teams/' + request.tenant + '/leaderboard.html', {'user_list': user_list, 'form': self.form_class(None)})
         else:
             user_list = UserProfile.objects.order_by('-xp')

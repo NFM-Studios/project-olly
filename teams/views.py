@@ -16,6 +16,7 @@ from teams.models import Team
 from teams.models import TeamInvite
 from profiles.models import UserProfile
 from django.shortcuts import get_object_or_404
+from matches.models import Match
 
 
 class MyInvitesListView(ListView):
@@ -113,15 +114,18 @@ class MyTeamDetailView(DetailView):
     def get(self, request, pk):
         team = get_object_or_404(Team, id=pk)
         players = TeamInvite.objects.filter(team=team, accepted=True)
+        matches_ = Match.objects.filter(awayteam_id=team.id)
+        matches__ = Match.objects.filter(hometeam_id=team.id)
+        matches = matches_ | matches__
         if not request.user.is_anonymous:
             user = UserProfile.objects.get(user__username=request.user.username)
             if not user.xbl_verified:
                 messages.warning(request, "Xbox Live is not verified")
             if not user.psn_verified:
                 messages.warning(request, "PSN is not verified")
-            return render(request, 'teams/' + request.tenant + '/team.html', {'team': team, 'players': players, 'pk': pk})
+            return render(request, 'teams/' + request.tenant + '/team.html', {'team': team, 'players': players, 'pk': pk, 'matches': matches})
         else:
-            return render(request, 'teams/' + request.tenant + '/team.html', {'team': team, 'players': players, 'pk': pk})
+            return render(request, 'teams/' + request.tenant + '/team.html', {'team': team, 'players': players, 'pk': pk, 'matches': matches})
 
     def get_context_date(self, **kwargs):
         context = super(MyTeamDetailView, self).get_context_date(**kwargs)

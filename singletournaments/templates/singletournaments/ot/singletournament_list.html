@@ -68,6 +68,10 @@
         Playstation 3
         {% elif tournament.platform == 6 %}
         XBOX 360
+        {% elif tournament.platform == 7 %}
+        All Consoles
+        {% elif tournament.platform == 8 %}
+        All Platforms
         {% endif %}</li>
        <li><b>Starts:</b> {{ tournament.start }}</li>
       <li><b>Teams: </b> {{ tournament.teams.count }}/{{ tournament.size }}</li>
@@ -101,6 +105,8 @@
         Rocket League
         {% elif tournament.game == 14 %}
         Battlefield 1
+        {% elif tournament.game == 15 %}
+        Call of Duty: Black Ops 4
         {% endif %}</li>
 
       </ul>
