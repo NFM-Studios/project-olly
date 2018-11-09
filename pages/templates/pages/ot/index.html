@@ -186,10 +186,10 @@
         {% for match in matchlist %}
       <div class="top-players">
        <div class="ava2"><img src="{% static 'ot/images/blank-avatar.jpg' %}"></div>
-       <div class="team">{{ match.hometeam }}</div>
-       <div class="game"><img src="{% static 'ot/images/fortnite-logo.png' %}"><br>
+          <div class="team"><a href="{% url 'teams:detail' pk=match.hometeam.id %}">{{ match.hometeam }}</a></div>
+          <div class="game"><a href="{% url 'matches:detail' pk=match.id %}"><img src="{% static 'ot/images/logo.png' %}"></a><br>
        <span class="score">{% if match.winner.id == match.hometeam.id %}1-0{% elif match.winner.id == match.awayteam.id %}0-1{% else %}0-0{% endif %}</span></div>
-       <div class="ava2"><img src="{% static 'ot/images/blank-avatar.jpg' %}"></div>
+          <div class="ava2"><a href="{% url 'teams:detail' pk=match.awayteam.id %}"><img src="{% static 'ot/images/blank-avatar.jpg' %}"></a></div>
        <div class="team">{{ match.awayteam }}</div>
       </div>
         {% endfor %}
