@@ -15,9 +15,4 @@ class Migration(migrations.Migration):
             name='rank',
             field=models.PositiveSmallIntegerField(default=100),
         ),
-        migrations.AddField(
-            model_name='team',
-            name='totalxp',
-            field=models.PositiveSmallIntegerField(default=0),
-        ),
     ]
