@@ -57,6 +57,23 @@ class TicketCommentCreateForm(forms.ModelForm):
         fields = ('comment',)
 
 
+class CreateTournamentForm(forms.ModelForm):
+    class Meta:
+        model = SingleEliminationTournament
+        fields = '__all__'
+        widgets = {
+            'open_register': forms.DateTimeInput(attrs={'class': 'form-control datetimepicker-input', 'id': 'datetimepicker1', 'data-toggle': 'datetimepicker', 'data-target': '#datetimepicker1'}),
+            'close_register': forms.DateTimeInput(attrs={'class': 'form-control datetimepicker-input', 'id': 'datetimepicker2', 'data-toggle': 'datetimepicker', 'data-target': '#datetimepicker2'}),
+            'start': forms.DateTimeInput(attrs={'class': 'form-control datetimepicker-input', 'id': 'datetimepicker3', 'data-toggle': 'datetimepicker', 'data-target': '#datetimepicker3'})
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['third'].queryset = SingleEliminationTournament.objects.none()
+        self.fields['second'].queryset = SingleEliminationTournament.objects.none()
+        self.fields['winner'].queryset = SingleEliminationTournament.objects.none()
+
+
 class EditTournamentForm(forms.ModelForm):
     class Meta:
         model = SingleEliminationTournament
@@ -66,6 +83,12 @@ class EditTournamentForm(forms.ModelForm):
             'close_register': forms.DateTimeInput(attrs={'class': 'form-control datetimepicker-input', 'id': 'datetimepicker2', 'data-toggle': 'datetimepicker', 'data-target': '#datetimepicker2'}),
             'start': forms.DateTimeInput(attrs={'class': 'form-control datetimepicker-input', 'id': 'datetimepicker3', 'data-toggle': 'datetimepicker', 'data-target': '#datetimepicker3'})
         }
+
+    def __init__(self, obj, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['third'].queryset = obj.teams.all()
+        self.fields['second'].queryset = obj.teams.all()
+        self.fields['winner'].queryset = obj.teams.all()
 
 
 class DeclareMatchWinnerForm(forms.ModelForm):

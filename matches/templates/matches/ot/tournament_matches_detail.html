@@ -7,8 +7,8 @@
 
 {% block body %}
     <div class="container">
-
-     <div class="col-xs-12">
+<div class="space90"></div>
+        <div class="col-xs-12">
  <div class="row">
   <div class="panel">
   <div class="panel-body">
@@ -107,7 +107,7 @@
 
                    </div>
                   </div>
-
+{% if not match.bye1 and not match.bye2 %}
   <div class="col-xs-12 align-self-center bot20">
 
   <div class="col-xs-4 center">
@@ -178,6 +178,17 @@
  </div>
 
 				</div>
+  {% endif %}
+
+  {% if match.bye1%}
+  <h2>BYE MATCH with Team {{ match.hometeam }}</h2>
+  {% endif %}
+
+  {% if match.bye2 %}
+
+  <h2>BYE</h2>
+
+  {% endif %}
 
             </div>
 </div>

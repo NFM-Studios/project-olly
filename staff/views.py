@@ -5,7 +5,7 @@ from staff.forms import StaticInfoForm, ArticleCreateForm, EditUserForm, TicketC
     TicketStatusChangeForm, EditTournamentForm, DeclareMatchWinnerForm, DeclareMatchWinnerPost,\
     DeclareTournamentWinnerForm, TicketSearchForm, RemovePlayerForm, RemovePlayerFormPost, AddCreditsForm,\
     AddTrophiesForm, AddXPForm, SingleRulesetCreateForm, PartnerForm, EditNewsPostForm, CreateProductForm,\
-    DeleteProductForm, RemovePostForm, EditMatchForm
+    DeleteProductForm, RemovePostForm, EditMatchForm, CreateTournamentForm
 from profiles.models import UserProfile, BannedUser
 from profiles.forms import SortForm
 from django.contrib.auth.models import User
@@ -22,6 +22,7 @@ from support.models import Ticket, TicketComment
 from django.shortcuts import get_object_or_404
 from pages.models import Partner
 from django.conf import settings
+from . import calculaterank
 
 
 def staffindex(request):
@@ -165,8 +166,7 @@ def getrank(request):
         return render(request, 'staff/permissiondenied.html')
     else:
         allusers = UserProfile.objects.all()
-        for i in allusers:
-            i.calculate_rank()
+        calculaterank.calculaterank()
         messages.success(request, "Calculated rank for %s users" % allusers.count())
         return redirect('staff:users')
 
@@ -188,7 +188,7 @@ def givecredits(request, urlusername):
             transaction = Transaction(num=num, account=UserProfile.objects.get(user=username), cost=int(0.00),
                                       type='Credit', staff=request.user.username)
             transaction.save()
-            messages.success(request, "Added %s credits to %s" % (num, urlusername))
+            messages.success(request, "Added %s credits to %s" % (form.data['credits'], urlusername))
             return redirect('staff:users')
 
 
@@ -233,13 +233,13 @@ def givetrophies(request, urlusername):
             user.current_earning += form.cleaned_data['earnings']
             user.save()
             transaction = Transaction(num=form.cleaned_data['bronze'], account=user,
-                                      cost=int(0.00), type='Bronze Trophies', staff=request.user.username)
+                                      cost=int(0.00), type='Bronze Trophies', staff=user.username)
             transaction.save()
             transaction = Transaction(num=form.cleaned_data['silver'], account=user,
-                                      cost=int(0.00), type='Silver Trophies', staff=request.user.username)
+                                      cost=int(0.00), type='Silver Trophies', staff=user.username)
             transaction.save()
             transaction = Transaction(num=form.cleaned_data['gold'], account=user,
-                                      cost=int(0.00), type='Gold Trophies', staff=request.user.username)
+                                      cost=int(0.00), type='Gold Trophies', staff=user.username)
             transaction.save()
 
             transaction = Transaction(num=form.cleaned_data['earnings'], account=user,
@@ -336,23 +336,32 @@ def edit_tournament(request, pk):
         else:
             tournamentobj = SingleEliminationTournament.objects.get(pk=pk)
             if not tournamentobj.bracket_generated:
-                form = EditTournamentForm(instance=tournamentobj)
+                form = EditTournamentForm(obj=tournamentobj)
                 return render(request, 'staff/edittournament.html', {'form': form, 'pk': pk})
             else:
                 messages.error(request, "The bracket has been generated, you cannot edit the tournament further")
                 return redirect('staff:tournamentlist')
 
 
-class CreateTournament(CreateView):
-    form_class = EditTournamentForm
-    template_name = 'staff/createtournament.html'
-
-    def form_valid(self, form):
-        tournament = form.instance
-        tournament.save()
-        self.success_url = reverse('staff:tournamentlist')
-        messages.success(self.request, 'Your tournament has been successfully created')
-        return super(CreateTournament, self).form_valid(form)
+def create_tournament(request):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        if request.method == 'GET':
+            form = CreateTournamentForm()
+            return render(request, 'staff/createtournament.html', {'form': form})
+        else:
+            form = CreateTournamentForm(request.POST)
+            if form.is_valid():
+                tournament = form.instance
+                tournament.save()
+                messages.success(request, 'Created tournament')
+                return redirect('staff:tournament_detail', pk=tournament.id)
+            else:
+                form = CreateTournamentForm(request.POST)
+                return render(request, 'staff/createtournament.html', {'form':form})
 
 
 def generate_bracket(request, pk):  # Launch tournament
@@ -366,6 +375,7 @@ def generate_bracket(request, pk):  # Launch tournament
             messages.error(request, message='The bracket is already generated.')
             return redirect('staff:tournamentlist')
         else:
+            calculaterank.calculaterank()
             tournament.generate_rounds()
             tournament.generate_bracket()
             tournament.bracket_generated = True
@@ -601,26 +611,30 @@ class MatchDeclareWinner(View):
             return render(request, 'staff/permissiondenied.html')
         else:
             matchobj = Match.objects.get(pk=pk)
-            form = DeclareMatchWinnerPost(request.POST, instance=matchobj)
-            instance = form.instance
-            match = Match.objects.get(id=self.kwargs['pk'])
-            winner = Team.objects.get(id=form.data['winner'])
-            teams = list()
-            teams.append(match.hometeam)
-            teams.append(match.awayteam)
-            teams.remove(winner)
-            loser = teams[0]
-            instance.match = match
-            instance.winner = winner
-            instance.loser = loser
-            instance.completed = True
-            instance.save()
-            winner.num_matchwin += 1
-            loser.num_matchloss += 1
-            winner.save()
-            loser.save()
-            messages.success(request, "Winner declared")
-            return redirect('staff:matches_index')
+            if not matchobj.bye_2 and not matchobj.bye_1:
+                form = DeclareMatchWinnerPost(request.POST, instance=matchobj)
+                instance = form.instance
+                match = Match.objects.get(id=self.kwargs['pk'])
+                winner = Team.objects.get(id=form.data['winner'])
+                teams = list()
+                teams.append(match.hometeam)
+                teams.append(match.awayteam)
+                teams.remove(winner)
+                loser = teams[0]
+                instance.match = match
+                instance.winner = winner
+                instance.loser = loser
+                instance.completed = True
+                instance.save()
+                winner.num_matchwin += 1
+                loser.num_matchloss += 1
+                winner.save()
+                loser.save()
+                messages.success(request, "Winner declared")
+                return redirect('staff:matches_index')
+            else:
+                messages.error(request, 'Bye match, cannot set winner')
+                return redirect('staff:matches_index')
 
 
 def match_delete_winner(request, pk):
@@ -630,19 +644,23 @@ def match_delete_winner(request, pk):
         return render(request, 'staff/permissiondenied.html')
     else:
         match = Match.objects.get(pk=pk)
-        match.winner = None
-        match.completed = False
-        match.reported = False
-        match.team1reported = False
-        match.team2reported = False
-        match.team1reportedwinner = None
-        match.team2reportedwinner = None
-        match.disputed = False
-        match.save()
-        for i in MatchReport.objects.filter(match_id=pk):
-            i.delete()
-        messages.success(request, "Winner reset")
-        return redirect('staff:matches_index')
+        if not match.bye_1 and not match.bye_2:
+            match.winner = None
+            match.completed = False
+            match.reported = False
+            match.team1reported = False
+            match.team2reported = False
+            match.team1reportedwinner = None
+            match.team2reportedwinner = None
+            match.disputed = False
+            match.save()
+            for i in MatchReport.objects.filter(match_id=pk):
+                i.delete()
+            messages.success(request, "Winner reset")
+            return redirect('staff:matches_index')
+        else:
+            messages.error(request, 'Bye match, cannot change winner')
+            return redirect('staff:matches_index')
 
 
 def dispute_detail(request, pk):

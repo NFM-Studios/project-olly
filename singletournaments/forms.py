@@ -67,8 +67,8 @@ class SingleEliminationTournamentSort(forms.Form):
         super(SingleEliminationTournamentSort, self).__init__(*args, **kwargs)
         self.fields['platform'].choices = platforms
         self.fields['game'].choices = games
-        self.fields['platform'].widget.attrs.update({'name': 'subject', 'class': 'form-control'})
-        self.fields['game'].widget.attrs.update({'name': 'subject', 'class': 'form-control'})
+        self.fields['platform'].widget.attrs.update({'name': 'subject', 'class': 'form-control', 'style': 'background-color: black'})
+        self.fields['game'].widget.attrs.update({'name': 'subject', 'class': 'form-control', 'style': 'background-color: black'})
 
 
 class SingleTournamentLeaveForm(forms.Form):

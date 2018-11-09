@@ -83,11 +83,20 @@ Match #{{ match.id }}
     </tr>
     <tr>
         <td>Home team</td>
+        {% if not match.bye_2 %}
         <td><a href="{% url 'teams:detail' pk=match.hometeam_id %}">{{ match.hometeam }}</a></td>
+        {% else %}
+        <td>BYE</td>
+        {% endif %}
+
     </tr>
     <tr>
         <td>Away Team</td>
+        {% if not match.bye_2 and not match.bye_1 %}
         <td><a href="{% url 'teams:detail' pk=match.awayteam_id %}">{{ match.awayteam }}</a></td>
+        {% else %}
+        <td>BYE</td>
+        {% endif %}
     </tr>
     <tr>
         <td>Reported</td>
