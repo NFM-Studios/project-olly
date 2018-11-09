@@ -95,9 +95,11 @@ class TicketCreateView(View):
     def post(self, request):
         form = self.form_class(request.POST)
 
-        if form.is_valid:
+        if form.is_valid():
             ticket = form.instance
             ticket.creator = self.request.user
+            ticket.text = form.cleaned_data['text']
+            ticket.category = form.cleaned_data['category']
             ticket.save()
             messages.success(self.request, 'Your ticket has been successfully created')
-            return redirect('support:detail', pk=[ticket.id])
+            return redirect('support:detail', pk=ticket.id)

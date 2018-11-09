@@ -55,6 +55,14 @@ Total users: {{ numusers }}
     <td> <a href="/staff/users/banip/{{ up.user }}" class="btn btn-danger">BAN IP</a> </td>
 {% endif %}
 
+{% if request.tenant == 'binge' %}
+    {% if not up.user_verified %}
+    <td><a href="/staff/users/verify/{{ up.user }}" class="btn btn-primary"> Verify User</a> </td>
+    {% else  %}
+    <td><a href="/staff/users/verify/{{ up.user }}" class="btn btn-primary"> Unverify User</a> </td>
+    {% endif %}
+{% endif %}
+
 </tr>
 {% endfor %}
 </table>

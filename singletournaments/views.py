@@ -57,6 +57,8 @@ class List(View):
         elif game == '14':
             tournament_list_ = SingleEliminationTournament.objects.filter(game=14)
         elif game == '15':
+            tournament_list_ = SingleEliminationTournament.objects.filter(game=15)
+        elif game == '16':
             tournament_list_ = SingleEliminationTournament.objects.all()
 
         if platform == '0':
@@ -114,18 +116,23 @@ class SingleTournamentJoin(View):
             elif tournament.teamformat == 5:
                 players = 6
             team = Team.objects.get(id=int(form.data['teams']))
-            users = TeamInvite.objects.filter(team=form.data['teams'])
+            users = TeamInvite.objects.filter(team=form.data['teams'], accepted=True)
             teams = tournament.teams.all()
             teameligible = False
             utc = pytz.UTC
             now = utc.localize(datetime.datetime.now())
 
-            if tournament.open_register >= now:
+            """if tournament.open_register >= now:
                 messages.error(request, 'Registration for this tournament is not open yet')
                 return redirect('singletournaments:list')
 
             if tournament.close_register <= now:
                 messages.error(request, 'Registration for this tournament is closed already')
+                return redirect('singletournaments:list')
+            """
+
+            if not tournament.allow_register:
+                messages.error(request, 'Registration for this tournament is not open currently')
                 return redirect('singletournaments:list')
 
             if tournament.bracket_generated:
@@ -138,9 +145,13 @@ class SingleTournamentJoin(View):
                 return redirect('singletournaments:list')
             for invite in users:
                 user = UserProfile.objects.get(user_id=invite.user.id)
-                if not user.xbl_verified or not user.psn_verified:
+                if not user.xbl_verified and tournament.platform == 1:
                     teameligible = False
-                    messages.error(request, "One or more users does not have Xbox Live or PSN set")
+                    messages.error(request, "One or more users does not have Xbox Live set")
+                    return redirect('teams:list')
+                elif not user.psn_verified and tournament.platform == 0:
+                    teameligible = False
+                    messages.error(request, "One or more users does not have PSN set")
                     return redirect('teams:list')
                 elif int(user.credits) < int(tournament.req_credits):
                     teameligible = False
@@ -243,8 +254,10 @@ class SingleTournamentDetail(View):
     def get(self, request, **kwargs):
         pk = self.kwargs['pk']
         tournament = get_object_or_404(SingleEliminationTournament, id=pk)
+        ruleset = tournament.ruleset
+        teams = tournament.teams.all()
         return render(request, 'singletournaments/' + request.tenant + '/singletournament_detail.html',
-                      {'pk': pk, 'tournament': tournament})
+                      {'pk': pk, 'tournament': tournament, 'ruleset': ruleset, 'teams': teams})
 
 
 class SingleTournamentTeamsList(View):

@@ -38,10 +38,15 @@ class TeamInviteFormGet(forms.ModelForm):
          }
 
     def __init__(self, request, *args, **kwargs):
+        super(TeamInviteFormGet, self).__init__(*args, **kwargs)
+        self.fields['user'].widget.attrs.update({'name': 'user', 'class': 'form-control', 'style': 'width:30%'})
+        self.fields['team'].widget.attrs.update({'name': 'team', 'class': 'form-control', 'style': 'width:30%'})
+        self.fields['captain'].widget.attrs.update({'name': 'captain', 'class': 'form-control', 'style': 'width:30%'})
+
         self.username = request.user
         invites = TeamInvite.objects.filter(hasPerms=True, user=request.user, accepted=True)
         teams = Team.objects.filter(id__in=invites.values_list('team'))
-        super().__init__(*args, **kwargs)
+        # super().__init__(*args, **kwargs)
         self.fields['team'].queryset = teams
 
 
@@ -100,6 +105,8 @@ class RemoveUserForm(forms.Form):
         players = TeamInvite.objects.filter(team=team, accepted=True)
         super().__init__(*args, **kwargs)
         self.fields['remove'].queryset = players
+        self.fields['remove'].widget.attrs.update({'name': 'remove', 'class': 'form-control', 'style': 'background-color: black'})
+
 
 
 class RemovePlayerFormPost(forms.Form):

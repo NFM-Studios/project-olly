@@ -12,7 +12,142 @@ Static Info
 <form method="POST" enctype="multipart/form-data" action="{% url 'staff:pages' %}">
     <table class="table">
         {% csrf_token %}
-        {{form.as_table}}
+        <table class="table">
+            <tbody>
+            <tr>
+                <th>About Us:</th>
+                <td>{{ form.about_us }}</td>
+            </tr>
+            <tr>
+                <th>Terms:</th>
+                <td>{{ form.terms }}</td>
+            </tr>
+            <tr>
+                <th>Stream:</th>
+                <td>{{ form.stream }}</td>
+            </tr>
+            {% if tenant == "binge" %}
+            <tr>
+                <th>Slide 1 large text:</th>
+                <td>{{ form.bingeslide1big }}</td>
+            </tr>
+            <tr>
+                <th>Slide 1 small text:</th>
+                <td>{{ form.bingeslide1small }}</td>
+            </tr>
+            <tr>
+                <th>Slide 1 link:</th>
+                <td>{{ form.bingeslide1link }}</td>
+            </tr>
+            <tr>
+                <th>Slide 1 image:</th>
+                <td>{{ form.slide1_img }}</td>
+            </tr>
+
+            <tr>
+                <th>Slide 2 large text:</th>
+                <td>{{ form.bingeslide2big }}</td>
+            </tr>
+            <tr>
+                <th>Slide 2 small text:</th>
+                <td>{{ form.bingeslide2small }}</td>
+            </tr>
+            <tr>
+                <th>Slide 2 link:</th>
+                <td>{{ form.bingeslide2link }}</td>
+            </tr>
+            <tr>
+                <th>Slide 2 image:</th>
+                <td>{{ form.slide2_img }}</td>
+            </tr>
+
+            <tr>
+                <th>Slide 3 large text:</th>
+                <td>{{ form.bingeslide3big }}</td>
+            </tr>
+            <tr>
+                <th>Slide 3 small text:</th>
+                <td>{{ form.bingeslide3small }}</td>
+            </tr>
+            <tr>
+                <th>Slide 3 link:</th>
+                <td>{{ form.bingeslide3link }}</td>
+            </tr>
+            <tr>
+                <th>Slide 3 image:</th>
+                <td>{{ form.slide3_img }}</td>
+            </tr>
+
+            <tr>
+                <th>Top 1 text:</th>
+                <td>{{ form.bingetop1 }}</td>
+            </tr>
+
+            <tr>
+                <th>Top 1 image:</th>
+                <td>{{ form.bingetop1image }}</td>
+            </tr>
+            <tr>
+                <th>Top 1 link:</th>
+                <td>{{ form.bingetop1link }}</td>
+            </tr>
+
+            <tr>
+                <th>Top 2 text:</th>
+                <td>{{ form.bingetop2 }}</td>
+            </tr>
+
+            <tr>
+                <th>Top 2 image:</th>
+                <td>{{ form.bingetop2image }}</td>
+            </tr>
+            <tr>
+                <th>Top 2 link:</th>
+                <td>{{ form.bingetop2link }}</td>
+            </tr>
+
+            <tr>
+                <th>Top 3 text:</th>
+                <td>{{ form.bingetop3 }}</td>
+            </tr>
+
+            <tr>
+                <th>Top 3 image:</th>
+                <td>{{ form.bingetop3image }}</td>
+            </tr>
+            <tr>
+                <th>Top 3 link:</th>
+                <td>{{ form.bingetop3link }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <th>Slide 1 link:</th>
+                <td>{{ form.slide1link }}</td>
+            </tr>
+            <tr>
+                <th>Slide 1 image:</th>
+                <td>{{ form.slide1_img }}</td>
+            </tr>
+
+            <tr>
+                <th>Slide 2 link:</th>
+                <td>{{ form.slide2link }}</td>
+            </tr>
+            <tr>
+                <th>Slide 2 image:</th>
+                <td>{{ form.slide2_img }}</td>
+            </tr>
+            {% endif %}
+            <tr>
+                <th>Welcomeln1:</th>
+                <td>{{ form.welcomeln1 }}</td>
+            </tr>
+            <tr>
+                <th>Welcomeln2:</th>
+                <td>{{ form.welcomeln2 }}</td>
+            </tr>
+            </tbody>
+        </table>
         <tr>
             <td colspan="2">
                 <input type="submit" class="btn btn-success" value="Submit" />

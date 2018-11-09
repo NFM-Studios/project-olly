@@ -16,13 +16,18 @@ from teams.models import Team
 from teams.models import TeamInvite
 from profiles.models import UserProfile
 from django.shortcuts import get_object_or_404
+from matches.models import Match
 
 
 class MyInvitesListView(ListView):
     # show all the invites, and an accept or deny button.
     # check if the invite is expired.
     model = TeamInvite
-    template_name = 'teams/my-invites.html'
+    #template_name = 'teams/' + request.tenant + 'my-invites.html'
+
+    def get(self, request):
+        teaminvite_list = TeamInvite.objects.filter(user=self.request.user, active=True)
+        return render(request, 'teams/' + request.tenant + '/my-invites.html', {'teaminvite_list': teaminvite_list})
 
     def get_queryset(self):
         # make sure that the invites are for the requested user
@@ -109,12 +114,18 @@ class MyTeamDetailView(DetailView):
     def get(self, request, pk):
         team = get_object_or_404(Team, id=pk)
         players = TeamInvite.objects.filter(team=team, accepted=True)
-        user = UserProfile.objects.get(id=request.user.id)
-        if not user.xbl_verified:
-            messages.warning(request, "Xbox Live is not verified")
-        if not user.psn_verified:
-            messages.warning(request, "PSN is not verified")
-        return render(request, 'teams/' + request.tenant + '/team.html', {'team': team, 'players': players, 'pk': pk})
+        matches_ = Match.objects.filter(awayteam_id=team.id)
+        matches__ = Match.objects.filter(hometeam_id=team.id)
+        matches = matches_ | matches__
+        if not request.user.is_anonymous:
+            user = UserProfile.objects.get(user__username=request.user.username)
+            if not user.xbl_verified:
+                messages.warning(request, "Xbox Live is not verified")
+            if not user.psn_verified:
+                messages.warning(request, "PSN is not verified")
+            return render(request, 'teams/' + request.tenant + '/team.html', {'team': team, 'players': players, 'pk': pk, 'matches': matches})
+        else:
+            return render(request, 'teams/' + request.tenant + '/team.html', {'team': team, 'players': players, 'pk': pk, 'matches': matches})
 
     def get_context_date(self, **kwargs):
         context = super(MyTeamDetailView, self).get_context_date(**kwargs)
@@ -187,7 +198,7 @@ class TeamInviteCreateView(View):
 
     def get(self, request):
         form = self.form_class(request)
-        return render(request, self.template_name, {'form': form})
+        return render(request, 'teams/' + request.tenant + '/invite-player.html', {'form': form})
 
     def post(self, request):
         form = TeamInviteFormPost(request.POST)
@@ -232,7 +243,7 @@ class LeaveTeamView(View):
     def get(self, request, pk):
         form = self.form_class()
         team = Team.objects.get(id=pk)
-        return render(request, self.template_name, {'form': form, 'team': team})
+        return render(request, 'teams/' + request.tenant + '/leave-team.html', {'form': form, 'team': team})
 
     def post(self, request, pk):
         form = self.form_class(request.POST)
@@ -263,7 +274,7 @@ class RemoveUserView(View):
         team = Team.objects.get(id=pk)
         if request.user == team.founder:
             form = RemoveUserForm(request, pk)
-            return render(request, self.template_name, {'form': form, 'pk': pk})
+            return render(request, 'teams/' + request.tenant + '/remove_user.html', {'form': form, 'pk': pk})
         else:
             messages.error(request, "Only the team's founder can remove users")
             return redirect('teams:detail', pk)
@@ -294,7 +305,7 @@ class DissolveTeamView(View):
         team = Team.objects.get(id=pk)
         if request.user == team.founder:
             form = DissolveTeamForm(request, pk)
-            return render(request, self.template_name, {'form': form, 'pk': pk})
+            return render(request, 'teams/' + request.tenant + '/dissolve_team.html', {'form': form, 'pk': pk})
         else:
             messages.error(request, "Only the team's founder can dissolve the team")
             return redirect('teams:detail', pk)

@@ -13,8 +13,19 @@ from store.models import Product
 class StaticInfoForm(forms.ModelForm):
     class Meta:
         model = StaticInfo
-        fields = ('about_us', 'terms', 'stream', 'slide1link', 'slide1_img',
-                  'slide2link', 'slide2_img', 'slide3link', 'slide3_img')
+        fields = '__all__'
+        #fields = ('about_us', 'terms', 'stream', 'slide1link', 'slide1_img',
+        #          'slide2link', 'slide2_img', 'slide3link', 'slide3_img', 'welcomeln1',
+        #          'welcomeln2')
+
+    #def __init__(self, request, *args, **kwargs):
+    #    if request.tenant == 'binge':
+    #        newfields = ('bingetop1', 'bingetop2', 'bingetop3', 'bingetop1link', 'bingetop2link',
+    ##                     'bingetop3link', 'bingeslide1big', 'bingeslide2big', 'bingeslide3big',
+    #                    'bingeslide1small', 'bingeslide2small', 'bingeslide3small', 'bingeslide1link',
+    #                     'bingeslide1link', 'bingeslide2link', 'bingeslide3link')
+    #    super().__init__(request, *args, **kwargs)
+    #    self.fields.update(newfields)
 
 
 class PartnerForm(forms.ModelForm):
@@ -46,6 +57,23 @@ class TicketCommentCreateForm(forms.ModelForm):
         fields = ('comment',)
 
 
+class CreateTournamentForm(forms.ModelForm):
+    class Meta:
+        model = SingleEliminationTournament
+        fields = '__all__'
+        widgets = {
+            'open_register': forms.DateTimeInput(attrs={'class': 'form-control datetimepicker-input', 'id': 'datetimepicker1', 'data-toggle': 'datetimepicker', 'data-target': '#datetimepicker1'}),
+            'close_register': forms.DateTimeInput(attrs={'class': 'form-control datetimepicker-input', 'id': 'datetimepicker2', 'data-toggle': 'datetimepicker', 'data-target': '#datetimepicker2'}),
+            'start': forms.DateTimeInput(attrs={'class': 'form-control datetimepicker-input', 'id': 'datetimepicker3', 'data-toggle': 'datetimepicker', 'data-target': '#datetimepicker3'})
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['third'].queryset = SingleEliminationTournament.objects.none()
+        self.fields['second'].queryset = SingleEliminationTournament.objects.none()
+        self.fields['winner'].queryset = SingleEliminationTournament.objects.none()
+
+
 class EditTournamentForm(forms.ModelForm):
     class Meta:
         model = SingleEliminationTournament
@@ -55,6 +83,12 @@ class EditTournamentForm(forms.ModelForm):
             'close_register': forms.DateTimeInput(attrs={'class': 'form-control datetimepicker-input', 'id': 'datetimepicker2', 'data-toggle': 'datetimepicker', 'data-target': '#datetimepicker2'}),
             'start': forms.DateTimeInput(attrs={'class': 'form-control datetimepicker-input', 'id': 'datetimepicker3', 'data-toggle': 'datetimepicker', 'data-target': '#datetimepicker3'})
         }
+
+    def __init__(self, obj, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['third'].queryset = obj.teams.all()
+        self.fields['second'].queryset = obj.teams.all()
+        self.fields['winner'].queryset = obj.teams.all()
 
 
 class DeclareMatchWinnerForm(forms.ModelForm):
@@ -190,3 +224,8 @@ class DeleteProductForm(forms.Form):
 class RemovePostForm(forms.Form):
     slug = forms.CharField(required=True, max_length=250)
 
+
+class EditMatchForm(forms.ModelForm):
+    class Meta:
+        model = Match
+        fields = ('info',)

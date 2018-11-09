@@ -9,8 +9,8 @@
 
 
 
-
-    <div class="container page">
+<div class="container page1">
+<div class="space90"></div>
 
 <div class="col-xs-12">
            <div class="panel">
@@ -24,7 +24,9 @@
                   <div class="col-xs-12 banner-head bot20">
                    <div class="row">
                    <div class="col-xs-12 col-sm-4">
-                    <img src="{% if tournament.game == 0 %}
+                    <img src="{% if not tournament.image == "" %}{{ tournament.image }}{% else %}
+
+{% if tournament.game == 0 %}
 
         {% elif tournament.game == 1 %}
         {% static 'images/bo3.jpg' %}
@@ -54,7 +56,9 @@
         {% static 'images/rocketleaguecover.jpeg' %}
         {% elif tournament.game == 14 %}
         {% static 'images/bf1cover.jpg' %}
-        {% endif %}"/>
+        {% endif %}
+
+                    {% endif %}"/>
                    </div>
                    <div class="col-xs-12 col-sm-8">
                    <br>
@@ -73,6 +77,10 @@
         Playstation 3
         {% elif tournament.platform == 6 %}
         Xbox 360
+        {% elif tournament.platform == 7 %}
+        All Consoles
+        {% elif tournament.platform == 8 %}
+        All Platforms
         {% endif %} | {% if tournament.game == 0 %}
         No Game Set
         {% elif tournament.game == 1 %}
@@ -103,13 +111,15 @@
         Rocket League
         {% elif tournament.game == 14 %}
         Battlefield 1
+        {% elif tournament.game == 15 %}
+        Black Ops 4
         {% endif %}</h4>
-                    8PM GMT | 1st Place: {{ tournament.prize1 }}, 2nd Place: {{ tournament.prize2 }}<br>
+                    {{ tournament.start }}| 1st Place: {{ tournament.prize1 }}, 2nd Place: {{ tournament.prize2 }}<br>
                     <br>
                     <ul class="nav nav-pills">
 			<li class="active"><a href="#1" data-toggle="tab" aria-expanded="true" style="margin-bottom:4px;">INFO</a></li>
             <li class=""><a href="#3" data-toggle="tab" aria-expanded="false" style="margin-bottom:4px;">TEAMS</a></li>
-			<li class=""><a href="#2" data-toggle="tab" aria-expanded="false" style="margin-bottom:4px;">BRACKET</a></li>
+			<li class=""><a href="{% url 'singletournaments:bracket' pk=tournament.id %}"  style="margin-bottom:4px;">BRACKET</a></li>
             <li class=""><a href="#4" data-toggle="tab" aria-expanded="false" style="margin-bottom:4px;">RULES</a></li>
             <li class=""><a href="{% url 'singletournaments:join' pk=tournament.id %}" style="margin-bottom:4px;">JOIN</a></li>
 </ul>
@@ -283,9 +293,6 @@
 
                  </div>
 
-    </div>
-
-   </div>
 
 </div>
 

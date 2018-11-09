@@ -1,4 +1,4 @@
-
+{% extends 'binge/base.html' %}
 {% load staticfiles %}
 
   {% block head %}
@@ -7,8 +7,18 @@
 
 {% block body %}
 <link rel="stylesheet" href="{% static "css/singletournament.css" %}">
-    <h2>Bracket for {{ tournament.name }}</h2>
+<br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
 
+<div class="container page">
+
+<div class="col-xs-12">
+           <div class="panel">
+              <div class="panel-body">
 
 
     <main id="tournament">
@@ -45,7 +55,6 @@
     <ul class="round round-2">
 
         <li class="spacer">&nbsp;</li>
-        <li class="spacer">&nbsp;</li>
 
     {% if round2matches.count is 0 %}
 
@@ -79,6 +88,7 @@
             0
             {% endif %}
         </span></li>
+            <li class="spacer"></li>
         {% endfor %}
 
     {% endif %}
@@ -89,7 +99,6 @@
 
 
 <ul class="round round-3">
-<li class="spacer">&nbsp;</li>
 <li class="spacer">&nbsp;</li>
     {% if round3matches.count is 0 %}
 
@@ -123,6 +132,7 @@
             0
             {% endif %}
         </span></li>
+            <li class="spacer"></li>
         {% endfor %}
 
     {% endif %}
@@ -132,7 +142,6 @@
     </ul>
 
     <ul class="round round-4">
-<li class="spacer">&nbsp;</li>
 <li class="spacer">&nbsp;</li>
     {% if round4matches.count is 0 %}
 
@@ -166,6 +175,7 @@
             0
             {% endif %}
         </span></li>
+            <li class="spacer"></li>
         {% endfor %}
 
     {% endif %}
@@ -175,7 +185,6 @@
     </ul>
 
     <ul class="round round-5">
-<li class="spacer">&nbsp;</li>
 <li class="spacer">&nbsp;</li>
     {% if round5matches.count is 0 %}
 
@@ -209,6 +218,7 @@
             0
             {% endif %}
         </span></li>
+            <li class="spacer"></li>
         {% endfor %}
 
     {% endif %}
@@ -222,7 +232,6 @@
 
 
     <ul class="round round-6">
-<li class="spacer">&nbsp;</li>
 <li class="spacer">&nbsp;</li>
     {% if round6matches.count is 0 %}
 
@@ -256,6 +265,7 @@
             0
             {% endif %}
         </span></li>
+            <li class="spacer"></li>
         {% endfor %}
 
     {% endif %}
@@ -267,7 +277,6 @@
 
 
     <ul class="round round-7">
-<li class="spacer">&nbsp;</li>
 <li class="spacer">&nbsp;</li>
     {% if round6matches.count is 0 %}
 
@@ -301,6 +310,7 @@
             0
             {% endif %}
         </span></li>
+            <li class="spacer"></li>
         {% endfor %}
 
     {% endif %}
@@ -310,5 +320,8 @@
     </ul>
 
 </main>
-
+              </div>
+           </div>
+</div>
+</div>
 {% endblock %}

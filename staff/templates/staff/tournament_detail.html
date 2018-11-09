@@ -47,6 +47,10 @@ Tournament #{{ tournament.id }}
         <td>Playstation 3</td>
         {% elif tournament.platform == 6 %}
         <td>XBOX 360</td>
+        {% elif tournament.platform == 7 %}
+        <td>All Consoles</td>
+        {% elif tournament.platform == 8 %}
+        <td>All Platforms</td>
         {% endif %}
     </tr>
     <tr>
@@ -105,6 +109,8 @@ Tournament #{{ tournament.id }}
         <td>Rocket League</td>
         {% elif tournament.game == 14 %}
         <td>Battlefield 1</td>
+        {% elif tournament.game == 15 %}
+        <td>Call of Duty: Black Ops 4</td>
         {% endif %}
     </tr>
     <tr>
@@ -149,11 +155,13 @@ Tournament #{{ tournament.id }}
 
     <p>
         <a href="{% url 'staff:edit_tournament' pk=tournament.id %}" class="btn btn-primary">Edit</a>
+    {% if tournament.active %}
         {% if not tournament.bracket_generated %}
             <a href="{% url 'staff:generate_bracket' pk=tournament.id %}" class="btn btn-success">LAUNCH</a>
         {% else %}
             <a href="{% url 'staff:advance' pk=tournament.id %}" class="btn btn-success">Advance</a>
         {% endif %}
+    {% endif %}
         <a href="{% url 'staff:delete_tournament' pk=tournament.id %}" class="btn btn-danger">DELETE</a>
     </p>
 
