@@ -49,4 +49,15 @@ venv/
 olly/media/profile_images/
 db\.sqlite3\.1
 
-env
+env/Include/
+
+*.tcl
+
+*.msg
+
+env/tcl/tk8\.6/
+
+env/tcl/tcl8\.6/tzdata/
+
+
+env/
