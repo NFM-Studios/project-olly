@@ -5,12 +5,8 @@
   {% endblock %}
 
 {% block body %}
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
     <div class="container">
+    <div class="space90"></div>
     <div class="col-xs-12">
 
          <h2 class="center">Edit Profile</h2>
@@ -96,6 +92,11 @@
 
     <label>Country</label>
     <div class="form-group">{{ form.country }}</div>
+
+
+      <label>Profile Picture</label>
+    <div class="form-group">{{ form.profile_picture}}</div>
+
 
     <button type="submit" class="btn btn-primary">Update</button>
   </form>
