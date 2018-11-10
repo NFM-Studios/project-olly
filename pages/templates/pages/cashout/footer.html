@@ -11,21 +11,19 @@
    </div>
    <div class="col-xs-6 col-sm-6 col-md-3 center">
    <br>
-    <a href="#">TOURNAMENTS</a><br>
-    <a href="#">LADDERS</a><br>
+    <a href="{% url 'singletournaments:list' %}">TOURNAMENTS</a><br>
     <a href="#">PLAYSTATION</a><br>
     <a href="#">XBOX</a><br>
    </div>
    <div class="col-xs-6 col-sm-6 col-md-3 center">
    <br>
-    <a href="#">LEADERBOARD</a><br>
-    <a href="#">STORE</a><br>
-    <a href="#">PREMIUM</a><br>
-    <a href="#">CONTACT US</a><br>
+    <a href="{% url 'profiles:leaderboard' %}">LEADERBOARD</a><br>
+    <a href="{% url 'store:store' %}">STORE</a><br>
+    <a href="{% url 'support:list' %}">SUPPORT</a><br>
    </div>
    <div class="col-xs-6 col-sm-6 col-md-3 center">
    <br>
-     <a href="#"><i class="fa fa-twitter"></i></a> <a href="#"><i class="fa fa-youtube"></i></a> <a href="#"><i class="fa fa-twitch"></i></a> <a href="#"><i class="fa fa-facebook"></i></a> <br><br>
+     <a href="https://twitter.com/cashoutgamingco"><i class="fa fa-twitter"></i></a> <a href="#"><i class="fa fa-youtube"></i></a> <a href="#"><i class="fa fa-twitch"></i></a> <a href="#"><i class="fa fa-facebook"></i></a> <br><br>
      Copyright 2018 &copy; CashOut Gaming<br>
      All Rights Reserved<br>
        {% block foot %}
