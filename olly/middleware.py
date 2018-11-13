@@ -60,6 +60,10 @@ def tenant_middleware(get_response):
         elif domain == 'worldleagueofgaming' or subdomain == 'wlg':
             request.tenant = 'wlg'
             request.package = 'bobcat'
+
+        elif domain == 'cashoutgaming' or subdomain == 'cashout':
+            request.tenant = 'cashout'
+            request.package = 'bobcat'
             
         else:
             request.tenant = 'stock'
