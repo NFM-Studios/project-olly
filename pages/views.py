@@ -31,6 +31,12 @@ def index(request):
         newslist = Post.objects.all().order_by('-id')[:3]
         matchlist = Match.objects.all().order_by('-id')[:3]
         tournament_list = SingleEliminationTournament.objects.filter(active=True).order_by('-id')[:8]
+    elif request.tenant == 'cashout':
+        teamlist = Team.objects.all().order_by('-id')[:1]
+        playerlist = UserProfile.objects.all().order_by('-xp')[:10]
+        newslist = Post.objects.all().order_by('-id')[:3]
+        matchlist = Match.objects.all().order_by('-id')[:3]
+        tournament_list = SingleEliminationTournament.objects.filter(active=True).order_by('-id')[:6]
     else:
         teamlist = Team.objects.all().order_by('-id')[:5]
         playerlist = UserProfile.objects.all().order_by('-id')[:3]
