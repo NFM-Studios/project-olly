@@ -1,0 +1,266 @@
+{% extends 'cashout/base.html' %}
+{% load staticfiles %}
+
+  {% block head %}
+  <title>{{ tournament.name }} Bracket - {{ SITE_NAME }}</title>
+  {% endblock %}
+
+{% block body %}
+<link rel="stylesheet" href="{% static "css/singletournament.css" %}">
+
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+
+<div class="container page">
+
+<div class="col-xs-12">
+           <div class="panel">
+              <div class="panel-body">
+
+    <main id="tournament">
+    <ul class="round round-1">
+        <li class="spacer">&nbsp;</li>
+        {% for match in round1matches %}
+        <li class="game game-top {% if match.winner.id == match.awayteam.id %}
+            winner
+            {% else %}
+
+            {% endif %}"><a href="{% url 'matches:detail' pk=match.id %}">{{ match.awayteam }}</a><span>
+            {% if match.winner.id == match.awayteam.id %}
+            1
+            {% else %}
+            0
+            {% endif %}
+        </span></li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom {% if match.winner.id == match.hometeam.id %}
+            winner
+            {% else %}
+
+            {% endif %}"><a href="{% url 'matches:detail' pk=match.id %}">{{ match.hometeam }}</a><span>
+            {% if match.winner.id == match.hometeam.id %}
+            1
+            {% else %}
+            0
+            {% endif %}
+        </span></li>
+
+        <li class="spacer">&nbsp;</li>
+        {% endfor %}
+        </ul>
+
+    <ul class="round round-2">
+
+        <li class="spacer">&nbsp;</li>
+        <!--<li class="spacer">&nbsp;</li>-->
+
+    {% if round2matches.count is 0 %}
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+    {% else %}
+        {% for match2 in round2matches %}
+
+        <li class="game game-top {% if match2.winner.id == match2.awayteam.id %}
+            winner
+            {% else %}
+
+            {% endif %}"><a href="{% url 'matches:detail' pk=match2.id %}">{{ match2.awayteam }}</a><span>
+            {% if match2.winner.id == match2.awayteam.id %}
+            1
+            {% else %}
+            0
+            {% endif %}
+        </span></li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom {% if match2.winner.id == match2.hometeam.id %}
+            winner
+            {% else %}
+
+            {% endif %}"><a href="{% url 'matches:detail' pk=match2.id %}">{{ match2.hometeam }}</a><span>
+            {% if match2.winner.id == match2.hometeam.id %}
+            1
+            {% else %}
+            0
+            {% endif %}
+        </span></li>
+            <li class="spacer"></li>
+        {% endfor %}
+
+    {% endif %}
+    </ul>
+
+
+
+
+<ul class="round round-3">
+<li class="spacer">&nbsp;</li>
+
+    {% if round3matches.count is 0 %}
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+    {% else %}
+        {% for match3 in round3matches %}
+
+        <li class="game game-top {% if match3.winner.id == match3.awayteam.id %}
+            winner
+            {% else %}
+
+            {% endif %}"><a href="{% url 'matches:detail' pk=match3.id %}">{{ match3.awayteam }}</a><span>
+            {% if match3.winner.id == match3.awayteam.id %}
+            1
+            {% else %}
+            0
+            {% endif %}
+        </span></li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom {% if match3.winner.id == match3.hometeam.id %}
+            winner
+            {% else %}
+
+            {% endif %}"><a href="{% url 'matches:detail' pk=match3.id %}">{{ match3.hometeam }}</a><span>
+            {% if match3.winner.id == match3.hometeam.id %}
+            1
+            {% else %}
+            0
+            {% endif %}
+        </span></li>
+            <li class="spacer"></li>
+        {% endfor %}
+
+    {% endif %}
+
+
+    </ul>
+
+    <ul class="round round-4">
+<li class="spacer">&nbsp;</li>
+
+    {% if round4matches.count is 0 %}
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+        <li class="spacer"></li>
+
+
+    {% else %}
+        {% for match4 in round4matches %}
+
+        <li class="game game-top {% if match4.winner.id == match4.awayteam.id %}
+            winner
+            {% else %}
+
+            {% endif %}"><a href="{% url 'matches:detail' pk=match4.id %}">{{ match4.awayteam }}</a><span>
+            {% if match4.winner.id == match4.awayteam.id %}
+            1
+            {% else %}
+            0
+            {% endif %}
+        </span></li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom {% if match4.winner.id == match4.hometeam.id %}
+            winner
+            {% else %}
+
+            {% endif %}"><a href="{% url 'matches:detail' pk=match4.id %}">{{ match4.hometeam }}</a><span>
+            {% if match4.winner.id == match4.hometeam.id %}
+            1
+            {% else %}
+            0
+            {% endif %}
+        </span></li>
+            <li class="spacer"></li>
+        {% endfor %}
+
+    {% endif %}
+
+
+    </ul>
+
+    <ul class="round round-5">
+<li class="spacer">&nbsp;</li>
+    {% if round5matches.count is 0 %}
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+    {% else %}
+        {% for match5 in round5matches %}
+
+        <li class="game game-top {% if match5.winner.id == match5.awayteam.id %}
+            winner
+            {% else %}
+
+            {% endif %}"><a href="{% url 'matches:detail' pk=match5.id %}">{{ match5.awayteam }}</a><span>
+            {% if match5.winner.id == match5.awayteam.id %}
+            1
+            {% else %}
+            0
+            {% endif %}
+        </span></li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom {% if match5.winner.id == match5.hometeam.id %}
+            winner
+            {% else %}
+
+            {% endif %}"><a href="{% url 'matches:detail' pk=match5.id %}">{{ match5.hometeam }}</a><span>
+            {% if match5.winner.id == match5.hometeam.id %}
+            1
+            {% else %}
+            0
+            {% endif %}
+        </span>
+        </li>
+        <li class="spacer"></li>
+        {% endfor %}
+
+    {% endif %}
+
+    </ul>
+
+</main>
+              </div>
+           </div>
+</div>
+</div>
+
+{% endblock %}
