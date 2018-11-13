@@ -98,10 +98,30 @@ Twitch: <a href="{% if userprofile.twitch_channel == "No Twitch Linked" or userp
                         </h1>
      				 </div>
 
-                        <!--<div class="col-xs-12 col-sm-6">
-                     <div class="panel-title bold">Latest Twitch Duels</div>
+                        <div class="col-xs-12 col-sm-6">
+                     <div class="panel-title bold">Teams {{ userprofile.user }} is apart of</div>
+                    <table class="table">
 
-     				 </div>--->
+                    <tr id="header">
+                    <thead>
+                    <th scope="row">Team ID</th>
+                    <th>Team Name</th>
+                    <th>Team Role</th>
+                    </thead>
+                     </tr>
+                    {% for invite in team_list %}
+                     <tbody>
+                        <tr scope="">
+                            <td scope="row"><a href="{% url 'teams:detail' pk=invite.team.id %}">#{{invite.team.id}}</a></td>
+                            <td>{{invite.team.name}}</td>
+                            <td>{{invite.captain}}</td>
+                        </tr>
+                        </tbody>
+
+
+                    {% endfor %}
+                    </table>
+     				 </div>
 
                     </div>
 
