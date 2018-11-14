@@ -213,7 +213,7 @@ class TeamInviteCreateView(View):
                 invitee = UserProfile.objects.get(user__username=form.data['user'])
             except:
                 messages.error(request, "That isn't a valid user")
-                return render(request, self.template_name, {'form': form})
+                return render(request, 'teams/' + request.tenant + '/invite-player.html', {'form': form})
             query = invite.filter(user=invitee.user, team=form.data['team'])
             if query.exists():
                 messages.error(request, "That user already has been invited to this team")
