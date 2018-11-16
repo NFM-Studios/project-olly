@@ -20,7 +20,7 @@
                        Founded by <a href="{% url 'profiles:profile' urlusername=team.founder %}">{{ team.founder }}</a> on {{ team.created }}<br><br>
                    </div>
                    <div class="col-xs-12 col-sm-6 center">
-                    <img src="{% static 'binge/images/avatar.jpg' %}"/>
+                    <img src="{% static 'binge/images/stock.png' %}"/>
                    </div>
 
                    </div>
@@ -75,7 +75,7 @@
                                     <tbody>
                                     {% for player in players %}
                                         <tr>
-                                            <td valign="middle"><img src="{% static 'binge/images/avatar.jpg' %}"></td>
+                                            <td valign="middle"><img src="{% static 'binge/images/stock.png' %}"/></td>
                                             <td valign="middle"><a href="{% url 'profiles:profile' urlusername=player %}">{{ player }}</a></td>
                                             <td valign="middle">unknown</td>
                                         </tr>
