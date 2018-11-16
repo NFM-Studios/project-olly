@@ -226,7 +226,7 @@
 		{% if player.profile_picture.url != "" %}
          <img src="{{ player.profile_picture.url }}">
          {% else %}
-           <img src="{% static 'binge/images/avatar.jpg' %}">
+           <img src="{% static 'binge/images/stock.png' %}">
 		 {% endif %}
             <div class="name"><h4><b><a href="{% url 'profiles:profile' urlusername=player %}">{{ player }}</a></b></h4>
          <!--<h6><span>Rank 1st</span></h6>-->
