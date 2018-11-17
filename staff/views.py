@@ -33,8 +33,10 @@ def staffindex(request):
         ticket = Ticket.objects.all()
         news = Post.objects.all()
         teams = Team.objects.all()
+        numusers = len(UserProfile.objects.all())
         tournaments = SingleEliminationTournament.objects.all()
-        return render(request, 'staff/staffindex.html', {'ticket': ticket, 'news': news, 'teams': teams, 'tournaments': tournaments})
+        return render(request, 'staff/staffindex.html', {'ticket': ticket, 'news': news, 'teams': teams,
+                                                         'tournaments': tournaments, 'numusers': numusers})
 
 
 # start users
