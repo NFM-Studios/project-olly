@@ -488,10 +488,14 @@ def advance(request, pk):
             winners.append(i.winner)
             team = Team.objects.get(id=i.winner_id)
             team.num_matchwin += 1
-            team1 = Team.objects.get(id=i.loser_id)
-            team1.num_matchloss += 1
+            try:
+                team1 = Team.objects.get(id=i.loser_id)
+                team1.num_matchloss += 1
+                team1.save()
+            except:
+                pass
             team.save()
-            team1.save()
+
         i = 0
         while i < len(winners):
             newmatch = Match(game=tournament.game, platform=tournament.platform,
