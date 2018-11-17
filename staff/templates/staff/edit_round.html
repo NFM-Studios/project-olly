@@ -1,0 +1,18 @@
+{% extends 'staff/staffbase.html' %}
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static "css/staff.css" %}">
+{% block title %}
+Edit Round
+{% endblock %}
+{% block body %}
+  <form method="post">
+    {% csrf_token %}
+    {{ field.errors }}
+
+     {{ form }}
+      <br>
+
+    <button type="submit" class="btn btn-primary">Update</button>
+
+  </form>
+{% endblock %}
