@@ -43,6 +43,8 @@ XBL: <a href="#">{{ userprofile.xbl }}
                        <i class="fa fa-times-circle" style="color:red"></i>
                        {% endif %}
                    </a><br>
+                   Epic Games: <a href="#"> {{ userprofile.epic }}</a>
+                   <br>
 <br>
 Twitter: <a href="{% if userprofile.twitter_profile == "No Twitter Linked" or userprofile.twitter_profile == "" %}
         #
