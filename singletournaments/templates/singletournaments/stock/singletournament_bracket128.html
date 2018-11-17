@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends 'binge/base.html' %}
 {% load staticfiles %}
 
   {% block head %}
@@ -6,9 +6,19 @@
   {% endblock %}
 
 {% block body %}
+<link rel="stylesheet" href="{% static "css/singletournament.css" %}">
+<br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
 
-    <h2>Bracket for {{ tournament.name }}</h2>
+<div class="container page">
 
+<div class="col-xs-12">
+           <div class="panel">
+              <div class="panel-body">
 
 
     <main id="tournament">
@@ -19,10 +29,7 @@
             winner
             {% else %}
 
-            {% endif %}"><a href="{% url 'matches:detail' pk=match.id %}">{% if match.awayteam.name is "None" %}
-            BYE
-            {% else %}
-            {{ match.awayteam }}{% endif %}</a><span>
+            {% endif %}"><a href="{% url 'matches:detail' pk=match.id %}">{{ match.awayteam }}</a><span>
             {% if match.winner is match.awayteam %}
             1
             {% else %}
@@ -45,9 +52,9 @@
         <li class="spacer">&nbsp;</li>
         {% endfor %}
         </ul>
+
     <ul class="round round-2">
 
-        <li class="spacer">&nbsp;</li>
         <li class="spacer">&nbsp;</li>
 
     {% if round2matches.count is 0 %}
@@ -55,6 +62,194 @@
         <li class="game game-top">TBD </li>
         <li class="game game-spacer">&nbsp;</li>
         <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
 
     {% else %}
         {% for match2 in round2matches %}
@@ -82,23 +277,114 @@
             0
             {% endif %}
         </span></li>
+            <li class="spacer"></li>
         {% endfor %}
 
     {% endif %}
+    </ul>
 
-
-        <li class="spacer">&nbsp;</li>
 
 
 
 <ul class="round round-3">
-<li class="spacer">&nbsp;</li>
 <li class="spacer">&nbsp;</li>
     {% if round3matches.count is 0 %}
 
         <li class="game game-top">TBD </li>
         <li class="game game-spacer">&nbsp;</li>
         <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+                <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
 
     {% else %}
         {% for match3 in round3matches %}
@@ -126,22 +412,64 @@
             0
             {% endif %}
         </span></li>
+            <li class="spacer"></li>
         {% endfor %}
 
     {% endif %}
-
-
-        <li class="spacer">&nbsp;</li>
     </ul>
 
+
     <ul class="round round-4">
-<li class="spacer">&nbsp;</li>
 <li class="spacer">&nbsp;</li>
     {% if round4matches.count is 0 %}
 
         <li class="game game-top">TBD </li>
         <li class="game game-spacer">&nbsp;</li>
         <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
 
     {% else %}
         {% for match4 in round4matches %}
@@ -169,22 +497,40 @@
             0
             {% endif %}
         </span></li>
+            <li class="spacer"></li>
         {% endfor %}
 
     {% endif %}
-
-
-        <li class="spacer">&nbsp;</li>
     </ul>
 
+
     <ul class="round round-5">
-<li class="spacer">&nbsp;</li>
 <li class="spacer">&nbsp;</li>
     {% if round5matches.count is 0 %}
 
         <li class="game game-top">TBD </li>
         <li class="game game-spacer">&nbsp;</li>
         <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
 
     {% else %}
         {% for match5 in round5matches %}
@@ -212,26 +558,27 @@
             0
             {% endif %}
         </span></li>
+            <li class="spacer"></li>
         {% endfor %}
-
     {% endif %}
-
-
-        <li class="spacer">&nbsp;</li>
     </ul>
 
 
-
-
-
-    <ul class="round round-6">
-<li class="spacer">&nbsp;</li>
+<ul class="round round-6">
 <li class="spacer">&nbsp;</li>
     {% if round6matches.count is 0 %}
 
         <li class="game game-top">TBD </li>
         <li class="game game-spacer">&nbsp;</li>
         <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
 
     {% else %}
         {% for match6 in round6matches %}
@@ -259,24 +606,23 @@
             0
             {% endif %}
         </span></li>
+            <li class="spacer"></li>
         {% endfor %}
 
     {% endif %}
-
-
-        <li class="spacer">&nbsp;</li>
     </ul>
 
 
 
     <ul class="round round-7">
 <li class="spacer">&nbsp;</li>
-<li class="spacer">&nbsp;</li>
-    {% if round6matches.count is 0 %}
+    {% if round7matches.count is 0 %}
 
         <li class="game game-top">TBD </li>
         <li class="game game-spacer">&nbsp;</li>
         <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
 
     {% else %}
         {% for match7 in round7matches %}
@@ -304,14 +650,15 @@
             0
             {% endif %}
         </span></li>
+            <li class="spacer"></li>
         {% endfor %}
 
     {% endif %}
-
-
-        <li class="spacer">&nbsp;</li>
     </ul>
 
 </main>
-
+              </div>
+           </div>
+</div>
+</div>
 {% endblock %}
