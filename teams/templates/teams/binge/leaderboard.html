@@ -37,7 +37,7 @@
     {% for user in user_list %}
       <tr>
         <td>{{ user.rank }}</td>
-        <td width="30%" valign="middle"><img src="{% static 'binge/images/avatar.jpg' %}" width="30" height="30"> <b>{{ user }}</b></td>
+          <b width="30%" valign="middle"><img src="{% static 'binge/images/stock.png' %}" width="30" height="30"><a href="{% url 'profiles:profile' urlusername=user %}"><b>{{ user }}</b></a></td>
         <td width="10%" valign="middle" style="font-size:20px;"><a href="{% if user.twitter_profile == "No Twitter Linked" or user.twitter_profile == "" %}
         #
     {% else %}
