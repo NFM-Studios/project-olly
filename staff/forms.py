@@ -3,7 +3,7 @@ from pages.models import StaticInfo, Partner
 from profiles.models import UserProfile
 from support.models import TicketComment
 from matches.models import Match
-from singletournaments.models import SingleEliminationTournament, SingleTournamentRuleset
+from singletournaments.models import SingleEliminationTournament, SingleTournamentRuleset, SingleTournamentRound
 from news.models import Post
 from support.models import TicketComment, Ticket
 from teams.models import Team, TeamInvite
@@ -229,3 +229,10 @@ class EditMatchForm(forms.ModelForm):
     class Meta:
         model = Match
         fields = ('info',)
+
+
+class EditRoundInfoForm(forms.ModelForm):
+
+    class Meta:
+        model = SingleTournamentRound
+        fields = ('info', )

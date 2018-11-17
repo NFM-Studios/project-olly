@@ -45,6 +45,7 @@ urlpatterns = [
     url(r'^match/(?P<pk>\d+)/declare$', login_required(views.MatchDeclareWinner.as_view()), name='match_declare_winner'),
     url(r'^match/(?P<pk>\d+)/delete', login_required(views.match_delete_winner), name='match_delete_winner'),
     url(r'^match/(?P<pk>\d+)/edit', login_required(views.match_edit), name='match_edit'),
+    url(r'^round/(?P<pk>\d+)/edit', login_required(views.edit_round), name='edit_round'),
     url(r'^round/(?P<pk>\d+)/', login_required(views.round_detail), name='round_detail'),
     url(r'^dispute/(?P<pk>\d+)/', login_required(views.dispute_detail), name='dispute_detail'),
 
