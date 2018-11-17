@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 
 class Match(models.Model):
 
-    matchnum =  models.SmallIntegerField(default=0)
+    matchnum = models.SmallIntegerField(default=0)
     game = models.SmallIntegerField(choices=GAME_CHOICES, default=0)
     # default to ps4 for now bc why not
     platform = models.SmallIntegerField(choices=PLATFORMS_CHOICES, default=0)
@@ -47,6 +47,10 @@ class Match(models.Model):
 
     class Meta:
         verbose_name_plural = "matches"
+
+    def update_info(self, obj):
+        self.info = obj.info
+        self.save()
 
 
 class MatchReport(models.Model):

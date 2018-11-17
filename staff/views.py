@@ -5,7 +5,7 @@ from staff.forms import StaticInfoForm, ArticleCreateForm, EditUserForm, TicketC
     TicketStatusChangeForm, EditTournamentForm, DeclareMatchWinnerForm, DeclareMatchWinnerPost,\
     DeclareTournamentWinnerForm, TicketSearchForm, RemovePlayerForm, RemovePlayerFormPost, AddCreditsForm,\
     AddTrophiesForm, AddXPForm, SingleRulesetCreateForm, PartnerForm, EditNewsPostForm, CreateProductForm,\
-    DeleteProductForm, RemovePostForm, EditMatchForm, CreateTournamentForm
+    DeleteProductForm, RemovePostForm, EditMatchForm, CreateTournamentForm, EditRoundInfoForm
 from profiles.models import UserProfile, BannedUser
 from profiles.forms import SortForm
 from django.contrib.auth.models import User
@@ -305,6 +305,27 @@ def round_detail(request, pk):
         return render(request, 'staff/round_detail.html', {'round': tround, 'matches': matches})
 
 
+def edit_round(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        if request.method == 'POST':
+            roundobj = SingleTournamentRound.objects.get(id=pk)
+            form = EditRoundInfoForm(request.POST, instance=roundobj)
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'Round has been updated')
+                for match in roundobj.matches.all():
+                    match.update_info(roundobj)
+                return redirect('staff:round_detail', pk)
+        else:
+            roundobj = SingleTournamentRound.objects.get(id=pk)
+            form = EditRoundInfoForm(instance=roundobj)
+            return render(request, 'staff/edit_round.html', {'form':form})
+
+
 def tournament_matches(request, pk):
     user = UserProfile.objects.get(user__username=request.user.username)
     allowed = ['superadmin', 'admin']
@@ -473,7 +494,8 @@ def advance(request, pk):
             team1.save()
         i = 0
         while i < len(winners):
-            newmatch = Match(game=tournament.game, platform=tournament.platform, awayteam=winners[i], hometeam=winners[i+1])
+            newmatch = Match(game=tournament.game, platform=tournament.platform,
+                             awayteam=winners[i], hometeam=winners[i+1])
             newmatch.save()
             nextround.matches.add(newmatch)
             i += 2
@@ -984,7 +1006,8 @@ def store_index(request):
             products = len(Product.objects.all())
             transactions = len(Transaction.objects.all())
             transfers = len(Transfer.objects.all())
-            return render(request, 'staff/store.html', {'products': products, 'transactions': transactions, 'transfers': transfers})
+            return render(request, 'staff/store.html',
+                          {'products': products, 'transactions': transactions, 'transfers': transfers})
 
 
 class TransactionView(View):
