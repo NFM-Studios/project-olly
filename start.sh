@@ -2,6 +2,8 @@
 
 echo Current site is $site
 
+echo Debug is $debug
+
 echo Running Migrations.
 python3 manage.py migrate --settings olly.$site"_settings"
 
