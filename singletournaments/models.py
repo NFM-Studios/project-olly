@@ -38,6 +38,9 @@ class SingleEliminationTournament(models.Model):
     # by default the tournament is not active. an admin has to activate it in order for it to be public
     active = models.BooleanField(default=False)
 
+    # custom olly - twitch tourament
+    twitch = models.CharField(max_length=60, blank=True)
+
     # when does registration open, and when does it close? specified when created in staff panel
     open_register = models.DateTimeField()
     # dont allow people to join once registration is closed

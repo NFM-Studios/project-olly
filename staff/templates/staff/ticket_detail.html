@@ -50,11 +50,19 @@
     </tr>
     <tr>
         <td class="">Description</td>
-        <td>{{ticket.text}}</td>
+        <td>{{ ticket.text|linebreaksbr }}</td>
     </tr>
     <tr>
         <td>Assignee</td>
         <td>{{ticket.assignee}}</td>
+    </tr>
+    <tr>
+        <td>Ticket Creator</td>
+        <td>{{ticket.creator}}</td>
+    </tr>
+    <tr>
+        <td>Last Updated</td>
+        <td>{{ticket.last_update}}</td>
     </tr>
     <tr>
         <td>Status</td>
@@ -74,9 +82,9 @@
 
 {% for i in comments %}
     {% if i.author.user.user_type == 'admin' or i.author.user.user_type == 'superadmin'%}
-    <b>{{ i.author }}, ({{ i.date }}): {{ i.comment }}</b>
+    <b>{{ i.author }}, ({{ i.date }}): {{ i.comment|linebreaksbr }}</b>
     {% else %}
-    {{ i.author }}, ({{ i.date }}): {{ i.comment }}
+    {{ i.author }}, ({{ i.date }}): {{ i.comment|linebreaksbr }}
     {% endif %}
     <br>
 {% endfor %}
