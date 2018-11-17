@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('singletournaments', '0007_singleeliminationtournament_allow_register'),
+        ('singletournaments', '0008_singleeliminationtournament_twitch'),
     ]
 
     operations = [
