@@ -13,6 +13,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from paypal.standard.ipn import views as paypal_views
 
+handler404 = pages_views.notfound
 
 urlpatterns = [
     url(r'^$', pages_views.index, name='index'),
