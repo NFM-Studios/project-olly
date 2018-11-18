@@ -3,9 +3,9 @@ from django.shortcuts import render, redirect
 from pages.models import StaticInfo
 from staff.forms import StaticInfoForm, ArticleCreateForm, EditUserForm, TicketCommentCreateForm,\
     TicketStatusChangeForm, EditTournamentForm, DeclareMatchWinnerForm, DeclareMatchWinnerPost,\
-    DeclareTournamentWinnerForm, TicketSearchForm, RemovePlayerForm, RemovePlayerFormPost, AddCreditsForm,\
-    AddTrophiesForm, AddXPForm, SingleRulesetCreateForm, PartnerForm, EditNewsPostForm, CreateProductForm,\
-    DeleteProductForm, RemovePostForm, EditMatchForm, CreateTournamentForm, EditRoundInfoForm
+    DeclareTournamentWinnerForm, TicketSearchForm, RemovePlayerForm, RemovePlayerFormPost, SingleRulesetCreateForm,\
+    PartnerForm, EditNewsPostForm, CreateProductForm, DeleteProductForm, RemovePostForm, EditMatchForm, \
+    CreateTournamentForm, ModifyUserForm, EditRoundInfoForm
 from profiles.models import UserProfile, BannedUser
 from profiles.forms import SortForm
 from django.contrib.auth.models import User
@@ -22,6 +22,7 @@ from support.models import Ticket, TicketComment
 from django.shortcuts import get_object_or_404
 from pages.models import Partner
 from django.conf import settings
+from . import calculaterank
 
 
 def staffindex(request):
@@ -167,74 +168,35 @@ def getrank(request):
         return render(request, 'staff/permissiondenied.html')
     else:
         allusers = UserProfile.objects.all()
-        for i in allusers:
-            i.calculate_rank()
+        calculaterank.calculaterank()
         messages.success(request, "Calculated rank for %s users" % allusers.count())
         return redirect('staff:users')
 
 
-def givecredits(request, urlusername):
+def modifyuser(request, urlusername):
     user = UserProfile.objects.get(user__username=request.user.username)
     allowed = ['superadmin', 'admin']
     if user.user_type not in allowed:
         return render(request, 'staff/permissiondenied.html')
     else:
         if request.method == 'GET':
-            form = AddCreditsForm(None)
-            return render(request, 'staff/givecredits.html', {'form': form})
+            form = ModifyUserForm(None)
+            return render(request, 'staff/modifyuser.html', {'form': form})
         else:
-            form = AddCreditsForm(request.POST)
+            form = ModifyUserForm(request.POST)
             username = User.objects.get(username=urlusername)
-            num = int(form.data['credits'])
-            give_credits(username, num)
-            transaction = Transaction(num=num, account=UserProfile.objects.get(user=username), cost=int(0.00),
-                                      type='Credit', staff=request.user.username)
-            transaction.save()
-            messages.success(request, "Added %s credits to %s" % (form.data['credits'], urlusername))
-            return redirect('staff:users')
-
-
-def givexp(request, urlusername):
-    user = UserProfile.objects.get(user__username=request.user.username)
-    allowed = ['superadmin', 'admin']
-    if user.user_type not in allowed:
-        return render(request, 'staff/permissiondenied.html')
-    else:
-        if request.method == 'GET':
-            form = AddXPForm(None)
-            return render(request, 'staff/givexp.html', {'form': form})
-        else:
-            form = AddXPForm(request.POST)
-            user = UserProfile.objects.get(user__username=urlusername)
-            num = int(form.data['xp'])
-            user.xp += num
-            user.save()
-            transaction = Transaction(num=num, account=user, cost=int(0.00),
-                                      type='XP', staff=request.user.username)
-            transaction.save()
-            messages.success(request, "Added %s xp to %s" % (num, urlusername))
-            return redirect('staff:users')
-
-
-def givetrophies(request, urlusername):
-    user = UserProfile.objects.get(user__username=request.user.username)
-    allowed = ['superadmin', 'admin']
-    if user.user_type not in allowed:
-        return render(request, 'staff/permissiondenied.html')
-    else:
-        if request.method == 'GET':
-            form = AddTrophiesForm(None)
-            return render(request, 'staff/givetrophies.html', {'form': form})
-        else:
-            form = AddTrophiesForm(request.POST)
             form.is_valid()
-            user = UserProfile.objects.get(user__username=urlusername)
+            creds = int(form.data['credits'])
+            xp = int(form.data['xp'])
+            user.xp += xp
+            give_credits(username, creds)
             user.num_bronze += form.cleaned_data['bronze']
             user.num_silver += form.cleaned_data['silver']
             user.num_gold += form.cleaned_data['gold']
+            user.current_earning += form.cleaned_data['earnings']
             user.save()
-            transaction = Transaction(num=form.cleaned_data['bronze'], account=user,
                                       cost=int(0.00), type='Bronze Trophies', staff=request.user.username)
+            transaction = Transaction(num=form.cleaned_data['bronze'], account=user,
             transaction.save()
             transaction = Transaction(num=form.cleaned_data['silver'], account=user,
                                       cost=int(0.00), type='Silver Trophies', staff=request.user.username)
@@ -242,7 +204,16 @@ def givetrophies(request, urlusername):
             transaction = Transaction(num=form.cleaned_data['gold'], account=user,
                                       cost=int(0.00), type='Gold Trophies', staff=request.user.username)
             transaction.save()
-            messages.success(request, "Added trophies to %s" % urlusername)
+            transaction = Transaction(num=form.cleaned_data['earnings'], account=UserProfile.objects.get(user=username),
+                                      cost=int(0.00), type='Account Earnings', staff=request.user.username)
+            transaction.save()
+            transaction = Transaction(num=xp, account=UserProfile.objects.get(user=username), cost=int(0.00),
+                                      type='XP', staff=request.user.username)
+            transaction.save()
+            transaction = Transaction(num=creds, account=UserProfile.objects.get(user=username), cost=int(0.00),
+                                      type='Credit', staff=request.user.username)
+            transaction.save()
+            messages.success(request, "Added credits/XP/trophies/earnings to %s" % urlusername)
             return redirect('staff:users')
 
 
@@ -392,6 +363,7 @@ def generate_bracket(request, pk):  # Launch tournament
             messages.error(request, message='The bracket is already generated.')
             return redirect('staff:tournamentlist')
         else:
+            calculaterank.calculaterank()
             tournament.generate_rounds()
             tournament.generate_bracket()
             tournament.bracket_generated = True
