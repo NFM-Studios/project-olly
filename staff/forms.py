@@ -177,12 +177,12 @@ class RemovePlayerFormPost(forms.ModelForm):
 
 
 class ModifyUserForm(forms.Form):
-    bronze = forms.IntegerField(required=True)
-    silver = forms.IntegerField(required=True)
-    gold = forms.IntegerField(required=True)
-    earnings = forms.IntegerField(required=True)
-    xp = forms.IntegerField(required=True)
-    credits = forms.IntegerField(required=True)
+    bronze = forms.IntegerField(required=True, initial=0)
+    silver = forms.IntegerField(required=True, initial=0)
+    gold = forms.IntegerField(required=True, initial=0)
+    earnings = forms.IntegerField(required=True, initial=0)
+    xp = forms.IntegerField(required=True, initial=0)
+    credits = forms.IntegerField(required=True, initial=0)
 
     class Meta:
         fields = ('Bronze', 'Silver', 'Gold', 'earnings', 'XP', 'credits')
