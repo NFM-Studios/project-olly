@@ -70,6 +70,6 @@ def privacy(request):
     return render(request, 'pages/' + request.tenant + '/privacy.html', {'staticinfo': staticinfo})
 
 
-def notfound(request):
+def notfound(request, exception):
     staticinfo = StaticInfo.objects.get(pk=1)
     return render(request, 'pages/' + request.tenant + '/404.html', {'staticinfo': staticinfo})
