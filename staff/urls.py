@@ -23,7 +23,7 @@ urlpatterns = [
     url(r'^users/edit/(?P<urlusername>[A-Za-z0-9_@+.-]+)/$', login_required(views.edituser)),
     url(r'^users/(?P<urlusername>[A-Za-z0-9_@+.-]+)/$', login_required(views.userdetail)),
     url(r'^users/verify/(?P<urlusername>[A-Za-z0-9_@+.-]+)/$', login_required(views.verify)),
-    url(r'^users/modify/(?P<urlusername>\[A-Za-z0-9_@+.-]+/$', login_required(views.modifyuser)),
+    url(r'^users/modify/(?P<urlusername>\[A-Za-z0-9_@+.-]+)/$', login_required(views.modifyuser)),
 
 
     url(r'^tournaments/$', login_required(views.tournaments), name='tournamentlist'),
