@@ -185,24 +185,25 @@ def modifyuser(request, urlusername):
         else:
             form = ModifyUserForm(request.POST)
             username = User.objects.get(username=urlusername)
+            profile = UserProfile.objects.get(user=username)
             form.is_valid()
             creds = int(form.data['credits'])
             xp = int(form.data['xp'])
-            user.xp += xp
+            profile.xp += xp
             give_credits(username, creds)
-            user.num_bronze += form.cleaned_data['bronze']
-            user.num_silver += form.cleaned_data['silver']
-            user.num_gold += form.cleaned_data['gold']
-            user.current_earning += form.cleaned_data['earnings']
-            user.save()
+            profile.num_bronze += form.cleaned_data['bronze']
+            profile.num_silver += form.cleaned_data['silver']
+            profile.num_gold += form.cleaned_data['gold']
+            profile.current_earning += form.cleaned_data['earnings']
+            profile.save()
 
-            transaction = Transaction(num=form.cleaned_data['bronze'], account=user,
+            transaction = Transaction(num=form.cleaned_data['bronze'], account=UserProfile.objects.get(user=username),
                                       cost=int(0.00), type='Bronze Trophies', staff=request.user.username)
             transaction.save()
-            transaction = Transaction(num=form.cleaned_data['silver'], account=user,
+            transaction = Transaction(num=form.cleaned_data['silver'], account=UserProfile.objects.get(user=username),
                                       cost=int(0.00), type='Silver Trophies', staff=request.user.username)
             transaction.save()
-            transaction = Transaction(num=form.cleaned_data['gold'], account=user,
+            transaction = Transaction(num=form.cleaned_data['gold'], account=UserProfile.objects.get(user=username),
                                       cost=int(0.00), type='Gold Trophies', staff=request.user.username)
             transaction.save()
             transaction = Transaction(num=form.cleaned_data['earnings'], account=UserProfile.objects.get(user=username),
