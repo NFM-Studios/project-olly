@@ -11,6 +11,10 @@ Profile Detail
 <div style="text-align:center">
 {% if userprofile.profile_picture.url != "" %}
 <img src="{{ userprofile.profile_picture.url }}" align="center" width="200"> <br />
+    <form method="post">
+    {% csrf_token %}
+    <input type="submit" class="btn btn-danger" value="Delete Profile Picture">
+    </form>
 {% else %}
 <img src="{{ MEDIA_URL }}default_profile.png" align="center" width="200"/> <br />
 {% endif %}
