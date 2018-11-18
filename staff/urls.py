@@ -21,7 +21,7 @@ urlpatterns = [
     url(r'^users/unbanip/(?P<urlusername>[A-Za-z0-9_@+.-]+)/$', login_required(views.unbanip)),
     url(r'^users/search/$', login_required(views.searchusers), name='searchusers'),
     url(r'^users/edit/(?P<urlusername>[A-Za-z0-9_@+.-]+)/$', login_required(views.edituser)),
-    url(r'^users/(?P<urlusername>[A-Za-z0-9_@+.-]+)/$', login_required(views.userdetail)),
+    url(r'^users/(?P<urlusername>[A-Za-z0-9_@+.-]+)/$', login_required(views.userdetail), name='userdetail'),
     url(r'^users/verify/(?P<urlusername>[A-Za-z0-9_@+.-]+)/$', login_required(views.verify)),
     url(r'^users/modify/(?P<urlusername>[A-Za-z0-9_@+.-]+)/$', login_required(views.modifyuser)),
 
