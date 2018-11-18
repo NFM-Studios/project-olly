@@ -2,7 +2,7 @@
 {% load staticfiles %}
 <link rel="stylesheet" href="{% static "css/staff.css" %}">
 {% block title %}
-Give credits
+Modify user
 {% endblock %}
 {% block body %}
   <form method="post">
@@ -21,7 +21,19 @@ Give credits
       {{ form.gold }}
       <br>
 
-    <p><button type="submit" class="btn btn-primary">Give trophies</button></p>
+      <label>Earnings:</label>
+      {{ form.earnings }}
+      <br>
+
+      <label>XP:</label>
+      {{ form.xp }}
+      <br>
+
+      <label>Credits:</label>
+      {{ form.credits }}
+      <br>
+
+    <p><button type="submit" class="btn btn-primary">Submit</button></p>
 
   </form>
 {% endblock %}
