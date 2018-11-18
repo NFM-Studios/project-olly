@@ -251,7 +251,7 @@ def tournaments(request):
     if user.user_type not in allowed:
         return render(request, 'staff/permissiondenied.html')
     else:
-        tournament_list = SingleEliminationTournament.objects.all()
+        tournament_list = SingleEliminationTournament.objects.all().order_by('-id')
         return render(request, 'staff/tournaments.html', {'tournament_list': tournament_list})
 
 
@@ -262,7 +262,7 @@ def tournament_detail(request, pk):
         return render(request, 'staff/permissiondenied.html')
     else:
         tournament = SingleEliminationTournament.objects.get(pk=pk)
-        rounds = SingleTournamentRound.objects.filter(tournament = tournament)
+        rounds = SingleTournamentRound.objects.filter(tournament = tournament).order_by('id')
         return render(request, 'staff/tournament_detail.html', {'tournament': tournament, 'rounds': rounds})
 
 
@@ -273,7 +273,7 @@ def round_detail(request, pk):
         return render(request, 'staff/permissiondenied.html')
     else:
         tround = SingleTournamentRound.objects.get(pk=pk)
-        matches = tround.matches.all()
+        matches = tround.matches.all().order_by('id')
         return render(request, 'staff/round_detail.html', {'round': tround, 'matches': matches})
 
 
@@ -392,10 +392,10 @@ def ruleset_list(request):
         return render(request, 'staff/permissiondenied.html')
     else:
         if request.method == 'GET':
-            rulesets = SingleTournamentRuleset.objects.all()
+            rulesets = SingleTournamentRuleset.objects.all().order_by('id')
             return render(request, 'staff/ruleset_list.html', {'rulesets': rulesets})
         else:
-            rulesets = SingleTournamentRuleset.objects.all()
+            rulesets = SingleTournamentRuleset.objects.all().order_by('id')
             return render(request, 'staff/ruleset_list.html', {'rulesets': rulesets})
 
 
@@ -549,7 +549,7 @@ def matches_index(request):
     if user.user_type not in allowed:
         return render(request, 'staff/permissiondenied.html')
     else:
-        matches_list = Match.objects.all()
+        matches_list = Match.objects.all().order_by('-id')
         return render(request, 'staff/matches.html', {'matches_list': matches_list})
 
 
@@ -683,20 +683,21 @@ def tickets(request):
     else:
         if request.method == 'GET':
             form = TicketSearchForm
-            ticket_list = Ticket.objects.filter(status__lte=2)
+            ticket_list = Ticket.objects.filter(status__lte=2).order_by('-id')
             return render(request, 'staff/tickets.html', {'form': form, 'ticket_list': ticket_list})
 
         elif request.method == 'POST':
             form = TicketSearchForm(request.POST)
-            ticket_list = Ticket.objects.filter(status__lte=2)
+            ticket_list = Ticket.objects.filter(status__lte=2).order_by('-id')
             if request.POST.get('showClosed'):
-                ticket_list = Ticket.objects.all()
+                ticket_list = Ticket.objects.all().order_by('-id')
             if request.POST.get('searchQuery'):
                 query = request.POST.get('searchQuery')
                 try:
-                    ticket_list = Ticket.objects.filter(pk=query)
+                    ticket_list = Ticket.objects.filter(pk=query).order_by('-id')
                 except ValueError:
-                    ticket_list = Ticket.objects.filter(Q(text__contains=query) | Q(creator__username__contains=query))
+                    ticket_list = Ticket.objects.filter(Q(text__contains=query) |
+                                                        Q(creator__username__contains=query)).order_by('-id')
             return render(request, 'staff/tickets.html', {'form': form, 'ticket_list': ticket_list})
 
 
@@ -717,7 +718,7 @@ class TicketDetail(DetailView):
         form2 = self.form2_class(None)
         pk = self.kwargs['pk']
         ticket = Ticket.objects.get(id=pk)
-        comments = TicketComment.objects.filter(ticket=pk)
+        comments = TicketComment.objects.filter(ticket=pk).order_by('id')
         return render(request, self.template_name, {'form': form1, 'form2': form2, 'x': pk,
                                                     "ticket": ticket, "comments": comments})
 
@@ -825,7 +826,7 @@ def partnerlist(request):
     if user.user_type not in allowed:
         return render(request, 'staff/permissiondenied.html')
     else:
-        partner_list = Partner.objects.all()
+        partner_list = Partner.objects.all().order_by('id')
         return render(request, 'staff/partnerslist.html', {'partner_list': partner_list})
 
 
@@ -883,7 +884,7 @@ def news_list(request):
     if user.user_type not in allowed:
         return render(request, 'staff/permissiondenied.html')
     else:
-        news_list = Post.objects.all()
+        news_list = Post.objects.all().order_by('-id')
         return render(request, 'staff/news_list.html', {'news_list': news_list})
 
 
@@ -1038,7 +1039,7 @@ def products(request):
         return render(request, 'staff/permissiondenied.html')
     else:
         if request.method == 'GET':
-            product_list = Product.objects.all()
+            product_list = Product.objects.all().order_by('id')
             return render(request, 'staff/product_list.html', {'product_list': product_list})
 
 
@@ -1139,7 +1140,7 @@ def teams_detail(request, pk):
         return render(request, 'staff/permissiondenied.html')
     else:
         team = Team.objects.get(id=pk)
-        players = TeamInvite.objects.filter(team=team, accepted=True)
+        players = TeamInvite.objects.filter(team=team, accepted=True).order_by('id')
         return render(request, 'staff/teams_detail.html', {'team': team, 'players': players, 'pk': pk})
 
 
