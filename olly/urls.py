@@ -37,7 +37,7 @@ urlpatterns = [
     url(r'^news/', include('news.urls', namespace='news')),
     url(r'^store/', include('store.urls', namespace='store')),
     url(r'^paypal/', paypal_views.ipn, name="paypal-ipn"),
-    url(r'^staff/', include('staff.urls', namespace='staff')),
+    url(r'^(?i)staff/', include('staff.urls', namespace='staff')),
     url(r'^tournaments/', include('singletournaments.urls', namespace='singletournaments')),
     url(r'^matches/', include('matches.urls', namespace='matches'))
 ]
