@@ -176,27 +176,16 @@ class RemovePlayerFormPost(forms.ModelForm):
         fields = ()
 
 
-class AddCreditsForm(forms.Form):
-    credits = forms.IntegerField(required=True)
-
-    class Meta:
-        fields = 'credits'
-
-
-class AddXPForm(forms.Form):
-    xp = forms.IntegerField(required=True)
-
-    class Meta:
-        fields = "XP"
-
-
-class AddTrophiesForm(forms.Form):
+class ModifyUserForm(forms.Form):
     bronze = forms.IntegerField(required=True)
     silver = forms.IntegerField(required=True)
     gold = forms.IntegerField(required=True)
+    earnings = forms.IntegerField(required=True)
+    xp = forms.IntegerField(required=True)
+    credits = forms.IntegerField(required=True)
 
     class Meta:
-        fields = ('Bronze', 'Silver', 'Gold')
+        fields = ('Bronze', 'Silver', 'Gold', 'earnings', 'XP', 'credits')
 
 
 class CreateProductForm(forms.ModelForm):
