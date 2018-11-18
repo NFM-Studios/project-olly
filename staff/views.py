@@ -224,8 +224,16 @@ def userdetail(request, urlusername):
     if user.user_type not in allowed:
         return render(request, 'staff/permissiondenied.html')
     else:
-        userprofile = UserProfile.objects.get(user__username=urlusername)
-        return render(request, 'staff/profile_detail.html', {'userprofile': userprofile})
+        if request.method == 'POST':
+            userprofile = UserProfile.objects.get(user__username=urlusername)
+            userprofile.profile_picture = ''
+            userprofile.save()
+            messages.success(request, "Removed profile picture")
+            return redirect('staff:userdetail', urlusername=urlusername)
+
+        else:
+            userprofile = UserProfile.objects.get(user__username=urlusername)
+            return render(request, 'staff/profile_detail.html', {'userprofile': userprofile})
 
 
 def verify(request, urlusername):
