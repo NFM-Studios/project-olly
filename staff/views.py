@@ -195,8 +195,9 @@ def modifyuser(request, urlusername):
             user.num_gold += form.cleaned_data['gold']
             user.current_earning += form.cleaned_data['earnings']
             user.save()
-                                      cost=int(0.00), type='Bronze Trophies', staff=request.user.username)
+
             transaction = Transaction(num=form.cleaned_data['bronze'], account=user,
+                                      cost=int(0.00), type='Bronze Trophies', staff=request.user.username)
             transaction.save()
             transaction = Transaction(num=form.cleaned_data['silver'], account=user,
                                       cost=int(0.00), type='Silver Trophies', staff=request.user.username)
