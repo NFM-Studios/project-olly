@@ -104,7 +104,7 @@ class SingleEliminationTournament(models.Model):
         # tournament = SingleEliminationTournament.objects.get(id=pk)
 
         if self.platform == 0:
-            platform = "Playstation"
+            platform = "Playstation 4"
         elif self.platform == 1:
             platform = "XBOX One"
         elif self.platform == 2:
@@ -114,22 +114,26 @@ class SingleEliminationTournament(models.Model):
         elif self.platform == 4:
             platform = "Nintendo Switch"
         elif self.platform == 5:
-            platform = "Playstation"
+            platform = "Playstation 3"
         elif self.platform == 6:
             platform = "XBOX 360"
+        elif self.platform == 7:
+            platform = "All Consoles"
+        elif self.platform == 8:
+            platform = "All Platforms"
 
         if self.teamformat == 0:
-            format = "1v1"
+            teamformat = "1v1"
         elif self.teamformat == 1:
-            format = "2v2"
+            teamformat = "2v2"
         elif self.teamformat == 2:
-            format = "3v3"
+            teamformat = "3v3"
         elif self.teamformat == 3:
-            format = "4v4"
+            teamformat = "4v4"
         elif self.teamformat == 4:
-            format = "5v5"
+            teamformat = "5v5"
         elif self.teamformat == 5:
-            format = "6v6"
+            teamformat = "6v6"
 
         if self.game == 0:
             game = 'No Game Set'
@@ -164,7 +168,7 @@ class SingleEliminationTournament(models.Model):
         elif self.game == 15:
             game = 'Black Ops 4'
 
-        return format + " " + platform + " " + game
+        return teamformat + " " + platform + " " + game
 
     def set_inactive(self, **kwargs):
         pk = self.kwargs['pk']
