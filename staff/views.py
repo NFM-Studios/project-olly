@@ -334,11 +334,11 @@ def edit_tournament(request, pk):
         else:
             tournamentobj = SingleEliminationTournament.objects.get(pk=pk)
             if not tournamentobj.bracket_generated:
-                form = EditTournamentForm(obj=tournamentobj, instance=tournamentobj)
+                form = EditTournamentForm(instance=tournamentobj)
                 return render(request, 'staff/edittournament.html', {'form': form, 'pk': pk})
             else:
-                form = EditTournamentForm(obj=tournamentobj, instance=tournamentobj)
-                return render(request, 'staff/edit_launched_tournament.html', {'form': form, 'pk': pk})
+                messages.error(request, 'You cannot edit a launched tournament')
+                return redirect('staff:tournamentlist')
 
 
 def create_tournament(request):
