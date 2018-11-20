@@ -195,6 +195,7 @@ def modifyuser(request, urlusername):
             profile.num_silver += form.cleaned_data['silver']
             profile.num_gold += form.cleaned_data['gold']
             profile.current_earning += form.cleaned_data['earnings']
+            profile.total_earning += form.cleaned_data['earnings']
             profile.save()
 
             transaction = Transaction(num=form.cleaned_data['bronze'], account=UserProfile.objects.get(user=username),
