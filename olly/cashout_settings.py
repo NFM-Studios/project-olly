@@ -50,7 +50,7 @@ EMAIL_HOST_USER = 'cashout@mg.nfmstudios.com'
 EMAIL_HOST_PASSWORD = '7S1ln6HYKQDmCHweKy1XHbjyHCIYk7Vj'
 FROM_EMAIL = "Cashout <noreply@cashoutgaming.net.com>"
 EMAIL_PORT = 587
-PAYPAL_EMAIL = ""
+PAYPAL_EMAIL = "dilanmarks19@outlook.com"
 
 # Captcha
 GOOGLE_RECAPTCHA_SECRET_KEY = '6Ld1nXoUAAAAAM4pi7LdpIncBDGdzfZf2cA5OvdQ'
