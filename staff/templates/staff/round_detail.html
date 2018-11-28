@@ -39,6 +39,7 @@ Round Details
 
     <tr>
         <h5>Matches</h5>
+        <p><a href="{% url 'staff:edit_round' pk=round.id%}">Edit round</a></p>
         {% for i in matches %}
             <p><a href="{% url 'staff:match_detail' pk=i.id %}">{{ i.hometeam }} VS {{ i.awayteam }}</a></p>
         {% endfor %}
