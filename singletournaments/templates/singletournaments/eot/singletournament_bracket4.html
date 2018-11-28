@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends 'eot/base.html' %}
 {% load staticfiles %}
 
   {% block head %}
@@ -6,39 +6,123 @@
   {% endblock %}
 
 {% block body %}
+<link rel="stylesheet" href="{% static "css/singletournament.css" %}">
+<br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
 
-    <script type="text/javascript" src="{% static 'js/jquery-1.6.2.min.js' %}"></script>
+<div class="container page">
 
-    <link rel="stylesheet" type="text/css" href="{% static 'css/jquery.bracket.min.css' %}" />
-<script type="text/javascript" src="{% static 'js/jquery.bracket.min.js' %}"></script>
-<script>
+<div class="col-xs-12">
+           <div class="panel">
+              <div class="panel-body">
+<main id="tournament">
+    <ul class="round round-1">
+        <li class="spacer">&nbsp;</li>
+        {% for match in round1matches %}
+        <li class="game game-top {% if match.winner.id == match.awayteam.id %}
+            winner
+            {% else %}
 
-var singleElimination = {
-  "teams": [              // Matchups
-    ["Team 1", "Team 2"], // First match
-    ["Team 3", "Team 4"]  // Second match
-  ],
-  "results": [            // List of brackets (single elimination, so only one bracket)
-    [                     // List of rounds in bracket
-      [                   // First round in this bracket
-        [1, 2],           // Team 1 vs Team 2
-        [3, 4]            // Team 3 vs Team 4
-      ],
-      [                   // Second (final) round in single elimination bracket
-        [5, 6],           // Match for first place
-                    // Match for 3rd place
-      ]
-    ]
-  ]
-}
+            {% endif %}"><a href="{% url 'matches:detail' pk=match.id %}">{{ match.awayteam }}</a><span>
+            {% if match.winner.id == match.awayteam.id %}
+            1
+            {% else %}
+            0
+            {% endif %}
+        </span></li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom {% if match.winner.id == match.hometeam.id %}
+            winner
+            {% else %}
 
-$(function() {
-    $('#demo').bracket({
-        skipConsolationRound: true,
-      init: singleElimination /* data to initialize the bracket with */ })
-  })
-</script>
+            {% endif %}"><a href="{% url 'matches:detail' pk=match.id %}">{{ match.hometeam }}</a><span>
+            {% if match.winner.id == match.hometeam.id %}
+            1
+            {% else %}
+            0
+            {% endif %}
+        </span></li>
 
-    <div id="demo"></div>
+        <li class="spacer">&nbsp;</li>
+        {% endfor %}
+        </ul>
+
+    <ul class="round round-2">
+
+        <li class="spacer">&nbsp;</li>
+
+    {% if round2matches.count is 0 %}
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+    {% else %}
+        {% for match2 in round2matches %}
+
+        <li class="game game-top {% if match2.winner.id == match2.awayteam.id %}
+            winner
+            {% else %}
+
+            {% endif %}"><a href="{% url 'matches:detail' pk=match2.id %}">{{ match2.awayteam }}</a><span>
+            {% if match2.winner.id == match2.awayteam.id %}
+            1
+            {% else %}
+            0
+            {% endif %}
+        </span></li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom {% if match2.winner.id == match2.hometeam.id %}
+            winner
+            {% else %}
+
+            {% endif %}"><a href="{% url 'matches:detail' pk=match2.id %}">{{ match2.hometeam }}</a><span>
+            {% if match2.winner.id == match2.hometeam.id %}
+            1
+            {% else %}
+            0
+            {% endif %}
+        </span></li>
+            <li class="spacer"></li>
+        {% endfor %}
+
+    {% endif %}
+
+    </ul>
+<!--     <ul class="round round-3">
+        <li class="spacer">&nbsp;</li>
+
+        <li class="game game-top winner">Lousville <span>77</span></li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">Oregon <span>69</span></li>
+
+        <li class="spacer">&nbsp;</li>
+
+        <li class="game game-top ">Mich St <span>61</span></li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom winner">Duke <span>71</span></li>
+
+        <li class="spacer">&nbsp;</li>
+    </ul>
+    <ul class="round round-4">
+        <li class="spacer">&nbsp;</li>
+
+        <li class="game game-top winner">Lousville <span>85</span></li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">Duke <span>63</span></li>
+
+        <li class="spacer">&nbsp;</li>
+    </ul>-->
+</main>
+              </div>
+           </div>
+</div>
+</div>
 
 {% endblock %}

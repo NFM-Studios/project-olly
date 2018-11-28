@@ -1,20 +1,18 @@
-{% extends "eot/base.html" %}
 {% load staticfiles %}
 
   {% block head %}
   <title>{{ tournament.name }} Rules - {{ SITE_NAME }}</title>
   {% endblock %}
 
-<link rel="stylesheet" href="{% static "css/singletournament.css" %}">
 
 {% block body %}
-    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 col-md-offset-2 col-lg-offset-2 wrap">
 
-           <div class="panel">
-              <div class="panel-body">
-Single Tournament rules page. Yay
+    					<div class="panel-title bold">Ruleset - {{ ruleset.name }}</div>
+                           <div class="col-xs-12" style="font-size:14px">
 
-              </div>
-           </div>
-    </div>
+
+{{ ruleset.text|linebreaks }}
+                           </div>
+
+
 {% endblock %}

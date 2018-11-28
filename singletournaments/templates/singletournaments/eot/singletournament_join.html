@@ -1,12 +1,18 @@
 {% extends "eot/base.html" %}
 {% load staticfiles %}
 <link rel="stylesheet" href="{% static "css/singletournament.css" %}">
+{% block title %}
+Join Tournament
+{% endblock %}
 
 {% block body %}
-    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 col-md-offset-2 col-lg-offset-2 wrap">
 
+
+    <div class="container page">
+<div class="col-xs-12">
            <div class="panel">
               <div class="panel-body">
+                  <div class="panel-title">Join {{ tournament.name }}</div>
     <form method="POST" action="">
     <table class="table">
         {% csrf_token %}
@@ -14,12 +20,14 @@
 
         <tr>
             <td colspan="2">
-                <input type="submit" value="Join" />
+                <input type="submit" value="Join" class="btn btn-success"/>
             </td>
         </tr>
     </table>
 </form>
               </div>
            </div>
+</div>
     </div>
+
 {% endblock %}
