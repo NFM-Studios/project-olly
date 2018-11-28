@@ -16,13 +16,13 @@
                   </ol>
                 <div class="carousel-inner">
                     <figure class="item active">
-                        <img src="{% static 'images/slider1.jpg' %}" alt="Slide1">
+                        <img src="{% static 'eot/images/slider1.jpg' %}" alt="Slide1">
                     </figure>
                     <figure class="item">
-                        <img src="{% static 'images/slider2.jpg' %}" alt="Slide2">
+                        <img src="{% static 'eot/images/slider2.jpg' %}" alt="Slide2">
                      </figure>
                     <figure class="item">
-                        <img src="{% static 'images/slider1.jpg' %}" alt="Slide3">
+                        <img src="{% static 'eot/images/slider1.jpg' %}" alt="Slide3">
                     </figure>
                 </div>
     </div>
@@ -118,7 +118,7 @@ Bracket Size: {{ tournament.size }}<br><br>
 
          {% for post in newslist %}
     <div class="col-xs-12 col-sm-4 news">
-      <img src="{% static 'images/news1.jpg' %}">
+      <img src="{% static 'eot/images/news1.jpg' %}">
       <div class="news-overlay">{{ post.title }}<br>
       <small>By: {{ post.author }}</small></div>
     </div>
@@ -130,7 +130,7 @@ Bracket Size: {{ tournament.size }}<br><br>
 
    <div class="col-xs-12">
    <br><br>
-    <img src="{% static 'images/event-banner.png' %}"/><br><br>
+    <img src="{% static 'eot/images/event-banner.png' %}"/><br><br>
      <a class="btn btn-default btn-block" href="#">VIEW ALL UPCOMING EVENTS AND INFORMATION</a>
    </div>
 
@@ -148,7 +148,7 @@ Bracket Size: {{ tournament.size }}<br><br>
         <tbody>
             {% for player in players %}
             <tr>
-             <td width="40"><img class="circle1" src="{% static 'images/avatar.jpg' %}"/></td>
+             <td width="40"><img class="circle1" src="{% static 'eot/images/avatar.jpg' %}"/></td>
                 <td align="left"> <small style="color:rgba(38,150,255,1.00);">RANK 1ST</small><br><a style="text-decoration: none; color:#fff;" href="{% url 'profiles:profile' urlusername=player.user %}"><h4>{{ player.user }}</h4></a></td>
              <td align="right"> <h3>{{ player.xp }}</h3> EOT POINTS</td>
             </tr>
@@ -176,7 +176,7 @@ Bracket Size: {{ tournament.size }}<br><br>
        <h2 style="font-family:'Rajdhani', Arial;">OUT OF</h2>
        <h1 style="font-family:'Rajdhani', Arial;font-weight:600;">EOT CREDITS?</h1>
        <br>
-       <img src="{% static 'images/credits.png' %}"/><br>
+       <img src="{% static 'eot/images/credits.png' %}"/><br>
        <a class="btn btn-default btn-block" href="{% url 'store:store' %}">VISIT THE STORE</a>
        </div>
      </div>
