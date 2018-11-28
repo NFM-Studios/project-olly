@@ -47,7 +47,7 @@
          </div>
          <div style="clear:both;"></div>
          <div class="col-xs-3" style="padding:5px;"><img src="{% static 'cashout/images/ps4-icon.png' %}"></div>
-         <div class="col-xs-9"><a class="btn btn-success btn-sm btn-block btn-grad1" href="#"><b style="color:#FFF;">JOIN NOW</b> </a></div>
+         <div class="col-xs-9"><a class="btn btn-success btn-sm btn-block btn-grad1" href="{% url 'singletournaments:detail' pk=tournament.id %}"><b style="color:#FFF;">JOIN NOW</b> </a></div>
         </div>
        </div>
       </div>
