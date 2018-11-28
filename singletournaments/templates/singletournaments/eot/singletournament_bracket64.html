@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends 'eot/base.html' %}
 {% load staticfiles %}
 
   {% block head %}
@@ -6,140 +6,400 @@
   {% endblock %}
 
 {% block body %}
+<link rel="stylesheet" href="{% static "css/singletournament.css" %}">
 
-    <script type="text/javascript" src="{% static 'js/jquery-1.6.2.min.js' %}"></script>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
 
-    <link rel="stylesheet" type="text/css" href="{% static 'css/jquery.bracket.min.css' %}" />
-<script type="text/javascript" src="{% static 'js/jquery.bracket.min.js' %}"></script>
-<script>
+<div class="container page">
 
-var singleElimination = {
-  "teams": [              // Matchups
-    ["Team 1", "Team 2"], // First match
-    ["Team 3", "Team 4"],  // Second match
-    ["Team 5", "Team 6"],
-    ["Team 7", "Team 8"],
-    ['Team 9', 'Team 10'],
-    ['Team 11', 'Team 12'],
-    ['Team 13', 'Team 14'],
-    ['Team 15', 'Team 16'],
-    ['Team 17', 'Team 18'],
-    ['Team 19', 'Team 20'],
-    ['Team 21', 'Team 22'],
-    ['Team 23', 'Team 24'],
-    ['Team 25', 'Team 26'],
-    ['Team 27', 'Team 28'],
-    ['Team 29', 'Team 30'],
-    ['Team 31', 'Team 32'],
-    ["Team 33", "Team 34"], // First match
-    ["Team 35", "Team 36"],  // Second match
-    ["Team 37", "Team 38"],
-    ["Team 39", "Team 40"],
-    ['Team 41', 'Team 42'],
-    ['Team 43', 'Team 44'],
-    ['Team 45', 'Team 46'],
-    ['Team 47', 'Team 48'],
-    ['Team 49', 'Team 50'],
-    ['Team 51', 'Team 52'],
-    ['Team 53', 'Team 54'],
-    ['Team 55', 'Team 56'],
-    ['Team 57', 'Team 58'],
-    ['Team 59', 'Team 60'],
-    ['Team 61', 'Team 62'],
-    ['Team 63', 'Team 64'],
+<div class="col-xs-12">
+           <div class="panel">
+              <div class="panel-body">
+
+ <main id="tournament">
+    <ul class="round round-1">
+        <li class="spacer">&nbsp;</li>
+        {% for match in round1matches %}
+        <li class="game game-top {% if match.winner.id == match.awayteam.id %}
+            winner
+            {% else %}
+
+            {% endif %}"><a href="{% url 'matches:detail' pk=match.id %}">{{ match.awayteam }}</a><span>
+            {% if match.winner.id == match.awayteam.id %}
+            1
+            {% else %}
+            0
+            {% endif %}
+        </span></li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom {% if match.winner.id == match.hometeam.id %}
+            winner
+            {% else %}
+
+            {% endif %}"><a href="{% url 'matches:detail' pk=match.id %}">{{ match.hometeam }}</a><span>
+            {% if match.winner.id == match.hometeam.id %}
+            1
+            {% else %}
+            0
+            {% endif %}
+        </span></li>
+
+        <li class="spacer">&nbsp;</li>
+        {% endfor %}
+        </ul>
+    <ul class="round round-2">
+
+        <li class="spacer">&nbsp;</li>
+
+    {% if round2matches.count is 0 %}
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+    {% else %}
+        {% for match2 in round2matches %}
+
+        <li class="game game-top {% if match2.winner.id == match2.awayteam.id %}
+            winner
+            {% else %}
+
+            {% endif %}"><a href="{% url 'matches:detail' pk=match2.id %}">{{ match2.awayteam }}</a><span>
+            {% if match2.winner.id == match2.awayteam.id %}
+            1
+            {% else %}
+            0
+            {% endif %}
+        </span></li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom {% if match2.winner.id == match2.hometeam.id %}
+            winner
+            {% else %}
+
+            {% endif %}"><a href="{% url 'matches:detail' pk=match2.id %}">{{ match2.hometeam }}</a><span>
+            {% if match2.winner.id == match2.hometeam.id %}
+            1
+            {% else %}
+            0
+            {% endif %}
+        </span></li>
+            <li class="spacer"></li>
+        {% endfor %}
+
+    {% endif %}
 
 
-  ],
-  "results": [            // List of brackets (single elimination, so only one bracket)
-    [                     // List of rounds in bracket
-      [                   // First round in this bracket
-        [1, 2],           // Team 1 vs Team 2
-        [3, 4],            // Team 3 vs Team 4
-        [5, 6],
-        [7, 8],
-        [9, 10],
-        [11, 12],
-        [13, 14],
-        [15, 16],
-        [17, 18],           // Team 1 vs Team 2
-        [19, 20],            // Team 3 vs Team 4
-        [21, 22],
-        [23, 24],
-        [25, 26],
-        [27, 28],
-        [29, 30],
-        [31, 32],
-        [33, 34],           // Team 1 vs Team 2
-        [35, 36],            // Team 3 vs Team 4
-        [37, 38],
-        [39, 40],
-        [41, 42],
-        [43, 44],
-        [45, 46],
-        [47, 48],
-        [49, 50],           // Team 1 vs Team 2
-        [51, 52],            // Team 3 vs Team 4
-        [53, 54],
-        [55, 56],
-        [57, 58],
-        [59, 60],
-        [61, 62],
-        [63, 64],
-      ],
-      [                   // Second (final) round in single elimination bracket
-        [65, 66],           // Match for first place
-        [67, 68],
-        [69, 70],
-        [71, 72],
-        [73, 74],           // Match for first place
-        [75, 76],
-        [77, 78],
-        [79, 80],
-        [81, 82],           // Match for first place
-        [83, 84],
-        [85, 86],
-        [87, 88],
-        [89, 90],           // Match for first place
-        [91, 92],
-        [93, 94],
-        [95, 96],
-                    // Match for 3rd place
-      ],
-        [
-            [97, 98],
-            [99, 100],
-            [101, 102],
-            [103, 104],
-            [105, 106],
-            [107, 108],
-            [109, 110],
-            [111, 112],
-        ],
+</ul>
 
-        [
-            [113, 114],
-            [115, 116],
-            [117, 118],
-            [119, 120],
-        ],
-        [
-            [121, 122],
-            [123, 124],
-        ],
-        [
-            [125, 126],
-        ]
-    ]
-  ]
-}
 
-$(function() {
-    $('#demo').bracket({
-        skipConsolationRound: true,
-      init: singleElimination /* data to initialize the bracket with */ })
-  })
-</script>
+<ul class="round round-3">
+<li class="spacer">&nbsp;</li>
+    {% if round3matches.count is 0 %}
 
-    <div id="demo"></div>
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+        <li class="spacer"></li>
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+        <li class="spacer"></li>
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+        <li class="spacer"></li>
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+        <li class="spacer"></li>
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+        <li class="spacer"></li>
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+        <li class="spacer"></li>
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+        <li class="spacer"></li>
+    {% else %}
+        {% for match3 in round3matches %}
+
+        <li class="game game-top {% if match3.winner.id == match3.awayteam.id %}
+            winner
+            {% else %}
+
+            {% endif %}"><a href="{% url 'matches:detail' pk=match3.id %}">{{ match3.awayteam }}</a><span>
+            {% if match3.winner.id == match3.awayteam.id %}
+            1
+            {% else %}
+            0
+            {% endif %}
+        </span></li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom {% if match3.winner.id == match3.hometeam.id %}
+            winner
+            {% else %}
+
+            {% endif %}"><a href="{% url 'matches:detail' pk=match3.id %}">{{ match3.hometeam }}</a><span>
+            {% if match3.winner.id == match3.hometeam.id %}
+            1
+            {% else %}
+            0
+            {% endif %}
+        </span></li>
+            <li class="spacer"></li>
+        {% endfor %}
+
+    {% endif %}
+
+    </ul>
+
+    <ul class="round round-4">
+<li class="spacer">&nbsp;</li>
+    {% if round4matches.count is 0 %}
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+        <li class="spacer"></li>
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+        <li class="spacer"></li>
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+        <li class="spacer"></li>
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+        <li class="spacer"></li>
+
+    {% else %}
+        {% for match4 in round4matches %}
+
+        <li class="game game-top {% if match4.winner.id == match4.awayteam.id %}
+            winner
+            {% else %}
+
+            {% endif %}"><a href="{% url 'matches:detail' pk=match4.id %}">{{ match4.awayteam }}</a><span>
+            {% if match4.winner.id == match4.awayteam.id %}
+            1
+            {% else %}
+            0
+            {% endif %}
+        </span></li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom {% if match4.winner.id == match4.hometeam.id %}
+            winner
+            {% else %}
+
+            {% endif %}"><a href="{% url 'matches:detail' pk=match4.id %}">{{ match4.hometeam }}</a><span>
+            {% if match4.winner.id == match4.hometeam.id %}
+            1
+            {% else %}
+            0
+            {% endif %}
+        </span></li>
+            <li class="spacer"></li>
+        {% endfor %}
+
+    {% endif %}
+
+    </ul>
+
+    <ul class="round round-5">
+<li class="spacer">&nbsp;</li>
+    {% if round5matches.count is 0 %}
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+    {% else %}
+        {% for match5 in round5matches %}
+
+        <li class="game game-top {% if match5.winner.id == match5.awayteam.id %}
+            winner
+            {% else %}
+
+            {% endif %}"><a href="{% url 'matches:detail' pk=match5.id %}">{{ match5.awayteam }}</a><span>
+            {% if match5.winner.id == match5.awayteam.id %}
+            1
+            {% else %}
+            0
+            {% endif %}
+        </span></li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom {% if match5.winner.id == match5.hometeam.id %}
+            winner
+            {% else %}
+
+            {% endif %}"><a href="{% url 'matches:detail' pk=match5.id %}">{{ match5.hometeam }}</a><span>
+            {% if match5.winner.id == match5.hometeam.id %}
+            1
+            {% else %}
+            0
+            {% endif %}
+        </span></li>
+            <li class="spacer"></li>
+        {% endfor %}
+
+    {% endif %}
+
+    </ul>
+
+
+
+
+
+    <ul class="round round-6">
+<li class="spacer">&nbsp;</li>
+    {% if round6matches.count is 0 %}
+
+        <li class="game game-top">TBD </li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">TBD </li>
+
+        <li class="spacer"></li>
+
+    {% else %}
+        {% for match6 in round6matches %}
+
+        <li class="game game-top {% if match6.winner.id == match6.awayteam.id %}
+            winner
+            {% else %}
+
+            {% endif %}"><a href="{% url 'matches:detail' pk=match6.id %}">{{ match6.awayteam }}</a><span>
+            {% if match6.winner.id == match6.awayteam.id %}
+            1
+            {% else %}
+            0
+            {% endif %}
+        </span></li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom {% if match6.winner.id == match6.hometeam.id %}
+            winner
+            {% else %}
+
+            {% endif %}"><a href="{% url 'matches:detail' pk=match6.id %}">{{ match6.hometeam }}</a><span>
+            {% if match6.winner.id == match6.hometeam.id %}
+            1
+            {% else %}
+            0
+            {% endif %}
+        </span></li>
+            <li class="spacer"></li>
+        {% endfor %}
+
+    {% endif %}
+
+
+    </ul>
+
+</main>
+              </div>
+           </div>
+</div>
+</div>
 
 {% endblock %}
