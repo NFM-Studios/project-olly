@@ -17,5 +17,6 @@ News Index
 <p>{{ article.body | linebreaks }}</p>
             <a href="{% url 'staff:news_list' %}">Click here to view news articles</a>
 
+    <h2><a href="{% url 'staff:edit_article' pk=article.id %}">Edit this news post</a></h2>
 
 {% endblock %}
