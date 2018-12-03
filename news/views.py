@@ -37,11 +37,8 @@ class PostListView(ListView):
     template_name = 'news/post/list.html'
 
 
-def post_detail(request, year, month, day, post):
-    post = get_object_or_404(Post, slug=post, status='published',
-                             publish__year=year,
-                             publish__month=month,
-                             publish__day=day)
+def post_detail(request, slug):
+    post = get_object_or_404(Post, slug=slug, status='published')
     # list of active comments for this posts
     comments = post.comments.filter(active=True)
 
