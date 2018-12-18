@@ -1,6 +1,5 @@
-{% extends "base.html" %}
+{% extends "eot/base.html" %}
 {% load staticfiles %}
-<link rel="stylesheet" href="{% static "css/matches.css" %}">
 
   {% block head %}
   <title>Report a Match - {{ SITE_NAME }}</title>
@@ -11,7 +10,8 @@
 
            <div class="panel">
               <div class="panel-body">
-<form method="POST" action="{% url 'matches:report' %}">
+                  <div class="panel-title">Report a Match</div>
+<form method="POST" action="{% url 'matches:report' pk=pk %}">
     <table class="table">
         {% csrf_token %}
         {{form.as_table}}
@@ -25,4 +25,5 @@
               </div>
            </div>
     </div>
+
 {% endblock %}

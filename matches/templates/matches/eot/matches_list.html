@@ -1,15 +1,17 @@
-{% extends "base.html" %}
+{% extends "eot/base.html" %}
 {% load staticfiles %}
 
   {% block head %}
   <title>Matches - {{ SITE_NAME }}</title>
   {% endblock %}
 
-<link rel="stylesheet" href="{% static "css/matches.css" %}">
-
 {% block body %}
 
+    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 col-md-offset-2 col-lg-offset-2 wrap">
 
+    <div class="panel">
+      <div class="panel-body">
+      <div class="panel-title">My Matches</div>
 <table class="table table-hover">
     <tr id="header">
         <thead>
@@ -26,5 +28,8 @@
 </table>
 
 
+</div>
+    </div>
+    </div>
 
 {% endblock %}
