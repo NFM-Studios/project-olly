@@ -1,6 +1,5 @@
-{% extends "base.html" %}
+{% extends "eot/base.html" %}
 {% load staticfiles %}
-<link rel="stylesheet" href="{% static "css/matches.css" %}">
 
   {% block head %}
   <title>Match Dispute - {{ SITE_NAME }}</title>
@@ -11,12 +10,13 @@
 
            <div class="panel">
               <div class="panel-body">
+                  <div class="panel-title">Match Dispute</div>
 <h1>There has been a dispute between the 2 teams for this match</h1>
 
     <h2>In order to properly resolve this conflict both teams are required to submit proof</h2>
 
     <h2>Failure to submit proof in a timely fashion will result in in a forfeit for your team</h2>
-<form method="POST" action="{% url 'matches:dispute' %}">
+<form method="POST" action="{% url 'matches:dispute' pk=dispute %}">
     <table class="table">
         {% csrf_token %}
         {{form.as_table}}
