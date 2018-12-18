@@ -1,11 +1,12 @@
 {% extends "eot/base.html" %}
 {% load staticfiles %}
   {% block head %}
-      <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 col-md-offset-2 col-lg-offset-2 wrap">
+
   <title>News - {{ SITE_NAME }}</title>
   {% endblock %}
 
 {% block body %}
+     <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 col-md-offset-2 col-lg-offset-2 wrap">
     <div class="row gutter-10 bot10">
     <div class="panel">
      <div class="panel-body">
@@ -14,7 +15,7 @@
 
     {% for post in posts %}
         <div class="col-xs-6 col-sm-6 col-md-3 bot10">
-        <img src="{% static 'images/news.jpg' %}"/><br>
+        <img src="{% static 'eot/images/news.jpg' %}"/><br>
         <br>
         <h5><b><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></b></h5>
 
@@ -26,5 +27,9 @@
 <br />
 
     {% include "pagination.html" with page=posts %}
+    </div>
+     </div>
+    </div>
+    </div>
     </div>
 {% endblock %}
