@@ -5,10 +5,7 @@
   {% endblock %}
 
 {% block body %}
-    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 col-md-offset-2 col-lg-offset-2 wrap">
 
-           <div class="panel">
-              <div class="panel-body">
 <form id="searchform" action="{% url 'profiles:searchusers' %}" method="get" accept-charset="utf-8">
       <button class="searchbutton" type="submit">
         <i class="fa fa-search"></i>
@@ -35,7 +32,4 @@
 {% endfor %}
 {% endif %}
 </table>
-              </div>
-           </div>
-    </div>
 {% endblock %}
