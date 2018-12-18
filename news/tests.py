@@ -31,3 +31,26 @@ class PostTestCase1(TestCase):
 
         detailresponse = post_detail(request, post1.slug)
         self.assertEqual(detailresponse.status_code, 200)
+
+    def test_detail2response(self):
+        post1 = Post.objects.create(title='Test Title2', slug='Test_Slug22', body='Testing Body Field',
+                                    status="published", author=self.user)
+
+        request = self.factory.get('/news/'+post1.slug)
+
+        request.tenant = 'binge'
+
+        detailresponse = post_detail(request, post1.slug)
+        self.assertEqual(detailresponse.status_code, 200)
+
+    def test_list2response(self):
+        request = self.factory.get('/news')
+
+        request.tenant = 'binge'
+
+        request.user = self.user
+
+        response = post_list(request)
+
+        self.assertEqual(response.status_code, 200)
+
