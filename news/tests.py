@@ -9,7 +9,7 @@ class PostTestCase1(TestCase):
         self.factory = RequestFactory()
         self.user = User.objects.create_user(username='testuser', email='test@gmail.com', password='password')
         # login = self.client.login(username='testuser', password='password')
-        #post1 = Post.objects.create(title='Test Title', slug='Test_Slug', body='Testing Body Field')
+        # post1 = Post.objects.create(title='Test Title', slug='Test_Slug', body='Testing Body Field')
 
     def test_listresponse(self):
         request = self.factory.get('/news')
@@ -23,11 +23,11 @@ class PostTestCase1(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_detailresponse(self):
-        post1 = Post.objects.create(title='Test Title', slug='Test_Slug', body='Testing Body Field', author=self.user)
+        post1 = Post.objects.create(title='Test Title', slug='Test_Slug', body='Testing Body Field', status="published", author=self.user)
 
         request = self.factory.get('/news/'+post1.slug)
 
         request.tenant = 'eot'
 
-        detailresponse = post_detail(request, post1)
+        detailresponse = post_detail(request, post1.slug)
         self.assertEqual(detailresponse.status_code, 200)
