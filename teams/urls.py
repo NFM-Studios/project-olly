@@ -1,4 +1,4 @@
-from django.conf.urls import url
+from django.urls import path
 from . import views
 from django.contrib.auth.decorators import login_required
 from teams.views import MyTeamsListView, MyTeamDetailView, TeamCreateView, TeamInviteCreateView, MyInvitesListView, InviteView
@@ -6,14 +6,14 @@ from teams.views import MyTeamsListView, MyTeamDetailView, TeamCreateView, TeamI
 app_name = 'teams'
 
 urlpatterns = [
-    url(r'^$', login_required(MyTeamsListView.as_view()), name='list'),
-    url(r'^invites/$', login_required(MyInvitesListView.as_view()), name='myinvitelist'),
-    url(r'^invites/(?P<num>[0-9]*)/$', login_required(InviteView)),
-    url(r'^(?P<pk>\d+)/$', MyTeamDetailView.as_view(), name='detail'),
-    url(r'^create/$', login_required(TeamCreateView.as_view()), name='create'),
-    url(r'^invite/$', login_required(TeamInviteCreateView.as_view()), name='invite'),
-    url(r'^(?P<pk>\d+)/edit/$', login_required(views.EditTeamView), name='edit'),
-    url(r'^(?P<pk>\d+)/leave/$', login_required(views.LeaveTeamView.as_view()), name='leave'),
-    url(r'^(?P<pk>\d+)/remove/$', login_required(views.RemoveUserView.as_view()), name='remove'),
-    url(r'^(?P<pk>\d+)/dissolve/$', login_required(views.DissolveTeamView.as_view()), name='dissolve')
+    path('', login_required(MyTeamsListView.as_view()), name='list'),
+    path('invites/', login_required(MyInvitesListView.as_view()), name='myinvitelist'),
+    path('invites/<int:num>/', login_required(InviteView)),
+    path('<int:pk>', MyTeamDetailView.as_view(), name='detail'),
+    path('create/', login_required(TeamCreateView.as_view()), name='create'),
+    path('invite/', login_required(TeamInviteCreateView.as_view()), name='invite'),
+    path('<int:pk>/edit/', login_required(views.EditTeamView), name='edit'),
+    path('<int:pk>/leave/', login_required(views.LeaveTeamView.as_view()), name='leave'),
+    path('<int:pk>/remove/', login_required(views.RemoveUserView.as_view()), name='remove'),
+    path('<int:pk>/dissolve/', login_required(views.DissolveTeamView.as_view()), name='dissolve')
 ]
