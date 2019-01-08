@@ -6,13 +6,6 @@ Tournament #{{ tournament.id }}
 {% endblock %}
 
 {% block body %}
-    {% if messages %}
-  <ul class="messages">
-    {% for message in messages %}
-      <li class="{{ message.tags }}">{{ message }}</li>
-    {% endfor %}
-  </ul>
-{% endif %}
 
 
 <p><a href="{% url 'staff:tournamentlist' %}"><i class="fa fa-arrow-left"></i> <strong>Back to Tournament list</strong></a></p>
