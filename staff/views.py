@@ -1,11 +1,7 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from pages.models import StaticInfo
-from staff.forms import StaticInfoForm, ArticleCreateForm, EditUserForm, TicketCommentCreateForm,\
-    TicketStatusChangeForm, EditTournamentForm, DeclareMatchWinnerForm, DeclareMatchWinnerPost,\
-    DeclareTournamentWinnerForm, TicketSearchForm, RemovePlayerForm, RemovePlayerFormPost, SingleRulesetCreateForm,\
-    PartnerForm, EditNewsPostForm, CreateProductForm, DeleteProductForm, RemovePostForm, EditMatchForm, \
-    CreateTournamentForm, ModifyUserForm, EditRoundInfoForm
+from staff.forms import *
 from profiles.models import UserProfile, BannedUser
 from profiles.forms import SortForm
 from django.contrib.auth.models import User
@@ -17,7 +13,7 @@ from teams.models import Team, TeamInvite
 from matches.models import Match, MatchReport, MatchDispute
 from news.models import Post, Comment, PublishedManager
 from store.models import Transaction, Transfer, give_credits, Product
-from singletournaments.models import SingleEliminationTournament, SingleTournamentRound, SingleTournamentRuleset
+from singletournaments.models import *
 from support.models import Ticket, TicketComment
 from django.shortcuts import get_object_or_404
 from pages.models import Partner
