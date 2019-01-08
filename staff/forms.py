@@ -8,6 +8,7 @@ from news.models import Post
 from support.models import TicketComment, Ticket
 from teams.models import Team, TeamInvite
 from store.models import Product
+from django.shortcuts import get_object_or_404
 
 
 class StaticInfoForm(forms.ModelForm):
@@ -77,6 +78,18 @@ class EditTournamentForm(forms.ModelForm):
             'close_register': forms.DateTimeInput(attrs={'class': 'form-control datetimepicker-input', 'id': 'datetimepicker2', 'data-toggle': 'datetimepicker', 'data-target': '#datetimepicker2'}),
             'start': forms.DateTimeInput(attrs={'class': 'form-control datetimepicker-input', 'id': 'datetimepicker3', 'data-toggle': 'datetimepicker', 'data-target': '#datetimepicker3'})
         }
+
+
+class AddTournamentTeamForm(forms.ModelForm):
+    team = forms.IntegerField()
+
+    class Meta:
+        model = SingleEliminationTournament
+        fields = ()
+
+    def __init__(self, request, pk, *args, **kwargs):
+        team = get_object_or_404(SingleEliminationTournament, pk=pk)
+        super().__init__(*args, **kwargs)
 
 
 class DeclareMatchWinnerForm(forms.ModelForm):
