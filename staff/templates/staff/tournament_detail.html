@@ -151,6 +151,7 @@ Tournament #{{ tournament.id }}
     {% if tournament.active %}
         {% if not tournament.bracket_generated %}
             <a href="{% url 'staff:generate_bracket' pk=tournament.id %}" class="btn btn-success">LAUNCH</a>
+            <a href="{% url 'staff:invite_team' pk=tournament.id %}" class="btn btn-success">ADD TEAMS</a>
         {% else %}
             <a href="{% url 'staff:advance' pk=tournament.id %}" class="btn btn-success">Advance</a>
             <a href="{% url 'staff:winner' pk=tournament.id %}" class="btn btn-success">Declare Winner</a>
