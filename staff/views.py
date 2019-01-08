@@ -250,6 +250,17 @@ def verify(request, urlusername):
 
 # start tournaments
 
+def add_teams(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        tournament = SingleEliminationTournament.objects.get(pk=pk)
+        if request.method == 'POST':
+            add_form = AddTournamentTeamForm
+        return render(request, 'staff/tournament_add_team.html', {'tournament': tournament})
+
 
 def tournaments(request):
     user = UserProfile.objects.get(user__username=request.user.username)
