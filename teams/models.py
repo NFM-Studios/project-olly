@@ -59,7 +59,7 @@ class Team(models.Model):
         self.save()
 
     def get_rank(self):
-        self.rank = int(Team.objects.filter(xp__gt=self.totalxp).count()) + 1
+        self.rank = int(Team.objects.filter(totalxp__gt=self.totalxp).count()) + 1
         self.save()
 
     def __str__(self):
