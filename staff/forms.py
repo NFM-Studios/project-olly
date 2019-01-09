@@ -87,9 +87,9 @@ class AddTournamentTeamForm(forms.ModelForm):
         model = SingleEliminationTournament
         fields = ()
 
-    def __init__(self, request, pk, *args, **kwargs):
+    def __init__(self, pk):
         team = get_object_or_404(SingleEliminationTournament, pk=pk)
-        super().__init__(*args, **kwargs)
+        super().__init__()
 
 
 class DeclareMatchWinnerForm(forms.ModelForm):
