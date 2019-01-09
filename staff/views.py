@@ -256,10 +256,19 @@ def add_teams(request, pk):
     if user.user_type not in allowed:
         return render(request, 'staff/permissiondenied.html')
     else:
-        tournament = SingleEliminationTournament.objects.get(pk=pk)
         if request.method == 'POST':
-            add_form = AddTournamentTeamForm
-        return render(request, 'staff/tournament_add_team.html', {'tournament': tournament})
+            tournament = SingleEliminationTournament.objects.get(pk=pk)
+            form = AddTournamentTeamForm(pk=pk)
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'Round has been updated')
+                tournament.teams.add()
+                return redirect('staff:tournament_detail', pk)
+        else:
+            tournament = SingleEliminationTournament.objects.get(pk=pk)
+            form = AddTournamentTeamForm(pk=pk)
+            return render(request, 'staff/tournament_add_team.html', {'form':form, 'tournament':tournament})
+        return render(request, 'staff/tournament_detail.html', {'tournament': tournament})
 
 
 def tournaments(request):
