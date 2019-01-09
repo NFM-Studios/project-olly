@@ -261,8 +261,10 @@ def add_teams(request, pk):
             form = AddTournamentTeamForm(pk=pk)
             if form.is_valid():
                 form.save()
+                team = Team.objects.get(Team, pk=form.team)
+                tournament.teams.add(team)
+                tournament.save()
                 messages.success(request, 'Round has been updated')
-                tournament.teams.add()
                 return redirect('staff:tournament_detail', pk)
         else:
             tournament = SingleEliminationTournament.objects.get(pk=pk)
