@@ -6,13 +6,6 @@ Tournament #{{ tournament.id }}
 {% endblock %}
 
 {% block body %}
-    {% if messages %}
-  <ul class="messages">
-    {% for message in messages %}
-      <li class="{{ message.tags }}">{{ message }}</li>
-    {% endfor %}
-  </ul>
-{% endif %}
 
 
 <p><a href="{% url 'staff:tournamentlist' %}"><i class="fa fa-arrow-left"></i> <strong>Back to Tournament list</strong></a></p>
@@ -158,6 +151,7 @@ Tournament #{{ tournament.id }}
     {% if tournament.active %}
         {% if not tournament.bracket_generated %}
             <a href="{% url 'staff:generate_bracket' pk=tournament.id %}" class="btn btn-success">LAUNCH</a>
+            <a href="{% url 'staff:add_team' pk=tournament.id %}" class="btn btn-success">ADD TEAMS</a>
         {% else %}
             <a href="{% url 'staff:advance' pk=tournament.id %}" class="btn btn-success">Advance</a>
             <a href="{% url 'staff:winner' pk=tournament.id %}" class="btn btn-success">Declare Winner</a>
