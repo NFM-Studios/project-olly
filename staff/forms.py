@@ -81,10 +81,11 @@ class EditTournamentForm(forms.ModelForm):
 
 
 class AddTournamentTeamForm(forms.ModelForm):
+    teams = forms.IntegerField()
 
     class Meta:
         model = SingleEliminationTournament
-        fields = ('teams',)
+        fields = ()
 
 
 class DeclareMatchWinnerForm(forms.ModelForm):
