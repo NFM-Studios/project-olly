@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "olly.binge_settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "olly.ga_settings")
 
 application = get_wsgi_application()
