@@ -80,6 +80,37 @@
             <span class="nav-link-text">Sponsors/Partners</span>
           </a>
         </li>
+
+          <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Games">
+          <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseGames" data-parent="#exampleAccordion">
+            <i class="fa fa-fw fa-gamepad"></i>
+            <span class="nav-link-text">Games</span>
+          </a>
+          <ul class="sidenav-second-level collapse" id="collapseGames">
+            <li>
+              <a href="{% url 'staff:create_gamechoice' %}">Create</a>
+            </li>
+            <li>
+              <a href="{% url 'staff:gamelist' %}">Manage</a>
+            </li>
+          </ul>
+        </li>
+
+          <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Platforms">
+          <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapsePlatforms" data-parent="#exampleAccordion">
+            <i class="fa fa-fw fa-gamepad"></i>
+            <span class="nav-link-text">Platforms</span>
+          </a>
+          <ul class="sidenav-second-level collapse" id="collapsePlatforms">
+            <li>
+              <a href="{% url 'staff:create_platformchoice' %}">Create</a>
+            </li>
+            <li>
+              <a href="{% url 'staff:platformlist' %}">Manage</a>
+            </li>
+          </ul>
+        </li>
+
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tournaments">
           <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseTournaments" data-parent="#exampleAccordion">
             <i class="fa fa-fw fa-users"></i>
