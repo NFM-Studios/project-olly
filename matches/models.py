@@ -15,12 +15,16 @@ class PlatformChoice(models.Model):
     image = models.ImageField(upload_to='platform_images', null=True, blank=True)
 
 
+all_games = GameChoice.objects.all()
+all_platforms = PlatformChoice.objects.all()
+
+
 class Match(models.Model):
 
     matchnum = models.SmallIntegerField(default=0)
-    game = models.SmallIntegerField(choices=GAME_CHOICES, default=0)
+    game = models.SmallIntegerField(choices=all_games, default=0)
     # default to ps4 for now bc why not
-    platform = models.SmallIntegerField(choices=PLATFORMS_CHOICES, default=0)
+    platform = models.SmallIntegerField(choices=all_platforms, default=0)
     # assign the match to a tournament with a FK
     # tournament = models.ForeignKey(SingleEliminationTournament, related_name='tournament', on_delete=models.CASCADE)
     # fk fields for the 2 teams that are competiting,
