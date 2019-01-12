@@ -260,8 +260,8 @@ def add_teams(request, pk):
             tournament = SingleEliminationTournament.objects.get(pk=pk)
             form = AddTournamentTeamForm(request.POST)
             if form.is_valid():
-                team = form.cleaned_data['teams']
-                tournament.teams.add(team.first())
+                teamid = form.cleaned_data['teams']
+                tournament.teams.add(Team.objects.get(id=teamid))
                 tournament.save()
                 messages.success(request, 'Tournament has been updated')
                 return redirect('staff:tournament_detail', pk)
