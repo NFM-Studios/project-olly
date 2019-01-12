@@ -1,6 +1,6 @@
 from django.db import models
-from matches.settings import GAME_CHOICES, PLATFORMS_CHOICES, TEAMFORMAT_CHOICES, MAPFORMAT_CHOICES
-from matches.models import Match
+from matches.settings import TEAMFORMAT_CHOICES, MAPFORMAT_CHOICES
+from matches.models import Match, GameChoice, PlatformChoice
 from teams.models import Team
 from profiles.models import User
 from django.dispatch import receiver
@@ -25,6 +25,10 @@ class SingleTournamentRuleset(models.Model):
 
     def __str__(self):
         return self.name
+
+
+all_games = GameChoice.objects.all()
+all_platforms = PlatformChoice.objects.all()
 
 
 class SingleEliminationTournament(models.Model):
@@ -62,8 +66,8 @@ class SingleEliminationTournament(models.Model):
     req_credits = models.PositiveSmallIntegerField(default=0)
 
     # game and platform it will be played on
-    platform = models.SmallIntegerField(choices=PLATFORMS_CHOICES, default=0)
-    game = models.SmallIntegerField(choices=GAME_CHOICES, default=0)
+    platform = models.SmallIntegerField(choices=all_platforms, default=0)
+    game = models.SmallIntegerField(choices=all_games, default=0)
 
     # when will the first round of matches start?
     start = models.DateTimeField()
