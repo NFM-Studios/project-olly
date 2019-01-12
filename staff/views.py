@@ -523,13 +523,13 @@ def advance(request, pk):
                     winners.append('BYE TEAM')
 
                 else:
-                    team1 = Team.objects.get(id=i.loser_id)
-                    team1.num_matchloss += 1
-                    team1.save()
                     winners.append(i.winner)
                     team = Team.objects.get(id=i.winner_id)
                     team.num_matchwin += 1
                     team.save()
+                    team1 = Team.objects.get(id=i.loser_id)
+                    team1.num_matchloss += 1
+                    team1.save()
             except:
                 pass
 
@@ -727,11 +727,14 @@ class MatchDeclareWinner(View):
                 instance.loser = loser
                 instance.completed = True
                 instance.save()
-                winner.num_matchwin += 1
-                loser.num_matchloss += 1
-                winner.save()
-                loser.save()
-                messages.success(request, "Winner declared")
+                try:
+                    winner.num_matchwin += 1
+                    loser.num_matchloss += 1
+                    winner.save()
+                    loser.save()
+                    messages.success(request, "Winner declared")
+                except:
+                    messages.error(request, "Match statistics were not properly logged")
                 return redirect('staff:matches_index')
             else:
                 messages.error(request, 'Bye match, cannot set winner')
