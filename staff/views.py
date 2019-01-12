@@ -1,11 +1,7 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from pages.models import StaticInfo
-from staff.forms import StaticInfoForm, ArticleCreateForm, EditUserForm, TicketCommentCreateForm,\
-    TicketStatusChangeForm, EditTournamentForm, DeclareMatchWinnerForm, DeclareMatchWinnerPost,\
-    DeclareTournamentWinnerForm, TicketSearchForm, RemovePlayerForm, RemovePlayerFormPost, SingleRulesetCreateForm,\
-    PartnerForm, EditNewsPostForm, CreateProductForm, DeleteProductForm, RemovePostForm, EditMatchForm, \
-    CreateTournamentForm, ModifyUserForm, EditRoundInfoForm
+from staff.forms import *
 from profiles.models import UserProfile, BannedUser
 from profiles.forms import SortForm
 from django.contrib.auth.models import User
@@ -710,6 +706,134 @@ def dispute_detail(request, pk):
         return render(request, 'staff/dispute_detail.html', {'dispute': dispute})
 
 
+def gamelist(request):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        games = GameChoice.objects.all().order_by('id')
+        return render(request, 'staff/game_list.html', {'games': games})
+
+
+def game_detail(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        if request.method == 'POST':
+            game = GameChoice.objects.get(pk=pk)
+            form = GameChoiceForm(request.POST, request.FILES, instance=game)
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'Game has been updated')
+                return redirect('staff:gamelist')
+            else:
+                return render(request, 'staff/editgame.html', {'form': form})
+        else:
+            game = GameChoice.objects.get(pk=pk)
+            form = GameChoiceForm(instance=game)
+            return render(request, 'staff/editgame.html', {'form': form, 'pk': pk})
+
+
+def delete_game(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        game = GameChoice.objects.get(pk=pk)
+        game.delete()
+        messages.success(request, "Game Deleted")
+        return redirect('staff:gamelist')
+
+
+def create_gamechoice(request):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        if request.method == 'GET':
+            form = GameChoiceForm()
+            return render(request, 'staff/editgame.html', {'form': form})
+        else:
+            form = GameChoiceForm(request.POST, request.FILES)
+            if form.is_valid():
+                gamechoice = form.instance
+                gamechoice.save()
+                messages.success(request, 'Created Game')
+                return redirect('staff:gamelist')
+            else:
+                form = GameChoiceForm(request.POST, request.FILES)
+                return render(request, 'staff/editgame.html', {'form': form})
+
+
+def platformlist(request):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        platforms = PlatformChoice.objects.all().order_by('id')
+        return render(request, 'staff/platform_list.html', {'platforms': platforms})
+
+
+def platform_detail(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        if request.method == 'POST':
+            platform = PlatformChoice.objects.get(pk=pk)
+            form = PlatformChoiceForm(request.POST, request.FILES, instance=platform)
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'Platform has been updated')
+                return redirect('staff:platformlist')
+            else:
+                return render(request, 'staff/editplatform.html', {'form': form})
+        else:
+            platform = PlatformChoice.objects.get(pk=pk)
+            form = PlatformChoiceForm(instance=platform)
+            return render(request, 'staff/editplatform.html', {'form': form, 'pk': pk})
+
+
+def delete_platform(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        platform = PlatformChoice.objects.get(pk=pk)
+        platform.delete()
+        messages.success(request, "Platform Deleted")
+        return redirect('staff:platformlist')
+
+
+def create_platformchoice(request):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        if request.method == 'GET':
+            form = PlatformChoiceForm()
+            return render(request, 'staff/editplatform.html', {'form': form})
+        else:
+            form = PlatformChoiceForm(request.POST, request.FILES)
+            if form.is_valid():
+                platformchoice = form.instance
+                platformchoice.save()
+                messages.success(request, 'Created Game')
+                return redirect('staff:platformlist')
+            else:
+                form = GameChoiceForm(request.POST, request.FILES)
+                return render(request, 'staff/editplatform.html', {'form': form})
+
+
 # end matches section
 
 
@@ -1219,4 +1343,3 @@ def getteamrank(request):
         for i in allteams:
             i.get_rank()
         messages.success(request, "Calculated rank for %s teams" % allteams.count())
-

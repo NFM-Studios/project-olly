@@ -3,7 +3,7 @@
 {% load staticfiles %}
 <link rel="stylesheet" href="{% static "css/staff.css" %}">
 {% block title %}
-Create Game
+Edit/Create Platform
 {% endblock %}
 {% block body %}
 <link rel="stylesheet" href="{% static "css/staff.css" %}">
@@ -26,7 +26,7 @@ Create Game
         </div>
     {% endfor %}
 {% endif %}
-    <h1><a href="{% url 'staff:gamelist' %}">Return to game list</a></h1>
+    <h1><a href="{% url 'staff:platformlist' %}">Return to platform list</a></h1>
 
 <form enctype="multipart/form-data" method="post">
    {% csrf_token %}
@@ -36,10 +36,14 @@ Create Game
    {{ form.name }}
    <br>
 
-   <label>Team Format</label>
+   <label>Image</label>
    {{ form.image }}
+   <br>
 
-   <button type="submit" class="btn btn-primary">Create</button>
+   <button type="submit" class="btn btn-primary">Submit</button>
+    {% if pk %}
+   <a href="{% url 'staff:delete_platform' pk=pk %}" class="btn btn-danger">Delete</a>
+    {% endif %}
 </form>
 
 {% endblock %}
