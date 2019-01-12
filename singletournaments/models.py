@@ -27,10 +27,6 @@ class SingleTournamentRuleset(models.Model):
         return self.name
 
 
-all_games = GameChoice.objects.all()
-all_platforms = PlatformChoice.objects.all()
-
-
 class SingleEliminationTournament(models.Model):
     name = models.CharField(max_length=50, blank=False, default='No name provided', unique=True)
     # I know we need the team format, ex 1v1, 2v2, 3v3, 4v4, 5v5, 6v6
@@ -66,8 +62,8 @@ class SingleEliminationTournament(models.Model):
     req_credits = models.PositiveSmallIntegerField(default=0)
 
     # game and platform it will be played on
-    platform = models.SmallIntegerField(choices=all_platforms, default=0)
-    game = models.SmallIntegerField(choices=all_games, default=0)
+    platform = models.ForeignKey(PlatformChoice, on_delete=models.CASCADE)
+    game = models.ForeignKey(GameChoice, on_delete=models.CASCADE)
 
     # when will the first round of matches start?
     start = models.DateTimeField()
