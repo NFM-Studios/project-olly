@@ -6,13 +6,13 @@ from django.dispatch import receiver
 
 
 class GameChoice(models.Model):
-    name = models.CharField(default='unknown', required=True, null=False)
+    name = models.CharField(default='unknown', null=False, max_length=255)
     image = models.ImageField(upload_to='game_images', blank=True)
 
 
 class PlatformChoice(models.Model):
-    name = models.CharField(default='unknown', required=True, null=False)
-    image = models.ImageField(upload_to='platform_images', required=False, null=True, blank=True)
+    name = models.CharField(default='unknown', null=False, max_length=255)
+    image = models.ImageField(upload_to='platform_images', null=True, blank=True)
 
 
 class Match(models.Model):
