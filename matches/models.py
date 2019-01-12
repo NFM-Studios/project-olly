@@ -22,9 +22,9 @@ all_platforms = PlatformChoice.objects.all()
 class Match(models.Model):
 
     matchnum = models.SmallIntegerField(default=0)
-    game = models.SmallIntegerField(choices=all_games, default=0)
+    game = models.ForeignKey(GameChoice, related_name='GameChoice', on_delete=models.CASCADE)
     # default to ps4 for now bc why not
-    platform = models.SmallIntegerField(choices=all_platforms, default=0)
+    platform = models.ForeignKey(PlatformChoice, related_name='PlatformChoice', on_delete=models.CASCADE)
     # assign the match to a tournament with a FK
     # tournament = models.ForeignKey(SingleEliminationTournament, related_name='tournament', on_delete=models.CASCADE)
     # fk fields for the 2 teams that are competiting,
