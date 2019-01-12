@@ -81,15 +81,10 @@ class EditTournamentForm(forms.ModelForm):
 
 
 class AddTournamentTeamForm(forms.ModelForm):
-    team = forms.IntegerField()
 
     class Meta:
         model = SingleEliminationTournament
-        fields = ()
-
-    def __init__(self, pk):
-        team = get_object_or_404(SingleEliminationTournament, pk=pk)
-        super().__init__()
+        fields = ('teams',)
 
 
 class DeclareMatchWinnerForm(forms.ModelForm):

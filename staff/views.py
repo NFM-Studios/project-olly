@@ -258,17 +258,16 @@ def add_teams(request, pk):
     else:
         if request.method == 'POST':
             tournament = SingleEliminationTournament.objects.get(pk=pk)
-            form = AddTournamentTeamForm(pk=pk)
+            form = AddTournamentTeamForm(request.POST)
             if form.is_valid():
-                form.save()
-                team = Team.objects.get(Team, pk=form.team)
-                tournament.teams.add(team)
+                team = form.cleaned_data['teams']
+                tournament.teams.add(team.first())
                 tournament.save()
-                messages.success(request, 'Round has been updated')
+                messages.success(request, 'Tournament has been updated')
                 return redirect('staff:tournament_detail', pk)
         else:
             tournament = SingleEliminationTournament.objects.get(pk=pk)
-            form = AddTournamentTeamForm(pk=pk)
+            form = AddTournamentTeamForm()
             return render(request, 'staff/tournament_add_team.html', {'form':form, 'tournament':tournament})
         return render(request, 'staff/tournament_detail.html', {'tournament': tournament})
 
