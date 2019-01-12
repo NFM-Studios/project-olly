@@ -1,8 +1,7 @@
 from django import forms
 from pages.models import StaticInfo, Partner
 from profiles.models import UserProfile
-from support.models import TicketComment
-from matches.models import Match
+from matches.models import Match, GameChoice, PlatformChoice
 from singletournaments.models import SingleEliminationTournament, SingleTournamentRuleset, SingleTournamentRound
 from news.models import Post
 from support.models import TicketComment, Ticket
@@ -206,6 +205,18 @@ class EditMatchForm(forms.ModelForm):
     class Meta:
         model = Match
         fields = ('info',)
+
+
+class GameChoiceForm(forms.ModelForm):
+    class Meta:
+        model = GameChoice
+        fields = '__all__'
+
+
+class PlatformChoiceForm(forms.ModelForm):
+    class Meta:
+        model = PlatformChoice
+        fields = '__all__'
 
 
 class EditRoundInfoForm(forms.ModelForm):
