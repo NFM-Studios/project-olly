@@ -514,8 +514,6 @@ def advance(request, pk):
 
         winners = []
 
-
-
         for i in matches:
 
             try:
@@ -534,7 +532,6 @@ def advance(request, pk):
                 pass
 
         # check to make sure mike +
-
 
         i = 0
         while i < len(winners):
