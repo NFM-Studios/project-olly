@@ -2,6 +2,17 @@ from django.db import models
 from matches.settings import GAME_CHOICES, PLATFORMS_CHOICES, TEAMFORMAT_CHOICES, MAPFORMAT_CHOICES
 from teams.models import Team
 from django.contrib.auth.models import User
+from django.dispatch import receiver
+
+
+class GameChoice(models.Model):
+    name = models.CharField(default='unknown', required=True, null=False)
+    image = models.ImageField(upload_to='game_images', blank=True)
+
+
+class PlatformChoice(models.Model):
+    name = models.CharField(default='unknown', required=True, null=False)
+    image = models.ImageField(upload_to='platform_images', required=False, null=True, blank=True)
 
 
 class Match(models.Model):
@@ -92,5 +103,49 @@ class MatchDispute(models.Model):
 
     # once all this information is submitted it will be viewable  by an admin that will look at the proof and
     # determine who the winner is.
+
+
+@receiver(models.signals.post_delete, sender=GameChoice)
+# This should never be run in theory. It would only be hit if the Post was completely deleted
+def auto_delete_file(sender, instance, **kwargs):
+    if instance.image:
+        instance.image.delete()
+
+
+@receiver(models.signals.pre_save, sender=GameChoice)
+def auto_delete_file_on_change(sender, instance, **kwargs):
+    if not instance.pk:
+        return False
+
+    try:
+        old_file = GameChoice.objects.get(pk=instance.pk).image
+    except GameChoice.DoesNotExist:
+        return False
+
+    new_file = instance.image
+    if not old_file == new_file:
+        old_file.delete(save=False)
+
+
+@receiver(models.signals.post_delete, sender=PlatformChoice)
+# This should never be run in theory. It would only be hit if the Post was completely deleted
+def auto_delete_file(sender, instance, **kwargs):
+    if instance.image:
+        instance.image.delete()
+
+
+@receiver(models.signals.pre_save, sender=PlatformChoice)
+def auto_delete_file_on_change(sender, instance, **kwargs):
+    if not instance.pk:
+        return False
+
+    try:
+        old_file = PlatformChoice.objects.get(pk=instance.pk).image
+    except PlatformChoice.DoesNotExist:
+        return False
+
+    new_file = instance.image
+    if not old_file == new_file:
+        old_file.delete(save=False)
 
 
