@@ -508,9 +508,9 @@ def advance(request, pk):
                 else:
                     mike = mikes_super_function(tournament.id, currentround.id, nextround.id)
 
-            #if i.completed is False:
-             #   messages.error(request, 'There is a match that is not yet marked as completed in the current round')
-              #  return redirect('staff:tournamentlist')
+            # if i.completed is False:
+            # messages.error(request, 'There is a match that is not yet marked as completed in the current round')
+            # return redirect('staff:tournamentlist')
 
         winners = []
 
