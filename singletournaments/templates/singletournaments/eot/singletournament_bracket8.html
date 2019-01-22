@@ -1,4 +1,4 @@
-{% extends 'eot/base.html' %}
+{% extends 'binge/base.html' %}
 {% load staticfiles %}
 
   {% block head %}
@@ -29,8 +29,12 @@
             winner
             {% else %}
 
-            {% endif %}"><a href="{% url 'matches:detail' pk=match.id %}">{{ match.awayteam }}</a><span>
-            {% if match.winner.id == match.awayteam.id %}
+            {% endif %}"><a href="{% url 'matches:detail' pk=match.id %}">{% if match.awayteam.id is None %}BYE TEAM{% else %}{{ match.awayteam }}{% endif %}</a><span>
+            {% if match.bye_2 is True %}
+            BYE
+            {% elif match.hometeam.id is None or match.awayteam.id is None %}
+            BYE
+            {% elif match.winner.id == match.awayteam.id %}
             1
             {% else %}
             0
@@ -41,8 +45,12 @@
             winner
             {% else %}
 
-            {% endif %}"><a href="{% url 'matches:detail' pk=match.id %}">{{ match.hometeam }}</a><span>
-            {% if match.winner.id == match.hometeam.id %}
+            {% endif %}"><a href="{% url 'matches:detail' pk=match.id %}">{% if match.hometeam.id is None %}BYE TEAM{% else %}{{ match.hometeam }}{% endif %}</a><span>
+            {% if match.bye_2 is True %}
+            BYE
+            {% elif match.hometeam.id is None or match.awayteam.id is None %}
+            BYE
+            {% elif match.winner.id == match.hometeam.id %}
             1
             {% else %}
             0
@@ -79,8 +87,10 @@
             winner
             {% else %}
 
-            {% endif %}"><a href="{% url 'matches:detail' pk=match2.id %}">{{ match2.awayteam }}</a><span>
-            {% if match2.winner.id == match2.awayteam.id %}
+            {% endif %}"><a href="{% url 'matches:detail' pk=match2.id %}">{% if match2.awayteam.id is None %}BYE TEAM{% else %}{{ match2.awayteam }}{% endif %}</a><span>
+            {% if match2.awayteam.id is None %}
+            BYE
+            {% elif match2.winner.id == match2.awayteam.id %}
             1
             {% else %}
             0
@@ -91,8 +101,10 @@
             winner
             {% else %}
 
-            {% endif %}"><a href="{% url 'matches:detail' pk=match2.id %}">{{ match2.hometeam }}</a><span>
-            {% if match2.winner.id == match2.hometeam.id %}
+            {% endif %}"><a href="{% url 'matches:detail' pk=match2.id %}">{% if match2.hometeam.id is None %}BYE TEAM{% else %}{{ match2.hometeam }}{% endif %}</a><span>
+            {% if match2.hometeam.id is None or match2.awayteam.id is None %}
+            BYE
+            {% elif match2.winner.id == match2.hometeam.id %}
             1
             {% else %}
             0
