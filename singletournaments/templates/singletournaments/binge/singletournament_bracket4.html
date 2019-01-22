@@ -27,8 +27,12 @@
             winner
             {% else %}
 
-            {% endif %}"><a href="{% url 'matches:detail' pk=match.id %}">{{ match.awayteam }}</a><span>
-            {% if match.winner.id == match.awayteam.id %}
+            {% endif %}"><a href="{% url 'matches:detail' pk=match.id %}">{% if match.awayteam.id is None %}BYE TEAM{% else %}{{ match.awayteam }}</a><span>
+            {% if match.bye_2 is True %}
+            BYE
+            {% elif match.hometeam.id is None or match.awayteam.id is None %}
+            BYE
+            {% elif match.winner.id == match.awayteam.id %}
             1
             {% else %}
             0
@@ -39,8 +43,12 @@
             winner
             {% else %}
 
-            {% endif %}"><a href="{% url 'matches:detail' pk=match.id %}">{{ match.hometeam }}</a><span>
-            {% if match.winner.id == match.hometeam.id %}
+            {% endif %}"><a href="{% url 'matches:detail' pk=match.id %}">{% if match.hometeam.id is None %}BYE TEAM{% else %}{{ match.hometeam }}</a><span>
+            {% if match.bye_2 is True %}
+            BYE
+            {% elif match.hometeam.id is None or match.awayteam.id is None %}
+            BYE
+            {% elif match.winner.id == match.hometeam.id %}
             1
             {% else %}
             0
