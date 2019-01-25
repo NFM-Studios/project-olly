@@ -1,0 +1,46 @@
+{% extends 'ga/base.html' %}
+{% load staticfiles %}
+
+  {% block head %}
+  <title>Team Invite - {{ SITE_NAME }}</title>
+  {% endblock %}
+
+{% block body %}
+    <div class="container page">
+
+     <div class="panel">
+         <div class="panel-title">Invite</div>
+      <div class="panel-body">
+
+    <table class="table table-hover">
+     <tr id="header">
+        <thead>
+        <th scope="row">Invite ID</th>
+        <th>From</th>
+        <th>Team Name</th>
+        <th>Team Role</th>
+        <th>Active?</th>
+        </thead>
+    </tr>
+    <tbody>
+    <tr scope="">
+        <td>#{{ invite.id }}</td>
+        <td>{{invite.inviter}}</td>
+        <td>{{invite.team}}</td>
+        <td>{{invite.captain}}</td>
+        <td>{{invite.active}}</td>
+    </tr>
+    </tbody>
+    </table>
+    <form class="form-horizontal" role='form' action="" method="post">
+    {% csrf_token %}
+    <label>Accept invitation</label>
+    <div>{{ form.accepted }}</div>
+    <label>Deny invitation</label>
+    <div>{{ form.denied }}</div>
+    <button type="Submit" class="btn btn-success">Submit</button>
+    </form>
+      </div>
+     </div>
+    </div>
+{% endblock %}

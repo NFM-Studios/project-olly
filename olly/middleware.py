@@ -49,6 +49,10 @@ def tenant_middleware(get_response):
             request.tenant = 'binge'
             request.package = 'bobcat'
 
+        elif domain == 'gaesportscenter' or subdomain == 'ga':
+            request.tenant = 'ga'
+            request.package = 'bobcat'
+
         elif domain == 'esportsopentour' or subdomain == 'eot':
             request.tenant = 'eot'
             request.package = 'bobcat'
