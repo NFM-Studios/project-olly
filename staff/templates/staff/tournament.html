@@ -120,5 +120,5 @@ Tournament
     </tr>
 </table>
 
-    <a href="{% url 'staff:edit_tournament' %}"><button type="submit" value="Edit Tournament"></button></a>
+    <a href="{% url 'staff:edit_tournament' pk=tournament.id %}"><button type="submit" value="Edit Tournament"></button></a>
 {% endblock %}
