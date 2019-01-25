@@ -30,53 +30,9 @@ Matches List
 
         <td><a href="#">{{ match.tournament }}</a></td>
 
-        {% if match.platform == 0 %}
-        <td>Playstation 4</td>
-        {% elif match.platform == 1 %}
-        <td>XBOX One</td>
-        {% elif match.platform == 2 %}
-        <td>PC</td>
-        {% elif match.platform == 3 %}
-        <td>Mobile</td>
-        {% elif match.platform == 4 %}
-        <td>Nintendo Switch</td>
-        {% elif match.platform == 5 %}
-        <td>Playstation 3</td>
-        {% elif match.platform == 6 %}
-        <td>XBOX 360</td>
-        {% endif %}
+        <td>{{ match.platform.name }}</td>
 
-        {% if match.game == 0 %}
-        <td>No Game Set</td>
-        {% elif match.game == 1 %}
-        <td>Call of Duty: Black Ops 3</td>
-        {% elif match.game == 2 %}
-        <td>Call of Duty WWII</td>
-        {% elif match.game == 3 %}
-        <td>Fortnite</td>
-        {% elif match.game == 4 %}
-        <td>Destiny 2</td>
-        {% elif match.game == 5 %}
-        <td>Counter-Strike: Global Offensive</td>
-        {% elif match.game == 6 %}
-        <td>Player Unknown's BATTLEGROUNDS
-        {% elif match.game == 7 %}
-        <td>Rainbow Six Siege</td>
-        {% elif match.game == 8 %}
-        <td>Overwatch</td>
-        {% elif match.game == 9 %}
-        <td>League of Legends</td>
-        {% elif match.game == 10 %}
-        <td>Hearthstone</td>
-        {% elif match.game == 11 %}
-        <td>World of Warcraft</td>
-        {% elif match.game == 12 %}
-        <td>SMITE</td>
-        {% elif match.game == 13 %}
-        <td>Rocket League</td>
-        {% elif match.game == 14 %}
-        <td>Battlefield 1</td>
-        {% endif %}
+        <td>{{ match.game.name }}</td>
 
         <td>Something</td>
         <td>Something</td>
