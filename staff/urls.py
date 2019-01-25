@@ -1,4 +1,5 @@
 from django.conf.urls import url
+from django.urls import path
 from django.contrib.auth.decorators import login_required
 from . import views
 
@@ -48,6 +49,16 @@ urlpatterns = [
     url(r'^round/(?P<pk>\d+)/edit', login_required(views.edit_round), name='edit_round'),
     url(r'^round/(?P<pk>\d+)/', login_required(views.round_detail), name='round_detail'),
     url(r'^dispute/(?P<pk>\d+)/', login_required(views.dispute_detail), name='dispute_detail'),
+
+    path('games/', login_required(views.gamelist), name='gamelist'),
+    path('games/<int:pk>/', login_required(views.game_detail), name='game_detail'),
+    path('games/<int:pk>/delete/', login_required(views.delete_game), name='delete_game'),
+    path('games/create/', login_required(views.create_gamechoice), name='create_gamechoice'),
+
+    path('platforms/', login_required(views.platformlist), name='platformlist'),
+    path('platforms/<int:pk>/', login_required(views.platform_detail), name='platform_detail'),
+    path('platforms/<int:pk>/delete/', login_required(views.delete_platform), name='delete_platform'),
+    path('platforms/create/', login_required(views.create_platformchoice), name='create_platformchoice'),
 
     url(r'^news/$', login_required(views.news_list), name='news_index'),
     url(r'^news/list/$', login_required(views.news_list), name='news_list'),

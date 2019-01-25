@@ -18,77 +18,13 @@
   <div class="col-xs-12 banner-head bot20">
                    <div class="row">
                    <div class="col-xs-12 col-sm-4">
-                    <img src="{% if match.game == 0 %}
-        {% static 'binge/images/logo.png' %}
-        {% elif match.game == 1 %}
-        {% static 'images/bo3.jpg' %}
-        {% elif match.game == 2 %}
-        {% static 'images/ww2.jpg' %}
-        {% elif match.game == 3 %}
-        {% static 'images/fortnitecover.jpg' %}
-        {% elif match.game == 4 %}
-        {% static 'images/destiny2cover.jpg' %}
-        {% elif match.game == 5 %}
-        {% static 'images/csgocover.jpg' %}
-        {% elif match.game == 6 %}
-        {% static 'images/pubgcover.jpg' %}
-        {% elif match.game == 7 %}
-        {% static 'images/rs6cover.jpg' %}
-        {% elif match.game == 8 %}
-        {% static 'images/overwatchcover.jpg' %}
-        {% elif match.game == 9 %}
-        {% static 'images/lolcover.jpg' %}
-        {% elif match.game == 10 %}
-        {% static 'images/hearthstonecover.jpg' %}
-        {% elif match.game == 11 %}
-        {% static 'images/wowcover.jpg' %}
-        {% elif match.game == 12 %}
-        {% static 'images/smitecover.jpg' %}
-        {% elif match.game == 13 %}
-        {% static 'images/rocketleaguecover.jpeg' %}
-        {% elif match.game == 14 %}
-        {% static 'images/bf1cover.jpg' %}
-        {% else %}
-        {% static 'cashout/images/logo.png' %}
-{% endif %}"/>
+                    <img src="{{ match.game.image.url }}"/>
                    </div>
                    <div class="col-xs-12 col-sm-8">
                    <br>
                     <!--<h2><b>COMPETITION NAME HERE</b></h2>-->
-                    <h3 style="font-weight:200;">Playstation 4</h3>
-                    <h3 style="font-weight:200;">{% if match.game == 0 %}
-        No Game Set
-        {% elif match.game == 1 %}
-        Call of Duty: Black Ops 3
-        {% elif match.game == 2 %}
-        Call of Duty WWII
-        {% elif match.game == 3 %}
-        Fortnite
-        {% elif match.game == 4 %}
-        Destiny 2
-        {% elif match.game == 5 %}
-        Counter-Strike: Global Offensive
-        {% elif match.game == 6 %}
-        Player Unknown's BATTLEGROUNDS
-        {% elif match.game == 7 %}
-        Rainbow Six Siege
-        {% elif match.game == 8 %}
-        Overwatch
-        {% elif match.game == 9 %}
-        League of Legends
-        {% elif match.game == 10 %}
-        Hearthstone
-        {% elif match.game == 11 %}
-        World of Warcraft
-        {% elif match.game == 12 %}
-        SMITE
-        {% elif match.game == 13 %}
-        Rocket League
-        {% elif match.game == 14 %}
-        Battlefield 1
-        {% elif match.game == 15 %}
-        Black Ops 4
-        {% endif %}</h3><br />
+                    <h3 style="font-weight:200;">{{ match.platform.name }}</h3>
+                    <h3 style="font-weight:200;">{{ match.game.name }}</h3><br />
                     <h3 style="font-weight:200;">{% if match.teamformat == 0 %}
             1v1
             {% elif match.teamformat == 1 %}

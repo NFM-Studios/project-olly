@@ -1,6 +1,6 @@
 from django.db import models
-from matches.settings import GAME_CHOICES, PLATFORMS_CHOICES, TEAMFORMAT_CHOICES, MAPFORMAT_CHOICES
-from matches.models import Match
+from matches.settings import TEAMFORMAT_CHOICES, MAPFORMAT_CHOICES
+from matches.models import Match, GameChoice, PlatformChoice
 from teams.models import Team
 from profiles.models import User
 from django.dispatch import receiver
@@ -62,8 +62,8 @@ class SingleEliminationTournament(models.Model):
     req_credits = models.PositiveSmallIntegerField(default=0)
 
     # game and platform it will be played on
-    platform = models.SmallIntegerField(choices=PLATFORMS_CHOICES, default=0)
-    game = models.SmallIntegerField(choices=GAME_CHOICES, default=0)
+    platform = models.ForeignKey(PlatformChoice, on_delete=models.CASCADE)
+    game = models.ForeignKey(GameChoice, on_delete=models.CASCADE)
 
     # when will the first round of matches start?
     start = models.DateTimeField()
@@ -100,75 +100,7 @@ class SingleEliminationTournament(models.Model):
     # on_delete=models.CASCADE, blank=False, null=True)
 
     def __str__(self):
-        # pk = self.kwargs['pk']
-        # tournament = SingleEliminationTournament.objects.get(id=pk)
-
-        if self.platform == 0:
-            platform = "Playstation 4"
-        elif self.platform == 1:
-            platform = "XBOX One"
-        elif self.platform == 2:
-            platform = "PC"
-        elif self.platform == 3:
-            platform = "Mobile"
-        elif self.platform == 4:
-            platform = "Nintendo Switch"
-        elif self.platform == 5:
-            platform = "Playstation 3"
-        elif self.platform == 6:
-            platform = "XBOX 360"
-        elif self.platform == 7:
-            platform = "All Consoles"
-        elif self.platform == 8:
-            platform = "All Platforms"
-
-        if self.teamformat == 0:
-            teamformat = "1v1"
-        elif self.teamformat == 1:
-            teamformat = "2v2"
-        elif self.teamformat == 2:
-            teamformat = "3v3"
-        elif self.teamformat == 3:
-            teamformat = "4v4"
-        elif self.teamformat == 4:
-            teamformat = "5v5"
-        elif self.teamformat == 5:
-            teamformat = "6v6"
-
-        if self.game == 0:
-            game = 'No Game Set'
-        elif self.game == 1:
-            game = 'Call of Duty: Black Ops 3'
-        elif self.game == 2:
-            game = 'Call of Duty WWII'
-        elif self.game == 3:
-            game = 'Fortnite'
-        elif self.game == 4:
-            game = 'Destiny 2'
-        elif self.game == 5:
-            game = 'Counter - Strike: Global Offensive'
-        elif self.game == 6:
-            game = "PlayerUnknown's BATTLEGROUNDS"
-        elif self.game == 7:
-            game = 'Rainbow Six Siege'
-        elif self.game == 8:
-            game = 'Overwatch'
-        elif self.game == 9:
-            game = 'League of Legends'
-        elif self.game == 10:
-            game = 'Hearthstone'
-        elif self.game == 11:
-            game = 'World of Warcraft'
-        elif self.game == 12:
-            game = 'SMITE'
-        elif self.game == 13:
-            game = 'Rocket League'
-        elif self.game == 14:
-            game = 'Battlefield 1'
-        elif self.game == 15:
-            game = 'Black Ops 4'
-
-        return teamformat + " " + platform + " " + game
+        return self.name + str(self.platform) + str(self.game)
 
     def set_inactive(self, **kwargs):
         pk = self.kwargs['pk']
