@@ -203,7 +203,7 @@
      <img src="{% if news.image != "" %}{{ news.image.url }}{% endif %}">
      <div class="text">
        <h2><b>{{ news.title }}</b></h2>
-       <h4><a href="{{ news.get_absolute_url }}"><span>READ FULL ARTICLE</span></a></h4>
+       <h4><a href="{% url 'news:post_detail' slug=news.slug %}"><span>READ FULL ARTICLE</span></a></h4>
        {{ news.body|truncatewords:30|linebreaks }}
      </div>
     </div>
