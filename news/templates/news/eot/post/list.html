@@ -21,7 +21,7 @@
 
         <p class="date"><strong>Published {{ post.publish }} by {{ post.author }}</strong></p>
         <p>{{ post.body|truncatewords:30|linebreaks }}</p>
-        <a class="btn btn-primary btn-xs" href="{{ post.get_absolute_url }}">READ MORE	</a>
+        <a class="btn btn-primary btn-xs" href="{% url 'news:post_detail' slug=post.slug %}">READ MORE	</a>
     {% endfor %}
 
 <br />
