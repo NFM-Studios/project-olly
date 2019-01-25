@@ -1,0 +1,29 @@
+{% extends 'ga/base.html' %}
+{% load staticfiles %}
+
+  {% block head %}
+  <title>{{ tournament.name }} - {{ SITE_NAME }}</title>
+  {% endblock %}
+
+{% block body %}
+<br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+
+<div class="container page">
+
+<div class="col-xs-12">
+           <div class="panel">
+              <div class="panel-body">
+The bracket for {{ tournament.name }}, is not generated yet. Please come back and visit this page later to view the bracket
+
+<br>
+              </div>
+           </div>
+</div>
+</div>
+
+{% endblock %}

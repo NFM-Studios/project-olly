@@ -1,0 +1,41 @@
+<html>
+<head>
+
+  
+  {% load staticfiles %}
+
+  {% block head %}
+  <title>PageName - {{ SITE_NAME }}</title>
+  {% endblock %}
+  {% include 'pages/ga/header.html' %}
+</head>
+<body>
+
+  {% if messages %}
+      <br>
+      <br>
+      <br>
+  <ul class="messages">
+      {% for message in messages %}
+          <div class="{{ message.tags }}">
+  <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+      <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+          </div>
+      {% endfor %}
+  </ul>
+  {% endif %}
+  
+  
+  {% block body %}
+  <h1>base</h1>
+  {% endblock %}
+
+
+  <footer>
+  {% include 'pages/ga/footer.html' %}
+
+  </footer>
+  
+</body>
+
+</html>
