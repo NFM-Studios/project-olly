@@ -28,30 +28,12 @@ Tournament #{{ tournament.id }}
         <td>{{tournament.id}}</td>
     </tr>
     <tr>
-        <td>Name</td>
-        <td>{{ tournament.name }}</td>
+        <td>Platform</td>
+        <td>{{ tournament.platform.name }}</td>
     </tr>
     <tr>
-        <td>Platform</td>
-        {% if tournament.platform == 0 %}
-        <td>Playstation 4</td>
-        {% elif tournament.platform == 1 %}
-        <td>XBOX One</td>
-        {% elif tournament.platform == 2 %}
-        <td>PC</td>
-        {% elif tournament.platform == 3 %}
-        <td>Mobile</td>
-        {% elif tournament.platform == 4 %}
-        <td>Nintendo Switch</td>
-        {% elif tournament.platform == 5 %}
-        <td>Playstation 3</td>
-        {% elif tournament.platform == 6 %}
-        <td>XBOX 360</td>
-        {% elif tournament.platform == 7 %}
-        <td>All Consoles</td>
-        {% elif tournament.platform == 8 %}
-        <td>All Platforms</td>
-        {% endif %}
+        <td>Name</td>
+        <td>{{ tournament.name }}</td>
     </tr>
     <tr>
         <td>Start Date/Time</td>
@@ -79,39 +61,7 @@ Tournament #{{ tournament.id }}
     </tr>
     <tr>
         <td>Game</td>
-        {% if tournament.game == 0 %}
-        <td>No Game Set</td>
-        {% elif tournament.game == 1 %}
-        <td>Call of Duty: Black Ops 3</td>
-        {% elif tournament.game == 2 %}
-        <td>Call of Duty WWII</td>
-        {% elif tournament.game == 3 %}
-        <td>Fortnite</td>
-        {% elif tournament.game == 4 %}
-        <td>Destiny 2</td>
-        {% elif tournament.game == 5 %}
-        <td>Counter-Strike: Global Offensive</td>
-        {% elif tournament.game == 6 %}
-        <td>Player Unknown's BATTLEGROUNDS
-        {% elif tournament.game == 7 %}
-        <td>Rainbow Six Siege</td>
-        {% elif tournament.game == 8 %}
-        <td>Overwatch</td>
-        {% elif tournament.game == 9 %}
-        <td>League of Legends</td>
-        {% elif tournament.game == 10 %}
-        <td>Hearthstone</td>
-        {% elif tournament.game == 11 %}
-        <td>World of Warcraft</td>
-        {% elif tournament.game == 12 %}
-        <td>SMITE</td>
-        {% elif tournament.game == 13 %}
-        <td>Rocket League</td>
-        {% elif tournament.game == 14 %}
-        <td>Battlefield 1</td>
-        {% elif tournament.game == 15 %}
-        <td>Call of Duty: Black Ops 4</td>
-        {% endif %}
+        <td>{{ tournament.game.name }}</td>
     </tr>
     <tr>
         <td>Format</td>
