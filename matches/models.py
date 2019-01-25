@@ -2,14 +2,41 @@ from django.db import models
 from matches.settings import GAME_CHOICES, PLATFORMS_CHOICES, TEAMFORMAT_CHOICES, MAPFORMAT_CHOICES
 from teams.models import Team
 from django.contrib.auth.models import User
+from django.dispatch import receiver
+
+
+class GameChoice(models.Model):
+    name = models.CharField(default='unknown', null=False, max_length=255)
+    image = models.ImageField(upload_to='game_images', blank=True)
+
+    def __unicode__(self):
+        return '%s' % self.name
+
+    def __str__(self):
+        return "" + self.name
+
+
+class PlatformChoice(models.Model):
+    name = models.CharField(default='unknown', null=False, max_length=255)
+    image = models.ImageField(upload_to='platform_images', null=True, blank=True)
+
+    def __unicode__(self):
+        return "" + self.name
+
+    def __str__(self):
+        return "" + self.name
+
+
+all_games = GameChoice.objects.all()
+all_platforms = PlatformChoice.objects.all()
 
 
 class Match(models.Model):
 
     matchnum = models.SmallIntegerField(default=0)
-    game = models.SmallIntegerField(choices=GAME_CHOICES, default=0)
+    game = models.ForeignKey(GameChoice, related_name='GameChoice', on_delete=models.CASCADE)
     # default to ps4 for now bc why not
-    platform = models.SmallIntegerField(choices=PLATFORMS_CHOICES, default=0)
+    platform = models.ForeignKey(PlatformChoice, related_name='PlatformChoice', on_delete=models.CASCADE)
     # assign the match to a tournament with a FK
     # tournament = models.ForeignKey(SingleEliminationTournament, related_name='tournament', on_delete=models.CASCADE)
     # fk fields for the 2 teams that are competiting,
@@ -92,5 +119,49 @@ class MatchDispute(models.Model):
 
     # once all this information is submitted it will be viewable  by an admin that will look at the proof and
     # determine who the winner is.
+
+
+@receiver(models.signals.post_delete, sender=GameChoice)
+# This should never be run in theory. It would only be hit if the Post was completely deleted
+def auto_delete_file(sender, instance, **kwargs):
+    if instance.image:
+        instance.image.delete()
+
+
+@receiver(models.signals.pre_save, sender=GameChoice)
+def auto_delete_file_on_change(sender, instance, **kwargs):
+    if not instance.pk:
+        return False
+
+    try:
+        old_file = GameChoice.objects.get(pk=instance.pk).image
+    except GameChoice.DoesNotExist:
+        return False
+
+    new_file = instance.image
+    if not old_file == new_file:
+        old_file.delete(save=False)
+
+
+@receiver(models.signals.post_delete, sender=PlatformChoice)
+# This should never be run in theory. It would only be hit if the Post was completely deleted
+def auto_delete_file(sender, instance, **kwargs):
+    if instance.image:
+        instance.image.delete()
+
+
+@receiver(models.signals.pre_save, sender=PlatformChoice)
+def auto_delete_file_on_change(sender, instance, **kwargs):
+    if not instance.pk:
+        return False
+
+    try:
+        old_file = PlatformChoice.objects.get(pk=instance.pk).image
+    except PlatformChoice.DoesNotExist:
+        return False
+
+    new_file = instance.image
+    if not old_file == new_file:
+        old_file.delete(save=False)
 
 
