@@ -21,7 +21,7 @@ No posts yet
        <h4><b>{{ post.title }}</b></h4>
        <h4><b>Author: {{ post.author }}</b> <br /><b>Published: {{ post.publish }}</b></h4>
        <p>{{ post.body|truncatewords:30|linebreaks }} </p>
-       <a class="btn btn-transparent btn-block btn-sm" href="{{ post.get_absolute_url }}"> READ MORE </a>
+       <a class="btn btn-primary btn-xs" href="{% url 'news:post_detail' slug=post.slug %}">READ MORE	</a>
    </div>
   </div>
  </div>

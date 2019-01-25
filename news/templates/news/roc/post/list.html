@@ -17,12 +17,12 @@
      {% endif %}
        {% for post in posts %}
          <div class="col-xs-6 col-sm-6 col-md-3 bot10">
-         <img src="{% static 'images/news.jpg' %}"/><br>
+         <img src="{% static 'roc/images/news.jpg' %}"/><br>
          <br>
          <h5><b>{{ post.title }}</b></h5>
              <h5><b>Author: {{ post.author }}</b> <br /><b>Published: {{ post.publish }}</b></h5>
          <p>{{ post.body|truncatewords:30|linebreaks }}<br>
-         <a class="btn btn-primary btn-xs" href="{{ post.get_absolute_url }}">READ MORE	</a>
+        <a class="btn btn-primary btn-xs" href="{% url 'news:post_detail' slug=post.slug %}">READ MORE	</a>
        </div>
          {% endfor %}
 
