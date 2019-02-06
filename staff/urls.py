@@ -12,7 +12,6 @@ urlpatterns = [
 
     url(r'^tickets/$', login_required(views.tickets), name='tickets'),
     url(r'^ticketdetail/(?P<pk>\d+)/$', login_required(views.TicketDetail.as_view()), name='ticket_detail'),
-    url(r'^ticketcomment/(?P<pk>\d+)/$', login_required(views.TicketCommentCreate.as_view()), name='ticket_comment_create'),
     url(r'^pages/$', login_required(views.pages), name='pages'),
 
     url(r'^users/getrank/$', login_required(views.getrank)),
