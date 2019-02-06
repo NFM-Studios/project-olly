@@ -25,57 +25,6 @@
 </head>
 
 <body>
-<!-- I'd love to smack Deanna --->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="z-index:9999999;">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Login to your Account</h4>
-      </div>
-      <div class="modal-body">
-      <div class="form-group">
-                  <label class="control-label" for="inputprimary">Username</label>
-                  <input type="text" class="form-control" id="inputprimary">
-                  <label class="control-label" for="inputprimary">Password</label>
-                  <input type="text" class="form-control" id="inputprimary">
-                </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Login</button>
-      </div>
-
-    </div>
-  </div>
-</div>
-
-
-<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="z-index:9999999;">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Create An Account</h4>
-      </div>
-      <div class="modal-body">
-      <div class="form-group">
-                  <label class="control-label" for="inputprimary">Username</label>
-                  <input type="text" class="form-control" id="inputprimary">
-                  <label class="control-label" for="inputprimary">Email</label>
-                  <input type="text" class="form-control" id="inputprimary">
-                </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Register</button>
-      </div>
-
-    </div>
-  </div>
-</div>
-
-
 <section class="topbar">
  <div class="container-fluid">
   <div class="row">
@@ -101,25 +50,32 @@
       <ul class="nav navbar-nav">
         <li><a href="/">HOME</a></li>
         <li><a href="{% url 'about' %}">ABOUT</a></li>
-        <li><a href="">PRICES</a></li>
+        <li><a href="{% url 'store:store' %}">STORE</a></li>
         <li><a href="{% url 'singletournaments:list' %}">TOURNAMENTS</a></li>
         <li><a href="{% url 'news:post_list' %}">NEWS</a></li>
         <li><a href="{% url 'support:list' %}">SUPPORT</a></li>
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">USERNAME <span class="caret"></span></a>
+            {% if not user.is_anonymous %}
+          <a href="{% url 'profiles:profile' urlusername=user %}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ user }} <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
-            <li><a href="#">Edit Profile</a></li>
-            <li><a href="#">Edit Team</a></li>
+            <li><a href="{% url 'profiles:edit_profile' %}">Edit Profile</a></li>
             <li class="divider"></li>
-            <li><a href="#">Notifications (5)</a></li>
+              <li><a href="{% url 'teams:list' %}">My Teams</a></li>
+              <li><a href="{% url 'teams:myinvitelist' %}">My Invites</a></li>
+            <!--<li><a href="#">Notifications (5)</a></li>-->
             <li class="divider"></li>
-            <li><a href="#">Log Out</a></li>
+            <li><a href="{% url 'matches:list' %}">My Matches</a></li>
+            <li class="divider"></li>
+            <li><a href="{% url 'logout' %}">Log Out</a></li>
           </ul>
         </li>
       </ul>
+        {% endif %}
       <ul class="nav navbar-nav navbar-right">
+          {% if user.is_anonymous %}
         <li><a href="{% url 'register' %}">REGISTER</a></li>
         <li><a href="{% url 'login' %}">LOGIN</a></li>
+          {% endif %}
       </ul>
     </div>
 </nav>
