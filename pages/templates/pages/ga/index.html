@@ -150,42 +150,21 @@
       </div>
 
        <div class="row bot20">
-
+        {% for news in newslist %}
          <div class="col-xs-12 col-sm-4 bot10">
           <div class="panel-default">
            <div class="panel-body">
-            <img src="{% static 'ga/images/news.jpg' %}"><br>
-            <h4>NEWS TITLE HEADLINE</h4>
-            <p>Suspendisse a nunc at eros tempor luctus. Etiam ultricies temp
-non volutpat. Nulla quis lectus massa. Sed convallis eget lorem
-maximus. Nullam eget dolor nisl. Phasellus finibus neque</p>
+            <img src="{% if news.image == "" %}{% static 'ga/images/news.jpg' %}{% else %}{{ news.image.url }}{% endif %}"><br>
+               <h4><a href="{% url 'news:post_detail' slug=news.slug %}">{{ news.title }}</a></h4>
+            <p>{{ news.body|truncatewords:30 }}</p>
            </div>
        </div>
       </div>
+        {% endfor %}
+       {% if newslist.count == 0 %}
+           <h2>No news posts!</h2>
+       {% endif %}
 
-      <div class="col-xs-12 col-sm-4 bot10">
-          <div class="panel-default">
-           <div class="panel-body">
-            <img src="{% static 'ga/images/news.jpg' %}"><br>
-            <h4>NEWS TITLE HEADLINE</h4>
-            <p>Suspendisse a nunc at eros tempor luctus. Etiam ultricies temp
-non volutpat. Nulla quis lectus massa. Sed convallis eget lorem
-maximus. Nullam eget dolor nisl. Phasellus finibus neque</p>
-           </div>
-       </div>
-      </div>
-
-      <div class="col-xs-12 col-sm-4 bot10">
-          <div class="panel-default">
-           <div class="panel-body">
-            <img src="{% static 'ga/images/news.jpg' %}"><br>
-            <h4>NEWS TITLE HEADLINE</h4>
-            <p>Suspendisse a nunc at eros tempor luctus. Etiam ultricies temp
-non volutpat. Nulla quis lectus massa. Sed convallis eget lorem
-maximus. Nullam eget dolor nisl. Phasellus finibus neque</p>
-           </div>
-       </div>
-      </div>
 
        </div>
 
