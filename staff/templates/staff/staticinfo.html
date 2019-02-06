@@ -26,6 +26,7 @@ Static Info
                 <th>Stream:</th>
                 <td>{{ form.stream }}</td>
             </tr>
+
             {% if tenant == "binge" %}
             <tr>
                 <th>Slide 1 large text:</th>
@@ -119,6 +120,32 @@ Static Info
                 <th>Top 3 link:</th>
                 <td>{{ form.bingetop3link }}</td>
             </tr>
+            {% elif tenant == "ga" %}
+            <tr>
+                <th>Slide 1 large text:</th>
+                <td>{{ form.bingeslide1big }}</td>
+            </tr>
+            <tr>
+                <th>Slide 1 small text:</th>
+                <td>{{ form.bingeslide1small }}</td>
+            </tr>
+            <tr>
+                <th>Slide 1 image:</th>
+                <td>{{ form.slide1_img }}</td>
+            </tr>
+
+            <tr>
+                <th>Slide 2 large text:</th>
+                <td>{{ form.bingeslide2big }}</td>
+            </tr>
+            <tr>
+                <th>Slide 2 small text:</th>
+                <td>{{ form.bingeslide2small }}</td>
+            </tr>
+            <tr>
+                <th>Slide 2 image:</th>
+                <td>{{ form.slide2_img }}</td>
+            </tr>
             {% else %}
             <tr>
                 <th>Slide 1 link:</th>
@@ -138,6 +165,7 @@ Static Info
                 <td>{{ form.slide2_img }}</td>
             </tr>
             {% endif %}
+            {% if tenant == 'duel' %}
             <tr>
                 <th>Welcomeln1:</th>
                 <td>{{ form.welcomeln1 }}</td>
@@ -146,6 +174,7 @@ Static Info
                 <th>Welcomeln2:</th>
                 <td>{{ form.welcomeln2 }}</td>
             </tr>
+            {% endif %}
             </tbody>
         </table>
         <tr>
