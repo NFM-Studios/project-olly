@@ -7,11 +7,11 @@
   <div class="row">
 
    <div class="col-xs-6 col-sm-6 col-md-3">
-   <h5 class="thin">PLATFORMS</h5>
-    <a href="#">Playstation 4</a><br>
-    <a href="#">Xbox One</a><br>
+   <h5 class="thin">COMPETITIONS</h5>
+    <a href="{% url 'singletournaments:list' %}">Tournaments</a><br>
+    <!--<a href="#">Xbox One</a><br>
     <a href="#">Nintendo Switch</a><br>
-    <a href="#">Mobile</a><br>
+    <a href="#">Mobile</a><br>-->
    </div>
 
    <div class="col-xs-6 col-sm-6 col-md-3">
@@ -24,19 +24,14 @@
 
    <div class="col-xs-6 col-sm-6 col-md-3">
    <h5 class="thin">INFORMATION</h5>
-    <a href="#">News Posts</a><br>
-    <a href="#">Contact Us</a><br>
-    <a href="#">Report Match</a><br>
-    <a href="#">Terms of Service</a><br>
+    <a href="{% url 'news:post_list' %}">News Posts</a><br>
+    <a href="{% url 'support:create' %}">Contact Us</a><br>
+    <a href="{% url 'privacy' %}">Privacy Policy</a><br>
+    <a href="{% url 'terms' %}">Terms of Service</a><br>
    </div>
 
    <div class="col-xs-6 col-sm-6 col-md-3">
-   <h3><b>CONTACT US</b></h3>
-    <h5>ANYTIME FOR ANYTHING!</h5>
-    <div class="form-group">
-         <input type="text" placeholder="Message"><br>
-         <input style="width:60%;" type="text" placeholder="Email"> <button type="submit" class="btn btn-default contact-us-btn"><b>SUBMIT</b></button>
-     </div>
+       <h3><b><a href="{% url 'support:create' %}">CONTACT US</a></b></h3>
    </div>
 
   </div>
@@ -47,7 +42,9 @@
 <div class="footer2">
  <div class="container">
  <div class="col-xs-12 col-sm-6">
-  Copyright 2018 &copy; Gamers Asylum | All Rights Reserved
+  Copyright 2019 &copy; Gamers Asylum | All Rights Reserved <br /> {% block foot %}
+  Powered by <a href="https://olly.nfmstudios.com" target="_blank" style="font-size:inherit">Project Olly</a> Version: {{ SITE_VERSION }} On Server: {{ SITE_SERVER }}
+  {% endblock %}
  </div>
  <div class="col-xs-12 col-sm-6" style="text-align:right;">
   FOLLOW US <a href="#"><i class="fa fa-twitter-square"></i></a> <a href="#"><i class="fa fa-facebook-square"></i></a> <a href="#"><i class="fa fa-youtube-square"></i></a> <a href="#"><i class="fa fa-instagram"></i></a> <a href="#"><i class="fa fa-twitch"></i></a>
