@@ -3,13 +3,6 @@ from django.urls import path
 from django.contrib import admin
 from profiles import views as profile_views
 from pages import views as pages_views
-from store import views as store_views
-from support import views as support_views
-from news import views as news_views
-from teams import views as teams_views
-from matches import views as matches_views
-from django.contrib.auth.views import logout, password_reset, password_reset_done, password_reset_confirm,\
-password_reset_complete
 from django.conf import settings
 from django.conf.urls.static import static
 from paypal.standard.ipn import views as paypal_views
