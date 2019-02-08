@@ -18,8 +18,8 @@ class StaticInfo(models.Model):
     slide1_img = models.ImageField(upload_to='carousel_images', blank=True)
     slide2_img = models.ImageField(upload_to='carousel_images', blank=True)
     slide3_img = models.ImageField(upload_to='carousel_images', blank=True)
-    welcomeln1 = models.CharField(default='welcome1', max_length=25)
-    welcomeln2 = models.CharField(default='welcome2', max_length=25)
+    welcomeln1 = models.CharField(default='welcome1', max_length=25, blank=True, null=True)
+    welcomeln2 = models.CharField(default='welcome2', max_length=25, blank=True, null=True)
 
     bingeslide1big = models.TextField(default="Coming Soon!", blank=True, null=True)
     bingeslide1small = models.TextField(default="Coming Soon!", blank=True, null=True)
