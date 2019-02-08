@@ -1,8 +1,7 @@
-from django.http import HttpResponse
 from django.shortcuts import render, redirect, HttpResponseRedirect, resolve_url, get_object_or_404
 from django.contrib.auth import login as auth_login, REDIRECT_FIELD_NAME, logout as auth_logout, get_user_model
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm, PasswordChangeForm, SetPasswordForm
+from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm, SetPasswordForm
 from django.views.generic import View
 from django.contrib.auth.tokens import default_token_generator
 from .forms import CreateUserForm, EditProfileForm, SortForm
@@ -18,7 +17,7 @@ import requests
 from django.conf import settings
 from django.template.response import TemplateResponse
 from django.db.models import Q
-from teams.models import Team, TeamInvite
+from teams.models import TeamInvite
 from django.urls import reverse
 
 
@@ -49,7 +48,7 @@ def login(request, template_name='profiles/login_form.html',
                 if not request.POST.get('remember me', None):
                     request.session.set_expiry(0)
                 # Ensure the user-originating redirection url is safe.
-                if not is_safe_url(url=redirect_to, host=request.get_host()):
+                if not is_safe_url(url=redirect_to, allowed_hosts=settings.ALLOWED_HOSTS):
                     redirect_to = resolve_url(settings.LOGIN_REDIRECT_URL)
 
                 # Okay, security check complete. Log the user in.

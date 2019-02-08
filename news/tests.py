@@ -23,11 +23,14 @@ class PostTestCase1(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_detailresponse(self):
-        post1 = Post.objects.create(title='Test Title', slug='Test_Slug', body='Testing Body Field', status="published", author=self.user)
+        post1 = Post.objects.create(title='Test Title', slug='Test_Slug', body='Testing Body Field', status="published",
+                                    author=self.user)
 
         request = self.factory.get('/news/'+post1.slug)
 
         request.tenant = 'eot'
+
+        request.user = self.user
 
         detailresponse = post_detail(request, post1.slug)
         self.assertEqual(detailresponse.status_code, 200)
