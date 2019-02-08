@@ -1046,6 +1046,7 @@ def pages(request):
                 messages.success(request, 'Your information has been updated')
                 return redirect('staff:pages')
             else:
+                messages.error(request, "Something went wrong (this shouldn't be seen)")
                 return render(request, 'staff/staticinfo.html', {'form': form})
         else:
             staticinfoobj = StaticInfo.objects.get(pk=1)
