@@ -40,28 +40,28 @@ class PostListView(ListView):
 def post_detail(request, slug):
     post = get_object_or_404(Post, slug=slug, status='published')
     # list of active comments for this posts
-    comments = post.comments.filter(active=True)
+    #comments = post.comments.filter(active=True)
 
     if request.method == 'POST':
         # some sick ass dude made a comment
-        comment_form = CommentForm(data=request.POST)
+        pass
+        """comment_form = CommentForm(data=request.POST)
         if comment_form.is_valid():
             # create comment object but dont save it
             new_comment = comment_form.save(commit=False)
             # assign current post to the comment
             new_comment.post = post
             # save the comment to the db
-            new_comment.save()
+            new_comment.save()"""
     else:
-        comment_form = CommentForm()
+        # comment_form = CommentForm()
+        pass
 
     # list of similar posts
     #post_tags_ids = post.tags.values_list('id', flat=True)
     #similar_posts = Post.published.filter(tags__in=post_tags_ids).exclude(id=post.id)
     #similar_posts = similar_posts.annotate(same_tags=Count('tags')).order_by('-same_tags', '-publish')[:4]
-    return render(request, 'news/' + request.tenant + '/post/detail.html', {'post': post,
-                                                     'comments': comments,
-                                                     'comment_form': comment_form})
+    return render(request, 'news/' + request.tenant + '/post/detail.html', {'post': post})
 
 
 def post_share(request, post_id):

@@ -1,4 +1,4 @@
-from django.conf.urls import url, include
+from django.conf.urls import include
 from django.urls import path, re_path
 from django.contrib import admin
 from profiles import views as profile_views
@@ -36,7 +36,7 @@ urlpatterns = [
     path('news/', include('news.urls', namespace='news')),
     path('store/', include('store.urls', namespace='store')),
     path('paypal/', paypal_views.ipn, name="paypal-ipn"),
-    re_path(r'^(?i)staff/', include('staff.urls', namespace='staff')),
+    path('staff/', include('staff.urls', namespace='staff')),
     path('tournaments/', include('singletournaments.urls', namespace='singletournaments')),
     path('matches/', include('matches.urls', namespace='matches'))
 ]
