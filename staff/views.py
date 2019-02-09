@@ -186,7 +186,7 @@ def modifyuser(request, urlusername):
             creds = int(form.data['credits'])
             xp = int(form.data['xp'])
             profile.xp += xp
-            give_credits(username, creds)
+            profile.credits += creds
             profile.num_bronze += form.cleaned_data['bronze']
             profile.num_silver += form.cleaned_data['silver']
             profile.num_gold += form.cleaned_data['gold']
