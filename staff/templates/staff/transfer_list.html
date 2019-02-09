@@ -8,6 +8,13 @@ Transfer List
 
 {% block body %}
 
+<form id="searchform" action="{% url 'staff:transfer_list' %}" method="get" accept-charset="utf-8">
+      <button class="searchbutton" type="submit">
+        <i class="fa fa-search"></i>
+      </button>
+      <input class="searchfield" id="searchbox" name="q" type="text" placeholder="Search">
+</form>
+
 <div style="overflow-x:auto;">
 <p><a href="{% url 'staff:store' %}"><i class="fa fa-arrow-left"></i> <strong>Back to store index</strong></a></p>
 
