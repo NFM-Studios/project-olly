@@ -7,7 +7,6 @@ from news.models import Post
 from support.models import TicketComment, Ticket
 from teams.models import Team, TeamInvite
 from store.models import Product
-from django.shortcuts import get_object_or_404
 
 
 class StaticInfoForm(forms.ModelForm):
