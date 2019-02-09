@@ -1247,23 +1247,21 @@ class TransactionView(View):
 
 class TransferView(View):
     template_name = 'staff/transfer_list.html'
-    form_class = SortForm
 
     def get(self, request, **kwargs):
         user = UserProfile.objects.get(user__username=request.user.username)
         allowed = ['superadmin', 'admin']
         if user.user_type not in allowed:
             return render(request, 'staff/permissiondenied.html')
-        transfer_list = Transfer.objects.order_by('date')  # sort by username default
-        form = self.form_class(None)
-        return render(request, self.template_name, {'transfer_list': transfer_list, 'form': form})
 
-    def post(self, request):
-        user = UserProfile.objects.get(user__username=request.user.username)
-        allowed = ['superadmin', 'admin']
-        if user.user_type not in allowed:
-            return render(request, 'staff/permissiondenied.html')
-        form = self.form_class(request.POST)
+        query = request.GET.get('q')
+        if query:
+            transfer_list = Transfer.objects.filter(
+                Q(origin__contains=query)).order_by('-date')
+            return render(request, self.template_name, {'transfer_list': transfer_list})
+        else:
+            transfer_list = Transfer.objects.order_by('-date')  # sort by username default
+            return render(request, self.template_name, {'transfer_list': transfer_list})
 
 
 def products(request):
