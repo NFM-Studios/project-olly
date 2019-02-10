@@ -184,7 +184,7 @@ def password_reset_confirm(request, uidb64=None, token=None,
     View that checks the hash in a password reset link and presents a
     form for entering a new password.
     """
-    UserModel = get_user_model()
+    user_model = get_user_model()
     assert uidb64 is not None and token is not None  # checked by URLconf
     if post_reset_redirect is None:
         post_reset_redirect = reverse('password_reset_complete')
@@ -193,8 +193,8 @@ def password_reset_confirm(request, uidb64=None, token=None,
     try:
         # urlsafe_base64_decode() decodes to bytestring on Python 3
         uid = force_text(urlsafe_base64_decode(uidb64))
-        user = UserModel._default_manager.get(pk=uid)
-    except (TypeError, ValueError, OverflowError, UserModel.DoesNotExist):
+        user = user_model._default_manager.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, user_model.DoesNotExist):
         user = None
 
     if user is not None and token_generator.check_token(user, token):
