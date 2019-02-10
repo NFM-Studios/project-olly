@@ -1407,6 +1407,10 @@ def getteamrank(request):
         return render(request, 'staff/permissiondenied.html')
     else:
         allteams = Team.objects.all()
+        if allteams.count() == 0:
+            messages.error(request, "There are no teams")
+            return redirect('staff:teamindex')
         for i in allteams:
             i.get_rank()
         messages.success(request, "Calculated rank for %s teams" % allteams.count())
+        return redirect('staff:teamindex')
