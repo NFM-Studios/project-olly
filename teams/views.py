@@ -90,7 +90,7 @@ class MyTeamsListView(ListView):
             return TeamInvite.objects.filter(user=self.request.user, accepted=True)
 
 
-def EditTeamView(request, pk):
+def edit_team_view(request, pk):
     if request.method == 'POST':
         teamobj = get_object_or_404(Team, id=pk)
         form = EditTeamProfileForm(request.POST, instance=teamobj)
