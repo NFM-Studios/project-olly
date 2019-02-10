@@ -1,11 +1,17 @@
 from django.shortcuts import render, reverse, redirect
 from django.views.generic import ListView, DetailView, CreateView, View
 from django.contrib import messages
+from django.contrib.sites.shortcuts import get_current_site
+from django.template.loader import render_to_string
+from django.conf import settings
+from django.core.mail import EmailMessage
+from django.contrib.auth.models import User
 from singletournaments.models import SingleEliminationTournament, SingleTournamentRound
 from teams.models import Team, TeamInvite
 from matches.models import Match, MatchReport, MatchDispute
 from .forms import MatchReportCreateFormGet, MatchReportCreateFormPost, DisputeCreateForm
 from django.shortcuts import get_object_or_404
+
 
 class MatchList(View):
 
@@ -100,15 +106,30 @@ class MatchReportCreateView(View):
                         report1 = MatchReport.objects.get(reporting_team=team1, match_id=match.id)
                         report2 = MatchReport.objects.get(reporting_team=team2, match_id=match.id)
                         if reports[0].reported_winner != reports[1].reported_winner:
-                            messages.warning(self.request,
-                                             "Both teams have reported different winners; a dispute has been created")
-
                             dispute = MatchDispute(id=match.id, match=match, team1=team1, team2=team2,
                                                    team1origreporter=report1.reporting_user,
                                                    team2origreporter=report2.reporting_user)
                             dispute.save()
                             match.disputed = True
                             match.save()
+
+                            for i in [report1.reporting_user, report2.reporting_user]:
+                                current_site = get_current_site(request)
+                                mail_subject = settings.SITE_NAME + ' match disputed!'
+                                message = render_to_string('matches/' + request.tenant + '/dispute_email.html', {
+                                    'user': i.username,
+                                    'site': settings.SITE_NAME,
+                                    'domain': current_site.domain,
+                                    'pk': dispute.pk
+                                })
+                                to_email = i.email
+                                email = EmailMessage(
+                                    mail_subject, message, from_email=settings.FROM_EMAIL, to=[to_email]
+                                )
+                                email.send()
+
+                            messages.warning(self.request,
+                                             "Both teams have reported different winners; a dispute has been created")
                             return redirect('matches:dispute', pk=dispute.pk)
                         if match.team1reported:
                             # team 1 reported
