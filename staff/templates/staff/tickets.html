@@ -21,7 +21,7 @@ Support Tickets
         <th>Status</th>
         <th>Username</th>
         <th>Category</th>
-        <th>Date Created</th>
+        <th>Assigned To</th>
         <th>Last Updated</th>
         </thead>
     </tr>
@@ -60,6 +60,11 @@ Support Tickets
         Match Support/Dispute
         {% endif %}
         </td>
+        {% if not ticket.assignee %}
+            <td>Not Assigned</td>
+        {% else %}
+            <td>{{ ticket.assignee }}</td>
+        {% endif %}
         <td>{{ticket.last_update}}</td>
     </tr>
     </tbody>
