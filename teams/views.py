@@ -168,13 +168,13 @@ class TeamCreateView(View):
         form = self.form_class(request.POST)
 
         if form.is_valid():
-            Team = form.instance
-            if len(Team.name) < 5:
+            team = form.instance
+            if len(team.name) < 5:
                 messages.error(self.request, 'Your team name must be 5 or more characters')
                 return redirect('teams:create')
 
-            Team.founder = self.request.user
-            Team.save()
+            team.founder = self.request.user
+            team.save()
             invite = TeamInvite()
             invite.expire = timezone.now()
             invite.user = self.request.user
@@ -183,7 +183,7 @@ class TeamCreateView(View):
             invite.accepted = True
             invite.inviter = self.request.user
             invite.inviter_id = self.request.user.id
-            invite.team_id = Team.id
+            invite.team_id = team.id
             invite.save()
 
             messages.success(self.request, 'Your Team has been created successfully')
@@ -221,15 +221,15 @@ class TeamInviteCreateView(View):
                 messages.error(request, "That user already has been invited to this team")
                 return redirect('/teams/')
             else:
-                TeamInvite = form.instance
-                TeamInvite.inviter = self.request.user
-                TeamInvite.team = team
-                TeamInvite.user = invitee.user
-                TeamInvite.expire = timezone.now() + datetime.timedelta(days=1)
-                TeamInvite.captain = form.data['captain']
+                team_invite = form.instance
+                team_invite.inviter = self.request.user
+                team_invite.team = team
+                team_invite.user = invitee.user
+                team_invite.expire = timezone.now() + datetime.timedelta(days=1)
+                team_invite.captain = form.data['captain']
                 if form.data['captain'] == 'captain' or form.data['captain'] == 'founder':
-                    TeamInvite.hasPerms = True
-                TeamInvite.save()
+                    team_invite.hasPerms = True
+                team_invite.save()
                 messages.success(request, 'Sent invite successfully')
                 return redirect('/teams/')
 
