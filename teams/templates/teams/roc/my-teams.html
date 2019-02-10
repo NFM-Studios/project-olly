@@ -30,7 +30,7 @@
     {% for TeamInvite in team_list %}
       <tr>
           <td width="10%" valign="middle"><a href="{% url 'teams:detail' pk=TeamInvite.team.id %}">{{ TeamInvite.team.id }}</a></td>
-          <td width="30%" valign="middle"><a href="{% url 'teams:detail' pk=TeamInvite.team.id %}"><img src="{% static 'images/avatar.jpg' %}" width="30" height="30"> <b>{{ TeamInvite.team.name }}</a></b></td>
+          <td width="30%" valign="middle"><a href="{% url 'teams:detail' pk=TeamInvite.team.id %}"><img src="{% static 'images/avatar.jpg' %}" width="30" height="30"> <b>{{ TeamInvite.team.name }}</b></a></td>
         <td width="20%" valign="middle" style="font-size:20px;"> <a href="{% if TeamInvite.team.twitter == "No Twitter Linked" or TeamInvite.team.twitter == "" %}
         #
     {% else %}
