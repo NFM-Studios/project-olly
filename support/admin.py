@@ -1,5 +1,4 @@
 from django.contrib import admin
-from django.template.defaultfilters import date as _date, time as _time
 
 from support.models import Ticket, TicketComment
 

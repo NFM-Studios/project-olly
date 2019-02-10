@@ -1,7 +1,7 @@
-from django.test import TestCase, RequestFactory
-from .models import Post
-from .views import *
 from django.contrib.auth.models import User
+from django.test import TestCase, RequestFactory
+
+from .views import *
 
 
 class PostTestCase1(TestCase):

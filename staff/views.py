@@ -1,23 +1,22 @@
-from django.contrib import messages
-from django.shortcuts import render, redirect
-from pages.models import StaticInfo
-from staff.forms import *
-from profiles.models import UserProfile, BannedUser
-from profiles.forms import SortForm
-from django.contrib.auth.models import User
-from django.urls import reverse
-from django.views.generic import View, DetailView, CreateView
-from django.db.models import Q
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from teams.models import Team, TeamInvite
-from matches.models import Match, MatchReport, MatchDispute
-from news.models import Post, Comment, PublishedManager
-from store.models import Transaction, Transfer, give_credits, Product
-from singletournaments.models import *
-from support.models import Ticket, TicketComment
-from django.shortcuts import get_object_or_404
-from pages.models import Partner
 from django.conf import settings
+from django.contrib import messages
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.db.models import Q
+from django.shortcuts import get_object_or_404
+from django.shortcuts import render, redirect
+from django.urls import reverse
+from django.views.generic import View, DetailView
+
+from matches.models import MatchReport, MatchDispute
+from news.models import Post
+from pages.models import Partner
+from profiles.forms import SortForm
+from profiles.models import UserProfile, BannedUser
+from singletournaments.models import *
+from staff.forms import *
+from store.models import Transaction, Transfer, Product
+from support.models import Ticket, TicketComment
+from teams.models import TeamInvite
 from . import calculaterank
 
 

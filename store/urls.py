@@ -1,6 +1,7 @@
-from django.urls import path
-from store import views as store_views
 from django.contrib.auth.decorators import login_required
+from django.urls import path
+
+from store import views as store_views
 
 app_name = 'store'
 

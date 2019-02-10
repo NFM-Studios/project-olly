@@ -1,6 +1,6 @@
-import string
-import random
 import hashlib
+import random
+import string
 
 
 def generateinvoice():

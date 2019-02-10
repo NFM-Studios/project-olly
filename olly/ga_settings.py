@@ -1,5 +1,6 @@
-from . base_settings import *
 import os
+
+from .base_settings import *
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'LoNIhExSASJr48ynsgCQfncKIHN7ZbZPmVD5By47zXGNBC%Nb&'

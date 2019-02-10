@@ -1,7 +1,9 @@
-from django.urls import path
-from . import views
 from django.contrib.auth.decorators import login_required
-from teams.views import MyTeamsListView, MyTeamDetailView, TeamCreateView, TeamInviteCreateView, MyInvitesListView, InviteView
+from django.urls import path
+
+from teams.views import MyTeamsListView, MyTeamDetailView, TeamCreateView, TeamInviteCreateView, MyInvitesListView, \
+    InviteView
+from . import views
 
 app_name = 'teams'
 
