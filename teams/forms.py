@@ -1,12 +1,10 @@
 from django import forms
 
-from django.forms import ModelForm
-
 # import the actual team model for the create team forms
 from teams.models import Team
-
 # import the model for the team invite
 from teams.models import TeamInvite
+
 
 # forms to create a team of various sizes
 

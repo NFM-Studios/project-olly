@@ -1,7 +1,9 @@
-from django.db import models
 from django.contrib.auth.models import User
+from django.db import models
+
 # import the choices that are defined in the settings.py file
 from support.settings import STATUS_CHOICES, CLOSED_STATUSES, CATEGORY_CHOICES
+
 
 # Create your models here.
 

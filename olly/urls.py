@@ -1,11 +1,12 @@
-from django.conf.urls import include
-from django.urls import path, re_path
-from django.contrib import admin
-from profiles import views as profile_views
-from pages import views as pages_views
 from django.conf import settings
+from django.conf.urls import include
 from django.conf.urls.static import static
+from django.contrib import admin
+from django.urls import path, re_path
 from paypal.standard.ipn import views as paypal_views
+
+from pages import views as pages_views
+from profiles import views as profile_views
 
 handler404 = pages_views.notfound
 

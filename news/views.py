@@ -1,10 +1,10 @@
-from django.shortcuts import render, get_object_or_404
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.views.generic import ListView
 from django.core.mail import send_mail
-from django.db.models import Count
-from .models import Post, Comment
-from .forms import EmailPostForm, CommentForm
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.shortcuts import render, get_object_or_404
+from django.views.generic import ListView
+
+from .forms import EmailPostForm
+from .models import Post
 
 app_name = 'news'
 

@@ -1,4 +1,5 @@
 from django.contrib import admin
-from .models import SingleTournamentTeam, SingleEliminationTournament, SingleTournamentRound
+
+from .models import SingleEliminationTournament
 
 admin.site.register(SingleEliminationTournament)

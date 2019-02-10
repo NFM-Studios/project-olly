@@ -1,14 +1,15 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.db.models import Q
+
+from matches.models import Match, GameChoice, PlatformChoice
+from news.models import Post
 from pages.models import StaticInfo, Partner
 from profiles.models import UserProfile
-from matches.models import Match, GameChoice, PlatformChoice
 from singletournaments.models import SingleEliminationTournament, SingleTournamentRuleset, SingleTournamentRound
-from news.models import Post
+from store.models import Product
 from support.models import TicketComment, Ticket
 from teams.models import Team, TeamInvite
-from store.models import Product
 
 
 class StaticInfoForm(forms.ModelForm):

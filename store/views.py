@@ -1,12 +1,13 @@
-from django.shortcuts import render, redirect
-from paypal.standard.forms import PayPalPaymentsForm
 from django.conf import settings
-from .forms import TransferCreditsForm
-from profiles.models import UserProfile
 from django.contrib import messages
+from django.shortcuts import render, redirect
 from django.views.generic import View
-from .models import Product
+from paypal.standard.forms import PayPalPaymentsForm
+
+from profiles.models import UserProfile
+from .forms import TransferCreditsForm
 from .invoice_generator import generateinvoice
+from .models import Product
 
 
 def store(request):

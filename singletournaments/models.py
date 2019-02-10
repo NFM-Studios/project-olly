@@ -1,10 +1,12 @@
-from django.db import models
-from matches.settings import TEAMFORMAT_CHOICES, MAPFORMAT_CHOICES
-from matches.models import Match, GameChoice, PlatformChoice
-from teams.models import Team
-from profiles.models import User
-from django.dispatch import receiver
 import random
+
+from django.db import models
+from django.dispatch import receiver
+
+from matches.models import Match, GameChoice, PlatformChoice
+from matches.settings import TEAMFORMAT_CHOICES, MAPFORMAT_CHOICES
+from profiles.models import User
+from teams.models import Team
 
 SIZE_CHOICES = (
     (4, 4),

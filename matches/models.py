@@ -1,8 +1,9 @@
-from django.db import models
-from matches.settings import GAME_CHOICES, PLATFORMS_CHOICES, TEAMFORMAT_CHOICES, MAPFORMAT_CHOICES
-from teams.models import Team
 from django.contrib.auth.models import User
+from django.db import models
 from django.dispatch import receiver
+
+from matches.settings import TEAMFORMAT_CHOICES, MAPFORMAT_CHOICES
+from teams.models import Team
 
 
 class GameChoice(models.Model):

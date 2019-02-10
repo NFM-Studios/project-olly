@@ -1,22 +1,24 @@
-from django.shortcuts import render, redirect
-from django.contrib import messages
-from django.urls import reverse
-from django.http import HttpResponseRedirect
-from django.views.generic import ListView, DetailView, CreateView, View
 import datetime
+
+from django.contrib import messages
+from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404
+from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.utils import timezone
+from django.views.generic import ListView, DetailView, View
+
+from matches.models import Match
+from profiles.models import UserProfile
 # team create forms
 from teams.forms import TeamCreateForm
-# team create invite forms
-from .forms import TeamInviteFormGet,TeamInviteFormPost, EditTeamProfileForm, ViewInviteForm, LeaveTeamForm,\
-    RemovePlayerFormPost, RemoveUserForm, DissolveTeamForm
 # import the team models
 from teams.models import Team
 # import the invite models
 from teams.models import TeamInvite
-from profiles.models import UserProfile
-from django.shortcuts import get_object_or_404
-from matches.models import Match
+# team create invite forms
+from .forms import TeamInviteFormGet, TeamInviteFormPost, EditTeamProfileForm, ViewInviteForm, LeaveTeamForm, \
+    RemovePlayerFormPost, RemoveUserForm, DissolveTeamForm
 
 
 class MyInvitesListView(ListView):
