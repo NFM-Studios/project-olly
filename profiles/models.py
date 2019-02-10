@@ -68,6 +68,8 @@ class UserProfile(models.Model):
     # country the dude lives in.
     country = CountryField(blank_label='(select country)', default='US')
 
+    email_enabled = models.BooleanField(default=True)
+
     def calculate_rank(self):
         self.rank = int(UserProfile.objects.filter(xp__gt=self.xp).count()) + 1
         self.save()
