@@ -7,12 +7,11 @@ app_name = 'staff'
 urlpatterns = [
     path('', login_required(views.staffindex), name='index'),
 
-    path('users', login_required(views.users), name='users'),
-
     path('tickets', login_required(views.tickets), name='tickets'),
     path('ticketdetail/<int:pk>/', login_required(views.TicketDetail.as_view()), name='ticket_detail'),
     path('pages', login_required(views.pages), name='pages'),
 
+    path('users', login_required(views.users), name='users'),
     path('users/getrank/', login_required(views.getrank)),
     path('users/ban/<urlusername>/', login_required(views.banuser)),
     path('users/unban/<urlusername>/', login_required(views.unbanuser)),

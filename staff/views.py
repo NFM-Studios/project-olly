@@ -243,7 +243,7 @@ def verify(request, urlusername):
         userprofile = UserProfile.objects.get(user__username=urlusername)
         userprofile.user_verified = not userprofile.user_verified
         userprofile.save()
-        return redirect('staff:index')
+        return redirect('staff:users')
 
 # end users
 
