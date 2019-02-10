@@ -36,7 +36,7 @@ class MyInvitesListView(ListView):
         return TeamInvite.objects.filter(user=self.request.user, active=True)
 
 
-def InviteView(request, num):
+def invite_view(request, num):
     template_name = 'teams/' + request.tenant + '/invite.html'
 
     if request.method == "GET":
