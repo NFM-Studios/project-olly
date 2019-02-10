@@ -1,11 +1,15 @@
-from django.db import models
-from paypal.standard.models import ST_PP_COMPLETED
-from paypal.standard.ipn.signals import valid_ipn_received
+import ast
+
 from django.conf import settings
 from django.contrib.auth.models import User
-from profiles.models import UserProfile
 from django.core.validators import RegexValidator
-import ast
+from django.db import models
+from paypal.standard.ipn.signals import valid_ipn_received
+from paypal.standard.models import ST_PP_COMPLETED
+
+from profiles.models import UserProfile
+
+
 # Create your models here.
 
 

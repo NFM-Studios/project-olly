@@ -1,11 +1,12 @@
 from django.contrib import messages
+from django.shortcuts import get_object_or_404
+from django.shortcuts import render, redirect
 from django.urls import reverse
-from django.views.generic import ListView, DetailView, CreateView, View
+from django.views.generic import DetailView, View
+
+from profiles.models import UserProfile
 from support.forms import TicketCreateForm, TicketCommentCreateForm, TicketStatusChangeForm, ListFilterForm
 from support.models import Ticket, TicketComment
-from profiles.models import UserProfile
-from django.shortcuts import render, redirect
-from django.shortcuts import get_object_or_404
 
 
 class MyTicketListView(View):

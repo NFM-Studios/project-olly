@@ -1,15 +1,17 @@
+import datetime
+
+import pytz
+from django.contrib import messages
+from django.shortcuts import get_object_or_404
 from django.shortcuts import render, redirect
 from django.views.generic import View
-from .forms import SingleEliminationTournamentJoinGet, SingleEliminationTournamentJoinPost,\
+
+from profiles.models import UserProfile
+from store.models import deduct_credits, give_credits
+from teams.models import TeamInvite, Team
+from .forms import SingleEliminationTournamentJoinGet, SingleEliminationTournamentJoinPost, \
     SingleEliminationTournamentSort, SingleTournamentLeaveForm
 from .models import SingleTournamentRound, SingleEliminationTournament, SingleTournamentTeam
-from teams.models import TeamInvite, Team
-from django.contrib import messages
-from profiles.models import UserProfile
-import datetime
-from store.models import deduct_credits, give_credits
-import pytz
-from django.shortcuts import get_object_or_404
 
 
 class List(View):

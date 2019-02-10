@@ -1,24 +1,25 @@
-from django.shortcuts import render, redirect, HttpResponseRedirect, resolve_url, get_object_or_404
-from django.contrib.auth import login as auth_login, REDIRECT_FIELD_NAME, logout as auth_logout, get_user_model
-from django.contrib.auth.models import User
-from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm, SetPasswordForm
-from django.views.generic import View
-from django.contrib.auth.tokens import default_token_generator
-from .forms import CreateUserForm, EditProfileForm, SortForm
-from .models import UserProfile
-from django.contrib.sites.shortcuts import get_current_site
-from django.utils.encoding import force_bytes, force_text
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode, is_safe_url
-from django.template.loader import render_to_string
-from .tokens import account_activation_token
-from django.core.mail import EmailMessage
-from django.contrib import messages
 import requests
 from django.conf import settings
-from django.template.response import TemplateResponse
+from django.contrib import messages
+from django.contrib.auth import login as auth_login, REDIRECT_FIELD_NAME, logout as auth_logout, get_user_model
+from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm, SetPasswordForm
+from django.contrib.auth.models import User
+from django.contrib.auth.tokens import default_token_generator
+from django.contrib.sites.shortcuts import get_current_site
+from django.core.mail import EmailMessage
 from django.db.models import Q
-from teams.models import TeamInvite
+from django.shortcuts import render, redirect, HttpResponseRedirect, resolve_url, get_object_or_404
+from django.template.loader import render_to_string
+from django.template.response import TemplateResponse
 from django.urls import reverse
+from django.utils.encoding import force_bytes, force_text
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode, is_safe_url
+from django.views.generic import View
+
+from teams.models import TeamInvite
+from .forms import CreateUserForm, EditProfileForm, SortForm
+from .models import UserProfile
+from .tokens import account_activation_token
 
 
 def login(request, template_name='profiles/login_form.html',

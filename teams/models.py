@@ -1,10 +1,7 @@
-from django.db import models
 from django.contrib.auth.models import User
-from django.utils import timezone
-from django.db import IntegrityError
-from profiles.models import UserProfile
+from django.db import models
 
-from django.urls import reverse
+from profiles.models import UserProfile
 
 
 class Team(models.Model):

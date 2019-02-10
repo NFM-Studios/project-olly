@@ -1,10 +1,11 @@
 from django.shortcuts import render
-from .models import StaticInfo, Partner
+
 from matches.models import Match
-from teams.models import Team
 from news.models import Post
 from profiles.models import UserProfile
 from singletournaments.models import SingleEliminationTournament
+from teams.models import Team
+from .models import StaticInfo, Partner
 
 
 def index(request):

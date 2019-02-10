@@ -1,16 +1,15 @@
-from django.shortcuts import render, reverse, redirect
-from django.views.generic import ListView, DetailView, CreateView, View
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.sites.shortcuts import get_current_site
-from django.template.loader import render_to_string
-from django.conf import settings
 from django.core.mail import EmailMessage
-from django.contrib.auth.models import User
-from singletournaments.models import SingleEliminationTournament, SingleTournamentRound
-from teams.models import Team, TeamInvite
-from matches.models import Match, MatchReport, MatchDispute
-from .forms import MatchReportCreateFormGet, MatchReportCreateFormPost, DisputeCreateForm
 from django.shortcuts import get_object_or_404
+from django.shortcuts import render, redirect
+from django.template.loader import render_to_string
+from django.views.generic import DetailView, CreateView, View
+
+from matches.models import Match, MatchReport, MatchDispute
+from teams.models import Team, TeamInvite
+from .forms import MatchReportCreateFormGet, MatchReportCreateFormPost, DisputeCreateForm
 
 
 class MatchList(View):

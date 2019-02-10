@@ -1,6 +1,7 @@
 from django import forms
+
 from matches.models import MatchReport, MatchDispute, Match
-from teams.models import Team, TeamInvite
+from teams.models import Team
 
 
 class MatchReportCreateFormGet(forms.ModelForm):
