@@ -95,14 +95,14 @@
         {{form.as_table}}
         <tr>
             <td colspan="2">
-                <input type="submit" name="post_comment" value="Comment" />
+                <input type="submit" name="post_comment" value="Post Comment" />
             </td>
         </tr>
     </table>
 </form>
 <form method="POST" action="{% url 'staff:ticket_detail' pk=x %}">
     {% csrf_token %}
-    {{ form2.as_table }}
-    <input type="submit" name="change_status" value="Change Status">
+    {{ form2.as_p }}
+    <input type="submit" name="change_status" value="Update Ticket">
 </form>
 {% endblock %}

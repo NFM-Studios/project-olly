@@ -1,4 +1,6 @@
 from django import forms
+from django.contrib.auth.models import User
+from django.db.models import Q
 from pages.models import StaticInfo, Partner
 from profiles.models import UserProfile
 from matches.models import Match, GameChoice, PlatformChoice
@@ -123,7 +125,12 @@ class ArticleCreateForm(forms.ModelForm):
 class TicketStatusChangeForm(forms.ModelForm):
     class Meta:
         model = Ticket
-        fields = ('status',)
+        fields = ('status', 'assignee')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        assignees = User.objects.filter(Q(user__user_type='admin') | Q(user__user_type='superadmin'))
+        self.fields['assignee'].queryset = assignees
 
 
 class DeclareTournamentWinnerForm(forms.ModelForm):
