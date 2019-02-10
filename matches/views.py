@@ -114,19 +114,20 @@ class MatchReportCreateView(View):
                             match.save()
 
                             for i in [report1.reporting_user, report2.reporting_user]:
-                                current_site = get_current_site(request)
-                                mail_subject = settings.SITE_NAME + ' match disputed!'
-                                message = render_to_string('matches/' + request.tenant + '/dispute_email.html', {
-                                    'user': i.username,
-                                    'site': settings.SITE_NAME,
-                                    'domain': current_site.domain,
-                                    'pk': dispute.pk
-                                })
-                                to_email = i.email
-                                email = EmailMessage(
-                                    mail_subject, message, from_email=settings.FROM_EMAIL, to=[to_email]
-                                )
-                                email.send()
+                                if i.user.email_enabled:
+                                    current_site = get_current_site(request)
+                                    mail_subject = settings.SITE_NAME + ' match disputed!'
+                                    message = render_to_string('matches/' + request.tenant + '/dispute_email.html', {
+                                        'user': i.username,
+                                        'site': settings.SITE_NAME,
+                                        'domain': current_site.domain,
+                                        'pk': dispute.pk
+                                    })
+                                    to_email = i.email
+                                    email = EmailMessage(
+                                        mail_subject, message, from_email=settings.FROM_EMAIL, to=[to_email]
+                                    )
+                                    email.send()
 
                             messages.warning(self.request,
                                              "Both teams have reported different winners; a dispute has been created")
