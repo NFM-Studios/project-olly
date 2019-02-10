@@ -38,7 +38,8 @@ class EditProfileForm(forms.ModelForm):
             'twitch_channel',
             'favorite_game',
             'favorite_console',
-            'country'
+            'country',
+            'email_enabled'
         )
 
     def __init__(self, *args, **kwargs):
