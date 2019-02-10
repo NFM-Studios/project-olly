@@ -2,6 +2,10 @@
 {% load static %}
 <link rel="stylesheet" href="{% static "css/singletournament.css" %}">
 
+{% block head %}
+  <title>Join Tournament - {{ SITE_NAME }}</title>
+{% endblock %}
+
 {% block body %}
 
     <form method="POST" action="">
