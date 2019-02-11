@@ -4,73 +4,76 @@
 <link rel="stylesheet" href="{% static "css/fontawesome-all.min.css" %}">
 
 {% block title %}
-Tournament
+    Tournament
 {% endblock %}
 
 {% if messages %}
-  <ul class="messages">
-    {% for message in messages %}
-      <li class="{{ message.tags }}">{{ message }}</li>
-    {% endfor %}
-  </ul>
+    <ul class="messages">
+        {% for message in messages %}
+            <li class="{{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+    </ul>
 {% endif %}
 
 {% block body %}
-<p><a href="{% url 'staff:tournaments' %}"><i class="fas fa-arrow-left"></i> <strong>Back to tournament list</strong></a></p>
-<table class="table">
-    <thead>
-    <tr>
-        <th>Key</th>
-        <th>Value</th>
-    </tr>
-    </thead>
-    <tr>
-        <td>Tournament ID</td>
-        <td>{{tournament.id}}</td>
-    </tr>
-    <tr>
-        <td>Tournament Name</td>
-        <td>{{ tournament.name }}</td>
-    </tr>
-    <tr>
-        <td class="tournament-platform">Platform</td>
-        <td>
-        {{ tournament.platform.name }}
-        </td>
-    </tr>
-    <tr>
-        <td>Game</td>
-        <td>
-            <strong>
-                {{ tournament.game.name }}
-            </strong>
-        </td>
-    </tr>
-    <tr>
-        <td>Active</td>
-        {% if tournament.active %}
-        <td>Yes</td>
-        {% elif not tournament.active %}
-        <td>No</td>
-        {% endif %}
-    </tr>
-    <tr>
-        <td>Start</td>
-        <td>{{tournament.start}}</td>
-    </tr>
-    <tr>
-        <td>Open Registration</td>
-        <td>{{tournament.open_register}}</td>
-    </tr>
-    <tr>
-        <td>Size</td>
-        <td>{{ tournament.size }}</td>
-    </tr>
-    <tr>
-        <td>Required Credits</td>
-        <td>{{ tournament.req_credits }}</td>
-    </tr>
-</table>
+    <p><a href="{% url 'staff:tournaments' %}"><i class="fas fa-arrow-left"></i> <strong>Back to tournament
+        list</strong></a></p>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Key</th>
+            <th>Value</th>
+        </tr>
+        </thead>
+        <tr>
+            <td>Tournament ID</td>
+            <td>{{ tournament.id }}</td>
+        </tr>
+        <tr>
+            <td>Tournament Name</td>
+            <td>{{ tournament.name }}</td>
+        </tr>
+        <tr>
+            <td class="tournament-platform">Platform</td>
+            <td>
+                {{ tournament.platform.name }}
+            </td>
+        </tr>
+        <tr>
+            <td>Game</td>
+            <td>
+                <strong>
+                    {{ tournament.game.name }}
+                </strong>
+            </td>
+        </tr>
+        <tr>
+            <td>Active</td>
+            {% if tournament.active %}
+                <td>Yes</td>
+            {% elif not tournament.active %}
+                <td>No</td>
+            {% endif %}
+        </tr>
+        <tr>
+            <td>Start</td>
+            <td>{{ tournament.start }}</td>
+        </tr>
+        <tr>
+            <td>Open Registration</td>
+            <td>{{ tournament.open_register }}</td>
+        </tr>
+        <tr>
+            <td>Size</td>
+            <td>{{ tournament.size }}</td>
+        </tr>
+        <tr>
+            <td>Required Credits</td>
+            <td>{{ tournament.req_credits }}</td>
+        </tr>
+    </table>
 
-    <a href="{% url 'staff:edit_tournament' pk=tournament.id %}"><button type="submit" value="Edit Tournament"></button></a>
+    <a href="{% url 'staff:edit_tournament' pk=tournament.id %}">
+        <button type="submit" value="Edit Tournament"></button>
+    </a>
 {% endblock %}

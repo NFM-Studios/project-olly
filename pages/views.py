@@ -9,10 +9,9 @@ from .models import StaticInfo, Partner
 
 
 def index(request):
-
-    #tournament_list = tournaments.reverse()[:4]
-    #matchlist = matches.reverse()[:5]
-    #teamlist = teams.reverse()[:5]
+    # tournament_list = tournaments.reverse()[:4]
+    # matchlist = matches.reverse()[:5]
+    # teamlist = teams.reverse()[:5]
     staticinfo = StaticInfo.objects.get(pk=1)
     if request.tenant == 'online':
         teamlist = Team.objects.all().order_by('-id')[:5]
@@ -51,20 +50,20 @@ def index(request):
         matchlist = Match.objects.all().order_by('-id')[:3]
         tournament_list = SingleEliminationTournament.objects.filter(active=True).order_by('-id')[:8]
 
-    return render(request, 'pages/' + request.tenant + '/index.html', {'list': tournament_list, 'staticinfo': staticinfo,
-                                                                       'newslist': newslist, 'matchlist': matchlist,
-                                                                       'teamlist': teamlist, 'playerlist': playerlist})
+    return render(request, 'pages/' + request.tenant + '/index.html',
+                  {'list': tournament_list, 'staticinfo': staticinfo,
+                   'newslist': newslist, 'matchlist': matchlist,
+                   'teamlist': teamlist, 'playerlist': playerlist})
 
 
 def about(request):
-        staticinfo = StaticInfo.objects.get(pk=1)
-        return render(request, 'pages/' + request.tenant + '/about.html', {'staticinfo': staticinfo})
+    staticinfo = StaticInfo.objects.get(pk=1)
+    return render(request, 'pages/' + request.tenant + '/about.html', {'staticinfo': staticinfo})
 
 
 def partners_page(request):
-
     partners = Partner.objects.all()
-    return render(request,  'pages/' + request.tenant + '/partners.html', {'partners': partners})
+    return render(request, 'pages/' + request.tenant + '/partners.html', {'partners': partners})
 
 
 def terms(request):

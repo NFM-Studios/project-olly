@@ -1,140 +1,158 @@
 {% extends "ot/base.html" %}
 {% load static %}
 
-  {% block head %}
-  <title>Match details - {{ SITE_NAME }}</title>
-  {% endblock %}
+{% block head %}
+    <title>Match details - {{ SITE_NAME }}</title>
+{% endblock %}
 
 {% block body %}
     <div class="container page">
 
-<div class="col-xs-12">
- <div class="row">
-  <div class="panel">
-  <div class="panel-body">
+        <div class="col-xs-12">
+            <div class="row">
+                <div class="panel">
+                    <div class="panel-body">
 
-    <a href="{% url 'matches:report' pk=match.id %}"><h2>Submit your match report here.</h2></a>
+                        <a href="{% url 'matches:report' pk=match.id %}"><h2>Submit your match report here.</h2></a>
 
-  <div class="col-xs-12 banner-head bot20">
-                   <div class="row">
-                   <div class="col-xs-12 col-sm-4">
-                    <img src="{{ match.game.image.url }}"/>
-                   </div>
-                   <div class="col-xs-12 col-sm-8">
-                   <br>
-                    <!--<h2><b>COMPETITION NAME HERE</b></h2>-->
-                    <h3 style="font-weight:200;">{{ match.platform.name }}</h3>
-                    <h3 style="font-weight:200;">{{ match.game.name }}</h3><br />
-                    <h3 style="font-weight:200;">{% if match.teamformat == 0 %}
-            1v1
-            {% elif match.teamformat == 1 %}
-            2v2
-            {% elif match.teamformat == 2 %}
-            3v3
-            {% elif match.teamformat == 3 %}
-            4v4
-            {% elif match.teamformat == 4 %}
-            5v5
-            {% elif match.teamformat == 5 %}
-            6v6
-            {% endif %}</h3>
-                    <br>
-                   <h3>{{ match.info }}</h3>
-                   </div>
+                        <div class="col-xs-12 banner-head bot20">
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-4">
+                                    <img src="{{ match.game.image.url }}"/>
+                                </div>
+                                <div class="col-xs-12 col-sm-8">
+                                    <br>
+                                    <!--<h2><b>COMPETITION NAME HERE</b></h2>-->
+                                    <h3 style="font-weight:200;">{{ match.platform.name }}</h3>
+                                    <h3 style="font-weight:200;">{{ match.game.name }}</h3><br/>
+                                    <h3 style="font-weight:200;">{% if match.teamformat == 0 %}
+                                        1v1
+                                    {% elif match.teamformat == 1 %}
+                                        2v2
+                                    {% elif match.teamformat == 2 %}
+                                        3v3
+                                    {% elif match.teamformat == 3 %}
+                                        4v4
+                                    {% elif match.teamformat == 4 %}
+                                        5v5
+                                    {% elif match.teamformat == 5 %}
+                                        6v6
+                                    {% endif %}</h3>
+                                    <br>
+                                    <h3>{{ match.info }}</h3>
+                                </div>
 
-                   </div>
-                  </div>
+                            </div>
+                        </div>
 
-{% if not match.bye_1 and not match.bye_2 %}
+                        {% if not match.bye_1 and not match.bye_2 %}
 
-  <div class="col-xs-12 align-self-center bot20">
+                            <div class="col-xs-12 align-self-center bot20">
 
-  <div class="col-xs-4 center">
-  <img src="{% static 'binge/images/avatar.jpg' %}"/><br>
-  <a href="{% url 'teams:detail' pk=match.awayteam.id %}">{{ match.awayteam }} - {% if match.team2reported %}
-            <i class="fa fa-check" style="color:green"></i> Reported{% else %}<i class="fa fa-times" style="color:red"></i> No report submitted{% endif %}</a>
-  </div>
+                                <div class="col-xs-4 center">
+                                    <img src="{% static 'binge/images/avatar.jpg' %}"/><br>
+                                    <a href="{% url 'teams:detail' pk=match.awayteam.id %}">{{ match.awayteam }} -
+                                        {% if match.team2reported %}
+                                            <i class="fa fa-check" style="color:green"></i> Reported{% else %}
+                                            <i class="fa fa-times" style="color:red"></i> No report submitted{% endif %}
+                                    </a>
+                                </div>
 
-  <div class="col-xs-4 center">
-   <h1 style="font-size:60px;font-weight:800;margin-top:40px;">{% if match.winner_id == match.awayteam_id %}<span style="color:green;">1{% else %}<span style="color:black;">0{% endif %}</span> vs {% if match.winner_id == match.hometeam_id %}<span style="color:green;">1{% else %}<span style="color:black;">0{% endif %}</span></h1>
-  </div>
+                                <div class="col-xs-4 center">
+                                    <h1 style="font-size:60px;font-weight:800;margin-top:40px;">
+                                        {% if match.winner_id == match.awayteam_id %}<span style="color:green;">
+                                            1{% else %}<span style="color:black;">0{% endif %}</span> vs
+                                        {% if match.winner_id == match.hometeam_id %}<span style="color:green;">
+                                            1{% else %}<span style="color:black;">0{% endif %}</span></h1>
+                                </div>
 
-  <div class="col-xs-4 center">
-  <img src="{% static 'binge/images/avatar.jpg' %}"/><br>
-  <a href="{% url 'teams:detail' pk=match.hometeam.id %}">{{ match.hometeam }}  - {% if match.team1reported %}
-            <i class="fa fa-check" style="color:green"></i> Reported{% else %}<i class="fa fa-times" style="color:red"></i> No report submitted{% endif %}</a>
-  </div>
+                                <div class="col-xs-4 center">
+                                    <img src="{% static 'binge/images/avatar.jpg' %}"/><br>
+                                    <a href="{% url 'teams:detail' pk=match.hometeam.id %}">{{ match.hometeam }} -
+                                        {% if match.team1reported %}
+                                            <i class="fa fa-check" style="color:green"></i> Reported{% else %}
+                                            <i class="fa fa-times" style="color:red"></i> No report submitted{% endif %}
+                                    </a>
+                                </div>
 
- </div>
+                            </div>
 
-        <div class="row bot20">
-           <div class="col-md-6">
-            <table class="table table-hover">
-         <thead>
-         
-      <tr>
-        <th>USERNAME</th>
-        <th></th>
-        <th>Profile</th>
-      </tr>
-         
-    </thead>
-    <tbody>
-	{% for aplayer in aplayers %}
-      <tr>
-        <td valign="middle"><img src="{% static 'binge/images/avatar.jpg' %}" width="30" height="30"> <b>{{ aplayer.user }}</b></td>
-        <td valign="middle"></td>
-          <td valign="middle"><span class="highlight"><b><a href="{% url 'profiles:profile' urlusername=aplayer.user %}">Here</a></b></span></td>
-      </tr>
-	  {% endfor %}
-    </tbody>
-  </table>
+                            <div class="row bot20">
+                                <div class="col-md-6">
+                                    <table class="table table-hover">
+                                        <thead>
 
-  </div>
+                                        <tr>
+                                            <th>USERNAME</th>
+                                            <th></th>
+                                            <th>Profile</th>
+                                        </tr>
 
-       <div class="col-md-6">
-            <table class="table table-hover">
-         <thead>
-         
-      <tr>
-        <th>USERNAME</th>
-        <th></th>
-        <th>Profile</th>
-      </tr>
-         
-    </thead>
-    <tbody>
-	{% for hplayer in hplayers %}
-      <tr>
-          <td valign="middle"><img src="{% static 'binge/images/avatar.jpg' %}" width="30" height="30"> <b>{{ hplayer.user }}</b></td>
-          <td valign="middle"></td>
-          <td valign="middle"><span class="highlight"><b><a href="{% url 'profiles:profile' urlusername=hplayer.user %}">Here</a></b></span></td>
-      </tr>
-	  {% endfor %}
-    </tbody>
-  </table>
+                                        </thead>
+                                        <tbody>
+                                        {% for aplayer in aplayers %}
+                                            <tr>
+                                                <td valign="middle"><img src="{% static 'binge/images/avatar.jpg' %}"
+                                                                         width="30" height="30">
+                                                    <b>{{ aplayer.user }}</b></td>
+                                                <td valign="middle"></td>
+                                                <td valign="middle"><span class="highlight"><b><a
+                                                        href="{% url 'profiles:profile' urlusername=aplayer.user %}">Here</a></b></span>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
 
- </div>
+                                </div>
 
-				</div>
+                                <div class="col-md-6">
+                                    <table class="table table-hover">
+                                        <thead>
 
+                                        <tr>
+                                            <th>USERNAME</th>
+                                            <th></th>
+                                            <th>Profile</th>
+                                        </tr>
+
+                                        </thead>
+                                        <tbody>
+                                        {% for hplayer in hplayers %}
+                                            <tr>
+                                                <td valign="middle"><img src="{% static 'binge/images/avatar.jpg' %}"
+                                                                         width="30" height="30">
+                                                    <b>{{ hplayer.user }}</b></td>
+                                                <td valign="middle"></td>
+                                                <td valign="middle"><span class="highlight"><b><a
+                                                        href="{% url 'profiles:profile' urlusername=hplayer.user %}">Here</a></b></span>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+
+                                </div>
+
+                            </div>
+
+                            </div>
+                        {% endif %}
+
+                    {% if match.bye_1 %}
+                        <h2>BYE MATCH with Team {{ match.hometeam }}</h2>
+                    {% endif %}
+
+                    {% if match.bye_2 %}
+
+                        <h2>BYE</h2>
+
+                    {% endif %}
+                </div>
             </div>
-{% endif %}
+        </div>
 
-{% if match.bye_1 %}
-  <h2>BYE MATCH with Team {{ match.hometeam }}</h2>
-{% endif %}
-
- {% if match.bye_2 %}
-
-     <h2>BYE</h2>
-
- {% endif %}
-</div>
-</div>
-</div>
-
-</div>
+    </div>
 
 
 {% endblock %}

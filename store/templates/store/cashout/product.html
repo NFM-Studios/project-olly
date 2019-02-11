@@ -1,34 +1,34 @@
 {% extends 'cashout/base.html' %}
 
-  {% block head %}
-  <title>{{ product.item }} - {{ SITE_NAME }}</title>
-  {% endblock %}
+{% block head %}
+    <title>{{ product.item }} - {{ SITE_NAME }}</title>
+{% endblock %}
 
 {% block body %}
 
     <div class="container page">
 
-<div class="col-xs-12">
-           <div class="panel">
-              <div class="panel-body">
-                <div class="row">
-                    <div class="col-xs-12">
-    					<div class="panel-title bold">Store Item</div>
-                           <div class="col-xs-12">
+        <div class="col-xs-12">
+            <div class="panel">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="panel-title bold">Store Item</div>
+                            <div class="col-xs-12">
 
 
-    <h1>{{ product.item }}</h1>
-    <br>
-    <h3>{{ product.cost }}</h3>
-    <br>
-    {{ form.render }}
+                                <h1>{{ product.item }}</h1>
+                                <br>
+                                <h3>{{ product.cost }}</h3>
+                                <br>
+                                {{ form.render }}
 
-                           </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-              </div>
-           </div>
-</div>
+            </div>
+        </div>
     </div>
 
 

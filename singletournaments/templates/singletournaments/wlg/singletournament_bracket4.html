@@ -1,136 +1,138 @@
 {% extends 'wlg/base.html' %}
 {% load static %}
 
-  {% block head %}
-  <title>{{ tournament.name }} Bracket - {{ SITE_NAME }}</title>
-  {% endblock %}
+{% block head %}
+    <title>{{ tournament.name }} Bracket - {{ SITE_NAME }}</title>
+{% endblock %}
 
 {% block body %}
-<link rel="stylesheet" href="{% static "css/singletournament.css" %}">
-<br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
+    <link rel="stylesheet" href="{% static "css/singletournament.css" %}">
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
 
-<div class="container page">
+    <div class="container page">
 
-<div class="col-xs-12">
-           <div class="panel">
-              <div class="panel-body">
-<main id="tournament">
-    <ul class="round round-1">
-        <li class="spacer">&nbsp;</li>
-        {% for match in round1matches %}
-        <li class="game game-top {% if match.winner.id == match.awayteam.id %}
+        <div class="col-xs-12">
+            <div class="panel">
+                <div class="panel-body">
+                    <main id="tournament">
+                        <ul class="round round-1">
+                            <li class="spacer">&nbsp;</li>
+                            {% for match in round1matches %}
+                                <li class="game game-top {% if match.winner.id == match.awayteam.id %}
             winner
             {% else %}
 
-            {% endif %}"><a href="{% url 'matches:detail' pk=match.id %}">{% if match.awayteam.id is None %}BYE TEAM{% else %}{{ match.awayteam }}{% endif %}</a><span>
+            {% endif %}"><a href="{% url 'matches:detail' pk=match.id %}">{% if match.awayteam.id is None %}BYE
+                                    TEAM{% else %}{{ match.awayteam }}{% endif %}</a><span>
             {% if match.bye_2 is True %}
-            BYE
+                BYE
             {% elif match.hometeam.id is None or match.awayteam.id is None %}
-            BYE
+                BYE
             {% elif match.winner.id == match.awayteam.id %}
-            1
+                1
             {% else %}
-            0
+                0
             {% endif %}
         </span></li>
-        <li class="game game-spacer">&nbsp;</li>
-        <li class="game game-bottom {% if match.winner.id == match.hometeam.id %}
+                                <li class="game game-spacer">&nbsp;</li>
+                                <li class="game game-bottom {% if match.winner.id == match.hometeam.id %}
             winner
             {% else %}
 
-            {% endif %}"><a href="{% url 'matches:detail' pk=match.id %}">{% if match.hometeam.id is None %}BYE TEAM{% else %}{{ match.hometeam }}{% endif %}</a><span>
+            {% endif %}"><a href="{% url 'matches:detail' pk=match.id %}">{% if match.hometeam.id is None %}BYE
+                                    TEAM{% else %}{{ match.hometeam }}{% endif %}</a><span>
             {% if match.bye_2 is True %}
-            BYE
+                BYE
             {% elif match.hometeam.id is None or match.awayteam.id is None %}
-            BYE
+                BYE
             {% elif match.winner.id == match.hometeam.id %}
-            1
+                1
             {% else %}
-            0
+                0
             {% endif %}
         </span></li>
 
-        <li class="spacer">&nbsp;</li>
-        {% endfor %}
-        </ul>
+                                <li class="spacer">&nbsp;</li>
+                            {% endfor %}
+                        </ul>
 
-    <ul class="round round-2">
+                        <ul class="round round-2">
 
-        <li class="spacer">&nbsp;</li>
+                            <li class="spacer">&nbsp;</li>
 
-    {% if round2matches.count is 0 %}
+                            {% if round2matches.count is 0 %}
 
-        <li class="game game-top">TBD </li>
-        <li class="game game-spacer">&nbsp;</li>
-        <li class="game game-bottom ">TBD </li>
+                                <li class="game game-top">TBD</li>
+                                <li class="game game-spacer">&nbsp;</li>
+                                <li class="game game-bottom ">TBD</li>
 
-        <li class="spacer"></li>
+                                <li class="spacer"></li>
 
-    {% else %}
-        {% for match2 in round2matches %}
+                            {% else %}
+                                {% for match2 in round2matches %}
 
-        <li class="game game-top {% if match2.winner.id == match2.awayteam.id %}
+                                    <li class="game game-top {% if match2.winner.id == match2.awayteam.id %}
             winner
             {% else %}
 
             {% endif %}"><a href="{% url 'matches:detail' pk=match2.id %}">{{ match2.awayteam }}</a><span>
             {% if match2.winner.id == match2.awayteam.id %}
-            1
+                1
             {% else %}
-            0
+                0
             {% endif %}
         </span></li>
-        <li class="game game-spacer">&nbsp;</li>
-        <li class="game game-bottom {% if match2.winner.id == match2.hometeam.id %}
+                                    <li class="game game-spacer">&nbsp;</li>
+                                    <li class="game game-bottom {% if match2.winner.id == match2.hometeam.id %}
             winner
             {% else %}
 
             {% endif %}"><a href="{% url 'matches:detail' pk=match2.id %}">{{ match2.hometeam }}</a><span>
             {% if match2.winner.id == match2.hometeam.id %}
-            1
+                1
             {% else %}
-            0
+                0
             {% endif %}
         </span></li>
-            <li class="spacer"></li>
-        {% endfor %}
+                                    <li class="spacer"></li>
+                                {% endfor %}
 
-    {% endif %}
+                            {% endif %}
 
-    </ul>
-<!--     <ul class="round round-3">
-        <li class="spacer">&nbsp;</li>
+                        </ul>
+                        <!--     <ul class="round round-3">
+                                <li class="spacer">&nbsp;</li>
 
-        <li class="game game-top winner">Lousville <span>77</span></li>
-        <li class="game game-spacer">&nbsp;</li>
-        <li class="game game-bottom ">Oregon <span>69</span></li>
+                                <li class="game game-top winner">Lousville <span>77</span></li>
+                                <li class="game game-spacer">&nbsp;</li>
+                                <li class="game game-bottom ">Oregon <span>69</span></li>
 
-        <li class="spacer">&nbsp;</li>
+                                <li class="spacer">&nbsp;</li>
 
-        <li class="game game-top ">Mich St <span>61</span></li>
-        <li class="game game-spacer">&nbsp;</li>
-        <li class="game game-bottom winner">Duke <span>71</span></li>
+                                <li class="game game-top ">Mich St <span>61</span></li>
+                                <li class="game game-spacer">&nbsp;</li>
+                                <li class="game game-bottom winner">Duke <span>71</span></li>
 
-        <li class="spacer">&nbsp;</li>
-    </ul>
-    <ul class="round round-4">
-        <li class="spacer">&nbsp;</li>
+                                <li class="spacer">&nbsp;</li>
+                            </ul>
+                            <ul class="round round-4">
+                                <li class="spacer">&nbsp;</li>
 
-        <li class="game game-top winner">Lousville <span>85</span></li>
-        <li class="game game-spacer">&nbsp;</li>
-        <li class="game game-bottom ">Duke <span>63</span></li>
+                                <li class="game game-top winner">Lousville <span>85</span></li>
+                                <li class="game game-spacer">&nbsp;</li>
+                                <li class="game game-bottom ">Duke <span>63</span></li>
 
-        <li class="spacer">&nbsp;</li>
-    </ul>-->
-</main>
-              </div>
-           </div>
-</div>
-</div>
+                                <li class="spacer">&nbsp;</li>
+                            </ul>-->
+                    </main>
+                </div>
+            </div>
+        </div>
+    </div>
 
 {% endblock %}

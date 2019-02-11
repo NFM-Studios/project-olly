@@ -80,7 +80,7 @@ class List(View):
         elif platform == '7':
             tournament_list1 = SingleEliminationTournament.objects.all()
         tournament_list = tournament_list1 & tournament_list_
-        return render(request,  'singletournaments/' + request.tenant + '/singletournament_list.html',
+        return render(request, 'singletournaments/' + request.tenant + '/singletournament_list.html',
                       {'tournament_list': tournament_list, 'form': form})
 
 

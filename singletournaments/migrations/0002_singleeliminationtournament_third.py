@@ -5,7 +5,6 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('teams', '0001_initial'),
         ('singletournaments', '0001_initial'),
@@ -15,6 +14,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='singleeliminationtournament',
             name='third',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='thirdplaceteam', to='teams.Team'),
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE,
+                                    related_name='thirdplaceteam', to='teams.Team'),
         ),
     ]

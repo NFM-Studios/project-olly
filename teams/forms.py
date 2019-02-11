@@ -33,7 +33,7 @@ class TeamInviteFormGet(forms.ModelForm):
         fields = ('user', 'team', 'captain',)
         widgets = {
             'user': forms.CharField(),
-         }
+        }
 
     def __init__(self, request, *args, **kwargs):
         super(TeamInviteFormGet, self).__init__(*args, **kwargs)
@@ -58,7 +58,7 @@ class TeamInviteFormPost(forms.ModelForm):
         fields = ('user', 'team', 'captain',)
         widgets = {
             'user': forms.CharField(),
-         }
+        }
 
 
 class EditTeamProfileForm(forms.ModelForm):
@@ -103,8 +103,8 @@ class RemoveUserForm(forms.Form):
         players = TeamInvite.objects.filter(team=team, accepted=True)
         super().__init__(*args, **kwargs)
         self.fields['remove'].queryset = players
-        self.fields['remove'].widget.attrs.update({'name': 'remove', 'class': 'form-control', 'style': 'background-color: black'})
-
+        self.fields['remove'].widget.attrs.update(
+            {'name': 'remove', 'class': 'form-control', 'style': 'background-color: black'})
 
 
 class RemovePlayerFormPost(forms.Form):

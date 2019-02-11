@@ -1,56 +1,61 @@
 {% load static %}
- <!--suppress Annotator -->
+<!--suppress Annotator -->
 <div class="col-xs-12 space80"></div>
 
 <div class="footer">
-  <div class="container">
+    <div class="container">
 
-  <div class="row">
+        <div class="row">
 
-   <div class="col-xs-6 col-sm-6 col-md-3">
-   <h5 class="thin">COMPETITIONS</h5>
-    <a href="{% url 'singletournaments:list' %}">Tournaments</a><br>
-    <!--<a href="#">Xbox One</a><br>
-    <a href="#">Nintendo Switch</a><br>
-    <a href="#">Mobile</a><br>-->
-   </div>
+            <div class="col-xs-6 col-sm-6 col-md-3">
+                <h5 class="thin">COMPETITIONS</h5>
+                <a href="{% url 'singletournaments:list' %}">Tournaments</a><br>
+                <!--<a href="#">Xbox One</a><br>
+                <a href="#">Nintendo Switch</a><br>
+                <a href="#">Mobile</a><br>-->
+            </div>
 
-   <div class="col-xs-6 col-sm-6 col-md-3">
-   <h5 class="thin">OUR SERVICES</h5>
-    <a href="#">Hourly Rates</a><br>
-    <a href="#">LAN Events</a><br>
-    <a href="#">Tournaments</a><br>
-    <a href="#">Leagues</a><br>
-   </div>
+            <div class="col-xs-6 col-sm-6 col-md-3">
+                <h5 class="thin">OUR SERVICES</h5>
+                <a href="#">Hourly Rates</a><br>
+                <a href="#">LAN Events</a><br>
+                <a href="#">Tournaments</a><br>
+                <a href="#">Leagues</a><br>
+            </div>
 
-   <div class="col-xs-6 col-sm-6 col-md-3">
-   <h5 class="thin">INFORMATION</h5>
-    <a href="{% url 'news:post_list' %}">News Posts</a><br>
-    <a href="{% url 'support:create' %}">Contact Us</a><br>
-    <a href="{% url 'privacy' %}">Privacy Policy</a><br>
-    <a href="{% url 'terms' %}">Terms of Service</a><br>
-   </div>
+            <div class="col-xs-6 col-sm-6 col-md-3">
+                <h5 class="thin">INFORMATION</h5>
+                <a href="{% url 'news:post_list' %}">News Posts</a><br>
+                <a href="{% url 'support:create' %}">Contact Us</a><br>
+                <a href="{% url 'privacy' %}">Privacy Policy</a><br>
+                <a href="{% url 'terms' %}">Terms of Service</a><br>
+            </div>
 
-   <div class="col-xs-6 col-sm-6 col-md-3">
-       <h3><b><a href="{% url 'support:create' %}">CONTACT US</a></b></h3>
-   </div>
+            <div class="col-xs-6 col-sm-6 col-md-3">
+                <h3><b><a href="{% url 'support:create' %}">CONTACT US</a></b></h3>
+            </div>
 
-  </div>
+        </div>
 
-  </div>
+    </div>
 </div>
 
 <div class="footer2">
- <div class="container">
- <div class="col-xs-12 col-sm-6">
-  Copyright 2019 &copy; Gamers Asylum | All Rights Reserved <br /> {% block foot %}
-  Powered by <a href="https://olly.nfmstudios.com" target="_blank" style="font-size:inherit">Project Olly</a> Version: {{ SITE_VERSION }} On Server: {{ SITE_SERVER }}
-  {% endblock %}
- </div>
- <div class="col-xs-12 col-sm-6" style="text-align:right;">
-  FOLLOW US <a href="{{ staticinfo.twitterprofile }}"><i class="fa fa-twitter-square"></i></a> <a href="{{ staticinfo.facebookpage }}"><i class="fa fa-facebook-square"></i></a> <a href="{{ staticinfo.youtubechannel }}"><i class="fa fa-youtube-square"></i></a> <a href="{{ staticinfo.instagrampage }}"><i class="fa fa-instagram"></i></a> <a href="{{ staticinfo.twitchchannel }}"><i class="fa fa-twitch"></i></a>
- </div>
-</div>
+    <div class="container">
+        <div class="col-xs-12 col-sm-6">
+            Copyright 2019 &copy; Gamers Asylum | All Rights Reserved <br/> {% block foot %}
+            Powered by <a href="https://olly.nfmstudios.com" target="_blank" style="font-size:inherit">Project Olly</a>
+            Version: {{ SITE_VERSION }} On Server: {{ SITE_SERVER }}
+        {% endblock %}
+        </div>
+        <div class="col-xs-12 col-sm-6" style="text-align:right;">
+            FOLLOW US <a href="{{ staticinfo.twitterprofile }}"><i class="fa fa-twitter-square"></i></a> <a
+                href="{{ staticinfo.facebookpage }}"><i class="fa fa-facebook-square"></i></a> <a
+                href="{{ staticinfo.youtubechannel }}"><i class="fa fa-youtube-square"></i></a> <a
+                href="{{ staticinfo.instagrampage }}"><i class="fa fa-instagram"></i></a> <a
+                href="{{ staticinfo.twitchchannel }}"><i class="fa fa-twitch"></i></a>
+        </div>
+    </div>
 </div>
 
 

@@ -2,33 +2,33 @@
 {% load static %}
 <link rel="stylesheet" href="{% static "css/staff.css" %}">
 {% block title %}
-Rulesets List
+    Rulesets List
 {% endblock %}
 {% block body %}
-<link rel="stylesheet" href="{% static "css/staff.css" %}">
-{% if form.errors %}
-    {% for field in form %}
-        {% for error in field.errors %}
+    <link rel="stylesheet" href="{% static "css/staff.css" %}">
+    {% if form.errors %}
+        {% for field in form %}
+            {% for error in field.errors %}
+                <div class="alert alert-danger">
+                    <strong>{{ error|escape }}</strong>
+                </div>
+            {% endfor %}
+        {% endfor %}
+        {% for error in form.non_field_errors %}
             <div class="alert alert-danger">
                 <strong>{{ error|escape }}</strong>
             </div>
         {% endfor %}
-    {% endfor %}
-    {% for error in form.non_field_errors %}
-        <div class="alert alert-danger">
-            <strong>{{ error|escape }}</strong>
-        </div>
-    {% endfor %}
-{% endif %}
+    {% endif %}
 
-{% for ruleset in rulesets %}
-    <tbody>
-    <tr scope="">
-        <td scope="row"><a href="{% url 'staff:tournamentrulesetdetail' pk=ruleset.id %}">#{{ruleset.id}}</a></td>
+    {% for ruleset in rulesets %}
+        <tbody>
+        <tr scope="">
+            <td scope="row"><a href="{% url 'staff:tournamentrulesetdetail' pk=ruleset.id %}">#{{ ruleset.id }}</a></td>
 
 
-    </tr>
-    </tbody>
+        </tr>
+        </tbody>
     {% endfor %}
 
 

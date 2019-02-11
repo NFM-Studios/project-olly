@@ -2,20 +2,20 @@
 {% load static %}
 <link rel="stylesheet" href="{% static "css/staff.css" %}">
 {% block title %}
-Edit User
+    Edit User
 {% endblock %}
 {% block body %}
-  <form method="post">
-    {% csrf_token %}
-    {{ field.errors }}
+    <form method="post">
+        {% csrf_token %}
+        {{ field.errors }}
 
-     <select name="user_type">
-      <option value="user">Standard User</option>
-      <option value="admin">Admin</option>
-      <option value="superadmin">Super Admin</option>
-    </select>
+        <select name="user_type">
+            <option value="user">Standard User</option>
+            <option value="admin">Admin</option>
+            <option value="superadmin">Super Admin</option>
+        </select>
 
-    <button type="submit" class="btn btn-primary">Update</button>
+        <button type="submit" class="btn btn-primary">Update</button>
 
-  </form>
+    </form>
 {% endblock %}

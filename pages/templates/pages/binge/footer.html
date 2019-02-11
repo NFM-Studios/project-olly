@@ -1,39 +1,51 @@
 {% load static %}
 <section class="footer">
 
-  <div class="container">
-   <div class="row">
-    <div class="col-xs-4 col-sm-4 col-md-1 center">
-     <img src="{% static 'binge/images/footer-logo.png' %}"/>
-    </div>
-    <div class="col-xs-8 col-sm-8 col-md-9" style="padding-top:20px;">
-     <a href="https://twitter.com/bingeplay"> <i class="fa fa-twitter"></i> </a><a href="https://instagram.com/bingeplay"> <i class="fa fa-instagram"></i> </a><a href="https://www.twitch.tv/bingeplay"> <i class="fa fa-twitch"></i> </a> &nbsp; <a href="https://www.youtube.com/channel/UCXHxNBBieIM5A3QR5XeIcgA/featured?disable_polymer=1"> <i class="fa fa-youtube"></i> </a>
-    </a>
-        <br />
-        <p><a style="font-size:inherit" href="{% url 'privacy' %}">Privacy</a> - <a style="font-size:inherit" href="{% url 'terms' %}">Terms</a> - <a style="font-size:inherit" href="{% url 'about' %}">About</a></p>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-2 center" style="padding-top:20px;">
-     Copyright 2018 (c) BingePlay<br>
-     All Rights Reserved <br>
-        {% block foot %}
-  Powered by <a href="https://olly.nfmstudios.com" target="_blank" style="font-size:inherit">Project Olly</a><br> Version: {{ SITE_VERSION }} <br> On Server: {{ SITE_SERVER }}
-  {% endblock %}
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-4 col-sm-4 col-md-1 center">
+                <img src="{% static 'binge/images/footer-logo.png' %}"/>
+            </div>
+            <div class="col-xs-8 col-sm-8 col-md-9" style="padding-top:20px;">
+                <a href="https://twitter.com/bingeplay"> <i class="fa fa-twitter"></i> </a><a
+                    href="https://instagram.com/bingeplay"> <i class="fa fa-instagram"></i> </a><a
+                    href="https://www.twitch.tv/bingeplay"> <i class="fa fa-twitch"></i> </a> &nbsp; <a
+                    href="https://www.youtube.com/channel/UCXHxNBBieIM5A3QR5XeIcgA/featured?disable_polymer=1"> <i
+                    class="fa fa-youtube"></i> </a>
+                </a>
+                <br/>
+                <p><a style="font-size:inherit" href="{% url 'privacy' %}">Privacy</a> - <a style="font-size:inherit"
+                                                                                            href="{% url 'terms' %}">Terms</a>
+                    - <a style="font-size:inherit" href="{% url 'about' %}">About</a></p>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-2 center" style="padding-top:20px;">
+                Copyright 2018 (c) BingePlay<br>
+                All Rights Reserved <br>
+                {% block foot %}
+                    Powered by
+                    <a href="https://olly.nfmstudios.com" target="_blank" style="font-size:inherit">Project Olly</a><br>
+                    Version: {{ SITE_VERSION }} <br> On Server: {{ SITE_SERVER }}
+                {% endblock %}
 
+            </div>
+        </div>
     </div>
-   </div>
-   </div>
 
 </section>
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-128396471-1%22%3E"></script>
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    window.dataLayer = window.dataLayer || [];
 
-  gtag('config', 'UA-128396471-1');
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'UA-128396471-1');
 </script>
-  </body>
-  
+</body>
+
 </html>
 

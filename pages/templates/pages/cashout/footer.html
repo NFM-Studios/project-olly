@@ -1,40 +1,44 @@
 {% load static %}
 
- <!--suppress Annotator -->
+<!--suppress Annotator -->
 <div class="col-xs-12 space80"></div>
 
 <div class="footer">
-  <div class="container">
+    <div class="container">
 
-  <div class="row">
-   <div class="col-xs-6 col-sm-6 col-md-3 center">
-    <img src="{% static 'cashout/images/footerlogo.png' %}">
-   </div>
-   <div class="col-xs-6 col-sm-6 col-md-3 center">
-   <br>
-    <a href="{% url 'singletournaments:list' %}">TOURNAMENTS</a><br>
-    <a href="#">PLAYSTATION</a><br>
-    <a href="#">XBOX</a><br>
-   </div>
-   <div class="col-xs-6 col-sm-6 col-md-3 center">
-   <br>
-    <a href="{% url 'profiles:leaderboard' %}">LEADERBOARD</a><br>
-    <a href="{% url 'store:store' %}">STORE</a><br>
-    <a href="{% url 'support:list' %}">SUPPORT</a><br>
-   </div>
-   <div class="col-xs-6 col-sm-6 col-md-3 center">
-   <br>
-     <a href="https://twitter.com/cashoutgamingco"><i class="fa fa-twitter"></i></a> <a href="#"><i class="fa fa-youtube"></i></a> <a href="#"><i class="fa fa-twitch"></i></a> <a href="#"><i class="fa fa-facebook"></i></a> <br><br>
-     Copyright 2018 &copy; CashOut Gaming<br>
-     All Rights Reserved<br>
-       {% block foot %}
-  Powered by <a href="https://olly.nfmstudios.com" target="_blank" style="font-size:inherit">Project Olly</a><br> Version: {{ SITE_VERSION }} <br> On Server: {{ SITE_SERVER }}
-  {% endblock %}
-   </div>
+        <div class="row">
+            <div class="col-xs-6 col-sm-6 col-md-3 center">
+                <img src="{% static 'cashout/images/footerlogo.png' %}">
+            </div>
+            <div class="col-xs-6 col-sm-6 col-md-3 center">
+                <br>
+                <a href="{% url 'singletournaments:list' %}">TOURNAMENTS</a><br>
+                <a href="#">PLAYSTATION</a><br>
+                <a href="#">XBOX</a><br>
+            </div>
+            <div class="col-xs-6 col-sm-6 col-md-3 center">
+                <br>
+                <a href="{% url 'profiles:leaderboard' %}">LEADERBOARD</a><br>
+                <a href="{% url 'store:store' %}">STORE</a><br>
+                <a href="{% url 'support:list' %}">SUPPORT</a><br>
+            </div>
+            <div class="col-xs-6 col-sm-6 col-md-3 center">
+                <br>
+                <a href="https://twitter.com/cashoutgamingco"><i class="fa fa-twitter"></i></a> <a href="#"><i
+                    class="fa fa-youtube"></i></a> <a href="#"><i class="fa fa-twitch"></i></a> <a href="#"><i
+                    class="fa fa-facebook"></i></a> <br><br>
+                Copyright 2018 &copy; CashOut Gaming<br>
+                All Rights Reserved<br>
+                {% block foot %}
+                    Powered by
+                    <a href="https://olly.nfmstudios.com" target="_blank" style="font-size:inherit">Project Olly</a><br>
+                    Version: {{ SITE_VERSION }} <br> On Server: {{ SITE_SERVER }}
+                {% endblock %}
+            </div>
 
-  </div>
+        </div>
 
-  </div>
+    </div>
 </div>
 
 

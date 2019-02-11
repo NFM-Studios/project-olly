@@ -2,17 +2,17 @@
 {% load static %}
 <link rel="stylesheet" href="{% static "css/staff.css" %}">
 {% block title %}
-Edit Round
+    Edit Round
 {% endblock %}
 {% block body %}
-  <form method="post">
-    {% csrf_token %}
-    {{ field.errors }}
+    <form method="post">
+        {% csrf_token %}
+        {{ field.errors }}
 
-     {{ form }}
-      <br>
+        {{ form }}
+        <br>
 
-    <button type="submit" class="btn btn-primary">Update</button>
+        <button type="submit" class="btn btn-primary">Update</button>
 
-  </form>
+    </form>
 {% endblock %}

@@ -6,7 +6,6 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -21,8 +20,11 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(default='No name provided', max_length=50, unique=True)),
-                ('teamformat', models.SmallIntegerField(choices=[(0, '1v1'), (1, '2v2'), (2, '3v3'), (3, '4v4'), (4, '5v5'), (5, '6v6')], default=1)),
-                ('bestof', models.SmallIntegerField(choices=[(0, 'Best of 1'), (1, 'Best of 3'), (2, 'Best of 5'), (3, 'Best of 7'), (4, 'Best of 9')], default=0)),
+                ('teamformat', models.SmallIntegerField(
+                    choices=[(0, '1v1'), (1, '2v2'), (2, '3v3'), (3, '4v4'), (4, '5v5'), (5, '6v6')], default=1)),
+                ('bestof', models.SmallIntegerField(
+                    choices=[(0, 'Best of 1'), (1, 'Best of 3'), (2, 'Best of 5'), (3, 'Best of 7'), (4, 'Best of 9')],
+                    default=0)),
                 ('active', models.BooleanField(default=False)),
                 ('open_register', models.DateTimeField()),
                 ('close_register', models.DateTimeField()),
@@ -30,11 +32,20 @@ class Migration(migrations.Migration):
                 ('created', models.DateTimeField(auto_now_add=True)),
                 ('updated', models.DateTimeField(auto_now=True)),
                 ('req_credits', models.PositiveSmallIntegerField(default=0)),
-                ('platform', models.SmallIntegerField(choices=[(0, 'Playstation 4'), (1, 'Xbox One'), (2, 'PC'), (3, 'Mobile'), (4, 'Nintendo Switch'), (5, 'Playstation 3'), (6, 'Xbox 360')], default=0)),
-                ('game', models.SmallIntegerField(choices=[(0, 'No Game Set'), (1, 'Call of Duty Black Ops 3'), (2, 'Call of Duty WWII'), (3, 'Fortnite'), (4, 'Destiny 2'), (5, 'Counter-Strike: Global Offensive'), (6, 'Player Unknowns Battlegrounds'), (7, 'Rainbow Six Siege'), (8, 'Overwatch'), (9, 'League of Legends'), (10, 'Hearthstone'), (11, 'World of Warcraft'), (12, 'Smite'), (13, 'Rocket League'), (14, 'Battlefield 1')], default=0)),
+                ('platform', models.SmallIntegerField(
+                    choices=[(0, 'Playstation 4'), (1, 'Xbox One'), (2, 'PC'), (3, 'Mobile'), (4, 'Nintendo Switch'),
+                             (5, 'Playstation 3'), (6, 'Xbox 360')], default=0)),
+                ('game', models.SmallIntegerField(
+                    choices=[(0, 'No Game Set'), (1, 'Call of Duty Black Ops 3'), (2, 'Call of Duty WWII'),
+                             (3, 'Fortnite'), (4, 'Destiny 2'), (5, 'Counter-Strike: Global Offensive'),
+                             (6, 'Player Unknowns Battlegrounds'), (7, 'Rainbow Six Siege'), (8, 'Overwatch'),
+                             (9, 'League of Legends'), (10, 'Hearthstone'), (11, 'World of Warcraft'), (12, 'Smite'),
+                             (13, 'Rocket League'), (14, 'Battlefield 1')], default=0)),
                 ('start', models.DateTimeField()),
                 ('current_round', models.SmallIntegerField(blank=True, default=1)),
-                ('size', models.PositiveSmallIntegerField(choices=[(4, 4), (8, 8), (16, 16), (32, 32), (64, 64), (128, 128)], default=32)),
+                ('size',
+                 models.PositiveSmallIntegerField(choices=[(4, 4), (8, 8), (16, 16), (32, 32), (64, 64), (128, 128)],
+                                                  default=32)),
                 ('bracket_generated', models.BooleanField(default=False)),
                 ('prize1', models.CharField(default='no prize specified', max_length=50)),
                 ('prize2', models.CharField(default='no prize specified', max_length=50)),
@@ -48,7 +59,9 @@ class Migration(migrations.Migration):
                 ('roundnum', models.PositiveSmallIntegerField(default=1)),
                 ('matchesnum', models.PositiveSmallIntegerField(default=2)),
                 ('matches', models.ManyToManyField(to='matches.Match')),
-                ('tournament', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='withtournamentround', to='singletournaments.SingleEliminationTournament')),
+                ('tournament',
+                 models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='withtournamentround',
+                                   to='singletournaments.SingleEliminationTournament')),
             ],
         ),
         migrations.CreateModel(
@@ -59,7 +72,9 @@ class Migration(migrations.Migration):
                 ('updated', models.DateTimeField(auto_now=True)),
                 ('text', models.TextField()),
                 ('name', models.CharField(max_length=25)),
-                ('creator', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='rulesetCreator', to=settings.AUTH_USER_MODEL)),
+                ('creator',
+                 models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='rulesetCreator',
+                                   to=settings.AUTH_USER_MODEL)),
             ],
         ),
         migrations.CreateModel(
@@ -67,19 +82,25 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('seed', models.PositiveIntegerField(blank=True, default=0, null=True)),
-                ('team', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, related_name='actualteam', to='teams.Team')),
-                ('tournament', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, related_name='intournament', to='singletournaments.SingleEliminationTournament')),
+                ('team',
+                 models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, related_name='actualteam',
+                                   to='teams.Team')),
+                ('tournament',
+                 models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, related_name='intournament',
+                                   to='singletournaments.SingleEliminationTournament')),
             ],
         ),
         migrations.AddField(
             model_name='singleeliminationtournament',
             name='ruleset',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='tournamentruleset', to='singletournaments.SingleTournamentRuleset'),
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE,
+                                    related_name='tournamentruleset', to='singletournaments.SingleTournamentRuleset'),
         ),
         migrations.AddField(
             model_name='singleeliminationtournament',
             name='second',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='secondplaceteam', to='teams.Team'),
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE,
+                                    related_name='secondplaceteam', to='teams.Team'),
         ),
         migrations.AddField(
             model_name='singleeliminationtournament',
@@ -89,6 +110,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='singleeliminationtournament',
             name='winner',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='winningteam', to='teams.Team'),
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE,
+                                    related_name='winningteam', to='teams.Team'),
         ),
     ]

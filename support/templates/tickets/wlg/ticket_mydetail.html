@@ -1,86 +1,86 @@
 {% extends "wlg/base.html" %}
 {% load static %}
 
-  {% block head %}
-  <title>Ticket {{ ticket.id }} Details - {{ SITE_NAME }}</title>
-  {% endblock %}
+{% block head %}
+    <title>Ticket {{ ticket.id }} Details - {{ SITE_NAME }}</title>
+{% endblock %}
 
 {% block body %}
- <div class="container wrap">
+    <div class="container wrap">
 
- <div class="panel">
-              <div class="panel-body">
+        <div class="panel">
+            <div class="panel-body">
 
 
                 <div class="row">
                     <div class="col-xs-12">
-    					<div class="panel-title bold">Ticket ID: #{{ ticket.id }}</div>
-                           <div class="col-xs-6"><h5>Subject: {% if ticket.category == 0 %}
-            General
-        {% elif ticket.category == 1 %}
-            Prize Claim
-        {% elif ticket.category == 2 %}
-            Tournament Support
-        {% elif ticket.category == 3 %}
-            Billing
-        {% elif ticket.category == 4 %}
-            Refund Request
-        {% elif ticket.category == 5 %}
-            PSN/XBL Issues
-        {% elif ticket.category == 6 %}
-            Match Support/Dispute
-        {% endif %}</h5></div>
-                           <div class="col-xs-6"><h5>Created: {{ ticket.date }}</h5></div>
-                           <div class="col-xs-6"><h5>Status: {% if ticket.status == 0 %}
-            New
-        {% elif ticket.status == 1 %}
-            On Hold
-        {% elif ticket.status == 2 %}
-            In Progress
-        {% elif ticket.status == 3 %}
-            Closed
-        {% endif %}</h5></div>
-                           <div class="col-xs-12">
-                           <br>
-                           <hr>
-                           <br>
-                           <h5><b>Message</b></h5>
-                           <p>{{ ticket.text|linebreaks }}</p>
+                        <div class="panel-title bold">Ticket ID: #{{ ticket.id }}</div>
+                        <div class="col-xs-6"><h5>Subject: {% if ticket.category == 0 %}
+                            General
+                        {% elif ticket.category == 1 %}
+                            Prize Claim
+                        {% elif ticket.category == 2 %}
+                            Tournament Support
+                        {% elif ticket.category == 3 %}
+                            Billing
+                        {% elif ticket.category == 4 %}
+                            Refund Request
+                        {% elif ticket.category == 5 %}
+                            PSN/XBL Issues
+                        {% elif ticket.category == 6 %}
+                            Match Support/Dispute
+                        {% endif %}</h5></div>
+                        <div class="col-xs-6"><h5>Created: {{ ticket.date }}</h5></div>
+                        <div class="col-xs-6"><h5>Status: {% if ticket.status == 0 %}
+                            New
+                        {% elif ticket.status == 1 %}
+                            On Hold
+                        {% elif ticket.status == 2 %}
+                            In Progress
+                        {% elif ticket.status == 3 %}
+                            Closed
+                        {% endif %}</h5></div>
+                        <div class="col-xs-12">
+                            <br>
+                            <hr>
+                            <br>
+                            <h5><b>Message</b></h5>
+                            <p>{{ ticket.text|linebreaks }}</p>
 
-                           <br>
-                                   {% for i in comments %}
-    {% if i.author.user.user_type == 'admin' or i.author.user.user_type == 'superadmin'%}
-    <b>{{ i.author }}, ({{ i.date }}): {{ i.comment }}</b>
-    {% else %}
-    {{ i.author }}, ({{ i.date }}): {{ i.comment }}
-    {% endif %}
-    <br>
-{% endfor %}
+                            <br>
+                            {% for i in comments %}
+                                {% if i.author.user.user_type == 'admin' or i.author.user.user_type == 'superadmin' %}
+                                    <b>{{ i.author }}, ({{ i.date }}): {{ i.comment }}</b>
+                                {% else %}
+                                    {{ i.author }}, ({{ i.date }}): {{ i.comment }}
+                                {% endif %}
+                                <br>
+                            {% endfor %}
 
-<form method="POST" action="{% url 'support:detail' pk=x  %}">
-    <table class="table">
-        {% csrf_token %}
-        {{form.as_table}}
-        <tr>
-            <td colspan="2">
-                <input type="submit" name="post_comment" value="Comment" />
-            </td>
-        </tr>
-    </table>
-</form>
+                            <form method="POST" action="{% url 'support:detail' pk=x %}">
+                                <table class="table">
+                                    {% csrf_token %}
+                                    {{ form.as_table }}
+                                    <tr>
+                                        <td colspan="2">
+                                            <input type="submit" name="post_comment" value="Comment"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </form>
 
-<form method="POST" action="{% url 'support:detail' pk=x %}">
-    {% csrf_token %}
-    {{ form2.as_table }}
-    <input type="submit" name="change_status" value="Close Ticket">
-</form>
+                            <form method="POST" action="{% url 'support:detail' pk=x %}">
+                                {% csrf_token %}
+                                {{ form2.as_table }}
+                                <input type="submit" name="change_status" value="Close Ticket">
+                            </form>
 
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </div>
-      </div>
-     </div>
-
     </div>
-    </div>
- </div>
 
 {% endblock %}

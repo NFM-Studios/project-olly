@@ -4,7 +4,6 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('singletournaments', '0007_singleeliminationtournament_allow_register'),
         ('singletournaments', '0004_singleeliminationtournament_xp_seed'),

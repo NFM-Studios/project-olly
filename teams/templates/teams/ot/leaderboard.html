@@ -1,72 +1,76 @@
 {% extends 'ot/base.html' %}
 {% load static %}
 
-  {% block head %}
-  <title>Leaderboard - {{ SITE_NAME }}</title>
-  {% endblock %}
+{% block head %}
+    <title>Leaderboard - {{ SITE_NAME }}</title>
+{% endblock %}
 
 {% block body %}
-<div class="container page1">
-<div class="space90"></div>
+    <div class="container page1">
+        <div class="space90"></div>
 
-<div class="col-xs-12">
-     <div class="panel">
-      <div class="panel-body">
-      <br>
+        <div class="col-xs-12">
+            <div class="panel">
+                <div class="panel-body">
+                    <br>
 
 
-    <form method="POST" action="">
-        {% csrf_token %}
-        {{ form }}
-     <input type="submit" value="Sort" />
-    </form>
-      <br>
-     <table class="table table-hover">
-     <thead>
-      <tr>
-        <th width="10%">RANK</th>
-        <th width="30%">PLAYER</th>
-        <th width="20%">SOCIAL</th>
-        <th width="20%">TOURNY WINS</th>
-        <th width="20%">EARNINGS</th>
+                    <form method="POST" action="">
+                        {% csrf_token %}
+                        {{ form }}
+                        <input type="submit" value="Sort"/>
+                    </form>
+                    <br>
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th width="10%">RANK</th>
+                            <th width="30%">PLAYER</th>
+                            <th width="20%">SOCIAL</th>
+                            <th width="20%">TOURNY WINS</th>
+                            <th width="20%">EARNINGS</th>
 
-      </tr>
-    </thead>
-    <tbody>
-    {% for user in user_list %}
-      <tr>
-        <td width="10%">{{ user.rank }}</td>
-          <td width="30%" valign="middle"><img src="{% static 'ot/images/avatar.jpg' %}" width="30" height="30"> <a href="{% url 'profiles:profile' urlusername=user %}"><b>{{ user }}</b></a></td>
-        <td width="30%" valign="middle" style="font-size:20px;"><a href="{% if user.twitter_profile == "No Twitter Linked" or user.twitter_profile == "" %}
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for user in user_list %}
+                            <tr>
+                                <td width="10%">{{ user.rank }}</td>
+                                <td width="30%" valign="middle"><img src="{% static 'ot/images/avatar.jpg' %}"
+                                                                     width="30" height="30"> <a
+                                        href="{% url 'profiles:profile' urlusername=user %}"><b>{{ user }}</b></a></td>
+                                <td width="30%" valign="middle" style="font-size:20px;"><a
+                                        href="{% if user.twitter_profile == "No Twitter Linked" or user.twitter_profile == "" %}
         #
     {% else %}
     https://twitter.com/{{ user.twitter_profile }}
-        {% endif %}"><i class="fa fa-twitter"></i></a> <a href="{% if user.twitch_channel == "No Twitch Linked" or user.twitch_channel == "" %}
+        {% endif %}"><i class="fa fa-twitter"></i></a> <a
+                                        href="{% if user.twitch_channel == "No Twitch Linked" or user.twitch_channel == "" %}
         #
     {% else %}
     https://twitch.tv/{{ user.twitch_channel }}
         {% endif %}"><i class="fa fa-twitch"></i></a></td>
-        <td width="20%" valign="middle">{{ user.tournament_wins }} Wins</td>
-        <td width="20%" valign="middle">${{ user.total_earning }}</td>
-      </tr>
-        {% endfor %}
+                                <td width="20%" valign="middle">{{ user.tournament_wins }} Wins</td>
+                                <td width="20%" valign="middle">${{ user.total_earning }}</td>
+                            </tr>
+                        {% endfor %}
 
-    </tbody>
-  </table>
-  <!--<ul class="pagination pagination-sm">
-  <li class="disabled"><a href="#">&laquo;</a></li>
-  <li class="active"><a href="#">1</a></li>
-  <li><a href="#">2</a></li>
-  <li><a href="#">3</a></li>
-  <li><a href="#">4</a></li>
-  <li><a href="#">5</a></li>
-  <li><a href="#">&raquo;</a></li>
-</ul>-->
-</div>
-</div>
+                        </tbody>
+                    </table>
+                    <!--<ul class="pagination pagination-sm">
+                    <li class="disabled"><a href="#">&laquo;</a></li>
+                    <li class="active"><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#">4</a></li>
+                    <li><a href="#">5</a></li>
+                    <li><a href="#">&raquo;</a></li>
+                  </ul>-->
+                </div>
+            </div>
 
-</div>
-</div>
+        </div>
+    </div>
 
 
 
