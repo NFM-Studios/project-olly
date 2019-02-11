@@ -33,7 +33,6 @@ all_platforms = PlatformChoice.objects.all()
 
 
 class Match(models.Model):
-
     matchnum = models.SmallIntegerField(default=0)
     game = models.ForeignKey(GameChoice, related_name='GameChoice', on_delete=models.CASCADE)
     # default to ps4 for now bc why not
@@ -106,7 +105,7 @@ class MatchDispute(models.Model):
     match = models.ForeignKey(Match, related_name='disputedMatch', on_delete=models.CASCADE)
 
     # proof  that each team submits to an admin
-    #teamproof = models.CharField(max_length=300, default='(team 1) no text inserted', blank=False)
+    # teamproof = models.CharField(max_length=300, default='(team 1) no text inserted', blank=False)
     teamproof_1 = models.URLField(blank=False)
     teamproof_2 = models.URLField(blank=True)
     teamproof_3 = models.URLField(blank=True)
@@ -164,5 +163,3 @@ def auto_delete_file_on_change(sender, instance, **kwargs):
     new_file = instance.image
     if not old_file == new_file:
         old_file.delete(save=False)
-
-

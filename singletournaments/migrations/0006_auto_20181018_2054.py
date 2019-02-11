@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('singletournaments', '0005_auto_20181012_0254'),
     ]
@@ -13,6 +12,8 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='singleeliminationtournament',
             name='platform',
-            field=models.SmallIntegerField(choices=[(0, 'Playstation 4'), (1, 'Xbox One'), (2, 'PC'), (3, 'Mobile'), (4, 'Nintendo Switch'), (5, 'Playstation 3'), (6, 'Xbox 360'), (7, 'All Consoles'), (8, 'All Platforms')], default=0),
+            field=models.SmallIntegerField(
+                choices=[(0, 'Playstation 4'), (1, 'Xbox One'), (2, 'PC'), (3, 'Mobile'), (4, 'Nintendo Switch'),
+                         (5, 'Playstation 3'), (6, 'Xbox 360'), (7, 'All Consoles'), (8, 'All Platforms')], default=0),
         ),
     ]

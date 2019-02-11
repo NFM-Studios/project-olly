@@ -4,7 +4,6 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('singletournaments', '0009_singletournamentround_info'),
         ('singletournaments', '0008_merge_20181109_2110'),

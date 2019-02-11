@@ -7,9 +7,9 @@ SECRET_KEY = 'mag2$s![w,bVphL(L@)b#GTzBB9QeG"_h[4<{ww6<af5/?/&m9'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 if os.environ['debug'] == 'True':
-        DEBUG = True
+    DEBUG = True
 else:
-        DEBUG = False
+    DEBUG = False
 
 # SECURITY WARNING: don't run with this set to true in prod
 PAYPAL_TEST = False

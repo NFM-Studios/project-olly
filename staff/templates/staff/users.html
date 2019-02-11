@@ -3,68 +3,70 @@
 <link rel="stylesheet" href="{% static "css/staff.css" %}">
 
 {% block title %}
-Search Users
+    Search Users
 {% endblock %}
 
 {% block body %}
 
-<form id="searchform" action="{% url 'staff:searchusers' %}" method="get" accept-charset="utf-8">
-      <button class="searchbutton" type="submit">
-        <i class="fa fa-search"></i>
-      </button>
-      <input class="searchfield" id="searchbox" name="q" type="text" placeholder="Search">
+    <form id="searchform" action="{% url 'staff:searchusers' %}" method="get" accept-charset="utf-8">
+        <button class="searchbutton" type="submit">
+            <i class="fa fa-search"></i>
+        </button>
+        <input class="searchfield" id="searchbox" name="q" type="text" placeholder="Search">
     </form>
-<div style="overflow-x:auto;">
-Total users: {{ numusers }}
-<table class="table table-dark">
-<th>Username</th>
-<th>Email address</th>
-<th>Last IP</th>
-<th>User Type</th>
-<th></th>
-<th></th>
-<th></th>
-{% for up in userprofiles %}
-<tr>
-<td><strong><a href="/staff/users/{{ up.user }}">{{ up.user }}</a></strong></td>
-<td> {{ up.user.email }} </td>
-<td> {{ up.ip }} </td>
+    <div style="overflow-x:auto;">
+        Total users: {{ numusers }}
+        <table class="table table-dark">
+            <th>Username</th>
+            <th>Email address</th>
+            <th>Last IP</th>
+            <th>User Type</th>
+            <th></th>
+            <th></th>
+            <th></th>
+            {% for up in userprofiles %}
+                <tr>
+                    <td><strong><a href="/staff/users/{{ up.user }}">{{ up.user }}</a></strong></td>
+                    <td> {{ up.user.email }} </td>
+                    <td> {{ up.ip }} </td>
 
-{% if up.user_type == 'superadmin' %}
-    <td>Super Admin</td>
-{% elif up.user_type == 'admin' %}
-    <td>Admin</td>
-{% elif up.user_type == 'user' %}
-    <td>Standard User</td>
-{% endif %}
+                    {% if up.user_type == 'superadmin' %}
+                        <td>Super Admin</td>
+                    {% elif up.user_type == 'admin' %}
+                        <td>Admin</td>
+                    {% elif up.user_type == 'user' %}
+                        <td>Standard User</td>
+                    {% endif %}
 
-<td><a href="/staff/users/edit/{{ up.user }}" class="btn btn-primary">Edit User Type</a></td>
-<td><a href="/staff/users/modify/{{ up.user }}" class="btn btn-primary">Modify User</a></td>
+                    <td><a href="/staff/users/edit/{{ up.user }}" class="btn btn-primary">Edit User Type</a></td>
+                    <td><a href="/staff/users/modify/{{ up.user }}" class="btn btn-primary">Modify User</a></td>
 
-{% if up.user.id in bannedusernames %}
-    <td> <a href="/staff/users/unban/{{ up.user }}" class="btn btn-warning">UNBAN USERNAME</a> </td>
-{% else %}
-    <td> <a href="/staff/users/ban/{{ up.user }}" class="btn btn-danger">BAN USERNAME</a> </td>
-{% endif %}
+                    {% if up.user.id in bannedusernames %}
+                        <td><a href="/staff/users/unban/{{ up.user }}" class="btn btn-warning">UNBAN USERNAME</a></td>
+                    {% else %}
+                        <td><a href="/staff/users/ban/{{ up.user }}" class="btn btn-danger">BAN USERNAME</a></td>
+                    {% endif %}
 
-{% if up.ip in bannedips %}
-    <td> <a href="/staff/users/unbanip/{{ up.user }}" class="btn btn-warning">UNBAN IP</a> </td>
-{% else %}
-    <td> <a href="/staff/users/banip/{{ up.user }}" class="btn btn-danger">BAN IP</a> </td>
-{% endif %}
+                    {% if up.ip in bannedips %}
+                        <td><a href="/staff/users/unbanip/{{ up.user }}" class="btn btn-warning">UNBAN IP</a></td>
+                    {% else %}
+                        <td><a href="/staff/users/banip/{{ up.user }}" class="btn btn-danger">BAN IP</a></td>
+                    {% endif %}
 
-{% if request.tenant == 'binge' %}
-    {% if not up.user_verified %}
-    <td><a href="/staff/users/verify/{{ up.user }}" class="btn btn-primary"> Verify User</a> </td>
-    {% else  %}
-    <td><a href="/staff/users/verify/{{ up.user }}" class="btn btn-primary"> Unverify User</a> </td>
-    {% endif %}
-{% endif %}
+                    {% if request.tenant == 'binge' %}
+                        {% if not up.user_verified %}
+                            <td><a href="/staff/users/verify/{{ up.user }}" class="btn btn-primary"> Verify User</a>
+                            </td>
+                        {% else %}
+                            <td><a href="/staff/users/verify/{{ up.user }}" class="btn btn-primary"> Unverify User</a>
+                            </td>
+                        {% endif %}
+                    {% endif %}
 
-</tr>
-{% endfor %}
-</table>
-{% include "pagination.html" with page=userprofiles %}
-<td><a href="/staff/users/getrank/" class="btn btn-primary">Calculate rank for all users</a></td>
-</div>
+                </tr>
+            {% endfor %}
+        </table>
+        {% include "pagination.html" with page=userprofiles %}
+        <td><a href="/staff/users/getrank/" class="btn btn-primary">Calculate rank for all users</a></td>
+    </div>
 {% endblock %}

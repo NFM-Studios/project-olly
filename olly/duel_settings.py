@@ -7,14 +7,14 @@ SECRET_KEY = 'bcgu@a)k$z!)1qmv@5a)&e$x@+@_tvl-s87)3@n)032*6r6u-2'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 if os.environ['debug'] == 'True':
-        DEBUG = True
+    DEBUG = True
 else:
-        DEBUG = False
+    DEBUG = False
 
 # SECURITY WARNING: don't run with this set to true in prod
 PAYPAL_TEST = False
 
-ALLOWED_HOSTS = ['duel.nfmstudios.com','duelbattleroyale.com', 'duel.lan']
+ALLOWED_HOSTS = ['duel.nfmstudios.com', 'duelbattleroyale.com', 'duel.lan']
 
 SITE_URL = 'duelbattleroyale.com'
 

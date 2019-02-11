@@ -78,4 +78,3 @@ class Transfer(View):
                 return redirect('/profile/')
 
         return render(request, 'store/' + request.tenant + '/product.html', {'form': form})
-

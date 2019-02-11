@@ -2,45 +2,45 @@
 {% load static %}
 <link rel="stylesheet" href="{% static "css/staff.css" %}">
 {% block title %}
-Rulesets Detail
+    Rulesets Detail
 {% endblock %}
 {% block body %}
-<link rel="stylesheet" href="{% static "css/staff.css" %}">
-{% if form.errors %}
-    {% for field in form %}
-        {% for error in field.errors %}
+    <link rel="stylesheet" href="{% static "css/staff.css" %}">
+    {% if form.errors %}
+        {% for field in form %}
+            {% for error in field.errors %}
+                <div class="alert alert-danger">
+                    <strong>{{ error|escape }}</strong>
+                </div>
+            {% endfor %}
+        {% endfor %}
+        {% for error in form.non_field_errors %}
             <div class="alert alert-danger">
                 <strong>{{ error|escape }}</strong>
             </div>
         {% endfor %}
-    {% endfor %}
-    {% for error in form.non_field_errors %}
-        <div class="alert alert-danger">
-            <strong>{{ error|escape }}</strong>
-        </div>
-    {% endfor %}
-{% endif %}
+    {% endif %}
 
 
     <table class="table">
-    <thead>
-    <tr>
-        <th>Key</th>
-        <th>Value</th>
-    </tr>
-    </thead>
-    <tr>
-        <td>ID</td>
-        <td>{{ruleset.id}}</td>
-    </tr>
-    <tr>
-        <td class="ruleset-name">Name</td>
-        <td>{{ruleset.name}}</td>
-    </tr>
-    <tr>
-        <td class="ruleset-text">Text</td>
-        <td>{{ruleset.text}}</td>
-    </tr>
+        <thead>
+        <tr>
+            <th>Key</th>
+            <th>Value</th>
+        </tr>
+        </thead>
+        <tr>
+            <td>ID</td>
+            <td>{{ ruleset.id }}</td>
+        </tr>
+        <tr>
+            <td class="ruleset-name">Name</td>
+            <td>{{ ruleset.name }}</td>
+        </tr>
+        <tr>
+            <td class="ruleset-text">Text</td>
+            <td>{{ ruleset.text }}</td>
+        </tr>
     </table>
 
 

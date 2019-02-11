@@ -6,6 +6,7 @@ from teams.models import Team, TeamInvite
 
 class SingleEliminationTournamentJoinGet(forms.ModelForm):
     teams = forms.ModelChoiceField(queryset=None)
+
     # tournaments = forms.ModelChoiceField(queryset=SingleEliminationTournament.objects.all())
 
     class Meta:
@@ -23,6 +24,7 @@ class SingleEliminationTournamentJoinGet(forms.ModelForm):
 
 class SingleEliminationTournamentJoinPost(forms.ModelForm):
     teams = forms.ModelChoiceField(queryset=Team.objects.all())
+
     # tournaments = forms.ModelChoiceField(queryset=SingleEliminationTournament.objects.all())
 
     class Meta:
@@ -68,11 +70,14 @@ class SingleEliminationTournamentSort(forms.Form):
         super(SingleEliminationTournamentSort, self).__init__(*args, **kwargs)
         self.fields['platform'].choices = platforms
         self.fields['game'].choices = games
-        self.fields['platform'].widget.attrs.update({'name': 'subject', 'class': 'form-control', 'style': 'background-color: black'})
-        self.fields['game'].widget.attrs.update({'name': 'subject', 'class': 'form-control', 'style': 'background-color: black'})
+        self.fields['platform'].widget.attrs.update(
+            {'name': 'subject', 'class': 'form-control', 'style': 'background-color: black'})
+        self.fields['game'].widget.attrs.update(
+            {'name': 'subject', 'class': 'form-control', 'style': 'background-color: black'})
 
 
 class SingleTournamentLeaveForm(forms.Form):
     confirm = forms.BooleanField(required=False)
+
     class Meta:
         fields = 'Confirm'

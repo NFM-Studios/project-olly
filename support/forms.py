@@ -11,11 +11,12 @@ class ListFilterForm(forms.Form):
 class TicketCreateForm(forms.ModelForm):
     class Meta:
         model = Ticket
-        fields = ( 'category', 'text', )
+        fields = ('category', 'text',)
 
     def __init__(self, *args, **kwargs):
         super(TicketCreateForm, self).__init__(*args, **kwargs)
-        self.fields['category'].widget.attrs.update({'name': 'subject', 'class': 'form-control', 'style': 'background-color:black'})
+        self.fields['category'].widget.attrs.update(
+            {'name': 'subject', 'class': 'form-control', 'style': 'background-color:black'})
         self.fields['text'].widget.attrs.update({'class': 'form-control', 'name': 'texts', 'rows': '4', 'cols': '40'})
 
 
@@ -26,7 +27,8 @@ class TicketCommentCreateForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(TicketCommentCreateForm, self).__init__(*args, **kwargs)
-        self.fields['comment'].widget.attrs.update({'class': 'form-control', 'name': 'comment', 'rows': '4', 'cols': '40'})
+        self.fields['comment'].widget.attrs.update(
+            {'class': 'form-control', 'name': 'comment', 'rows': '4', 'cols': '40'})
 
 
 class TicketStatusChangeForm(forms.ModelForm):
@@ -36,4 +38,4 @@ class TicketStatusChangeForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(TicketStatusChangeForm, self).__init__(*args, **kwargs)
-        #self.fields['status'].widget.attrs.update({'name': 'status', 'class': 'form-control'})
+        # self.fields['status'].widget.attrs.update({'name': 'status', 'class': 'form-control'})

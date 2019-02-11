@@ -2,136 +2,137 @@
 {% load static %}
 
 {% block title %}
-Match #{{ match.id }}
+    Match #{{ match.id }}
 {% endblock %}
 
 {% block body %}
     {% if messages %}
-  <ul class="messages">
-    {% for message in messages %}
-      <li class="{{ message.tags }}">{{ message }}</li>
-    {% endfor %}
-  </ul>
-{% endif %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li class="{{ message.tags }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
 
 
-<p><a href="{% url 'staff:round_detail' pk=match.singletournamentround_set.get.id %}"><i class="fa fa-arrow-left"></i> <strong>Back to Round</strong></a></p>
-<table class="table">
-    <thead>
-    <tr>
-        <th>Key</th>
-        <th>Value</th>
-    </tr>
-    </thead>
-    <tr>
-        <td>ID</td>
-        <td>{{match.id}}</td>
-    </tr>
-    <tr>
-        <td>Info:</td>
-        <td>{{ match.info }}</td>
-    </tr>
-    <tr>
-        <td>Platform</td>
-        <td>{{ match.platform.name }}</td>
-    </tr>
-    <tr>
-        <td>Game</td>
-        <td>{{ match.game.name }}</td>
-    </tr>
-    <tr>
-        <td>Format</td>
-        {% if match.teamformat == 0 %}
-        <td>1v1</td>
-        {% elif match.teamformat == 1 %}
-        <td>2v2</td>
-        {% elif match.teamformat == 2 %}
-        <td>3v3</td>
-        {% elif match.teamformat == 3 %}
-        <td>4v4</td>
-        {% elif tournament.teamformat == 4 %}
-        <td>5v5</td>
-        {% elif tournament.teamformat == 5 %}
-        <td>6v6</td>
-        {% endif %}
-    </tr>
-    <tr>
-        <td>Home team</td>
-        {% if not match.bye_2 %}
-        <td><a href="{% url 'teams:detail' pk=match.hometeam_id %}">{{ match.hometeam }}</a></td>
-        {% else %}
-        <td>BYE</td>
-        {% endif %}
+    <p><a href="{% url 'staff:round_detail' pk=match.singletournamentround_set.get.id %}"><i
+            class="fa fa-arrow-left"></i> <strong>Back to Round</strong></a></p>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Key</th>
+            <th>Value</th>
+        </tr>
+        </thead>
+        <tr>
+            <td>ID</td>
+            <td>{{ match.id }}</td>
+        </tr>
+        <tr>
+            <td>Info:</td>
+            <td>{{ match.info }}</td>
+        </tr>
+        <tr>
+            <td>Platform</td>
+            <td>{{ match.platform.name }}</td>
+        </tr>
+        <tr>
+            <td>Game</td>
+            <td>{{ match.game.name }}</td>
+        </tr>
+        <tr>
+            <td>Format</td>
+            {% if match.teamformat == 0 %}
+                <td>1v1</td>
+            {% elif match.teamformat == 1 %}
+                <td>2v2</td>
+            {% elif match.teamformat == 2 %}
+                <td>3v3</td>
+            {% elif match.teamformat == 3 %}
+                <td>4v4</td>
+            {% elif tournament.teamformat == 4 %}
+                <td>5v5</td>
+            {% elif tournament.teamformat == 5 %}
+                <td>6v6</td>
+            {% endif %}
+        </tr>
+        <tr>
+            <td>Home team</td>
+            {% if not match.bye_2 %}
+                <td><a href="{% url 'teams:detail' pk=match.hometeam_id %}">{{ match.hometeam }}</a></td>
+            {% else %}
+                <td>BYE</td>
+            {% endif %}
 
-    </tr>
-    <tr>
-        <td>Away Team</td>
-        {% if not match.bye_2 and not match.bye_1 %}
-        <td><a href="{% url 'teams:detail' pk=match.awayteam_id %}">{{ match.awayteam }}</a></td>
-        {% else %}
-        <td>BYE</td>
-        {% endif %}
-    </tr>
-    <tr>
-        <td>Reported</td>
-        {% if match.reported %}
-        <td>Yes</td>
-        {% else %}
-        <td>No</td>
-        {% endif %}
-    </tr>
-    <tr>
-        <td>Disputed</td>
-        {% if match.disputed %}
-            <td><a href="{% url 'staff:dispute_detail' pk=dispute.id %}">Yes (click to view)</a></td>
-        {% else %}
-        <td>No</td>
-        {% endif %}
-    </tr>
-    <tr>
-        <td>Completed</td>
-        {% if match.completed %}
-        <td>Yes</td>
-        {% else %}
-        <td>No</td>
-        {% endif %}
-    </tr>
-    <tr>
-        <td>Winner</td>
-        <td>{{ match.winner }}</td>
-    </tr>
+        </tr>
+        <tr>
+            <td>Away Team</td>
+            {% if not match.bye_2 and not match.bye_1 %}
+                <td><a href="{% url 'teams:detail' pk=match.awayteam_id %}">{{ match.awayteam }}</a></td>
+            {% else %}
+                <td>BYE</td>
+            {% endif %}
+        </tr>
+        <tr>
+            <td>Reported</td>
+            {% if match.reported %}
+                <td>Yes</td>
+            {% else %}
+                <td>No</td>
+            {% endif %}
+        </tr>
+        <tr>
+            <td>Disputed</td>
+            {% if match.disputed %}
+                <td><a href="{% url 'staff:dispute_detail' pk=dispute.id %}">Yes (click to view)</a></td>
+            {% else %}
+                <td>No</td>
+            {% endif %}
+        </tr>
+        <tr>
+            <td>Completed</td>
+            {% if match.completed %}
+                <td>Yes</td>
+            {% else %}
+                <td>No</td>
+            {% endif %}
+        </tr>
+        <tr>
+            <td>Winner</td>
+            <td>{{ match.winner }}</td>
+        </tr>
 
-</table>
+    </table>
 
     <p>
-    {% if not match.completed %}
-        <a href="{% url 'staff:match_declare_winner' pk=match.id %}" class="btn btn-primary">Declare Winner</a>
-    {% else %}
-        <a href="{% url 'staff:match_delete_winner' pk=match.id %}" class="btn btn-danger">Delete Winner</a>
-    {% endif %}
-    &nbsp;
-    <a href="{% url 'staff:match_edit' pk=match.id %}" class="btn btn-primary">Edit Match</a>
+        {% if not match.completed %}
+            <a href="{% url 'staff:match_declare_winner' pk=match.id %}" class="btn btn-primary">Declare Winner</a>
+        {% else %}
+            <a href="{% url 'staff:match_delete_winner' pk=match.id %}" class="btn btn-danger">Delete Winner</a>
+        {% endif %}
+        &nbsp;
+        <a href="{% url 'staff:match_edit' pk=match.id %}" class="btn btn-primary">Edit Match</a>
     </p>
 
     <h2>Reports for this match...</h2>
 
     <table>
-    <tr>
-    <th>{{ match.hometeam }} Reported Winner</th>
-    </tr>
-    <tbody>
-    <td>{{ match.team1reportedwinner }}</td>
-    </tbody>
+        <tr>
+            <th>{{ match.hometeam }} Reported Winner</th>
+        </tr>
+        <tbody>
+        <td>{{ match.team1reportedwinner }}</td>
+        </tbody>
     </table>
-    <br />
+    <br/>
     <table>
-    <tr>
-    <th>{{ match.awayteam }} Reported Winner</th>
-    </tr>
-    <tbody>
-    <td>{{ match.team2reportedwinner }}</td>
+        <tr>
+            <th>{{ match.awayteam }} Reported Winner</th>
+        </tr>
+        <tbody>
+        <td>{{ match.team2reportedwinner }}</td>
 
-    </tbody>
+        </tbody>
     </table>
 
 {% endblock %}

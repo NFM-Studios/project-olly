@@ -1,34 +1,40 @@
 {% extends "wlg/base.html" %}
 {% load static %}
-  {% block head %}
-  <title>My Invites - {{ SITE_NAME }}</title>
-  {% endblock %}
+{% block head %}
+    <title>My Invites - {{ SITE_NAME }}</title>
+{% endblock %}
 
 {% block body %}
 
     <div class="container page">
-<div class="col-xs-12">
-           <div class="panel">
-
+        <div class="col-xs-12">
+            <div class="panel">
 
 
                 <div class="row">
 
                     <div class="col-xs-12 bot20">
-    					<div class="panel-title bold">Team Invites</div>
-                           {% for invite in teaminvite_list %}<div>
-                               <h5 style="float:left;">You have been invited by <a href="#"><span class="highlight">{{ invite.inviter }}</span></a> to join <a href="{% url 'teams:detail' pk=invite.team_id %}">{{ invite.team }}</a></h5>
-          <input href="{% url 'teams:invitedetail' num=invite.id %}" type="submit" value="Decline" class="btn btn-danger btn-xs" name="decline-LEAGUE-invite" style="float:right;margin-top:14px;margin-right:13px;">
-           <input href="{% url 'teams:invitedetail' num=invite.id %}" type="submit" value="Accept" class="btn btn-success btn-xs" name="accept-LEAGUE-invite" style="float:right;margin-top:14px;margin-right:13px;">
-           <div style="clear:both;"></div>
-                         </div>{% endfor %}
-                         <br><br>
-                        </div>
+                        <div class="panel-title bold">Team Invites</div>
+                        {% for invite in teaminvite_list %}
+                            <div>
+                                <h5 style="float:left;">You have been invited by <a href="#"><span
+                                        class="highlight">{{ invite.inviter }}</span></a> to join <a
+                                        href="{% url 'teams:detail' pk=invite.team_id %}">{{ invite.team }}</a></h5>
+                                <input href="{% url 'teams:invitedetail' num=invite.id %}" type="submit" value="Decline"
+                                       class="btn btn-danger btn-xs" name="decline-LEAGUE-invite"
+                                       style="float:right;margin-top:14px;margin-right:13px;">
+                                <input href="{% url 'teams:invitedetail' num=invite.id %}" type="submit" value="Accept"
+                                       class="btn btn-success btn-xs" name="accept-LEAGUE-invite"
+                                       style="float:right;margin-top:14px;margin-right:13px;">
+                                <div style="clear:both;"></div>
+                            </div>{% endfor %}
+                        <br><br>
+                    </div>
 
 
-             </div>
+                </div>
 
-   </div>
- </div>
-</div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

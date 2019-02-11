@@ -3,136 +3,138 @@
 {% load static %}
 <link rel="stylesheet" href="{% static "css/staff.css" %}">
 {% block title %}
-Edit Tournament
+    Edit Tournament
 {% endblock %}
 {% block body %}
-<link rel="stylesheet" href="{% static "css/staff.css" %}">
-     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/js/tempusdominus-bootstrap-4.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/css/tempusdominus-bootstrap-4.min.css" />
+    <link rel="stylesheet" href="{% static "css/staff.css" %}">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/js/tempusdominus-bootstrap-4.min.js"></script>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/css/tempusdominus-bootstrap-4.min.css"/>
 
-{% if form.errors %}
-    {% for field in form %}
-        {% for error in field.errors %}
+    {% if form.errors %}
+        {% for field in form %}
+            {% for error in field.errors %}
+                <div class="alert alert-danger">
+                    <strong>{{ error|escape }}</strong>
+                </div>
+            {% endfor %}
+        {% endfor %}
+        {% for error in form.non_field_errors %}
             <div class="alert alert-danger">
                 <strong>{{ error|escape }}</strong>
             </div>
         {% endfor %}
-    {% endfor %}
-    {% for error in form.non_field_errors %}
-        <div class="alert alert-danger">
-            <strong>{{ error|escape }}</strong>
-        </div>
-    {% endfor %}
-{% endif %}
+    {% endif %}
     <h1><a href="{% url 'staff:tournamentlist' %}">Return to tournament list</a></h1>
 
-<form enctype="multipart/form-data" method="post">
-   {% csrf_token %}
-   {{ field.errors }}
+    <form enctype="multipart/form-data" method="post">
+        {% csrf_token %}
+        {{ field.errors }}
 
-   <label>Name</label>
-   {{ form.name }}
-   <br>
+        <label>Name</label>
+        {{ form.name }}
+        <br>
 
-   <label>Team Format</label>
-   {{ form.teamformat }}
-   <br>
+        <label>Team Format</label>
+        {{ form.teamformat }}
+        <br>
 
-   <label>Best of</label>
-   {{ form.bestof }}
-   <br>
+        <label>Best of</label>
+        {{ form.bestof }}
+        <br>
 
-   <div class="form-group">
-       <div class="input-group">
-           <label>Registration Open</label>
-           {{ form.open_register }}
-       </div>
-   </div>
+        <div class="form-group">
+            <div class="input-group">
+                <label>Registration Open</label>
+                {{ form.open_register }}
+            </div>
+        </div>
 
-   <div class="form-group">
-       <div class="input-group">
-           <label>Registration Close</label>
-           {{ form.close_register }}
-       </div>
-   </div>
+        <div class="form-group">
+            <div class="input-group">
+                <label>Registration Close</label>
+                {{ form.close_register }}
+            </div>
+        </div>
 
-   <label>Required Credits</label>
-   {{ form.req_credits }}
-   <br>
+        <label>Required Credits</label>
+        {{ form.req_credits }}
+        <br>
 
-   <label>Platform</label>
-   {{ form.platform }}
-   <br>
+        <label>Platform</label>
+        {{ form.platform }}
+        <br>
 
-   <label>Game</label>
-   {{ form.game }}
-   <br>
+        <label>Game</label>
+        {{ form.game }}
+        <br>
 
-   <div class="form-group">
-       <div class="input-group">
-           <label>Start Time</label>
-           {{ form.start }}
-       </div>
-   </div>
- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+        <div class="form-group">
+            <div class="input-group">
+                <label>Start Time</label>
+                {{ form.start }}
+            </div>
+        </div>
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 
-    <label>Image</label>
-    {{ form.image }}
-    <br>
+        <label>Image</label>
+        {{ form.image }}
+        <br>
 
-   <label>Teams</label>
-   {{ form.teams }}
-   <br>
+        <label>Teams</label>
+        {{ form.teams }}
+        <br>
 
-   <label>Size</label>
-   {{ form.size }}
-   <br>
+        <label>Size</label>
+        {{ form.size }}
+        <br>
 
-    <label>General Info</label>
-    {{ form.info }}
-    <br>
+        <label>General Info</label>
+        {{ form.info }}
+        <br>
 
-   <label>Prize 1</label>
-   {{ form.prize1 }}
-   <br>
+        <label>Prize 1</label>
+        {{ form.prize1 }}
+        <br>
 
-   <label>Prize 2</label>
-   {{ form.prize2 }}
-   <br>
+        <label>Prize 2</label>
+        {{ form.prize2 }}
+        <br>
 
-   <label>Prize 3</label>
-   {{ form.prize3 }}
-   <br>
+        <label>Prize 3</label>
+        {{ form.prize3 }}
+        <br>
 
-   <label>Ruleset</label>
-    {{ form.ruleset }}
-    <br>
+        <label>Ruleset</label>
+        {{ form.ruleset }}
+        <br>
 
-   <label>Active</label>
-   {{ form.active }}
-   <br>
+        <label>Active</label>
+        {{ form.active }}
+        <br>
 
-    <label>Allow registration</label>
-    {{ form.allow_register }}
-    <br>
+        <label>Allow registration</label>
+        {{ form.allow_register }}
+        <br>
 
-   <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
 
-<script type="text/javascript">
-            $(function () {
-                $('#datetimepicker1').datetimepicker({
-                                format:'YYYY-MM-DD HH:mm'
-                });
-                $('#datetimepicker2').datetimepicker({
-                                format:'YYYY-MM-DD HH:mm'
-                });
-                $('#datetimepicker3').datetimepicker({
-                                format:'YYYY-MM-DD HH:mm'
-                });
+    <script type="text/javascript">
+        $(function () {
+            $('#datetimepicker1').datetimepicker({
+                format: 'YYYY-MM-DD HH:mm'
             });
-        </script>
+            $('#datetimepicker2').datetimepicker({
+                format: 'YYYY-MM-DD HH:mm'
+            });
+            $('#datetimepicker3').datetimepicker({
+                format: 'YYYY-MM-DD HH:mm'
+            });
+        });
+    </script>
 
 {% endblock %}

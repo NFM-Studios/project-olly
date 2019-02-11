@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('pages', '0008_auto_20190206_1624'),
     ]
@@ -13,26 +12,31 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='staticinfo',
             name='facebookpage',
-            field=models.URLField(blank=True, default='https://www.facebook.com', null=True, verbose_name='facebook_page'),
+            field=models.URLField(blank=True, default='https://www.facebook.com', null=True,
+                                  verbose_name='facebook_page'),
         ),
         migrations.AlterField(
             model_name='staticinfo',
             name='instagrampage',
-            field=models.URLField(blank=True, default='https://www.instagram.com', null=True, verbose_name='instagram_page'),
+            field=models.URLField(blank=True, default='https://www.instagram.com', null=True,
+                                  verbose_name='instagram_page'),
         ),
         migrations.AlterField(
             model_name='staticinfo',
             name='twitchchannel',
-            field=models.URLField(blank=True, default='https://www.twitch.tv', null=True, verbose_name='twitch_channel'),
+            field=models.URLField(blank=True, default='https://www.twitch.tv', null=True,
+                                  verbose_name='twitch_channel'),
         ),
         migrations.AlterField(
             model_name='staticinfo',
             name='twitterprofile',
-            field=models.URLField(blank=True, default='https://www.twitter.com', null=True, verbose_name='twitter_profile'),
+            field=models.URLField(blank=True, default='https://www.twitter.com', null=True,
+                                  verbose_name='twitter_profile'),
         ),
         migrations.AlterField(
             model_name='staticinfo',
             name='youtubechannel',
-            field=models.URLField(blank=True, default='https://www.youtube.com', null=True, verbose_name='youtube_channel'),
+            field=models.URLField(blank=True, default='https://www.youtube.com', null=True,
+                                  verbose_name='youtube_channel'),
         ),
     ]

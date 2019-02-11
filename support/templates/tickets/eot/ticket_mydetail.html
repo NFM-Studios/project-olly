@@ -1,102 +1,103 @@
 {% extends "eot/base.html" %}
 {% load static %}
 
-  {% block head %}
-  <title>Ticket {{ ticket.id }} Details - {{ SITE_NAME }}</title>
-  {% endblock %}
+{% block head %}
+    <title>Ticket {{ ticket.id }} Details - {{ SITE_NAME }}</title>
+{% endblock %}
 
 {% block body %}
 
     <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 col-md-offset-2 col-lg-offset-2 wrap">
 
-           <div class="panel">
-              <div class="panel-body">
+        <div class="panel">
+            <div class="panel-body">
 
-                 <div class="col-xs-12 banner-head bot20">
-                   <div class="row">
-                   <div class="col-xs-5 col-sm-3">
-                    <img src="{% static 'eot/images/avatar.jpg' %}"/>
-                   </div>
-                   <div class="col-xs-7 col-sm-9">
-                    <h2><b>{{ ticket.creator }}</b></h2>
-                    <h4>United States</h4>
-<br>
-PSN: <a href="#">xsomething</a><br>
-XBL: <a href="#">xsomething</a><br>
-<br>
-Twitter: <a href="#">@something</a><br>
-Twitch: <a href="#">xsomething</a><br>
-Youtube: <a href="#">xsomething</a><br>
-<br>
+                <div class="col-xs-12 banner-head bot20">
+                    <div class="row">
+                        <div class="col-xs-5 col-sm-3">
+                            <img src="{% static 'eot/images/avatar.jpg' %}"/>
+                        </div>
+                        <div class="col-xs-7 col-sm-9">
+                            <h2><b>{{ ticket.creator }}</b></h2>
+                            <h4>United States</h4>
+                            <br>
+                            PSN: <a href="#">xsomething</a><br>
+                            XBL: <a href="#">xsomething</a><br>
+                            <br>
+                            Twitter: <a href="#">@something</a><br>
+                            Twitch: <a href="#">xsomething</a><br>
+                            Youtube: <a href="#">xsomething</a><br>
+                            <br>
 
-                   </div>
+                        </div>
 
-                   </div>
-               </div>
+                    </div>
+                </div>
 
                 <div class="row">
                     <div class="col-xs-12">
-                    <a href="{% url 'support:list' %}"><i class="fa fa-arrow-left"></i> <strong>Back to ticket list</strong></a>
-    					<div class="panel-title bold">Ticket ID: {{ ticket.id }}</div>
-                           <div class="col-xs-6"><h5>Subject: {% if ticket.category == 0 %}
-General
-{% elif ticket.category == 1 %}
-Prize Claim
-{% elif ticket.category == 2 %}
-Tournament Support
-{% elif ticket.category == 3 %}
-Billing
-{% elif ticket.category == 4 %}
-Refund Request
-{% elif ticket.category == 5 %}
-PSN/XBL Issues
-{% elif ticket.category == 6 %}
-Match Support/Dispute
-{% endif %}</h5></div>
-                           <div class="col-xs-6"><h5>Created: {{ ticket.date }}</h5></div>
-                           <div class="col-xs-6"><h5>Assignee: {{ticket.assignee}}</h5></div>
-                    <div class="col-xs-6"><h5>Status: {% if ticket.status == 0 %}
-            New
-        {% elif ticket.status == 1 %}
-            On Hold
-        {% elif ticket.status == 2 %}
-            In Progress
-        {% elif ticket.status == 3 %}
-            Closed
-        {% endif %}</h5></div>
+                        <a href="{% url 'support:list' %}"><i class="fa fa-arrow-left"></i> <strong>Back to ticket
+                            list</strong></a>
+                        <div class="panel-title bold">Ticket ID: {{ ticket.id }}</div>
+                        <div class="col-xs-6"><h5>Subject: {% if ticket.category == 0 %}
+                            General
+                        {% elif ticket.category == 1 %}
+                            Prize Claim
+                        {% elif ticket.category == 2 %}
+                            Tournament Support
+                        {% elif ticket.category == 3 %}
+                            Billing
+                        {% elif ticket.category == 4 %}
+                            Refund Request
+                        {% elif ticket.category == 5 %}
+                            PSN/XBL Issues
+                        {% elif ticket.category == 6 %}
+                            Match Support/Dispute
+                        {% endif %}</h5></div>
+                        <div class="col-xs-6"><h5>Created: {{ ticket.date }}</h5></div>
+                        <div class="col-xs-6"><h5>Assignee: {{ ticket.assignee }}</h5></div>
+                        <div class="col-xs-6"><h5>Status: {% if ticket.status == 0 %}
+                            New
+                        {% elif ticket.status == 1 %}
+                            On Hold
+                        {% elif ticket.status == 2 %}
+                            In Progress
+                        {% elif ticket.status == 3 %}
+                            Closed
+                        {% endif %}</h5></div>
                         <div class="col-xs-12">
-                           <br>
-                           <hr>
-                           <br>
-                           <!--<h5><b>Message</b></h5>-->
-                           <p>{{ ticket.text }}</p>
+                            <br>
+                            <hr>
+                            <br>
+                            <!--<h5><b>Message</b></h5>-->
+                            <p>{{ ticket.text }}</p>
 
-                           <br>
+                            <br>
 
+                        </div>
+                        <br>
+                        <hr>
+                        <br>
+                        <div class="col-xs-6"><h2>Add a comment</h2></div>
+                        <br/>
+                        <form method="POST" action="{% url 'support:detail' pk=x %}">
+                            <table class="table">
+                                {% csrf_token %}
+                                {{ form.as_table }}
+                                <tr>
+                                    <td colspan="2">
+                                        <input type="submit" value="Comment"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
         </div>
-                    <br>
-                           <hr>
-                           <br>
-     <div class="col-xs-6"><h2>Add a comment</h2></div>
-                    <br />
-<form method="POST" action="{% url 'support:detail' pk=x  %}">
-    <table class="table">
-        {% csrf_token %}
-        {{form.as_table}}
-        <tr>
-            <td colspan="2">
-                <input type="submit" value="Comment" />
-            </td>
-        </tr>
-    </table>
-</form>
-      </div>
-     </div>
 
     </div>
-    </div>
-
-  </div>
 
 
 {% endblock %}

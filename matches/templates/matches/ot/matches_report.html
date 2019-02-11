@@ -1,28 +1,28 @@
 {% extends "ot/base.html" %}
 {% load static %}
 
-  {% block head %}
-  <title>Report a Match - {{ SITE_NAME }}</title>
-  {% endblock %}
+{% block head %}
+    <title>Report a Match - {{ SITE_NAME }}</title>
+{% endblock %}
 
 {% block body %}
     <div class="container">
-<div class="space90"></div>
-     <div class="col-xs-12">
-         <h1>Report Match Result</h1>
-      <div class="panel-body">
-<form method="POST" action="{% url 'matches:report' pk=pk %}">
-    <table class="table">
-        {% csrf_token %}
-        {{form.as_table}}
-        <tr>
-            <td colspan="2">
-                <input type="submit" value="Submit" class="btn btn-primary" />
-            </td>
-        </tr>
-    </table>
-</form>
-      </div>
-     </div>
+        <div class="space90"></div>
+        <div class="col-xs-12">
+            <h1>Report Match Result</h1>
+            <div class="panel-body">
+                <form method="POST" action="{% url 'matches:report' pk=pk %}">
+                    <table class="table">
+                        {% csrf_token %}
+                        {{ form.as_table }}
+                        <tr>
+                            <td colspan="2">
+                                <input type="submit" value="Submit" class="btn btn-primary"/>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
     </div>
 {% endblock %}

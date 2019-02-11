@@ -1,45 +1,45 @@
 {% extends "ot/base.html" %}
 {% load static %}
 
-  {% block head %}
-  <title>Match Dispute - {{ SITE_NAME }}</title>
-  {% endblock %}
+{% block head %}
+    <title>Match Dispute - {{ SITE_NAME }}</title>
+{% endblock %}
 
 {% block body %}
     <div class="container">
-<div class="space90"></div>
-     <div class="col-xs-12">
-         <h1>Match Dispute</h1>
-      <div class="panel-body">
-<h1>There has been a dispute between the 2 teams for this match</h1>
+        <div class="space90"></div>
+        <div class="col-xs-12">
+            <h1>Match Dispute</h1>
+            <div class="panel-body">
+                <h1>There has been a dispute between the 2 teams for this match</h1>
 
-    <h2>In order to properly resolve this conflict both teams are required to submit proof</h2>
+                <h2>In order to properly resolve this conflict both teams are required to submit proof</h2>
 
-    <h2>Failure to submit proof in a timely fashion will result in in a forfeit for your team</h2>
-<form method="POST" action="{% url 'matches:dispute' pk=dispute %}">
-    <table class="table">
-        {% csrf_token %}
+                <h2>Failure to submit proof in a timely fashion will result in in a forfeit for your team</h2>
+                <form method="POST" action="{% url 'matches:dispute' pk=dispute %}">
+                    <table class="table">
+                        {% csrf_token %}
 
-        <label>Teamproof</label>
-        <div class="form-group">{{ form.teamproof }}</div>
+                        <label>Teamproof</label>
+                        <div class="form-group">{{ form.teamproof }}</div>
 
-        <label>Proof link 1</label>
-        <div class="form-group">{{ form.teamproof_1 }}</div>
+                        <label>Proof link 1</label>
+                        <div class="form-group">{{ form.teamproof_1 }}</div>
 
-        <label>Proof link 2</label>
-        <div class="form-group">{{ form.teamproof_2 }}</div>
+                        <label>Proof link 2</label>
+                        <div class="form-group">{{ form.teamproof_2 }}</div>
 
-        <label>Proof link 3</label>
-        <div class="form-group">{{ form.teamproof_3 }}</div>
+                        <label>Proof link 3</label>
+                        <div class="form-group">{{ form.teamproof_3 }}</div>
 
-        <tr>
-            <td colspan="2">
-                <input type="submit" value="Submit" class="btn btn-primary"/>
-            </td>
-        </tr>
-    </table>
-</form>
-      </div>
-     </div>
+                        <tr>
+                            <td colspan="2">
+                                <input type="submit" value="Submit" class="btn btn-primary"/>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
         </div>
+    </div>
 {% endblock %}

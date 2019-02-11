@@ -1,45 +1,45 @@
 {% extends "roc/base.html" %}
 
-  {% block head %}
-  <title>Edit profile - {{ SITE_NAME }}</title>
-  {% endblock %}
+{% block head %}
+    <title>Edit profile - {{ SITE_NAME }}</title>
+{% endblock %}
 
 {% block body %}
-  <form enctype="multipart/form-data" method="post">
-    {% csrf_token %}
+    <form enctype="multipart/form-data" method="post">
+        {% csrf_token %}
 
-    {{ field.errors }}
+        {{ field.errors }}
 
-    <label>Profile Picture</label>
-    <div>{{ form.profile_picture }}</div>
+        <label>Profile Picture</label>
+        <div>{{ form.profile_picture }}</div>
 
-    <label>About Me</label>
-    <div class="form-group">{{ form.about_me }}</div>
+        <label>About Me</label>
+        <div class="form-group">{{ form.about_me }}</div>
 
-    <label>Xbox Live</label>
-    <div class="form-group">{{ form.xbl }}</div>
+        <label>Xbox Live</label>
+        <div class="form-group">{{ form.xbl }}</div>
 
-    <label>PSN</label>
-    <div class="form-group">{{ form.psn }}</div>
+        <label>PSN</label>
+        <div class="form-group">{{ form.psn }}</div>
 
-    <label>Twitter Username</label>
-    <div class="form-group">{{ form.twitter_profile }}</div>
+        <label>Twitter Username</label>
+        <div class="form-group">{{ form.twitter_profile }}</div>
 
-    <label>Twitch Username</label>
-    <div class="form-group">{{ form.twitch_channel }}</div>
+        <label>Twitch Username</label>
+        <div class="form-group">{{ form.twitch_channel }}</div>
 
-    <label>Preferred Game</label>
-    <div class="form-group">{{ form.favorite_game }}</div>
+        <label>Preferred Game</label>
+        <div class="form-group">{{ form.favorite_game }}</div>
 
-    <label>Preferred Console</label>
-    <div class="form-group">{{ form.favorite_console }}</div>
+        <label>Preferred Console</label>
+        <div class="form-group">{{ form.favorite_console }}</div>
 
-    <label>Country</label>
-    <div class="form-group">{{ form.country }}</div>
+        <label>Country</label>
+        <div class="form-group">{{ form.country }}</div>
 
-    <label>Enable email notifications</label>
-    <div class="form-group">{{ form.email_enabled }}</div>
+        <label>Enable email notifications</label>
+        <div class="form-group">{{ form.email_enabled }}</div>
 
-    <button type="submit" class="btn btn-primary">Update</button>
-  </form>
+        <button type="submit" class="btn btn-primary">Update</button>
+    </form>
 {% endblock %}

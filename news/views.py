@@ -11,12 +11,12 @@ app_name = 'news'
 
 def post_list(request, tag_slug=None):
     object_list = Post.published.all()
-    #tag = None
-    
-    #if tag_slug:
-     #   tag = get_object_or_404(Tag, slug=tag_slug)
-      #  object_list = object_list.filter(tags__in=[tag])
-    
+    # tag = None
+
+    # if tag_slug:
+    #   tag = get_object_or_404(Tag, slug=tag_slug)
+    #  object_list = object_list.filter(tags__in=[tag])
+
     paginator = Paginator(object_list, 3)  # 3 post in each page.
     page = request.GET.get('page')
     try:
@@ -30,7 +30,7 @@ def post_list(request, tag_slug=None):
     return render(request, 'news/' + request.tenant + '/post/list.html', {'page': page, 'posts': posts})
 
 
-class PostListView(ListView): 
+class PostListView(ListView):
     queryset = Post.published.all()
     context_object_name = 'posts'
     paginate_by = 3
@@ -40,7 +40,7 @@ class PostListView(ListView):
 def post_detail(request, slug):
     post = get_object_or_404(Post, slug=slug, status='published')
     # list of active comments for this posts
-    #comments = post.comments.filter(active=True)
+    # comments = post.comments.filter(active=True)
 
     if request.method == 'POST':
         # some sick ass dude made a comment
@@ -58,9 +58,9 @@ def post_detail(request, slug):
         pass
 
     # list of similar posts
-    #post_tags_ids = post.tags.values_list('id', flat=True)
-    #similar_posts = Post.published.filter(tags__in=post_tags_ids).exclude(id=post.id)
-    #similar_posts = similar_posts.annotate(same_tags=Count('tags')).order_by('-same_tags', '-publish')[:4]
+    # post_tags_ids = post.tags.values_list('id', flat=True)
+    # similar_posts = Post.published.filter(tags__in=post_tags_ids).exclude(id=post.id)
+    # similar_posts = similar_posts.annotate(same_tags=Count('tags')).order_by('-same_tags', '-publish')[:4]
     return render(request, 'news/' + request.tenant + '/post/detail.html', {'post': post})
 
 
@@ -76,7 +76,7 @@ def post_share(request, post_id):
             # form fields passed validation
             cd = form.cleaned_data
             post_url = request.build_absolute_uri(post.get_absolute_url())
-           
+
             # subject of the email.
             subject = '{} ({}) recommends you reading "{}"'.format(cd['name'], cd['email'], post.title)
             message = 'Read "{}" at {}\n\n{}\'s comments: {}'.format(post.title, post_url, cd['name'], cd['comments'])
