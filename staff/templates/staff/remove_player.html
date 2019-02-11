@@ -4,16 +4,16 @@
 {% block body %}
 
     <form method="POST" action="">
-    <table class="table">
-        {% csrf_token %}
-        {{ form.as_table }}
+        <table class="table">
+            {% csrf_token %}
+            {{ form.as_table }}
 
-        <tr>
-            <td colspan="2">
-                <input type="submit" value="Submit" />
-            </td>
-        </tr>
-    </table>
-</form>
+            <tr>
+                <td colspan="2">
+                    <input type="submit" value="Submit"/>
+                </td>
+            </tr>
+        </table>
+    </form>
 
 {% endblock %}

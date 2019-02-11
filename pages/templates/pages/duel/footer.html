@@ -1,24 +1,25 @@
 {% load static %}
 <section class="footer">
 
-  <div class="container">
-   <div class="row">
-    <div class="col-xs-12" style="position:relative;">
-     <img src="{% static 'duel/images/logo.png' %}"/>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12" style="position:relative;">
+                <img src="{% static 'duel/images/logo.png' %}"/>
+            </div>
+            <div class="col-xs-12 links center">
+                <a href="/">HOME</a>
+                <a href="{% url 'singletournaments:list' %}">TOURNAMENTS</a>
+                <a href="{% url 'profiles:leaderboard' %}">LEADERBOARD</a>
+                <a href="#">TWITCH DUEL CHALLENGE</a>
+                <a href="{% url 'store:store' %}">DUEL DOLLARS SHOP</a>
+                <a href="{% url 'terms' %}">TERMS OF SERVICE</a>
+                <a href="{% url 'privacy' %}">PRIVACY POLICY</a>
+            </div>
+        </div>
     </div>
-    <div class="col-xs-12 links center">
-     <a href="/">HOME</a>
-     <a href="{% url 'singletournaments:list' %}">TOURNAMENTS</a>
-     <a href="{% url 'profiles:leaderboard' %}">LEADERBOARD</a>
-     <a href="#">TWITCH DUEL CHALLENGE</a>
-     <a href="{% url 'store:store' %}">DUEL DOLLARS SHOP</a>
-     <a href="{% url 'terms' %}">TERMS OF SERVICE</a>
-     <a href="{% url 'privacy' %}">PRIVACY POLICY</a>
-    </div>
-   </div>
-   </div>
-{% block foot %}
-  Powered by <a href="https://olly.nfmstudios.com" target="_blank">Project Olly</a> Version: {{ SITE_VERSION }} On Server: {{ SITE_SERVER }}
-  {% endblock %}
+    {% block foot %}
+        Powered by <a href="https://olly.nfmstudios.com" target="_blank">Project Olly</a> Version: {{ SITE_VERSION }} On
+        Server: {{ SITE_SERVER }}
+    {% endblock %}
 </section>
 

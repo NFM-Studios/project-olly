@@ -1,9 +1,9 @@
 {% extends "ga/base.html" %}
 {% load static %}
 
-  {% block head %}
-  <title>{{ tournament.name }} Details - {{ SITE_NAME }}</title>
-  {% endblock %}
+{% block head %}
+    <title>{{ tournament.name }} Details - {{ SITE_NAME }}</title>
+{% endblock %}
 
 {% block body %}
 
@@ -12,233 +12,241 @@
 
     <div class="container page">
 
-<div class="col-xs-12">
-           <div class="panel">
-              <div class="panel-body">
-                   {% if not user.is_anonymous %}
-                        <p><a href="{% url 'singletournaments:list' %}"><i class="fa fa-arrow-left"></i> <strong>Back to tournament list</strong></a></p>
-                        {% else %}
+        <div class="col-xs-12">
+            <div class="panel">
+                <div class="panel-body">
+                    {% if not user.is_anonymous %}
+                        <p><a href="{% url 'singletournaments:list' %}"><i class="fa fa-arrow-left"></i> <strong>Back to
+                            tournament list</strong></a></p>
+                    {% else %}
                         <a href="{% url 'index' %}"><i class="fa fa-arrow-left"></i> <strong>Back to home</strong></a>
-                        {% endif %}
-<br />
-              <br />
-                  <div class="col-xs-12 banner-head bot20">
-                   <div class="row">
-                   <div class="col-xs-12 col-sm-4">
-                    <img style="size:auto" src="{% if tournament.game.image %}{{ tournament.game.image.url }}{% else %}{% static 'ga/images/logo.png' %}{% endif %}"/>
-                   </div>
-                   <div class="col-xs-12 col-sm-8">
-                   <br>
-                    <h2><b>{{ tournament.name }}</b></h2>
-                    <h4>{% if tournament.platform == 0 %}
-        Playstation 4
-        {% elif tournament.platform == 1 %}
-        Xbox One
-        {% elif tournament.platform == 2 %}
-        PC
-        {% elif tournament.platform == 3 %}
-        Mobile
-        {% elif tournament.platform == 4 %}
-        Nintendo Switch
-        {% elif tournament.platform == 5 %}
-        Playstation 3
-        {% elif tournament.platform == 6 %}
-        Xbox 360
-        {% elif tournament.platform == 7 %}
-        All Consoles
-        {% elif tournament.platform == 8 %}
-        All Platforms
-        {% endif %} | {% if tournament.game == 0 %}
-        No Game Set
-        {% elif tournament.game == 1 %}
-        Call of Duty: Black Ops 3
-        {% elif tournament.game == 2 %}
-        Call of Duty WWII
-        {% elif tournament.game == 3 %}
-        Fortnite
-        {% elif tournament.game == 4 %}
-        Destiny 2
-        {% elif tournament.game == 5 %}
-        Counter-Strike: Global Offensive
-        {% elif tournament.game == 6 %}
-        Player Unknown's BATTLEGROUNDS
-        {% elif tournament.game == 7 %}
-        Rainbow Six Siege
-        {% elif tournament.game == 8 %}
-        Overwatch
-        {% elif tournament.game == 9 %}
-        League of Legends
-        {% elif tournament.game == 10 %}
-        Hearthstone
-        {% elif tournament.game == 11 %}
-        World of Warcraft
-        {% elif tournament.game == 12 %}
-        SMITE
-        {% elif tournament.game == 13 %}
-        Rocket League
-        {% elif tournament.game == 14 %}
-        Battlefield 1
-        {% elif tournament.game == 15 %}
-        Black Ops 4
-        {% endif %}</h4>
-                    {{ tournament.start }} | 1st Place: {{ tournament.prize1 }}, 2nd Place: {{ tournament.prize2 }}<br>
-                    <br>
-                    <ul class="nav nav-pills">
-			<li class="active"><a href="#1" data-toggle="tab" aria-expanded="true" style="margin-bottom:4px;">INFO</a></li>
-            <li class=""><a href="#3" data-toggle="tab" aria-expanded="false" style="margin-bottom:4px;">TEAMS</a></li>
-			<li class=""><a href="{% url 'singletournaments:bracket' pk=tournament.id %}"  style="margin-bottom:4px;">BRACKET</a></li>
-            <li class=""><a href="#4" data-toggle="tab" aria-expanded="false" style="margin-bottom:4px;">RULES</a></li>
-            <li class=""><a href="{% url 'singletournaments:join' pk=tournament.id %}" style="margin-bottom:4px;">JOIN</a></li>
-</ul>
-                   </div>
-
-                   </div>
-                  </div>
-
-
-<div class="row">
-<div class="col-xs-12">
-
-		<div class="tab-content clearfix">
-           <div class="tab-pane info active" id="1">
-             <div class="row bot10">
-              <div class="col-xs-6 col-sm-3 center">
-               <div class="panel-default">
-                <div class="panel-body">
-                  <h4><b>PLATFORM</b></h4>
-                  {% if tournament.platform == 0 %}
-        Playstation 4
-        {% elif tournament.platform == 1 %}
-        Xbox One
-        {% elif tournament.platform == 2 %}
-        PC
-        {% elif tournament.platform == 3 %}
-        Mobile
-        {% elif tournament.platform == 4 %}
-        Nintendo Switch
-        {% elif tournament.platform == 5 %}
-        Playstation 3
-        {% elif tournament.platform == 6 %}
-        XBOX 360
-        {% endif %}
-                </div>
-               </div>
-              </div>
-              <div class="col-xs-6 col-sm-3 center">
-               <div class="panel-default">
-                <div class="panel-body">
-                  <h4><b>Format</b></h4>
-                  {% if tournament.teamformat == 0 %}
-                    1v1
-                    {% elif tournament.teamformat == 1 %}
-                    2v2
-                    {% elif tournament.teamformat == 2 %}
-                    3v3
-                    {% elif tournament.teamformat == 3 %}
-                    4v4
-                    {% elif tournament.teamformat == 4 %}
-                    5v5
-                    {% elif tournament.teamformat == 5 %}
-                    6v6
                     {% endif %}
+                    <br/>
+                    <br/>
+                    <div class="col-xs-12 banner-head bot20">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-4">
+                                <img style="size:auto" src="
+                                        {% if tournament.game.image %}{{ tournament.game.image.url }}{% else %}{% static 'ga/images/logo.png' %}{% endif %}"/>
+                            </div>
+                            <div class="col-xs-12 col-sm-8">
+                                <br>
+                                <h2><b>{{ tournament.name }}</b></h2>
+                                <h4>{% if tournament.platform == 0 %}
+                                    Playstation 4
+                                {% elif tournament.platform == 1 %}
+                                    Xbox One
+                                {% elif tournament.platform == 2 %}
+                                    PC
+                                {% elif tournament.platform == 3 %}
+                                    Mobile
+                                {% elif tournament.platform == 4 %}
+                                    Nintendo Switch
+                                {% elif tournament.platform == 5 %}
+                                    Playstation 3
+                                {% elif tournament.platform == 6 %}
+                                    Xbox 360
+                                {% elif tournament.platform == 7 %}
+                                    All Consoles
+                                {% elif tournament.platform == 8 %}
+                                    All Platforms
+                                {% endif %} | {% if tournament.game == 0 %}
+                                    No Game Set
+                                {% elif tournament.game == 1 %}
+                                    Call of Duty: Black Ops 3
+                                {% elif tournament.game == 2 %}
+                                    Call of Duty WWII
+                                {% elif tournament.game == 3 %}
+                                    Fortnite
+                                {% elif tournament.game == 4 %}
+                                    Destiny 2
+                                {% elif tournament.game == 5 %}
+                                    Counter-Strike: Global Offensive
+                                {% elif tournament.game == 6 %}
+                                    Player Unknown's BATTLEGROUNDS
+                                {% elif tournament.game == 7 %}
+                                    Rainbow Six Siege
+                                {% elif tournament.game == 8 %}
+                                    Overwatch
+                                {% elif tournament.game == 9 %}
+                                    League of Legends
+                                {% elif tournament.game == 10 %}
+                                    Hearthstone
+                                {% elif tournament.game == 11 %}
+                                    World of Warcraft
+                                {% elif tournament.game == 12 %}
+                                    SMITE
+                                {% elif tournament.game == 13 %}
+                                    Rocket League
+                                {% elif tournament.game == 14 %}
+                                    Battlefield 1
+                                {% elif tournament.game == 15 %}
+                                    Black Ops 4
+                                {% endif %}</h4>
+                                {{ tournament.start }} | 1st Place: {{ tournament.prize1 }}, 2nd
+                                Place: {{ tournament.prize2 }}<br>
+                                <br>
+                                <ul class="nav nav-pills">
+                                    <li class="active"><a href="#1" data-toggle="tab" aria-expanded="true"
+                                                          style="margin-bottom:4px;">INFO</a></li>
+                                    <li class=""><a href="#3" data-toggle="tab" aria-expanded="false"
+                                                    style="margin-bottom:4px;">TEAMS</a></li>
+                                    <li class=""><a href="{% url 'singletournaments:bracket' pk=tournament.id %}"
+                                                    style="margin-bottom:4px;">BRACKET</a></li>
+                                    <li class=""><a href="#4" data-toggle="tab" aria-expanded="false"
+                                                    style="margin-bottom:4px;">RULES</a></li>
+                                    <li class=""><a href="{% url 'singletournaments:join' pk=tournament.id %}"
+                                                    style="margin-bottom:4px;">JOIN</a></li>
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-xs-12">
+
+                            <div class="tab-content clearfix">
+                                <div class="tab-pane info active" id="1">
+                                    <div class="row bot10">
+                                        <div class="col-xs-6 col-sm-3 center">
+                                            <div class="panel-default">
+                                                <div class="panel-body">
+                                                    <h4><b>PLATFORM</b></h4>
+                                                    {% if tournament.platform == 0 %}
+                                                        Playstation 4
+                                                    {% elif tournament.platform == 1 %}
+                                                        Xbox One
+                                                    {% elif tournament.platform == 2 %}
+                                                        PC
+                                                    {% elif tournament.platform == 3 %}
+                                                        Mobile
+                                                    {% elif tournament.platform == 4 %}
+                                                        Nintendo Switch
+                                                    {% elif tournament.platform == 5 %}
+                                                        Playstation 3
+                                                    {% elif tournament.platform == 6 %}
+                                                        XBOX 360
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-6 col-sm-3 center">
+                                            <div class="panel-default">
+                                                <div class="panel-body">
+                                                    <h4><b>Format</b></h4>
+                                                    {% if tournament.teamformat == 0 %}
+                                                        1v1
+                                                    {% elif tournament.teamformat == 1 %}
+                                                        2v2
+                                                    {% elif tournament.teamformat == 2 %}
+                                                        3v3
+                                                    {% elif tournament.teamformat == 3 %}
+                                                        4v4
+                                                    {% elif tournament.teamformat == 4 %}
+                                                        5v5
+                                                    {% elif tournament.teamformat == 5 %}
+                                                        6v6
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-6 col-sm-3 center">
+                                            <div class="panel-default">
+                                                <div class="panel-body">
+                                                    <h4><b>Registration Opens->Closes</b></h4>
+                                                    {{ tournament.open_register }}->{{ tournament.close_register }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-6 col-sm-3 center">
+                                            <div class="panel-default">
+                                                <div class="panel-body">
+                                                    <h4><b>Registration Fee</b></h4>
+                                                    {{ tournament.req_credits }} credits
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {{ tournament.info|linebreaksbr }}
+
+
+                                </div>
+
+                                <!--<div class="tab-pane" id="2">
+                                </div>-->
+
+                                <div class="tab-pane" id="3">
+
+                                    <div class="row bot10">
+                                        {% if teams.count == 0 %}
+                                            <p style="text-align: center">There are no teams in this tournament!</p>
+                                        {% endif %}
+                                        {% for team in teams %}
+                                            <div class="col-xs-6 col-sm-3 center">
+                                                <div class="panel-default">
+                                                    <div class="panel-body">
+                                                        <div class="col-xs-4">
+                                                            <img src="{% static 'binge/images/stock.png' %}"/>
+                                                        </div>
+                                                        <div class="col-xs-8">
+                                                            <br>
+                                                            <b>{{ team.name }}</b><br>
+                                                            {{ team.num_tournywin }} tournament
+                                                            wins, {{ team.num_matchwin }} match wins<br>
+                                                        </div>
+                                                        <!--<div class="col-xs-12"><label style="width:100%;text-align:center;background:#1dcb6a;color:#fff;padding:8px;">ELIGABLE</label></div>-->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+
+                                    </div>
+
+                                </div>
+
+                                <div class="tab-pane" id="4">
+                                    <div class="col-md-12">
+
+
+                                        {% include 'singletournaments/binge/singletournament_rules.html' with ruleset=ruleset %}
+                                    </div>
+                                </div>
+
+                                <div class="tab-pane" id="5">
+                                    <div class="col-md-12">
+
+                                        <div class="panel-title bold">JOIN A COMPETITION OR CREATE A Player</div>
+
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-6">
+                                                <br>
+                                                <div class="form-group">
+                                                    <label>Player Name</label>
+                                                    <input type="text" class="form-control" name="name" value="Player "><br>
+                                                    <label>Avatar</label>
+                                                    <input type="file" class="form-control" name="avi"><br>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 hidden-xs" style="min-height:260px;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
                 </div>
-               </div>
-              </div>
-              <div class="col-xs-6 col-sm-3 center">
-               <div class="panel-default">
-                <div class="panel-body">
-                  <h4><b>Registration Opens->Closes</b></h4>
-                  {{tournament.open_register}}->{{ tournament.close_register }}
-                </div>
-               </div>
-              </div>
-              <div class="col-xs-6 col-sm-3 center">
-               <div class="panel-default">
-                <div class="panel-body">
-                  <h4><b>Registration Fee</b></h4>
-                    {{ tournament.req_credits }} credits
-                </div>
-               </div>
-              </div>
-             </div>
-           {{ tournament.info|linebreaksbr }}
-
-
-
-           </div>
-
-			<!--<div class="tab-pane" id="2">
-            </div>-->
-
-             <div class="tab-pane" id="3">
-
-              <div class="row bot10">
-              {% if teams.count == 0 %}
-                  <p style="text-align: center">There are no teams in this tournament!</p>
-              {% endif %}
-                  {% for team in teams %}
-              <div class="col-xs-6 col-sm-3 center">
-               <div class="panel-default">
-                <div class="panel-body">
-                   <div class="col-xs-4">
-                   <img src="{% static 'binge/images/stock.png' %}"/>
-                   </div>
-                   <div class="col-xs-8">
-                    <br>
-                    <b>{{ team.name }}</b><br>
-                    {{ team.num_tournywin }} tournament wins, {{ team.num_matchwin }} match wins<br>
-                   </div>
-                   <!--<div class="col-xs-12"><label style="width:100%;text-align:center;background:#1dcb6a;color:#fff;padding:8px;">ELIGABLE</label></div>-->
-                </div>
-               </div>
-              </div>
-                  {% endfor %}
 
             </div>
 
-                </div>
-
-                 <div class="tab-pane" id="4">
-                 <div class="col-md-12">
-
-
-                     {% include 'singletournaments/binge/singletournament_rules.html' with ruleset=ruleset %}
-                  </div>
-                 </div>
-
-                 <div class="tab-pane" id="5">
-                 <div class="col-md-12">
-
-                   <div class="panel-title bold">JOIN A COMPETITION OR CREATE A Player</div>
-
-                   <div class="row">
-                   <div class="col-xs-12 col-sm-6">
-                   <br>
-                    <div class="form-group">
-            <label>Player Name</label>
-            <input type="text" class="form-control" name="name" value="Player "><br>
-            <label>Avatar</label>
-            <input type="file" class="form-control" name="avi"><br>
-             </div>
-             </div>
-             <div class="col-sm-6 hidden-xs" style="min-height:260px;"></div>
-             </div>
-                  </div>
-                 </div>
-
-				</div>
-
-            </div>
-
-</div>
-
-                 </div>
+        </div>
 
     </div>
-
-   </div>
-
-</div>
 
 
 

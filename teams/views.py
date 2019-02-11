@@ -61,7 +61,7 @@ def invite_view(request, num):
                     invite.expire = timezone.now()
                     invite.active = False
                     invite.save()
-                    messages.success(request, 'Accepted invite to '+str(invite.team.name))
+                    messages.success(request, 'Accepted invite to ' + str(invite.team.name))
                     return redirect('/teams/')
                 elif accepted == 'off':
                     invite = TeamInvite.objects.get(id=num)
@@ -69,7 +69,7 @@ def invite_view(request, num):
                     invite.expire = timezone.now()
                     invite.active = False
                     invite.save()
-                    messages.success(request, 'Declined invite to '+str(invite.team.name))
+                    messages.success(request, 'Declined invite to ' + str(invite.team.name))
                     return redirect('/teams/')
 
 
@@ -124,9 +124,11 @@ class MyTeamDetailView(DetailView):
                 messages.warning(request, "Xbox Live is not verified")
             if not user.psn_verified:
                 messages.warning(request, "PSN is not verified")
-            return render(request, 'teams/' + request.tenant + '/team.html', {'team': team, 'players': players, 'pk': pk, 'matches': matches})
+            return render(request, 'teams/' + request.tenant + '/team.html',
+                          {'team': team, 'players': players, 'pk': pk, 'matches': matches})
         else:
-            return render(request, 'teams/' + request.tenant + '/team.html', {'team': team, 'players': players, 'pk': pk, 'matches': matches})
+            return render(request, 'teams/' + request.tenant + '/team.html',
+                          {'team': team, 'players': players, 'pk': pk, 'matches': matches})
 
     def get_context_date(self, **kwargs):
         context = super(MyTeamDetailView, self).get_context_date(**kwargs)
@@ -157,6 +159,7 @@ class MyTeamDetailView(DetailView):
 
 class TeamCreateView(View):
     form_class = TeamCreateForm
+
     # template_name = 'teams/' + request.tenant + '/create-team.html'
 
     def get(self, request):
@@ -264,7 +267,8 @@ class LeaveTeamView(View):
                     messages.error(request, "You don't appear to be on this team")
                     return redirect('teams:detail', pk=pk)
         except:
-            messages.error(request, "You submitted without confirming that you wanted to leave, redirecting to team detail")
+            messages.error(request,
+                           "You submitted without confirming that you wanted to leave, redirecting to team detail")
             return redirect('teams:detail', pk=pk)
 
 

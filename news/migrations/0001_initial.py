@@ -7,7 +7,6 @@ import django.utils.timezone
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -40,9 +39,13 @@ class Migration(migrations.Migration):
                 ('publish', models.DateTimeField(blank=True, default=django.utils.timezone.now)),
                 ('created', models.DateTimeField(auto_now_add=True)),
                 ('updated', models.DateTimeField(auto_now=True)),
-                ('status', models.CharField(choices=[('draft', 'Draft'), ('scheduled', 'Scheduled'), ('published', 'Published'), ('private', 'Private')], default='draft', max_length=12)),
+                ('status', models.CharField(
+                    choices=[('draft', 'Draft'), ('scheduled', 'Scheduled'), ('published', 'Published'),
+                             ('private', 'Private')], default='draft', max_length=12)),
                 ('image', models.ImageField(blank=True, upload_to='news_images')),
-                ('author', models.ForeignKey(blank=True, on_delete=django.db.models.deletion.CASCADE, related_name='blog_posts', to=settings.AUTH_USER_MODEL)),
+                ('author',
+                 models.ForeignKey(blank=True, on_delete=django.db.models.deletion.CASCADE, related_name='blog_posts',
+                                   to=settings.AUTH_USER_MODEL)),
             ],
             options={
                 'ordering': ('-publish',),
@@ -51,6 +54,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='comment',
             name='post',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='comments', to='news.Post'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='comments',
+                                    to='news.Post'),
         ),
     ]

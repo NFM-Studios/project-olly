@@ -6,7 +6,6 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -37,8 +36,10 @@ class Migration(migrations.Migration):
                 ('num_matchwin', models.SmallIntegerField(default=0)),
                 ('num_tournywin', models.SmallIntegerField(default=0)),
                 ('numtournyloss', models.SmallIntegerField(default=0)),
-                ('captain', models.ManyToManyField(related_name='teamcaptain', through='teams.CaptainMembership', to=settings.AUTH_USER_MODEL)),
-                ('founder', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='founder', to=settings.AUTH_USER_MODEL)),
+                ('captain', models.ManyToManyField(related_name='teamcaptain', through='teams.CaptainMembership',
+                                                   to=settings.AUTH_USER_MODEL)),
+                ('founder', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='founder',
+                                              to=settings.AUTH_USER_MODEL)),
             ],
             options={
                 'verbose_name': 'Team',
@@ -51,14 +52,18 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('expire', models.DateTimeField()),
-                ('captain', models.CharField(choices=[('captain', 'Captain'), ('player', 'Player')], default='player', max_length=20)),
+                ('captain', models.CharField(choices=[('captain', 'Captain'), ('player', 'Player')], default='player',
+                                             max_length=20)),
                 ('accepted', models.BooleanField(default=False)),
                 ('declined', models.BooleanField(default=False)),
                 ('active', models.BooleanField(default=True)),
                 ('hasPerms', models.BooleanField(default=False)),
-                ('inviter', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='frominvite', to=settings.AUTH_USER_MODEL)),
-                ('team', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='invitedto', to='teams.Team')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='toinvite', to=settings.AUTH_USER_MODEL)),
+                ('inviter', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='frominvite',
+                                              to=settings.AUTH_USER_MODEL)),
+                ('team', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='invitedto',
+                                           to='teams.Team')),
+                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='toinvite',
+                                           to=settings.AUTH_USER_MODEL)),
             ],
         ),
         migrations.AddField(
@@ -74,6 +79,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='captainmembership',
             name='user',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='captainperson', to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='captainperson',
+                                    to=settings.AUTH_USER_MODEL),
         ),
     ]

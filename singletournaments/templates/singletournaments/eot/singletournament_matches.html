@@ -1,216 +1,230 @@
 {% extends "eot/base.html" %}
 {% load static %}
 
-  {% block head %}
-  <title>Matches - {{ SITE_NAME }}</title>
-  {% endblock %}
+{% block head %}
+    <title>Matches - {{ SITE_NAME }}</title>
+{% endblock %}
 
 <link rel="stylesheet" href="{% static "css/singletournament.css" %}">
 
 {% block body %}
 
     <h2>Round 1 Matches</h2>
-<table class="table table-hover">
-    <tr id="header">
-        <thead>
-        <th>Home Team</th>
-        <th>Away Team</th>
-        <th>Match ID</th>
-        </thead>
-    </tr>
-    {% for match1 in round1matches %}
-    <tbody>
-    <tr scope="">
-        <td><a href="{% url 'teams:detail' pk=match1.hometeam.id %}">{{ match1.hometeam }}</a></td>
-        <td><a href="{% url 'teams:detail' pk=match1.awayteam.id %}">{{ match1.awayteam }}</a></td>
-        <td><a href="{% url 'matches:detail' pk=match1.id %}">{{ match1.id }}</td></a>
-    </tr>
-    </tbody>
-    {% endfor %}
-    {% if round1matches.count == 0 %}
-    There are 0 matches in round1
-    {% endif %}
-</table>
-    <br />
-    <br />
+    <table class="table table-hover">
+        <tr id="header">
+            <thead>
+            <th>Home Team</th>
+            <th>Away Team</th>
+            <th>Match ID</th>
+            </thead>
+        </tr>
+        {% for match1 in round1matches %}
+            <tbody>
+            <tr scope="">
+                <td><a href="{% url 'teams:detail' pk=match1.hometeam.id %}">{{ match1.hometeam }}</a></td>
+                <td><a href="{% url 'teams:detail' pk=match1.awayteam.id %}">{{ match1.awayteam }}</a></td>
+                <td><a href="{% url 'matches:detail' pk=match1.id %}">{{ match1.id }}</td>
+                </a>
+            </tr>
+            </tbody>
+        {% endfor %}
+        {% if round1matches.count == 0 %}
+            There are 0 matches in round1
+        {% endif %}
+    </table>
+    <br/>
+    <br/>
 
     <div class="round2matches">
-    <h2>Round 2 Matches</h2>
-<table class="table table-hover">
-    <tr id="header">
-        <thead>
-        <th>Home Team</th>
-        <th>Away Team</th>
-        <th>Match ID</th>
-        </thead>
-    </tr>
-    {% if round2matches.count == 0 %}
-    There are 0 matches in round2
-    {% endif %}
-    {% for match2 in round2matches %}
-    <tbody>
-    <tr scope="">
-        <td><a href="{% url 'teams:detail' pk=match2.hometeam.id %}">{{ match2.hometeam }}</a></td>
-        <td><a href="{% url 'teams:detail' pk=match2.awayteam.id %}">{{ match2.awayteam }}</a></td>
-        <td><a href="{% url 'matches:detail' pk=match2.id %}">{{ match2.id }}</td></a>
-    </tr>
-    </tbody>
-    {% endfor %}
+        <h2>Round 2 Matches</h2>
+        <table class="table table-hover">
+            <tr id="header">
+                <thead>
+                <th>Home Team</th>
+                <th>Away Team</th>
+                <th>Match ID</th>
+                </thead>
+            </tr>
+            {% if round2matches.count == 0 %}
+                There are 0 matches in round2
+            {% endif %}
+            {% for match2 in round2matches %}
+                <tbody>
+                <tr scope="">
+                    <td><a href="{% url 'teams:detail' pk=match2.hometeam.id %}">{{ match2.hometeam }}</a></td>
+                    <td><a href="{% url 'teams:detail' pk=match2.awayteam.id %}">{{ match2.awayteam }}</a></td>
+                    <td><a href="{% url 'matches:detail' pk=match2.id %}">{{ match2.id }}</td>
+                    </a>
+                </tr>
+                </tbody>
+            {% endfor %}
 
 
-</table>
+        </table>
     </div>
 
-<br />
-<br />
+    <br/>
+    <br/>
 
     <div class="round3matches" style="{% if tournament.size == 4 %}display:none{% endif %}">
-    <h2>Round 3 Matches</h2>
-<table class="table table-hover" style="{% if tournament.size == 4 %}display:none{% endif %}">
-    <tr id="header">
-        <thead>
-        <th>Home Team</th>
-        <th>Away Team</th>
-        <th>Match ID</th>
-        </thead>
-    </tr>
-    {% if round2matches.count == 0 and tournament.size != 4 %}
-    There are 0 matches in round3
-    {% endif %}
-    {% for match3 in round3matches %}
-    <tbody>
-    <tr scope="">
-        <td><a href="{% url 'teams:detail' pk=match3.hometeam.id %}">{{ match3.hometeam }}</a></td>
-        <td><a href="{% url 'teams:detail' pk=match3.awayteam.id %}">{{ match3.awayteam }}</a></td>
-        <td><a href="{% url 'matches:detail' pk=match3.id %}">{{ match3.id }}</td></a>
-    </tr>
-    </tbody>
-    {% endfor %}
+        <h2>Round 3 Matches</h2>
+        <table class="table table-hover" style="{% if tournament.size == 4 %}display:none{% endif %}">
+            <tr id="header">
+                <thead>
+                <th>Home Team</th>
+                <th>Away Team</th>
+                <th>Match ID</th>
+                </thead>
+            </tr>
+            {% if round2matches.count == 0 and tournament.size != 4 %}
+                There are 0 matches in round3
+            {% endif %}
+            {% for match3 in round3matches %}
+                <tbody>
+                <tr scope="">
+                    <td><a href="{% url 'teams:detail' pk=match3.hometeam.id %}">{{ match3.hometeam }}</a></td>
+                    <td><a href="{% url 'teams:detail' pk=match3.awayteam.id %}">{{ match3.awayteam }}</a></td>
+                    <td><a href="{% url 'matches:detail' pk=match3.id %}">{{ match3.id }}</td>
+                    </a>
+                </tr>
+                </tbody>
+            {% endfor %}
 
 
-</table>
+        </table>
     </div>
 
 
-    <br />
-    <br />
+    <br/>
+    <br/>
 
     <div class="round4matches" style="{% if tournament.size == 4 or tournament.size == 8 %}display:none{% endif %}">
-    <h2>Round 4 Matches</h2>
-<table class="table table-hover" style="{% if tournament.size == 4 or tournament.size == 8 %}display:none{% endif %}">
-    <tr id="header">
-        <thead>
-        <th>Home Team</th>
-        <th>Away Team</th>
-        <th>Match ID</th>
-        </thead>
-    </tr>
-    {% if round4matches.count == 0 and tournament.size != 4 or tournament.size != 8 %}
-    There are 0 matches in round4
-    {% endif %}
-    {% for match4 in round4matches %}
-    <tbody>
-    <tr scope="">
-        <td><a href="{% url 'teams:detail' pk=match4.hometeam.id %}">{{ match4.hometeam }}</a></td>
-        <td><a href="{% url 'teams:detail' pk=match4.awayteam.id %}">{{ match4.awayteam }}</a></td>
-        <td><a href="{% url 'matches:detail' pk=match4.id %}">{{ match4.id }}</td></a>
-    </tr>
-    </tbody>
-    {% endfor %}
+        <h2>Round 4 Matches</h2>
+        <table class="table table-hover"
+               style="{% if tournament.size == 4 or tournament.size == 8 %}display:none{% endif %}">
+            <tr id="header">
+                <thead>
+                <th>Home Team</th>
+                <th>Away Team</th>
+                <th>Match ID</th>
+                </thead>
+            </tr>
+            {% if round4matches.count == 0 and tournament.size != 4 or tournament.size != 8 %}
+                There are 0 matches in round4
+            {% endif %}
+            {% for match4 in round4matches %}
+                <tbody>
+                <tr scope="">
+                    <td><a href="{% url 'teams:detail' pk=match4.hometeam.id %}">{{ match4.hometeam }}</a></td>
+                    <td><a href="{% url 'teams:detail' pk=match4.awayteam.id %}">{{ match4.awayteam }}</a></td>
+                    <td><a href="{% url 'matches:detail' pk=match4.id %}">{{ match4.id }}</td>
+                    </a>
+                </tr>
+                </tbody>
+            {% endfor %}
 
 
-</table>
+        </table>
     </div>
 
 
 
-    <br />
-    <br />
+    <br/>
+    <br/>
 
-    <div class="round5matches" style="{% if tournament.size == 4 or tournament.size == 8 or tournament.size == 16 %}display:none{% endif %}">
-    <h2>Round 5 Matches</h2>
-<table class="table table-hover" style="{% if tournament.size == 4 or tournament.size == 8 or tournament.size == 16 %}display:none{% endif %}">
-    <tr id="header">
-        <thead>
-        <th>Home Team</th>
-        <th>Away Team</th>
-        <th>Match ID</th>
-        </thead>
-    </tr>
-    {% if round5matches.count == 0 and tournament.size != 4 or tournament.size != 8  or  tournament.size != 16 %}
-    There are 0 matches in round5
-    {% endif %}
-    {% for match5 in round5matches %}
-    <tbody>
-    <tr scope="">
-        <td><a href="{% url 'teams:detail' pk=match5.hometeam.id %}">{{ match5.hometeam }}</a></td>
-        <td><a href="{% url 'teams:detail' pk=match5.awayteam.id %}">{{ match5.awayteam }}</a></td>
-        <td><a href="{% url 'matches:detail' pk=match5.id %}">{{ match5.id }}</td></a>
-    </tr>
-    </tbody>
-    {% endfor %}
-</table>
+    <div class="round5matches"
+         style="{% if tournament.size == 4 or tournament.size == 8 or tournament.size == 16 %}display:none{% endif %}">
+        <h2>Round 5 Matches</h2>
+        <table class="table table-hover"
+               style="{% if tournament.size == 4 or tournament.size == 8 or tournament.size == 16 %}display:none{% endif %}">
+            <tr id="header">
+                <thead>
+                <th>Home Team</th>
+                <th>Away Team</th>
+                <th>Match ID</th>
+                </thead>
+            </tr>
+            {% if round5matches.count == 0 and tournament.size != 4 or tournament.size != 8  or  tournament.size != 16 %}
+                There are 0 matches in round5
+            {% endif %}
+            {% for match5 in round5matches %}
+                <tbody>
+                <tr scope="">
+                    <td><a href="{% url 'teams:detail' pk=match5.hometeam.id %}">{{ match5.hometeam }}</a></td>
+                    <td><a href="{% url 'teams:detail' pk=match5.awayteam.id %}">{{ match5.awayteam }}</a></td>
+                    <td><a href="{% url 'matches:detail' pk=match5.id %}">{{ match5.id }}</td>
+                    </a>
+                </tr>
+                </tbody>
+            {% endfor %}
+        </table>
     </div>
 
 
-    <br />
-    <br />
+    <br/>
+    <br/>
 
-    <div class="round6matches" style="{% if tournament.size == 4 or tournament.size == 8 or tournament.size == 16 or tournament.size == 32 %}display:none{% endif %}">
-    <h2>Round 6 Matches</h2>
-<table class="table table-hover" style="{% if tournament.size == 4 or tournament.size == 8 or tournament.size == 16 or tournament.size == 32 %}display:none{% endif %}">
-    <tr id="header">
-        <thead>
-        <th>Home Team</th>
-        <th>Away Team</th>
-        <th>Match ID</th>
-        </thead>
-    </tr>
-    {% if round5matches.count == 0 and tournament.size != 4 or tournament.size != 8  or  tournament.size != 16 or tournament.size != 32 %}
-    There are 0 matches in round6
-    {% endif %}
-    {% for match6 in round6matches %}
-    <tbody>
-    <tr scope="">
-        <td><a href="{% url 'teams:detail' pk=match6.hometeam.id %}">{{ match6.hometeam }}</a></td>
-        <td><a href="{% url 'teams:detail' pk=match6.awayteam.id %}">{{ match6.awayteam }}</a></td>
-        <td><a href="{% url 'matches:detail' pk=match6.id %}">{{ match6.id }}</td></a>
-    </tr>
-    </tbody>
-    {% endfor %}
+    <div class="round6matches"
+         style="{% if tournament.size == 4 or tournament.size == 8 or tournament.size == 16 or tournament.size == 32 %}display:none{% endif %}">
+        <h2>Round 6 Matches</h2>
+        <table class="table table-hover"
+               style="{% if tournament.size == 4 or tournament.size == 8 or tournament.size == 16 or tournament.size == 32 %}display:none{% endif %}">
+            <tr id="header">
+                <thead>
+                <th>Home Team</th>
+                <th>Away Team</th>
+                <th>Match ID</th>
+                </thead>
+            </tr>
+            {% if round5matches.count == 0 and tournament.size != 4 or tournament.size != 8  or  tournament.size != 16 or tournament.size != 32 %}
+                There are 0 matches in round6
+            {% endif %}
+            {% for match6 in round6matches %}
+                <tbody>
+                <tr scope="">
+                    <td><a href="{% url 'teams:detail' pk=match6.hometeam.id %}">{{ match6.hometeam }}</a></td>
+                    <td><a href="{% url 'teams:detail' pk=match6.awayteam.id %}">{{ match6.awayteam }}</a></td>
+                    <td><a href="{% url 'matches:detail' pk=match6.id %}">{{ match6.id }}</td>
+                    </a>
+                </tr>
+                </tbody>
+            {% endfor %}
 
 
-</table>
+        </table>
     </div>
 
-    <br />
-    <br />
+    <br/>
+    <br/>
 
-    <div class="round7matches" style="{% if tournament.size == 4 or tournament.size == 8 or tournament.size == 16 or tournament.size == 32 or tournament.size == 64 %}display:none{% endif %}">
-    <h2>Round 7 Matches</h2>
-<table class="table table-hover" style="{% if tournament.size == 4 or tournament.size == 8 or tournament.size == 16 or tournament.size == 32 or tournament.size == 64 %}display:none{% endif %}">
-    <tr id="header">
-        <thead>
-        <th>Home Team</th>
-        <th>Away Team</th>
-        <th>Match ID</th>
-        </thead>
-    </tr>
-    {% if round5matches.count == 0 and tournament.size != 4 or tournament.size != 8  or  tournament.size != 16 or tournament.size != 32 or tournament.size != 64 %}
-    There are 0 matches in round7
-    {% endif %}
-    {% for match7 in round7matches %}
-    <tbody>
-    <tr scope="">
-        <td><a href="{% url 'teams:detail' pk=match7.hometeam.id %}">{{ match7.hometeam }}</a></td>
-        <td><a href="{% url 'teams:detail' pk=match7.awayteam.id %}">{{ match7.awayteam }}</a></td>
-        <td><a href="{% url 'matches:detail' pk=match7.id %}">{{ match7.id }}</td></a>
-    </tr>
-    </tbody>
-    {% endfor %}
+    <div class="round7matches"
+         style="{% if tournament.size == 4 or tournament.size == 8 or tournament.size == 16 or tournament.size == 32 or tournament.size == 64 %}display:none{% endif %}">
+        <h2>Round 7 Matches</h2>
+        <table class="table table-hover"
+               style="{% if tournament.size == 4 or tournament.size == 8 or tournament.size == 16 or tournament.size == 32 or tournament.size == 64 %}display:none{% endif %}">
+            <tr id="header">
+                <thead>
+                <th>Home Team</th>
+                <th>Away Team</th>
+                <th>Match ID</th>
+                </thead>
+            </tr>
+            {% if round5matches.count == 0 and tournament.size != 4 or tournament.size != 8  or  tournament.size != 16 or tournament.size != 32 or tournament.size != 64 %}
+                There are 0 matches in round7
+            {% endif %}
+            {% for match7 in round7matches %}
+                <tbody>
+                <tr scope="">
+                    <td><a href="{% url 'teams:detail' pk=match7.hometeam.id %}">{{ match7.hometeam }}</a></td>
+                    <td><a href="{% url 'teams:detail' pk=match7.awayteam.id %}">{{ match7.awayteam }}</a></td>
+                    <td><a href="{% url 'matches:detail' pk=match7.id %}">{{ match7.id }}</td>
+                    </a>
+                </tr>
+                </tbody>
+            {% endfor %}
 
 
-</table>
+        </table>
     </div>
 
 

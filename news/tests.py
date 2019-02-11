@@ -26,7 +26,7 @@ class PostTestCase1(TestCase):
         post1 = Post.objects.create(title='Test Title', slug='Test_Slug', body='Testing Body Field', status="published",
                                     author=self.user)
 
-        request = self.factory.get('/news/'+post1.slug)
+        request = self.factory.get('/news/' + post1.slug)
 
         request.tenant = 'eot'
 
@@ -39,7 +39,7 @@ class PostTestCase1(TestCase):
         post1 = Post.objects.create(title='Test Title2', slug='Test_Slug22', body='Testing Body Field',
                                     status="published", author=self.user)
 
-        request = self.factory.get('/news/'+post1.slug)
+        request = self.factory.get('/news/' + post1.slug)
 
         request.tenant = 'binge'
 
@@ -56,4 +56,3 @@ class PostTestCase1(TestCase):
         response = post_list(request)
 
         self.assertEqual(response.status_code, 200)
-

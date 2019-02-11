@@ -1,12 +1,13 @@
 {% load static %}
 
-  {% block head %}
-  <title>{{ tournament.name }} - {{ SITE_NAME }}</title>
-  {% endblock %}
+{% block head %}
+    <title>{{ tournament.name }} - {{ SITE_NAME }}</title>
+{% endblock %}
 
 {% block body %}
 
-The bracket for {{ tournament.name }}, is not generated yet. Please come back and visit this page later to view the bracket
+    The bracket for {{ tournament.name }}, is not generated yet. Please come back and visit this page later to view the
+    bracket
 
-<br>
+    <br>
 {% endblock %}

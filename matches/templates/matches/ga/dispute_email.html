@@ -1,11 +1,12 @@
 {% autoescape off %}
-Hi {{ user }},
+    Hi {{ user }},
 
-A match you played in on {{ site }} has been disputed, please provide proof of the result as soon as possible.
+    A match you played in on {{ site }} has been disputed, please provide proof of the result as soon as possible.
 
-http://{{ domain }}{% url 'matches:dispute' pk=pk %}
+    http://{{ domain }}{% url 'matches:dispute' pk=pk %}
 
-Note: if the link does not work when you click on it, please copy and paste it into your browser
+    Note: if the link does not work when you click on it, please copy and paste it into your browser
 
-To opt-out of these email notifications go to http://{{ domain }}{% url 'profiles:edit_profile' %} and uncheck the box for "Enable email notifications"
+    To opt-out of these email notifications go to http://{{ domain }}{% url 'profiles:edit_profile' %} and uncheck the
+    box for "Enable email notifications"
 {% endautoescape %}

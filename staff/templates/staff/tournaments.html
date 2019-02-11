@@ -3,63 +3,64 @@
 <link rel="stylesheet" href="{% static "css/staff.css" %}">
 
 {% block title %}
-All Tournaments
+    All Tournaments
 {% endblock %}
 
 {% block body %}
     <div style="overflow-x:auto;">
-    <h2 style="color:red">Always lower the size of a tournament to the lowest possible amount - BEFORE launching
-    <br />
-    This will prevent the system from making a lot of extra byes.</h2>
+        <h2 style="color:red">Always lower the size of a tournament to the lowest possible amount - BEFORE launching
+            <br/>
+            This will prevent the system from making a lot of extra byes.</h2>
         <h2><a href="{% url 'staff:tournamentrulesetcreate' %}">Create a ruleset</a></h2>
-<table class="table table-hover">
-    <tr id="header">
-        <thead>
-        <th scope="row">ID</th>
-        <th>Tournament Name</th>
-        <th>Platform</th>
-        <th>Game</th>
-        <th>Start Date/Time</th>
-        <th>Registration Open</th>
-        <th>Required Credits</th>
-        <th>Active</th>
-        <th>Size</th>
-        </thead>
-    </tr>
-    {% for tournament in tournament_list %}
-    <tbody>
-    <tr scope="">
-        <td scope="row"><a href="{% url 'staff:tournament_detail' pk=tournament.id %}">#{{tournament.id}}</a></td>
-        <td>{{tournament.name}}</td>
+        <table class="table table-hover">
+            <tr id="header">
+                <thead>
+                <th scope="row">ID</th>
+                <th>Tournament Name</th>
+                <th>Platform</th>
+                <th>Game</th>
+                <th>Start Date/Time</th>
+                <th>Registration Open</th>
+                <th>Required Credits</th>
+                <th>Active</th>
+                <th>Size</th>
+                </thead>
+            </tr>
+            {% for tournament in tournament_list %}
+                <tbody>
+                <tr scope="">
+                    <td scope="row"><a
+                            href="{% url 'staff:tournament_detail' pk=tournament.id %}">#{{ tournament.id }}</a></td>
+                    <td>{{ tournament.name }}</td>
 
-        <td>{{ tournament.platform.name }}</td>
+                    <td>{{ tournament.platform.name }}</td>
 
-        <td>{{ tournament.game.name }}</td>
+                    <td>{{ tournament.game.name }}</td>
 
-        <td>{{tournament.start}}</td>
-        <td>{{tournament.open_register}}</td>
-        <td>{{tournament.req_credits}}</td>
+                    <td>{{ tournament.start }}</td>
+                    <td>{{ tournament.open_register }}</td>
+                    <td>{{ tournament.req_credits }}</td>
 
-        {% if tournament.active %}
-        <td>Yes</td>
-        {% elif not tournament.active %}
-        <td>No</td>
-        {% endif %}
+                    {% if tournament.active %}
+                        <td>Yes</td>
+                    {% elif not tournament.active %}
+                        <td>No</td>
+                    {% endif %}
 
-        <td>{{tournament.size}}</td>
+                    <td>{{ tournament.size }}</td>
 
 
-    </tr>
-    </tbody>
-    {% endfor %}
-</table>
+                </tr>
+                </tbody>
+            {% endfor %}
+        </table>
 
-    <div id="new-tournament">
-    <h2 id="" style="text-decoration: none; margin:8px">
-        <a style="text-decoration:none; color:black;" href="{% url 'staff:create_tournament' %}">
-            <i class="fa fa-plus"></i>  Create a new tournament
-        </a>
-    </h2>
-</div>
+        <div id="new-tournament">
+            <h2 id="" style="text-decoration: none; margin:8px">
+                <a style="text-decoration:none; color:black;" href="{% url 'staff:create_tournament' %}">
+                    <i class="fa fa-plus"></i> Create a new tournament
+                </a>
+            </h2>
+        </div>
     </div>
 {% endblock %}

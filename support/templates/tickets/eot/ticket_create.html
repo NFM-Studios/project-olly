@@ -1,42 +1,43 @@
 {% extends "eot/base.html" %}
 {% load static %}
 
-  {% block head %}
-  <title>Create a Ticket - {{ SITE_NAME }}</title>
-  {% endblock %}
+{% block head %}
+    <title>Create a Ticket - {{ SITE_NAME }}</title>
+{% endblock %}
 
 {% block body %}
     <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 col-md-offset-2 col-lg-offset-2 wrap">
 
-           <div class="panel">
-              <div class="panel-body">
+        <div class="panel">
+            <div class="panel-body">
 
 
+                <div class="panel-title">Create a Ticket</div>
+                <form role="form" id="create-ticket" enctype="multipart/form-data" action="{% url 'support:create' %}"
+                      method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="_token"
+                           value="68051ad88f7d063ca4728751fc29fee78fb5b26f9b93c5fcb21a8d14e56c8e88">
+                    <div class="form-group">
+                        <label for="text" style="font-size:14px;">Subject</label>
+                        <br/>
+                        {{ form.category }}
+                    </div>
 
-              <div class="panel-title">Create a Ticket</div>
-                           <form role="form" id="create-ticket" enctype="multipart/form-data" action="{% url 'support:create' %}" method="POST">
-                        {% csrf_token %}
-<input type="hidden" name="_token" value="68051ad88f7d063ca4728751fc29fee78fb5b26f9b93c5fcb21a8d14e56c8e88">
-                     <div class="form-group">
-                       <label for="text" style="font-size:14px;">Subject</label>
-                         <br />
-                       {{ form.category }}
-                     </div>
+                    <div class="form-group">
+                        <label for="text" style="font-size:14px;">Issue</label>
+                        <br/>
+                        {{ form.text }}
+                    </div>
 
-                     <div class="form-group">
-                       <label for="text" style="font-size:14px;">Issue</label>
-                         <br />
-                           {{ form.text }}
-                     </div>
-
-                         <div style="float:right;">
-                           <input type="submit" value="Create Ticket" name="create-ticket" class="btn btn-success">
-                           </div>
+                    <div style="float:right;">
+                        <input type="submit" value="Create Ticket" name="create-ticket" class="btn btn-success">
+                    </div>
 
 
-                       </form>
+                </form>
 
-              </div>
-           </div>
+            </div>
+        </div>
     </div>
 {% endblock %}
