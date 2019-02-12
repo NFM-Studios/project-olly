@@ -72,7 +72,7 @@ def searchusers(request):
         if query:
             return render(request, 'staff/users.html',
                           {'userprofiles': UserProfile.objects.filter
-                          (Q(user__username__icontains=query) | Q(user__email__icontains=query)),
+                           (Q(user__username__icontains=query) | Q(user__email__icontains=query)),
                            'bannedusers': list(BannedUser.objects.all())})
         else:
             return redirect('staff:users')
