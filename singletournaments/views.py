@@ -282,115 +282,115 @@ class SingleTournamentRules(View):
                       {'pk': pk, 'ruleset': ruleset})
 
 
-class SingleTournamentMatchList(View):
-
-    def get(self, request, **kwargs):
-        pk = self.kwargs['pk']
-        tournament = SingleEliminationTournament.objects.get(id=pk)
-        if tournament.size == 4:
-            # get only 2 round objects, and the matches inside them.
-            round1 = SingleTournamentRound.objects.get(roundnum=1, tournament=tournament)
-            round2 = SingleTournamentRound.objects.get(roundnum=2, tournament=tournament)
-            round1matches = round1.matches.all().order_by('id')
-            round2matches = round2.matches.all().order_by('id')
-
-            return render(request, 'singletournaments/' + request.tenant + '/singletournament_matches.html',
-                          {'x': pk, 'tournament': tournament,
-                           'round1matches': round1matches, 'round2matches': round2matches})
-
-        elif tournament.size == 8:
-            round1 = SingleTournamentRound.objects.get(roundnum=1, tournament=tournament)
-            round2 = SingleTournamentRound.objects.get(roundnum=2, tournament=tournament)
-            round3 = SingleTournamentRound.objects.get(roundnum=3, tournament=tournament)
-            round1matches = round1.matches.all().order_by('id')
-            round2matches = round2.matches.all().order_by('id')
-            round3matches = round3.matches.all().order_by('id')
-            return render(request, 'singletournaments/' + request.tenant + '/singletournament_matches.html',
-                          {'x': pk, 'tournament': tournament,
-                           'round1matches': round1matches, 'round2matches': round2matches,
-                           'round3matches': round3matches})
-
-            # get 3 rounds
-        elif tournament.size == 16:
-            round1 = SingleTournamentRound.objects.get(roundnum=1, tournament=tournament)
-            round2 = SingleTournamentRound.objects.get(roundnum=2, tournament=tournament)
-            round3 = SingleTournamentRound.objects.get(roundnum=3, tournament=tournament)
-            round4 = SingleTournamentRound.objects.get(roundnum=4, tournament=tournament)
-
-            round1matches = round1.matches.all().order_by('id')
-            round2matches = round2.matches.all().order_by('id')
-            round3matches = round3.matches.all().order_by('id')
-            round4matches = round4.matches.all().order_by('id')
-
-            return render(request, 'singletournaments/' + request.tenant + '/singletournament_matches.html',
-                          {'x': pk, 'tournament': tournament,
-                           'round1matches': round1matches, 'round2matches': round2matches,
-                           'round3matches': round3matches, 'round4matches': round4matches})
-            # get 4 rounds
-        elif tournament.size == 32:
-            round1 = SingleTournamentRound.objects.get(roundnum=1, tournament=tournament)
-            round2 = SingleTournamentRound.objects.get(roundnum=2, tournament=tournament)
-            round3 = SingleTournamentRound.objects.get(roundnum=3, tournament=tournament)
-            round4 = SingleTournamentRound.objects.get(roundnum=4, tournament=tournament)
-            round5 = SingleTournamentRound.objects.get(roundnum=5, tournament=tournament)
-
-            round1matches = round1.matches.all().order_by('id')
-            round2matches = round2.matches.all().order_by('id')
-            round3matches = round3.matches.all().order_by('id')
-            round4matches = round4.matches.all().order_by('id')
-            round5matches = round5.matches.all().order_by('id')
-
-            return render(request, 'singletournaments/' + request.tenant + '/singletournament_matches.html',
-                          {'x': pk, 'tournament': tournament,
-                           'round1matches': round1matches, 'round2matches': round2matches,
-                           'round3matches': round3matches, 'round4matches': round4matches,
-                           'round5matches': round5matches})
-            # get 5 rounds
-        elif tournament.size == 64:
-            round1 = SingleTournamentRound.objects.get(roundnum=1, tournament=tournament)
-            round2 = SingleTournamentRound.objects.get(roundnum=2, tournament=tournament)
-            round3 = SingleTournamentRound.objects.get(roundnum=3, tournament=tournament)
-            round4 = SingleTournamentRound.objects.get(roundnum=4, tournament=tournament)
-            round5 = SingleTournamentRound.objects.get(roundnum=5, tournament=tournament)
-            round6 = SingleTournamentRound.objects.get(roundnum=6, tournament=tournament)
-
-            round1matches = round1.matches.all().order_by('id')
-            round2matches = round2.matches.all().order_by('id')
-            round3matches = round3.matches.all().order_by('id')
-            round4matches = round4.matches.all().order_by('id')
-            round5matches = round5.matches.all().order_by('id')
-            round6matches = round6.matches.all().order_by('id')
-
-            return render(request, 'singletournaments/' + request.tenant + '/singletournament_matches.html',
-                          {'x': pk, 'tournament': tournament,
-                           'round1matches': round1matches, 'round2matches': round2matches,
-                           'round3matches': round3matches, 'round4matches': round4matches,
-                           'round5matches': round5matches, 'round6matches': round6matches})
-            # get 6 rounds
-        elif tournament.size == 128:
-            round1 = SingleTournamentRound.objects.get(roundnum=1, tournament=tournament)
-            round2 = SingleTournamentRound.objects.get(roundnum=2, tournament=tournament)
-            round3 = SingleTournamentRound.objects.get(roundnum=3, tournament=tournament)
-            round4 = SingleTournamentRound.objects.get(roundnum=4, tournament=tournament)
-            round5 = SingleTournamentRound.objects.get(roundnum=5, tournament=tournament)
-            round6 = SingleTournamentRound.objects.get(roundnum=6, tournament=tournament)
-            round7 = SingleTournamentRound.objects.get(roundnum=7, tournament=tournament)
-
-            round1matches = round1.matches.all().order_by('id')
-            round2matches = round2.matches.all().order_by('id')
-            round3matches = round3.matches.all().order_by('id')
-            round4matches = round4.matches.all().order_by('id')
-            round5matches = round5.matches.all().order_by('id')
-            round6matches = round6.matches.all().order_by('id')
-            round7matches = round7.matches.all().order_by('id')
-
-            return render(request, 'singletournaments/' + request.tenant + '/singletournament_matches.html',
-                          {'x': pk, 'tournament': tournament,
-                           'round1matches': round1matches, 'round2matches': round2matches,
-                           'round3matches': round3matches, 'round4matches': round4matches,
-                           'round5matches': round5matches, 'round6matches': round6matches,
-                           'round7matches': round7matches})
-            #  get 7 rounds
+# class SingleTournamentMatchList(View):
+#
+#     def get(self, request, **kwargs):
+#         pk = self.kwargs['pk']
+#         tournament = SingleEliminationTournament.objects.get(id=pk)
+#         if tournament.size == 4:
+#             # get only 2 round objects, and the matches inside them.
+#             round1 = SingleTournamentRound.objects.get(roundnum=1, tournament=tournament)
+#             round2 = SingleTournamentRound.objects.get(roundnum=2, tournament=tournament)
+#             round1matches = round1.matches.all().order_by('id')
+#             round2matches = round2.matches.all().order_by('id')
+#
+#             return render(request, 'singletournaments/' + request.tenant + '/singletournament_matches.html',
+#                           {'x': pk, 'tournament': tournament,
+#                            'round1matches': round1matches, 'round2matches': round2matches})
+#
+#         elif tournament.size == 8:
+#             round1 = SingleTournamentRound.objects.get(roundnum=1, tournament=tournament)
+#             round2 = SingleTournamentRound.objects.get(roundnum=2, tournament=tournament)
+#             round3 = SingleTournamentRound.objects.get(roundnum=3, tournament=tournament)
+#             round1matches = round1.matches.all().order_by('id')
+#             round2matches = round2.matches.all().order_by('id')
+#             round3matches = round3.matches.all().order_by('id')
+#             return render(request, 'singletournaments/' + request.tenant + '/singletournament_matches.html',
+#                           {'x': pk, 'tournament': tournament,
+#                            'round1matches': round1matches, 'round2matches': round2matches,
+#                            'round3matches': round3matches})
+#
+#             # get 3 rounds
+#         elif tournament.size == 16:
+#             round1 = SingleTournamentRound.objects.get(roundnum=1, tournament=tournament)
+#             round2 = SingleTournamentRound.objects.get(roundnum=2, tournament=tournament)
+#             round3 = SingleTournamentRound.objects.get(roundnum=3, tournament=tournament)
+#             round4 = SingleTournamentRound.objects.get(roundnum=4, tournament=tournament)
+#
+#             round1matches = round1.matches.all().order_by('id')
+#             round2matches = round2.matches.all().order_by('id')
+#             round3matches = round3.matches.all().order_by('id')
+#             round4matches = round4.matches.all().order_by('id')
+#
+#             return render(request, 'singletournaments/' + request.tenant + '/singletournament_matches.html',
+#                           {'x': pk, 'tournament': tournament,
+#                            'round1matches': round1matches, 'round2matches': round2matches,
+#                            'round3matches': round3matches, 'round4matches': round4matches})
+#             # get 4 rounds
+#         elif tournament.size == 32:
+#             round1 = SingleTournamentRound.objects.get(roundnum=1, tournament=tournament)
+#             round2 = SingleTournamentRound.objects.get(roundnum=2, tournament=tournament)
+#             round3 = SingleTournamentRound.objects.get(roundnum=3, tournament=tournament)
+#             round4 = SingleTournamentRound.objects.get(roundnum=4, tournament=tournament)
+#             round5 = SingleTournamentRound.objects.get(roundnum=5, tournament=tournament)
+#
+#             round1matches = round1.matches.all().order_by('id')
+#             round2matches = round2.matches.all().order_by('id')
+#             round3matches = round3.matches.all().order_by('id')
+#             round4matches = round4.matches.all().order_by('id')
+#             round5matches = round5.matches.all().order_by('id')
+#
+#             return render(request, 'singletournaments/' + request.tenant + '/singletournament_matches.html',
+#                           {'x': pk, 'tournament': tournament,
+#                            'round1matches': round1matches, 'round2matches': round2matches,
+#                            'round3matches': round3matches, 'round4matches': round4matches,
+#                            'round5matches': round5matches})
+#             # get 5 rounds
+#         elif tournament.size == 64:
+#             round1 = SingleTournamentRound.objects.get(roundnum=1, tournament=tournament)
+#             round2 = SingleTournamentRound.objects.get(roundnum=2, tournament=tournament)
+#             round3 = SingleTournamentRound.objects.get(roundnum=3, tournament=tournament)
+#             round4 = SingleTournamentRound.objects.get(roundnum=4, tournament=tournament)
+#             round5 = SingleTournamentRound.objects.get(roundnum=5, tournament=tournament)
+#             round6 = SingleTournamentRound.objects.get(roundnum=6, tournament=tournament)
+#
+#             round1matches = round1.matches.all().order_by('id')
+#             round2matches = round2.matches.all().order_by('id')
+#             round3matches = round3.matches.all().order_by('id')
+#             round4matches = round4.matches.all().order_by('id')
+#             round5matches = round5.matches.all().order_by('id')
+#             round6matches = round6.matches.all().order_by('id')
+#
+#             return render(request, 'singletournaments/' + request.tenant + '/singletournament_matches.html',
+#                           {'x': pk, 'tournament': tournament,
+#                            'round1matches': round1matches, 'round2matches': round2matches,
+#                            'round3matches': round3matches, 'round4matches': round4matches,
+#                            'round5matches': round5matches, 'round6matches': round6matches})
+#             # get 6 rounds
+#         elif tournament.size == 128:
+#             round1 = SingleTournamentRound.objects.get(roundnum=1, tournament=tournament)
+#             round2 = SingleTournamentRound.objects.get(roundnum=2, tournament=tournament)
+#             round3 = SingleTournamentRound.objects.get(roundnum=3, tournament=tournament)
+#             round4 = SingleTournamentRound.objects.get(roundnum=4, tournament=tournament)
+#             round5 = SingleTournamentRound.objects.get(roundnum=5, tournament=tournament)
+#             round6 = SingleTournamentRound.objects.get(roundnum=6, tournament=tournament)
+#             round7 = SingleTournamentRound.objects.get(roundnum=7, tournament=tournament)
+#
+#             round1matches = round1.matches.all().order_by('id')
+#             round2matches = round2.matches.all().order_by('id')
+#             round3matches = round3.matches.all().order_by('id')
+#             round4matches = round4.matches.all().order_by('id')
+#             round5matches = round5.matches.all().order_by('id')
+#             round6matches = round6.matches.all().order_by('id')
+#             round7matches = round7.matches.all().order_by('id')
+#
+#             return render(request, 'singletournaments/' + request.tenant + '/singletournament_matches.html',
+#                           {'x': pk, 'tournament': tournament,
+#                            'round1matches': round1matches, 'round2matches': round2matches,
+#                            'round3matches': round3matches, 'round4matches': round4matches,
+#                            'round5matches': round5matches, 'round6matches': round6matches,
+#                            'round7matches': round7matches})
+#            #  get 7 rounds
 
 
 class SingleTournamentBracket(View):
