@@ -262,8 +262,8 @@ def searchusers(request):
     if query:
         return render(request, 'profiles/' + request.tenant + '/users.html',
                       {'userprofiles': UserProfile.objects.filter
-                      (Q(user__username__icontains=query) | Q(user__email__icontains=query) |
-                       Q(psn__icontains=query) | Q(xbl__icontains=query))})
+                       (Q(user__username__icontains=query) | Q(user__email__icontains=query) |
+                        Q(psn__icontains=query) | Q(xbl__icontains=query))})
     else:
         return redirect('profiles:users')
 
