@@ -1,33 +1,34 @@
 {% extends "ot/base.html" %}
 {% load static %}
-  {% block head %}
-  <title>News - {{ SITE_NAME }}</title>
-  {% endblock %}
+{% block head %}
+    <title>News - {{ SITE_NAME }}</title>
+{% endblock %}
 
 {% block body %}
 
 
 
-<div class="container min-width page1">
- <div class="space90"></div>
-{% if posts.count == 0 %}
-No posts yet
-{% endif %}
-{% for post in posts %}
- <div class="col-xs-12 col-sm-6 col-md-4">
-  <div class="panel panel-default">
-   <div class="panel-body">
-      <img src="{% static 'ot/images/slider1.jpg' %}"><br>
-       <h4><b>{{ post.title }}</b></h4>
-       <h4><b>Author: {{ post.author }}</b> <br /><b>Published: {{ post.publish }}</b></h4>
-       <p>{{ post.body|truncatewords:30|linebreaks }} </p>
-       <a class="btn btn-primary btn-xs" href="{% url 'news:post_detail' slug=post.slug %}">READ MORE	</a>
-   </div>
-  </div>
- </div>
-{% endfor %}
-    {% include "pagination.html" with page=posts %}
+    <div class="container min-width page1">
+        <div class="space90"></div>
+        {% if posts.count == 0 %}
+            No posts yet
+        {% endif %}
+        {% for post in posts %}
+            <div class="col-xs-12 col-sm-6 col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <img src="{% static 'ot/images/slider1.jpg' %}"><br>
+                        <h4><b>{{ post.title }}</b></h4>
+                        <h4><b>Author: {{ post.author }}</b> <br/><b>Published: {{ post.publish }}</b></h4>
+                        <p>{{ post.body|truncatewords:30|linebreaks }} </p>
+                        <a class="btn btn-primary btn-xs" href="{% url 'news:post_detail' slug=post.slug %}">READ
+                            MORE </a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        {% include "pagination.html" with page=posts %}
 
 
-</div>
+    </div>
 {% endblock %}

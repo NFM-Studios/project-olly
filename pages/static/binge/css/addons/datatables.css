@@ -18,11 +18,11 @@ table.dataTable thead {
     cursor: pointer;
 }
 
-table.dataTable thead>tr>th:active {
+table.dataTable thead > tr > th:active {
     outline: none;
 }
 
-table.dataTable thead>tr>td:active {
+table.dataTable thead > tr > td:active {
     outline: none;
 }
 
@@ -109,11 +109,11 @@ table.dataTable thead {
     cursor: pointer;
 }
 
-table.dataTable thead>tr>th:active {
+table.dataTable thead > tr > th:active {
     outline: none;
 }
 
-table.dataTable thead>tr>td:active {
+table.dataTable thead > tr > td:active {
     outline: none;
 }
 

@@ -5,7 +5,6 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('singletournaments', '0011_auto_20190112_1515'),
     ]

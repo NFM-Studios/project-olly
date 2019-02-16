@@ -1,54 +1,58 @@
 {% extends 'ga/base.html' %}
 {% load static %}
-  {% block head %}
-  <title>My Invites - {{ SITE_NAME }}</title>
-  {% endblock %}
+{% block head %}
+    <title>My Invites - {{ SITE_NAME }}</title>
+{% endblock %}
 
 {% block body %}
 
 
 
     <div class="container page">
-<div class="col-xs-12">
-           <div class="panel">
-              <div class="panel-body">
+        <div class="col-xs-12">
+            <div class="panel">
+                <div class="panel-body">
 
 
+                    <div class="row">
 
-                <div class="row">
+                        {% if teaminvite_list.count == 0 %}
+                            You have 0 invites
+                        {% endif %}
+                        {% for invite in teaminvite_list %}
+                            <div class="col-xs-12 bot20">
+                                <div class="panel-title bold">Team Invites</div>
+                                <div>
+                                    <h5 style="float:left;">You have been invited by <a
+                                            href="{% url 'profiles:profile' urlusername=invite.inviter %}"><span
+                                            class="highlight">{{ invite.inviter }}</span></a> to join <a
+                                            href="{% url 'teams:detail' pk=invite.team_id %}">{{ invite.team }}</a>
+                                        {% if invite.captain %} as captain {% endif %}</h5>
+                                    <a href="/teams/invites/{{ invite.id }}/"><input type="submit" value="Decline"
+                                                                                     class="btn btn-danger btn-xs"
+                                                                                     name="decline-LEAGUE-invite"
+                                                                                     style="float:right;margin-top:14px;margin-right:13px;"></a>
+                                    <a href="/teams/invites/{{ invite.id }}/"><input type="submit" value="Accept"
+                                                                                     class="btn btn-success btn-xs"
+                                                                                     name="accept-LEAGUE-invite"
+                                                                                     style="float:right;margin-top:14px;margin-right:13px;"></a>
+                                    <div style="clear:both;"></div>
+                                </div>
+                                <br><br>
+                            </div>
+                        {% endfor %}
 
-                {% if teaminvite_list.count == 0 %}
-                You have 0 invites
-                {% endif %}
-                    {% for invite in teaminvite_list %}
-                    <div class="col-xs-12 bot20">
-    					<div class="panel-title bold">Team Invites</div>
-                           <div>
-                               <h5 style="float:left;">You have been invited by <a href="{% url 'profiles:profile' urlusername=invite.inviter %}"><span class="highlight">{{ invite.inviter }}</span></a> to join <a href="{% url 'teams:detail' pk=invite.team_id %}">{{ invite.team }}</a> {% if invite.captain %} as captain {% endif %}</h5>
-                               <a href="/teams/invites/{{ invite.id }}/"><input type="submit"  value="Decline" class="btn btn-danger btn-xs" name="decline-LEAGUE-invite" style="float:right;margin-top:14px;margin-right:13px;"></a>
-                               <a href="/teams/invites/{{ invite.id }}/"><input type="submit"  value="Accept" class="btn btn-success btn-xs" name="accept-LEAGUE-invite" style="float:right;margin-top:14px;margin-right:13px;"></a>
-           <div style="clear:both;"></div>
-                         </div>
-                         <br><br>
+                        <div class="col-xs-12 bot20">
+
                         </div>
-                    {% endfor %}
 
-                    <div class="col-xs-12 bot20">
-
-             </div>
-
-   </div>
- </div>
-</div>
-</div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
-
-
-
-
-
-</div>
+    </div>
 
 
 

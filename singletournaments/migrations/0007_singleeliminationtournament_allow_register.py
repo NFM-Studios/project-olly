@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('singletournaments', '0006_auto_20181018_2054'),
     ]

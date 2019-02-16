@@ -61,7 +61,7 @@ def tenant_middleware(get_response):
         elif domain == 'playot' or subdomain == 'online':
             request.tenant = 'ot'
             request.package = 'bobcat'
-        
+
         elif domain == 'worldleagueofgaming' or subdomain == 'wlg':
             request.tenant = 'wlg'
             request.package = 'bobcat'
@@ -69,7 +69,7 @@ def tenant_middleware(get_response):
         elif domain == 'cashoutgaming' or subdomain == 'cashout':
             request.tenant = 'cashout'
             request.package = 'bobcat'
-            
+
         else:
             request.tenant = 'stock'
             request.package = 'leopard'

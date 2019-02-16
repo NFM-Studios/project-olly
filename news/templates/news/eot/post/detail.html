@@ -1,35 +1,35 @@
 {% extends "eot/base.html" %}
 {% load static %}
-  {% block head %}
-  <title>{{ post.title }} - {{ SITE_NAME }}</title>
-  {% endblock %}
+{% block head %}
+    <title>{{ post.title }} - {{ SITE_NAME }}</title>
+{% endblock %}
 
 {% block body %}
     <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 col-md-offset-2 col-lg-offset-2 wrap">
 
-    <div class="panel">
-      <div class="panel-body">
-      <div class="panel-title"><b>{{ post.title }}</b></div>
+        <div class="panel">
+            <div class="panel-body">
+                <div class="panel-title"><b>{{ post.title }}</b></div>
 
-      <h5>Published {{ post.publish }} by {{ post.author }}</h5><br>
-      <img src="{% static 'eot/images/big-banner.jpg' %}"/>
+                <h5>Published {{ post.publish }} by {{ post.author }}</h5><br>
+                <img src="{% static 'eot/images/big-banner.jpg' %}"/>
 
-     <div class="panel-default">
-      <div class="panel-body">
+                <div class="panel-default">
+                    <div class="panel-body">
 
-        <p>{{ post.body|linebreaks }}</p>
+                        <p>{{ post.body|linebreaks }}</p>
 
-          <br />
-          <p><a href="{% url "news:post_share" post.id %}">Share this post</a></p>
+                        <br/>
+                        <p><a href="{% url "news:post_share" post.id %}">Share this post</a></p>
 
-      </div>
-     </div>
+                    </div>
+                </div>
 
 
-      </div>
-     </div>
+            </div>
+        </div>
 
-</div>
+    </div>
 
 
 

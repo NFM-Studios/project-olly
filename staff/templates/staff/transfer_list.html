@@ -3,34 +3,35 @@
 <link rel="stylesheet" href="{% static "css/staff.css" %}">
 
 {% block title %}
-Transfer List
+    Transfer List
 {% endblock %}
 
 {% block body %}
 
-<form id="searchform" action="{% url 'staff:transfer_list' %}" method="get" accept-charset="utf-8">
-      <button class="searchbutton" type="submit">
-        <i class="fa fa-search"></i>
-      </button>
-      <input class="searchfield" id="searchbox" name="q" type="text" placeholder="Search">
-</form>
+    <form id="searchform" action="{% url 'staff:transfer_list' %}" method="get" accept-charset="utf-8">
+        <button class="searchbutton" type="submit">
+            <i class="fa fa-search"></i>
+        </button>
+        <input class="searchfield" id="searchbox" name="q" type="text" placeholder="Search">
+    </form>
 
-<div style="overflow-x:auto;">
-<p><a href="{% url 'staff:store' %}"><i class="fa fa-arrow-left"></i> <strong>Back to store index</strong></a></p>
+    <div style="overflow-x:auto;">
+        <p><a href="{% url 'staff:store' %}"><i class="fa fa-arrow-left"></i> <strong>Back to store index</strong></a>
+        </p>
 
-<table class="table table-dark">
-<th>Date</th>
-<th>Credits</th>
-<th>Origin</th>
-<th>Destination</th>
-{% for transfer in transfer_list %}
-<tr>
-<td>{{ transfer.date }}</td>
-<td>{{ transfer.credits }}</td>
-<td>{{ transfer.origin }}</td>
-<td>{{ transfer.destination }}</td>
-</tr>
-{% endfor %}
-</table>
-</div>
+        <table class="table table-dark">
+            <th>Date</th>
+            <th>Credits</th>
+            <th>Origin</th>
+            <th>Destination</th>
+            {% for transfer in transfer_list %}
+                <tr>
+                    <td>{{ transfer.date }}</td>
+                    <td>{{ transfer.credits }}</td>
+                    <td>{{ transfer.origin }}</td>
+                    <td>{{ transfer.destination }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
 {% endblock %}

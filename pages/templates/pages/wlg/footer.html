@@ -1,47 +1,50 @@
-
 {% load static %}
+<!--suppress Annotator, Annotator -->
 <section class="footer">
-    
-  <div class="container">
-   <div class="row gutter-10">
-   <div class="panel-title">WLG LINKS</div>
-    <div class="col-xs-4 col-sm-4 col-md-2">
-     <div class="links1">
-     <a href="{% url 'singletournaments:list' %}">PlayStation 4</a><br>
-     <a href="{% url 'singletournaments:list' %}">Xbox One</a><br>
-     <a href="{% url 'singletournaments:list' %}">PC | Computer</a><br>
-     </div>
+
+    <div class="container">
+        <div class="row gutter-10">
+            <div class="panel-title">WLG LINKS</div>
+            <div class="col-xs-4 col-sm-4 col-md-2">
+                <div class="links1">
+                    <a href="{% url 'singletournaments:list' %}">PlayStation 4</a><br>
+                    <a href="{% url 'singletournaments:list' %}">Xbox One</a><br>
+                    <a href="{% url 'singletournaments:list' %}">PC | Computer</a><br>
+                </div>
+            </div>
+
+            <div class="col-xs-4 col-sm-4 col-md-2">
+                <div class="links1">
+                    <a href="#">Find Players</a><br>
+                    <a href="#">Find Teams</a><br>
+                    <a href="{% url 'singletournaments:list' %}">Find Tournaments</a><br>
+                </div>
+            </div>
+
+            <div class="col-xs-4 col-sm-4 col-md-2">
+                <div class="links1">
+                    <a href="{% url 'support:list' %}">Contact Us</a><br>
+                    <a href="#">Disputes</a><br>
+                    <a href="{% url 'profiles:leaderboard' %}">Leaderboard</a><br>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-6" style="text-align:right;">
+                <img src="{% static 'wlg/images/footer-logo.png' %}"/> <img
+                    src="{% static 'wlg/images/twitter.png' %}"/> <img src="{% static 'wlg/images/facebook.png' %}"/>
+                <img src="{% static 'wlg/images/youtube.png' %}"/> <img src="{% static 'wlg/images/instagram.png' %}"/>
+                <br/>
+                {% block foot %}
+                    Powered by <a href="https://olly.nfmstudios.com" target="_blank">Project Olly</a> Version:
+                    {{ SITE_VERSION }} On Server: {{ SITE_SERVER }}
+                {% endblock %}
+            </div>
+
+        </div>
     </div>
-    
-    <div class="col-xs-4 col-sm-4 col-md-2">
-     <div class="links1">
-     <a href="#">Find Players</a><br>
-     <a href="#">Find Teams</a><br>
-     <a href="{% url 'singletournaments:list' %}">Find Tournaments</a><br>
-     </div>
-    </div>
-    
-    <div class="col-xs-4 col-sm-4 col-md-2">
-     <div class="links1">
-     <a href="{% url 'support:list' %}">Contact Us</a><br>
-     <a href="#">Disputes</a><br>
-     <a href="{% url 'profiles:leaderboard' %}">Leaderboard</a><br>
-     </div>
-    </div>
-    
-    <div class="col-xs-12 col-sm-12 col-md-6" style="text-align:right;">
-      <img src="{% static 'wlg/images/footer-logo.png' %}"/> <img src="{% static 'wlg/images/twitter.png' %}"/> <img src="{% static 'wlg/images/facebook.png' %}"/> <img src="{% static 'wlg/images/youtube.png' %}"/> <img src="{% static 'wlg/images/instagram.png' %}"/>
-	  <br />
-	  {% block foot %}
-		Powered by <a href="https://olly.nfmstudios.com" target="_blank">Project Olly</a> Version: {{ SITE_VERSION }} On Server: {{ SITE_SERVER }}
-	  {% endblock %}
-    </div>
-       
-   </div>
-   </div>
-   
+
 </section>
 
-  
-  </body>
+
+</body>
 </html>

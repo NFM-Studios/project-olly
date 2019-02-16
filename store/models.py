@@ -78,6 +78,7 @@ valid_ipn_received.connect(show_me_the_money)
 class Transaction(models.Model):
     def __str__(self):
         return str(self.account)
+
     date = models.DateTimeField(auto_now=True)
     cost = models.DecimalField(max_digits=6, decimal_places=2, blank=True)
     account = models.CharField(max_length=50)
@@ -101,8 +102,8 @@ def give_credits(user, num):  # might not be needed. added it anyway.
 class Transfer(models.Model):
     def __str__(self):
         return str(self.user)
+
     date = models.DateTimeField(auto_now=True)
     credits = models.DecimalField(max_digits=6, decimal_places=0)
     origin = models.CharField(max_length=50)
     destination = models.CharField(max_length=50)
-

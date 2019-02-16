@@ -1,41 +1,41 @@
 {% extends 'binge/base.html' %}
 
-  {% block head %}
-  <title>Password Reset - {{ SITE_NAME }}</title>
-  {% endblock %}
+{% block head %}
+    <title>Password Reset - {{ SITE_NAME }}</title>
+{% endblock %}
 
 {% block body %}
-        <div class="container page">
+    <div class="container page">
 
-<div class="col-xs-12">
-           <div class="panel">
-              <div class="panel-body">
+        <div class="col-xs-12">
+            <div class="panel">
+                <div class="panel-body">
 
-                <div class="row">
-                    <div class="col-xs-12">
-    					<div class="panel-title bold">Forgot your password?</div>
-                           <div class="col-xs-12">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="panel-title bold">Forgot your password?</div>
+                            <div class="col-xs-12">
 
 
+                                <p>Enter your email address below, and we'll email instructions for setting a new
+                                    one.</p>
 
-    <p>Enter your email address below, and we'll email instructions for setting a new one.</p>
-
-<form method="post">{% csrf_token %}
-<fieldset class="module aligned">
-    <div class="form-row field-email">
-        {{ form.email.errors }}
-        <label for="id_email">Email address:</label>
-        {{ form.email }}
-    </div>
-    <input type="submit" value="Reset my password" class="" />
-</fieldset>
-</form>
-                           </div>
+                                <form method="post">{% csrf_token %}
+                                    <fieldset class="module aligned">
+                                        <div class="form-row field-email">
+                                            {{ form.email.errors }}
+                                            <label for="id_email">Email address:</label>
+                                            {{ form.email }}
+                                        </div>
+                                        <input type="submit" value="Reset my password" class=""/>
+                                    </fieldset>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
-              </div>
-           </div>
-</div>
+            </div>
         </div>
-    
+    </div>
+
 {% endblock %}

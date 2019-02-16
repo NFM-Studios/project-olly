@@ -3,33 +3,34 @@
 <link rel="stylesheet" href="{% static "css/staff.css" %}">
 
 {% block title %}
-Transaction List
+    Transaction List
 {% endblock %}
 
 {% block body %}
 
-<div style="overflow-x:auto;">
-<p><a href="{% url 'staff:store' %}"><i class="fa fa-arrow-left"></i> <strong>Back to store index</strong></a></p>
+    <div style="overflow-x:auto;">
+        <p><a href="{% url 'staff:store' %}"><i class="fa fa-arrow-left"></i> <strong>Back to store index</strong></a>
+        </p>
 
-<table class="table table-dark">
-<th>ID</th>
-<th>Date</th>
-<th>Type</th>
-<th>Cost</th>
-<th>Account</th>
-<th>Staff</th>
-<th>Number</th>
-{% for transaction in transaction_list %}
-<tr>
-<td>{{ transaction.id }}</td>
-<td>{{ transaction.date }}</td>
-<td>{{ transaction.type }}</td>
-<td>{{ transaction.cost }}</td>
-<td>{{ transaction.account }}</td>
-<td>{{ transaction.staff }}</td>
-<td>{{ transaction.num }}</td>
-</tr>
-{% endfor %}
-</table>
-</div>
+        <table class="table table-dark">
+            <th>ID</th>
+            <th>Date</th>
+            <th>Type</th>
+            <th>Cost</th>
+            <th>Account</th>
+            <th>Staff</th>
+            <th>Number</th>
+            {% for transaction in transaction_list %}
+                <tr>
+                    <td>{{ transaction.id }}</td>
+                    <td>{{ transaction.date }}</td>
+                    <td>{{ transaction.type }}</td>
+                    <td>{{ transaction.cost }}</td>
+                    <td>{{ transaction.account }}</td>
+                    <td>{{ transaction.staff }}</td>
+                    <td>{{ transaction.num }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
 {% endblock %}

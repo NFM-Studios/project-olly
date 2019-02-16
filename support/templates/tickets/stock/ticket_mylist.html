@@ -1,70 +1,70 @@
 {% extends "stock/base.html" %}
 {% load static %}
 
-  {% block head %}
-  <title>My Tickets - {{ SITE_NAME }}</title>
-  {% endblock %}
+{% block head %}
+    <title>My Tickets - {{ SITE_NAME }}</title>
+{% endblock %}
 
 {% block body %}
     <form method="POST" action="{% url 'support:list' %}">
         {% csrf_token %}
-        {{form}}
+        {{ form }}
 
-                <input type="submit" value="Filter" />
+        <input type="submit" value="Filter"/>
 
-</form>
-<table class="table table-hover">
-    <tr id="header">
-        <thead>
-        <th scope="row">ID</th>
-        <th>Status</th>
-        <th>Category</th>
-        <th>Date Created</th>
-        </thead>
-    </tr>
-    {% for ticket in ticket_list %}
-    <tbody>
-    <tr scope="">
-        <td scope="row"><a href="{% url 'support:detail' pk=ticket.id %}">#{{ticket.id}}</a></td>
-        <td>
-        {% if ticket.status == 0 %}
-            New
-        {% elif ticket.status == 1 %}
-            On Hold
-        {% elif ticket.status == 2 %}
-            In Progress
-        {% elif ticket.status == 3 %}
-            Closed
-        {% endif %}
-        </td>
-        <td>
-        {% if ticket.category == 0 %}
-            General
-        {% elif ticket.category == 1 %}
-            Prize Claim
-        {% elif ticket.category == 2 %}
-            Tournament Support
-        {% elif ticket.category == 3 %}
-            Billing
-        {% elif ticket.category == 4 %}
-            Refund Request
-        {% elif ticket.category == 5 %}
-            PSN/XBL Issues
-        {% elif ticket.category == 6 %}
-            Match Support/Dispute
-        {% endif %}
-        </td>
-        <td>{{ticket.last_update}}</td>
-    </tr>
-    </tbody>
-    {% endfor %}
-</table>
-<div id="new-ticket">
-<h2 id="" style="text-decoration: none; margin:8px">
-    <a style="text-decoration:none; color:black;" href="{% url 'support:create' %}">
-        <i class="fas fa-plus"></i>  Create a new ticket
-    </a>
-</h2>
-</div>
+    </form>
+    <table class="table table-hover">
+        <tr id="header">
+            <thead>
+            <th scope="row">ID</th>
+            <th>Status</th>
+            <th>Category</th>
+            <th>Date Created</th>
+            </thead>
+        </tr>
+        {% for ticket in ticket_list %}
+            <tbody>
+            <tr scope="">
+                <td scope="row"><a href="{% url 'support:detail' pk=ticket.id %}">#{{ ticket.id }}</a></td>
+                <td>
+                    {% if ticket.status == 0 %}
+                        New
+                    {% elif ticket.status == 1 %}
+                        On Hold
+                    {% elif ticket.status == 2 %}
+                        In Progress
+                    {% elif ticket.status == 3 %}
+                        Closed
+                    {% endif %}
+                </td>
+                <td>
+                    {% if ticket.category == 0 %}
+                        General
+                    {% elif ticket.category == 1 %}
+                        Prize Claim
+                    {% elif ticket.category == 2 %}
+                        Tournament Support
+                    {% elif ticket.category == 3 %}
+                        Billing
+                    {% elif ticket.category == 4 %}
+                        Refund Request
+                    {% elif ticket.category == 5 %}
+                        PSN/XBL Issues
+                    {% elif ticket.category == 6 %}
+                        Match Support/Dispute
+                    {% endif %}
+                </td>
+                <td>{{ ticket.last_update }}</td>
+            </tr>
+            </tbody>
+        {% endfor %}
+    </table>
+    <div id="new-ticket">
+        <h2 id="" style="text-decoration: none; margin:8px">
+            <a style="text-decoration:none; color:black;" href="{% url 'support:create' %}">
+                <i class="fas fa-plus"></i> Create a new ticket
+            </a>
+        </h2>
+    </div>
 {% endblock %}
 

@@ -1,24 +1,24 @@
 {% extends "eot/base.html" %}
 
-  {% block head %}
-  <title>Share a post - {{ SITE_NAME }}</title>
-  {% endblock %}
+{% block head %}
+    <title>Share a post - {{ SITE_NAME }}</title>
+{% endblock %}
 
 {% block body %}
     <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 col-md-offset-2 col-lg-offset-2 wrap">
 
 
-    {% if sent %}
-        <h1>E-mail successfully sent</h1>
-        <p>"{{ post.title }}" was successfully sent by e-mail.</p>
-    {% else %}
-        <h1>Share "{{ post.title }}" by e-mail</h1>
-        <form action="." method="post">
-            {{ form.as_p }}
-            {% csrf_token %}
-            <input type="submit" value="Send e-mail">
-        </form>
-    {% endif %}
-      </div>
+        {% if sent %}
+            <h1>E-mail successfully sent</h1>
+            <p>"{{ post.title }}" was successfully sent by e-mail.</p>
+        {% else %}
+            <h1>Share "{{ post.title }}" by e-mail</h1>
+            <form action="." method="post">
+                {{ form.as_p }}
+                {% csrf_token %}
+                <input type="submit" value="Send e-mail">
+            </form>
+        {% endif %}
+    </div>
 
 {% endblock %}

@@ -5,7 +5,6 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('matches', '0006_gamechoice_platformchoice'),
     ]
@@ -14,11 +13,13 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='match',
             name='game',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='GameChoice', to='matches.GameChoice'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='GameChoice',
+                                    to='matches.GameChoice'),
         ),
         migrations.AlterField(
             model_name='match',
             name='platform',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='PlatformChoice', to='matches.PlatformChoice'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='PlatformChoice',
+                                    to='matches.PlatformChoice'),
         ),
     ]

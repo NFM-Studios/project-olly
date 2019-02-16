@@ -7,9 +7,9 @@ SECRET_KEY = 'LoNIhExSASJr48ynsgCQfncKIHN7ZbZPmVD5By47zXGNBC%Nb&'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 if os.environ['debug'] == 'True':
-        DEBUG = True
+    DEBUG = True
 else:
-        DEBUG = False
+    DEBUG = False
 
 # SECURITY WARNING: don't run with this set to true in prod
 PAYPAL_TEST = False
