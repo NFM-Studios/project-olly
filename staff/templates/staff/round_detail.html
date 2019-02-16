@@ -2,44 +2,45 @@
 {% load static %}
 
 {% block title %}
-Round Details
+    Round Details
 {% endblock %}
 
 {% block body %}
     {% if messages %}
-  <ul class="messages">
-    {% for message in messages %}
-      <li class="{{ message.tags }}">{{ message }}</li>
-    {% endfor %}
-  </ul>
-{% endif %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li class="{{ message.tags }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
 
 
-<p><a href="{% url 'staff:tournament_detail' pk=round.tournament.id %}"><i class="fa fa-arrow-left"></i> <strong>Back to Tournament</strong></a></p>
-<table class="table">
-    <thead>
-    <tr>
-        <th>Key</th>
-        <th>Value</th>
-    </tr>
-    </thead>
-    <tr>
-        <td>ID</td>
-        <td>{{round.id}}</td>
-    </tr>
-    <tr>
-        <td>Tournament ID</td>
-        <td>{{ round.tournament.id }}</td>
-    </tr>
-    <tr>
-        <td>Tournament Name</td>
-        <td>{{ round.tournament.name }}</td>
-    </tr>
-</table>
+    <p><a href="{% url 'staff:tournament_detail' pk=round.tournament.id %}"><i class="fa fa-arrow-left"></i> <strong>Back
+        to Tournament</strong></a></p>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Key</th>
+            <th>Value</th>
+        </tr>
+        </thead>
+        <tr>
+            <td>ID</td>
+            <td>{{ round.id }}</td>
+        </tr>
+        <tr>
+            <td>Tournament ID</td>
+            <td>{{ round.tournament.id }}</td>
+        </tr>
+        <tr>
+            <td>Tournament Name</td>
+            <td>{{ round.tournament.name }}</td>
+        </tr>
+    </table>
 
     <tr>
         <h5>Matches</h5>
-        <p><a href="{% url 'staff:edit_round' pk=round.id%}">Edit round</a></p>
+        <p><a href="{% url 'staff:edit_round' pk=round.id %}">Edit round</a></p>
         {% for i in matches %}
             <p><a href="{% url 'staff:match_detail' pk=i.id %}">{{ i.hometeam }} VS {{ i.awayteam }}</a></p>
         {% endfor %}

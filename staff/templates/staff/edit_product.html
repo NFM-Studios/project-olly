@@ -2,63 +2,64 @@
 {% load static %}
 <link rel="stylesheet" href="{% static "css/staff.css" %}">
 {% block title %}
-Edit Product
+    Edit Product
 {% endblock %}
 {% block body %}
-<link rel="stylesheet" href="{% static "css/staff.css" %}">
-{% if form.errors %}
-    {% for field in form %}
-        {% for error in field.errors %}
+    <link rel="stylesheet" href="{% static "css/staff.css" %}">
+    {% if form.errors %}
+        {% for field in form %}
+            {% for error in field.errors %}
+                <div class="alert alert-danger">
+                    <strong>{{ error|escape }}</strong>
+                </div>
+            {% endfor %}
+        {% endfor %}
+        {% for error in form.non_field_errors %}
             <div class="alert alert-danger">
                 <strong>{{ error|escape }}</strong>
             </div>
         {% endfor %}
-    {% endfor %}
-    {% for error in form.non_field_errors %}
-        <div class="alert alert-danger">
-            <strong>{{ error|escape }}</strong>
-        </div>
-    {% endfor %}
-{% endif %}
+    {% endif %}
 
-<p><a href="{% url 'staff:product_detail' pk %}"><i class="fa fa-arrow-left"></i> <strong>Back to product detail</strong></a></p>
+    <p><a href="{% url 'staff:product_detail' pk %}"><i class="fa fa-arrow-left"></i> <strong>Back to product
+        detail</strong></a></p>
 
     <form method="post">
-   {{ field.errors }}
-     <table class="table">
-        {% csrf_token %}
+        {{ field.errors }}
+        <table class="table">
+            {% csrf_token %}
 
-         <h4>PayPal info</h4>
-         <label>Amount (price with no $) </label>
-        {{ form.amount }}
-        <br>
+            <h4>PayPal info</h4>
+            <label>Amount (price with no $) </label>
+            {{ form.amount }}
+            <br>
 
-         <label>Item name(for PayPal, make it short) </label>
-         {{ form.item_name }}
-         <br>
+            <label>Item name(for PayPal, make it short) </label>
+            {{ form.item_name }}
+            <br>
 
-         <h4>Front end info</h4>
+            <h4>Front end info</h4>
 
-         <label>Price(use $ here) </label>
-         {{ form.price }}
-         <br>
+            <label>Price(use $ here) </label>
+            {{ form.price }}
+            <br>
 
-         <label>Item name </label>
-         {{ form.name }}
-         <br>
+            <label>Item name </label>
+            {{ form.name }}
+            <br>
 
-         <label>Active</label>
-         {{ form.active }}
-         <br>
+            <label>Active</label>
+            {{ form.active }}
+            <br>
 
-        <tr>
-            <td colspan="2">
-                <input type="submit" value="Save" />
-            </td>
-        </tr>
-    </table>
+            <tr>
+                <td colspan="2">
+                    <input type="submit" value="Save"/>
+                </td>
+            </tr>
+        </table>
 
-        </form>
+    </form>
 
 
 

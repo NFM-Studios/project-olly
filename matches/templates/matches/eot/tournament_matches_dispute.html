@@ -1,33 +1,33 @@
 {% extends "eot/base.html" %}
 {% load static %}
 
-  {% block head %}
-  <title>Match Dispute - {{ SITE_NAME }}</title>
-  {% endblock %}
+{% block head %}
+    <title>Match Dispute - {{ SITE_NAME }}</title>
+{% endblock %}
 
 {% block body %}
-        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 col-md-offset-2 col-lg-offset-2 wrap">
+    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 col-md-offset-2 col-lg-offset-2 wrap">
 
-           <div class="panel">
-              <div class="panel-body">
-                  <div class="panel-title">Match Dispute</div>
-<h1>There has been a dispute between the 2 teams for this match</h1>
+        <div class="panel">
+            <div class="panel-body">
+                <div class="panel-title">Match Dispute</div>
+                <h1>There has been a dispute between the 2 teams for this match</h1>
 
-    <h2>In order to properly resolve this conflict both teams are required to submit proof</h2>
+                <h2>In order to properly resolve this conflict both teams are required to submit proof</h2>
 
-    <h2>Failure to submit proof in a timely fashion will result in in a forfeit for your team</h2>
-<form method="POST" action="{% url 'matches:dispute' pk=dispute %}">
-    <table class="table">
-        {% csrf_token %}
-        {{form.as_table}}
-        <tr>
-            <td colspan="2">
-                <input type="submit" value="Submit" />
-            </td>
-        </tr>
-    </table>
-</form>
-              </div>
-           </div>
+                <h2>Failure to submit proof in a timely fashion will result in in a forfeit for your team</h2>
+                <form method="POST" action="{% url 'matches:dispute' pk=dispute %}">
+                    <table class="table">
+                        {% csrf_token %}
+                        {{ form.as_table }}
+                        <tr>
+                            <td colspan="2">
+                                <input type="submit" value="Submit"/>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
         </div>
+    </div>
 {% endblock %}

@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 
-  {% block head %}
-  <title>News - {{ SITE_NAME }}</title>
-  {% endblock %}
+{% block head %}
+    <title>News - {{ SITE_NAME }}</title>
+{% endblock %}
 
 {% block body %}
     <h1>Latest Posts</h1>
@@ -12,7 +12,7 @@
     {% for post in posts %}
         <h2><a href="{% url 'news:post_detail' slug=post.slug %}">{{ post.title }}</a></h2>
         <p class="tags">
-            Tags: 
+            Tags:
             {% for tag in post.tags.all %}
                 <a href="{% url "news:post_list_by_tag" tag.slug %}">{{ tag.name }}</a>
                 {% if not forloop.last %}, {% endif %}
@@ -21,6 +21,6 @@
         <p class="date">Published {{ post.publish }} by {{ post.author }}</p>
         {{ post.body|truncatewords:30|linebreaks }}
     {% endfor %}
-    
+
     {% include "pagination.html" with page=posts %}
 {% endblock %}

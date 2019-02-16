@@ -1,114 +1,121 @@
 {% extends "duel/base.html" %}
 {% load static %}
-  {% block head %}
-  <title>{{ SITE_NAME }}</title>
-  {% endblock %}
+{% block head %}
+    <title>{{ SITE_NAME }}</title>
+{% endblock %}
 
 {% block body %}
 
-<section class="headerbg">
-  <div class="container">
-   <div class="hidden-xs hidden-sm col-md-6">
+    <section class="headerbg">
+        <div class="container">
+            <div class="hidden-xs hidden-sm col-md-6">
 
-   </div>
-   <div class="col-xs-12 col-sm-12 col-mg-6" style="text-align:right;">
-      <h1>{{ staticinfo.welcomeln1 }}</h1>
-      <h2>{{ staticinfo.welcomeln2 }}</h2>
-       <a class="btn btn-default btn-lg" href="{% url 'register' %}">SIGN UP NOW!</a>
-   </div>
-  </div>
- </section>
-
- <section class="blue1">
-  <div class="container-fluid">
-   <div class="row">
-     <div class="col-xs-12 col-sm-4 center">
-       <a href="{% url 'register' %}"><img src="{% static 'duel/images/signup.jpg' %}"></a>
-     </div>
-     <div class="col-xs-12 col-sm-4 center">
-	   <a href="{% url 'singletournaments:list' %}"><img src="{% static 'duel/images/find.jpg' %}"></a>
-     </div>
-     <div class="col-xs-12 col-sm-4 center">
-	  <a href="#"><img src="{% static 'duel/images/challenge.jpg' %}"></a>
-     </div>
-   </div>
-   </div>
-  </section>
-
-  <section class="fortnitebg">
-  <div class="container">
-   <div class="row">
-    <div class="col-xs-12"><div class="main-title">Fortnite<br>
-    <small>Tournaments</small></div></div>
-
-   {% if fortnite.count == 0 %}
-   <h2>No active Fortnite tournaments yet!</h2>
-   {% endif %}
-     {% for fortnitetourny in fortnite %}
-     <div class="col-xs-12 col-sm-4 col-md-3">
-	   <div class="panel">
-        <div class="panel-body">
-          <img src="{% static 'duel/images/fortnite.jpg' %}"/><br>
-          <h4>{{ fortnitetourny.name }}e</h4>
-          <b>Platform: {% if fortnitetourny.platform == 0 %}
-        Playstation 4
-        {% elif fortnitetourny.platform == 1 %}
-        XBOX One
-        {% elif fortnitetourny.platform == 2 %}
-        PC<
-        {% elif fortnitetourny.platform == 3 %}
-        Mobile
-        {% elif fortnitetourny.platform == 4 %}
-        Nintendo Switch
-        {% elif fortnitetourny.platform == 5 %}
-        Playstation 3
-        {% elif fortnitetourny.platform == 6 %}
-        XBOX 360
-        {% endif %}</b><br>
-  	      <b>Team Size: {% if fortnitetourny.teamformat == 0 %}
-              1
-              {% elif fortnitetourny.teamformat == 1 %}
-              2
-              {% elif fortnitetourny.teamformat == 2 %}
-              3
-              {% elif fortnitetourny.teamformat == 3 %}
-              4
-              {% elif fortnitetourny.teamformat == 4 %}
-              5
-              {% elif fortnitetourny.teamformat == 5 %}
-              6
-              {% endif %}
-          </b><br>
-		  <b>Team Slots: {{ fortnitetourny.size }}</b><br>
-		  <b>Prize: {{ fortnitetourny.prize1 }}</b><br>
-          <br>
-          <a class="btn btn-success btn-block" href="{% url 'singletournaments:detail' pk=fortnitetourny.id %}">JOIN TOURNAMENT</a>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-mg-6" style="text-align:right;">
+                <h1>{{ staticinfo.welcomeln1 }}</h1>
+                <h2>{{ staticinfo.welcomeln2 }}</h2>
+                <a class="btn btn-default btn-lg" href="{% url 'register' %}">SIGN UP NOW!</a>
+            </div>
         </div>
-       </div>
-     </div>
-       {% endfor %}
-     <div class="hidden-xs hidden-sm col-md-3">
+    </section>
 
-     </div>
+    <section class="blue1">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xs-12 col-sm-4 center">
+                    <a href="{% url 'register' %}"><img src="{% static 'duel/images/signup.jpg' %}"></a>
+                </div>
+                <div class="col-xs-12 col-sm-4 center">
+                    <a href="{% url 'singletournaments:list' %}"><img src="{% static 'duel/images/find.jpg' %}"></a>
+                </div>
+                <div class="col-xs-12 col-sm-4 center">
+                    <a href="#"><img src="{% static 'duel/images/challenge.jpg' %}"></a>
+                </div>
+            </div>
+        </div>
+    </section>
 
-   </div>
-   </div>
-  </section>
+    <section class="fortnitebg">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="main-title">Fortnite<br>
+                        <small>Tournaments</small>
+                    </div>
+                </div>
+
+                {% if fortnite.count == 0 %}
+                    <h2>No active Fortnite tournaments yet!</h2>
+                {% endif %}
+                {% for fortnitetourny in fortnite %}
+                    <div class="col-xs-12 col-sm-4 col-md-3">
+                        <div class="panel">
+                            <div class="panel-body">
+                                <img src="{% static 'duel/images/fortnite.jpg' %}"/><br>
+                                <h4>{{ fortnitetourny.name }}e</h4>
+                                <b>Platform: {% if fortnitetourny.platform == 0 %}
+                                    Playstation 4
+                                {% elif fortnitetourny.platform == 1 %}
+                                    XBOX One
+                                {% elif fortnitetourny.platform == 2 %}
+                                    PC<
+                                {% elif fortnitetourny.platform == 3 %}
+                                    Mobile
+                                {% elif fortnitetourny.platform == 4 %}
+                                    Nintendo Switch
+                                {% elif fortnitetourny.platform == 5 %}
+                                    Playstation 3
+                                {% elif fortnitetourny.platform == 6 %}
+                                    XBOX 360
+                                {% endif %}</b><br>
+                                <b>Team Size: {% if fortnitetourny.teamformat == 0 %}
+                                    1
+                                {% elif fortnitetourny.teamformat == 1 %}
+                                    2
+                                {% elif fortnitetourny.teamformat == 2 %}
+                                    3
+                                {% elif fortnitetourny.teamformat == 3 %}
+                                    4
+                                {% elif fortnitetourny.teamformat == 4 %}
+                                    5
+                                {% elif fortnitetourny.teamformat == 5 %}
+                                    6
+                                {% endif %}
+                                </b><br>
+                                <b>Team Slots: {{ fortnitetourny.size }}</b><br>
+                                <b>Prize: {{ fortnitetourny.prize1 }}</b><br>
+                                <br>
+                                <a class="btn btn-success btn-block"
+                                   href="{% url 'singletournaments:detail' pk=fortnitetourny.id %}">JOIN TOURNAMENT</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                <div class="hidden-xs hidden-sm col-md-3">
+
+                </div>
+
+            </div>
+        </div>
+    </section>
 
 
-  <section class="blue2">
-   <div class="container">
-    <div class="row">
-     <div class="col-xs-12 center" style="position:relative;"><img style="position:absolute;z-index:999;width:387px;height:75px;top:-2px;left:0px;right:0px;margin:0 auto;" src="{% static 'duel/images/featured.png' %}"/></div>
-     <div class="hidden-xs hidden-sm col-md-1"></div>
-     <div class="col-xs-12 col-sm-12 col-md-10 center">
-      <div style="z-index:100;">
-        <iframe src="https://player.twitch.tv/?channel={{ staticinfo.stream }}" frameborder="0" allowfullscreen="true" scrolling="no" height="500" width="100%"></iframe>
-      </div>
-     </div>
-     <div class="hidden-xs hidden-sm col-md-1"></div>
-    </div>
-   </div>
-  </section>
+    <section class="blue2">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 center" style="position:relative;"><img
+                        style="position:absolute;z-index:999;width:387px;height:75px;top:-2px;left:0px;right:0px;margin:0 auto;"
+                        src="{% static 'duel/images/featured.png' %}"/></div>
+                <div class="hidden-xs hidden-sm col-md-1"></div>
+                <div class="col-xs-12 col-sm-12 col-md-10 center">
+                    <div style="z-index:100;">
+                        <iframe src="https://player.twitch.tv/?channel={{ staticinfo.stream }}" frameborder="0"
+                                allowfullscreen="true" scrolling="no" height="500" width="100%"></iframe>
+                    </div>
+                </div>
+                <div class="hidden-xs hidden-sm col-md-1"></div>
+            </div>
+        </div>
+    </section>
 
 {% endblock %}

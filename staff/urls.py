@@ -24,7 +24,6 @@ urlpatterns = [
     path('users/verify/<urlusername>/', login_required(views.verify)),
     path('users/modify/<urlusername>/', login_required(views.modifyuser)),
 
-
     path('tournaments/', login_required(views.tournaments), name='tournamentlist'),
     path('tournaments/rulesets/', login_required(views.ruleset_list), name='tournamentrulesetlist'),
     path('tournaments/rulesets/<int:pk>/', login_required(views.ruleset_detail), name='tournamentrulesetdetail'),

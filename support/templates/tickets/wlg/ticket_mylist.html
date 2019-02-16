@@ -1,126 +1,128 @@
 {% extends "wlg/base.html" %}
 {% load static %}
-  {% block head %}
-  <title>My Tickets - {{ SITE_NAME }}</title>
-  {% endblock %}
+{% block head %}
+    <title>My Tickets - {{ SITE_NAME }}</title>
+{% endblock %}
 
 {% block body %}
-     <div class="container wrap">
+    <div class="container wrap">
 
- <div class="panel">
-    <div class="panel-body">
-                             <div class="col-xs-12 banner-head bot20">
-                   <div class="row">
-                   <div class="col-xs-12 col-sm-4">
-                    <h2><b>{{ userprofile.user }}</b></h2>
+        <div class="panel">
+            <div class="panel-body">
+                <div class="col-xs-12 banner-head bot20">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-4">
+                            <h2><b>{{ userprofile.user }}</b></h2>
 
-                    About Me:<br>
-                    {{ userprofile.about_me }}<br>
-                    <br>
-                     PSN: <a href="#">{{ userprofile.psn }}
-                   {% if userprofile.psn_verified %}
-                       <i class="fa fa-check-circle" style="color:green"></i>
-                       {% else %}
-                       <i class="fa fa-times-circle" style="color:red"></i>
-                       {% endif %}
-                   </a><br>
-                    XBL: <a href="#">{{ userprofile.xbl }}
-                   {% if userprofile.xbl_verified %}
-                        <i class="fa fa-check-circle" style="color:green"></i>
-                       {% else %}
-                       <i class="fa fa-times-circle" style="color:red"></i>
-                       {% endif %}
-                   </a><br>
-                    <br>
-                    Twitter: <a href="{% if userprofile.twitter_profile == "No Twitter Linked" or userprofile.twitter_profile == "" %}
+                            About Me:<br>
+                            {{ userprofile.about_me }}<br>
+                            <br>
+                            PSN: <a href="#">{{ userprofile.psn }}
+                            {% if userprofile.psn_verified %}
+                                <i class="fa fa-check-circle" style="color:green"></i>
+                            {% else %}
+                                <i class="fa fa-times-circle" style="color:red"></i>
+                            {% endif %}
+                        </a><br>
+                            XBL: <a href="#">{{ userprofile.xbl }}
+                            {% if userprofile.xbl_verified %}
+                                <i class="fa fa-check-circle" style="color:green"></i>
+                            {% else %}
+                                <i class="fa fa-times-circle" style="color:red"></i>
+                            {% endif %}
+                        </a><br>
+                            <br>
+                            Twitter: <a
+                                href="{% if userprofile.twitter_profile == "No Twitter Linked" or userprofile.twitter_profile == "" %}
         #
     {% else %}
     https://twitter.com/{{ userprofile.twitter_profile }}
         {% endif %}">@{{ userprofile.twitter_profile }}</a><br>
-                    Twitch: <a href="{% if userprofile.twitch_channel == "No Twitch Linked" or userprofile.twitch_channel == "" %}
+                            Twitch: <a
+                                href="{% if userprofile.twitch_channel == "No Twitch Linked" or userprofile.twitch_channel == "" %}
         #
     {% else %}
     https://twitch.tv/{{ userprofile.twitch_channel }}
         {% endif %}">{{ userprofile.twitch_channel }}</a><br>
-                    <br>
+                            <br>
 
-                   </div>
+                        </div>
 
-                   <div class="col-xs-12 col-sm-3">
-                    {% if userprofile.profile_picture.url != "" %}
-                        <img src="{{ userprofile.profile_picture.url }}" align="center" width="200"> <br />
-                        {% else %}
-                        <img src="{{ MEDIA_URL }}default_profile.png" align="center" width="200"/> <br />
-                        {% endif %}
-                   </div>
+                        <div class="col-xs-12 col-sm-3">
+                            {% if userprofile.profile_picture.url != "" %}
+                                <img src="{{ userprofile.profile_picture.url }}" align="center" width="200"> <br/>
+                            {% else %}
+                                <img src="{{ MEDIA_URL }}default_profile.png" align="center" width="200"/> <br/>
+                            {% endif %}
+                        </div>
 
-                   <div class="col-xs-12 col-sm-5 center">
-                    <div class="row">
-                     <div class="col-xs-12 center">
-                     <h2>TROPHIES</h2><br>
-                     <br>
-                     </div>
+                        <div class="col-xs-12 col-sm-5 center">
+                            <div class="row">
+                                <div class="col-xs-12 center">
+                                    <h2>TROPHIES</h2><br>
+                                    <br>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-4 center">
+                                    <img src="{% static 'images/gold.png' %}"/><br>
+                                    <h1><b>{{ userprofile.num_gold }}</b></h1>
+                                </div>
+                                <div class="col-xs-4 center">
+                                    <img src="{% static 'images/silver.png' %}"/><br>
+                                    <h1><b>{{ userprofile.num_silver }}</b></h1>
+                                </div>
+                                <div class="col-xs-4 center">
+                                    <img src="{% static 'images/bronze.png' %}"/><br>
+                                    <h1><b>{{ userprofile.num_bronze }}</b></h1>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
-                    <div class="row">
-                     <div class="col-xs-4 center">
-                      <img src="{% static 'images/gold.png' %}"/><br>
-                      <h1><b>{{ userprofile.num_gold }}</b></h1>
-                     </div>
-                     <div class="col-xs-4 center">
-                      <img src="{% static 'images/silver.png' %}"/><br>
-                      <h1><b>{{ userprofile.num_silver }}</b></h1>
-                     </div>
-                     <div class="col-xs-4 center">
-                      <img src="{% static 'images/bronze.png' %}"/><br>
-                      <h1><b>{{ userprofile.num_bronze }}</b></h1>
-                     </div>
-                    </div>
-                   </div>
+                </div>
 
-                   </div>
-               </div>
-
-    <div class="panel-title">Support Tickets</div>
+                <div class="panel-title">Support Tickets</div>
 
 
-        <form method="POST" action="{% url 'support:list' %}">
-        {% csrf_token %}
-        {{form}}
+                <form method="POST" action="{% url 'support:list' %}">
+                    {% csrf_token %}
+                    {{ form }}
 
-                <input type="submit" value="Filter" />
+                    <input type="submit" value="Filter"/>
 
-</form>
-<table class="table table-hover">
-    <tr id="header">
-        <thead>
-        <th scope="row">ID</th>
-        <th>Subject</th>
-        <th>Date Created</th>
-        </thead>
-    </tr>
-    {% for ticket in ticket_list %}
-    <tbody>
-    <tr scope="">
-        <td scope="row"><a href="{% url 'support:detail' pk=ticket.id %}">#{{ticket.id}}</a></td>
-        <td>{{ticket.subject}}</td>
-        <td>{{ticket.last_update}}</td>
-    </tr>
-    </tbody>
-    {% endfor %}
-    {% if ticket_list.count == 0 %}
-    <td>No tickets have been found</td>
-    {% endif %}
-</table>
-<div id="new-ticket">
-<h2 id="" style="text-decoration: none; margin:8px">
-    <a style="text-decoration:none; color:white;" href="{% url 'support:create' %}">
-        <i class="fa fa-plus"></i>  Create a new ticket
-    </a>
-</h2>
-</div>
+                </form>
+                <table class="table table-hover">
+                    <tr id="header">
+                        <thead>
+                        <th scope="row">ID</th>
+                        <th>Subject</th>
+                        <th>Date Created</th>
+                        </thead>
+                    </tr>
+                    {% for ticket in ticket_list %}
+                        <tbody>
+                        <tr scope="">
+                            <td scope="row"><a href="{% url 'support:detail' pk=ticket.id %}">#{{ ticket.id }}</a></td>
+                            <td>{{ ticket.subject }}</td>
+                            <td>{{ ticket.last_update }}</td>
+                        </tr>
+                        </tbody>
+                    {% endfor %}
+                    {% if ticket_list.count == 0 %}
+                        <td>No tickets have been found</td>
+                    {% endif %}
+                </table>
+                <div id="new-ticket">
+                    <h2 id="" style="text-decoration: none; margin:8px">
+                        <a style="text-decoration:none; color:white;" href="{% url 'support:create' %}">
+                            <i class="fa fa-plus"></i> Create a new ticket
+                        </a>
+                    </h2>
+                </div>
+            </div>
+        </div>
     </div>
- </div>
-     </div>
 
 {% endblock %}
 

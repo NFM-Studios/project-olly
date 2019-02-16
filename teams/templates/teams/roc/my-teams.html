@@ -1,9 +1,9 @@
 {% extends "roc/base.html" %}
 {% load static %}
 
-  {% block head %}
-  <title>My Teams - {{ SITE_NAME }}</title>
-  {% endblock %}
+{% block head %}
+    <title>My Teams - {{ SITE_NAME }}</title>
+{% endblock %}
 
 {% block body %}
 
@@ -11,58 +11,65 @@
 
     <div class="container page">
 
-     <div class="panel">
-      <div class="panel-body">
-      <br>
+        <div class="panel">
+            <div class="panel-body">
+                <br>
 
-     <table class="table table-hover">
-     <thead>
-      <tr>
-        <th width="10%">ID</th>
-        <th width="30%">PLAYER</th>
-        <th width="20%">SOCIAL</th>
-        <th width="20%">MATCH WINS</th>
-        <th width="20%">EARNINGS</th>
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th width="10%">ID</th>
+                        <th width="30%">PLAYER</th>
+                        <th width="20%">SOCIAL</th>
+                        <th width="20%">MATCH WINS</th>
+                        <th width="20%">EARNINGS</th>
 
-      </tr>
-    </thead>
-    <tbody>
-    {% for TeamInvite in team_list %}
-      <tr>
-          <td width="10%" valign="middle"><a href="{% url 'teams:detail' pk=TeamInvite.team.id %}">{{ TeamInvite.team.id }}</a></td>
-          <td width="30%" valign="middle"><a href="{% url 'teams:detail' pk=TeamInvite.team.id %}"><img src="{% static 'images/avatar.jpg' %}" width="30" height="30"> <b>{{ TeamInvite.team.name }}</a></b></td>
-        <td width="20%" valign="middle" style="font-size:20px;"> <a href="{% if TeamInvite.team.twitter == "No Twitter Linked" or TeamInvite.team.twitter == "" %}
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for TeamInvite in team_list %}
+                        <tr>
+                            <td width="10%" valign="middle"><a
+                                    href="{% url 'teams:detail' pk=TeamInvite.team.id %}">{{ TeamInvite.team.id }}</a>
+                            </td>
+                            <td width="30%" valign="middle"><a
+                                    href="{% url 'teams:detail' pk=TeamInvite.team.id %}"><img
+                                    src="{% static 'images/avatar.jpg' %}" width="30" height="30">
+                                <b>{{ TeamInvite.team.name }}</b></a></td>
+                            <td width="20%" valign="middle" style="font-size:20px;"><a
+                                    href="{% if TeamInvite.team.twitter == "No Twitter Linked" or TeamInvite.team.twitter == "" %}
         #
     {% else %}
     https://twitter.com/{{ TeamInvite.team.twitter }}
-        {% endif %}"><i class="fa fa-twitter"></i></a> <a href="{% if TeamInvite.team.twitch == "No Twitch Linked" or TeamInvite.team.twitch == "" %}
+        {% endif %}"><i class="fa fa-twitter"></i></a> <a
+                                    href="{% if TeamInvite.team.twitch == "No Twitch Linked" or TeamInvite.team.twitch == "" %}
         #
     {% else %}
     https://twitch.tv/{{ TeamInvite.team.twitch }}
         {% endif %}"><i class="fa fa-twitch"></i></a></td>
-        <td width="20%" valign="middle">{{ TeamInvite.team.num_matchwin }}</td>
-        <td width="20%" valign="middle">{{ TeamInvite.team.total_earning }} </td>
-      </tr>
-    {% endfor %}
-    </tbody>
-  </table>
-      {% if team_list.count == 0 %}
-      No Teams were found
-      {% endif %}
-      <!---
-  <ul class="pagination pagination-sm">
-  <li class="disabled"><a href="#">&laquo;</a></li>
-  <li class="active"><a href="#">1</a></li>
-  <li><a href="#">2</a></li>
-  <li><a href="#">3</a></li>
-  <li><a href="#">4</a></li>
-  <li><a href="#">5</a></li>
-  <li><a href="#">&raquo;</a></li>
-</ul>--->
-          <div class="panel-title"><a href="{% url 'teams:create' %}">Create a new team!</a></div>
-</div>
-</div>
+                            <td width="20%" valign="middle">{{ TeamInvite.team.num_matchwin }}</td>
+                            <td width="20%" valign="middle">{{ TeamInvite.team.total_earning }} </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                {% if team_list.count == 0 %}
+                    No Teams were found
+                {% endif %}
+                <!---
+            <ul class="pagination pagination-sm">
+            <li class="disabled"><a href="#">&laquo;</a></li>
+            <li class="active"><a href="#">1</a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li><a href="#">4</a></li>
+            <li><a href="#">5</a></li>
+            <li><a href="#">&raquo;</a></li>
+          </ul>--->
+                <div class="panel-title"><a href="{% url 'teams:create' %}">Create a new team!</a></div>
+            </div>
+        </div>
 
-</div>
+    </div>
 
 {% endblock %}

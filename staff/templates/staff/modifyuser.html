@@ -2,38 +2,40 @@
 {% load static %}
 <link rel="stylesheet" href="{% static "css/staff.css" %}">
 {% block title %}
-Modify user
+    Modify user
 {% endblock %}
 {% block body %}
-  <form method="post">
-    {% csrf_token %}
-    {{ field.errors }}
+    <form method="post">
+        {% csrf_token %}
+        {{ field.errors }}
 
-      <label>Bronze:</label>
-      {{ form.bronze }}
-      <br>
+        <label>Bronze:</label>
+        {{ form.bronze }}
+        <br>
 
-      <label>Silver:</label>
-      {{ form.silver }}
-      <br>
+        <label>Silver:</label>
+        {{ form.silver }}
+        <br>
 
-      <label>Gold:</label>
-      {{ form.gold }}
-      <br>
+        <label>Gold:</label>
+        {{ form.gold }}
+        <br>
 
-      <label>Earnings:</label>
-      {{ form.earnings }}
-      <br>
+        <label>Earnings:</label>
+        {{ form.earnings }}
+        <br>
 
-      <label>XP:</label>
-      {{ form.xp }}
-      <br>
+        <label>XP:</label>
+        {{ form.xp }}
+        <br>
 
-      <label>Credits:</label>
-      {{ form.credits }}
-      <br>
+        <label>Credits:</label>
+        {{ form.credits }}
+        <br>
 
-    <p><button type="submit" class="btn btn-primary">Submit</button></p>
+        <p>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </p>
 
-  </form>
+    </form>
 {% endblock %}

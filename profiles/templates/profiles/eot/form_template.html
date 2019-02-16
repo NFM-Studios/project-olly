@@ -8,7 +8,9 @@
     <div>{{ form.password }}</div>
     <label>Confirm Password</label>
     <div>{{ form.password_confirm }}</div>
-      <label>By checking the following box, I agree to the <a href="{% url 'terms' %}" target="_blank">Terms of Service</a> and <a href="{% url 'privacy' %}" target="_blank">Privacy Policy</a> and certify that I
-      am at least 16 years of age, or 13 years of age with Parental Consent, in order to use this website (per GDPR regulations)</label><br>
-      {{ form.tos }}
-  </div>
+    <label>By checking the following box, I agree to the <a href="{% url 'terms' %}" target="_blank">Terms of
+        Service</a> and <a href="{% url 'privacy' %}" target="_blank">Privacy Policy</a> and certify that I
+        am at least 16 years of age, or 13 years of age with Parental Consent, in order to use this website (per GDPR
+        regulations)</label><br>
+    {{ form.tos }}
+</div>

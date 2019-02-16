@@ -244,6 +244,7 @@ def verify(request, urlusername):
         userprofile.save()
         return redirect('staff:users')
 
+
 # end users
 
 
@@ -270,7 +271,7 @@ def add_teams(request, pk):
         else:
             tournament = SingleEliminationTournament.objects.get(pk=pk)
             form = AddTournamentTeamForm()
-            return render(request, 'staff/tournament_add_team.html', {'form':form, 'tournament':tournament})
+            return render(request, 'staff/tournament_add_team.html', {'form': form, 'tournament': tournament})
         return render(request, 'staff/tournament_detail.html', {'tournament': tournament})
 
 
@@ -291,7 +292,7 @@ def tournament_detail(request, pk):
         return render(request, 'staff/permissiondenied.html')
     else:
         tournament = SingleEliminationTournament.objects.get(pk=pk)
-        rounds = SingleTournamentRound.objects.filter(tournament = tournament).order_by('id')
+        rounds = SingleTournamentRound.objects.filter(tournament=tournament).order_by('id')
         return render(request, 'staff/tournament_detail.html', {'tournament': tournament, 'rounds': rounds})
 
 
@@ -324,7 +325,7 @@ def edit_round(request, pk):
         else:
             roundobj = SingleTournamentRound.objects.get(id=pk)
             form = EditRoundInfoForm(instance=roundobj)
-            return render(request, 'staff/edit_round.html', {'form':form})
+            return render(request, 'staff/edit_round.html', {'form': form})
 
 
 def tournament_matches(request, pk):
@@ -379,7 +380,7 @@ def create_tournament(request):
                 return redirect('staff:tournament_detail', pk=tournament.id)
             else:
                 form = CreateTournamentForm(request.POST)
-                return render(request, 'staff/createtournament.html', {'form':form})
+                return render(request, 'staff/createtournament.html', {'form': form})
 
 
 def generate_bracket(request, pk):  # Launch tournament
@@ -479,7 +480,7 @@ def mikes_super_function(pk, currentround, nextround):
             return False
 
         # elif i.winner_id is None:
-         #   return False
+        #   return False
     return bye2_count
 
 
@@ -492,7 +493,7 @@ def advance(request, pk):
         tournament = SingleEliminationTournament.objects.get(pk=pk)
         currentround = SingleTournamentRound.objects.get(tournament=pk, roundnum=tournament.current_round)
         try:
-            nextround = SingleTournamentRound.objects.get(tournament=tournament, roundnum=tournament.current_round+1)
+            nextround = SingleTournamentRound.objects.get(tournament=tournament, roundnum=tournament.current_round + 1)
         except:
             messages.warning(request, "All rounds are complete")
             tournament.active = False
@@ -535,14 +536,14 @@ def advance(request, pk):
         i = 0
         while i < len(winners):
             if winners[i] is 'BYE TEAM':
-                newmatch = Match(game=tournament.game, platform=tournament.platform, hometeam=winners[i+1])
+                newmatch = Match(game=tournament.game, platform=tournament.platform, hometeam=winners[i + 1])
 
-            elif winners[i+1] is 'BYE TEAM':
+            elif winners[i + 1] is 'BYE TEAM':
                 newmatch = Match(game=tournament.game, platform=tournament.platform,
                                  awayteam=winners[i])
             else:
                 newmatch = Match(game=tournament.game, platform=tournament.platform,
-                                 awayteam=winners[i], hometeam=winners[i+1])
+                                 awayteam=winners[i], hometeam=winners[i + 1])
             newmatch.save()
             nextround.matches.add(newmatch)
             i += 2
@@ -638,6 +639,7 @@ class DeclareTournamentWinner(View):
                     form = DeclareTournamentWinnerForm
                     messages.error(request, 'One or more teams selected are not in this tournament')
                     return render(request, self.template_name, {'form': form})
+
 
 # end tournament section
 
@@ -1072,9 +1074,9 @@ def createpartner(request):
         if request.method == 'POST':
             form = PartnerForm(request.POST, request.FILES)
             if form.is_valid():
-                #partner = form.instance
-                #partner.author = User.objects.get(username=request.user.username)
-                #partner.save()
+                # partner = form.instance
+                # partner.author = User.objects.get(username=request.user.username)
+                # partner.save()
                 form.save()
                 messages.success(request, 'Your partner has been created')
                 return redirect('staff:partner_list')
@@ -1104,6 +1106,7 @@ def partner_detail(request, pk):
             partner = Partner.objects.get(pk=pk)
             form = PartnerForm(instance=partner)
             return render(request, 'staff/partnercreate.html', {'form': form})
+
 
 # end static info section
 
@@ -1203,6 +1206,7 @@ def remove_article(request):
                 return redirect('staff:news_index')
             else:
                 return render(request, 'staff/remove_post.html', {'form': form})
+
 
 # end news section
 

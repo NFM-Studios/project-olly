@@ -42,6 +42,7 @@ class Ticket(models.Model):
         except TicketComment.DoesNotExist:
             return False
         return latest.author != self.creator
+
     is_answered.boolean = True
     is_answered.short_description = 'Is answered'
 
@@ -59,4 +60,4 @@ class TicketComment(models.Model):
 
     # Not sure if this is needed
     # def __unicode__(self):
-        # return "Comment on " + unicode(self.ticket)
+    # return "Comment on " + unicode(self.ticket)

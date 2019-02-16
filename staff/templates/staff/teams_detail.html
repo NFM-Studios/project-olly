@@ -3,70 +3,71 @@
 <link rel="stylesheet" href="{% static "css/staff.css" %}">
 
 {% block title %}
-Team #{{ team.id }}
+    Team #{{ team.id }}
 {% endblock %}
 
 {% block body %}
     <div style="overflow-x:auto;">
-    <p><a href="{% url 'staff:teamindex' %}"><i class="fa fa-arrow-left"></i> <strong>Back to Team list</strong></a></p>
+        <p><a href="{% url 'staff:teamindex' %}"><i class="fa fa-arrow-left"></i> <strong>Back to Team list</strong></a>
+        </p>
 
-<table class="table">
-    <thead>
-    <tr>
-        <th>Key</th>
-        <th>Value</th>
-    </tr>
-    </thead>
-    <tr>
-        <td>ID</td>
-        <td>{{team.id}}</td>
-    </tr>
-    <tr>
-        <td class="team-name">Name</td>
-        <td>{{team.name}}</td>
-    </tr>
-    <tr>
-        <td class="">Founder</td>
-        <td><a href="{% url 'profiles:profile' urlusername=team.founder %}">{{team.founder}}</a></td>
-    </tr>
-    <tr>
-        <td>Created</td>
-        <td>{{team.created}}</td>
-    </tr>
-    <tr>
-        <td>Twitter</td>
-        <td><a href="
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Key</th>
+                <th>Value</th>
+            </tr>
+            </thead>
+            <tr>
+                <td>ID</td>
+                <td>{{ team.id }}</td>
+            </tr>
+            <tr>
+                <td class="team-name">Name</td>
+                <td>{{ team.name }}</td>
+            </tr>
+            <tr>
+                <td class="">Founder</td>
+                <td><a href="{% url 'profiles:profile' urlusername=team.founder %}">{{ team.founder }}</a></td>
+            </tr>
+            <tr>
+                <td>Created</td>
+                <td>{{ team.created }}</td>
+            </tr>
+            <tr>
+                <td>Twitter</td>
+                <td><a href="
     {% if team.twitter == "No Twitter Linked" or team.twitter == "" %}
         #
     {% else %}
     https://twitter.com/{{ team.twitter }}
         {% endif %}">
 
-            {{ team.twitter }}</a></td>
-    </tr>
-    <tr>
-        <td>Twitch</td>
-        <td>
-            <a href="
+                    {{ team.twitter }}</a></td>
+            </tr>
+            <tr>
+                <td>Twitch</td>
+                <td>
+                    <a href="
     {% if team.twitch == "No Twitch Linked" or team.twitch == "" %}
         #
     {% else %}
     https://twitch.tv/{{ team.twitch }}
         {% endif %}">
 
-            {{ team.twitch }}</a></td>
-    </tr>
-    <tr>
-        <td>Players</td>
-{% for player in players %}
-        <td>
-        <a href="{% url 'profiles:profile' urlusername=player.user %}">{{ player.user }}</a>,
-        </td>
-        {% endfor %}
-    </tr>
-</table>
+                        {{ team.twitch }}</a></td>
+            </tr>
+            <tr>
+                <td>Players</td>
+                {% for player in players %}
+                    <td>
+                        <a href="{% url 'profiles:profile' urlusername=player.user %}">{{ player.user }}</a>,
+                    </td>
+                {% endfor %}
+            </tr>
+        </table>
 
-    <a href="{% url 'staff:remove_user' pk %}">Remove users from team</a>
+        <a href="{% url 'staff:remove_user' pk %}">Remove users from team</a>
 
     </div>
 {% endblock %}

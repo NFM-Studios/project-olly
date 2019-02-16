@@ -1,9 +1,9 @@
 {% extends "wlg/base.html" %}
 {% load static %}
 
-  {% block head %}
-  <title>Create a Team - {{ SITE_NAME }}</title>
-  {% endblock %}
+{% block head %}
+    <title>Create a Team - {{ SITE_NAME }}</title>
+{% endblock %}
 
 {% block body %}
 
@@ -11,23 +11,23 @@
 
     <div class="container page">
 
-     <div class="panel">
-         <div class="panel-title">Create a new Team</div>
-      <div class="panel-body">
-      <br>
+        <div class="panel">
+            <div class="panel-title">Create a new Team</div>
+            <div class="panel-body">
+                <br>
 
-<form method="POST" action="{% url 'teams:create' %}">
-    <table class="table">
-        {% csrf_token %}
-        {{form.as_table}}
-        <tr>
-            <td colspan="2">
-                <input type="submit" value="Create" class="btn btn-success"/>
-            </td>
-        </tr>
-    </table>
-</form>
-      </div>
-     </div>
+                <form method="POST" action="{% url 'teams:create' %}">
+                    <table class="table">
+                        {% csrf_token %}
+                        {{ form.as_table }}
+                        <tr>
+                            <td colspan="2">
+                                <input type="submit" value="Create" class="btn btn-success"/>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
     </div>
 {% endblock %}
