@@ -5,7 +5,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -19,7 +18,10 @@ class Migration(migrations.Migration):
                 ('active', models.BooleanField()),
                 ('business', models.EmailField(max_length=254)),
                 ('amount', models.FloatField()),
-                ('item_name', models.CharField(max_length=50, validators=[django.core.validators.RegexValidator(code='invalid_name', message="Item name must not have whitespace, and must be in the format 'type_num'", regex='^[a-zA-z]+_\\d+')])),
+                ('item_name', models.CharField(max_length=50, validators=[
+                    django.core.validators.RegexValidator(code='invalid_name',
+                                                          message="Item name must not have whitespace, and must be in the format 'type_num'",
+                                                          regex='^[a-zA-z]+_\\d+')])),
                 ('price', models.CharField(max_length=50)),
                 ('name', models.CharField(max_length=50)),
             ],

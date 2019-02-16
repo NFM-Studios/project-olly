@@ -1,178 +1,179 @@
 {% extends "eot/base.html" %}
 {% load static %}
 
-  {% block head %}
-  <title>{{ team.name }} - {{ SITE_NAME }}</title>
-  {% endblock %}
-  
+{% block head %}
+    <title>{{ team.name }} - {{ SITE_NAME }}</title>
+{% endblock %}
+
 {% block body %}
 
 
-<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 col-md-offset-2 col-lg-offset-2 wrap">
+    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 col-md-offset-2 col-lg-offset-2 wrap">
 
-           <div class="panel">
-              <div class="panel-body">
+        <div class="panel">
+            <div class="panel-body">
 
-                   <div class="col-xs-12 banner-head bot20">
-                   <div class="row">
-                   <div class="col-xs-5 col-sm-3">
-                    <img src="{% static 'eot/images/avatar.jpg' %}"/>
-                   </div>
-                   <div class="col-xs-7 col-sm-5">
-                    <h2><b>{{ team.name }}</b></h2>
-                    <h4>United States</h4>
-                    <br>
-                    Twitter: <a href="{% if not team.twitter == 'No Twitter Linked' %}
+                <div class="col-xs-12 banner-head bot20">
+                    <div class="row">
+                        <div class="col-xs-5 col-sm-3">
+                            <img src="{% static 'eot/images/avatar.jpg' %}"/>
+                        </div>
+                        <div class="col-xs-7 col-sm-5">
+                            <h2><b>{{ team.name }}</b></h2>
+                            <h4>United States</h4>
+                            <br>
+                            Twitter: <a href="{% if not team.twitter == 'No Twitter Linked' %}
                           http://twitter.com/{{ team.twitter }}
                         {% else %}
                         #
                         {% endif %}
                           ">@{{ team.twitter }}</a><br>
-                    Twitch: <a href="{% if not team.twitch == 'No Twitch Linked' %}
+                            Twitch: <a href="{% if not team.twitch == 'No Twitch Linked' %}
                          http://twitch.tv/{{ team.twitch }}
                     {% else %}
                           #
                     {% endif %}
                         ">{{ team.twitch }}</a><br>
-                    Website: <a href="
+                            Website: <a href="
                     {% if not team.website == 'No Website' %}
                         {{ team.website }}
                         {% else %}
                         #
                     {% endif %}
                     ">Click Me</a><br>
-                    Founder: <a href="#">{{ team.founder }}</a><br>
-                    Founded: <a href="#">{{ team.created }}</a><br>
-                    <br>
+                            Founder: <a href="#">{{ team.founder }}</a><br>
+                            Founded: <a href="#">{{ team.created }}</a><br>
+                            <br>
 
-                   </div>
-                   <div class="col-xs-12 col-sm-4">
-                    <br>
-                    <a class="btn btn-success btn-xs btn-block white" href="{% url 'teams:edit' pk=team.id %}">EDIT TEAM | EDIT MEMBERS | INVITE PLAYERS</a>
-                    <br>
-                    <a class="btn btn-danger btn-xs btn-block white" href="#">CLOSE TEAM</a>
-                   </div>
-
-                   </div>
-
-               </div>
-
-                     <div class="row gutter-10 bot20">
-                       <div class="col-xs-12 col-sm-4">
-                     <div class="panel-title bold">Previous Tournaments</div>
-                       <div class="table-responsive">
-                                <table class="table table-hover">
-                                 <thead>
-                                  <tr>
-                                   <th>TEAM 1</th>
-                                   <th>TEAM 2</th>
-                                   <th>TOURNAMENT</th>
-                                   <th>DETAILS</th>
-                                  </tr>
-                                 </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td valign="middle"><br>Teamname 1<br><br></td>
-                                            <td valign="middle"><br>Teamname 2<br><br></td>
-                                            <td valign="middle"><br>Tournament Name Here<br><br></td>
-                                            <td valign="middle"><br>WIN<br><br></td>
-                                        </tr>
-                                       <tr>
-                                            <td valign="middle"><br>Teamname 1<br><br></td>
-                                            <td valign="middle"><br>Teamname 2<br><br></td>
-                                            <td valign="middle"><br>Tournament Name Here<br><br></td>
-                                            <td valign="middle"><br>WIN<br><br></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-     				 </div>
-
-                     <div class="col-xs-12 col-sm-5">
-                     <div class="panel-title bold">Upcoming Tournaments</div>
-                       <div class="table-responsive">
-                                <table class="table table-hover">
-                                 <thead>
-                                  <tr>
-                                   <th>TEAM 1</th>
-                                   <th>TEAM 2</th>
-                                   <th>TOURNAMENT</th>
-                                   <th>DATE</th>
-                                  </tr>
-                                 </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td valign="middle"><br>Teamname 1<br><br></td>
-                                            <td valign="middle"><br>Teamname 2<br><br></td>
-                                            <td valign="middle"><br>Tournament Name Here<br><br></td>
-                                            <td valign="middle"><br>Match 31st | 9pm EST.<br><br></td>
-                                        </tr>
-                                        <tr>
-                                            <td valign="middle"><br>Teamname 1<br><br></td>
-                                            <td valign="middle"><br>Teamname 2<br><br></td>
-                                            <td valign="middle"><br>Tournament Name Here<br><br></td>
-                                            <td valign="middle"><br>Match 31st | 9pm EST.<br><br></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-     				 </div>
-
-                     <div class="col-xs-12 col-sm-3">
-                      <div class="panel-title bold">Tournament Standings</div>
-                         <div class="panel-default">
-                         <div class="panel-body">
-                         <h5>WINS</h5>
-                         <h3>16</h3>
-                         </div>
                         </div>
-                         <div class="panel-default">
-                         <div class="panel-body">
-                         <h5>LOSSES</h5>
-                         <h3>3</h3>
-                         </div>
-                         </div>
-                     </div>
-
+                        <div class="col-xs-12 col-sm-4">
+                            <br>
+                            <a class="btn btn-success btn-xs btn-block white" href="{% url 'teams:edit' pk=team.id %}">EDIT
+                                TEAM | EDIT MEMBERS | INVITE PLAYERS</a>
+                            <br>
+                            <a class="btn btn-danger btn-xs btn-block white" href="#">CLOSE TEAM</a>
+                        </div>
 
                     </div>
 
-                    <div class="row gutter-10 bot20">
+                </div>
 
-                     <div class="col-xs-12">
-                     <div class="panel-title bold">Roster</div>
-                       <div class="table-responsive">
-                                <table class="table table-hover">
-                                 <thead>
-                                  <tr>
-                                   <th></th>
-                                   <th>PLAYER</th>
-                                   <th>WINNINGS</th>
-                                   <th>ELIGABLE?</th>
-                                  </tr>
-                                 </thead>
-                                    <tbody>
-                                    {% for player in players %}
+                <div class="row gutter-10 bot20">
+                    <div class="col-xs-12 col-sm-4">
+                        <div class="panel-title bold">Previous Tournaments</div>
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th>TEAM 1</th>
+                                    <th>TEAM 2</th>
+                                    <th>TOURNAMENT</th>
+                                    <th>DETAILS</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td valign="middle"><br>Teamname 1<br><br></td>
+                                    <td valign="middle"><br>Teamname 2<br><br></td>
+                                    <td valign="middle"><br>Tournament Name Here<br><br></td>
+                                    <td valign="middle"><br>WIN<br><br></td>
+                                </tr>
+                                <tr>
+                                    <td valign="middle"><br>Teamname 1<br><br></td>
+                                    <td valign="middle"><br>Teamname 2<br><br></td>
+                                    <td valign="middle"><br>Tournament Name Here<br><br></td>
+                                    <td valign="middle"><br>WIN<br><br></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
 
-                                        <tr>
-                                            <td valign="middle"><img src="{% static 'eot/images/avatar.jpg' %}"></td>
-                                            <td valign="middle">{{ player.user }}</td>
-                                            <td valign="middle">169 Points</td>
-                                            <td valign="middle">Maybe?</td>
-                                        </tr>
-                                    {% endfor %}
-                                    </tbody>
-                                </table>
+                    <div class="col-xs-12 col-sm-5">
+                        <div class="panel-title bold">Upcoming Tournaments</div>
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th>TEAM 1</th>
+                                    <th>TEAM 2</th>
+                                    <th>TOURNAMENT</th>
+                                    <th>DATE</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td valign="middle"><br>Teamname 1<br><br></td>
+                                    <td valign="middle"><br>Teamname 2<br><br></td>
+                                    <td valign="middle"><br>Tournament Name Here<br><br></td>
+                                    <td valign="middle"><br>Match 31st | 9pm EST.<br><br></td>
+                                </tr>
+                                <tr>
+                                    <td valign="middle"><br>Teamname 1<br><br></td>
+                                    <td valign="middle"><br>Teamname 2<br><br></td>
+                                    <td valign="middle"><br>Tournament Name Here<br><br></td>
+                                    <td valign="middle"><br>Match 31st | 9pm EST.<br><br></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-3">
+                        <div class="panel-title bold">Tournament Standings</div>
+                        <div class="panel-default">
+                            <div class="panel-body">
+                                <h5>WINS</h5>
+                                <h3>16</h3>
                             </div>
-     				 </div>
-                     </div>
+                        </div>
+                        <div class="panel-default">
+                            <div class="panel-body">
+                                <h5>LOSSES</h5>
+                                <h3>3</h3>
+                            </div>
+                        </div>
+                    </div>
 
-                 </div>
+
+                </div>
+
+                <div class="row gutter-10 bot20">
+
+                    <div class="col-xs-12">
+                        <div class="panel-title bold">Roster</div>
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>PLAYER</th>
+                                    <th>WINNINGS</th>
+                                    <th>ELIGABLE?</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for player in players %}
+
+                                    <tr>
+                                        <td valign="middle"><img src="{% static 'eot/images/avatar.jpg' %}"></td>
+                                        <td valign="middle">{{ player.user }}</td>
+                                        <td valign="middle">169 Points</td>
+                                        <td valign="middle">Maybe?</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
 
     </div>
-
-
-</div>
 
 
 

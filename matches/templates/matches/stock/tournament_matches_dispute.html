@@ -1,38 +1,38 @@
-{% extends "base.html" %}
+{% extends "stock/base.html" %}
 {% load static %}
-<link rel="stylesheet" href="{% static "css/matches.css" %}">
+<!--<link rel="stylesheet" href="{% static "css/matches.css" %}">-->
 
-  {% block head %}
-  <title>Match Dispute - {{ SITE_NAME }}</title>
-  {% endblock %}
+{% block head %}
+    <title>Match Dispute - {{ SITE_NAME }}</title>
+{% endblock %}
 
 {% block body %}
-<h1>There has been a dispute between the 2 teams for this match</h1>
+    <h1>There has been a dispute between the 2 teams for this match</h1>
 
     <h2>In order to properly resolve this conflict both teams are required to submit proof</h2>
 
     <h2>Failure to submit proof in a timely fashion will result in in a forfeit for your team</h2>
-<form method="POST" action="{% url 'matches:dispute' pk=dispute %}">
-    <table class="table">
-        {% csrf_token %}
+    <form method="POST" action="{% url 'matches:dispute' pk=dispute %}">
+        <table class="table">
+            {% csrf_token %}
 
-        <label>Teamproof</label>
-        <div class="form-group">{{ form.teamproof }}</div>
+            <label>Teamproof</label>
+            <div class="form-group">{{ form.teamproof }}</div>
 
-        <label>Proof link 1</label>
-        <div class="form-group">{{ form.teamproof_1 }}</div>
+            <label>Proof link 1</label>
+            <div class="form-group">{{ form.teamproof_1 }}</div>
 
-        <label>Proof link 2</label>
-        <div class="form-group">{{ form.teamproof_2 }}</div>
+            <label>Proof link 2</label>
+            <div class="form-group">{{ form.teamproof_2 }}</div>
 
-        <label>Proof link 3</label>
-        <div class="form-group">{{ form.teamproof_3 }}</div>
+            <label>Proof link 3</label>
+            <div class="form-group">{{ form.teamproof_3 }}</div>
 
-        <tr>
-            <td colspan="2">
-                <input type="submit" value="Submit" />
-            </td>
-        </tr>
-    </table>
-</form>
+            <tr>
+                <td colspan="2">
+                    <input type="submit" value="Submit"/>
+                </td>
+            </tr>
+        </table>
+    </form>
 {% endblock %}

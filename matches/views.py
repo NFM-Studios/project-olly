@@ -75,10 +75,12 @@ class MatchReportCreateView(View):
                 messages.error(request, message="You aren't a part of the teams in this match")
                 return redirect('matches:detail', pk=pk)
 
-            if MatchReport.objects.filter(match=match.id, reporting_team=team1).exists() and reporter_team.id == team1.id:
+            if MatchReport.objects.filter(match=match.id,
+                                          reporting_team=team1).exists() and reporter_team.id == team1.id:
                 messages.error(request, "Your team has already reported this match")
                 return redirect('matches:detail', pk=pk)
-            elif MatchReport.objects.filter(match=match.id, reporting_team=team2).exists() and reporter_team.id == team2.id:
+            elif MatchReport.objects.filter(match=match.id,
+                                            reporting_team=team2).exists() and reporter_team.id == team2.id:
                 messages.error(request, "Your team has already reported this match")
                 return redirect('matches:detail', pk=pk)
             else:
@@ -159,13 +161,13 @@ class MatchReportCreateView(View):
                                 match.winner = team1
                                 match.loser = team2
                                 match.save()
-                    #self.success_url = reverse('matches:detail', args=[match.id])
+                    # self.success_url = reverse('matches:detail', args=[match.id])
                     messages.success(self.request, 'Your Report has been successfully submitted')
                     return redirect('matches:detail', pk=pk)
                 else:
                     messages.error(self.request, "You don't have permissions to report on this match")
                     return redirect('singletournaments:list')
-            #else:
+            # else:
             #    messages.error(request, "A report has already been created for this match")
             #    return redirect('matches:detail', pk=pk)
         elif match.bye_1:
@@ -181,7 +183,8 @@ class MatchDisputeReportCreateView(CreateView):
 
     def get(self, request, **kwargs):
         form = self.form_class(None)
-        return render(request, 'matches/' + request.tenant + '/tournament_matches_dispute.html', {'form': form, 'dispute': kwargs['pk']})
+        return render(request, 'matches/' + request.tenant + '/tournament_matches_dispute.html',
+                      {'form': form, 'dispute': kwargs['pk']})
 
     def form_valid(self, form, **kwargs):
         match = Match.objects.get(id=self.kwargs['pk'])
@@ -194,7 +197,8 @@ class MatchDisputeReportCreateView(CreateView):
         dispute.team1_id = match.hometeam_id
         dispute.team2_id = match.awayteam_id
         matchreport = MatchReport.objects.get(match_id=match.id, reporting_user_id=self.request.user.id)
-        matchreport_1 = MatchReport.objects.filter(match_id=match.id).exclude(reporting_user_id=self.request.user.id).get()
+        matchreport_1 = MatchReport.objects.filter(match_id=match.id).exclude(
+            reporting_user_id=self.request.user.id).get()
         if matchreport.reporting_team == match.hometeam:
             dispute.team1origreporter = matchreport.reporting_user
             dispute.team2origreporter = matchreport_1.reporting_user
@@ -203,6 +207,3 @@ class MatchDisputeReportCreateView(CreateView):
             dispute.team1origreporter = matchreport_1.reporting_user
         dispute.save()
         return redirect('matches:detail', pk=self.kwargs['pk'])
-
-
-

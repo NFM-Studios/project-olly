@@ -1,8 +1,8 @@
 {% autoescape off %}
-Hi {{ user.username }},
-Please click on the link to confirm your registration,
+    Hi {{ user.username }},
+    Please click on the link to confirm your registration,
 
-http://{{ domain }}{% url 'activate' uidb64=uid token=token %}
+    http://{{ domain }}{% url 'activate' uidb64=uid token=token %}
 
-Note: if the link does not work when you click on it, please copy and paste it into your browser
+    Note: if the link does not work when you click on it, please copy and paste it into your browser
 {% endautoescape %}

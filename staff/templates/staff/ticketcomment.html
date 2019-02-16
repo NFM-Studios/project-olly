@@ -4,13 +4,13 @@
 
 {% block body %}
     <form method="post">
-    {% csrf_token %}
+        {% csrf_token %}
 
-    {{ field.errors }}
+        {{ field.errors }}
 
-    <label>Comment</label>
-    <div class="form-group">{{ form.comment }}</div>
+        <label>Comment</label>
+        <div class="form-group">{{ form.comment }}</div>
 
-    <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 {% endblock %}

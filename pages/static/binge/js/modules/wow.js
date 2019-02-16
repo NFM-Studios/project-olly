@@ -2,7 +2,7 @@
 
 var WOW;
 
-(function($) {
+(function ($) {
 
     WOW = function WOW() {
 
@@ -19,7 +19,7 @@ var WOW;
                     var windowHeight = window.innerHeight;
                     var scroll = window.scrollY;
 
-                    $('.wow').each(function() {
+                    $('.wow').each(function () {
 
                         if ($(this).css('visibility') == 'visible') {
                             return;
@@ -34,16 +34,15 @@ var WOW;
                             if (delay) {
 
                                 delay = $(this).attr('data-wow-delay').slice(0, -1
-
                                 );
                                 var self = this;
 
                                 var timeout = parseFloat(delay) * 1000;
 
                                 $(self).addClass('animated');
-                                $(self).css({ 'visibility': 'visible' });
-                                $(self).css({ 'animation-delay': delay });
-                                $(self).css({ 'animation-name': animationName[index] });
+                                $(self).css({'visibility': 'visible'});
+                                $(self).css({'animation-delay': delay});
+                                $(self).css({'animation-name': animationName[index]});
 
                                 var removeTime = $(this).css('animation-duration').slice(0, -1) * 1000;
 
@@ -54,21 +53,21 @@ var WOW;
 
                                 var self = this;
 
-                                setTimeout(function() {
+                                setTimeout(function () {
 
                                     $(self).removeClass('animated');
                                 }, removeTime);
                             } else {
 
                                 $(this).addClass('animated');
-                                $(this).css({ 'visibility': 'visible' });
-                                $(this).css({ 'animation-name': animationName[index] });
+                                $(this).css({'visibility': 'visible'});
+                                $(this).css({'animation-name': animationName[index]});
 
                                 var removeTime = $(this).css('animation-duration').slice(0, -1) * 1000;
 
                                 var self = this;
 
-                                setTimeout(function() {
+                                setTimeout(function () {
 
                                     $(self).removeClass('animated');
                                 }, removeTime);
@@ -79,7 +78,7 @@ var WOW;
 
                 function appear() {
 
-                    $('.wow').each(function() {
+                    $('.wow').each(function () {
 
                         var index = $(this).index('.wow');
 
@@ -92,14 +91,14 @@ var WOW;
                             var timeout = parseFloat(delay) * 1000;
 
                             $(this).addClass('animated');
-                            $(this).css({ 'visibility': 'visible' });
-                            $(this).css({ 'animation-delay': delay + 's' });
-                            $(this).css({ 'animation-name': animationName[index] });
+                            $(this).css({'visibility': 'visible'});
+                            $(this).css({'animation-delay': delay + 's'});
+                            $(this).css({'animation-name': animationName[index]});
                         } else {
 
                             $(this).addClass('animated');
-                            $(this).css({ 'visibility': 'visible' });
-                            $(this).css({ 'animation-name': animationName[index] });
+                            $(this).css({'visibility': 'visible'});
+                            $(this).css({'animation-name': animationName[index]});
                         }
                     });
                 }
@@ -109,13 +108,13 @@ var WOW;
                     var windowHeight = window.innerHeight;
                     var scroll = window.scrollY;
 
-                    $('.wow.animated').each(function() {
+                    $('.wow.animated').each(function () {
 
                         if (windowHeight + scroll - 100 > getOffset(this) && scroll > getOffset(this) + 100 || windowHeight + scroll - 100 < getOffset(this) && scroll < getOffset(this) + 100 || getOffset(this) + $(this).height > $(document).height() - 100) {
 
                             $(this).removeClass('animated');
-                            $(this).css({ 'animation-name': 'none' });
-                            $(this).css({ 'visibility': 'hidden' });
+                            $(this).css({'animation-name': 'none'});
+                            $(this).css({'visibility': 'hidden'});
                         } else {
 
                             var removeTime = $(this).css('animation-duration').slice(0, -1) * 1000;
@@ -127,7 +126,7 @@ var WOW;
 
                             var self = this;
 
-                            setTimeout(function() {
+                            setTimeout(function () {
 
                                 $(self).removeClass('animated');
                             }, removeTime);
@@ -155,14 +154,14 @@ var WOW;
                     return Math.round(top);
                 }
 
-                $('.wow').each(function() {
+                $('.wow').each(function () {
 
-                    $(this).css({ 'visibility': 'hidden' });
+                    $(this).css({'visibility': 'hidden'});
                     animationName[$(this).index('.wow')] = $(this).css('animation-name');
-                    $(this).css({ 'animation-name': 'none' });
+                    $(this).css({'animation-name': 'none'});
                 });
 
-                $(window).scroll(function() {
+                $(window).scroll(function () {
 
                     if (once) {
 

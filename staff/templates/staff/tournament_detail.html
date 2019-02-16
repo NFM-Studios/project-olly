@@ -2,111 +2,112 @@
 {% load static %}
 
 {% block title %}
-Tournament #{{ tournament.id }}
+    Tournament #{{ tournament.id }}
 {% endblock %}
 
 {% block body %}
 
 
-<p><a href="{% url 'staff:tournamentlist' %}"><i class="fa fa-arrow-left"></i> <strong>Back to Tournament list</strong></a></p>
-<table class="table">
-    <thead>
-    <tr>
-        <th>Key</th>
-        <th>Value</th>
-    </tr>
-    </thead>
-    <tr>
-        <td>ID</td>
-        <td>{{tournament.id}}</td>
-    </tr>
-    <tr>
-        <td>Platform</td>
-        <td>{{ tournament.platform.name }}</td>
-    </tr>
-    <tr>
-        <td>Name</td>
-        <td>{{ tournament.name }}</td>
-    </tr>
-    <tr>
-        <td>Start Date/Time</td>
-        <td>{{ tournament.start }}</td>
-    </tr>
-    <tr>
-        <td>Registration Open</td>
-        <td>{{ tournament.open_register }}</td>
-    </tr>
-    <tr>
-        <td>Required Credits</td>
-        <td>{{ tournament.req_credits }}</td>
-    </tr>
-    <tr>
-        <td>Active</td>
-        {% if tournament.active %}
-        <td>Yes</td>
-        {% elif not tournament.active %}
-        <td>No</td>
-        {% endif %}
-    </tr>
-    <tr>
-        <td>Size</td>
-        <td>{{ tournament.size }}</td>
-    </tr>
-    <tr>
-        <td>Game</td>
-        <td>{{ tournament.game.name }}</td>
-    </tr>
-    <tr>
-        <td>Format</td>
-        {% if tournament.teamformat == 0 %}
-        <td>1v1</td>
-        {% elif tournament.teamformat == 1 %}
-        <td>2v2</td>
-        {% elif tournament.teamformat == 2 %}
-        <td>3v3</td>
-        {% elif tournament.teamformat == 3 %}
-        <td>4v4</td>
-        {% elif tournament.teamformat == 4 %}
-        <td>5v5</td>
-        {% elif tournament.teamformat == 5 %}
-        <td>6v6</td>
-        {% endif %}
-    </tr>
+    <p><a href="{% url 'staff:tournamentlist' %}"><i class="fa fa-arrow-left"></i> <strong>Back to Tournament
+        list</strong></a></p>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Key</th>
+            <th>Value</th>
+        </tr>
+        </thead>
+        <tr>
+            <td>ID</td>
+            <td>{{ tournament.id }}</td>
+        </tr>
+        <tr>
+            <td>Platform</td>
+            <td>{{ tournament.platform.name }}</td>
+        </tr>
+        <tr>
+            <td>Name</td>
+            <td>{{ tournament.name }}</td>
+        </tr>
+        <tr>
+            <td>Start Date/Time</td>
+            <td>{{ tournament.start }}</td>
+        </tr>
+        <tr>
+            <td>Registration Open</td>
+            <td>{{ tournament.open_register }}</td>
+        </tr>
+        <tr>
+            <td>Required Credits</td>
+            <td>{{ tournament.req_credits }}</td>
+        </tr>
+        <tr>
+            <td>Active</td>
+            {% if tournament.active %}
+                <td>Yes</td>
+            {% elif not tournament.active %}
+                <td>No</td>
+            {% endif %}
+        </tr>
+        <tr>
+            <td>Size</td>
+            <td>{{ tournament.size }}</td>
+        </tr>
+        <tr>
+            <td>Game</td>
+            <td>{{ tournament.game.name }}</td>
+        </tr>
+        <tr>
+            <td>Format</td>
+            {% if tournament.teamformat == 0 %}
+                <td>1v1</td>
+            {% elif tournament.teamformat == 1 %}
+                <td>2v2</td>
+            {% elif tournament.teamformat == 2 %}
+                <td>3v3</td>
+            {% elif tournament.teamformat == 3 %}
+                <td>4v4</td>
+            {% elif tournament.teamformat == 4 %}
+                <td>5v5</td>
+            {% elif tournament.teamformat == 5 %}
+                <td>6v6</td>
+            {% endif %}
+        </tr>
 
-    <tr>
-        <td>Best Of</td>
-        {% if tournament.bestof == 0 %}
-        <td>Best of 1</td>
-        {% elif tournament.bestof == 1 %}
-        <td>Best of 3</td>
-        {% elif tournament.bestof == 2 %}
-        <td>Best of 5</td>
-        {% elif tournament.bestof == 3 %}
-        <td>Best of 7</td>
-        {% elif tournament.bestof == 4 %}
-        <td>Best of 9</td>
-        {% endif %}
-    </tr>
+        <tr>
+            <td>Best Of</td>
+            {% if tournament.bestof == 0 %}
+                <td>Best of 1</td>
+            {% elif tournament.bestof == 1 %}
+                <td>Best of 3</td>
+            {% elif tournament.bestof == 2 %}
+                <td>Best of 5</td>
+            {% elif tournament.bestof == 3 %}
+                <td>Best of 7</td>
+            {% elif tournament.bestof == 4 %}
+                <td>Best of 9</td>
+            {% endif %}
+        </tr>
 
-    <tr>
-        <td>Rounds</td>
-        <td> {% for i in rounds %}
-            <a href="{% url 'staff:round_detail' pk=i.pk %}">Round {{ i.roundnum }}</a><br>
-        {% endfor %}</td>
-    </tr>
-</table>
+        <tr>
+            <td>Rounds</td>
+            <td> {% for i in rounds %}
+                <a href="{% url 'staff:round_detail' pk=i.pk %}">Round {{ i.roundnum }}</a><br>
+            {% endfor %}</td>
+        </tr>
+    </table>
 
     <p>
         <a href="{% url 'staff:edit_tournament' pk=tournament.id %}" class="btn btn-primary">Edit</a>
-    {% if tournament.active %}
-        {% if not tournament.bracket_generated %}
-            <a href="{% url 'staff:generate_bracket' pk=tournament.id %}" class="btn btn-success">LAUNCH</a>
-            <a href="{% url 'staff:add_team' pk=tournament.id %}" class="btn btn-success">ADD TEAMS</a>
-        {% else %}
-            <a href="{% url 'staff:advance' pk=tournament.id %}" class="btn btn-success">Advance</a>
-            <a href="{% url 'staff:winner' pk=tournament.id %}" class="btn btn-success">Declare Winner</a>
+        {% if tournament.active %}
+            {% if not tournament.bracket_generated %}
+                <a href="{% url 'staff:generate_bracket' pk=tournament.id %}" class="btn btn-success">LAUNCH</a>
+                <a href="{% url 'staff:add_team' pk=tournament.id %}" class="btn btn-success">ADD TEAMS</a>
+            {% else %}
+                <a href="{% url 'staff:advance' pk=tournament.id %}" class="btn btn-success">Advance</a>
+                <a href="{% url 'staff:winner' pk=tournament.id %}" class="btn btn-success">Declare Winner</a>
+            {% endif %}
         {% endif %}
-    {% endif %}
         <a href="{% url 'staff:delete_tournament' pk=tournament.id %}" class="btn btn-danger">DELETE</a>
     </p>
 

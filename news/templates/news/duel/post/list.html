@@ -1,38 +1,39 @@
 {% extends "duel/base.html" %}
 {% load static %}
-  {% block head %}
-  <title>News - {{ SITE_NAME }}</title>
-  {% endblock %}
+{% block head %}
+    <title>News - {{ SITE_NAME }}</title>
+{% endblock %}
 
 {% block body %}
 
     <div class="container page">
 
-    <div class="row gutter-10 bot10">
-    <div class="panel">
-     <div class="panel-body">
-     <div class="panel-title bold">Latest News</div>
-     {% if posts.object_list.count == 0 %}
-         <h5>No news posts!</h5>
-     {% endif %}
-       {% for post in posts %}
-         <div class="col-xs-6 col-sm-6 col-md-3 bot10">
-         <img src="{% static 'duel/images/news.jpg' %}"/><br>
-         <br>
-         <h5><b>{{ post.title }}</b></h5>
-             <h5><b>Author: {{ post.author }}</b> <br /><b>Published: {{ post.publish }}</b></h5>
-         <p>{{ post.body|truncatewords:30|linebreaks }}<br>
-         <a class="btn btn-primary btn-xs" href="{% url 'news:post_detail' slug=post.slug %}">READ MORE	</a>
-       </div>
-         {% endfor %}
+        <div class="row gutter-10 bot10">
+            <div class="panel">
+                <div class="panel-body">
+                    <div class="panel-title bold">Latest News</div>
+                    {% if posts.object_list.count == 0 %}
+                        <h5>No news posts!</h5>
+                    {% endif %}
+                    {% for post in posts %}
+                        <div class="col-xs-6 col-sm-6 col-md-3 bot10">
+                            <img src="{% static 'duel/images/news.jpg' %}"/><br>
+                            <br>
+                            <h5><b>{{ post.title }}</b></h5>
+                            <h5><b>Author: {{ post.author }}</b> <br/><b>Published: {{ post.publish }}</b></h5>
+                            <p>{{ post.body|truncatewords:30|linebreaks }}<br>
+                                <a class="btn btn-primary btn-xs" href="{% url 'news:post_detail' slug=post.slug %}">READ
+                                    MORE </a>
+                        </div>
+                    {% endfor %}
 
-     </div>
-    {% include "pagination.html" with page=posts %}
-     </div>
+                </div>
+                {% include "pagination.html" with page=posts %}
+            </div>
 
-     </div>
+        </div>
 
-     </div>
-    
+    </div>
+
 
 {% endblock %}

@@ -1,32 +1,33 @@
 {% extends 'ot/base.html' %}
 {% load static %}
 
-  {% block head %}
-  <title>{{ team.name }} - {{ SITE_NAME }}</title>
-  {% endblock %}
+{% block head %}
+    <title>{{ team.name }} - {{ SITE_NAME }}</title>
+{% endblock %}
 
 {% block body %}
-<div class="container page1">
-<div class="space90"></div>
-     <div class="panel">
-         <div class="panel-title">Dissolve Team</div>
-      <div class="panel-body">
+    <div class="container page1">
+        <div class="space90"></div>
+        <div class="panel">
+            <div class="panel-title">Dissolve Team</div>
+            <div class="panel-body">
 
-<form method="post">
-    {% csrf_token %}
+                <form method="post">
+                    {% csrf_token %}
 
-    {{ field.errors }}
+                    {{ field.errors }}
 
-    Confirm: {{ form.confirmed }}
-
-
-
-    <p><button type="submit" class="btn btn-primary">Dissolve team</button></p>
-  </form>
+                    Confirm: {{ form.confirmed }}
 
 
-</div>
-     </div>
+                    <p>
+                        <button type="submit" class="btn btn-primary">Dissolve team</button>
+                    </p>
+                </form>
+
+
+            </div>
+        </div>
     </div>
 
 {% endblock %}

@@ -7,13 +7,13 @@
  * https://github.com/fians/Waves/blob/master/LICENSE
  */
 
-;(function(window, factory) {
+;(function (window, factory) {
     'use strict';
 
     // AMD. Register as an anonymous module.  Wrap in function so we have access
     // to root via `this`.
     if (typeof define === 'function' && define.amd) {
-        define([], function() {
+        define([], function () {
             window.Waves = factory.call(window);
             return window.Waves;
         });
@@ -29,12 +29,12 @@
     else {
         window.Waves = factory.call(window);
     }
-})(typeof global === 'object' ? global : this, function() {
+})(typeof global === 'object' ? global : this, function () {
     'use strict';
 
-    var Waves            = Waves || {};
-    var $$               = document.querySelectorAll.bind(document);
-    var toString         = Object.prototype.toString;
+    var Waves = Waves || {};
+    var $$ = document.querySelectorAll.bind(document);
+    var toString = Object.prototype.toString;
     var isTouchAvailable = 'ontouchstart' in window;
 
 
@@ -72,7 +72,7 @@
 
     function offset(elem) {
         var docElem, win,
-            box = { top: 0, left: 0 },
+            box = {top: 0, left: 0},
             doc = elem && elem.ownerDocument;
 
         docElem = doc.documentElement;
@@ -107,7 +107,7 @@
         // Effect delay (check for scroll before showing effect)
         delay: 200,
 
-        show: function(e, element, velocity) {
+        show: function (e, element, velocity) {
 
             // Disable right click
             if (e.button === 2) {
@@ -122,24 +122,24 @@
             element.appendChild(ripple);
 
             // Get click coordinate and element width
-            var pos       = offset(element);
+            var pos = offset(element);
             var relativeY = 0;
             var relativeX = 0;
             // Support for touch devices
-            if('touches' in e && e.touches.length) {
-                relativeY   = (e.touches[0].pageY - pos.top);
-                relativeX   = (e.touches[0].pageX - pos.left);
+            if ('touches' in e && e.touches.length) {
+                relativeY = (e.touches[0].pageY - pos.top);
+                relativeX = (e.touches[0].pageX - pos.left);
             }
             //Normal case
             else {
-                relativeY   = (e.pageY - pos.top);
-                relativeX   = (e.pageX - pos.left);
+                relativeY = (e.pageY - pos.top);
+                relativeX = (e.pageX - pos.left);
             }
             // Support for synthetic events
             relativeX = relativeX >= 0 ? relativeX : 0;
             relativeY = relativeY >= 0 ? relativeY : 0;
 
-            var scale     = 'scale(' + ((element.clientWidth / 100) * 3) + ')';
+            var scale = 'scale(' + ((element.clientWidth / 100) * 3) + ')';
             var translate = 'translate(0,0)';
 
             if (velocity) {
@@ -173,14 +173,14 @@
 
             var duration = e.type === 'mousemove' ? 2500 : Effect.duration;
             rippleStyle['-webkit-transition-duration'] = duration + 'ms';
-            rippleStyle['-moz-transition-duration']    = duration + 'ms';
-            rippleStyle['-o-transition-duration']      = duration + 'ms';
-            rippleStyle['transition-duration']         = duration + 'ms';
+            rippleStyle['-moz-transition-duration'] = duration + 'ms';
+            rippleStyle['-o-transition-duration'] = duration + 'ms';
+            rippleStyle['transition-duration'] = duration + 'ms';
 
             ripple.setAttribute('style', convertStyle(rippleStyle));
         },
 
-        hide: function(e, element) {
+        hide: function (e, element) {
             element = element || this;
 
             var ripples = element.getElementsByClassName('waves-rippling');
@@ -206,7 +206,7 @@
     var TagWrapper = {
 
         // Wrap <input> tag so it can perform the effect
-        input: function(element) {
+        input: function (element) {
 
             var parent = element.parentNode;
 
@@ -216,7 +216,7 @@
             }
 
             // Put element class and style to the specified parent
-            var wrapper       = document.createElement('i');
+            var wrapper = document.createElement('i');
             wrapper.className = element.className + ' waves-input-wrapper';
             element.className = 'waves-button-input';
 
@@ -225,8 +225,8 @@
             wrapper.appendChild(element);
 
             // Apply element color and background color to wrapper
-            var elementStyle    = window.getComputedStyle(element, null);
-            var color           = elementStyle.color;
+            var elementStyle = window.getComputedStyle(element, null);
+            var color = elementStyle.color;
             var backgroundColor = elementStyle.backgroundColor;
 
             wrapper.setAttribute('style', 'color:' + color + ';background:' + backgroundColor);
@@ -235,7 +235,7 @@
         },
 
         // Wrap <img> tag so it can perform the effect
-        img: function(element) {
+        img: function (element) {
 
             var parent = element.parentNode;
 
@@ -245,7 +245,7 @@
             }
 
             // Put element as child
-            var wrapper  = document.createElement('i');
+            var wrapper = document.createElement('i');
             parent.replaceChild(wrapper, element);
             wrapper.appendChild(element);
 
@@ -267,7 +267,7 @@
 
         var relativeX = ripple.getAttribute('data-x');
         var relativeY = ripple.getAttribute('data-y');
-        var scale     = ripple.getAttribute('data-scale');
+        var scale = ripple.getAttribute('data-scale');
         var translate = ripple.getAttribute('data-translate');
 
         // Get delay beetween mousedown and mouse leave
@@ -285,7 +285,7 @@
         // Fade out ripple after delay
         var duration = e.type === 'mousemove' ? 2500 : Effect.duration;
 
-        setTimeout(function() {
+        setTimeout(function () {
 
             var style = {
                 top: relativeY + 'px',
@@ -306,7 +306,7 @@
 
             ripple.setAttribute('style', convertStyle(style));
 
-            setTimeout(function() {
+            setTimeout(function () {
                 try {
                     el.removeChild(ripple);
                 } catch (e) {
@@ -329,7 +329,7 @@
          * touchend, nor in the 500ms after touchend. */
         touches: 0,
 
-        allowEvent: function(e) {
+        allowEvent: function (e) {
 
             var allow = true;
 
@@ -339,7 +339,7 @@
 
             return allow;
         },
-        registerEvent: function(e) {
+        registerEvent: function (e) {
             var eType = e.type;
 
             if (eType === 'touchstart') {
@@ -348,7 +348,7 @@
 
             } else if (/^(touchend|touchcancel)$/.test(eType)) {
 
-                setTimeout(function() {
+                setTimeout(function () {
                     if (TouchHandler.touches) {
                         TouchHandler.touches -= 1; // pop after 500ms
                     }
@@ -373,7 +373,7 @@
         var target = e.target || e.srcElement;
 
         while (target.parentElement) {
-            if ( (!(target instanceof SVGElement)) && target.classList.contains('waves-effect')) {
+            if ((!(target instanceof SVGElement)) && target.classList.contains('waves-effect')) {
                 element = target;
                 break;
             }
@@ -414,7 +414,7 @@
                     Effect.show(e, element);
                 }, Effect.delay);
 
-                var hideEffect = function(hideEvent) {
+                var hideEffect = function (hideEvent) {
 
                     // if touch hasn't moved, and effect not yet started: start effect now
                     if (timer) {
@@ -430,7 +430,7 @@
                     removeListeners();
                 };
 
-                var touchMove = function(moveEvent) {
+                var touchMove = function (moveEvent) {
                     if (timer) {
                         clearTimeout(timer);
                         timer = null;
@@ -444,7 +444,7 @@
                 element.addEventListener('touchend', hideEffect, false);
                 element.addEventListener('touchcancel', hideEffect, false);
 
-                var removeListeners = function() {
+                var removeListeners = function () {
                     element.removeEventListener('touchmove', touchMove);
                     element.removeEventListener('touchend', hideEffect);
                     element.removeEventListener('touchcancel', hideEffect);
@@ -464,7 +464,7 @@
         }
     }
 
-    Waves.init = function(options) {
+    Waves.init = function (options) {
         var body = document.body;
 
         options = options || {};
@@ -492,7 +492,7 @@
      * waves classes to a set of elements. Set drag to true if the ripple mouseover
      * or skimming effect should be applied to the elements.
      */
-    Waves.attach = function(elements, classes) {
+    Waves.attach = function (elements, classes) {
 
         elements = getWavesElements(elements);
 
@@ -524,12 +524,12 @@
     /**
      * Cause a ripple to appear in an element via code.
      */
-    Waves.ripple = function(elements, options) {
+    Waves.ripple = function (elements, options) {
         elements = getWavesElements(elements);
         var elementsLen = elements.length;
 
-        options          = options || {};
-        options.wait     = options.wait || 0;
+        options = options || {};
+        options.wait = options.wait || 0;
         options.position = options.position || null; // default = centre of element
 
 
@@ -539,8 +539,8 @@
                 type: 'mousedown',
                 button: 1
             };
-            var hideRipple = function(mouseup, element) {
-                return function() {
+            var hideRipple = function (mouseup, element) {
+                return function () {
                     Effect.hide(mouseup, element);
                 };
             };
@@ -552,7 +552,7 @@
                     y: element.clientHeight / 2
                 };
 
-                off      = offset(element);
+                off = offset(element);
                 centre.x = off.left + pos.x;
                 centre.y = off.top + pos.y;
 
@@ -576,7 +576,7 @@
     /**
      * Remove all ripples from an element.
      */
-    Waves.calm = function(elements) {
+    Waves.calm = function (elements) {
         elements = getWavesElements(elements);
         var mouseup = {
             type: 'mouseup',
@@ -591,7 +591,7 @@
     /**
      * Deprecated API fallback
      */
-    Waves.displayEffect = function(options) {
+    Waves.displayEffect = function (options) {
         console.error('Waves.displayEffect() has been deprecated and will be removed in future version. Please use Waves.init() to initialize Waves effect');
         Waves.init(options);
     };

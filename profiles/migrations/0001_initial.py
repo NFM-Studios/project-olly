@@ -7,7 +7,6 @@ import django_countries.fields
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -20,7 +19,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('ip', models.CharField(default='error', max_length=12)),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='banned', to=settings.AUTH_USER_MODEL)),
+                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='banned',
+                                           to=settings.AUTH_USER_MODEL)),
             ],
         ),
         migrations.CreateModel(
@@ -33,7 +33,8 @@ class Migration(migrations.Migration):
                 ('psu', models.CharField(default='No PSU specified', max_length=30)),
                 ('case', models.CharField(default='No Case specified', max_length=30)),
                 ('os', models.CharField(default='No OS specified', max_length=30)),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='userspecs', to=settings.AUTH_USER_MODEL)),
+                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='userspecs',
+                                           to=settings.AUTH_USER_MODEL)),
             ],
         ),
         migrations.CreateModel(
@@ -70,7 +71,8 @@ class Migration(migrations.Migration):
                 ('tournament_wins', models.PositiveSmallIntegerField(default=0)),
                 ('dubl_tournament_wins', models.PositiveSmallIntegerField(default=0)),
                 ('country', django_countries.fields.CountryField(default='US', max_length=2)),
-                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='user', to=settings.AUTH_USER_MODEL)),
+                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='user',
+                                              to=settings.AUTH_USER_MODEL)),
             ],
         ),
     ]

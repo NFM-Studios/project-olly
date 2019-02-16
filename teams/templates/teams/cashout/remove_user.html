@@ -1,34 +1,35 @@
 {% extends 'cashout/base.html' %}
 {% load static %}
 
-  {% block head %}
-  <title>{{ team.name }} - {{ SITE_NAME }}</title>
-  {% endblock %}
+{% block head %}
+    <title>{{ team.name }} - {{ SITE_NAME }}</title>
+{% endblock %}
 
 {% block body %}
 
 
 
     <div class="container page">
-<div class="col-xs-12">
-           <div class="panel">
-              <div class="panel-body">
-                  <div class="panel-title">Remove a person from {{ team.name }}</div>
+        <div class="col-xs-12">
+            <div class="panel">
+                <div class="panel-body">
+                    <div class="panel-title">Remove a person from {{ team.name }}</div>
 
-<form method="post">
-    {% csrf_token %}
+                    <form method="post">
+                        {% csrf_token %}
 
-    {{ field.errors }}
+                        {{ field.errors }}
 
-   {{ form.as_table }}
+                        {{ form.as_table }}
 
 
+                        <p>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </p>
+                    </form>
 
-    <p><button type="submit" class="btn btn-primary">Submit</button></p>
-  </form>
-
-              </div>
-           </div>
-</div>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}

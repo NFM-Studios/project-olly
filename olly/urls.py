@@ -32,8 +32,8 @@ urlpatterns = [
             profile_views.activate, name='activate'),
 
     path('profile/', include('profiles.urls', namespace='profiles')),
-    path('support/', include('support.urls',namespace='support')),
-    path('teams/', include('teams.urls',namespace='teams')),
+    path('support/', include('support.urls', namespace='support')),
+    path('teams/', include('teams.urls', namespace='teams')),
     path('news/', include('news.urls', namespace='news')),
     path('store/', include('store.urls', namespace='store')),
     path('paypal/', paypal_views.ipn, name="paypal-ipn"),

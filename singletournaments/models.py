@@ -54,7 +54,8 @@ class SingleEliminationTournament(models.Model):
     # general information about the tournament
     info = models.TextField(default="No information provided")
 
-    ruleset = models.ForeignKey(SingleTournamentRuleset, related_name='tournamentruleset', on_delete=models.CASCADE, null=True)
+    ruleset = models.ForeignKey(SingleTournamentRuleset, related_name='tournamentruleset', on_delete=models.CASCADE,
+                                null=True)
 
     # the time the specific tournament object was created
     created = models.DateTimeField(auto_now_add=True)
@@ -222,7 +223,6 @@ class SingleEliminationTournament(models.Model):
                 hometeam.seeds = seeds[0]
                 hometeam.save()
                 round1 = SingleTournamentRound.objects.get(tournament=self, roundnum=1)
-
 
                 m[1] = Match(game=game, matchnum=1, platform=platform, hometeam=team_seeds[0],
                              teamformat=teamformat, bestof=bestof, reported=True,

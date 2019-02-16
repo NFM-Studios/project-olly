@@ -18,20 +18,21 @@ class MatchReportCreateFormGet(forms.ModelForm):
         team1 = Team.objects.filter(id__in=match.values_list('hometeam', flat=True))
         team2 = Team.objects.filter(id__in=match.values_list('awayteam', flat=True))
         super().__init__(*args, **kwargs)
-        self.fields['reported_winner'].widget.attrs.update({'name': 'reported_winner', 'class': 'form-control', 'style': 'background-color: black'})
+        self.fields['reported_winner'].widget.attrs.update(
+            {'name': 'reported_winner', 'class': 'form-control', 'style': 'background-color: black'})
         self.fields['reported_winner'].queryset = team1 | team2
 
 
 class MatchReportCreateFormPost(forms.ModelForm):
     class Meta:
         model = MatchReport
-        fields = ('reported_winner', 'match', )
+        fields = ('reported_winner', 'match',)
 
 
 class DisputeCreateForm(forms.ModelForm):
-    #teamproof_1 = forms.URLField()
-    #teamproof_2 = forms.URLField()
-    #teamproof_3 = forms.URLField()
+    # teamproof_1 = forms.URLField()
+    # teamproof_2 = forms.URLField()
+    # teamproof_3 = forms.URLField()
 
     class Meta:
         model = MatchDispute

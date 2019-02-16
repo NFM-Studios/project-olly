@@ -1,42 +1,42 @@
 {% extends 'staff/staffbase.html' %}
 {% load static %}
 <link rel="stylesheet" href="{% static "css/staff.css" %}">
-<link rel="stylesheet" href="{% static "css/fontawesome-all.min.css" %}">
+<link rel="stylesheet" href="{% static "css/font-awesome.css" %}">
 
 {% block title %}
-Add Teams to Tournament {{ tournament.id }}
+    Add Teams to Tournament {{ tournament.id }}
 {% endblock %}
 
 
 {% block body %}
 
-This is the body
+    This is the body
 
-{% if form.errors %}
-    {% for field in form %}
-        {% for error in field.errors %}
+    {% if form.errors %}
+        {% for field in form %}
+            {% for error in field.errors %}
+                <div class="alert alert-danger">
+                    <strong>{{ error|escape }}</strong>
+                </div>
+            {% endfor %}
+        {% endfor %}
+        {% for error in form.non_field_errors %}
             <div class="alert alert-danger">
                 <strong>{{ error|escape }}</strong>
             </div>
         {% endfor %}
-    {% endfor %}
-    {% for error in form.non_field_errors %}
-        <div class="alert alert-danger">
-            <strong>{{ error|escape }}</strong>
-        </div>
-    {% endfor %}
-{% endif %}
-<form method="post">
-    <table class="table">
-        {% csrf_token %}
-        {{ form.as_table }}
+    {% endif %}
+    <form method="post">
+        <table class="table">
+            {% csrf_token %}
+            {{ form.as_table }}
 
-        <tr>
-            <td colspan="2">
-                <input type="submit" value="Add" class="btn btn-black"/>
-            </td>
-        </tr>
-    </table>
+            <tr>
+                <td colspan="2">
+                    <input type="submit" value="Add" class="btn btn-black"/>
+                </td>
+            </tr>
+        </table>
 
-</form>
+    </form>
 {% endblock %}

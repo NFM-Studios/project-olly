@@ -45,11 +45,12 @@ class EditProfileForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(EditProfileForm, self).__init__(*args, **kwargs)
-        self.fields['profile_picture'].widget.attrs.update({'name': 'profile_picture', 'class': 'form-control', 'style': 'width:30%'})
+        self.fields['profile_picture'].widget.attrs.update(
+            {'name': 'profile_picture', 'class': 'form-control', 'style': 'width:30%'})
         self.fields['about_me'].widget.attrs.update({'name': 'email', 'class': 'form-control', 'style': 'width:30%'})
         self.fields['xbl'].widget.attrs.update({'name': 'password', 'class': 'form-control', 'style': 'width:30%'})
         self.fields['psn'].widget.attrs.update({'name': 'password_confirm', 'class': 'form-control',
-                                                             'style': 'width:30%'})
+                                                'style': 'width:30%'})
         self.fields['steam'].widget.attrs.update({'name': 'password_confirm', 'class': 'form-control', 'style':
                                                   'width:30%'})
         self.fields['epic'].widget.attrs.update({'name': 'password_confirm', 'class': 'form-control', 'style':
@@ -65,10 +66,11 @@ class EditProfileForm(forms.ModelForm):
         self.fields['favorite_console'].widget.attrs.update({'name': 'password', 'class': 'form-control', 'style':
                                                              'width:30%'})
         self.fields['country'].widget.attrs.update({'name': 'password', 'class': 'form-control',
-                                                   'style': 'background-color: black;width:30%'})
+                                                    'style': 'background-color: black;width:30%'})
 
 
-class SortForm(forms.Form):      # it works but is messy af. should be replaced with something like http://img.mulveyben.me/img/chrome_2018-03-11_22-04-28.png
+class SortForm(forms.Form):  # it works but is messy af. should be replaced with something like
+                            # http://img.mulveyben.me/img/chrome_2018-03-11_22-04-28.png
     sort_xp_asc = forms.BooleanField(required=False)
     sort_xp_desc = forms.BooleanField(required=False)
     sort_trophies_asc = forms.BooleanField(required=False)

@@ -184,7 +184,7 @@ def password_reset_confirm(request, uidb64=None, token=None,
     View that checks the hash in a password reset link and presents a
     form for entering a new password.
     """
-    UserModel = get_user_model()
+    user_model = get_user_model()
     assert uidb64 is not None and token is not None  # checked by URLconf
     if post_reset_redirect is None:
         post_reset_redirect = reverse('password_reset_complete')
@@ -193,8 +193,8 @@ def password_reset_confirm(request, uidb64=None, token=None,
     try:
         # urlsafe_base64_decode() decodes to bytestring on Python 3
         uid = force_text(urlsafe_base64_decode(uidb64))
-        user = UserModel._default_manager.get(pk=uid)
-    except (TypeError, ValueError, OverflowError, UserModel.DoesNotExist):
+        user = user_model._default_manager.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, user_model.DoesNotExist):
         user = None
 
     if user is not None and token_generator.check_token(user, token):
@@ -239,14 +239,16 @@ def profile(request, urlusername):
     userprofile = get_object_or_404(UserProfile, user__username=urlusername)
     # following line is not stock olly
     team_list = TeamInvite.objects.filter(accepted=True, user=userprofile.user)
-    return render(request, 'profiles/' + request.tenant + '/profile.html', {'userprofile': userprofile, 'requestuser': request.user, "team_list": team_list})
+    return render(request, 'profiles/' + request.tenant + '/profile.html',
+                  {'userprofile': userprofile, 'requestuser': request.user, "team_list": team_list})
 
 
 def profile_no_username(request):
     if not request.user.is_anonymous:
         userprofile = UserProfile.objects.get(user__username=request.user)
-        team_list = TeamInvite.objects.filter(accepted=True, user = request.user)
-        return render(request, 'profiles/' + request.tenant + '/profile.html', {'userprofile': userprofile, 'requestuser': request.user, "team_list": team_list})
+        team_list = TeamInvite.objects.filter(accepted=True, user=request.user)
+        return render(request, 'profiles/' + request.tenant + '/profile.html',
+                      {'userprofile': userprofile, 'requestuser': request.user, "team_list": team_list})
     else:
         return redirect('login')
 
@@ -340,8 +342,8 @@ class CreateUserFormView(View):
                     })
                     to_email = email_address
                     email = EmailMessage(
-                            mail_subject, message, from_email=settings.FROM_EMAIL, to=[to_email]
-                        )
+                        mail_subject, message, from_email=settings.FROM_EMAIL, to=[to_email]
+                    )
                     email.send()
                     messages.success(request, "Please confirm your email")
                     return redirect('login')
@@ -390,28 +392,35 @@ class LeaderboardView(View):
         if form.cleaned_data['sort_xp_asc']:
             user_list = UserProfile.objects.order_by('xp')
             messages.success(request, "Sorted by ascending XP")
-            return render(request, 'teams/' + request.tenant + '/leaderboard.html', {'user_list': user_list, 'form': self.form_class(None)})
+            return render(request, 'teams/' + request.tenant + '/leaderboard.html',
+                          {'user_list': user_list, 'form': self.form_class(None)})
         elif form.cleaned_data['sort_xp_desc']:
             user_list = UserProfile.objects.order_by('-xp')
             messages.success(request, "Sorted by descending XP")
-            return render(request, 'teams/' + request.tenant + '/leaderboard.html', {'user_list': user_list, 'form': self.form_class(None)})
+            return render(request, 'teams/' + request.tenant + '/leaderboard.html',
+                          {'user_list': user_list, 'form': self.form_class(None)})
         elif form.cleaned_data['sort_trophies_asc']:
             user_list = UserProfile.objects.order_by('num_trophies')
             messages.success(request, "Sorted by ascending number of trophies")
-            return render(request, 'teams/' + request.tenant + '/leaderboard.html', {'user_list': user_list, 'form': self.form_class(None)})
+            return render(request, 'teams/' + request.tenant + '/leaderboard.html',
+                          {'user_list': user_list, 'form': self.form_class(None)})
         elif form.cleaned_data['sort_trophies_desc']:
             user_list = UserProfile.objects.order_by('-num_trophies')
             messages.success(request, "Sorted by descending number of trophies")
-            return render(request, 'teams/' + request.tenant + '/leaderboard.html', {'user_list': user_list, 'form': self.form_class(None)})
+            return render(request, 'teams/' + request.tenant + '/leaderboard.html',
+                          {'user_list': user_list, 'form': self.form_class(None)})
         elif form.cleaned_data['sort_rank_asc']:
             user_list = UserProfile.objects.order_by('rank')
             messages.success(request, "Sorted by ascending rank")
-            return render(request, 'teams/' + request.tenant + '/leaderboard.html', {'user_list': user_list, 'form': self.form_class(None)})
+            return render(request, 'teams/' + request.tenant + '/leaderboard.html',
+                          {'user_list': user_list, 'form': self.form_class(None)})
         elif form.cleaned_data['sort_rank_desc']:
             user_list = UserProfile.objects.order_by('-rank')
             messages.success(request, "Sorted by descending rank")
-            return render(request, 'teams/' + request.tenant + '/leaderboard.html', {'user_list': user_list, 'form': self.form_class(None)})
+            return render(request, 'teams/' + request.tenant + '/leaderboard.html',
+                          {'user_list': user_list, 'form': self.form_class(None)})
         else:
             user_list = UserProfile.objects.order_by('-xp')
             messages.error(request, 'No sort option selected, sorting by descending xp')
-            return render(request, 'teams/' + request.tenant + '/leaderboard.html', {'user_list': user_list, 'form': self.form_class(None)})
+            return render(request, 'teams/' + request.tenant + '/leaderboard.html',
+                          {'user_list': user_list, 'form': self.form_class(None)})

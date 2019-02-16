@@ -1,37 +1,37 @@
 {% extends "ga/base.html" %}
 {% load static %}
 
-  {% block head %}
-  <title>Promote a Player - {{ SITE_NAME }}</title>
-  {% endblock %}
+{% block head %}
+    <title>Promote a Player - {{ SITE_NAME }}</title>
+{% endblock %}
 
 {% block body %}
 
     <div class="container page">
 
-     <div class="panel">
-         <div class="panel-title">Promote a player</div>
-      <div class="panel-body">
+        <div class="panel">
+            <div class="panel-title">Promote a player</div>
+            <div class="panel-body">
 
-<h2 id="captain-header" style="">Promote a player from a player to a captain</h2>
-<p id="captain-text" style> Captains have added permissions, such as editing the team profile,
-  inviting players, and reporting matches.
-<br />
-Captains <strong>do not</strong> have permissions to remove players from a team.
+                <h2 id="captain-header" style="">Promote a player from a player to a captain</h2>
+                <p id="captain-text" style> Captains have added permissions, such as editing the team profile,
+                    inviting players, and reporting matches.
+                    <br/>
+                    Captains <strong>do not</strong> have permissions to remove players from a team.
 
-<form method="POST" action="{% url 'teams:create' %}">
-    <table class="table">
-        {% csrf_token %}
-        {{form.as_table}}
-        <tr>
-            <td colspan="2">
-                <input type="submit" value="Create" class="btn btn-success"/>
-            </td>
-        </tr>
-    </table>
-</form>
-      </div>
-     </div>
+                <form method="POST" action="{% url 'teams:create' %}">
+                    <table class="table">
+                        {% csrf_token %}
+                        {{ form.as_table }}
+                        <tr>
+                            <td colspan="2">
+                                <input type="submit" value="Create" class="btn btn-success"/>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
     </div>
 
 {% endblock %}

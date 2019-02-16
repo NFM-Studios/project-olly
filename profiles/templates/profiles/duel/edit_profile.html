@@ -1,61 +1,61 @@
 {% extends 'duel/base.html' %}
 
-  {% block head %}
-  <title>Edit profile - {{ SITE_NAME }}</title>
-  {% endblock %}
+{% block head %}
+    <title>Edit profile - {{ SITE_NAME }}</title>
+{% endblock %}
 
 {% block body %}
     <div class="container page">
 
-     <div class="panel">
-         <div class="panel-title">Edit Profile</div>
-      <div class="panel-body">
+        <div class="panel">
+            <div class="panel-title">Edit Profile</div>
+            <div class="panel-body">
 
-  <form enctype="multipart/form-data" method="post">
-    {% csrf_token %}
+                <form enctype="multipart/form-data" method="post">
+                    {% csrf_token %}
 
-    {{ field.errors }}
+                    {{ field.errors }}
 
-    <label>About Me</label>
-    <div class="form-group">{{ form.about_me }}</div>
+                    <label>About Me</label>
+                    <div class="form-group">{{ form.about_me }}</div>
 
-    <label>Xbox Live</label>
-    <div class="form-group">{{ form.xbl }}</div>
+                    <label>Xbox Live</label>
+                    <div class="form-group">{{ form.xbl }}</div>
 
-    <label>PSN</label>
-    <div class="form-group">{{ form.psn }}</div>
+                    <label>PSN</label>
+                    <div class="form-group">{{ form.psn }}</div>
 
-    <label>Steam Name</label>
-    <div class="form-group">{{ form.steam }}</div>
+                    <label>Steam Name</label>
+                    <div class="form-group">{{ form.steam }}</div>
 
-    <label>Epic Games Username</label>
-    <div class="form-group">{{ form.epic }}</div>
+                    <label>Epic Games Username</label>
+                    <div class="form-group">{{ form.epic }}</div>
 
-    <label>Battle.Net BattleTag</label>
-    <div class="form-group">{{ form.battlenet }}</div>
+                    <label>Battle.Net BattleTag</label>
+                    <div class="form-group">{{ form.battlenet }}</div>
 
-    <label>Twitter Username</label>
-    <div class="form-group">{{ form.twitter_profile }}</div>
+                    <label>Twitter Username</label>
+                    <div class="form-group">{{ form.twitter_profile }}</div>
 
-    <label>Twitch Username</label>
-    <div class="form-group">{{ form.twitch_channel }}</div>
+                    <label>Twitch Username</label>
+                    <div class="form-group">{{ form.twitch_channel }}</div>
 
-    <label>Preferred Game</label>
-    <div class="form-group">{{ form.favorite_game }}</div>
+                    <label>Preferred Game</label>
+                    <div class="form-group">{{ form.favorite_game }}</div>
 
-    <label>Preferred Console</label>
-    <div class="form-group">{{ form.favorite_console }}</div>
+                    <label>Preferred Console</label>
+                    <div class="form-group">{{ form.favorite_console }}</div>
 
-    <label>Country</label>
-    <div class="form-group">{{ form.country }}</div>
+                    <label>Country</label>
+                    <div class="form-group">{{ form.country }}</div>
 
-    <label>Enable email notifications</label>
-    <div class="form-group">{{ form.email_enabled }}</div>
+                    <label>Enable email notifications</label>
+                    <div class="form-group">{{ form.email_enabled }}</div>
 
-    <button type="submit" class="btn btn-primary">Update</button>
-  </form>
-      </div>
-     </div>
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </form>
+            </div>
+        </div>
     </div>
 
 {% endblock %}
