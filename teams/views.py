@@ -25,6 +25,7 @@ class MyInvitesListView(ListView):
     # show all the invites, and an accept or deny button.
     # check if the invite is expired.
     model = TeamInvite
+    #template_name = 'teams/' + request.tenant + 'my-invites.html'
 
     def get(self, request):
         teaminvite_list = TeamInvite.objects.filter(user=self.request.user, active=True)
@@ -61,7 +62,7 @@ def invite_view(request, num):
                     invite.expire = timezone.now()
                     invite.active = False
                     invite.save()
-                    messages.success(request, 'Accepted invite to ' + str(invite.team.name))
+                    messages.success(request, 'Accepted invite to '+str(invite.team.name))
                     return redirect('/teams/')
                 elif accepted == 'off':
                     invite = TeamInvite.objects.get(id=num)
@@ -69,7 +70,7 @@ def invite_view(request, num):
                     invite.expire = timezone.now()
                     invite.active = False
                     invite.save()
-                    messages.success(request, 'Declined invite to ' + str(invite.team.name))
+                    messages.success(request, 'Declined invite to '+str(invite.team.name))
                     return redirect('/teams/')
 
 
@@ -97,6 +98,7 @@ def edit_team_view(request, pk):
         teamobj.website = form.data['website']
         teamobj.twitter = form.data['twitter']
         teamobj.twitch = form.data['twitch']
+        teamobj.country = form.data['country']
         teamobj.save()
         return redirect(reverse('teams:detail', args=[pk]))
     else:
@@ -115,6 +117,9 @@ class MyTeamDetailView(DetailView):
     def get(self, request, pk):
         team = get_object_or_404(Team, id=pk)
         players = TeamInvite.objects.filter(team=team, accepted=True)
+        up = []
+        for player in players:
+            up.append(UserProfile.objects.get(user__username=player))
         matches_ = Match.objects.filter(awayteam_id=team.id)
         matches__ = Match.objects.filter(hometeam_id=team.id)
         matches = matches_ | matches__
@@ -124,11 +129,9 @@ class MyTeamDetailView(DetailView):
                 messages.warning(request, "Xbox Live is not verified")
             if not user.psn_verified:
                 messages.warning(request, "PSN is not verified")
-            return render(request, 'teams/' + request.tenant + '/team.html',
-                          {'team': team, 'players': players, 'pk': pk, 'matches': matches})
+            return render(request, 'teams/' + request.tenant + '/team.html', {'team': team, 'players': players, 'up':up,'pk': pk, 'matches': matches})
         else:
-            return render(request, 'teams/' + request.tenant + '/team.html',
-                          {'team': team, 'players': players, 'pk': pk, 'matches': matches})
+            return render(request, 'teams/' + request.tenant + '/team.html', {'team': team, 'players': players, 'up':up, 'pk': pk, 'matches': matches})
 
     def get_context_date(self, **kwargs):
         context = super(MyTeamDetailView, self).get_context_date(**kwargs)
@@ -159,7 +162,6 @@ class MyTeamDetailView(DetailView):
 
 class TeamCreateView(View):
     form_class = TeamCreateForm
-
     # template_name = 'teams/' + request.tenant + '/create-team.html'
 
     def get(self, request):
@@ -170,13 +172,13 @@ class TeamCreateView(View):
         form = self.form_class(request.POST)
 
         if form.is_valid():
-            team = form.instance
-            if len(team.name) < 5:
+            Team = form.instance
+            if len(Team.name) < 5:
                 messages.error(self.request, 'Your team name must be 5 or more characters')
                 return redirect('teams:create')
 
-            team.founder = self.request.user
-            team.save()
+            Team.founder = self.request.user
+            Team.save()
             invite = TeamInvite()
             invite.expire = timezone.now()
             invite.user = self.request.user
@@ -185,7 +187,7 @@ class TeamCreateView(View):
             invite.accepted = True
             invite.inviter = self.request.user
             invite.inviter_id = self.request.user.id
-            invite.team_id = team.id
+            invite.team_id = Team.id
             invite.save()
 
             messages.success(self.request, 'Your Team has been created successfully')
@@ -223,15 +225,15 @@ class TeamInviteCreateView(View):
                 messages.error(request, "That user already has been invited to this team")
                 return redirect('/teams/')
             else:
-                team_invite = form.instance
-                team_invite.inviter = self.request.user
-                team_invite.team = team
-                team_invite.user = invitee.user
-                team_invite.expire = timezone.now() + datetime.timedelta(days=1)
-                team_invite.captain = form.data['captain']
+                TeamInvite = form.instance
+                TeamInvite.inviter = self.request.user
+                TeamInvite.team = team
+                TeamInvite.user = invitee.user
+                TeamInvite.expire = timezone.now() + datetime.timedelta(days=1)
+                TeamInvite.captain = form.data['captain']
                 if form.data['captain'] == 'captain' or form.data['captain'] == 'founder':
-                    team_invite.hasPerms = True
-                team_invite.save()
+                    TeamInvite.hasPerms = True
+                TeamInvite.save()
                 messages.success(request, 'Sent invite successfully')
                 return redirect('/teams/')
 
@@ -267,8 +269,7 @@ class LeaveTeamView(View):
                     messages.error(request, "You don't appear to be on this team")
                     return redirect('teams:detail', pk=pk)
         except:
-            messages.error(request,
-                           "You submitted without confirming that you wanted to leave, redirecting to team detail")
+            messages.error(request, "You submitted without confirming that you wanted to leave, redirecting to team detail")
             return redirect('teams:detail', pk=pk)
 
 
