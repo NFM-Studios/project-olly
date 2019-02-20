@@ -1,132 +1,124 @@
 {% extends "roc/base.html" %}
 {% load static %}
 
-{% block head %}
-    <title>{{ team.name }} - {{ SITE_NAME }}</title>
-{% endblock %}
+  {% block head %}
+  <title>{{ team.name }} - {{ SITE_NAME }}</title>
+  {% endblock %}
 
 {% block body %}
 
 
 
-    <div class="container page">
+<div class="container page">
 
-        <div class="panel">
-            <div class="panel-body">
+           <div class="panel">
+              <div class="panel-body">
 
-                <div class="col-xs-12 banner-head bot20">
-                    <div class="row bot10">
-                        <div class="col-xs-12 col-sm-6 center">
-                            <br><br>
-                            <h2><b>{{ team.name }}</b></h2>
-                            <br><br>
-                            Founded by {{ team.founder }} on {{ team.created }}<br>
-                            <br><br>
-                        </div>
-                        <div class="col-xs-12 col-sm-6 center">
-                            <img src="{% static 'roc/images/avatar.jpg' %}"/>
-                        </div>
+                   <div class="col-xs-12 banner-head bot20">
+                   <div class="row bot10">
+                   <div class="col-xs-12 col-sm-6 center">
+                   <br><br>
+                    <h2><b>{{ team.name }} <img src="{{ team.country.flag }}"></b></h2>
+                    <br><br>
+                    Founded by {{ team.founder }} on {{ team.created }}<br>
+                    <br><br>
+                   </div>
+                   <div class="col-xs-12 col-sm-6 center">
+                    <img src="{% static 'roc/images/avatar.jpg' %}"/>
+                   </div>
+
+                   </div>
+                 <div class="row">
+                  <div class="col-xs-6 bot10">
+                      <div class="btn btn-success btn-xs btn-block white"><a style="color: white;" href="{% url 'teams:edit' pk=team.id %}">EDIT TEAM</a> | <a style="color: white;" href="{% url 'teams:invite' %}">INVITE PLAYERS</a></div>
+                  </div>
+                  <div class="col-xs-6">
+                    <a class="btn btn-danger btn-xs btn-block white" href="#">DISBAND TEAM</a>
+                  </div>
+                 </div>
+                  </div>
+
+
+                   <div class="row gutter-10 bot20">
+
+                       {% if team.twitter == 'No Twitter Linked' or team.twitter == '' %}
+                           No twitter linked
+                       {% else %}
+                     <div class="col-xs-12 col-sm-6">
+                     <div class="panel-title bold">Twitter Feed</div>
+                       <a class="twitter-timeline" data-height="320" data-theme="dark" data-link-color="#2B7BB9" href="https://twitter.com/{{ team.twitter }}">Tweets by {{ team.twitter }}</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+     				 </div>
+                       {% endif %}
+
+                     <!--<div class="col-xs-12 col-sm-6">
+                     <div class="panel-title bold">Featured Video</div>
+                      <iframe width="100%" height="320" src="https://www.youtube.com/embed/IRPqU8qAKJc" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+     				 </div>-->
 
                     </div>
-                    <div class="row">
-                        <div class="col-xs-6 bot10">
-                            <div class="btn btn-success btn-xs btn-block white"><a style="color: white;"
-                                                                                   href="{% url 'teams:edit' pk=team.id %}">EDIT
-                                TEAM</a> | <a style="color: white;" href="{% url 'teams:invite' %}">INVITE PLAYERS</a>
+
+                <div class="row gutter-10 bot20">
+
+                     <div class="col-xs-12">
+                     <div class="panel-title bold">Roster</div>
+                       <div class="table-responsive">
+                                <table class="table table-hover">
+                                 <thead>
+                                  <tr>
+                                   <th></th>
+                                   <th>PLAYER</th>
+                                   <th>WINNINGS</th>
+                                   <th>ELIGABLE?</th>
+                                  </tr>
+                                 </thead>
+                                    <tbody>
+                                    {% for profile in up %}
+
+                                        <tr>
+                                            <td valign="middle"><img src="{% static 'binge/images/stock.png' %}"/></td>
+                                            <td valign="middle"><img src="{{ profile.country.flag }}"><a href="{% url 'profiles:profile' urlusername=profile.user %}">{{ profile.user }}</a></td>
+                                            <td valign="middle">{% if profile.xbl_verified and profile.psn_verified %}YES{% else %}NO{% endif %}</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
                             </div>
-                        </div>
-                        <div class="col-xs-6">
-                            <a class="btn btn-danger btn-xs btn-block white" href="#">DISBAND TEAM</a>
-                        </div>
+     				 </div>
+                     </div>
+
+                     <div class="row gutter-10 bot20">
+                       <div class="col-xs-12">
+                     <div class="panel-title bold">Matches</div>
+                       <div class="table-responsive">
+                                <table class="table table-hover">
+                                 <thead>
+                                  <tr>
+                                   <th>TEAM 1</th>
+                                   <th>TEAM 2</th>
+                                   <th>MATCH TIME</th>
+                                   <th>DETAILS</th>
+                                  </tr>
+                                 </thead>
+                                    <tbody>
+                                    {% for match in matches %}
+                                        <tr>
+                                            <td valign="middle"><br>{{ match.awayteam }}<br><br></td>
+                                            <td valign="middle"><br>{{ match.hometeam }}<br><br></td>
+                                            <td valign="middle"><br>unknown<br></td>
+                                            <td valign="middle"><br><a href="{% url 'matches:detail' pk=match.id %}">VIEW</a><br><br></td>
+                                        </tr>
+                                    {% endfor %}
+
+                                    </tbody>
+                                </table>
+                            </div>
+     				 </div>
                     </div>
-                </div>
 
-
-                <div class="row gutter-10 bot20">
-
-                    {% if team.twitter == 'No Twitter Linked' or team.twitter == '' %}
-                        No twitter linked
-                    {% else %}
-                        <div class="col-xs-12 col-sm-6">
-                            <div class="panel-title bold">Twitter Feed</div>
-                            <a class="twitter-timeline" data-height="320" data-theme="dark" data-link-color="#2B7BB9"
-                               href="https://twitter.com/{{ team.twitter }}">Tweets by {{ team.twitter }}</a>
-                            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-                        </div>
-                    {% endif %}
-
-                    <!--<div class="col-xs-12 col-sm-6">
-                    <div class="panel-title bold">Featured Video</div>
-                     <iframe width="100%" height="320" src="https://www.youtube.com/embed/IRPqU8qAKJc" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-                     </div>-->
-
-                </div>
-
-                <div class="row gutter-10 bot20">
-
-                    <div class="col-xs-12">
-                        <div class="panel-title bold">Roster</div>
-                        <div class="table-responsive">
-                            <table class="table table-hover">
-                                <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>PLAYER</th>
-                                    <th>WINNINGS</th>
-                                    <th>ELIGABLE?</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {% for player in players %}
-                                    <tr>
-                                        <td valign="middle"><img src="{% static 'roc/images/avatar.jpg' %}"></td>
-                                        <td valign="middle"><a
-                                                href="{% url 'profiles:profile' urlusername=player.user %}">{{ player.user }}</a>
-                                        </td>
-                                        <td valign="middle">unknown</td>
-                                        <td valign="middle">unknown</td>
-                                    </tr>
-                                {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row gutter-10 bot20">
-                    <div class="col-xs-12">
-                        <div class="panel-title bold">Matches</div>
-                        <div class="table-responsive">
-                            <table class="table table-hover">
-                                <thead>
-                                <tr>
-                                    <th>TEAM 1</th>
-                                    <th>TEAM 2</th>
-                                    <th>MATCH TIME</th>
-                                    <th>DETAILS</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {% for match in matches %}
-                                    <tr>
-                                        <td valign="middle"><br>{{ match.awayteam }}<br><br></td>
-                                        <td valign="middle"><br>{{ match.hometeam }}<br><br></td>
-                                        <td valign="middle"><br>unknown<br></td>
-                                        <td valign="middle"><br><a
-                                                href="{% url 'matches:detail' pk=match.id %}">VIEW</a><br><br></td>
-                                    </tr>
-                                {% endfor %}
-
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-
+                 </div>
 
     </div>
+
+
+</div>
 {% endblock %}
