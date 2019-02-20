@@ -69,6 +69,7 @@ class EditTeamProfileForm(forms.ModelForm):
             'website',
             'twitter',
             'twitch',
+            'country',
         )
 
     def __init__(self, *args, **kwargs):
@@ -77,6 +78,7 @@ class EditTeamProfileForm(forms.ModelForm):
         self.fields['website'].widget.attrs.update({'name': 'website', 'class': 'form-control', 'style': 'width:30%'})
         self.fields['twitter'].widget.attrs.update({'name': 'twitter', 'class': 'form-control', 'style': 'width:30%'})
         self.fields['twitch'].widget.attrs.update({'name': 'twitch', 'class': 'form-control', 'style': 'width:30%'})
+        self.fields['country'].widget.attrs.update({'name': 'country', 'class': 'form-control', 'style': 'width:30%'})
 
 
 class ViewInviteForm(forms.ModelForm):
