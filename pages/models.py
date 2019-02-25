@@ -103,6 +103,8 @@ def auto_delete_file(sender, instance, **kwargs):
         instance.bingetop2image.delete()
     if instance.bingetop3image:
         instance.bingetop3image.delete()
+    if instance.bingetop4image:
+        instance.bingetop4image.delete()
 
 
 @receiver(models.signals.pre_save, sender=StaticInfo)
