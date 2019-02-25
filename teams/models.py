@@ -1,5 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
+from profiles.models import UserProfile
+from django_countries.fields import CountryField
 
 from profiles.models import UserProfile
 
@@ -36,6 +38,8 @@ class Team(models.Model):
 
     totalxp = models.PositiveSmallIntegerField(default=0)
     rank = models.PositiveSmallIntegerField(default=100)
+
+    country = CountryField(blank=True)
 
     class Meta:
         verbose_name = 'Team'
