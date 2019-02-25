@@ -41,14 +41,23 @@ class StaticInfo(models.Model):
     bingetop1 = models.TextField(default="Coming Soon!", blank=True, null=True)
     bingetop1image = models.ImageField(upload_to='carousel_images', blank=True)
     bingetop1link = models.URLField(max_length=200, default="#", blank=True, null=True)
+    bingetop1linktxt = models.TextField(default="Coming Soon!", blank=True, null=True)
 
     bingetop2 = models.TextField(default="Coming Soon!", blank=True, null=True)
     bingetop2image = models.ImageField(upload_to='carousel_images', blank=True)
     bingetop2link = models.URLField(max_length=200, default="#", blank=True, null=True)
+    bingetop2linktxt = models.TextField(default="Coming Soon!", blank=True, null=True)
 
     bingetop3 = models.TextField(default="Coming Soon!", blank=True, null=True)
     bingetop3image = models.ImageField(upload_to='carousel_images', blank=True)
     bingetop3link = models.URLField(max_length=200, default="#", blank=True, null=True)
+    bingetop3linktxt = models.TextField(default="Coming Soon!", blank=True, null=True)
+
+
+    bingetop4 = models.TextField(default="Coming Soon!", blank=True, null=True)
+    bingetop4image = models.ImageField(upload_to='carousel_images', blank=True)
+    bingetop4link = models.URLField(max_length=200, default="#", blank=True, null=True)
+    bingetop4linktxt = models.TextField(default="Coming Soon!", blank=True, null=True)
 
 
 class Partner(models.Model):
