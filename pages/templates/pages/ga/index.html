@@ -69,18 +69,18 @@
 
             <div class="col-xs-12 col-sm-12 col-md-9">
 
-                <div class="col-xs-12 col-sm-6 bot10 thin">
-                    <div class="panel-default">
-                        <div class="panel-body center">
-                            <img src="{% static 'ga/images/price-1.jpg' %}">
-                            <br>
-                            <h1>SLIGHTLY</h1>
-                            <h2>INSANE</h2>
-                            <br>
-                        </div>
-                        <div class="price-foot"><h3><b>$5 HOURLY</b></h3></div>
-                    </div>
-                </div>
+      <div class="col-xs-12 col-sm-6 bot10 thin">
+       <div class="panel-default">
+        <div class="panel-body center">
+          <img src="{% if staticinfo.bingetop1image %}{{ staticinfo.bingetop1image.url }}{% else %}{% static 'ga/images/price-1.jpg' %}{% endif %}">
+          <br>
+          <h2>{{ staticinfo.bingetop1|linebreaksbr }}</h2>
+          <!--<h2>INSANE</h2>-->
+          <br>
+        </div>
+           <div class="price-foot"><h3><b><a href="{{ staticinfo.bingetop1link }}">{{ staticinfo.bingetop1linktxt }}</a></b></h3></div>
+       </div>
+      </div>
 
                 <div class="col-xs-12 col-sm-6 bot10 thin">
                     <div class="panel-default">
