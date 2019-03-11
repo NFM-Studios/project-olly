@@ -51,7 +51,7 @@ EMAIL_HOST_USER = 'ga@mg.nfmstudios.com'
 EMAIL_HOST_PASSWORD = 'T3tRxMLRD9BWh3pD56gcm2eBAPdEAhhT'
 FROM_EMAIL = "Gamers Asylum <noreply@gaesportscenter.com>"
 EMAIL_PORT = 587
-PAYPAL_EMAIL = ""
+PAYPAL_EMAIL = "cw2jimjim@gmail.com"
 
 # Captcha
 GOOGLE_RECAPTCHA_SECRET_KEY = '6Ld6NokUAAAAAGmOedlMmeW9Gd_XOztzwYiZ-6kP'
