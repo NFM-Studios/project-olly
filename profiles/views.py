@@ -284,7 +284,7 @@ def edit_profile(request):
     else:
         userprofileobj = UserProfile.objects.get(user__username=request.user.username)
         form = EditProfileForm(instance=userprofileobj)
-        return render(request, 'profiles/' + request.tenant + '/edit_profile.html', {'form': form})
+        return render(request, 'profiles/' + request.tenant + '/edit_profile.html', {'form': form, 'userprofile': userprofileobj})
 
 
 class CreateUserFormView(View):
