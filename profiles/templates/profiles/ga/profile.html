@@ -20,12 +20,11 @@
                                 {% if userprofile.profile_picture.url != "" %}
                                     <img src="{{ userprofile.profile_picture.url }}" align="center" width="200"> <br/>
                                 {% else %}
-                                    <img src="{% static 'binge/images/stock.png' %}" align="center" width="200"/> <br/>
+                                    <img src="{% static 'ga/images/avatar.jpg' %}" align="center" width="200"/> <br/>
                                 {% endif %}
                             </div>
                             <div class="col-xs-12 col-sm-4">
-                                <h2><b>{{ userprofile.user }} {% if userprofile.user_verified %}
-                                    <i class="fa fa-check-circle v1" aria-hidden="true"></i>{% endif %}</b></h2>
+                                <h2><b>{{ userprofile.user }} </b></h2>
 
                                 About Me:<br>
                                 {{ userprofile.about_me }}<br>
