@@ -1,63 +1,119 @@
 {% extends 'ga/base.html' %}
+{% load static %}
 
 {% block head %}
     <title>Edit profile - {{ SITE_NAME }}</title>
 {% endblock %}
 
 {% block body %}
+
     <div class="container page">
-
-        <div class="panel">
-            <div class="panel-title">Edit Profile</div>
+        <div class="panel-default">
             <div class="panel-body">
+                <div class="col-xs-12">
+                    <div class="row bot20">
+                        <div class="col-xs-5 col-sm-2">
+                            {% if userprofile.profile_picture.url != "" %}
+                                    <img src="{{ userprofile.profile_picture.url }}" class="ava1"> <br/>
+                                {% else %}
+                                    <img src="{% static 'ga/images/avatar.jpg' %}" class="aval"/> <br/>
+                                {% endif %}
+                        </div>
+                        <div class="col-xs-7 col-sm-7">
+                            About Me:<br>
+                                {{ userprofile.about_me }}<br>
+                                <br>
+                                PSN: <a href="#">{{ userprofile.psn }}
+                                {% if userprofile.psn_verified %}
+                                    <i class="fa fa-check-circle" style="color:green"></i>
+                                {% else %}
+                                    <i class="fa fa-times-circle" style="color:red"></i>
+                                {% endif %}
+                            </a><br>
+                                XBL: <a href="#">{{ userprofile.xbl }}
+                                {% if userprofile.xbl_verified %}
+                                    <i class="fa fa-check-circle" style="color:green"></i>
+                                {% else %}
+                                    <i class="fa fa-times-circle" style="color:red"></i>
+                                {% endif %}
+                            </a><br>
+                                Epic Games: <a href="#"> {{ userprofile.epic }}</a>
+                                <br>
+                                <br>
+                                Twitter: <a
+                                    href="{% if userprofile.twitter_profile == "No Twitter Linked" or userprofile.twitter_profile == "" %}
+        #
+    {% else %}
+    https://twitter.com/{{ userprofile.twitter_profile }}
+        {% endif %}">@{{ userprofile.twitter_profile }}</a><br>
+                                Twitch: <a
+                                    href="{% if userprofile.twitch_channel == "No Twitch Linked" or userprofile.twitch_channel == "" %}
+        #
+    {% else %}
+    https://twitch.tv/{{ userprofile.twitch_channel }}
+        {% endif %}">{{ userprofile.twitch_channel }}</a><br>
+                        </div>
+                    </div>
+                </div>
 
-                <form enctype="multipart/form-data" method="post">
-                    {% csrf_token %}
 
-                    {{ field.errors }}
+                <div class="col-xs-12 col-sm-6">
+                    <form enctype="multipart/form-data" method="post">
+                        {% csrf_token %}
 
-                    <label>About Me</label>
-                    <div class="form-group">{{ form.about_me }}</div>
+                        {{ field.errors }}
 
-                    <label>Xbox Live</label>
-                    <div class="form-group">{{ form.xbl }}</div>
+                        <label>About Me</label>
+                        <div class="form-group">{{ form.about_me }}</div>
 
-                    <label>PSN</label>
-                    <div class="form-group">{{ form.psn }}</div>
+                        <label>Xbox Live</label>
+                        <div class="form-group">{{ form.xbl }}</div>
 
-                    <label>Steam Name</label>
-                    <div class="form-group">{{ form.steam }}</div>
+                        <label>PSN</label>
+                        <div class="form-group">{{ form.psn }}</div>
 
-                    <label>Epic Games Username</label>
-                    <div class="form-group">{{ form.epic }}</div>
+                        <label>Steam Name</label>
+                        <div class="form-group">{{ form.steam }}</div>
 
-                    <label>Battle.Net BattleTag</label>
-                    <div class="form-group">{{ form.battlenet }}</div>
+                        <label>Epic Games Username</label>
+                        <div class="form-group">{{ form.epic }}</div>
 
-                    <label>Twitter Username</label>
-                    <div class="form-group">{{ form.twitter_profile }}</div>
-
-                    <label>Twitch Username</label>
-                    <div class="form-group">{{ form.twitch_channel }}</div>
-
-                    <label>Preferred Game</label>
-                    <div class="form-group">{{ form.favorite_game }}</div>
-
-                    <label>Preferred Console</label>
-                    <div class="form-group">{{ form.favorite_console }}</div>
-
-                    <label>Country</label>
-                    <div class="form-group">{{ form.country }}</div>
-
-                    <label>Profile Picture</label>
-                    <div class="form-group">{{ form.profile_picture }}</div>
-
-                    <label>Enable email notifications</label>
-                    <div class="form-group">{{ form.email_enabled }}</div>
+                        <label>Battle.Net BattleTag</label>
+                        <div class="form-group">{{ form.battlenet }}</div>
 
 
-                    <button type="submit" class="btn btn-primary">Update</button>
-                </form>
+
+                </div>
+                    <div class="col-xs-12 col-sm-6">
+
+                        <label>Twitter Username</label>
+                        <div class="form-group">{{ form.twitter_profile }}</div>
+
+
+                        <label>Twitch Username</label>
+                        <div class="form-group">{{ form.twitch_channel }}</div>
+
+                        <label>Preferred Game</label>
+                        <div class="form-group">{{ form.favorite_game }}</div>
+
+                        <label>Preferred Console</label>
+                        <div class="form-group">{{ form.favorite_console }}</div>
+
+                        <label>Country</label>
+                        <div class="form-group">{{ form.country }}</div>
+
+                        <label>Profile Picture</label>
+                        <div class="form-group">{{ form.profile_picture }}</div>
+
+                        <label>Enable email notifications</label>
+                        <div class="form-group">{{ form.email_enabled }}</div>
+
+
+                        <button type="submit" class="btn btn-default btn-md btn-block">Update</button>
+                    </form>
+
+
+                </div>
             </div>
         </div>
     </div>
