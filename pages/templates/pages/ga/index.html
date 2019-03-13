@@ -32,6 +32,17 @@
                     </div>
                 </div>
 
+                <div class="item">
+                    <img src="
+
+                            {% if staticinfo.slide3_img == "" %}{% static 'ga/images/slider1.jpg' %}{% else %}{{ staticinfo.slide3_img.url }}{% endif %}"
+                         alt="Slide2">
+                    <div class="carousel-caption center">
+                        <h3>{{ staticinfo.bingeslide3big }}</h3>
+                        <h5>{{ staticinfo.bingeslide3small }}</h5>
+                    </div>
+                </div>
+
             </div>
 
 
