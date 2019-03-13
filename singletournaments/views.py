@@ -147,15 +147,15 @@ class SingleTournamentJoin(View):
                 return redirect('singletournaments:list')
             for invite in users:
                 user = UserProfile.objects.get(user_id=invite.user.id)
-                if not user.xbl_verified and tournament.platform == 1:
+                """if not user.xbl_verified and tournament.platform == 1:
                     teameligible = False
                     messages.error(request, "One or more users does not have Xbox Live set")
                     return redirect('teams:list')
                 elif not user.psn_verified and tournament.platform == 0:
                     teameligible = False
                     messages.error(request, "One or more users does not have PSN set")
-                    return redirect('teams:list')
-                elif int(user.credits) < int(tournament.req_credits):
+                    return redirect('teams:list')"""
+                if int(user.credits) < int(tournament.req_credits):
                     teameligible = False
                     messages.error(request, "One or more players does not have enough credits")
                     return redirect('teams:list')
