@@ -103,7 +103,7 @@ class SingleEliminationTournament(models.Model):
     # on_delete=models.CASCADE, blank=False, null=True)
 
     def __str__(self):
-        return self.name + str(self.platform) + str(self.game)
+        return self.name # + self.platform + self.game
 
     def set_inactive(self, **kwargs):
         pk = self.kwargs['pk']
