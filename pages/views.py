@@ -40,7 +40,7 @@ def index(request):
     elif request.tenant == 'ga':
         teamlist = Team.objects.all().order_by('-id')[:1]
         playerlist = UserProfile.objects.all().order_by('-xp')[:1]
-        newslist = Post.objects.all().order_by('-id')[:3]
+        newslist = Post.published.all().order_by('-id')[:3]
         matchlist = Match.objects.all().order_by('-id')[:1]
         tournament_list = SingleEliminationTournament.objects.filter(active=True).order_by('-id')[:1]
     else:
