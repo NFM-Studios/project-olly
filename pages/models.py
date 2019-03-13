@@ -1,10 +1,12 @@
 from django.db import models
 from django.dispatch import receiver
+
 from singletournaments.models import SingleEliminationTournament
 
 
 class StaticInfo(models.Model):
-    featured_touranment = models.ForeignKey(SingleEliminationTournament, related_name='featured_tournamet', on_delete=models.CASCADE)
+    featured_touranment = models.ForeignKey(SingleEliminationTournament, related_name='featured_tournamet',
+                                            on_delete=models.CASCADE, null=True)
     about_us = models.TextField(default='about us')
     terms = models.TextField(default='terms of service')
     # privacy = models.TextField(default='privacy policy')
@@ -63,7 +65,7 @@ class StaticInfo(models.Model):
 
 class Partner(models.Model):
     name = models.CharField(max_length=80)
-    website = models.URLField(default="#", blank=True)
+    website = models.URLField(default="https://www.google.com", blank=True)
     twitter = models.CharField(max_length=100, default="#", blank=True)
     bio = models.TextField()
     logo = models.ImageField(upload_to='partner_images', blank=True)
