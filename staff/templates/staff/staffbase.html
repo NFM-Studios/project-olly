@@ -76,12 +76,14 @@
                     <span class="nav-link-text">Pages</span>
                 </a>
             </li>
+            {% if request.tenant == "ga" %}
             <li class="nav-item" data-toggle="tooltip" data-placement="right" title="partners">
                 <a class="nav-link" href="{% url 'staff:partner_list' %}">
                     <i class="fa fa-fw fa-paw"></i>
                     <span class="nav-link-text">Sponsors/Partners</span>
                 </a>
             </li>
+            {% endif %}
 
             <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Games">
                 <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseGames"
