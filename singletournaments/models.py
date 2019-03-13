@@ -41,7 +41,7 @@ class SingleEliminationTournament(models.Model):
     active = models.BooleanField(default=False)
 
     # custom olly - twitch tourament
-    twitch = models.CharField(max_length=60, blank=True)
+    twitch = models.CharField(max_length=60, default='twitch')
 
     # when does registration open, and when does it close? specified when created in staff panel
     open_register = models.DateTimeField()
