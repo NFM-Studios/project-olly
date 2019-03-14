@@ -198,10 +198,13 @@
 
         <div class="row bot20">
 
+            {% if featured is not null %}
             <div class="col-xs-12">
                 <div class="panel-title">UPCOMING <b>EVENT</b></div>
             </div>
+            {% endif %}
 
+            {% if featured is not null %}
             <div class="col-xs-12">
                 <div class="panel-default">
                     <div class="panel-body">
@@ -209,19 +212,18 @@
                             <img src="{% static 'ga/images/news.jpg' %}">
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-4">
-                            <h1><b>EVENT NAME</b></h1>
-                            <p>Suspendisse a nunc at eros tempor luctus. Etiam ultricies temp
-                                non volutpat. Nulla quis lectus massa. Sed convallis eget lorem
-                                maximus. Nullam eget dolor nisl. Phasellus finibus neque</p>
+                            <h1><b>{{ featured.name }}</b></h1>
+                            <p>{{ featured.info }}</p>
                             <br>
-                            <p>Suspendisse a nunc at eros tempor luctus. Etiam ultricies temp
-                                non volutpat. Nulla quis lectus massa.</p>
+                            <p>Starts: {{ featured.starts }}</p>
                             <br>
-                            <a href="" class="btn btn-lg btn-default"> DETAILS </a>
+                            <p>Size: {{ featured.teams.size }}/{{ featured.size }}</p>
+                            <a href="{% url 'singletournaments:detail' pk=featured.id %}" class="btn btn-lg btn-default"> DETAILS </a>
                         </div>
                     </div>
                 </div>
             </div>
+            {% endif %}
 
         </div>
     </div>
