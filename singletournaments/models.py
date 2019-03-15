@@ -3,10 +3,11 @@ import random
 from django.db import models
 from django.dispatch import receiver
 
-from matches.models import Match, GameChoice, PlatformChoice
+from matches.models import Match, GameChoice, PlatformChoice, MapPoolChoice, MapChoice
 from matches.settings import TEAMFORMAT_CHOICES, MAPFORMAT_CHOICES
 from profiles.models import User
 from teams.models import Team
+from django.shortcuts import get_object_or_404
 
 SIZE_CHOICES = (
     (4, 4),
@@ -91,6 +92,8 @@ class SingleEliminationTournament(models.Model):
     xp_seed = models.BooleanField(default=False)
 
     bracket_generated = models.BooleanField(default=False)
+
+    map_pool = models.ForeignKey(MapPoolChoice, related_name='map pool', on_delete=models.CASCADE)
 
     # the prizes that they will win, defined in admin panel. 3rd place isnt really needed..... just first and second...
     prize1 = models.CharField(default='no prize specified', max_length=50)
