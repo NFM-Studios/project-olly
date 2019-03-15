@@ -108,6 +108,16 @@ class SingleEliminationTournament(models.Model):
     def __str__(self):
         return self.name # + self.platform + self.game
 
+    def generate_maps(self, roundpk):
+        pool = self.map_pool
+        poolsize = pool.maps.count()
+        round = get_object_or_404(SingleTournamentRound, pk=roundpk)
+        if round:
+            matches = round.matches
+            for match in matches:
+                mike = random.random(1, poolsize)
+
+
     def set_inactive(self, **kwargs):
         pk = self.kwargs['pk']
         tournament = SingleEliminationTournament.objects.get(id=pk)
