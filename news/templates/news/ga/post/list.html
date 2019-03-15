@@ -18,7 +18,7 @@
                     {% for post in posts %}
                         <div class="col-xs-6 col-sm-6 col-md-3 bot10">
                             <img src="
-                                    {% if post.image != "" %}{{ post.image.url }}{% else %}{% static 'ga/images/fortnite.jpg' %}{% endif %}"/><br>
+                                    {% if post.image %}{{ post.image.url }}{% else %}{% static 'ga/images/fortnite.jpg' %}{% endif %}"/><br>
                             <br>
                             <h5><b>{{ post.title }}</b></h5>
                             <h5><b>Author: {{ post.author }}</b> <br/><b>Published: {{ post.publish }}</b></h5>
