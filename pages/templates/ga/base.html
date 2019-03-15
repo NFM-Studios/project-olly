@@ -15,7 +15,9 @@
     <br>
     <br>
     <br>
-    <ul class="messages">
+    <br>
+    <div class="panel-body" style="text-align: center">
+    <ul class="messages" style="text-decoration: none; list-style-type: none">
         {% for message in messages %}
             <div class="{{ message.tags }}">
                 <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
@@ -23,6 +25,7 @@
             </div>
         {% endfor %}
     </ul>
+    </div>
 {% endif %}
 
 
