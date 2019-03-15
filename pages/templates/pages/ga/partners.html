@@ -6,24 +6,34 @@
 {% endblock %}
 
 {% block body %}
-    <table class="table table-hover">
-        <tr id="header">
-            <thead>
-            <th scope="row">Name</th>
-            <th>Website</th>
-            <th>Bio</th>
-            <th>Twitter</th>
-            </thead>
-        </tr>
-        {% for partner in partners %}
-            <tbody>
-            <tr scope="">
-                <td scope="row">{{ partner.name }}</td>
-                <td><a href="http://{{ partner.website }}">Website</a></td>
-                <td>{{ partner.bio }}</td>
-                <td><a href="http://{{ partner.twitter }}">Twitter</a></td>
-            </tr>
-            </tbody>
-        {% endfor %}
-    </table>
+
+        <div class="container page">
+
+        <div class="row gutter-10 bot10">
+            <div class="panel">
+                <div class="panel-body">
+                    <div class="panel-title bold">Latest News</div>
+                    {% if partners.count == 0 %}
+                        <h5>No sponsors!</h5>
+                    {% endif %}
+                    {% for partner in partners %}
+                        <div class="col-xs-6 col-sm-6 col-md-3 bot10">
+                            <img src="
+                                    {% if partner.image %}{{ partner.image.url }}{% else %}{% static 'ga/images/sponsor1.png' %}{% endif %}"/><br>
+                            <br>
+                            <h5><b>{{ partner.name }}</b></h5>
+                            <h5><b><a href="https://twitter.com/{{ partner.twitter }}">Twitter: {{ partner.twitter }}</a></b></h5>
+                            <p>{{ partner.bio|linebreaks }}<br>
+                                <a class="btn btn-primary btn-xs" href="{{ partner.website }}">View Website</a>
+                        </div>
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
 {% endblock %}
