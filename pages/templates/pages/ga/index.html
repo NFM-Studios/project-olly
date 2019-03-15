@@ -60,21 +60,11 @@
     <div class="container main1">
 
     <div class="row sponsors">
+        {% for partner in partners %}
         <div class="col-xs-6 col-sm-3">
-            <a href="#"><img src="{% static 'ga/images/sponsor1.png' %}"></a>
+            <a href="{{ partner.website }}"><img src="{% if partner.image %}{{ partner.image.url }}{% else %}{% static 'ga/images/sponsor1.png' %}{% endif %}">"></a>
         </div>
-
-        <div class="col-xs-6 col-sm-3">
-            <a href="#"><img src="{% static 'ga/images/sponsor2.png' %}"></a>
-        </div>
-
-        <div class="col-xs-6 col-sm-3">
-            <a href="#"><img src="{% static 'ga/images/sponsor3.png' %}"></a>
-        </div>
-
-        <div class="col-xs-6 col-sm-3">
-            <a href="#"><img src="{% static 'ga/images/sponsor4.png' %}"></a>
-        </div>
+        {% endfor %}
 
     </div>
 
