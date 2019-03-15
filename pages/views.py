@@ -44,10 +44,11 @@ def index(request):
         matchlist = Match.objects.all().order_by('-id')[:1]
         tournament_list = SingleEliminationTournament.objects.filter(active=True).order_by('-id')[:1]
         featured = staticinfo.featured_touranment
+        partners = Partner.objects.all()
         return render(request, 'pages/' + request.tenant + '/index.html',
                       {'list': tournament_list, 'staticinfo': staticinfo,
                        'newslist': newslist, 'matchlist': matchlist,
-                       'teamlist': teamlist, 'playerlist': playerlist, 'featured': featured})
+                       'teamlist': teamlist, 'playerlist': playerlist, 'featured': featured, 'partners': partners})
     else:
         teamlist = Team.objects.all().order_by('-id')[:5]
         playerlist = UserProfile.objects.all().order_by('-id')[:3]
