@@ -32,8 +32,25 @@ all_games = GameChoice.objects.all()
 all_platforms = PlatformChoice.objects.all()
 
 
+class MapChoice(models.Model):
+    name = models.CharField(default='default map', null=False, max_length=255)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    game = models.ForeignKey(GameChoice, related_name='map for', on_delete=models.CASCADE)
+
+
+class MapPoolChoice(models.Model):
+    name = models.CharField(default='default map pool', null=False, max_length=255)
+    maps = models.ManyToManyField(MapChoice)
+    description = models.CharField(default="No map pool description")
+    game = models.ForeignKey(GameChoice, related_name='map pool for', on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+
 class Match(models.Model):
     matchnum = models.SmallIntegerField(default=0)
+    map = models.ForeignKey(MapChoice, related_name='match map', on_delete=models.CASCADE)
     game = models.ForeignKey(GameChoice, related_name='GameChoice', on_delete=models.CASCADE)
     # default to ps4 for now bc why not
     platform = models.ForeignKey(PlatformChoice, related_name='PlatformChoice', on_delete=models.CASCADE)
