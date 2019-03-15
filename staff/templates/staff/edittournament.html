@@ -120,6 +120,12 @@
         {{ form.allow_register }}
         <br>
 
+        {% if request.tenant == "ga" %}
+        <label>Livestream</label>
+        {{ form.twitch }}
+        <br>
+        {% endif %}
+    
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 
