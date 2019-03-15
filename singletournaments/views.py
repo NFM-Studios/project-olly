@@ -88,10 +88,11 @@ class SingleTournamentJoin(View):
 
     def get(self, request, pk):
         teaminvites = TeamInvite.objects.filter(user_id=request.user.id, hasPerms=True)
+        tournament = get_object_or_404(SingleEliminationTournament, id=pk)
         if teaminvites.exists():
             form = SingleEliminationTournamentJoinGet(request)
             return render(request, 'singletournaments/' + request.tenant + '/singletournament_join.html',
-                          {'form': form})
+                          {'form': form, 'tournament': tournament})
         else:
             messages.error(request, message="You aren't a captain or founder of any team!")
             return redirect('singletournaments:list')
