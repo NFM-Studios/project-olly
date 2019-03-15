@@ -17,6 +17,7 @@ urlpatterns = [
     path('about/', pages_views.about, name='about'),
     path('terms/', pages_views.terms, name='terms'),
     path('partners/', pages_views.partners_page, name='partners'),
+    path('sponsors/', pages_views.partners_page, name='partners'),
     path('privacy/', pages_views.privacy, name='privacy'),
     path('404/', pages_views.notfound),
 
