@@ -12,7 +12,7 @@ from teams.models import TeamInvite, Team
 from .forms import SingleEliminationTournamentJoinGet, SingleEliminationTournamentJoinPost, \
     SingleEliminationTournamentSort, SingleTournamentLeaveForm
 from .models import SingleTournamentRound, SingleEliminationTournament, SingleTournamentTeam
-from pages.models import Partner
+from pages.models import Partner, StaticInfo
 
 
 class List(View):
@@ -23,8 +23,10 @@ class List(View):
         tournament_list = SingleEliminationTournament.objects.all()
         if request.tenant == "ga":
             partners = Partner.objects.all()
+            staticinfo = StaticInfo.objects.get(id=1)
             return render(request, 'singletournaments/' + request.tenant + '/singletournament_list.html',
-                          {'tournament_list': tournament_list, 'form': form, 'partners':partners})
+                          {'tournament_list': tournament_list, 'form': form, 'partners': partners,
+                           'staticinfo': staticinfo})
         return render(request, 'singletournaments/' + request.tenant + '/singletournament_list.html',
                       {'tournament_list': tournament_list, 'form': form})
 
