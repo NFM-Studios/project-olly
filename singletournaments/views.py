@@ -12,6 +12,7 @@ from teams.models import TeamInvite, Team
 from .forms import SingleEliminationTournamentJoinGet, SingleEliminationTournamentJoinPost, \
     SingleEliminationTournamentSort, SingleTournamentLeaveForm
 from .models import SingleTournamentRound, SingleEliminationTournament, SingleTournamentTeam
+from pages.models import Partner
 
 
 class List(View):
@@ -20,6 +21,10 @@ class List(View):
     def get(self, request):
         form = self.form_class(None)
         tournament_list = SingleEliminationTournament.objects.all()
+        if request.tenant == "ga":
+            partners = Partner.objects.all()
+            return render(request, 'singletournaments/' + request.tenant + '/singletournament_list.html',
+                          {'tournament_list': tournament_list, 'form': form, 'partners':partners})
         return render(request, 'singletournaments/' + request.tenant + '/singletournament_list.html',
                       {'tournament_list': tournament_list, 'form': form})
 
