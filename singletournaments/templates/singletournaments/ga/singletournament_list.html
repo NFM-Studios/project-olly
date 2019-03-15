@@ -84,6 +84,7 @@
                                         <div class="panel">
                                             <div class="panel-body current-home">
                                                 <div class="col-xs-3 info1 info2"><img src="
+
                                                         {% if tournament.image %}{{ tournament.image.url }}{% else %}{% static 'ga/images/logo.png' %}{% endif %}">
                                                 </div>
                                                 <div class="col-xs-9 info1">
@@ -126,7 +127,8 @@
                             <div class="panel-default bot20">
                                 <div class="panel-body">
                                     <div class="panel-title"><b>TOP LIVE MATCH</b></div>
-                                    <iframe src="https://player.twitch.tv/?channel={{ staticinfo.stream }}" frameborder="0"
+                                    <iframe src="https://player.twitch.tv/?channel={{ staticinfo.stream }}"
+                                            frameborder="0"
                                             allowfullscreen="true" scrolling="no" height="378" width="100%"></iframe>
                                 </div>
                             </div>
@@ -138,7 +140,7 @@
                 <div class="col-xs-12 col-sm-12 col-md-3">
                     {% for partner in partners %}
                         <a href="{{ partner.website }}"><img src="
-                                {% if not partner.image.url %}{% static 'ga/images/sponsor1.png' %}{% else %}{{ partner.image.url }}{% endif %}"></a>
+                                {% if partner.image %}{{ partner.image.url }}{% else %}{% static 'ga/images/sponsor1.png' %}{% endif %}"></a>
                         <br>
                         <br>
                     {% endfor %}
@@ -186,6 +188,6 @@
         </style>
 
 
-</div>
+    </div>
 
 {% endblock %}
