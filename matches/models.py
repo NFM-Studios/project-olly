@@ -33,24 +33,30 @@ all_platforms = PlatformChoice.objects.all()
 
 
 class MapChoice(models.Model):
-    name = models.CharField(default='default map', null=False, max_length=255)
+    name = models.CharField(default='default_map', null=False, max_length=255)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    game = models.ForeignKey(GameChoice, related_name='map for', on_delete=models.CASCADE)
+    map_num = models.IntegerField(default=0)
+    game = models.ForeignKey(GameChoice, related_name='map_for', on_delete=models.CASCADE)
 
 
 class MapPoolChoice(models.Model):
     name = models.CharField(default='default map pool', null=False, max_length=255)
     maps = models.ManyToManyField(MapChoice)
-    description = models.CharField(default="No map pool description")
-    game = models.ForeignKey(GameChoice, related_name='map pool for', on_delete=models.CASCADE)
+    description = models.CharField(default="No map pool description", max_length=255)
+    game = models.ForeignKey(GameChoice, related_name='map_pool_for', on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+
+    def add_map(self, mappk):
+        newmap = MapChoice.objects.get(id=mappk)
+        newmap.map_num = self.maps.count() + 1
+        self.maps.add(newmap)
 
 
 class Match(models.Model):
     matchnum = models.SmallIntegerField(default=0)
-    map = models.ForeignKey(MapChoice, related_name='match map', on_delete=models.CASCADE)
+    map = models.ForeignKey(MapChoice, related_name='match_map', on_delete=models.CASCADE, null=True)
     game = models.ForeignKey(GameChoice, related_name='GameChoice', on_delete=models.CASCADE)
     # default to ps4 for now bc why not
     platform = models.ForeignKey(PlatformChoice, related_name='PlatformChoice', on_delete=models.CASCADE)
