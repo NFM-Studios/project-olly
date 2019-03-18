@@ -199,7 +199,11 @@
                 <div class="panel-default">
                     <div class="panel-body">
                         <div class="col-xs-12 col-sm-6 col-md-8">
-                            <img src="{% static 'ga/images/news.jpg' %}">
+                            {% if featured.image %}
+                                <img src="{{ featured.image.url }}">
+                            {% else %}
+                                <img src="{% static 'ga/images/news.jpg' %}">
+                            {% endif %}
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-4">
                             <h1><b>{{ featured.name }}</b></h1>
