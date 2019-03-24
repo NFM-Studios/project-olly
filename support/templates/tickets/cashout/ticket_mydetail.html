@@ -15,21 +15,7 @@
                 <div class="row">
                     <div class="col-xs-12">
                         <div class="panel-title bold">Ticket ID: #{{ ticket.id }}</div>
-                        <div class="col-xs-6"><h5>Subject: {% if ticket.category == 0 %}
-                            General
-                        {% elif ticket.category == 1 %}
-                            Prize Claim
-                        {% elif ticket.category == 2 %}
-                            Tournament Support
-                        {% elif ticket.category == 3 %}
-                            Billing
-                        {% elif ticket.category == 4 %}
-                            Refund Request
-                        {% elif ticket.category == 5 %}
-                            PSN/XBL Issues
-                        {% elif ticket.category == 6 %}
-                            Match Support/Dispute
-                        {% endif %}</h5></div>
+                        <div class="col-xs-6"><h5>Subject: {{ ticket.category.name }}</h5></div>
                         <div class="col-xs-6"><h5>Created: {{ ticket.date }}</h5></div>
                         <div class="col-xs-6"><h5>Status: {% if ticket.status == 0 %}
                             New
