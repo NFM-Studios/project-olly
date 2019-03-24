@@ -978,12 +978,12 @@ def ticket_cat_delete(request, pk):
     if user.user_type not in allowed:
         return render(request, 'staff/permissiondenied.html')
     else:
-        if request.method == 'GET':
-            cat = TicketCategory.objects.get(pk=pk)
-            #cat = get_object_or_404(TicketCategory, pk=pk)
-            cat.delete()
-            #cat.save()
-            return redirect('staff:ticket_categories')
+        cat = TicketCategory.objects.get(pk=pk)
+        # cat = get_object_or_404(TicketCategory, pk=pk)
+        cat.delete()
+        # cat.save()
+        messages.success(request, 'Successfully deleted ticket category')
+        return redirect('staff:ticket_categories')
 
 
 class TicketDetail(DetailView):
