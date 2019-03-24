@@ -117,6 +117,28 @@
                 </ul>
             </li>
 
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Maps">
+                <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMaps"
+                   data-parent="#exampleAccordion">
+                    <i class="fa fa-fw fa-map"></i>
+                    <span class="nav-link-text">Maps</span>
+                </a>
+                <ul class="sidenav-second-level collapse" id="collapseMaps">
+                    <li>
+                        <a href="{% url 'staff:create_mapchoice' %}">Create Map</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'staff:map_list' %}">Manage Maps</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'staff:create_map_pool_choice' %}">Create Map Pool</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'staff:map_pool_list' %}">Manage Map Pools</a>
+                    </li>
+                </ul>
+            </li>
+
             <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tournaments">
                 <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseTournaments"
                    data-parent="#exampleAccordion">
