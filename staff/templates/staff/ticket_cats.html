@@ -15,6 +15,7 @@
                 <th scope="row">ID</th>
                 <th>Name</th>
                 <th>Priority</th>
+                <th>Delete</th>
                 </thead>
             </tr>
             {% for cat in cats %}
@@ -23,6 +24,7 @@
                     <td scope="row">#{{ cat.id }}</td>
                     <td>{{ cat.name }}</td>
                     <td>{{ cat.priority }}</td>
+                    <td><a href="{% url 'staff:ticket_cat_delete' pk=cat.id %}"><button style=" color:red" class="btn btn-amber">Delete</button></a></td>
                 </tr>
                 </tbody>
             {% endfor %}
