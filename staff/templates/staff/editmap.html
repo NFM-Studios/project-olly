@@ -28,7 +28,7 @@
             </div>
         {% endfor %}
     {% endif %}
-    <h1><a href="{% url 'staff:maplist' %}">Return to map list</a></h1>
+    <h1><a href="{% url 'staff:map_list' %}">Return to map list</a></h1>
 
     <form enctype="multipart/form-data" method="post">
         {% csrf_token %}
