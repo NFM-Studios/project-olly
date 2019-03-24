@@ -47,21 +47,7 @@
                                 {% for ticket in ticket_list %}
                                     <tr>
                                         <td width="20%" valign="middle">#{{ ticket.id }}</td>
-                                        <td width="20%" valign="middle">{% if ticket.category == 0 %}
-                                            General
-                                        {% elif ticket.category == 1 %}
-                                            Prize Claim
-                                        {% elif ticket.category == 2 %}
-                                            Tournament Support
-                                        {% elif ticket.category == 3 %}
-                                            Billing
-                                        {% elif ticket.category == 4 %}
-                                            Refund Request
-                                        {% elif ticket.category == 5 %}
-                                            PSN/XBL Issues
-                                        {% elif ticket.category == 6 %}
-                                            Match Support/Dispute
-                                        {% endif %}</td>
+                                        <td width="20%" valign="middle">{{ ticket.category.name }}</td>
                                         <td width="20%" valign="middle">{% if ticket.status == 0 %}
                                             New
                                         {% elif ticket.status == 1 %}
