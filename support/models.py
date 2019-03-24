@@ -9,6 +9,8 @@ class TicketCategory(models.Model):
     name = models.CharField(max_length=255, default='no name specified')
     priority = models.PositiveSmallIntegerField(default=0)
 
+    def __str__(self):
+        return self.name
 
 class Ticket(models.Model):
     creator = models.ForeignKey(User, verbose_name='Creator', related_name='ticket_create', on_delete=models.CASCADE)
