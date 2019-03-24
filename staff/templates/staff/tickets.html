@@ -7,7 +7,7 @@
 {% endblock %}
 {% block body %}
     <div style="overflow-x:auto;">
-
+        <h2><a href="{% url 'staff:ticket_cat_create' %}"><i class="fa fa-plus"></i>Create new ticket category </a> - <a href="{% url 'staff:ticket_categories' %}">View existing categories</a></h2>
         <form method="POST" action="{% url 'staff:tickets' %}">
             {% csrf_token %}
             {{ form }}
@@ -44,21 +44,7 @@
                         {{ ticket.creator }}
                     </td>
                     <td>
-                        {% if ticket.category == 0 %}
-                            General
-                        {% elif ticket.category == 1 %}
-                            Prize Claim
-                        {% elif ticket.category == 2 %}
-                            Tournament Support
-                        {% elif ticket.category == 3 %}
-                            Billing
-                        {% elif ticket.category == 4 %}
-                            Refund Request
-                        {% elif ticket.category == 5 %}
-                            PSN/XBL Issues
-                        {% elif ticket.category == 6 %}
-                            Match Support/Dispute
-                        {% endif %}
+                        {{ ticket.category.name }}
                     </td>
                     {% if not ticket.assignee %}
                         <td>Not Assigned</td>

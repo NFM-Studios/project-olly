@@ -41,21 +41,7 @@
                 <tr>
                     <td width="20%" valign="middle"><a
                             href="{% url 'support:detail' pk=ticket.id %}">#{{ ticket.id }}</a></td>
-                    <td width="20%" valign="middle">{% if ticket.category == 0 %}
-                        General
-                    {% elif ticket.category == 1 %}
-                        Prize Claim
-                    {% elif ticket.category == 2 %}
-                        Tournament Support
-                    {% elif ticket.category == 3 %}
-                        Billing
-                    {% elif ticket.category == 4 %}
-                        Refund Request
-                    {% elif ticket.category == 5 %}
-                        PSN/XBL Issues
-                    {% elif ticket.category == 6 %}
-                        Match Support/Dispute
-                    {% endif %}</td>
+                    <td width="20%" valign="middle">{{ ticket.category.name }}</td>
                     <td width="20%" valign="middle">UNKNOWN</td>
                     <td width="20%" valign="middle">{{ ticket.date }}</td>
                     <td width="20%" valign="middle">{{ ticket.last_update }}</td>

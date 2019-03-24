@@ -1,0 +1,33 @@
+{% extends 'staff/staffbase.html' %}
+{% load static %}
+<link rel="stylesheet" href="{% static "css/staff.css" %}">
+
+{% block title %}
+    Support Ticket Categories
+{% endblock %}
+{% block body %}
+    <div style="overflow-x:auto;">
+        <h2><a href="{% url 'staff:ticket_cat_create' %}"><i class="fa fa-plus"></i>Create new ticket category </a></h2>
+
+        <table class="table table-hover">
+            <tr id="header">
+                <thead>
+                <th scope="row">ID</th>
+                <th>Name</th>
+                <th>Priority</th>
+                <th>Delete</th>
+                </thead>
+            </tr>
+            {% for cat in cats %}
+                <tbody>
+                <tr scope="">
+                    <td scope="row">#{{ cat.id }}</td>
+                    <td>{{ cat.name }}</td>
+                    <td>{{ cat.priority }}</td>
+                    <td><a href="{% url 'staff:ticket_cat_delete' pk=cat.id %}"><button style=" color:red" class="btn btn-amber">Delete</button></a></td>
+                </tr>
+                </tbody>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}

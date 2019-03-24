@@ -2,10 +2,15 @@ from django.contrib.auth.models import User
 from django.db import models
 
 # import the choices that are defined in the settings.py file
-from support.settings import STATUS_CHOICES, CLOSED_STATUSES, CATEGORY_CHOICES
+from support.settings import STATUS_CHOICES, CLOSED_STATUSES
 
 
-# Create your models here.
+class TicketCategory(models.Model):
+    name = models.CharField(max_length=255, default='no name specified')
+    priority = models.PositiveSmallIntegerField(default=0)
+
+    def __str__(self):
+        return self.name
 
 
 class Ticket(models.Model):
@@ -13,7 +18,7 @@ class Ticket(models.Model):
     date = models.DateTimeField(auto_now=False, auto_now_add=True)
     last_update = models.DateTimeField(auto_now=True, auto_now_add=False)
     # subject = models.CharField(max_length=255)
-    category = models.SmallIntegerField(choices=CATEGORY_CHOICES, default=0)
+    category = models.ForeignKey(TicketCategory, related_name='ticket_category', on_delete=models.CASCADE)
     text = models.TextField(default='A detailed description of your issue')
     assignee = models.ForeignKey(User, related_name='assigned_tickets', verbose_name='assignee', blank=True,
                                  null=True, on_delete=models.CASCADE)
