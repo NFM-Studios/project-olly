@@ -972,6 +972,20 @@ class TicketCategoryCreate(View):
             return render(request, self.template_name, {'form': form})
 
 
+def ticket_cat_delete(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        if request.method == 'GET':
+            cat = TicketCategory.objects.get(pk=pk)
+            #cat = get_object_or_404(TicketCategory, pk=pk)
+            cat.delete()
+            #cat.save()
+            return redirect('staff:ticket_categories')
+
+
 class TicketDetail(DetailView):
     model = Ticket
     template_name = 'staff/ticket_detail.html'

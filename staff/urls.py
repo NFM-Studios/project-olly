@@ -12,6 +12,7 @@ urlpatterns = [
     path('ticketdetail/<int:pk>/', login_required(views.TicketDetail.as_view()), name='ticket_detail'),
     path('tickets/cats', login_required(views.ticket_category_list), name='ticket_categories'),
     path('tickets/cat/create', login_required(views.TicketCategoryCreate.as_view()), name='ticket_cat_create'),
+    path('tickets/cat/<pk>', login_required(views.ticket_cat_delete), name='ticket_cat_delete'),
     path('pages', login_required(views.pages), name='pages'),
 
     path('users', login_required(views.users), name='users'),
