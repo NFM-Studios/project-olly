@@ -1,10 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends 'staff/staffbase.html' %}
+{% load static %}
+<link rel="stylesheet" href="{% static "css/staff.css" %}">
+
+{% block title %}
+    Support Ticket Categories
+{% endblock %}
+{% block body %}
+    <div style="overflow-x:auto;">
+
+
+        <table class="table table-hover">
+            <tr id="header">
+                <thead>
+                <th scope="row">ID</th>
+                <th>Name</th>
+                <th>Priority</th>
+                </thead>
+            </tr>
+            {% for cat in cats %}
+                <tbody>
+                <tr scope="">
+                    <td scope="row">#{{ cat.id }}</td>
+                    <td>{{ cat.name }}</td>
+                    <td>{{ cat.priority }}</td>
+                </tr>
+                </tbody>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}
