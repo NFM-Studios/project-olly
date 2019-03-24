@@ -1,7 +1,9 @@
 {% extends "staff/staffbase.html" %}
 {% load static %}
 <link rel="stylesheet" href="{% static "css/staff.css" %}">
-
+{% block title %}
+    Add Support Ticket Comment
+{% endblock %}
 {% block body %}
     <form method="post">
         {% csrf_token %}
