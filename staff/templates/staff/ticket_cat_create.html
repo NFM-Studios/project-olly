@@ -2,7 +2,7 @@
 {% load static %}
 <link rel="stylesheet" href="{% static "css/staff.css" %}">
 {% block title %}
-    Add Support Ticket Comment
+    Create Support Ticket Categories
 {% endblock %}
 {% block body %}
     <form method="post">
@@ -10,8 +10,13 @@
 
         {{ field.errors }}
 
-        <label>Comment</label>
-        <div class="form-group">{{ form.comment }}</div>
+        <label>Name</label>
+        <div class="form-group">{{ form.name }}</div>
+
+
+        <label>Priority</label>
+        <div class="form-group">{{ form.priority }}</div>
+
 
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
