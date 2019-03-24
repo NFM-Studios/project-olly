@@ -56,7 +56,7 @@ class TicketSearchForm(forms.Form):
 class TicketCategoryCreateForm(forms.ModelForm):
     class Meta:
         model = TicketCategory
-        fields = ('name', )
+        fields = ('name', 'priority',)
 
 
 class TicketCommentCreateForm(forms.ModelForm):
