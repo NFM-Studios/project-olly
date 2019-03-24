@@ -12,6 +12,7 @@ class TicketCategory(models.Model):
     def __str__(self):
         return self.name
 
+
 class Ticket(models.Model):
     creator = models.ForeignKey(User, verbose_name='Creator', related_name='ticket_create', on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now=False, auto_now_add=True)
