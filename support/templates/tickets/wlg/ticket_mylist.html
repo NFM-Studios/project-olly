@@ -104,7 +104,7 @@
                         <tbody>
                         <tr scope="">
                             <td scope="row"><a href="{% url 'support:detail' pk=ticket.id %}">#{{ ticket.id }}</a></td>
-                            <td>{{ ticket.subject }}</td>
+                            <td>{{ ticket.category.name }}</td>
                             <td>{{ ticket.last_update }}</td>
                         </tr>
                         </tbody>

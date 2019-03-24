@@ -1,18 +1,14 @@
 from django.conf import settings
 from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.generic import View, DetailView
 
 from matches.models import MatchReport, MatchDispute
-from news.models import Post
-from pages.models import Partner
 from profiles.forms import SortForm
-from profiles.models import UserProfile, BannedUser
-from singletournaments.models import *
+from profiles.models import BannedUser
 from staff.forms import *
 from store.models import Transaction, Transfer, Product
 from support.models import Ticket, TicketComment
@@ -72,7 +68,7 @@ def searchusers(request):
         if query:
             return render(request, 'staff/users.html',
                           {'userprofiles': UserProfile.objects.filter
-                           (Q(user__username__icontains=query) | Q(user__email__icontains=query)),
+                          (Q(user__username__icontains=query) | Q(user__email__icontains=query)),
                            'bannedusers': list(BannedUser.objects.all())})
         else:
             return redirect('staff:users')
@@ -933,6 +929,61 @@ def tickets(request):
                     ticket_list = Ticket.objects.filter(Q(text__contains=query) |
                                                         Q(creator__username__contains=query)).order_by('-id')
             return render(request, 'staff/tickets.html', {'form': form, 'ticket_list': ticket_list})
+
+
+def ticket_category_list(request):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        cats = TicketCategory.objects.all()
+        return render(request, 'staff/ticket_cats.html', {'cats': cats})
+
+
+class TicketCategoryCreate(View):
+    form_class = TicketCategoryCreateForm
+    template_name = 'staff/ticket_cat_create.html'
+
+    def get(self, request):
+        user = UserProfile.objects.get(user__username=request.user.username)
+        allowed = ['superadmin', 'admin']
+        if user.user_type not in allowed:
+            return render(request, 'staff/permissiondenied.html')
+        form = self.form_class(None)
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request):
+        user = UserProfile.objects.get(user__username=request.user.username)
+        allowed = ['superadmin', 'admin']
+        if user.user_type not in allowed:
+            return render(request, 'staff/permissiondenied.html')
+        form = self.form_class(request.POST)
+
+        if form.is_valid():
+            cat = form.instance
+            cat.name = form.cleaned_data['name']
+            cat.priority = form.cleaned_data['priority']
+            cat.save()
+            messages.success(self.request, 'Ticket Category successfully added')
+            return redirect('staff:ticket_categories')
+        else:
+            messages.error(self.request, 'An error occurred')
+            return render(request, self.template_name, {'form': form})
+
+
+def ticket_cat_delete(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        cat = TicketCategory.objects.get(pk=pk)
+        # cat = get_object_or_404(TicketCategory, pk=pk)
+        cat.delete()
+        # cat.save()
+        messages.success(request, 'Successfully deleted ticket category')
+        return redirect('staff:ticket_categories')
 
 
 class TicketDetail(DetailView):

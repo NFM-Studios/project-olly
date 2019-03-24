@@ -8,7 +8,7 @@ from pages.models import StaticInfo, Partner
 from profiles.models import UserProfile
 from singletournaments.models import SingleEliminationTournament, SingleTournamentRuleset, SingleTournamentRound
 from store.models import Product
-from support.models import TicketComment, Ticket
+from support.models import TicketComment, Ticket, TicketCategory
 from teams.models import Team, TeamInvite
 
 
@@ -51,6 +51,12 @@ class EditUserForm(forms.ModelForm):
 class TicketSearchForm(forms.Form):
     showClosed = forms.BooleanField(required=False, label='Show closed')
     searchQuery = forms.CharField(required=False, label='Search')
+
+
+class TicketCategoryCreateForm(forms.ModelForm):
+    class Meta:
+        model = TicketCategory
+        fields = ('name', 'priority',)
 
 
 class TicketCommentCreateForm(forms.ModelForm):
