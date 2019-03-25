@@ -80,6 +80,10 @@ class CreateTournamentForm(forms.ModelForm):
                                                 'data-toggle': 'datetimepicker', 'data-target': '#datetimepicker3'})
         }
 
+    def __init__(self, *args, **kwargs):
+        super(CreateTournamentForm, self).__init__(*args, **kwargs)
+        self.fields['twitch'].required = False
+
 
 class EditTournamentForm(forms.ModelForm):
     class Meta:
@@ -95,6 +99,10 @@ class EditTournamentForm(forms.ModelForm):
             'start': forms.DateTimeInput(attrs={'class': 'form-control datetimepicker-input', 'id': 'datetimepicker3',
                                                 'data-toggle': 'datetimepicker', 'data-target': '#datetimepicker3'})
         }
+
+    def __init__(self, *args, **kwargs):
+        super(EditTournamentForm, self).__init__(*args, **kwargs)
+        self.fields['twitch'].required = False
 
 
 class AddTournamentTeamForm(forms.ModelForm):
