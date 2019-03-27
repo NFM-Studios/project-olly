@@ -62,6 +62,16 @@ class StaticInfo(models.Model):
     bingetop4link = models.URLField(max_length=200, default="https://www.google.com", blank=True, null=True)
     bingetop4linktxt = models.TextField(default="Coming Soon!", blank=True, null=True)
 
+    gatournament1 = models.ImageField(upload_to='carousel_images', blank=True)
+    gatournament1big = models.TextField(default="Coming Soon!", blank=True, null=True)
+    gatournament1small = models.TextField(default="Coming Soon!", blank=True, null=True)
+
+    gatournament2 = models.ImageField(upload_to='carousel_images', blank=True)
+    gatournament2big = models.TextField(default="Coming Soon!", blank=True, null=True)
+    gatournament2small = models.TextField(default="Coming Soon!", blank=True, null=True)
+
+    gatournamentbig = models.ImageField(upload_to='carousel_images', blank=True)
+
 
 class Partner(models.Model):
     name = models.CharField(max_length=80)
@@ -108,7 +118,12 @@ def auto_delete_file(sender, instance, **kwargs):
         instance.bingetop3image.delete()
     if instance.bingetop4image:
         instance.bingetop4image.delete()
-
+    if instance.gatournament1:
+        instance.gatournament1.delete()
+    if instance.gatournament2:
+        instance.gatournament2.delete()
+    if instance.gatournamentbig:
+        instance.gatournamentbig.delete()
 
 @receiver(models.signals.pre_save, sender=StaticInfo)
 def auto_delete_file_on_change(sender, instance, **kwargs):
@@ -174,3 +189,33 @@ def auto_delete_file_on_change(sender, instance, **kwargs):
     new_top3 = instance.bingetop3image
     if not old_top3 == new_top3:
         old_top3.delete(save=False)
+
+    # GA Tournament 1
+    try:
+        old_t1 = StaticInfo.objects.get(pk=instance.pk).gatournament1
+    except StaticInfo.DoesNotExist:
+        return False
+
+    new_t1 = instance.gatournament1
+    if not old_t1 == new_t1:
+        old_t1.delete(save=False)
+
+    # GA Tournament 2
+    try:
+        old_t2 = StaticInfo.objects.get(pk=instance.pk).gatournament2
+    except StaticInfo.DoesNotExist:
+        return False
+
+    new_t2 = instance.gatournament2
+    if not old_t2 == new_t2:
+        old_top3.delete(save=False)
+
+    # GA Tournament big
+    try:
+        old_tb = StaticInfo.objects.get(pk=instance.pk).gatournamentbig
+    except StaticInfo.DoesNotExist:
+        return False
+
+    new_tb = instance.gatournamentbig
+    if not old_tb == new_tb:
+        old_tb.delete(save=False)
