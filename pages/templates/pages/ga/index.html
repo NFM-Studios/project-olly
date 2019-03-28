@@ -14,6 +14,7 @@
                     <img src="
 
 
+
                             {% if staticinfo.slide1_img %}{{ staticinfo.slide1_img.url }}{% else %}{% static 'ga/images/slider1.jpg' %}{% endif %}"
                          alt="Slide1">
                     <div class="carousel-caption center">
@@ -26,6 +27,7 @@
                     <img src="
 
 
+
                             {% if staticinfo.slide2_img %}{{ staticinfo.slide2_img.url }}{% else %}{% static 'ga/images/slider2.jpg' %}{% endif %}"
                          alt="Slide2">
                     <div class="carousel-caption center">
@@ -36,6 +38,7 @@
 
                 <div class="item">
                     <img src="
+
 
 
                             {% if staticinfo.slide3_img %}{{ staticinfo.slide3_img.url }}{% else %}{% static 'ga/images/slider1.jpg' %}{% endif %}"
@@ -66,6 +69,7 @@
             {% for partner in partners %}
                 <div class="col-xs-6 col-sm-3">
                     <a href="{{ partner.website }}"><img src="
+
                             {% if partner.logo %}{{ partner.logo.url }}{% else %}{% static 'ga/images/sponsor1.png' %}{% endif %}"></a>
                 </div>
             {% endfor %}
@@ -80,6 +84,7 @@
                     <div class="panel-default">
                         <div class="panel-body center">
                             <img src="
+
 
                                     {% if staticinfo.bingetop1image %}{{ staticinfo.bingetop1image.url }}{% else %}{% static 'ga/images/price-1.jpg' %}{% endif %}">
                             <br>
@@ -98,6 +103,7 @@
                         <div class="panel-body center">
                             <img src="
 
+
                                     {% if staticinfo.bingetop2image %}{{ staticinfo.bingetop2image.url }}{% else %}{% static 'ga/images/price-2.jpg' %}{% endif %}">
                             <br>
                             <h2>{{ staticinfo.bingetop2|linebreaksbr }}</h2>
@@ -115,6 +121,7 @@
                         <div class="panel-body center">
                             <img src="
 
+
                                     {% if staticinfo.bingetop3image %}{{ staticinfo.bingetop3image.url }}{% else %}{% static 'ga/images/price-3.jpg' %}{% endif %}">
                             <br>
                             <h2>{{ staticinfo.bingetop3|linebreaksbr }}</h2>
@@ -131,6 +138,7 @@
                     <div class="panel-default">
                         <div class="panel-body center">
                             <img src="
+
 
                                     {% if staticinfo.bingetop4image %}{{ staticinfo.bingetop4image.url }}{% else %}{% static 'ga/images/vip.png' %}{% endif %}">
                             <br>
@@ -150,7 +158,7 @@
                     <div class="panel-body">
                         <div class="panel-title">GET <b>UPDATES</b></div>
                         <div class="form-group">
-                             <!-- Begin Mailchimp Signup Form -->
+                            <!-- Begin Mailchimp Signup Form -->
                             <link href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css" rel="stylesheet"
                                   type="text/css">
 
@@ -173,10 +181,12 @@
                                             <div class="response" id="mce-success-response" style="display:none"></div>
                                         </div>
                                         <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
-                                        <div style="position: absolute; left: -5000px;" aria-hidden="true"><input class="form-control"
+                                        <div style="position: absolute; left: -5000px;" aria-hidden="true"><input
+                                                class="form-control"
                                                 type="text" name="b_62e203ab5323200c31d84169b_0672816ad7" tabindex="-1"
                                                 value=""></div>
-                                        <div class="clear"><input type="submit" class="btn btn-primary" value="Subscribe" name="subscribe"
+                                        <div class="clear"><input type="submit" class="btn btn-primary"
+                                                                  value="Subscribe" name="subscribe"
                                                                   id="mc-embedded-subscribe" class="button"></div>
                                     </div>
                                 </form>
@@ -214,6 +224,7 @@
                     <div class="panel-default">
                         <div class="panel-body">
                             <img src="
+
 
 
                                     {% if news.image == "" %}{% static 'ga/images/news.jpg' %}{% else %}{{ news.image.url }}{% endif %}"><br>
@@ -255,7 +266,7 @@
                                 <br>
                                 <p>Starts: {{ featured.starts }}</p>
                                 <br>
-                                <p>Size: {{ featured.teams.size }}/{{ featured.size }}</p>
+                                <p>Size: {{ featured.size }}</p>
                                 <a href="{% url 'singletournaments:detail' pk=featured.id %}"
                                    class="btn btn-lg btn-default"> DETAILS </a>
                             </div>
