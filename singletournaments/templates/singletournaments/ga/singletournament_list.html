@@ -22,6 +22,7 @@
                             <a style="text-decoration:none; color:white;" href="{% url 'teams:create' %}">
                                 <i class="fa fa-plus"></i> Create a new team
                             </a>
+
                         </h2>
                     </div>
                     <section class="slide bot20" style="margin-top:0px;">
@@ -180,6 +181,41 @@
 
 
             </div>
+            <div class="row bot20">
+
+            {% if staticinfo.featured_tournament is not null %}
+                <div class="col-xs-12">
+                    <div class="panel-title">UPCOMING <b>EVENT</b></div>
+                </div>
+            {% endif %}
+
+            {% if staticinfo.featured_tournament is not null %}
+                <div class="col-xs-12">
+                    <div class="panel-default">
+                        <div class="panel-body">
+                            <div class="col-xs-12 col-sm-6 col-md-8">
+                                {% if staticinfo.featured_tournament.image %}
+                                    <img src="{{ staticinfo.featured_tournament.image.url }}">
+                                {% else %}
+                                    <img src="{% static 'ga/images/news.jpg' %}">
+                                {% endif %}
+                            </div>
+                            <div class="col-xs-12 col-sm-6 col-md-4">
+                                <h1><b>{{ staticinfo.featured_tournament.name }}</b></h1>
+                                <p>{{ staticinfo.featured_tournament.info }}</p>
+                                <br>
+                                <p>Starts: {{ staticinfo.featured_tournament.starts }}</p>
+                                <br>
+                                <p>Size: {{ staticinfo.featured_tournament.size }}</p>
+                                <a href="{% url 'singletournaments:detail' pk=staticinfo.featured_tournament.id %}"
+                                   class="btn btn-lg btn-default"> DETAILS </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+        </div>
         </div>
 
 
