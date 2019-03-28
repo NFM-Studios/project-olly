@@ -43,7 +43,7 @@ def index(request):
         newslist = Post.published.all().order_by('-id')[:3]
         matchlist = Match.objects.all().order_by('-id')[:1]
         tournament_list = SingleEliminationTournament.objects.filter(active=True).order_by('-id')[:1]
-        featured = staticinfo.featured_touranment
+        featured = staticinfo.featured_tournament
         partners = Partner.objects.all()
         return render(request, 'pages/' + request.tenant + '/index.html',
                       {'list': tournament_list, 'staticinfo': staticinfo,
