@@ -5,7 +5,7 @@ from singletournaments.models import SingleEliminationTournament
 
 
 class StaticInfo(models.Model):
-    featured_touranment = models.ForeignKey(SingleEliminationTournament, related_name='featured_tournamet',
+    featured_tournament = models.ForeignKey(SingleEliminationTournament, related_name='featured_tournament',
                                             on_delete=models.CASCADE, null=True)
     about_us = models.TextField(default='about us')
     terms = models.TextField(default='terms of service')
