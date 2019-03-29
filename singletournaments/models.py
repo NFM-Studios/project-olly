@@ -66,7 +66,7 @@ class SingleEliminationTournament(models.Model):
 
     # game and platform it will be played on
     platform = models.ForeignKey(PlatformChoice, on_delete=models.CASCADE)
-    game = models.ForeignKey(GameChoice, on_delete=models.CASCADE)
+    game = models.ForeignKey(GameChoice, related_name='game', on_delete=models.CASCADE)
 
     # when will the first round of matches start?
     start = models.DateTimeField()
