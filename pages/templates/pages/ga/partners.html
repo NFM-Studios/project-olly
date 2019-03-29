@@ -19,12 +19,12 @@
                     {% for partner in partners %}
                         <div class="col-xs-6 col-sm-6 col-md-3 bot10">
                             <img src="
-                                    {% if partner.image %}{{ partner.image.url }}{% else %}{% static 'ga/images/sponsor1.png' %}{% endif %}"/><br>
+                                    {% if partner.logo %}{{ partner.logo.url }}{% else %}{% static 'ga/images/sponsor1.png' %}{% endif %}"/><br>
                             <br>
                             <h5><b>{{ partner.name }}</b></h5>
-                            <h5><b><a href="https://twitter.com/{{ partner.twitter }}">Twitter: {{ partner.twitter }}</a></b></h5>
+                            <h5><b><a target="_blank" rel="noopener noreferrer" href="https://twitter.com/{{ partner.twitter }}">Twitter: {{ partner.twitter }}</a></b></h5>
                             <p>{{ partner.bio|linebreaks }}<br>
-                                <a class="btn btn-primary btn-xs" href="{{ partner.website }}">View Website</a>
+                                <a class="btn btn-primary btn-xs" target="_blank" rel="noopener noreferrer" href="{{ partner.website }}">View Website</a>
                         </div>
                     {% endfor %}
 
