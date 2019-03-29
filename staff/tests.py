@@ -84,3 +84,12 @@ class StaffBasicTest1(TestCase):
         response = users(request)
         self.assertEqual(response.status_code, 200)
         print('Completed staff:tournamentrulesetlist')
+
+    def test_tournament_create(self):
+        print('Starting staff:create_tournament')
+        request = self.factory.get(reverse('staff:create_tournament'))
+        request.tenant = 'eot'
+        request.user = self.user
+        response = users(request)
+        self.assertEqual(response.status_code, 200)
+        print('Completed staff:create_tournament')
