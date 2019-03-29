@@ -368,7 +368,7 @@ def create_tournament(request):
             form = CreateTournamentForm()
             return render(request, 'staff/createtournament.html', {'form': form})
         else:
-            form = CreateTournamentForm(request.POST)
+            form = CreateTournamentForm(request.POST, request.FILES)
             if form.is_valid():
                 tournament = form.instance
                 tournament.save()
