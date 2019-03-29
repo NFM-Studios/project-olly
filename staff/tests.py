@@ -1,6 +1,4 @@
 from django.test import TestCase, RequestFactory
-from .views import *
-from django.test import TestCase, RequestFactory
 
 from .views import *
 
@@ -111,3 +109,32 @@ class StaffBasicTest1(TestCase):
         response = users(request)
         self.assertEqual(response.status_code, 200)
         print('Completed staff:gamelist')
+
+    def test_create_gamechoice(self):
+        print('Starting staff:create_gamechoice')
+        request = self.factory.get(reverse('staff:create_gamechoice'))
+        request.tenant = 'eot'
+        request.user = self.user
+        response = users(request)
+        self.assertEqual(response.status_code, 200)
+        print('Completed staff:create_gamechoice')
+
+    def test_platformlist(self):
+        print('Starting staff:platformlist')
+        request = self.factory.get(reverse('staff:platformlist'))
+        request.tenant = 'eot'
+        request.user = self.user
+        response = users(request)
+        self.assertEqual(response.status_code, 200)
+        print('Completed staff:platformlist')
+
+    def test_create_platformchoice(self):
+        print('Starting staff:create_platformchoice')
+        request = self.factory.get(reverse('staff:create_platformchoice'))
+        request.tenant = 'eot'
+        request.user = self.user
+        response = users(request)
+        self.assertEqual(response.status_code, 200)
+        print('Completed staff:create_platformchoice')
+
+    print('Basic Staff tests have finished')
