@@ -49,3 +49,12 @@ class StaffBasicTest1(TestCase):
         self.assertEqual(response.status_code, 200)
         print('Completed staff:tickets_categories')
 
+    def test_ticket_cat_create(self):
+        print('Starting staff:ticket_cat_create')
+        request = self.factory.get(reverse('staff:ticket_cat_create'))
+        request.tenant = 'eot'
+        request.user = self.user
+        response = users(request)
+        self.assertEqual(response.status_code, 200)
+        print('Completed staff:ticket_cat_create')
+
