@@ -36,13 +36,16 @@ class MapChoice(models.Model):
     name = models.CharField(default='default_map', null=False, max_length=255)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    map_num = models.IntegerField(default=0)
+    map_num = models.IntegerField(default=0, null=True, blank=True)
     game = models.ForeignKey(GameChoice, related_name='map_for', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
 
 
 class MapPoolChoice(models.Model):
     name = models.CharField(default='default map pool', null=False, max_length=255)
-    maps = models.ManyToManyField(MapChoice)
+    maps = models.ManyToManyField(MapChoice, blank=True)
     description = models.CharField(default="No map pool description", max_length=255)
     game = models.ForeignKey(GameChoice, related_name='map_pool_for', on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
