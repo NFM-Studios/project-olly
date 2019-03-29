@@ -1,7 +1,9 @@
-from django.contrib.auth.models import User
 from django.test import TestCase, RequestFactory
-from profiles.models import *
 from .views import *
+from django.test import TestCase, RequestFactory
+
+from .views import *
+
 
 class StaffBasicTest1(TestCase):
     def setUp(self):
@@ -12,8 +14,28 @@ class StaffBasicTest1(TestCase):
         profile.save()
 
     def test_indexresponse(self):
-        request = self.factory.get('/staff')
+        print('Starting staff:index')
+        request = self.factory.get(reverse('staff:index'))
         request.tenant = 'eot'
         request.user = self.user
         response = staffindex(request)
         self.assertEqual(response.status_code, 200)
+        print('Complete staff:index')
+
+    def test_usersresponse(self):
+        print('Starting staff:users')
+        request = self.factory.get(reverse('staff:users'))
+        request.tenant = 'eot'
+        request.user = self.user
+        response = users(request)
+        self.assertEqual(response.status_code, 200)
+        print('Completed staff:users')
+
+    def test_edituser(self):
+        print('Starting staff:edituser')
+        request = self.factory.get(reverse('staff:users'))
+        request.tenant = 'eot'
+        request.user = self.user
+        response = edituser(request, self.user)
+        self.assertEqual(response.status_code, 200)
+        print('Completed staff:edituser')
