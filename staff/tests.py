@@ -209,6 +209,22 @@ class StaffBasicTest1(TestCase):
         self.assertEqual(response.status_code, 200)
         print('Completed staff:create_product')
 
-    
+    def test_teamindex(self):
+        print('Starting staff:teamindex')
+        request = self.factory.get(reverse('staff:teamindex'))
+        request.tenant = 'eot'
+        request.user = self.user
+        response = users(request)
+        self.assertEqual(response.status_code, 200)
+        print('Completed staff:teamindex')
+
+    def test_partner_list(self):
+        print('Starting staff:partner_list')
+        request = self.factory.get(reverse('staff:partner_list'))
+        request.tenant = 'eot'
+        request.user = self.user
+        response = users(request)
+        self.assertEqual(response.status_code, 200)
+        print('Completed staff:partner_list')
 
     print('Basic Staff tests have finished')
