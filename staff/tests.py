@@ -102,3 +102,12 @@ class StaffBasicTest1(TestCase):
         response = users(request)
         self.assertEqual(response.status_code, 200)
         print('Completed staff:matches_index')
+
+    def test_gamelist(self):
+        print('Starting staff:gamelist')
+        request = self.factory.get(reverse('staff:gamelist'))
+        request.tenant = 'eot'
+        request.user = self.user
+        response = users(request)
+        self.assertEqual(response.status_code, 200)
+        print('Completed staff:gamelist')
