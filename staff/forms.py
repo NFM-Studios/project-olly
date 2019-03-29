@@ -259,3 +259,12 @@ class MapPoolChoiceForm(forms.ModelForm):
     class Meta:
         model = MapPoolChoice
         fields = '__all__'
+
+
+class AddMapForm(forms.Form):
+    def __init__(self, maps, *args, **kwargs):
+        super(AddMapForm, self).__init__(*args, **kwargs)
+        self.fields['mapobj'] = forms.ChoiceField(choices=tuple([(i.pk, i.name) for i in maps]))
+
+    class Meta:
+        fields = ('mapobj',)
