@@ -164,6 +164,51 @@ class StaffBasicTest1(TestCase):
         self.assertEqual(response.status_code, 200)
         print('Completed staff:create_article')
 
+    def test_store(self):
+        print('Starting staff:store')
+        request = self.factory.get(reverse('staff:store'))
+        request.tenant = 'eot'
+        request.user = self.user
+        response = users(request)
+        self.assertEqual(response.status_code, 200)
+        print('Completed staff:store')
+
+    def test_transaction_list(self):
+        print('Starting staff:transaction_list')
+        request = self.factory.get(reverse('staff:transaction_list'))
+        request.tenant = 'eot'
+        request.user = self.user
+        response = users(request)
+        self.assertEqual(response.status_code, 200)
+        print('Completed staff:transaction_list')
+
+    def test_transfer_list(self):
+        print('Starting staff:transfer_list')
+        request = self.factory.get(reverse('staff:transfer_list'))
+        request.tenant = 'eot'
+        request.user = self.user
+        response = users(request)
+        self.assertEqual(response.status_code, 200)
+        print('Completed staff:transfer_list')
+
+    def test_product_list(self):
+        print('Starting staff:product_list')
+        request = self.factory.get(reverse('staff:product_list'))
+        request.tenant = 'eot'
+        request.user = self.user
+        response = users(request)
+        self.assertEqual(response.status_code, 200)
+        print('Completed staff:product_list')
+
+    def test_create_product(self):
+        print('Starting staff:create_product')
+        request = self.factory.get(reverse('staff:create_product'))
+        request.tenant = 'eot'
+        request.user = self.user
+        response = users(request)
+        self.assertEqual(response.status_code, 200)
+        print('Completed staff:create_product')
+
     
 
     print('Basic Staff tests have finished')
