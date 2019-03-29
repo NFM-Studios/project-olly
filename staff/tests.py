@@ -137,4 +137,33 @@ class StaffBasicTest1(TestCase):
         self.assertEqual(response.status_code, 200)
         print('Completed staff:create_platformchoice')
 
+    def test_news_index(self):
+        print('Starting staff:news_index')
+        request = self.factory.get(reverse('staff:news_index'))
+        request.tenant = 'eot'
+        request.user = self.user
+        response = users(request)
+        self.assertEqual(response.status_code, 200)
+        print('Completed staff:news_index')
+
+    def test_news_list(self):
+        print('Starting staff:news_list')
+        request = self.factory.get(reverse('staff:news_list'))
+        request.tenant = 'eot'
+        request.user = self.user
+        response = users(request)
+        self.assertEqual(response.status_code, 200)
+        print('Completed staff:news_list')
+
+    def test_create_article(self):
+        print('Starting staff:create_article')
+        request = self.factory.get(reverse('staff:create_article'))
+        request.tenant = 'eot'
+        request.user = self.user
+        response = users(request)
+        self.assertEqual(response.status_code, 200)
+        print('Completed staff:create_article')
+
+    
+
     print('Basic Staff tests have finished')
