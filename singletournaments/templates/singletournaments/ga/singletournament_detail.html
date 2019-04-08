@@ -123,7 +123,9 @@
                                                     </tr>
                                                     <tr>
                                                         <td valign="middle" class="details"><b>Prizes</b></td>
-                                                        <td valign="middle" class="details" align="right">$150</td>
+                                                        <td valign="middle" class="details" align="right">{{ tournament.prize1 }}
+                                                        {% if not tournament.prize2 == "no prize specified" %}<br>{{ tournament.prize2 }}{% endif %}
+                                                        {% if not tournament.prize3 == "no prize specified" %}<br>{{ tournament.prize3 }}{% endif %}</td>
                                                     </tr>
                                                     </tbody>
                                                 </table>
