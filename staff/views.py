@@ -899,6 +899,154 @@ def create_platformchoice(request):
                 return render(request, 'staff/editplatform.html', {'form': form})
 
 
+def map_list(request):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        maps = MapChoice.objects.all().order_by('id')
+        return render(request, 'staff/map_list.html', {'maps': maps})
+
+
+def map_detail(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        if request.method == 'POST':
+            mapchoice = MapChoice.objects.get(pk=pk)
+            form = MapChoiceForm(request.POST, request.FILES, instance=mapchoice)
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'Map has been updated')
+                return redirect('staff:maplist')
+            else:
+                return render(request, 'staff/editmap.html', {'form': form})
+        else:
+            mapchoice = MapChoice.objects.get(pk=pk)
+            form = MapChoiceForm(instance=mapchoice)
+            return render(request, 'staff/editmap.html', {'form': form, 'pk': pk})
+
+
+def delete_map(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        mapchoice = MapChoice.objects.get(pk=pk)
+        mapchoice.delete()
+        messages.success(request, "Map Deleted")
+        return redirect('staff:map_list')
+
+
+def create_mapchoice(request):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        if request.method == 'GET':
+            form = MapChoiceForm()
+            return render(request, 'staff/editmap.html', {'form': form})
+        else:
+            form = MapChoiceForm(request.POST, request.FILES)
+            if form.is_valid():
+                mapchoice = form.instance
+                mapchoice.save()
+                messages.success(request, 'Created Map')
+                return redirect('staff:map_list')
+            else:
+                form = GameChoiceForm(request.POST, request.FILES)
+                return render(request, 'staff/editmap.html', {'form': form})
+
+
+def map_pool_list(request):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        mappools = MapPoolChoice.objects.all().order_by('id')
+        return render(request, 'staff/map_pool_list.html', {'mappools': mappools})
+
+
+def map_pool_detail(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        if request.method == 'POST':
+            mappoolchoice = MapPoolChoice.objects.get(pk=pk)
+            form = MapPoolChoiceForm(request.POST, request.FILES, instance=mappoolchoice)
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'Map pool has been updated')
+                return redirect('staff:map_pool_list')
+            else:
+                return render(request, 'staff/editmappool.html', {'form': form})
+        else:
+            mappoolchoice = MapPoolChoice.objects.get(pk=pk)
+            maps = mappoolchoice.maps.all()
+            form = MapPoolChoiceForm(instance=mappoolchoice)
+            return render(request, 'staff/editmappool.html', {'form': form, 'maps':maps, 'pk': pk})
+
+
+def add_map_to_pool(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        mappool = MapPoolChoice.objects.get(pk=pk)
+        maps = MapChoice.objects.filter(game=mappool.game)
+        if request.method == 'POST':
+            form = AddMapForm(maps, request.POST)
+            mapobj = form.data['mapobj']
+            mappool.add_map(mapobj)
+            messages.success(request, 'Map has been added to the pool')
+            return redirect('staff:map_pool_detail', pk=pk)
+
+        else:
+            form = AddMapForm(maps)
+            return render(request, 'staff/add_map.html', {'form': form, 'pk': pk})
+
+
+def delete_map_pool(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        mappoolchoice = MapPoolChoice.objects.get(pk=pk)
+        mappoolchoice.delete()
+        messages.success(request, "Map Pool Deleted")
+        return redirect('staff:map_pool_list')
+
+
+def create_map_pool_choice(request):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        if request.method == 'GET':
+            form = MapPoolChoiceForm()
+            return render(request, 'staff/editmappool.html', {'form': form})
+        else:
+            form = MapPoolChoiceForm(request.POST, request.FILES)
+            if form.is_valid():
+                mappoolchoice = form.instance
+                mappoolchoice.save()
+                messages.success(request, 'Created Map Pool')
+                return redirect('staff:map_pool_list')
+            else:
+                form = GameChoiceForm(request.POST, request.FILES)
+                return render(request, 'staff/editmappool.html', {'form': form})
+
 # end matches section
 
 
