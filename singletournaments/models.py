@@ -3,10 +3,11 @@ import random
 from django.db import models
 from django.dispatch import receiver
 
-from matches.models import Match, GameChoice, PlatformChoice
+from matches.models import Match, GameChoice, PlatformChoice, MapPoolChoice, MapChoice
 from matches.settings import TEAMFORMAT_CHOICES, MAPFORMAT_CHOICES
 from profiles.models import User
 from teams.models import Team
+from django.shortcuts import get_object_or_404
 
 SIZE_CHOICES = (
     (4, 4),
@@ -92,6 +93,8 @@ class SingleEliminationTournament(models.Model):
 
     bracket_generated = models.BooleanField(default=False)
 
+    map_pool = models.ForeignKey(MapPoolChoice, related_name='map_pool', on_delete=models.CASCADE, null=True)
+
     # the prizes that they will win, defined in admin panel. 3rd place isnt really needed..... just first and second...
     prize1 = models.CharField(default='no prize specified', max_length=50)
     prize2 = models.CharField(default='no prize specified', max_length=50)
@@ -103,7 +106,21 @@ class SingleEliminationTournament(models.Model):
     # on_delete=models.CASCADE, blank=False, null=True)
 
     def __str__(self):
-        return self.name # + self.platform + self.game
+        return self.name  # + self.platform + self.game
+
+    def generate_maps(self, roundpk):
+        pool = self.map_pool
+        poolsize = pool.maps.count()
+        try:
+            round = SingleTournamentRound.objects.get(id=roundpk)
+        except:
+            return False
+        if round:
+            matches = round.matches
+            for match in matches:
+                mike = random.random(1, poolsize)
+                temp_map = MapChoice.objects.get(map_num=mike)
+                match.map = temp_map
 
     def set_inactive(self, **kwargs):
         pk = self.kwargs['pk']

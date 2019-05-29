@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.db.models import Q
 
-from matches.models import Match, GameChoice, PlatformChoice
+from matches.models import Match, GameChoice, PlatformChoice, MapChoice, MapPoolChoice
 from news.models import Post
 from pages.models import StaticInfo, Partner
 from profiles.models import UserProfile
@@ -261,3 +261,24 @@ class EditRoundInfoForm(forms.ModelForm):
     class Meta:
         model = SingleTournamentRound
         fields = ('info',)
+
+
+class MapChoiceForm(forms.ModelForm):
+    class Meta:
+        model = MapChoice
+        fields = '__all__'
+
+
+class MapPoolChoiceForm(forms.ModelForm):
+    class Meta:
+        model = MapPoolChoice
+        fields = '__all__'
+
+
+class AddMapForm(forms.Form):
+    def __init__(self, maps, *args, **kwargs):
+        super(AddMapForm, self).__init__(*args, **kwargs)
+        self.fields['mapobj'] = forms.ChoiceField(choices=tuple([(i.pk, i.name) for i in maps]))
+
+    class Meta:
+        fields = ('mapobj',)

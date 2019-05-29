@@ -60,6 +60,17 @@ urlpatterns = [
     path('platforms/<int:pk>/delete/', login_required(views.delete_platform), name='delete_platform'),
     path('platforms/create/', login_required(views.create_platformchoice), name='create_platformchoice'),
 
+    path('maps/', login_required(views.map_list), name='map_list'),
+    path('maps/<int:pk>/', login_required(views.map_detail), name='map_detail'),
+    path('maps/<int:pk>/delete/', login_required(views.delete_map), name='delete_map'),
+    path('maps/create/', login_required(views.create_mapchoice), name='create_mapchoice'),
+    path('maps/add/<int:pk>', login_required(views.add_map_to_pool), name='add_map'),
+
+    path('mappools/', login_required(views.map_pool_list), name='map_pool_list'),
+    path('mappools/<int:pk>/', login_required(views.map_pool_detail), name='map_pool_detail'),
+    path('mappools/<int:pk>/delete/', login_required(views.delete_map_pool), name='delete_map_pool'),
+    path('mappools/create/', login_required(views.create_map_pool_choice), name='create_map_pool_choice'),
+
     path('news/', login_required(views.news_list), name='news_index'),
     path('news/list/', login_required(views.news_list), name='news_list'),
     path('news/create/', login_required(views.create_article), name='create_article'),
