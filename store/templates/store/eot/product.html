@@ -1,4 +1,5 @@
 {% extends "eot/base.html" %}
+{% load humanize %}
 
 {% block head %}
     <title>{{ product.item }} - {{ SITE_NAME }}</title>
@@ -11,7 +12,7 @@
             <div class="panel-body">
                 <h1>{{ product.item }}</h1>
                 <br>
-                <h3>{{ product.cost }}</h3>
+                <h3>${{ product.cost|floatformat:2|intcomma }}</h3>
                 <br>
                 {{ form.render }}
             </div>
