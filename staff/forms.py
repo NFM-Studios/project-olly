@@ -206,13 +206,13 @@ class ModifyUserForm(forms.ModelForm):
 class CreateProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ('amount', 'item_name', 'price', 'name', 'active')
+        fields = ('amount', 'item_name', 'name', 'active')
 
 
 class EditProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ('amount', 'item_name', 'price', 'name', 'active')
+        fields = ('amount', 'item_name', 'name', 'active')
 
 
 class DeleteProductForm(forms.Form):

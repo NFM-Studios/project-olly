@@ -28,18 +28,12 @@
             {% csrf_token %}
 
             <h4>PayPal info</h4>
-            <label>Amount (price with no $) </label>
+            <label>Price (with no $) </label>
             {{ form.amount }}
             <br>
 
-            <label>Item name(for PayPal, make it short) </label>
+            <label>Item code (for PayPal, in format: creds_5) </label>
             {{ form.item_name }}
-            <br>
-
-            <h4>Front end info</h4>
-
-            <label>Price(use $ here) </label>
-            {{ form.price }}
             <br>
 
             <label>Item name </label>

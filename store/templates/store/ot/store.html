@@ -1,5 +1,6 @@
 {% extends 'ot/base.html' %}
 {% load static %}
+{% load humanize %}
 {% block head %}
     <title>Store - {{ SITE_NAME }}</title>
 {% endblock %}
@@ -11,7 +12,7 @@
         {% for product in products %}
             <div class="col-xs-12 col-sm-6 col-md-3">
                 <div class="panel panel-default">
-                    <div class="panel-title center">{{ product.price }}</div>
+                    <div class="panel-title center">${{ product.amount|floatformat:2|intcomma }}</div>
                     <div class="panel-body center">
                         <h1><b>{{ product.name }}</b>
                             <small></small>
