@@ -22,10 +22,9 @@ urlpatterns = [
     path('users/banip/<urlusername>/', login_required(views.banip), name='ban_ip'),
     path('users/unbanip/<urlusername>/', login_required(views.unbanip), name='unban_ip'),
     path('users/search/', login_required(views.searchusers), name='searchusers'),
-    path('users/edit/<urlusername>/', login_required(views.edituser), name='edituser'),
+    path('users/modify/<urlusername>/', login_required(views.modifyuser), name='modify_user'),
     path('users/<urlusername>/', login_required(views.userdetail), name='userdetail'),
     path('users/verify/<urlusername>/', login_required(views.verify), name='verify_user'),
-    path('users/modify/<urlusername>/', login_required(views.modifyuser), name='modify_user'),
 
     path('tournaments/', login_required(views.tournaments), name='tournamentlist'),
     path('tournaments/rulesets/', login_required(views.ruleset_list), name='tournamentrulesetlist'),

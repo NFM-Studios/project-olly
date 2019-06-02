@@ -74,27 +74,6 @@ def searchusers(request):
             return redirect('staff:users')
 
 
-def edituser(request, urlusername):
-    user = UserProfile.objects.get(user__username=request.user.username)
-    allowed = ['superadmin', 'admin']
-    if user.user_type not in allowed:
-        return render(request, 'staff/permissiondenied.html')
-    else:
-        if request.method == 'POST':
-            userprofileobj = UserProfile.objects.get(user__username=urlusername)
-            form = EditUserForm(request.POST, instance=userprofileobj)
-            if form.is_valid():
-                form.save()
-                messages.success(request, 'User type has been updated')
-                return redirect('staff:users')
-            else:
-                return render(request, 'staff/edituser.html', {'form': form})
-        else:
-            userprofileobj = UserProfile.objects.get(user__username=urlusername)
-            form = EditUserForm(instance=userprofileobj)
-            return render(request, 'staff/edituser.html', {'form': form})
-
-
 def banuser(request, urlusername):
     user = UserProfile.objects.get(user__username=request.user.username)
     allowed = ['superadmin', 'admin']
@@ -171,44 +150,16 @@ def modifyuser(request, urlusername):
         return render(request, 'staff/permissiondenied.html')
     else:
         if request.method == 'GET':
-            form = ModifyUserForm(None)
+            userprofileobj = UserProfile.objects.get(user__username=urlusername)
+            form = ModifyUserForm(instance=userprofileobj)
             return render(request, 'staff/modifyuser.html', {'form': form})
         else:
-            form = ModifyUserForm(request.POST)
-            username = User.objects.get(username=urlusername)
-            profile = UserProfile.objects.get(user=username)
-            form.is_valid()
-            creds = int(form.data['credits'])
-            xp = int(form.data['xp'])
-            profile.xp += xp
-            profile.credits += creds
-            profile.num_bronze += form.cleaned_data['bronze']
-            profile.num_silver += form.cleaned_data['silver']
-            profile.num_gold += form.cleaned_data['gold']
-            profile.current_earning += form.cleaned_data['earnings']
-            profile.total_earning += form.cleaned_data['earnings']
-            profile.save()
-
-            transaction = Transaction(num=form.cleaned_data['bronze'], account=UserProfile.objects.get(user=username),
-                                      cost=int(0.00), type='Bronze Trophies', staff=request.user.username)
-            transaction.save()
-            transaction = Transaction(num=form.cleaned_data['silver'], account=UserProfile.objects.get(user=username),
-                                      cost=int(0.00), type='Silver Trophies', staff=request.user.username)
-            transaction.save()
-            transaction = Transaction(num=form.cleaned_data['gold'], account=UserProfile.objects.get(user=username),
-                                      cost=int(0.00), type='Gold Trophies', staff=request.user.username)
-            transaction.save()
-            transaction = Transaction(num=form.cleaned_data['earnings'], account=UserProfile.objects.get(user=username),
-                                      cost=int(0.00), type='Account Earnings', staff=request.user.username)
-            transaction.save()
-            transaction = Transaction(num=xp, account=UserProfile.objects.get(user=username), cost=int(0.00),
-                                      type='XP', staff=request.user.username)
-            transaction.save()
-            transaction = Transaction(num=creds, account=UserProfile.objects.get(user=username), cost=int(0.00),
-                                      type='Credit', staff=request.user.username)
-            transaction.save()
-            messages.success(request, "Added credits/XP/trophies/earnings to %s" % urlusername)
-            return redirect('staff:users')
+            userprofileobj = UserProfile.objects.get(user__username=urlusername)
+            form = ModifyUserForm(request.POST, instance=userprofileobj)
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'User has been updated')
+                return redirect('staff:users')
 
 
 def userdetail(request, urlusername):

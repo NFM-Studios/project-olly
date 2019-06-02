@@ -42,12 +42,6 @@ class SingleRulesetCreateForm(forms.ModelForm):
         fields = ('name', 'text')
 
 
-class EditUserForm(forms.ModelForm):
-    class Meta:
-        model = UserProfile
-        fields = ('user_type',)
-
-
 class TicketSearchForm(forms.Form):
     showClosed = forms.BooleanField(required=False, label='Show closed')
     searchQuery = forms.CharField(required=False, label='Search')
@@ -203,16 +197,10 @@ class RemovePlayerFormPost(forms.ModelForm):
         fields = ()
 
 
-class ModifyUserForm(forms.Form):
-    bronze = forms.IntegerField(required=True, initial=0)
-    silver = forms.IntegerField(required=True, initial=0)
-    gold = forms.IntegerField(required=True, initial=0)
-    earnings = forms.IntegerField(required=True, initial=0)
-    xp = forms.IntegerField(required=True, initial=0)
-    credits = forms.IntegerField(required=True, initial=0)
-
+class ModifyUserForm(forms.ModelForm):
     class Meta:
-        fields = ('Bronze', 'Silver', 'Gold', 'earnings', 'XP', 'credits')
+        model = UserProfile
+        fields = ('num_bronze', 'num_silver', 'num_gold', 'current_earning', 'xp', 'credits', 'user_type')
 
 
 class CreateProductForm(forms.ModelForm):

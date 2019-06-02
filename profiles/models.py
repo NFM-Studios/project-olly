@@ -46,7 +46,12 @@ class UserProfile(models.Model):
     favorite_game = models.CharField(max_length=50, default='N/A', blank=True)
     favorite_console = models.CharField(max_length=50, default='N/A', blank=True)
     profile_picture = models.ImageField(upload_to='profile_images', blank=True)
-    user_type = models.CharField(max_length=10, default='user')
+    USER_TYPE_CHOICES = [
+        ('user', 'Standard User'),
+        ('admin', 'Admin'),
+        ('superadmin', 'Super Admin')
+    ]
+    user_type = models.CharField(max_length=10, default='user', choices=USER_TYPE_CHOICES)
     ip = models.CharField(max_length=45, default='0.0.0.0')
     num_trophies = models.PositiveSmallIntegerField(default=0)
     xbl_verified = models.BooleanField(default=False, null=False, blank=True)
