@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="{% static "css/staff.css" %}">
 
 {% block title %}
-    News Index
+    News Article
 {% endblock %}
 {% block body %}
 
@@ -11,12 +11,11 @@
     <h2>Author: {{ article.author }}</h2>
     <h2>Created: {{ article.created }}</h2>
     <h2>Status: {{ article.status }}</h2>
-    <h2>Tags: {{ article.tags }}</h2>
 
 
     <p>{{ article.body | linebreaks }}</p>
-    <a href="{% url 'staff:news_list' %}">Click here to view news articles</a>
 
-    <h2><a href="{% url 'staff:edit_article' pk=article.id %}">Edit this news post</a></h2>
+    <a href="{% url 'staff:edit_article' pk=article.id %}" class="btn btn-primary">Edit</a>
+    <a href="{% url 'staff:delete_article' pk=article.id %}" class="btn btn-danger">DELETE</a>
 
 {% endblock %}
