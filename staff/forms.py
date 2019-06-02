@@ -235,10 +235,6 @@ class DeleteProductForm(forms.Form):
         fields = ('price', 'name')
 
 
-class RemovePostForm(forms.Form):
-    slug = forms.CharField(required=True, max_length=250)
-
-
 class EditMatchForm(forms.ModelForm):
     class Meta:
         model = Match

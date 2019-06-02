@@ -72,11 +72,10 @@ urlpatterns = [
     path('mappools/create/', login_required(views.create_map_pool_choice), name='create_map_pool_choice'),
 
     path('news/', login_required(views.news_list), name='news_index'),
-    path('news/list/', login_required(views.news_list), name='news_list'),
     path('news/create/', login_required(views.create_article), name='create_article'),
     path('news/<int:pk>/', login_required(views.detail_article), name='detail_article'),
     path('news/<int:pk>/edit', login_required(views.edit_post), name='edit_article'),
-    path('news/remove', login_required(views.remove_article), name='remove_article'),
+    path('news/<int:pk>/delete', login_required(views.delete_article), name='delete_article'),
 
     path('store/', login_required(views.store_index), name='store'),
     path('store/transactions/list', login_required(views.TransactionView.as_view()), name='transaction_list'),

@@ -1323,15 +1323,6 @@ def news_list(request):
         return render(request, 'staff/news_list.html', {'news_list': news_list})
 
 
-def news_index(request):
-    user = UserProfile.objects.get(user__username=request.user.username)
-    allowed = ['superadmin', 'admin']
-    if user.user_type not in allowed:
-        return render(request, 'staff/permissiondenied.html')
-    else:
-        return render(request, 'staff/news_index.html')
-
-
 def create_article(request):
     user = UserProfile.objects.get(user__username=request.user.username)
     allowed = ['superadmin', 'admin']
@@ -1387,24 +1378,16 @@ def edit_post(request, pk):
                 return render(request, 'staff/edit_article.html', {'form': form})
 
 
-def remove_article(request):
+def delete_article(request, pk):
     user = UserProfile.objects.get(user__username=request.user.username)
     allowed = ['superadmin', 'admin']
     if user.user_type not in allowed:
         return render(request, 'staff/permissiondenied.html')
     else:
-        if request.method == 'GET':
-            form = RemovePostForm(None)
-            return render(request, 'staff/remove_post.html', {'form': form})
-        else:
-            form = RemovePostForm(request.POST)
-            if form.is_valid():
-                post = Post.objects.get(slug=form.data['slug'])
-                messages.success(request, 'Removed post %s' % post.title)
-                post.delete()
-                return redirect('staff:news_index')
-            else:
-                return render(request, 'staff/remove_post.html', {'form': form})
+        article = Post.objects.get(pk=pk)
+        article.delete()
+        messages.success(request, 'Post has been deleted')
+        return redirect('staff:news_index')
 
 
 # end news section
