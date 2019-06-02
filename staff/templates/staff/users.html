@@ -37,7 +37,7 @@
                     {% elif up.user_type == 'user' %}
                         <td>Standard User</td>
                     {% endif %}
-                
+
                     <td><a href="/staff/users/modify/{{ up.user }}" class="btn btn-primary">Modify User</a></td>
 
                     {% if up.user.id in bannedusernames %}

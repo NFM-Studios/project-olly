@@ -1,5 +1,6 @@
 {% extends "wlg/base.html" %}
 {% load static %}
+{% load humanize %}
 
 {% block head %}
     <title>Store - {{ SITE_NAME }}</title>
@@ -21,7 +22,7 @@
                                 <h3><b>{{ product.name }}</b></h3>
                                 <br><br>
                                 <a class="btn btn-primary btn-xs btn-block center"
-                                   href="{% url 'store:detail' pk=product.id %}"> {{ product.price }} ORDER NOW </a>
+                                   href="{% url 'store:detail' pk=product.id %}"> ${{ product.amount|floatformat:2|intcomma }} ORDER NOW </a>
                             </div>
                         </div>
                     </div>

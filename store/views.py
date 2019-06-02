@@ -29,7 +29,7 @@ def detail(request, pk):
     }
     product = {
         'item': product.name,
-        'cost': product.price
+        'cost': product.amount
     }
     form = PayPalPaymentsForm(initial=paypal_dict)
     return render(request, 'store/' + request.tenant + '/product.html', {'product': product, 'form': form})

@@ -1,4 +1,5 @@
 {% extends "stock/base.html" %}
+{% load humanize %}
 
 {% block head %}
     <title>Store - {{ SITE_NAME }}</title>
@@ -20,7 +21,7 @@
             <tr scope="">
                 <td scope="row"><a href="{% url 'store:detail' pk=product.id %}">#{{ product.id }}</a></td>
                 <td>{{ product.name }}</td>
-                <td>{{ product.price }}</td>
+                <td>${{ product.amount|floatformat:2|intcomma }}</td>
 
 
             </tr>
