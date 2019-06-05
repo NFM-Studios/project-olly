@@ -91,7 +91,17 @@
                                             <div class="panel-default">
                                                 <div class="panel-body">
                                                     <h4><b>Registration Opens->Closes</b></h4>
-                                                    {{ tournament.open_register }}->{{ tournament.close_register }}
+                                                    <script>
+                                                        const date = new Date("{{ tournament.open_register|safe }}");
+                                                        console.log(date);
+                                                        document.write(date.toLocaleString());
+                                                    </script>
+                                                    ->
+                                                    <script>
+                                                        const date2 = new Date("{{ tournament.close_register|safe }}");
+                                                        console.log(date2);
+                                                        document.write(date2.toLocaleString());
+                                                    </script>
                                                 </div>
                                             </div>
                                         </div>

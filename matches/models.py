@@ -58,6 +58,7 @@ class MapPoolChoice(models.Model):
 
 
 class Match(models.Model):
+    type = models.CharField(blank=True, null=True, max_length=20)
     matchnum = models.SmallIntegerField(default=0)
     map = models.ForeignKey(MapChoice, related_name='match_map', on_delete=models.CASCADE, null=True)
     game = models.ForeignKey(GameChoice, related_name='GameChoice', on_delete=models.CASCADE)
@@ -104,6 +105,20 @@ class Match(models.Model):
     def update_info(self, obj):
         self.info = obj.info
         self.save()
+
+    def get_min_team_size(self):
+        if self.teamformat == 0:
+            return 1
+        if self.teamformat == 1:
+            return 2
+        if self.teamformat == 2:
+            return 3
+        if self.teamformat == 3:
+            return 4
+        if self.teamformat == 4:
+            return 5
+        if self.teamformat == 5:
+            return 6
 
 
 class MatchReport(models.Model):
