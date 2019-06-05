@@ -56,6 +56,9 @@ class MapPoolChoice(models.Model):
         newmap.map_num = self.maps.count() + 1
         self.maps.add(newmap)
 
+    def __str__(self):
+        return self.name
+
 
 class Match(models.Model):
     type = models.CharField(blank=True, null=True, max_length=20)
