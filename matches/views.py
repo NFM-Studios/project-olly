@@ -73,15 +73,21 @@ class MatchReportCreateView(View):
                 reporter_team = TeamInvite.objects.get(user=self.request.user, team=team2)
             else:
                 messages.error(request, message="You aren't a part of the teams in this match")
+                if match.type == 'w':
+                    return redirect('wagers:list')
                 return redirect('matches:detail', pk=pk)
 
             if MatchReport.objects.filter(match=match.id,
                                           reporting_team=team1).exists() and reporter_team.id == team1.id:
                 messages.error(request, "Your team has already reported this match")
+                if match.type == 'w':
+                    return redirect('wagers:list')
                 return redirect('matches:detail', pk=pk)
             elif MatchReport.objects.filter(match=match.id,
                                             reporting_team=team2).exists() and reporter_team.id == team2.id:
                 messages.error(request, "Your team has already reported this match")
+                if match.type == 'w':
+                    return redirect('wagers:list')
                 return redirect('matches:detail', pk=pk)
             else:
                 if reporter_team in team1_reporters or reporter_team in team2_reporters:
@@ -163,9 +169,13 @@ class MatchReportCreateView(View):
                                 match.save()
                     # self.success_url = reverse('matches:detail', args=[match.id])
                     messages.success(self.request, 'Your Report has been successfully submitted')
+                    if match.type == 'w':
+                        return redirect('wagers:list')
                     return redirect('matches:detail', pk=pk)
                 else:
                     messages.error(self.request, "You don't have permissions to report on this match")
+                    if match.type == 'w':
+                        return redirect('wagers:list')
                     return redirect('singletournaments:list')
             # else:
             #    messages.error(request, "A report has already been created for this match")

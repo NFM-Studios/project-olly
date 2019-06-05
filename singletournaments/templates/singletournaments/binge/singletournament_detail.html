@@ -27,6 +27,7 @@
                         <div class="row">
                             <div class="col-xs-12 col-sm-4">
                                 <img style="size:auto" src="
+
                                         {% if tournament.game.image %}{{ tournament.game.image.url }}{% else %}{% static 'binge/images/logo.png' %}{% endif %}"/>
                             </div>
                             <div class="col-xs-12 col-sm-8">
@@ -92,7 +93,17 @@
                                             <div class="panel-default">
                                                 <div class="panel-body">
                                                     <h4><b>Registration Opens->Closes</b></h4>
-                                                    {{ tournament.open_register }}->{{ tournament.close_register }}
+                                                    <script>
+                                                        const date = new Date("{{ tournament.open_register|safe }}");
+                                                        console.log(date);
+                                                        document.write(date.toLocaleString());
+                                                    </script>
+                                                    ->
+                                                    <script>
+                                                        const date2 = new Date("{{ tournament.close_register|safe }}");
+                                                        console.log(date2);
+                                                        document.write(date2.toLocaleString());
+                                                    </script>
                                                 </div>
                                             </div>
                                         </div>

@@ -40,7 +40,8 @@ urlpatterns = [
     path('paypal/', paypal_views.ipn, name="paypal-ipn"),
     path('staff/', include('staff.urls', namespace='staff')),
     path('tournaments/', include('singletournaments.urls', namespace='singletournaments')),
-    path('matches/', include('matches.urls', namespace='matches'))
+    path('matches/', include('matches.urls', namespace='matches')),
+    path('wagers/', include('wagers.urls', namespace='wagers'))
 ]
 if settings.DEBUG is True:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
