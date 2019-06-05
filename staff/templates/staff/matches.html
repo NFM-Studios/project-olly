@@ -8,6 +8,7 @@
 
 {% block body %}
     <div style="overflow-x:auto;">
+        <h1>Tournament Matches</h1>
         <table class="table table-hover">
             <tr id="header">
                 <thead>
@@ -23,7 +24,63 @@
                 <th>Byes</th>
                 </thead>
             </tr>
-            {% for match in matches_list %}
+            {% for match in tmatches %}
+                <tbody>
+                <tr scope="">
+                    <td scope="row"><a href="{% url 'staff:match_detail' pk=match.id %}">#{{ match.id }}</a></td>
+
+                    <td><a href="#">{{ match.tournament }}</a></td>
+
+                    <td>{{ match.platform.name }}</td>
+
+                    <td>{{ match.game.name }}</td>
+
+                    <td>Something</td>
+                    <td>Something</td>
+                    <td>Something</td>
+
+                    {% if match.completed %}
+                        <td>Yes</td>
+                    {% elif not match.completed %}
+                        <td>No</td>
+                    {% endif %}
+
+                    <td>Something</td>
+
+                    {% if not match.bye_1 and not match.bye_2 %}
+                        <td>No</td>
+                    {% else %}
+                        <td>Yes</td>
+                    {% endif %}
+
+                    {% if not match.completed %}
+                        <td><a href="{% url 'staff:match_declare_winner' pk=match.id %}" class="btn btn-primary">Declare
+                            Winner</a></td>
+                    {% else %}
+                        <td><a href="{% url 'staff:match_delete_winner' pk=match.id %}" class="btn btn-danger">Delete
+                            Winner</a></td>
+                    {% endif %}
+                </tr>
+                </tbody>
+            {% endfor %}
+        </table>
+        <h2>Wager Matches</h2>
+    <table class="table table-hover">
+            <tr id="header">
+                <thead>
+                <th scope="row">ID</th>
+                <th>Tournament</th>
+                <th>Platform</th>
+                <th>Game</th>
+                <th>Start Date/Time</th>
+                <th>Something</th>
+                <th>Something</th>
+                <th>Completed</th>
+                <th>Size</th>
+                <th>Byes</th>
+                </thead>
+            </tr>
+            {% for match in wmatches %}
                 <tbody>
                 <tr scope="">
                     <td scope="row"><a href="{% url 'staff:match_detail' pk=match.id %}">#{{ match.id }}</a></td>

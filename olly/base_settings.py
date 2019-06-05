@@ -72,6 +72,7 @@ INSTALLED_APPS = [
     # object storage
     'storages',
 
+    'wagers'
 ]
 
 MIDDLEWARE = [
