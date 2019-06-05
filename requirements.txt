@@ -1,4 +1,4 @@
-django>=2.1, <2.2
+django>=2.2, <2.3
 pillow>=4.2.1
 requests>=2.18.4
 django-paypal>=0.4.1
