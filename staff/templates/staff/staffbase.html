@@ -340,17 +340,18 @@
 
     <div class="container-fluid">
         <!-- Breadcrumbs-->
+    {% if messages %}
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
-                {% if messages %}
+
                     <ul class="messages">
                         {% for message in messages %}
                             <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
                         {% endfor %}
                     </ul>
-                {% endif %}
             </li>
         </ol>
+    {% endif %}
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
                 <a href="{% url 'staff:index' %}">Dashboard</a>
@@ -382,7 +383,7 @@
     <footer class="sticky-footer" style="width:auto">
         <div class="container">
             <div class="text-center">
-                <small>Copyright NFM Studios© {{ SITE_NAME }} 2018</small>
+                <small>Copyright NFM Studios© {{ SITE_NAME }} 2019</small>
             </div>
         </div>
     </footer>

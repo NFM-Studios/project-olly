@@ -22,13 +22,15 @@ def staffindex(request):
     if user.user_type not in allowed:
         return render(request, 'staff/permissiondenied.html')
     else:
-        ticket = Ticket.objects.all()
+        ticket = Ticket.objects.filter(Q(status=0) | Q(status=1) | Q(status=2))
+        numtickets = len(ticket)
         news = Post.objects.all()
         teams = Team.objects.all()
         numusers = len(UserProfile.objects.all())
         tournaments = SingleEliminationTournament.objects.all()
         return render(request, 'staff/staffindex.html', {'ticket': ticket, 'news': news, 'teams': teams,
-                                                         'tournaments': tournaments, 'numusers': numusers})
+                                                         'tournaments': tournaments, 'numusers': numusers,
+                                                         'numtickets':numtickets})
 
 
 # start users
@@ -599,8 +601,10 @@ def matches_index(request):
     if user.user_type not in allowed:
         return render(request, 'staff/permissiondenied.html')
     else:
-        matches_list = Match.objects.all().order_by('-id')
-        return render(request, 'staff/matches.html', {'matches_list': matches_list})
+        #matches_list = Match.objects.all().order_by('-id')
+        tmatches = Match.objects.filter(type__isnull=True)
+        wmatches = Match.objects.filter(type='w')
+        return render(request, 'staff/matches.html', {'tmatches': tmatches, 'wmatches':wmatches})
 
 
 def match_detail(request, pk):
@@ -610,11 +614,14 @@ def match_detail(request, pk):
         return render(request, 'staff/permissiondenied.html')
     else:
         match = Match.objects.get(pk=pk)
-        if match.disputed:
-            dispute = MatchDispute.objects.get(match=match)
-            return render(request, 'staff/match_detail.html', {'match': match, 'dispute': dispute})
+        if match.type == "w":
+            return render(request, 'staff/match_wager_detail.html', {'match': match})
         else:
-            return render(request, 'staff/match_detail.html', {'match': match})
+            if match.disputed:
+                dispute = MatchDispute.objects.get(match=match)
+                return render(request, 'staff/match_detail.html', {'match': match, 'dispute': dispute})
+            else:
+                return render(request, 'staff/match_detail.html', {'match': match})
 
 
 def match_edit(request, pk):
