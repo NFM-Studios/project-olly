@@ -49,6 +49,7 @@
                             {% for tournament in tournament_list %}
                                 <div class="col-xs-12 col-sm-6 col-md-4 league">
                                     <img src="
+
                                             {% if tournament.game.image != "" %}{{ tournament.game.image.url }}{% else %}{% static 'binge/images/logo.png' %}{% endif %}"><br>
                                     <h6><b>{{ tournament.name }}</b></h6>
                                     <br/>
@@ -61,8 +62,20 @@
                                     </ul>
                                     <ul>
 
-                                        <li><b>Registration Opens:</b> {{ tournament.open_register }}</li>
-                                        <li><b>Registration Closes</b> {{ tournament.close_register }}</li>
+                                        <li><b>Registration Opens:</b>
+                                            <script>
+                                                const date = new Date("{{ tournament.open_register|safe }}");
+                                                console.log(date);
+                                                document.write(date.toLocaleString());
+                                            </script>
+                                        </li>
+                                        <li><b>Registration Closes</b>
+                                            <script>
+                                                const date2 = new Date("{{ tournament.close_register|safe }}");
+                                                console.log(date2);
+                                                document.write(date2.toLocaleString());
+                                            </script>
+                                        </li>
                                         <li><b>Registration Fee: </b>{{ tournament.req_credits }}</li>
                                     </ul>
                                     <a class="btn btn-primary btn-block btn-xs jleague"
