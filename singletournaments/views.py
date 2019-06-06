@@ -35,57 +35,17 @@ class List(View):
         form.is_valid()
         platform = form.cleaned_data['platform']
         game = form.cleaned_data['game']
-        if game == '0':
-            tournament_list_ = SingleEliminationTournament.objects.filter(game=0)
-        elif game == '1':
-            tournament_list_ = SingleEliminationTournament.objects.filter(game=1)
-        elif game == '2':
-            tournament_list_ = SingleEliminationTournament.objects.filter(game=2)
-        elif game == '3':
-            tournament_list_ = SingleEliminationTournament.objects.filter(game=3)
-        elif game == '4':
-            tournament_list_ = SingleEliminationTournament.objects.filter(game=4)
-        elif game == '5':
-            tournament_list_ = SingleEliminationTournament.objects.filter(game=5)
-        elif game == '6':
-            tournament_list_ = SingleEliminationTournament.objects.filter(game=6)
-        elif game == '7':
-            tournament_list_ = SingleEliminationTournament.objects.filter(game=7)
-        elif game == '8':
-            tournament_list_ = SingleEliminationTournament.objects.filter(game=8)
-        elif game == '9':
-            tournament_list_ = SingleEliminationTournament.objects.filter(game=9)
-        elif game == '10':
-            tournament_list_ = SingleEliminationTournament.objects.filter(game=10)
-        elif game == '11':
-            tournament_list_ = SingleEliminationTournament.objects.filter(game=11)
-        elif game == '12':
-            tournament_list_ = SingleEliminationTournament.objects.filter(game=12)
-        elif game == '13':
-            tournament_list_ = SingleEliminationTournament.objects.filter(game=13)
-        elif game == '14':
-            tournament_list_ = SingleEliminationTournament.objects.filter(game=14)
-        elif game == '15':
-            tournament_list_ = SingleEliminationTournament.objects.filter(game=15)
-        elif game == '16':
-            tournament_list_ = SingleEliminationTournament.objects.all()
 
-        if platform == '0':
-            tournament_list1 = SingleEliminationTournament.objects.filter(platform=0)
-        elif platform == '1':
-            tournament_list1 = SingleEliminationTournament.objects.filter(platform=1)
-        elif platform == '2':
-            tournament_list1 = SingleEliminationTournament.objects.filter(platform=2)
-        elif platform == '3':
-            tournament_list1 = SingleEliminationTournament.objects.filter(platform=3)
-        elif platform == '4':
-            tournament_list1 = SingleEliminationTournament.objects.filter(platform=4)
-        elif platform == '5':
-            tournament_list1 = SingleEliminationTournament.objects.filter(platform=5)
-        elif platform == '6':
-            tournament_list1 = SingleEliminationTournament.objects.filter(platform=6)
-        elif platform == '7':
+        if game == 'all':
+            tournament_list_ = SingleEliminationTournament.objects.all()
+        else:
+            tournament_list_ = SingleEliminationTournament.objects.filter(game=game)
+
+        if platform == 'all':
             tournament_list1 = SingleEliminationTournament.objects.all()
+        else:
+            tournament_list1 = SingleEliminationTournament.objects.filter(platform=platform)
+
         tournament_list = tournament_list1 & tournament_list_
         return render(request, 'singletournaments/' + request.tenant + '/singletournament_list.html',
                       {'tournament_list': tournament_list, 'form': form})
