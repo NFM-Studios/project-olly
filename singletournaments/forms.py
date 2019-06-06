@@ -2,6 +2,7 @@ from django import forms
 
 from singletournaments.models import SingleEliminationTournament
 from teams.models import Team, TeamInvite
+from matches.models import PlatformChoice, GameChoice
 
 
 class SingleEliminationTournamentJoinGet(forms.ModelForm):
@@ -37,39 +38,17 @@ class SingleEliminationTournamentSort(forms.Form):
     game = forms.ChoiceField()
 
     def __init__(self, *args, **kwargs):
-        platforms = (
-            (0, 'Playstation 4'),
-            (1, 'Xbox One'),
-            (2, 'PC'),
-            (3, 'Mobile'),
-            (4, 'Nintendo Switch'),
-            (5, 'Playstation 3'),
-            (6, 'Xbox 360'),
-            (7, 'Any')
-        )
+        platforms = list((obj.id, obj.name) for obj in PlatformChoice.objects.all())
+        games = list((obj.id, obj.name) for obj in GameChoice.objects.all())
 
-        games = (
-            (0, 'No Game Set'),
-            (1, 'Call of Duty Black Ops 3'),
-            (2, 'Call of Duty WWII'),
-            (3, 'Fortnite'),
-            (4, 'Destiny 2'),
-            (5, 'Counter-Strike: Global Offensive'),
-            (6, 'Player Unknowns Battlegrounds'),
-            (7, 'Rainbow Six Siege'),
-            (8, 'Overwatch'),
-            (9, 'League of Legends'),
-            (10, 'Hearthstone'),
-            (11, 'World of Warcraft'),
-            (12, 'Smite'),
-            (13, 'Rocket League'),
-            (14, 'Battlefield 1'),
-            (15, 'Black Ops 4'),
-            (16, 'Any')
-        )
+        platforms.insert(0, ('all', 'All Platforms'))
+        games.insert(0, ('all', 'All Games'))
+
         super(SingleEliminationTournamentSort, self).__init__(*args, **kwargs)
+
         self.fields['platform'].choices = platforms
         self.fields['game'].choices = games
+
         self.fields['platform'].widget.attrs.update(
             {'name': 'subject', 'class': 'form-control', 'style': 'background-color: black'})
         self.fields['game'].widget.attrs.update(
