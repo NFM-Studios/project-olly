@@ -48,4 +48,3 @@ class WagerRequest(models.Model):
             return 5
         if self.teamformat == 5:
             return 6
-
