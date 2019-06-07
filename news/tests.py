@@ -15,8 +15,6 @@ class PostTestCase1(TestCase):
         # post1 = Post.objects.create(title='Test Title', slug='Test_Slug', body='Testing Body Field')
 
     def test_listresponse(self):
-        static = StaticInfo()
-        static.save()
         request = self.factory.get('/news')
 
         request.tenant = 'eot'
@@ -28,8 +26,6 @@ class PostTestCase1(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_detailresponse(self):
-        static = StaticInfo()
-        static.save()
         post1 = Post.objects.create(title='Test Title', slug='Test_Slug', body='Testing Body Field', status="published",
                                     author=self.user)
 
@@ -43,8 +39,6 @@ class PostTestCase1(TestCase):
         self.assertEqual(detailresponse.status_code, 200)
 
     def test_detail2response(self):
-        static = StaticInfo()
-        static.save()
         post1 = Post.objects.create(title='Test Title2', slug='Test_Slug22', body='Testing Body Field',
                                     status="published", author=self.user)
 
@@ -56,8 +50,6 @@ class PostTestCase1(TestCase):
         self.assertEqual(detailresponse.status_code, 200)
 
     def test_list2response(self):
-        static = StaticInfo()
-        static.save()
         request = self.factory.get('/news')
 
         request.tenant = 'binge'
