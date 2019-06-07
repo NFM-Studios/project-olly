@@ -2,12 +2,15 @@ from django.contrib.auth.models import User
 from django.test import TestCase, RequestFactory
 
 from .views import *
+from pages.models import StaticInfo
 
 
 class PostTestCase1(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
         self.user = User.objects.create_user(username='testuser', email='test@gmail.com', password='password')
+        static = StaticInfo()
+        static.save()
         # login = self.client.login(username='testuser', password='password')
         # post1 = Post.objects.create(title='Test Title', slug='Test_Slug', body='Testing Body Field')
 
