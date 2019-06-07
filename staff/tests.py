@@ -10,8 +10,8 @@ class StaffBasicTest1(TestCase):
         profile = UserProfile.objects.get(user__username=self.user.username)
         profile.user_type = 'superadmin'
         profile.save()
-        static = StaticInfo()
-        static.save()
+        self.static = StaticInfo()
+        self.static.save()
 
     def test_indexresponse(self):
         print('Starting staff:index')
