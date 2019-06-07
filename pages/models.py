@@ -4,13 +4,7 @@ from django.dispatch import receiver
 from singletournaments.models import SingleEliminationTournament
 
 
-class StaticInfo(models.Model):
-    featured_tournament = models.ForeignKey(SingleEliminationTournament, related_name='featured_tournament',
-                                            on_delete=models.SET_NULL, null=True, blank=True)
-    about_us = models.TextField(default='about us')
-    terms = models.TextField(default='terms of service')
-    # privacy = models.TextField(default='privacy policy')
-    stream = models.CharField(default='twitch', max_length=25)
+class SocialInfo(models.Model):
     twitchchannel = models.URLField(verbose_name='twitch_channel', null=True, blank=True,
                                     default='https://www.twitch.tv')
     youtubechannel = models.URLField(verbose_name='youtube_channel', null=True, blank=True,
@@ -21,6 +15,17 @@ class StaticInfo(models.Model):
                                    default='https://www.facebook.com')
     instagrampage = models.URLField(verbose_name='instagram_page', null=True, blank=True,
                                     default='https://www.instagram.com')
+
+    stream = models.CharField(default='twitch', max_length=25)
+
+
+class StaticInfo(models.Model):
+    featured_tournament = models.ForeignKey(SingleEliminationTournament, related_name='featured_tournament',
+                                            on_delete=models.CASCADE, null=True, blank=True)
+    about_us = models.TextField(default='about us')
+    terms = models.TextField(default='terms of service')
+    # privacy = models.TextField(default='privacy policy')
+
     slide1link = models.TextField(default="https://www.google.com", blank=True, null=True)
     slide2link = models.TextField(default="https://www.google.com", blank=True, null=True)
     slide3link = models.TextField(default="https://www.google.com", blank=True, null=True)
@@ -124,6 +129,7 @@ def auto_delete_file(sender, instance, **kwargs):
         instance.gatournament2.delete()
     if instance.gatournamentbig:
         instance.gatournamentbig.delete()
+
 
 @receiver(models.signals.pre_save, sender=StaticInfo)
 def auto_delete_file_on_change(sender, instance, **kwargs):

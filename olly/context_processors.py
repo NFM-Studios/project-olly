@@ -1,9 +1,9 @@
 from django.conf import settings
-from pages.models import StaticInfo
+from pages import models as pagesmodels
 
 
 def site_info(request):
     return {'SITE_NAME': settings.SITE_NAME,
             'SITE_SERVER': settings.SITE_SERVER,
             'SITE_VERSION': settings.SITE_VERSION,
-            'staticinfo': StaticInfo.objects.get(pk=1)}
+            'SocialInfo': pagesmodels.SocialInfo
