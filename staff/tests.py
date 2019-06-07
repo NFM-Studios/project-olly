@@ -10,12 +10,10 @@ class StaffBasicTest1(TestCase):
         profile = UserProfile.objects.get(user__username=self.user.username)
         profile.user_type = 'superadmin'
         profile.save()
-        static = StaticInfo()
-        static.save()
+        self.static = StaticInfo()
+        self.static.save()
 
     def test_indexresponse(self):
-        static = StaticInfo()
-        static.save()
         print('Starting staff:index')
         request = self.factory.get(reverse('staff:index'))
         request.tenant = 'eot'
@@ -25,8 +23,6 @@ class StaffBasicTest1(TestCase):
         print('Complete staff:index')
 
     def test_usersresponse(self):
-        static = StaticInfo()
-        static.save()
         print('Starting staff:users')
         request = self.factory.get(reverse('staff:users'))
         request.tenant = 'eot'
@@ -36,8 +32,6 @@ class StaffBasicTest1(TestCase):
         print('Completed staff:users')
 
     def test_tickets(self):
-        static = StaticInfo()
-        static.save()
         print('Starting staff:tickets')
         request = self.factory.get(reverse('staff:tickets'))
         request.tenant = 'eot'
@@ -47,8 +41,6 @@ class StaffBasicTest1(TestCase):
         print('Completed staff:tickets')
 
     def test_ticket_cats(self):
-        static = StaticInfo()
-        static.save()
         print('Starting staff:ticket_categories')
         request = self.factory.get(reverse('staff:ticket_categories'))
         request.tenant = 'eot'
@@ -58,8 +50,6 @@ class StaffBasicTest1(TestCase):
         print('Completed staff:tickets_categories')
 
     def test_ticket_cat_create(self):
-        static = StaticInfo()
-        static.save()
         print('Starting staff:ticket_cat_create')
         request = self.factory.get(reverse('staff:ticket_cat_create'))
         request.tenant = 'eot'
@@ -69,8 +59,6 @@ class StaffBasicTest1(TestCase):
         print('Completed staff:ticket_cat_create')
 
     def test_pages(self):
-        static = StaticInfo()
-        static.save()
         print('Starting staff:pages')
         request = self.factory.get(reverse('staff:pages'))
         request.tenant = 'eot'
@@ -80,8 +68,6 @@ class StaffBasicTest1(TestCase):
         print('Completed staff:pages')
 
     def test_tournaments(self):
-        static = StaticInfo()
-        static.save()
         print('Starting staff:tournamentlist')
         request = self.factory.get(reverse('staff:tournamentlist'))
         request.tenant = 'eot'
@@ -91,8 +77,6 @@ class StaffBasicTest1(TestCase):
         print('Completed staff:tournamentlist')
 
     def test_tournament_rulesets(self):
-        static = StaticInfo()
-        static.save()
         print('Starting staff:tournamentrulesetlist')
         request = self.factory.get(reverse('staff:tournamentrulesetlist'))
         request.tenant = 'eot'
@@ -102,8 +86,6 @@ class StaffBasicTest1(TestCase):
         print('Completed staff:tournamentrulesetlist')
 
     def test_tournament_create(self):
-        static = StaticInfo()
-        static.save()
         print('Starting staff:create_tournament')
         request = self.factory.get(reverse('staff:create_tournament'))
         request.tenant = 'eot'
@@ -113,8 +95,6 @@ class StaffBasicTest1(TestCase):
         print('Completed staff:create_tournament')
 
     def test_matches_index(self):
-        static = StaticInfo()
-        static.save()
         print('Starting staff:matches_index')
         request = self.factory.get(reverse('staff:matches_index'))
         request.tenant = 'eot'
@@ -124,8 +104,6 @@ class StaffBasicTest1(TestCase):
         print('Completed staff:matches_index')
 
     def test_gamelist(self):
-        static = StaticInfo()
-        static.save()
         print('Starting staff:gamelist')
         request = self.factory.get(reverse('staff:gamelist'))
         request.tenant = 'eot'
@@ -135,8 +113,6 @@ class StaffBasicTest1(TestCase):
         print('Completed staff:gamelist')
 
     def test_create_gamechoice(self):
-        static = StaticInfo()
-        static.save()
         print('Starting staff:create_gamechoice')
         request = self.factory.get(reverse('staff:create_gamechoice'))
         request.tenant = 'eot'
@@ -146,8 +122,6 @@ class StaffBasicTest1(TestCase):
         print('Completed staff:create_gamechoice')
 
     def test_platformlist(self):
-        static = StaticInfo()
-        static.save()
         print('Starting staff:platformlist')
         request = self.factory.get(reverse('staff:platformlist'))
         request.tenant = 'eot'
@@ -157,8 +131,6 @@ class StaffBasicTest1(TestCase):
         print('Completed staff:platformlist')
 
     def test_create_platformchoice(self):
-        static = StaticInfo()
-        static.save()
         print('Starting staff:create_platformchoice')
         request = self.factory.get(reverse('staff:create_platformchoice'))
         request.tenant = 'eot'
@@ -168,8 +140,6 @@ class StaffBasicTest1(TestCase):
         print('Completed staff:create_platformchoice')
 
     def test_news_index(self):
-        static = StaticInfo()
-        static.save()
         print('Starting staff:news_index')
         request = self.factory.get(reverse('staff:news_index'))
         request.tenant = 'eot'
@@ -181,8 +151,6 @@ class StaffBasicTest1(TestCase):
 
 
     def test_create_article(self):
-        static = StaticInfo()
-        static.save()
         print('Starting staff:create_article')
         request = self.factory.get(reverse('staff:create_article'))
         request.tenant = 'eot'
@@ -192,8 +160,6 @@ class StaffBasicTest1(TestCase):
         print('Completed staff:create_article')
 
     def test_store(self):
-        static = StaticInfo()
-        static.save()
         print('Starting staff:store')
         request = self.factory.get(reverse('staff:store'))
         request.tenant = 'eot'
@@ -203,8 +169,6 @@ class StaffBasicTest1(TestCase):
         print('Completed staff:store')
 
     def test_transaction_list(self):
-        static = StaticInfo()
-        static.save()
         print('Starting staff:transaction_list')
         request = self.factory.get(reverse('staff:transaction_list'))
         request.tenant = 'eot'
@@ -214,8 +178,6 @@ class StaffBasicTest1(TestCase):
         print('Completed staff:transaction_list')
 
     def test_transfer_list(self):
-        static = StaticInfo()
-        static.save()
         print('Starting staff:transfer_list')
         request = self.factory.get(reverse('staff:transfer_list'))
         request.tenant = 'eot'
@@ -225,8 +187,6 @@ class StaffBasicTest1(TestCase):
         print('Completed staff:transfer_list')
 
     def test_product_list(self):
-        static = StaticInfo()
-        static.save()
         print('Starting staff:product_list')
         request = self.factory.get(reverse('staff:product_list'))
         request.tenant = 'eot'
@@ -236,8 +196,6 @@ class StaffBasicTest1(TestCase):
         print('Completed staff:product_list')
 
     def test_create_product(self):
-        static = StaticInfo()
-        static.save()
         print('Starting staff:create_product')
         request = self.factory.get(reverse('staff:create_product'))
         request.tenant = 'eot'
@@ -247,8 +205,6 @@ class StaffBasicTest1(TestCase):
         print('Completed staff:create_product')
 
     def test_teamindex(self):
-        static = StaticInfo()
-        static.save()
         print('Starting staff:teamindex')
         request = self.factory.get(reverse('staff:teamindex'))
         request.tenant = 'eot'
@@ -258,8 +214,6 @@ class StaffBasicTest1(TestCase):
         print('Completed staff:teamindex')
 
     def test_partner_list(self):
-        static = StaticInfo()
-        static.save()
         print('Starting staff:partner_list')
         request = self.factory.get(reverse('staff:partner_list'))
         request.tenant = 'eot'
