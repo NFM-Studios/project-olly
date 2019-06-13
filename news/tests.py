@@ -17,7 +17,7 @@ class PostTestCase1(TestCase):
     def test_listresponse(self):
         request = self.factory.get('/news')
 
-        request.tenant = 'eot'
+        request.tenant = 'binge'
 
         request.user = self.user
 
@@ -31,7 +31,7 @@ class PostTestCase1(TestCase):
 
         request = self.factory.get('/news/' + post1.slug)
 
-        request.tenant = 'eot'
+        request.tenant = 'binge'
 
         request.user = self.user
 
