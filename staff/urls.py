@@ -89,6 +89,7 @@ urlpatterns = [
     path('teams/<int:pk>/', login_required(views.teams_detail), name='team_detail'),
     path('teams/<int:pk>/remove/', login_required(views.remove_user), name='remove_user'),
     path('teams/getrank/', login_required(views.getteamrank), name='getteamrank'),
+    path('teams/<int:pk>/delete/', login_required(views.delete_team), name='delete_team'),
 
     path('partners/', login_required(views.partnerlist), name='partner_list'),
     path('partners/create/', login_required(views.createpartner), name='partner_create'),
