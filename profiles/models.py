@@ -67,6 +67,9 @@ class UserProfile(models.Model):
     num_diamond = models.PositiveSmallIntegerField(default=0)
     num_titanium = models.PositiveSmallIntegerField(default=0)
 
+    num_wagerwin = models.PositiveIntegerField(default=0)
+    num_wagerloss = models.PositiveIntegerField(default=0)
+
     tournament_wins = models.PositiveSmallIntegerField(default=0)
     dubl_tournament_wins = models.PositiveSmallIntegerField(default=0)
 
