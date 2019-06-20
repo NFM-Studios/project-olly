@@ -13,6 +13,7 @@ from staff.forms import *
 from store.models import Transaction, Transfer, Product
 from support.models import Ticket, TicketComment
 from teams.models import TeamInvite
+from wagers.models import *
 from . import calculaterank
 
 
@@ -30,7 +31,7 @@ def staffindex(request):
         tournaments = SingleEliminationTournament.objects.all()
         return render(request, 'staff/staffindex.html', {'ticket': ticket, 'news': news, 'teams': teams,
                                                          'tournaments': tournaments, 'numusers': numusers,
-                                                         'numtickets':numtickets})
+                                                         'numtickets': numtickets})
 
 
 # start users
@@ -601,10 +602,10 @@ def matches_index(request):
     if user.user_type not in allowed:
         return render(request, 'staff/permissiondenied.html')
     else:
-        #matches_list = Match.objects.all().order_by('-id')
+        # matches_list = Match.objects.all().order_by('-id')
         tmatches = Match.objects.filter(type__isnull=True)
         wmatches = Match.objects.filter(type='w')
-        return render(request, 'staff/matches.html', {'tmatches': tmatches, 'wmatches':wmatches})
+        return render(request, 'staff/matches.html', {'tmatches': tmatches, 'wmatches': wmatches})
 
 
 def match_detail(request, pk):
@@ -684,6 +685,16 @@ class MatchDeclareWinner(View):
                     loser.num_matchloss += 1
                     winner.save()
                     loser.save()
+                    if match.type == 'w':
+                        # the match is a wager
+                        wfounder = UserProfile.objects.get(id=winner.founder_id)
+                        wmatch = WagerMatch.objects.get(match=match)
+                        wfounder.credits += (2 * wmatch.credits)
+                        # find a way to log them getting credits
+                        for player in winner.players:
+                            wplayer = UserProfile.objects.get(user=player)
+                            wplayer.total_earning += wmatch.credits
+                        messages.success(request, 'Wager Winner declared')
                     messages.success(request, "Winner declared")
                 except:
                     messages.error(request, "Match statistics were not properly logged")
@@ -950,7 +961,7 @@ def map_pool_detail(request, pk):
             mappoolchoice = MapPoolChoice.objects.get(pk=pk)
             maps = mappoolchoice.maps.all()
             form = MapPoolChoiceForm(instance=mappoolchoice)
-            return render(request, 'staff/editmappool.html', {'form': form, 'maps':maps, 'pk': pk})
+            return render(request, 'staff/editmappool.html', {'form': form, 'maps': maps, 'pk': pk})
 
 
 def add_map_to_pool(request, pk):
@@ -1004,6 +1015,7 @@ def create_map_pool_choice(request):
             else:
                 form = GameChoiceForm(request.POST, request.FILES)
                 return render(request, 'staff/editmappool.html', {'form': form})
+
 
 # end matches section
 
@@ -1517,6 +1529,19 @@ def teams_detail(request, pk):
         team = Team.objects.get(id=pk)
         players = TeamInvite.objects.filter(team=team, accepted=True).order_by('id')
         return render(request, 'staff/teams_detail.html', {'team': team, 'players': players, 'pk': pk})
+
+
+def delete_team(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        team = Team.objects.get(id=pk)
+        team.players.clear()
+        team.delete()
+        messages.success(request, 'Team successfully deleted')
+        return redirect('staff:teamindex')
 
 
 def remove_user(request, pk):
