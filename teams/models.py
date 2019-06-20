@@ -32,6 +32,9 @@ class Team(models.Model):
     # num field for the number of losses and wins
     num_matchloss = models.SmallIntegerField(default=0)
     num_matchwin = models.SmallIntegerField(default=0)
+
+    num_wagerwin = models.SmallIntegerField(default=0)
+    num_wagerloss = models.SmallIntegerField(default=0)
     # num field for the number of tournaments won
     num_tournywin = models.SmallIntegerField(default=0)
     numtournyloss = models.SmallIntegerField(default=0)
