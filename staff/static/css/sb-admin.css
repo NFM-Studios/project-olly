@@ -72,6 +72,7 @@ body.fixed-nav {
 
 #mainNav .navbar-collapse .navbar-nav .nav-item .nav-link {
     cursor: pointer;
+    font-size: 1rem;
 }
 
 #mainNav .navbar-collapse .navbar-sidenav .nav-link-collapse:after {
@@ -169,7 +170,7 @@ body.fixed-nav {
     }
 
     #mainNav .navbar-collapse .navbar-sidenav > .nav-item > .nav-link {
-        padding: 1em;
+        padding: .5em;
     }
 
     #mainNav .navbar-collapse .navbar-sidenav > .nav-item .sidenav-second-level,
@@ -185,7 +186,7 @@ body.fixed-nav {
 
     #mainNav .navbar-collapse .navbar-sidenav > .nav-item .sidenav-second-level > li > a,
     #mainNav .navbar-collapse .navbar-sidenav > .nav-item .sidenav-third-level > li > a {
-        padding: 1em;
+        padding: .5em;
     }
 
     #mainNav .navbar-collapse .navbar-sidenav > .nav-item .sidenav-second-level > li > a {
