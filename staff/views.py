@@ -975,7 +975,7 @@ def add_map_to_pool(request, pk):
         if request.method == 'POST':
             form = AddMapForm(mapz, request.POST)
             mapso = form.data['mapobj']
-            for x in mapz:
+            for x in mapso:
                 mappool.maps.add(x)
                 #x.map_num = x.map_num + 1
                 #x.save()
@@ -986,7 +986,7 @@ def add_map_to_pool(request, pk):
             return redirect('staff:map_pool_detail', pk=pk)
 
         else:
-            form = AddMapForm(maps)
+            form = AddMapForm(mapz)
             return render(request, 'staff/add_map.html', {'form': form, 'pk': pk})
 
 
