@@ -971,12 +971,18 @@ def add_map_to_pool(request, pk):
         return render(request, 'staff/permissiondenied.html')
     else:
         mappool = MapPoolChoice.objects.get(pk=pk)
-        maps = MapChoice.objects.filter(game=mappool.game)
+        mapz = MapChoice.objects.filter(game=mappool.game)
         if request.method == 'POST':
-            form = AddMapForm(maps, request.POST)
-            mapobj = form.data['mapobj']
-            mappool.add_map(mapobj)
-            messages.success(request, 'Map has been added to the pool')
+            form = AddMapForm(mapz, request.POST)
+            mapso = form.data['mapobj']
+            for x in mapz:
+                mappool.maps.add(x)
+                #x.map_num = x.map_num + 1
+                #x.save()
+                mappool.save()
+                messages.success(request, 'Map(s) has been added to the pool')
+                return redirect('staff:map_pool_detail', pk=pk)
+            messages.error(request, 'An error has occured and the maps were not added to the map pool')
             return redirect('staff:map_pool_detail', pk=pk)
 
         else:
