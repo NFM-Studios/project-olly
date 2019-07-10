@@ -18,10 +18,10 @@ class Ticket(models.Model):
     date = models.DateTimeField(auto_now=False, auto_now_add=True)
     last_update = models.DateTimeField(auto_now=True, auto_now_add=False)
     # subject = models.CharField(max_length=255)
-    category = models.ForeignKey(TicketCategory, related_name='ticket_category', on_delete=models.CASCADE)
+    category = models.ForeignKey(TicketCategory, related_name='ticket_category', on_delete=models.PROTECT)
     text = models.TextField(default='A detailed description of your issue')
     assignee = models.ForeignKey(User, related_name='assigned_tickets', verbose_name='assignee', blank=True,
-                                 null=True, on_delete=models.CASCADE)
+                                 null=True, on_delete=models.SET_NULL)
     status = models.SmallIntegerField(choices=STATUS_CHOICES, default=0)
 
     class Meta:
