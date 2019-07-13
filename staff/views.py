@@ -960,6 +960,7 @@ def map_pool_detail(request, pk):
         else:
             mappoolchoice = MapPoolChoice.objects.get(pk=pk)
             form = MapPoolChoiceForm(instance=mappoolchoice)
+            return render(request, 'staff/editmappool.html', {'form': form, 'pk': pk})
 
 
 def delete_map_pool(request, pk):
