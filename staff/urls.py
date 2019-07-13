@@ -63,7 +63,6 @@ urlpatterns = [
     path('maps/<int:pk>/', login_required(views.map_detail), name='map_detail'),
     path('maps/<int:pk>/delete/', login_required(views.delete_map), name='delete_map'),
     path('maps/create/', login_required(views.create_mapchoice), name='create_mapchoice'),
-    path('maps/add/<int:pk>', login_required(views.add_map_to_pool), name='add_map'),
 
     path('mappools/', login_required(views.map_pool_list), name='map_pool_list'),
     path('mappools/<int:pk>/', login_required(views.map_pool_detail), name='map_pool_detail'),
