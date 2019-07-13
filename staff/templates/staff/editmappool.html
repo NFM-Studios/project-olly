@@ -46,10 +46,10 @@
         {{ form.description }}
         <br>
 
+        {% if form.instance.game %}
         <h5>Maps</h5>
-        {% for map in maps %}
-            <p>{{ map }}</p>
-        {% endfor %}
+        {{ form.maps }}
+        {% endif %}
 
         <button type="submit" class="btn btn-primary">Submit</button>
         {% if pk %}
