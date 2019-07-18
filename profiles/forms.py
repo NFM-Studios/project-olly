@@ -52,27 +52,28 @@ class EditProfileForm(forms.ModelForm):
         self.fields['psn'].widget.attrs.update({'name': 'psn', 'class': 'form-control',
                                                 'style': ''})
         self.fields['steam'].widget.attrs.update({'name': 'steam', 'class': 'form-control', 'style':
-                                                  ''})
+            ''})
         self.fields['epic'].widget.attrs.update({'name': 'epic', 'class': 'form-control', 'style':
-                                                 ''})
+            ''})
         self.fields['battlenet'].widget.attrs.update({'name': 'battlenet', 'class': 'form-control', 'style':
-                                                      ''})
+            ''})
         self.fields['twitter_profile'].widget.attrs.update({'name': 'twitter_profile', 'class': 'form-control', 'style':
-                                                            ''})
+            ''})
         self.fields['twitch_channel'].widget.attrs.update({'name': 'twitch_channel', 'class': 'form-control', 'style':
-                                                           ''})
+            ''})
         self.fields['favorite_game'].widget.attrs.update({'name': 'favorite_game', 'class': 'form-control', 'style':
-                                                          ''})
-        self.fields['favorite_console'].widget.attrs.update({'name': 'favorite_console', 'class': 'form-control', 'style':
-                                                             ''})
+            ''})
+        self.fields['favorite_console'].widget.attrs.update(
+            {'name': 'favorite_console', 'class': 'form-control', 'style':
+                ''})
         self.fields['country'].widget.attrs.update({'name': 'country', 'class': 'form-control',
                                                     'style': 'background-color: black;'})
         self.fields['email_enabled'].widget.attrs.update({'name': 'email_enabled', 'class': 'form-control',
-                                                    'style': 'background-color: black;'})
+                                                          'style': 'background-color: black;'})
 
 
 class SortForm(forms.Form):  # it works but is messy af. should be replaced with something like
-                            # http://img.mulveyben.me/img/chrome_2018-03-11_22-04-28.png
+    # http://img.mulveyben.me/img/chrome_2018-03-11_22-04-28.png
     sort_xp_asc = forms.BooleanField(required=False)
     sort_xp_desc = forms.BooleanField(required=False)
     sort_trophies_asc = forms.BooleanField(required=False)

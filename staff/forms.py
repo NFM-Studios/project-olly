@@ -258,11 +258,8 @@ class MapPoolChoiceForm(forms.ModelForm):
         model = MapPoolChoice
         fields = '__all__'
 
-
-class AddMapForm(forms.Form):
-    def __init__(self, maps, *args, **kwargs):
-        super(AddMapForm, self).__init__(*args, **kwargs)
-        self.fields['mapobj'] = forms.ChoiceField(choices=tuple([(i.pk, i.name) for i in maps]))
-
-    class Meta:
-        fields = ('mapobj',)
+    def __init__(self, *args, **kwargs):
+        super(MapPoolChoiceForm, self).__init__(*args, **kwargs)
+        self.fields['maps'].widget = forms.widgets.CheckboxSelectMultiple()
+        if hasattr(self.instance, 'game'):
+            self.fields['maps'].queryset = MapChoice.objects.filter(game_id=self.instance.game)

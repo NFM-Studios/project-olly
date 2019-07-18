@@ -46,14 +46,13 @@
         {{ form.description }}
         <br>
 
+        {% if form.instance.game %}
         <h5>Maps</h5>
-        {% for map in maps %}
-            <p>{{ map }}</p>
-        {% endfor %}
+        {{ form.maps }}
+        {% endif %}
 
         <button type="submit" class="btn btn-primary">Submit</button>
         {% if pk %}
-            <a href="{% url 'staff:add_map' pk=pk %}" class="btn btn-primary">Add maps to pool</a>
             <a href="{% url 'staff:delete_map_pool' pk=pk %}" class="btn btn-danger">Delete</a>
         {% endif %}
     </form>
