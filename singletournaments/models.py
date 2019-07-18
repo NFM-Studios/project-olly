@@ -23,7 +23,7 @@ class SingleTournamentRuleset(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     text = models.TextField()
-    creator = models.ForeignKey(User, related_name='rulesetCreator', on_delete=models.CASCADE)
+    creator = models.ForeignKey(User, related_name='rulesetCreator', on_delete=models.SET_NULL, null=True)
     name = models.CharField(max_length=25)
 
     def __str__(self):
@@ -55,7 +55,7 @@ class SingleEliminationTournament(models.Model):
     # general information about the tournament
     info = models.TextField(default="No information provided")
 
-    ruleset = models.ForeignKey(SingleTournamentRuleset, related_name='tournamentruleset', on_delete=models.CASCADE,
+    ruleset = models.ForeignKey(SingleTournamentRuleset, related_name='tournamentruleset', on_delete=models.PROTECT,
                                 null=True)
 
     # the time the specific tournament object was created
@@ -66,8 +66,8 @@ class SingleEliminationTournament(models.Model):
     req_credits = models.PositiveSmallIntegerField(default=0)
 
     # game and platform it will be played on
-    platform = models.ForeignKey(PlatformChoice, on_delete=models.CASCADE)
-    game = models.ForeignKey(GameChoice, related_name='game', on_delete=models.CASCADE)
+    platform = models.ForeignKey(PlatformChoice, on_delete=models.PROTECT)
+    game = models.ForeignKey(GameChoice, related_name='game', on_delete=models.PROTECT)
 
     # when will the first round of matches start?
     start = models.DateTimeField()
@@ -79,12 +79,12 @@ class SingleEliminationTournament(models.Model):
     current_round = models.SmallIntegerField(default=1, blank=True)
 
     # specify the winning team when they are declared
-    winner = models.ForeignKey(Team, related_name='winningteam', on_delete=models.CASCADE, blank=True, null=True)
+    winner = models.ForeignKey(Team, related_name='winningteam', on_delete=models.SET_NULL, blank=True, null=True)
 
     # specify second place, just for storage and future reference
-    second = models.ForeignKey(Team, related_name='secondplaceteam', on_delete=models.CASCADE, blank=True, null=True)
+    second = models.ForeignKey(Team, related_name='secondplaceteam', on_delete=models.SET_NULL, blank=True, null=True)
 
-    third = models.ForeignKey(Team, related_name='thirdplaceteam', on_delete=models.CASCADE, blank=True, null=True)
+    third = models.ForeignKey(Team, related_name='thirdplaceteam', on_delete=models.SET_NULL, blank=True, null=True)
 
     # specify how many teams the event will be capped at, and the size of the bracket
     size = models.PositiveSmallIntegerField(default=32, choices=SIZE_CHOICES)
@@ -93,7 +93,7 @@ class SingleEliminationTournament(models.Model):
 
     bracket_generated = models.BooleanField(default=False)
 
-    map_pool = models.ForeignKey(MapPoolChoice, related_name='map_pool', on_delete=models.CASCADE, null=True)
+    map_pool = models.ForeignKey(MapPoolChoice, related_name='map_pool', on_delete=models.SET_NULL, null=True)
 
     # the prizes that they will win, defined in admin panel. 3rd place isnt really needed..... just first and second...
     prize1 = models.CharField(default='no prize specified', max_length=50)
