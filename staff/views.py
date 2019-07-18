@@ -959,29 +959,8 @@ def map_pool_detail(request, pk):
                 return render(request, 'staff/editmappool.html', {'form': form})
         else:
             mappoolchoice = MapPoolChoice.objects.get(pk=pk)
-            maps = mappoolchoice.maps.all()
             form = MapPoolChoiceForm(instance=mappoolchoice)
-            return render(request, 'staff/editmappool.html', {'form': form, 'maps': maps, 'pk': pk})
-
-
-def add_map_to_pool(request, pk):
-    user = UserProfile.objects.get(user__username=request.user.username)
-    allowed = ['superadmin', 'admin']
-    if user.user_type not in allowed:
-        return render(request, 'staff/permissiondenied.html')
-    else:
-        mappool = MapPoolChoice.objects.get(pk=pk)
-        maps = MapChoice.objects.filter(game=mappool.game)
-        if request.method == 'POST':
-            form = AddMapForm(maps, request.POST)
-            mapobj = form.data['mapobj']
-            mappool.add_map(mapobj)
-            messages.success(request, 'Map has been added to the pool')
-            return redirect('staff:map_pool_detail', pk=pk)
-
-        else:
-            form = AddMapForm(maps)
-            return render(request, 'staff/add_map.html', {'form': form, 'pk': pk})
+            return render(request, 'staff/editmappool.html', {'form': form, 'pk': pk})
 
 
 def delete_map_pool(request, pk):
