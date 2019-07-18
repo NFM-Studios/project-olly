@@ -20,7 +20,7 @@ class Team(models.Model):
     # link ur twitch, maybe integrate the twitch api
     twitch = models.CharField(max_length=15, default='None Linked', blank=True)
     # whoever filled out the form to create the team, limited to only one
-    founder = models.ForeignKey(User, related_name='founder', on_delete=models.CASCADE)
+    founder = models.ForeignKey(User, related_name='founder', on_delete=models.SET_NULL, null=True)
     # basically founder permissions, but to other people that didn't create the actual team
     captain = models.ManyToManyField(User, through='CaptainMembership', related_name='teamcaptain')
     # the people of the actual team, now a many to many, not a forkey
