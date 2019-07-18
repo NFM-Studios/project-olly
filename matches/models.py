@@ -51,10 +51,10 @@ class MapPoolChoice(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
-    def add_map(self, mappk):
-        newmap = MapChoice.objects.get(id=mappk)
-        newmap.map_num = self.maps.count() + 1
-        self.maps.add(newmap)
+    #def add_map(self, mappk):
+    #    newmap = MapChoice.objects.get(id=mappk)
+    #    newmap.map_num = self.maps.count() + 1
+    #    self.maps.add(newmap)
 
     def __str__(self):
         return self.name
