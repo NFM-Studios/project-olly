@@ -28,12 +28,16 @@
                             <div class="col-xs-12 col-sm-4">
                                 <img style="size:auto" src="
 
+
                                         {% if tournament.game.image %}{{ tournament.game.image.url }}{% else %}{% static 'binge/images/logo.png' %}{% endif %}"/>
                             </div>
                             <div class="col-xs-12 col-sm-8">
                                 <br>
                                 <h2><b>{{ tournament.name }}</b></h2>
                                 <h4>{{ tournament.platform.name }} | {{ tournament.game.name }}</h4>
+                                Map Pool: <a
+                                    href="{% url 'matches:maps_detail' pk=tournament.map_pool.id %}">{{ tournament.map_pool }}</a>
+                                <br>
                                 {{ tournament.start }} | 1st Place: {{ tournament.prize1 }}, 2nd
                                 Place: {{ tournament.prize2 }}<br>
                                 <br>
