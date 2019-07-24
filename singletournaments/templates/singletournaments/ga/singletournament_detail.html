@@ -22,11 +22,15 @@
 
 
 
+
                                         {% if tournament.game.image %}{{ tournament.game.image.url }}{% else %}{% static 'ga/images/logo.png' %}{% endif %}"/>
                             </div>
                             <div class="col-xs-12 col-sm-6">
                                 <h3><b>{{ tournament.name }}</b></h3>
                                 <h4 style="font-weight:200;">{{ tournament.platform.name }}</h4>
+                                Map Pool: <a
+                                    href="{% url 'matches:maps_detail' pk=tournament.map_pool.id %}">{{ tournament.map_pool }}</a>
+                                <br>
                                 {{ tournament.start }} | 1st Place: {{ tournament.prize1 }} | 2nd
                                 Place: {{ tournament.prize2 }}<br>
                             </div>
@@ -123,9 +127,12 @@
                                                     </tr>
                                                     <tr>
                                                         <td valign="middle" class="details"><b>Prizes</b></td>
-                                                        <td valign="middle" class="details" align="right">{{ tournament.prize1 }}
-                                                        {% if not tournament.prize2 == "no prize specified" %}<br>{{ tournament.prize2 }}{% endif %}
-                                                        {% if not tournament.prize3 == "no prize specified" %}<br>{{ tournament.prize3 }}{% endif %}</td>
+                                                        <td valign="middle" class="details"
+                                                            align="right">{{ tournament.prize1 }}
+                                                            {% if not tournament.prize2 == "no prize specified" %}<br>
+                                                                {{ tournament.prize2 }}{% endif %}
+                                                            {% if not tournament.prize3 == "no prize specified" %}<br>
+                                                                {{ tournament.prize3 }}{% endif %}</td>
                                                     </tr>
                                                     </tbody>
                                                 </table>
