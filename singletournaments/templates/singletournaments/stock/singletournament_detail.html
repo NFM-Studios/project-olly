@@ -34,6 +34,9 @@
                                 <h4>{{ tournament.platform.name }} | {{ tournament.game.name }}</h4>
                                 {{ tournament.start }} | 1st Place: {{ tournament.prize1 }}, 2nd
                                 Place: {{ tournament.prize2 }}<br>
+                                Map Pool: <a
+                                    href="{% url 'matches:maps_detail' pk=tournament.map_pool.id %}">{{ tournament.map_pool }}</a>
+                                <br>
                                 <br>
                                 <ul class="nav nav-pills">
                                     <li class="active"><a href="#1" data-toggle="tab" aria-expanded="true"
