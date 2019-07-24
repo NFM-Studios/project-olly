@@ -13,7 +13,12 @@
             <div class="panel-body">
                 Game: {{ pool.game.name }} <br>
                 Description: {{ pool.description }} <br>
-                {{ pool.maps.name }}
+                Maps:
+                <ul>
+                {% for x in pool.maps.all %}
+                    <li>{{ x.name }}</li>
+                {% endfor %}
+                </ul>
             </div>
         </div>
     </div>
