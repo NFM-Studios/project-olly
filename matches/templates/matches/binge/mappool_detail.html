@@ -1,10 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends "binge/base.html" %}
+{% load static %}
+
+{% block head %}
+    <title>Map Pool - {{ SITE_NAME }}</title>
+{% endblock %}
+
+{% block body %}
+    <div class="container page">
+
+        <div class="panel">
+            <div class="panel-title">{{ pool.name }}</div>
+            <div class="panel-body">
+                Game: {{ pool.game.name }} <br>
+                Description: {{ pool.description }} <br>
+                {{ pool.maps.name }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
