@@ -7,7 +7,7 @@ from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.views.generic import DetailView, CreateView, View
 
-from matches.models import Match, MatchReport, MatchDispute, MapChoice, MapPoolChoice
+from matches.models import Match, MatchReport, MatchDispute, MapPoolChoice
 from teams.models import Team, TeamInvite
 from .forms import MatchReportCreateFormGet, MatchReportCreateFormPost, DisputeCreateForm
 
@@ -15,8 +15,9 @@ from .forms import MatchReportCreateFormGet, MatchReportCreateFormPost, DisputeC
 class MapPoolDetail(DetailView):
     def get(self, request, **kwargs):
         pk = self.kwargs['pk']
-        pool = get_object_or_404(MapPoolChoice, pk)
-        return render(request, 'matches' + request.tenant + 'mappool_detail.html', {'pool': pool})
+        # pool = get_object_or_404(MapPoolChoice, pk)
+        pool = MapPoolChoice.objects.get(id=pk)
+        return render(request, 'matches/' + request.tenant + '/mappool_detail.html', {'pool': pool})
 
 
 class MatchList(View):
