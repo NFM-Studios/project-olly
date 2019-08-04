@@ -63,6 +63,8 @@ class MapPoolChoice(models.Model):
 class Match(models.Model):
     type = models.CharField(blank=True, null=True, max_length=20)
     matchnum = models.SmallIntegerField(default=0)
+    #TODO add mtm field for maps - for cases that it is more then a BO1
+    #maps = models.ManyToManyField(MapChoice, related_name='match_maps', on_delete=models.SET_NULL, null=True)
     map = models.ForeignKey(MapChoice, related_name='match_map', on_delete=models.SET_NULL, null=True)
     game = models.ForeignKey(GameChoice, related_name='GameChoice', on_delete=models.PROTECT)
     # default to ps4 for now bc why not
