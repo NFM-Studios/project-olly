@@ -49,7 +49,7 @@ class WagerRequest(models.Model):
         if self.teamformat == 5:
             return 6
     def get_best_of(self):
-        if self.bestof == 0
+        if self.bestof == 0:
             return 1
         if self.bestof == 1:
             return 3
