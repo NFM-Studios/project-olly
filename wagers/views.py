@@ -24,7 +24,7 @@ class WagerRequestList(ListView):
         for x in wager_list:
             if x.expiration < current:
                 # it is expired set it to expired
-                x.expired=True
+                x.expired = True
                 x.save()
         final = wager_list.filter(expired=False)
         return render(request, 'wagers/' + request.tenant + '/wager_request_list.html', {'wager_list': final})
@@ -42,7 +42,7 @@ class WagerRequestDetail(DetailView):
         pk = self.kwargs['pk']
         wrequest = get_object_or_404(WagerRequest, pk=pk)
         if wrequest.wmatch:
-            return render(request, template, {'wrequest': wrequest, 'wmatch':wrequest.wmatch})
+            return render(request, template, {'wrequest': wrequest, 'wmatch': wrequest.wmatch})
         return render(request, template, {'wrequest': wrequest})
 
 
@@ -58,7 +58,12 @@ class WagerRequestDeleteView(View):
                 # check to see there
                 yes = True
         if not yes:
-            messages.error(self.request, 'Only captains/founders of the specific team can cancel the Wager Request')
+            messages.error(self.request,
+                           'Error, we could not cancel the wager request. Only the founder of the team can cancel the Wager Request')
+            return redirect('wagers:request_detail', pk=pk)
+        if wager.challenge_accepted or wager.wmatch:
+            messages.error(self.request,
+                           'We cannot cancel your wager request because it has already been accepted, please contact support for more assistance.')
             return redirect('wagers:request_detail', pk=pk)
         wager.delete()
         messages.success(request, 'Your wager request has been removed.')
@@ -87,7 +92,7 @@ class WagerRequestCreateView(View):
             if form.cleaned_data['credits'] == 0:
                 messages.error(self.request, "You cannot wager 0 credits")
                 return redirect('wagers:list')
-            if form.cleaned_data['teamformat']== 0:
+            if form.cleaned_data['teamformat'] == 0:
                 min = 1
             if form.cleaned_data['teamformat'] == 1:
                 min = 2
@@ -101,7 +106,8 @@ class WagerRequestCreateView(View):
                 min = 6
 
             if form.cleaned_data['team'].get_players_count() < min:
-                messages.error(self.request, "Error. Your team does not have enough players on it to play in this specific format.")
+                messages.error(self.request,
+                               "Error. Your team does not have enough players on it to play in this specific format.")
                 return redirect('wagers:list')
             # myrequest.creator = request.user
             """myrequest.credits = form.cleaned_data['credits']
@@ -152,12 +158,14 @@ class WagerChallengeCreate(View):
             myrequest.challenge_accepted = True
             myrequest.challenge = challenge
             myrequest.save()
-            match = Match(type='w', game=myrequest.game, platform=myrequest.platform, hometeam=myrequest.team, awayteam=challenge.team,
-                          bestof=myrequest.bestof, teamformat=myrequest.teamformat, info="Home Team: "+myrequest.info+"\n"+"Away Team: "+challenge.info)
+            match = Match(type='w', game=myrequest.game, platform=myrequest.platform, hometeam=myrequest.team,
+                          awayteam=challenge.team,
+                          bestof=myrequest.bestof, teamformat=myrequest.teamformat,
+                          info="Home Team: " + myrequest.info + "\n" + "Away Team: " + challenge.info)
             match.save()
             wmatch = WagerMatch(match=match, credits=myrequest.credits)
             wmatch.save()
-            myrequest.wmatch=wmatch
+            myrequest.wmatch = wmatch
             myrequest.save()
             challenger.credits = challenger.credits - myrequest.credits
             challenge.save()
@@ -181,7 +189,7 @@ class WagerMatchDetail(View):
         team2 = Team.objects.get(id=match.awayteam_id)
         aplayers = team2.players.all()
         hplayers = team1.players.all()
-        return render(request, template, {'match': match, 'wmatch': wmatch, 'aplayers':aplayers, 'hplayers':hplayers})
+        return render(request, template, {'match': match, 'wmatch': wmatch, 'aplayers': aplayers, 'hplayers': hplayers})
 
 
 class MyWagersList(ListView):
@@ -202,4 +210,3 @@ class MyWagersList(ListView):
 
     def get_queryset(self):
         return WagerRequest.objects.filter(challenge_accepted=False, expired=False)
-
