@@ -92,6 +92,8 @@ urlpatterns = [
 
     path('partners/', login_required(views.partnerlist), name='partner_list'),
     path('partners/create/', login_required(views.createpartner), name='partner_create'),
-    path('partners/<int:pk>/', login_required(views.partner_detail), name='partner_detail')
+    path('partners/<int:pk>/', login_required(views.partner_detail), name='partner_detail'),
 
+    path('wagers/', login_required(views.wagers_list), name='wagers_list'),
+    path('wagers/<int:pk>/', login_required(views.wagers_request_detail), name='wager_detail'),
 ]
