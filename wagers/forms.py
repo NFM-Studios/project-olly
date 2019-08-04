@@ -15,9 +15,7 @@ class WagerRequestForm(forms.ModelForm):
         self.creator = self.user
         # self.user = request.user
         # invites = TeamInvite.objects.filter(hasPerms=True, user=request.user, accepted=True)
-        teams = Team.objects.filter(Q(captain__username__contains=self.user) | Q(founder=self.user))
-        super(WagerRequestForm, self).__init__(*args, **kwargs)
-        self.fields['team'].queryset = teams
+
         super(WagerRequestForm, self).__init__(*args, **kwargs)
         self.fields['credits'].widget.attrs.update({'name': 'credits', 'class': 'form-control'})
         self.fields['game'].widget.attrs.update(
@@ -31,6 +29,9 @@ class WagerRequestForm(forms.ModelForm):
             {'name': 'info', 'class': 'form-control', 'style': 'background-color:#141a20'})
         self.fields['team'].widget.attrs.update(
             {'name': 'team', 'class': 'form-control', 'style': 'background-color:#141a20'})
+        teams = Team.objects.filter(Q(founder=self.user))
+        # super(WagerRequestForm, self).__init__(*args, **kwargs)
+        self.fields['team'].queryset = teams
 
 
 class WagerChallengeForm(forms.ModelForm):
@@ -41,10 +42,7 @@ class WagerChallengeForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user')
         # invites = TeamInvite.objects.filter(hasPerms=True, user=request.user, accepted=True)
-        teams = Team.objects.filter(Q(captain__username__contains=self.user) | Q(founder=self.user))
+        teams = Team.objects.filter(Q(founder=self.user))
         super(WagerChallengeForm, self).__init__(*args, **kwargs)
         self.fields['team'].queryset = teams
 
-
-class WagerRequestDelete(forms.Form):
-    confirm = forms.BooleanField()

@@ -90,9 +90,6 @@
         <a href="{% url 'wagers:request_delete' pk=wrequest.pk %}">
             <button class="btn btn-primary" value="Delete">Delete</button>
         </a>
-        <form method="post" action="{% url 'wagers:request_delete' pk=wrequest.pk %}">
-            <input type="submit">Delete</input>
-        </form>
     {% endif %}
     {% if wrequest.wmatch %}
         <a href="{% url 'wagers:match_detail' pk=wrequest.id %}">View the match here</a>
