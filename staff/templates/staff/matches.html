@@ -13,12 +13,10 @@
             <tr id="header">
                 <thead>
                 <th scope="row">ID</th>
-                <th>Tournament</th>
                 <th>Platform</th>
                 <th>Game</th>
-                <th>Start Date/Time</th>
-                <th>Something</th>
-                <th>Something</th>
+                <th>Away Team</th>
+                <th>Home Team</th>
                 <th>Completed</th>
                 <th>Size</th>
                 <th>Byes</th>
@@ -29,15 +27,14 @@
                 <tr scope="">
                     <td scope="row"><a href="{% url 'staff:match_detail' pk=match.id %}">#{{ match.id }}</a></td>
 
-                    <td><a href="#">{{ match.tournament }}</a></td>
+                    <td><a href="{% url 'staff:platform_detail' pk=match.platform.id %}">{{ match.platform.name }}</a>
+                    </td>
 
-                    <td>{{ match.platform.name }}</td>
+                    <td><a href="{% url 'staff:game_detail' pk=match.game.id %}">{{ match.game.name }}</a></td>
 
-                    <td>{{ match.game.name }}</td>
+                    <td><a href="{% url 'staff:team_detail' pk=match.awayteam.id %}">{{ match.awayteam.name }}</a></td>
 
-                    <td>Something</td>
-                    <td>Something</td>
-                    <td>Something</td>
+                    <td><a href="{% url 'staff:team_detail' pk=match.hometeam.id %}">{{ match.hometeam.name }}</a></td>
 
                     {% if match.completed %}
                         <td>Yes</td>
@@ -65,16 +62,14 @@
             {% endfor %}
         </table>
         <h2>Wager Matches</h2>
-    <table class="table table-hover">
+        <table class="table table-hover">
             <tr id="header">
                 <thead>
                 <th scope="row">ID</th>
-                <th>Tournament</th>
                 <th>Platform</th>
                 <th>Game</th>
-                <th>Start Date/Time</th>
-                <th>Something</th>
-                <th>Something</th>
+                <th>Away Team</th>
+                <th>Home Team</th>
                 <th>Completed</th>
                 <th>Size</th>
                 <th>Byes</th>
@@ -85,15 +80,14 @@
                 <tr scope="">
                     <td scope="row"><a href="{% url 'staff:match_detail' pk=match.id %}">#{{ match.id }}</a></td>
 
-                    <td><a href="#">{{ match.tournament }}</a></td>
+                    <td><a href="{% url 'staff:platform_detail' pk=match.platform.id %}">{{ match.platform.name }}</a>
+                    </td>
 
-                    <td>{{ match.platform.name }}</td>
+                    <td><a href="{% url 'staff:game_detail' pk=match.game.id %}">{{ match.game.name }}</a></td>
 
-                    <td>{{ match.game.name }}</td>
+                    <td><a href="{% url 'staff:team_detail' pk=match.awayteam.id %}">{{ match.awayteam.name }}</a></td>
 
-                    <td>Something</td>
-                    <td>Something</td>
-                    <td>Something</td>
+                    <td><a href="{% url 'staff:team_detail' pk=match.hometeam.id %}">{{ match.hometeam.name }}</a></td>
 
                     {% if match.completed %}
                         <td>Yes</td>
