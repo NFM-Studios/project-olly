@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from django.views.generic import DetailView, CreateView, ListView, View
 from profiles.models import UserProfile
 from datetime import datetime, timedelta
-from .forms import WagerRequestForm, WagerChallengeForm, WagerRequestDelete
+from .forms import WagerRequestForm, WagerChallengeForm
 from .models import *
 from matches.models import Match, MatchDispute, MatchReport
 from teams.models import Team
@@ -47,31 +47,22 @@ class WagerRequestDetail(DetailView):
 
 
 class WagerRequestDeleteView(View):
-    form_class = WagerRequestDelete
 
-    def post(self, request, pk):
-        form = self.form_class(request.POST)
-        if form.is_valid():
-            delete = form.instance
-            userprofile = UserProfile.objects.get(user=request.user)
-            wager = WagerRequest.objects.get(pk=pk)
-            if not form.cleaned_data['confirm']:
-                messages.error(self.request, 'Please confirm that you want to delete this wager request')
-                return redirect('wagers:request_detail', pk=pk)
-            teams = Team.objects.filter(Q(captain__username__contains=request.user) | Q(founder=request.user))
-            yes = False
-            for team in teams:
-                if team == wager.team:
-                    # check to see there
-                    yes = True
-            if not yes:
-                messages.error(self.request, 'Only captains/founders of the specific team can cancel the Wager Request')
-                return redirect('wagers:request_detail', pk=pk)
-            delete.delete()
-            delete.save()
-        else:
-            messages.error(self.request, 'An unknown error has occurred (this should not be seen')
+    def get(self, request, pk):
+        userprofile = UserProfile.objects.get(user=request.user)
+        wager = WagerRequest.objects.get(pk=pk)
+        teams = Team.objects.filter(Q(founder=request.user))
+        yes = False
+        for team in teams:
+            if team == wager.team:
+                # check to see there
+                yes = True
+        if not yes:
+            messages.error(self.request, 'Only captains/founders of the specific team can cancel the Wager Request')
             return redirect('wagers:request_detail', pk=pk)
+        wager.delete()
+        messages.success(request, 'Your wager request has been removed.')
+        return redirect('wagers:list')
 
 
 class WagerRequestCreateView(View):
