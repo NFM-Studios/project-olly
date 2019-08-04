@@ -1561,3 +1561,28 @@ def getteamrank(request):
             i.get_rank()
         messages.success(request, "Calculated rank for %s teams" % allteams.count())
         return redirect('staff:teamindex')
+
+# start wagers
+
+
+def wagers_list(request):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        active = WagerRequest.objects.filter(Q(challenge_accepted=False) and Q(expired=False))
+        return render(request, 'staff/wagers.html', {'wagers': active})
+
+
+def wagers_request_detail(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        wrequest = get_object_or_404(WagerRequest, pk=pk)
+        return render(request, 'staff/wager_request_detail.html', {'wrequest': wrequest})
+
+
+# end wagers
