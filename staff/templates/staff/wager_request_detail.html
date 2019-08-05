@@ -1,0 +1,28 @@
+{% extends 'staff/staffbase.html' %}
+{% load static %}
+<link rel="stylesheet" href="{% static "css/staff.css" %}">
+
+{% block title %}
+    Wager Request #{{ wrequest.id }}
+{% endblock %}
+
+{% block body %}
+    <div style="overflow-x:auto;">
+        <table class="table">
+            <tr>Posted: {{ wrequest.posted }}</tr>
+            <tr>Team: {{ wrequest.team }}</tr>
+            <tr>Challenge Accpepted: {{ wrequest.challenge_accepted }}</tr>
+            <tr>Expiration (UTC - 20 minutes after creation): {{ wrequest.expiration }}</tr>
+            <tr>Expired: {{ wrequest.expired }}</tr>
+            <tr>Credits: {{ wrequest.credits }}</tr>
+            <tr>Game: {{ wrequest.game.name }}</tr>
+            <tr>Platform: {{ wrequest.platform.name }}</tr>
+            <tr>Best of: {{ wrequest.get_best_of }}</tr>
+            <tr>Team Format: {{ wrequest.get_min_team_size }}</tr>
+            <tr>Info: {{ wrequest.info }}</tr>
+            <tr>Creator: {{ wrequest.creator }}</tr>
+            <tr>Challenge: {{ wrequest.challenge }}</tr>
+            <tr>WagerMatch: {{ wrequest.wmatch }}</tr>
+        </table>
+    </div>
+{% endblock %}
