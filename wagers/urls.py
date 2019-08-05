@@ -12,5 +12,4 @@ urlpatterns = [
     path('<int:pk>/delete', login_required(WagerRequestDeleteView.as_view()), name='request_delete'),
     path('request', login_required(WagerRequestCreateView.as_view()), name='request_create'),
     path('<int:pk>/match', login_required(WagerMatchDetail.as_view()), name='match_detail'),
-    #path('my', )
 ]

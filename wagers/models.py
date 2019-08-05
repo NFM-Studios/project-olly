@@ -48,3 +48,14 @@ class WagerRequest(models.Model):
             return 5
         if self.teamformat == 5:
             return 6
+    def get_best_of(self):
+        if self.bestof == 0:
+            return 1
+        if self.bestof == 1:
+            return 3
+        if self.bestof == 2:
+            return 5
+        if self.bestof == 3:
+            return 7
+        if self.bestof == 4:
+            return 9
