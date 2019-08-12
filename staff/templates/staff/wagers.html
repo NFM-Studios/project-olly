@@ -8,55 +8,47 @@
 
 {% block body %}
     <div style="overflow-x:auto;">
-        <h1>Wager Requests</h1><p> (Showing only non expired, and non accepted Wager Requests)</p>
+        <h1>Wager Requests</h1>
+        <p> (Showing only non expired, and non accepted Wager Requests)</p>
         <table class="table table-hover">
             <tr id="header">
                 <thead>
                 <th scope="row">ID</th>
                 <th>Platform</th>
                 <th>Game</th>
-                <th>Away Team</th>
-                <th>Home Team</th>
-                <th>Completed</th>
+                <th>Team</th>
+                <th>Expired</th>
                 <th>Size</th>
-                <th>Byes</th>
+                <th>Best of</th>
+
                 </thead>
             </tr>
             {% for request in wagers %}
                 <tbody>
                 <tr scope="">
-                    <td scope="row"><a href="{% url 'staff:match_detail' pk=match.id %}">#{{ match.id }}</a></td>
+                    <td scope="row"><a href="{% url 'staff:match_detail' pk=request.id %}">#{{ request.id }}</a></td>
 
-                    <td><a href="{% url 'staff:platform_detail' pk=match.platform.id %}">{{ match.platform.name }}</a>
+                    <td>
+                        <a href="{% url 'staff:platform_detail' pk=request.platform.id %}">{{ request.platform.name }}</a>
                     </td>
 
-                    <td><a href="{% url 'staff:game_detail' pk=match.game.id %}">{{ match.game.name }}</a></td>
+                    <td><a href="{% url 'staff:game_detail' pk=request.game.id %}">{{ request.game.name }}</a></td>
 
-                    <td><a href="{% url 'staff:team_detail' pk=match.awayteam.id %}">{{ match.awayteam.name }}</a></td>
+                    <td><a href="{% url 'staff:team_detail' pk=request.team.id %}">{{ request.team.name }}</a></td>
 
-                    <td><a href="{% url 'staff:team_detail' pk=match.hometeam.id %}">{{ match.hometeam.name }}</a></td>
-
-                    {% if match.completed %}
+                    {% if match.expired %}
                         <td>Yes</td>
-                    {% elif not match.completed %}
+                    {% elif not match.expired %}
                         <td>No</td>
                     {% endif %}
 
-                    <td>Something</td>
+                    <td>{{ request.get_min_team_size }}</td>
 
-                    {% if not match.bye_1 and not match.bye_2 %}
-                        <td>No</td>
-                    {% else %}
-                        <td>Yes</td>
-                    {% endif %}
+                    <td>{{ request.get_best_of }}</td>
 
-                    {% if not match.completed %}
-                        <td><a href="{% url 'staff:match_declare_winner' pk=match.id %}" class="btn btn-primary">Declare
-                            Winner</a></td>
-                    {% else %}
-                        <td><a href="{% url 'staff:match_delete_winner' pk=match.id %}" class="btn btn-danger">Delete
-                            Winner</a></td>
-                    {% endif %}
+
+                    <td><a href="#" class="btn btn-primary">Delete Wager Request</a></td>
+
                 </tr>
                 </tbody>
             {% endfor %}
