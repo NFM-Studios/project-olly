@@ -10,17 +10,17 @@
     <div style="overflow-x:auto;">
         <table class="table-hover">
             <tr><td>Posted: {{ wrequest.posted }}</td></tr>
-            <tr><td>Team: {{ wrequest.team }}</td></tr>
+            <tr><td><a href="{% url 'staff:team_detail' pk=wrequest.team.id %}">Team: {{ wrequest.team }}</a></td></tr>
             <tr><td>Challenge Accpepted: {{ wrequest.challenge_accepted }}</td></tr>
             <tr><td>Expiration (In UTC 30 minutes after creation): {{ wrequest.expiration }}</td></tr>
             <tr><td>Expired: {{ wrequest.expired }}</td></tr>
             <tr><td>Credits: {{ wrequest.credits }}</td></tr>
-            <tr><td>Game: {{ wrequest.game.name }}</td></tr>
-            <tr><td>Platform: {{ wrequest.platform.name }}</td></tr>
+            <tr><td><a href="{% url 'staff:game_detail' pk=wrequest.game.id %}">Game: {{ wrequest.game.name }}</a></td></tr>
+            <tr><td><a href="{% url 'staff:platform_detail' pk=wrequest.platform.id %}">Platform: {{ wrequest.platform.name }}</a></td></tr>
             <tr><td>Best of: {{ wrequest.get_best_of }}</td></tr>
-            <tr><td>Team Format: {{ wrequest.get_min_team_size }}</td></tr>
+            <tr><td>Team Format/Player per team: {{ wrequest.get_min_team_size }}</td></tr>
             <tr><td>Info: {{ wrequest.info }}</td></tr>
-            <tr><td>Creator: {{ wrequest.creator }}</td></tr>
+            <tr><td><a href="{% url 'staff:userdetail' urlusername=wrequest.creator %}">Creator: {{ wrequest.creator }}</a></td></tr>
             <tr><td>Challenge: {{ wrequest.challenge }}</td></tr>
             {% if wrequest.wmatch %}
             <tr><td>WagerMatch: <a href="{% url 'staff:match_detail' pk=wrequest.wmatch.id %}">{{ wrequest.wmatch }}</a></td></tr>
