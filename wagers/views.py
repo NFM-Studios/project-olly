@@ -46,28 +46,26 @@ class WagerRequestDetail(DetailView):
         return render(request, template, {'wrequest': wrequest})
 
 
-class WagerRequestDeleteView(View):
-
-    def get(self, request, pk):
-        userprofile = UserProfile.objects.get(user=request.user)
-        wager = WagerRequest.objects.get(pk=pk)
-        teams = Team.objects.filter(Q(founder=request.user))
-        yes = False
-        for team in teams:
-            if team == wager.team:
-                # check to see there
-                yes = True
-        if not yes:
-            messages.error(self.request,
-                           'Error, we could not cancel the wager request. Only the founder of the team can cancel the Wager Request')
-            return redirect('wagers:request_detail', pk=pk)
-        if wager.challenge_accepted or wager.wmatch:
-            messages.error(self.request,
-                           'We cannot cancel your wager request because it has already been accepted, please contact support for more assistance.')
-            return redirect('wagers:request_detail', pk=pk)
-        wager.delete()
-        messages.success(request, 'Your wager request has been removed.')
-        return redirect('wagers:list')
+def delete_wager_request(request, pk):
+    userprofile = UserProfile.objects.get(user=request.user)
+    wager = WagerRequest.objects.get(pk=pk)
+    teams = Team.objects.filter(Q(founder=request.user))
+    yes = False
+    for team in teams:
+        if team == wager.team:
+            # check to see there
+            yes = True
+    if not yes:
+        messages.error(request,
+                       'Error, we could not cancel the wager request. Only the founder of the team can cancel the Wager Request')
+        return redirect('wagers:request_detail', pk=pk)
+    if wager.challenge_accepted or wager.wmatch:
+        messages.error(request,
+                       'We cannot cancel your wager request because it has already been accepted, please contact support for more assistance.')
+        return redirect('wagers:request_detail', pk=pk)
+    wager.delete()
+    messages.success(request, 'Your wager request has been removed.')
+    return redirect('wagers:list')
 
 
 class WagerRequestCreateView(View):
