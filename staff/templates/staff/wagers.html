@@ -47,7 +47,7 @@
                     <td>{{ request.get_best_of }}</td>
 
 
-                    <td><a href="#" class="btn btn-primary">Delete Wager Request</a></td>
+                    <td><a href="{% url 'staff:delete_wager' pk=request.id %}" class="btn btn-primary">Delete Wager Request</a></td>
 
                 </tr>
                 </tbody>
