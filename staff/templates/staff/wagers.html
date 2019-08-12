@@ -26,7 +26,7 @@
             {% for request in wagers %}
                 <tbody>
                 <tr scope="">
-                    <td scope="row"><a href="{% url 'staff:match_detail' pk=request.id %}">#{{ request.id }}</a></td>
+                    <td scope="row"><a href="{% url 'staff:wager_detail' pk=request.id %}">#{{ request.id }}</a></td>
 
                     <td>
                         <a href="{% url 'staff:platform_detail' pk=request.platform.id %}">{{ request.platform.name }}</a>
