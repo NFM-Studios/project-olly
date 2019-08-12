@@ -1562,6 +1562,7 @@ def getteamrank(request):
         messages.success(request, "Calculated rank for %s teams" % allteams.count())
         return redirect('staff:teamindex')
 
+
 # start wagers
 
 
@@ -1587,4 +1588,18 @@ def wagers_request_detail(request, pk):
         return render(request, 'staff/wager_request_detail.html', {'wrequest': wrequest})
 
 
+def delete_wager_request(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        # wrequest = get_object_or_404(WagerRequest, pk=pk)
+        wrequest = WagerRequest.objects.get(id=pk)
+        # if not wrequest:
+        # lets try to delete it now
+        wrequest.delete()
+        # wrequest.save()
+        messages.success(request, 'Succuessfully deleted Wager Request')
+        return redirect('staff:wagers_list')
 # end wagers
