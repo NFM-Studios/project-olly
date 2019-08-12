@@ -1571,7 +1571,9 @@ def wagers_list(request):
     if user.user_type not in allowed:
         return render(request, 'staff/permissiondenied.html')
     else:
-        active = WagerRequest.objects.filter(Q(challenge_accepted=False) and Q(expired=False))
+        active = WagerRequest.objects.filter(Q(expired=False))
+        active = active.filter(Q(challenge_accepted=False))
+        active = active.filter(Q(wmatch__isnull=True))
         return render(request, 'staff/wagers.html', {'wagers': active})
 
 
