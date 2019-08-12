@@ -44,3 +44,5 @@ test:
     DATABASE_URL: "postgresql://postgres:postgres@postgres:5432/$POSTGRES_DB"
   script:
   - python manage.py test --settings olly.ci_settings
+  - docker build -t olly:19.8.1.x .
+  - docker run -d -v static:/static -v sock:/sock -e site=binge -e debug="True" --name olly-binge olly:19.8.1.x
