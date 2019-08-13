@@ -70,6 +70,7 @@ class EditTeamProfileForm(forms.ModelForm):
             'twitter',
             'twitch',
             'country',
+            'image'
         )
 
     def __init__(self, *args, **kwargs):

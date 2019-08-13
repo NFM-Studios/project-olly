@@ -21,6 +21,14 @@
     </tr>
     </thead>
     <tr>
+        <td>Team Image</td>
+        <td>{% if team.image.url != "" %}
+            <img src="{{ team.image.url }}" align="center" width="200"> <br/>
+        {% else %}
+            <img src="{{ MEDIA_URL }}default_profile.png" align="center" width="200"/> <br/>
+        {% endif %}</td>
+    </tr>
+    <tr>
         <td>ID</td>
         <td>{{team.id}}</td>
     </tr>
@@ -76,6 +84,7 @@
 
     {% if team.founder == request.user %}
     <p><a href="{% url 'teams:remove' pk %}">Remove users</a></p>
+    <p><a href="{% url 'teams:edit' pk %}">Edit Team</a></p>
     {% endif %}
 
 
