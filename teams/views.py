@@ -93,14 +93,20 @@ class MyTeamsListView(ListView):
 def edit_team_view(request, pk):
     if request.method == 'POST':
         teamobj = get_object_or_404(Team, id=pk)
-        form = EditTeamProfileForm(request.POST, instance=teamobj)
-        teamobj.about_us = form.data['about_us']
-        teamobj.website = form.data['website']
-        teamobj.twitter = form.data['twitter']
-        teamobj.twitch = form.data['twitch']
-        teamobj.country = form.data['country']
-        teamobj.save()
-        return redirect(reverse('teams:detail', args=[pk]))
+        form = EditTeamProfileForm(request.POST, request.FILES, instance=teamobj)
+        if form.is_valid():
+            teamobj.about_us = form.data['about_us']
+            teamobj.website = form.data['website']
+            teamobj.twitter = form.data['twitter']
+            teamobj.twitch = form.data['twitch']
+            teamobj.country = form.data['country']
+            teamobj.image = form.data['image']
+            teamobj.save()
+            messages.success(request, 'Team successfully updated')
+            return redirect(reverse('teams:detail', args=[pk]))
+        else:
+            messages.error(request, 'An unknown error has occured')
+            return redirect(reverse('teams:detail', args=[pk]))
     else:
         teamobj = Team.objects.get(id=pk)
         form = EditTeamProfileForm(instance=teamobj)
