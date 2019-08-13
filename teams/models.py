@@ -1,5 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.dispatch import receiver
+
 from profiles.models import UserProfile
 from django_countries.fields import CountryField
 
@@ -43,6 +45,8 @@ class Team(models.Model):
     rank = models.PositiveSmallIntegerField(default=100)
 
     country = CountryField(blank=True)
+
+    image = models.ImageField(upload_to='team_images', blank=True)
 
     class Meta:
         verbose_name = 'Team'
@@ -93,3 +97,25 @@ class CaptainMembership(models.Model):
     user = models.ForeignKey(User, related_name='captainperson', on_delete=models.CASCADE)
     team = models.ForeignKey(Team, related_name='team', on_delete=models.CASCADE)
     active = models.BooleanField(default=True)
+
+
+@receiver(models.signals.post_delete, sender=Team)
+# This should never be run in theory. It would only be hit if the UserProfile was completely deleted
+def auto_delete_file(sender, instance, **kwargs):
+    if instance.image:
+        instance.image.delete()
+
+
+@receiver(models.signals.pre_save, sender=Team)
+def auto_delete_file_on_change(sender, instance, **kwargs):
+    if not instance.pk:
+        return False
+
+    try:
+        old_file = Team.objects.get(pk=instance.pk).image
+    except Team.DoesNotExist:
+        return False
+
+    new_file = instance.image
+    if not old_file == new_file:
+        old_file.delete(save=False)
