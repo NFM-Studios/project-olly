@@ -1,18 +1,8 @@
-from django.conf import settings
 from django.contrib import messages
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.shortcuts import get_object_or_404
 from django.shortcuts import render, redirect
-from django.urls import reverse
-from django.views.generic import View, DetailView
 
-from matches.models import MatchReport, MatchDispute
-from profiles.forms import SortForm
-from profiles.models import BannedUser
 from staff.forms import *
-from store.models import Transaction, Transfer, Product
-from support.models import Ticket, TicketComment
-from teams.models import TeamInvite
+from support.models import Ticket
 from wagers.models import *
 
 
@@ -31,6 +21,7 @@ def staffindex(request):
         return render(request, 'staff/staffindex.html', {'ticket': ticket, 'news': news, 'teams': teams,
                                                          'tournaments': tournaments, 'numusers': numusers,
                                                          'numtickets': numtickets})
+
 
 # start static info section
 
@@ -108,6 +99,5 @@ def partner_detail(request, pk):
             partner = Partner.objects.get(pk=pk)
             form = PartnerForm(instance=partner)
             return render(request, 'staff/pages/partnercreate.html', {'form': form})
-
 
 # end static info section
