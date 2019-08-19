@@ -6,3 +6,4 @@ from .store import *
 from .support import *
 from .teams import *
 from .wagers import *
+from .staff import *
