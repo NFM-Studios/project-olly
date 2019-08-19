@@ -95,13 +95,14 @@ def edit_team_view(request, pk):
         teamobj = get_object_or_404(Team, id=pk)
         form = EditTeamProfileForm(request.POST, request.FILES, instance=teamobj)
         if form.is_valid():
-            teamobj.about_us = form.data['about_us']
-            teamobj.website = form.data['website']
-            teamobj.twitter = form.data['twitter']
-            teamobj.twitch = form.data['twitch']
-            teamobj.country = form.data['country']
-            teamobj.image = form.data['image']
-            teamobj.save()
+            #teamobj.about_us = form.data['about_us']
+            #teamobj.website = form.data['website']
+            #teamobj.twitter = form.data['twitter']
+            #teamobj.twitch = form.data['twitch']
+            #teamobj.country = form.data['country']
+            #teamobj.image = form.data['image']
+            #teamobj.save()
+            form.save()
             messages.success(request, 'Team successfully updated')
             return redirect(reverse('teams:detail', args=[pk]))
         else:
