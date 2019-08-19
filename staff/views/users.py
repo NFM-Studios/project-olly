@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from profiles.models import BannedUser
 from staff.forms import *
 from wagers.models import *
-from . import calculaterank
+from . import tools
 
 
 def users(request):
@@ -113,7 +113,7 @@ def getrank(request):
         return render(request, 'staff/permissiondenied.html')
     else:
         allusers = UserProfile.objects.all()
-        calculaterank.calculaterank()
+        tools.calculaterank()
         messages.success(request, "Calculated rank for %s users" % allusers.count())
         return redirect('staff:users')
 
