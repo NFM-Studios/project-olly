@@ -96,4 +96,5 @@ urlpatterns = [
 
     path('wagers/', login_required(views.wagers_list), name='wagers_list'),
     path('wagers/<int:pk>/', login_required(views.wagers_request_detail), name='wager_detail'),
+    path('wagers/<int:pk>/delete/', login_required(views.delete_wager_request), name='delete_wager')
 ]
