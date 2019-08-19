@@ -58,7 +58,7 @@ def users(request):
                    'bannedusernames': BannedUser.objects.values_list('user', flat=True),
                    'bannedips': BannedUser.objects.values_list('ip', flat=True), 'numusers': numusers,
                    'request': request}
-        return render(request, 'staff/users.html', context)
+        return render(request, 'staff/profiles/users.html', context)
 
 
 def searchusers(request):
@@ -69,7 +69,7 @@ def searchusers(request):
     else:
         query = request.GET.get('q')
         if query:
-            return render(request, 'staff/users.html',
+            return render(request, 'staff/profiles/users.html',
                           {'userprofiles': UserProfile.objects.filter
                           (Q(user__username__icontains=query) | Q(user__email__icontains=query)),
                            'bannedusers': list(BannedUser.objects.all())})
@@ -155,7 +155,7 @@ def modifyuser(request, urlusername):
         if request.method == 'GET':
             userprofileobj = UserProfile.objects.get(user__username=urlusername)
             form = ModifyUserForm(instance=userprofileobj)
-            return render(request, 'staff/modifyuser.html', {'form': form})
+            return render(request, 'staff/profiles/modifyuser.html', {'form': form})
         else:
             userprofileobj = UserProfile.objects.get(user__username=urlusername)
             form = ModifyUserForm(request.POST, instance=userprofileobj)
@@ -180,7 +180,7 @@ def userdetail(request, urlusername):
 
         else:
             userprofile = UserProfile.objects.get(user__username=urlusername)
-            return render(request, 'staff/profile_detail.html', {'userprofile': userprofile})
+            return render(request, 'staff/profiles/profile_detail.html', {'userprofile': userprofile})
 
 
 def verify(request, urlusername):
@@ -221,8 +221,8 @@ def add_teams(request, pk):
         else:
             tournament = SingleEliminationTournament.objects.get(pk=pk)
             form = AddTournamentTeamForm()
-            return render(request, 'staff/tournament_add_team.html', {'form': form, 'tournament': tournament})
-        return render(request, 'staff/tournament_detail.html', {'tournament': tournament})
+            return render(request, 'staff/singletournaments/tournament_add_team.html', {'form': form, 'tournament': tournament})
+        return render(request, 'staff/singletournaments/tournament_detail.html', {'tournament': tournament})
 
 
 def tournaments(request):
@@ -232,7 +232,7 @@ def tournaments(request):
         return render(request, 'staff/permissiondenied.html')
     else:
         tournament_list = SingleEliminationTournament.objects.all().order_by('-id')
-        return render(request, 'staff/tournaments.html', {'tournament_list': tournament_list})
+        return render(request, 'staff/singletournaments/tournaments.html', {'tournament_list': tournament_list})
 
 
 def tournament_detail(request, pk):
@@ -243,7 +243,7 @@ def tournament_detail(request, pk):
     else:
         tournament = SingleEliminationTournament.objects.get(pk=pk)
         rounds = SingleTournamentRound.objects.filter(tournament=tournament).order_by('id')
-        return render(request, 'staff/tournament_detail.html', {'tournament': tournament, 'rounds': rounds})
+        return render(request, 'staff/singletournaments/tournament_detail.html', {'tournament': tournament, 'rounds': rounds})
 
 
 def round_detail(request, pk):
@@ -254,7 +254,7 @@ def round_detail(request, pk):
     else:
         tround = SingleTournamentRound.objects.get(pk=pk)
         matches = tround.matches.all().order_by('id')
-        return render(request, 'staff/round_detail.html', {'round': tround, 'matches': matches})
+        return render(request, 'staff/singletournaments/round_detail.html', {'round': tround, 'matches': matches})
 
 
 def edit_round(request, pk):
@@ -275,7 +275,7 @@ def edit_round(request, pk):
         else:
             roundobj = SingleTournamentRound.objects.get(id=pk)
             form = EditRoundInfoForm(instance=roundobj)
-            return render(request, 'staff/edit_round.html', {'form': form})
+            return render(request, 'staff/singletournaments/edit_round.html', {'form': form})
 
 
 def tournament_matches(request, pk):
@@ -301,12 +301,12 @@ def edit_tournament(request, pk):
                 messages.success(request, 'Tournament has been updated')
                 return redirect('staff:tournamentlist')
             else:
-                return render(request, 'staff/edittournament.html', {'form': form})
+                return render(request, 'staff/singletournaments/edittournament.html', {'form': form})
         else:
             tournamentobj = SingleEliminationTournament.objects.get(pk=pk)
             if not tournamentobj.bracket_generated:
                 form = EditTournamentForm(instance=tournamentobj)
-                return render(request, 'staff/edittournament.html', {'form': form, 'pk': pk})
+                return render(request, 'staff/singletournaments/edittournament.html', {'form': form, 'pk': pk})
             else:
                 messages.error(request, 'You cannot edit a launched tournament')
                 return redirect('staff:tournamentlist')
@@ -320,7 +320,7 @@ def create_tournament(request):
     else:
         if request.method == 'GET':
             form = CreateTournamentForm()
-            return render(request, 'staff/createtournament.html', {'form': form})
+            return render(request, 'staff/singletournaments/createtournament.html', {'form': form})
         else:
             form = CreateTournamentForm(request.POST, request.FILES)
             if form.is_valid():
@@ -330,7 +330,7 @@ def create_tournament(request):
                 return redirect('staff:tournament_detail', pk=tournament.id)
             else:
                 form = CreateTournamentForm(request.POST)
-                return render(request, 'staff/createtournament.html', {'form': form})
+                return render(request, 'staff/singletournaments/createtournament.html', {'form': form})
 
 
 def generate_bracket(request, pk):  # Launch tournament
@@ -373,10 +373,10 @@ def ruleset_list(request):
     else:
         if request.method == 'GET':
             rulesets = SingleTournamentRuleset.objects.all().order_by('id')
-            return render(request, 'staff/ruleset_list.html', {'rulesets': rulesets})
+            return render(request, 'staff/singletournaments/ruleset_list.html', {'rulesets': rulesets})
         else:
             rulesets = SingleTournamentRuleset.objects.all().order_by('id')
-            return render(request, 'staff/ruleset_list.html', {'rulesets': rulesets})
+            return render(request, 'staff/singletournaments/ruleset_list.html', {'rulesets': rulesets})
 
 
 def ruleset_create(request):
@@ -394,10 +394,10 @@ def ruleset_create(request):
                 messages.success(request, 'Ruleset has been created!')
                 return redirect('staff:tournamentrulesetlist')
             else:
-                return render(request, 'staff/createruleset.html', {'form': form})
+                return render(request, 'staff/singletournaments/createruleset.html', {'form': form})
         else:
             form = SingleRulesetCreateForm(None)
-            return render(request, 'staff/createruleset.html', {'form': form})
+            return render(request, 'staff/singletournaments/createruleset.html', {'form': form})
 
 
 def ruleset_detail(request, pk):
@@ -408,10 +408,10 @@ def ruleset_detail(request, pk):
     else:
         if request.method == 'POST':
             ruleset = SingleTournamentRuleset.objects.get(id=pk)
-            return render(request, 'staff/ruleset_detail.html', {'ruleset': ruleset})
+            return render(request, 'staff/singletournaments/ruleset_detail.html', {'ruleset': ruleset})
         else:
             ruleset = SingleTournamentRuleset.objects.get(id=pk)
-            return render(request, 'staff/ruleset_detail.html', {'ruleset': ruleset})
+            return render(request, 'staff/singletournaments/ruleset_detail.html', {'ruleset': ruleset})
 
 
 def mikes_super_function(pk, currentround, nextround):
@@ -605,7 +605,7 @@ def matches_index(request):
         # matches_list = Match.objects.all().order_by('-id')
         tmatches = Match.objects.filter(type__isnull=True)
         wmatches = Match.objects.filter(type='w')
-        return render(request, 'staff/matches.html', {'tmatches': tmatches, 'wmatches': wmatches})
+        return render(request, 'staff/matches/matches.html', {'tmatches': tmatches, 'wmatches': wmatches})
 
 
 def match_detail(request, pk):
@@ -616,13 +616,13 @@ def match_detail(request, pk):
     else:
         match = Match.objects.get(pk=pk)
         if match.type == "w":
-            return render(request, 'staff/match_wager_detail.html', {'match': match})
+            return render(request, 'staff/wagers/match_wager_detail.html', {'match': match})
         else:
             if match.disputed:
                 dispute = MatchDispute.objects.get(match=match)
-                return render(request, 'staff/match_detail.html', {'match': match, 'dispute': dispute})
+                return render(request, 'staff/matches/match_detail.html', {'match': match, 'dispute': dispute})
             else:
-                return render(request, 'staff/match_detail.html', {'match': match})
+                return render(request, 'staff/matches/match_detail.html', {'match': match})
 
 
 def match_edit(request, pk):
@@ -639,11 +639,11 @@ def match_edit(request, pk):
                 messages.success(request, 'Match has been updated')
                 return redirect('staff:match_detail', pk=pk)
             else:
-                return render(request, 'staff/match_edit.html', {'form': form})
+                return render(request, 'staff/matches/match_edit.html', {'form': form})
         else:
             matchobj = Match.objects.get(pk=pk)
             form = EditMatchForm(instance=matchobj)
-            return render(request, 'staff/match_edit.html', {'form': form, 'pk': pk})
+            return render(request, 'staff/matches/match_edit.html', {'form': form, 'pk': pk})
 
 
 class MatchDeclareWinner(View):
@@ -737,7 +737,7 @@ def dispute_detail(request, pk):
         return render(request, 'staff/permissiondenied.html')
     else:
         dispute = MatchDispute.objects.get(pk=pk)
-        return render(request, 'staff/dispute_detail.html', {'dispute': dispute})
+        return render(request, 'staff/matches/dispute_detail.html', {'dispute': dispute})
 
 
 def gamelist(request):
@@ -747,7 +747,7 @@ def gamelist(request):
         return render(request, 'staff/permissiondenied.html')
     else:
         games = GameChoice.objects.all().order_by('id')
-        return render(request, 'staff/game_list.html', {'games': games})
+        return render(request, 'staff/matches/game_list.html', {'games': games})
 
 
 def game_detail(request, pk):
@@ -764,11 +764,11 @@ def game_detail(request, pk):
                 messages.success(request, 'Game has been updated')
                 return redirect('staff:gamelist')
             else:
-                return render(request, 'staff/editgame.html', {'form': form})
+                return render(request, 'staff/matches/editgame.html', {'form': form})
         else:
             game = GameChoice.objects.get(pk=pk)
             form = GameChoiceForm(instance=game)
-            return render(request, 'staff/editgame.html', {'form': form, 'pk': pk})
+            return render(request, 'staff/matches/editgame.html', {'form': form, 'pk': pk})
 
 
 def delete_game(request, pk):
@@ -791,7 +791,7 @@ def create_gamechoice(request):
     else:
         if request.method == 'GET':
             form = GameChoiceForm()
-            return render(request, 'staff/editgame.html', {'form': form})
+            return render(request, 'staff/matches/editgame.html', {'form': form})
         else:
             form = GameChoiceForm(request.POST, request.FILES)
             if form.is_valid():
@@ -801,7 +801,7 @@ def create_gamechoice(request):
                 return redirect('staff:gamelist')
             else:
                 form = GameChoiceForm(request.POST, request.FILES)
-                return render(request, 'staff/editgame.html', {'form': form})
+                return render(request, 'staff/matches/editgame.html', {'form': form})
 
 
 def platformlist(request):
@@ -811,7 +811,7 @@ def platformlist(request):
         return render(request, 'staff/permissiondenied.html')
     else:
         platforms = PlatformChoice.objects.all().order_by('id')
-        return render(request, 'staff/platform_list.html', {'platforms': platforms})
+        return render(request, 'staff/matches/platform_list.html', {'platforms': platforms})
 
 
 def platform_detail(request, pk):
@@ -828,11 +828,11 @@ def platform_detail(request, pk):
                 messages.success(request, 'Platform has been updated')
                 return redirect('staff:platformlist')
             else:
-                return render(request, 'staff/editplatform.html', {'form': form})
+                return render(request, 'staff/matches/editplatform.html', {'form': form})
         else:
             platform = PlatformChoice.objects.get(pk=pk)
             form = PlatformChoiceForm(instance=platform)
-            return render(request, 'staff/editplatform.html', {'form': form, 'pk': pk})
+            return render(request, 'staff/matches/editplatform.html', {'form': form, 'pk': pk})
 
 
 def delete_platform(request, pk):
@@ -855,7 +855,7 @@ def create_platformchoice(request):
     else:
         if request.method == 'GET':
             form = PlatformChoiceForm()
-            return render(request, 'staff/editplatform.html', {'form': form})
+            return render(request, 'staff/matches/editplatform.html', {'form': form})
         else:
             form = PlatformChoiceForm(request.POST, request.FILES)
             if form.is_valid():
@@ -865,7 +865,7 @@ def create_platformchoice(request):
                 return redirect('staff:platformlist')
             else:
                 form = GameChoiceForm(request.POST, request.FILES)
-                return render(request, 'staff/editplatform.html', {'form': form})
+                return render(request, 'staff/matches/editplatform.html', {'form': form})
 
 
 def map_list(request):
@@ -875,7 +875,7 @@ def map_list(request):
         return render(request, 'staff/permissiondenied.html')
     else:
         maps = MapChoice.objects.all().order_by('id')
-        return render(request, 'staff/map_list.html', {'maps': maps})
+        return render(request, 'staff/matches/map_list.html', {'maps': maps})
 
 
 def map_detail(request, pk):
@@ -892,11 +892,11 @@ def map_detail(request, pk):
                 messages.success(request, 'Map has been updated')
                 return redirect('staff:maplist')
             else:
-                return render(request, 'staff/editmap.html', {'form': form})
+                return render(request, 'staff/matches/editmap.html', {'form': form})
         else:
             mapchoice = MapChoice.objects.get(pk=pk)
             form = MapChoiceForm(instance=mapchoice)
-            return render(request, 'staff/editmap.html', {'form': form, 'pk': pk})
+            return render(request, 'staff/matches/editmap.html', {'form': form, 'pk': pk})
 
 
 def delete_map(request, pk):
@@ -919,7 +919,7 @@ def create_mapchoice(request):
     else:
         if request.method == 'GET':
             form = MapChoiceForm()
-            return render(request, 'staff/editmap.html', {'form': form})
+            return render(request, 'staff/matches/editmap.html', {'form': form})
         else:
             form = MapChoiceForm(request.POST, request.FILES)
             if form.is_valid():
@@ -929,7 +929,7 @@ def create_mapchoice(request):
                 return redirect('staff:map_list')
             else:
                 form = GameChoiceForm(request.POST, request.FILES)
-                return render(request, 'staff/editmap.html', {'form': form})
+                return render(request, 'staff/matches/editmap.html', {'form': form})
 
 
 def map_pool_list(request):
@@ -939,7 +939,7 @@ def map_pool_list(request):
         return render(request, 'staff/permissiondenied.html')
     else:
         mappools = MapPoolChoice.objects.all().order_by('id')
-        return render(request, 'staff/map_pool_list.html', {'mappools': mappools})
+        return render(request, 'staff/matches/map_pool_list.html', {'mappools': mappools})
 
 
 def map_pool_detail(request, pk):
@@ -956,11 +956,11 @@ def map_pool_detail(request, pk):
                 messages.success(request, 'Map pool has been updated')
                 return redirect('staff:map_pool_list')
             else:
-                return render(request, 'staff/editmappool.html', {'form': form})
+                return render(request, 'staff/matches/editmappool.html', {'form': form})
         else:
             mappoolchoice = MapPoolChoice.objects.get(pk=pk)
             form = MapPoolChoiceForm(instance=mappoolchoice)
-            return render(request, 'staff/editmappool.html', {'form': form, 'pk': pk})
+            return render(request, 'staff/matches/editmappool.html', {'form': form, 'pk': pk})
 
 
 def delete_map_pool(request, pk):
@@ -983,7 +983,7 @@ def create_map_pool_choice(request):
     else:
         if request.method == 'GET':
             form = MapPoolChoiceForm()
-            return render(request, 'staff/editmappool.html', {'form': form})
+            return render(request, 'staff/matches/editmappool.html', {'form': form})
         else:
             form = MapPoolChoiceForm(request.POST, request.FILES)
             if form.is_valid():
@@ -993,7 +993,7 @@ def create_map_pool_choice(request):
                 return redirect('staff:map_pool_list')
             else:
                 form = GameChoiceForm(request.POST, request.FILES)
-                return render(request, 'staff/editmappool.html', {'form': form})
+                return render(request, 'staff/matches/editmappool.html', {'form': form})
 
 
 # end matches section
@@ -1011,7 +1011,7 @@ def tickets(request):
         if request.method == 'GET':
             form = TicketSearchForm
             ticket_list = Ticket.objects.filter(status__lte=2).order_by('-id')
-            return render(request, 'staff/tickets.html', {'form': form, 'ticket_list': ticket_list})
+            return render(request, 'staff/support/tickets.html', {'form': form, 'ticket_list': ticket_list})
 
         elif request.method == 'POST':
             form = TicketSearchForm(request.POST)
@@ -1025,7 +1025,7 @@ def tickets(request):
                 except ValueError:
                     ticket_list = Ticket.objects.filter(Q(text__contains=query) |
                                                         Q(creator__username__contains=query)).order_by('-id')
-            return render(request, 'staff/tickets.html', {'form': form, 'ticket_list': ticket_list})
+            return render(request, 'staff/support/tickets.html', {'form': form, 'ticket_list': ticket_list})
 
 
 def ticket_category_list(request):
@@ -1035,7 +1035,7 @@ def ticket_category_list(request):
         return render(request, 'staff/permissiondenied.html')
     else:
         cats = TicketCategory.objects.all()
-        return render(request, 'staff/ticket_cats.html', {'cats': cats})
+        return render(request, 'staff/support/ticket_cats.html', {'cats': cats})
 
 
 class TicketCategoryCreate(View):
@@ -1085,7 +1085,7 @@ def ticket_cat_delete(request, pk):
 
 class TicketDetail(DetailView):
     model = Ticket
-    template_name = 'staff/ticket_detail.html'
+    template_name = 'staff/support/ticket_detail.html'
     form1 = TicketCommentCreateForm()
     form1_class = TicketCommentCreateForm
     form2 = TicketStatusChangeForm()
@@ -1196,11 +1196,11 @@ def pages(request):
                 return redirect('staff:pages')
             else:
                 messages.error(request, "Something went horribly wrong (this shouldn't be seen)")
-                return render(request, 'staff/staticinfo.html', {'form': form})
+                return render(request, 'staff/pages/staticinfo.html', {'form': form})
         else:
             staticinfoobj = StaticInfo.objects.get(pk=1)
             form = StaticInfoForm(instance=staticinfoobj)
-            return render(request, 'staff/staticinfo.html', {'form': form, 'tenant': request.tenant})
+            return render(request, 'staff/pages/staticinfo.html', {'form': form, 'tenant': request.tenant})
 
 
 def partnerlist(request):
@@ -1210,7 +1210,7 @@ def partnerlist(request):
         return render(request, 'staff/permissiondenied.html')
     else:
         partner_list = Partner.objects.all().order_by('id')
-        return render(request, 'staff/partnerslist.html', {'partner_list': partner_list})
+        return render(request, 'staff/pages/partnerslist.html', {'partner_list': partner_list})
 
 
 def createpartner(request):
@@ -1229,10 +1229,10 @@ def createpartner(request):
                 messages.success(request, 'Your partner has been created')
                 return redirect('staff:partner_list')
             else:
-                return render(request, 'staff/partnercreate.html', {'form': form})
+                return render(request, 'staff/pages/partnercreate.html', {'form': form})
         else:
             form = PartnerForm(None)
-            return render(request, 'staff/partnercreate.html', {'form': form})
+            return render(request, 'staff/pages/partnercreate.html', {'form': form})
 
 
 def partner_detail(request, pk):
@@ -1249,11 +1249,11 @@ def partner_detail(request, pk):
                 messages.success(request, 'Your information has been updated')
                 return redirect('staff:partner_list')
             else:
-                return render(request, 'staff/partnercreate.html', {'form': form})
+                return render(request, 'staff/pages/partnercreate.html', {'form': form})
         else:
             partner = Partner.objects.get(pk=pk)
             form = PartnerForm(instance=partner)
-            return render(request, 'staff/partnercreate.html', {'form': form})
+            return render(request, 'staff/pages/partnercreate.html', {'form': form})
 
 
 # end static info section
@@ -1269,7 +1269,7 @@ def news_list(request):
         return render(request, 'staff/permissiondenied.html')
     else:
         news_list = Post.objects.all().order_by('-id')
-        return render(request, 'staff/news_list.html', {'news_list': news_list})
+        return render(request, 'staff/news/news_list.html', {'news_list': news_list})
 
 
 def create_article(request):
@@ -1288,10 +1288,10 @@ def create_article(request):
                 messages.success(request, 'Your post has been created')
                 return redirect('staff:news_list')
             else:
-                return render(request, 'staff/create_article.html', {'form': form})
+                return render(request, 'staff/news/create_article.html', {'form': form})
         else:
             form = ArticleCreateForm(None)
-            return render(request, 'staff/create_article.html', {'form': form})
+            return render(request, 'staff/news/create_article.html', {'form': form})
 
 
 def detail_article(request, pk):
@@ -1301,7 +1301,7 @@ def detail_article(request, pk):
         return render(request, 'staff/permissiondenied.html')
     else:
         article = Post.objects.get(id=pk)
-        return render(request, 'staff/news_detail.html', {'article': article})
+        return render(request, 'staff/news/news_detail.html', {'article': article})
 
 
 def edit_post(request, pk):
@@ -1313,7 +1313,7 @@ def edit_post(request, pk):
         if request.method == 'GET':
             article = get_object_or_404(Post, pk=pk)
             form = EditNewsPostForm(instance=article)
-            return render(request, 'staff/edit_article.html', {'form': form})
+            return render(request, 'staff/news/edit_article.html', {'form': form})
         else:
             article = get_object_or_404(Post, pk=pk)
             form = EditNewsPostForm(request.POST, instance=article)
@@ -1324,7 +1324,7 @@ def edit_post(request, pk):
                 messages.success(request, "Updated post")
                 return redirect('staff:detail_article', pk=pk)
             else:
-                return render(request, 'staff/edit_article.html', {'form': form})
+                return render(request, 'staff/news/edit_article.html', {'form': form})
 
 
 def delete_article(request, pk):
@@ -1354,7 +1354,7 @@ def store_index(request):
             products = len(Product.objects.all())
             transactions = len(Transaction.objects.all())
             transfers = len(Transfer.objects.all())
-            return render(request, 'staff/store.html',
+            return render(request, 'staff/store/store.html',
                           {'products': products, 'transactions': transactions, 'transfers': transfers})
 
 
@@ -1406,7 +1406,7 @@ def products(request):
     else:
         if request.method == 'GET':
             product_list = Product.objects.all().order_by('id')
-            return render(request, 'staff/product_list.html', {'product_list': product_list})
+            return render(request, 'staff/store/product_list.html', {'product_list': product_list})
 
 
 def product_detail(request, pk):
@@ -1417,7 +1417,7 @@ def product_detail(request, pk):
     else:
         if request.method == 'GET':
             product = Product.objects.get(id=pk)
-            return render(request, 'staff/product_detail.html', {'product': product, 'pk': pk})
+            return render(request, 'staff/store/product_detail.html', {'product': product, 'pk': pk})
 
 
 def create_product(request):
@@ -1428,7 +1428,7 @@ def create_product(request):
     else:
         if request.method == 'GET':
             form = CreateProductForm(None)
-            return render(request, 'staff/create_product.html', {'form': form})
+            return render(request, 'staff/store/create_product.html', {'form': form})
         else:
             form = CreateProductForm(request.POST)
             if form.is_valid():
@@ -1437,7 +1437,7 @@ def create_product(request):
                 product.save()
                 return redirect('staff:product_detail', pk=product.id)
             else:
-                return render(request, 'staff/create_product.html', {'form': form})
+                return render(request, 'staff/store/create_product.html', {'form': form})
 
 
 def edit_product(request, pk):
@@ -1448,7 +1448,7 @@ def edit_product(request, pk):
     else:
         if request.method == 'GET':
             form = CreateProductForm(instance=Product.objects.get(id=pk))
-            return render(request, 'staff/edit_product.html', {'form': form, 'pk': pk})
+            return render(request, 'staff/store/edit_product.html', {'form': form, 'pk': pk})
         else:
             form = CreateProductForm(request.POST)
             if form.is_valid():
@@ -1461,7 +1461,7 @@ def edit_product(request, pk):
                 product.save()
                 return redirect('staff:product_detail', pk=product.id)
             else:
-                return render(request, 'staff/edit_product.html', {'form': form, 'pk': pk})
+                return render(request, 'staff/store/edit_product.html', {'form': form, 'pk': pk})
 
 
 def delete_product(request):
@@ -1472,7 +1472,7 @@ def delete_product(request):
     else:
         if request.method == 'GET':
             form = DeleteProductForm(None)
-            return render(request, 'staff/delete_product.html', {'form': form})
+            return render(request, 'staff/store/delete_product.html', {'form': form})
         else:
             form = DeleteProductForm(request.POST)
             if form.is_valid():
@@ -1481,7 +1481,7 @@ def delete_product(request):
                 product.delete()
                 return redirect('staff:index')  # need list view
             else:
-                return render(request, 'staff/delete_product.html', {'form': form})
+                return render(request, 'staff/store/delete_product.html', {'form': form})
 
 
 # end store section
@@ -1496,7 +1496,7 @@ def teams_index(request):
         return render(request, 'staff/permissiondenied.html')
     else:
         teams_list = Team.objects.all().order_by('id')
-        return render(request, 'staff/teams.html', {'teams_list': teams_list})
+        return render(request, 'staff/teams/teams.html', {'teams_list': teams_list})
 
 
 def teams_detail(request, pk):
@@ -1507,7 +1507,7 @@ def teams_detail(request, pk):
     else:
         team = Team.objects.get(id=pk)
         players = TeamInvite.objects.filter(team=team, accepted=True).order_by('id')
-        return render(request, 'staff/teams_detail.html', {'team': team, 'players': players, 'pk': pk})
+        return render(request, 'staff/teams/teams_detail.html', {'team': team, 'players': players, 'pk': pk})
 
 
 def delete_team(request, pk):
@@ -1544,7 +1544,7 @@ def remove_user(request, pk):
                 return redirect('staff:team_detail', pk=pk)
         else:
             form = RemovePlayerForm(request, pk)
-            return render(request, 'staff/remove_player.html', {'form': form, 'pk': pk})
+            return render(request, 'staff/teams/remove_player.html', {'form': form, 'pk': pk})
 
 
 def getteamrank(request):
@@ -1575,7 +1575,7 @@ def wagers_list(request):
         active = WagerRequest.objects.filter(Q(expired=False))
         active = active.filter(Q(challenge_accepted=False))
         active = active.filter(Q(wmatch__isnull=True))
-        return render(request, 'staff/wagers.html', {'wagers': active})
+        return render(request, 'staff/wagers/wagers.html', {'wagers': active})
 
 
 def wagers_request_detail(request, pk):
@@ -1585,7 +1585,7 @@ def wagers_request_detail(request, pk):
         return render(request, 'staff/permissiondenied.html')
     else:
         wrequest = get_object_or_404(WagerRequest, pk=pk)
-        return render(request, 'staff/wager_request_detail.html', {'wrequest': wrequest})
+        return render(request, 'staff/wagers/wager_request_detail.html', {'wrequest': wrequest})
 
 
 def delete_wager_request(request, pk):
