@@ -10,7 +10,7 @@
         <div class="col-xs-12">
             <div class="panel">
                 <div class="panel-body">
-                    <form method="post">
+                    <form enctype="multipart/form-data" method="post">
                         {% csrf_token %}
 
                         {{ field.errors }}
@@ -29,6 +29,9 @@
 
                         <label>Country</label>
                         <div class="form-group">{{ form.country }}</div>
+
+                        <label>Image</label>
+                        <div class="form-group">{{ form.image }}</div>
 
                         <button type="submit" class="btn btn-primary">Update</button>
                     </form>
