@@ -361,8 +361,9 @@ class CreateUserFormView(View):
 
 def activate(request, uidb64, token):
     try:
-        a = uidb64.split("'")[1]
-        uid = urlsafe_base64_decode(a).decode()
+        uid = force_text(urlsafe_base64_decode(uidb64))
+        #a = uidb64.split("'")[1]
+        #uid = urlsafe_base64_decode(a).decode()
         user = User.objects.get(pk=uid)
     except(TypeError, ValueError, OverflowError, User.DoesNotExist) as e:
         print("Exception")
