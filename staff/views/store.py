@@ -23,7 +23,7 @@ def store_index(request):
 
 
 class TransactionView(View):
-    template_name = 'staff/transaction_list.html'
+    template_name = 'staff/store/transaction_list.html'
     form_class = SortForm
 
     def get(self, request, **kwargs):
@@ -44,7 +44,7 @@ class TransactionView(View):
 
 
 class TransferView(View):
-    template_name = 'staff/transfer_list.html'
+    template_name = 'staff/store/transfer_list.html'
 
     def get(self, request, **kwargs):
         user = UserProfile.objects.get(user__username=request.user.username)
