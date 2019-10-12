@@ -1,7 +1,9 @@
 {% extends 'staff/staffbase.html' %}
 {% load static %}
 <link rel="stylesheet" href="{% static "css/staff.css" %}">
-
+{% block title %}
+News List
+{% endblock %}
 {% block body %}
     <div style="overflow-x:auto;">
         <table class="table table-hover">
