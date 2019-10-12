@@ -1,23 +1,32 @@
 {% extends "stock/base.html" %}
 {% load static %}
-
 {% block head %}
     <title>Join Tournament - {{ SITE_NAME }}</title>
 {% endblock %}
 
 {% block body %}
 
-    <form method="POST" action="">
-        <table class="table">
-            {% csrf_token %}
-            {{ form }}
 
-            <tr>
-                <td colspan="2">
-                    <input type="submit" value="Join"/>
-                </td>
-            </tr>
-        </table>
-    </form>
+    <div class="container page">
+        <div class="col-xs-12">
+            <div class="panel">
+                <div class="panel-body">
+                    <div class="panel-title">Join {{ tournament.name }}</div>
+                    <form method="POST" action="">
+                        <table class="table">
+                            {% csrf_token %}
+                            {{ form }}
+
+                            <tr>
+                                <td colspan="2">
+                                    <input type="submit" value="Join" class="btn btn-success"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
 {% endblock %}
