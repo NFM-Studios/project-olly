@@ -1,16 +1,30 @@
-{% extends "stock/base.html" %}
+{% extends 'stock/base.html' %}
 {% load static %}
-
 
 {% block head %}
     <title>{{ tournament.name }} - {{ SITE_NAME }}</title>
 {% endblock %}
 
 {% block body %}
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
 
-    The bracket for {{ tournament.name }} (ID={{ tournament.id }}) is not generated yet. Please come back and visit this
-    page later to view the bracket
+    <div class="container page">
 
-    <br>
-    <a href="{% url 'singletournaments:detail' pk=tournament.id %}">Click here to view the tournament details</a>
+        <div class="col-xs-12">
+            <div class="panel">
+                <div class="panel-body">
+                    The bracket for {{ tournament.name }}, is not generated yet. Please come back and visit this page
+                    later to view the bracket
+
+                    <br>
+                </div>
+            </div>
+        </div>
+    </div>
+
 {% endblock %}
