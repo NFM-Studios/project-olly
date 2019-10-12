@@ -45,7 +45,7 @@ def ticket_category_list(request):
 
 class TicketCategoryCreate(View):
     form_class = TicketCategoryCreateForm
-    template_name = 'staff/ticket_cat_create.html'
+    template_name = 'staff/support/ticket_cat_create.html'
 
     def get(self, request):
         user = UserProfile.objects.get(user__username=request.user.username)
