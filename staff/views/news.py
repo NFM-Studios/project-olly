@@ -31,7 +31,7 @@ def create_article(request):
                 article.save()
                 form.save()
                 messages.success(request, 'Your post has been created')
-                return redirect('staff:news_list')
+                return redirect('staff:news_index')
             else:
                 return render(request, 'staff/news/create_article.html', {'form': form})
         else:
