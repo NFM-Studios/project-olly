@@ -30,11 +30,11 @@ def post_list(request, tag_slug=None):
     return render(request, 'news/' + request.tenant + '/post/list.html', {'page': page, 'posts': posts})
 
 
-class PostListView(ListView):
+"""class PostListView(ListView):
     queryset = Post.published.all()
     context_object_name = 'posts'
     paginate_by = 3
-    template_name = 'news/post/list.html'
+    template_name = 'news/post/list.html'"""
 
 
 def post_detail(request, slug):
