@@ -1,5 +1,5 @@
 # project-olly
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
+[![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors)
 
 # Installation - without Docker
 1. Clone the repository! You need the code, it won't just magically work without it.
