@@ -1,7 +1,7 @@
 # project-olly
 [![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
 
-# Installation
+# Installation - without Docker
 1. Clone the repository! You need the code, it won't just magically work without it.
 2. Install requirements - ensure you already have python3 installed on your machine. We recommend the latest python3.7 build
 ```pip install -r requirements.txt``` (run that command, assuming you are in the main directory
@@ -19,6 +19,8 @@ as well as profiles/templates/captcha.html - and uncomment the lines in profiles
 `user_verified` to `1` and set `user_type` to `superadmin` or `admin`
 9. Create a StaticInfo object, if you don't every page will throw an error telling you that it can't access the StaticInfo - easiest
 way to make a staticinfo object is through the django admin at /admin
+
+# Docker Instalation
 
 # Configuration
 You can and probably should configure things to however you'd like! As a general project we try to make things as flexible as possible
