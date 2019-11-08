@@ -37,7 +37,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- prettier-ignore -->
 <table>
   <tr>
-    <td align="center"><a href="https://github.com/techlover1"><img src="https://avatars1.githubusercontent.com/u/17421974?v=4" width="100px;" alt="Steven Young"/><br /><sub><b>Steven Young</b></sub></a><br /><a href="#infra-techlover1" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="https://github.com/mikemaddem/project-olly/commits?author=techlover1" title="Code">💻</a> <a href="#ideas-techlover1" title="Ideas, Planning, & Feedback">🤔</a></td>
+    <td align="center"><a href="https://github.com/techlover1"><img src="https://avatars1.githubusercontent.com/u/17421974?v=4" width="100px;" alt="Steven Young"/><br /><sub><b>Steven Young</b></sub></a><br /><a href="#infra-techlover1" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="https://github.com/mikemaddem/project-olly/commits?author=techlover1" title="Code">💻</a> <a href="#ideas-techlover1" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/mikemaddem/project-olly/commits?author=techlover1" title="Documentation">📖</a></td>
   </tr>
 </table>
 
