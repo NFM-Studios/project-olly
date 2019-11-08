@@ -6,6 +6,16 @@
   "commit": false,
   "contributors": [
     {
+      "login": "mikemaddem",
+      "name": "Mike M.",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/19417674?v=4",
+      "profile": "http://mikemadden.me",
+      "contributions": [
+        "test",
+        "code",
+        "doc",
+        "ideas"]
+
       "login": "techlover1",
       "name": "Steven Young",
       "avatar_url": "https://avatars1.githubusercontent.com/u/17421974?v=4",
