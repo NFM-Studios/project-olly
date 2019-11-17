@@ -1,5 +1,8 @@
 # Project Olly
 [![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors)
+<a href="https://discord.gg/5dp8x2t">
+    <img src="https://img.shields.io/badge/discord-join-7289DA.svg?logo=discord&longCache=true&style=flat" />
+</a>
 
 ## Please note: this document is currently under construction and is not yet complete.
 
