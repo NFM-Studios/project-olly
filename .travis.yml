@@ -1,14 +1,18 @@
-language: python # => 1
-    python: # => 2
-      - "3.6"
-      - "3.7"
-    services: # => 3
-      - mysql
-    env: # => 4
-      -DJANGO=1.8 DB=mysql
-    install: # => 5
-      - pip install -r requirements.txt
-    before_script: # => 6
-      - mysql -e 'create database test;' -u root
-    script: # => 7
-      - python manage.py test
+language: python
+
+python:
+  - 3.6
+  - 3.7
+
+services: postgresql
+
+env:
+  -DJANGO=1.8
+install:
+  - pip install -r requirements.txt
+
+before_script:
+  - psql -c "CREATE DATABASE ci;" -U postgres
+
+script:
+  - python manage.py test --settings olly.ci_settings
