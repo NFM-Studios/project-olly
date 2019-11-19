@@ -1,13 +1,10 @@
 language: python
 
 python:
-  - 3.6
   - 3.7
 
 services: postgresql
 
-env:
-  -DJANGO=1.8
 install:
   - pip install -r requirements.txt
 
@@ -16,3 +13,19 @@ before_script:
 
 script:
   - python manage.py test --settings olly.travis_settings
+
+after_success:
+  - wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
+  - chmod +x send.sh
+  - ./send.sh success $WEBHOOK_URL
+after_failure:
+  - wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
+  - chmod +x send.sh
+  - ./send.sh failure $WEBHOOK_URL
+
+notifications:
+  email:
+    recipients:
+      - nfm.studios@gmail.com
+    on_success: never
+    on_failure: always
