@@ -16,7 +16,7 @@ class StaffBasicTest1(TestCase):
     def test_indexresponse(self):
         print('Starting staff:index')
         request = self.factory.get(reverse('staff:index'))
-        request.tenant = 'eot'
+        request.tenant = 'base'
         request.user = self.user
         response = staffindex(request)
         self.assertEqual(response.status_code, 200)
@@ -25,7 +25,7 @@ class StaffBasicTest1(TestCase):
     def test_usersresponse(self):
         print('Starting staff:users')
         request = self.factory.get(reverse('staff:users'))
-        request.tenant = 'eot'
+        request.tenant = 'stock'
         request.user = self.user
         response = users(request)
         self.assertEqual(response.status_code, 200)
@@ -34,7 +34,7 @@ class StaffBasicTest1(TestCase):
     def test_tickets(self):
         print('Starting staff:tickets')
         request = self.factory.get(reverse('staff:tickets'))
-        request.tenant = 'eot'
+        request.tenant = 'stock'
         request.user = self.user
         response = users(request)
         self.assertEqual(response.status_code, 200)
@@ -43,7 +43,7 @@ class StaffBasicTest1(TestCase):
     def test_ticket_cats(self):
         print('Starting staff:ticket_categories')
         request = self.factory.get(reverse('staff:ticket_categories'))
-        request.tenant = 'eot'
+        request.tenant = 'stock'
         request.user = self.user
         response = users(request)
         self.assertEqual(response.status_code, 200)
@@ -52,7 +52,7 @@ class StaffBasicTest1(TestCase):
     def test_ticket_cat_create(self):
         print('Starting staff:ticket_cat_create')
         request = self.factory.get(reverse('staff:ticket_cat_create'))
-        request.tenant = 'eot'
+        request.tenant = 'stock'
         request.user = self.user
         response = users(request)
         self.assertEqual(response.status_code, 200)
@@ -61,7 +61,7 @@ class StaffBasicTest1(TestCase):
     def test_pages(self):
         print('Starting staff:pages')
         request = self.factory.get(reverse('staff:pages'))
-        request.tenant = 'eot'
+        request.tenant = 'stock'
         request.user = self.user
         response = users(request)
         self.assertEqual(response.status_code, 200)
@@ -70,7 +70,7 @@ class StaffBasicTest1(TestCase):
     def test_tournaments(self):
         print('Starting staff:tournamentlist')
         request = self.factory.get(reverse('staff:tournamentlist'))
-        request.tenant = 'eot'
+        request.tenant = 'stock'
         request.user = self.user
         response = users(request)
         self.assertEqual(response.status_code, 200)
@@ -79,7 +79,7 @@ class StaffBasicTest1(TestCase):
     def test_tournament_rulesets(self):
         print('Starting staff:tournamentrulesetlist')
         request = self.factory.get(reverse('staff:tournamentrulesetlist'))
-        request.tenant = 'eot'
+        request.tenant = 'stock'
         request.user = self.user
         response = users(request)
         self.assertEqual(response.status_code, 200)
@@ -88,7 +88,7 @@ class StaffBasicTest1(TestCase):
     def test_tournament_create(self):
         print('Starting staff:create_tournament')
         request = self.factory.get(reverse('staff:create_tournament'))
-        request.tenant = 'eot'
+        request.tenant = 'stock'
         request.user = self.user
         response = users(request)
         self.assertEqual(response.status_code, 200)
@@ -97,7 +97,7 @@ class StaffBasicTest1(TestCase):
     def test_matches_index(self):
         print('Starting staff:matches_index')
         request = self.factory.get(reverse('staff:matches_index'))
-        request.tenant = 'eot'
+        request.tenant = 'stock'
         request.user = self.user
         response = users(request)
         self.assertEqual(response.status_code, 200)
@@ -106,7 +106,7 @@ class StaffBasicTest1(TestCase):
     def test_gamelist(self):
         print('Starting staff:gamelist')
         request = self.factory.get(reverse('staff:gamelist'))
-        request.tenant = 'eot'
+        request.tenant = 'stock'
         request.user = self.user
         response = users(request)
         self.assertEqual(response.status_code, 200)
@@ -115,7 +115,7 @@ class StaffBasicTest1(TestCase):
     def test_create_gamechoice(self):
         print('Starting staff:create_gamechoice')
         request = self.factory.get(reverse('staff:create_gamechoice'))
-        request.tenant = 'eot'
+        request.tenant = 'stock'
         request.user = self.user
         response = users(request)
         self.assertEqual(response.status_code, 200)
@@ -124,7 +124,7 @@ class StaffBasicTest1(TestCase):
     def test_platformlist(self):
         print('Starting staff:platformlist')
         request = self.factory.get(reverse('staff:platformlist'))
-        request.tenant = 'eot'
+        request.tenant = 'stock'
         request.user = self.user
         response = users(request)
         self.assertEqual(response.status_code, 200)
@@ -133,7 +133,7 @@ class StaffBasicTest1(TestCase):
     def test_create_platformchoice(self):
         print('Starting staff:create_platformchoice')
         request = self.factory.get(reverse('staff:create_platformchoice'))
-        request.tenant = 'eot'
+        request.tenant = 'stock'
         request.user = self.user
         response = users(request)
         self.assertEqual(response.status_code, 200)
@@ -142,7 +142,7 @@ class StaffBasicTest1(TestCase):
     def test_news_index(self):
         print('Starting staff:news_index')
         request = self.factory.get(reverse('staff:news_index'))
-        request.tenant = 'eot'
+        request.tenant = 'stock'
         request.user = self.user
         response = users(request)
         self.assertEqual(response.status_code, 200)
@@ -153,7 +153,7 @@ class StaffBasicTest1(TestCase):
     def test_create_article(self):
         print('Starting staff:create_article')
         request = self.factory.get(reverse('staff:create_article'))
-        request.tenant = 'eot'
+        request.tenant = 'stock'
         request.user = self.user
         response = users(request)
         self.assertEqual(response.status_code, 200)
@@ -162,7 +162,7 @@ class StaffBasicTest1(TestCase):
     def test_store(self):
         print('Starting staff:store')
         request = self.factory.get(reverse('staff:store'))
-        request.tenant = 'eot'
+        request.tenant = 'stock'
         request.user = self.user
         response = users(request)
         self.assertEqual(response.status_code, 200)
@@ -171,7 +171,7 @@ class StaffBasicTest1(TestCase):
     def test_transaction_list(self):
         print('Starting staff:transaction_list')
         request = self.factory.get(reverse('staff:transaction_list'))
-        request.tenant = 'eot'
+        request.tenant = 'stock'
         request.user = self.user
         response = users(request)
         self.assertEqual(response.status_code, 200)
@@ -180,7 +180,7 @@ class StaffBasicTest1(TestCase):
     def test_transfer_list(self):
         print('Starting staff:transfer_list')
         request = self.factory.get(reverse('staff:transfer_list'))
-        request.tenant = 'eot'
+        request.tenant = 'stock'
         request.user = self.user
         response = users(request)
         self.assertEqual(response.status_code, 200)
@@ -189,7 +189,7 @@ class StaffBasicTest1(TestCase):
     def test_product_list(self):
         print('Starting staff:product_list')
         request = self.factory.get(reverse('staff:product_list'))
-        request.tenant = 'eot'
+        request.tenant = 'stock'
         request.user = self.user
         response = users(request)
         self.assertEqual(response.status_code, 200)
@@ -198,7 +198,7 @@ class StaffBasicTest1(TestCase):
     def test_create_product(self):
         print('Starting staff:create_product')
         request = self.factory.get(reverse('staff:create_product'))
-        request.tenant = 'eot'
+        request.tenant = 'stock'
         request.user = self.user
         response = users(request)
         self.assertEqual(response.status_code, 200)
@@ -207,7 +207,7 @@ class StaffBasicTest1(TestCase):
     def test_teamindex(self):
         print('Starting staff:teamindex')
         request = self.factory.get(reverse('staff:teamindex'))
-        request.tenant = 'eot'
+        request.tenant = 'stock'
         request.user = self.user
         response = users(request)
         self.assertEqual(response.status_code, 200)
@@ -216,7 +216,7 @@ class StaffBasicTest1(TestCase):
     def test_partner_list(self):
         print('Starting staff:partner_list')
         request = self.factory.get(reverse('staff:partner_list'))
-        request.tenant = 'eot'
+        request.tenant = 'stock'
         request.user = self.user
         response = users(request)
         self.assertEqual(response.status_code, 200)
