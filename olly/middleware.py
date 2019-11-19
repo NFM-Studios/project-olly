@@ -33,46 +33,14 @@ def tenant_middleware(get_response):
     def middleware(request):
 
         host = request.get_host()
-        # the following line is probably not needed
-        # host = host.split(':')[1]  # we remove the protocol part: 'ibm.spinnertracking.com'
         subdomain = host.split('.')[0]
         domain = host.split('.')[-2]
 
-        if domain == 'duelbattleroyale' or subdomain == 'duel':
-            request.tenant = 'duel'
-            request.package = 'bobcat'
-
-        elif domain == 'rocesportsleague' or subdomain == 'roc':
-            request.tenant = 'roc'
-            request.package = 'bobcat'
-
-        elif domain == 'bingeplay' or subdomain == 'binge':
-            request.tenant = 'binge'
-            request.package = 'bobcat'
-
-        elif domain == 'gaesportscenter' or subdomain == 'ga':
-            request.tenant = 'ga'
-            request.package = 'bobcat'
-
-        elif domain == 'esportsopentour' or subdomain == 'eot':
-            request.tenant = 'eot'
-            request.package = 'bobcat'
-
-        elif domain == 'playot' or subdomain == 'online':
-            request.tenant = 'ot'
-            request.package = 'bobcat'
-
-        elif domain == 'worldleagueofgaming' or subdomain == 'wlg':
-            request.tenant = 'wlg'
-            request.package = 'bobcat'
-
-        elif domain == 'cashoutgaming' or subdomain == 'cashout':
-            request.tenant = 'cashout'
-            request.package = 'bobcat'
+        if domain == 'nfmstudios' or subdomain == 'nfm':
+            request.tenant = 'stock'
 
         else:
             request.tenant = 'stock'
-            request.package = 'leopard'
 
         # all done, the view will receive a request with a tenant attribute
         return get_response(request)
