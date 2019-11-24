@@ -42,7 +42,7 @@ EMAIL_USE_TLS = True
 EMAIL_HOST = ''
 EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
-FROM_EMAIL = 'NFM Testing <noreply@nfmstudios.com>'
+FROM_EMAIL = 'Testing <noreply@example.com>'
 EMAIL_PORT = 587
 PAYPAL_EMAIL = ''
 
