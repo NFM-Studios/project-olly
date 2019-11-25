@@ -49,7 +49,7 @@ DATABASES = {
 way to make a staticinfo object is through the django admin at /admin
 8. Setup a web server and reverse proxy using industry standard best practices (hint: gunicorn and nginx work well)
 
-# Docker Instalation
+# Docker Installation
 
 1. Clone the repository! You need the code, it won't just magically work without it. (Seems to be a recurring theme)
 2. Create the folder for static files by running `sudo mkdir /var/www/static` and transfer ownership by running `sudo chown www-data:www-data /var/www/static`. Feel free to substitute the username, but your reverse proxy must be running as that user
