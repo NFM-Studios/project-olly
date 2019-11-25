@@ -38,9 +38,8 @@ DATABASES = {
 #### Not officially supported. It is possible, but we aren't able to assist with the installation if you choose to do so.
 
 1. Clone the repository! You need the code, it won't just magically work without it.
-2. Install requirements - ensure you already have python3 installed on your machine. We recommend the latest python3.7 build
-`pip install -r requirements.txt` (run that command, assuming you are in the main directory
-3. Configure settings.py as shown in the Docker configuration section of this document
+2. Install requirements - `pip install -r requirements.txt`
+3. Configure settings.py
 4. Apply database migrations by running `python3 manage.py migrate` (assuming your database options are set as you'd like in settings.py)
 5. Create a django admin/super user account - `python manage.py createsuperuser` and follow the prompts
 6. Give your new superuser account staff panel access by modifying the database row in the `profiles_userprofile` table - set
@@ -52,9 +51,11 @@ way to make a staticinfo object is through the django admin at /admin
 # Docker Instalation
 
 1. Clone the repository! You need the code, it won't just magically work without it. (Seems to be a recurring theme)
-2. Run `docker build .` (take note of the image id) followed by `docker run -d -v /var/www/static:/static -v /tmp:/sock --net=host --name project-olly [your image id]` (make sure `/var/www/static` exists)
-3. Setup a reverse proxy of your choice (we highly recommend nginx, and have setup instructions	available in [nginx_setup.md](nginx_setup.md))
-4. How easy was that!?
+2. Create the folder for static files by running `sudo mkdir /var/www/static` and transfer ownership by running `sudo chown www-data:www-data /var/www/static`. Feel free to substitute the username, but your reverse proxy must be running as that user
+3. Run `docker build .` (take note of the image id) followed by `docker run -d -v /var/www/static:/static -v /tmp:/sock --net=host -u www-data --name project-olly [your image id]`
+4. Setup a reverse proxy of your choice (we highly recommend nginx, and have setup instructions	available in [nginx_setup.md](nginx_setup.md))
+5. A user was automatically created with the username `admin` and the password `ChangeMe!` **DON'T FORGET TO CHANGE THE PASSWORD!**
+6. How easy was that!?
 
 # Designs and Template
 Project Olly allows you to throw in your front end templates without having to mess with any backend code! It's simple!
