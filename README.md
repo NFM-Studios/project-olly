@@ -11,6 +11,7 @@
 Project Olly is an online esports tournament hosting platform written in Python 3 using the Django web framework. It began as a closed source commercial product until November 2019 when it was re-released under the MPL2.0 license (see license.md)
 
 # Configuration
+Copy `olly/settings.py.example` to `olly/settings.py`
 In `olly/settings.py` fill in the following fields:
 - `SECRET_KEY` - This value is used for django's cryptographic signing functions. You can easily generate this by running `from django.core.management.utils import get_random_secret_key` followed by `get_random_secret_key()` in a django shell (`python manage.py shell`)
 - `ALLOWED_HOSTS` -  It is strongly recommended to set this to the domain name of your site to prevent HTTP host header attacks
