@@ -5,8 +5,6 @@
     <img src="https://img.shields.io/badge/discord-join-7289DA.svg?logo=discord&longCache=true&style=flat" />
 </a>
 
-## Please note: this document is currently under construction and is not yet complete.
-
 # About the project
 Project Olly is an online esports tournament hosting platform written in Python 3 using the Django web framework. It began as a closed source commercial product until November 2019 when it was re-released under the MPL2.0 license (see license.md)
 
