@@ -8,7 +8,7 @@
 2. Save the following to `/etc/nginx/sites-available/olly`. Be sure to replace `example.com` with your domain. (This should be the same as `ALLOWED_HOSTS` in `settings.py`.)
 ```nginx
 server {
-    listen 80 default_server;
+    listen 80;
 
     client_max_body_size 4G;
     server_name example.com;
