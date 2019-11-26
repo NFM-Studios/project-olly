@@ -15,6 +15,6 @@ echo Collecting static files
 python3 manage.py collectstatic --noinput
 
 echo Starting Gunicorn.
-gunicorn olly._wsgi:application \
+gunicorn olly.wsgi:application \
     --bind unix:/sock/olly.sock \
     --workers 2
