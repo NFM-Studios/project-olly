@@ -144,6 +144,9 @@ USE_TZ = True
 # noinspection PyUnresolvedReferences
 STATIC_ROOT = '/static/'
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "project-static")
+]
 
 # Where to redirect users after login
 LOGIN_REDIRECT_URL = '/'
