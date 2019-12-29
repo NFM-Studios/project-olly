@@ -8,3 +8,4 @@ psycopg2-binary>=2.7.4
 pytz>=2018.4
 boto3>=1.7.42
 django-storages>=1.6.6
+apache-libcloud>=2.7.0
