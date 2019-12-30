@@ -29,13 +29,29 @@ DATABASES = {
 # Media files
 MEDIA_ROOT = os.path.join(BASE_DIR, 'olly/media')
 
-AWS_ACCESS_KEY_ID = ''
-AWS_SECRET_ACCESS_KEY = ''
-AWS_S3_ENDPOINT_URL = ''
-AWS_STORAGE_BUCKET_NAME = ''
-AWS_LOCATION = 'media'
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-MEDIA_URL = "%s/%s/" % (AWS_S3_ENDPOINT_URL, AWS_STORAGE_BUCKET_NAME)
+#### Uncomment this section for S3 compatible storage ####
+#AWS_ACCESS_KEY_ID = 'Key ID'
+#AWS_SECRET_ACCESS_KEY = 'Secret key'
+#AWS_S3_ENDPOINT_URL = 'S3 compatible endpoint URL'
+#AWS_STORAGE_BUCKET_NAME = 'Bucket Name'
+#AWS_LOCATION = 'media'
+#DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+#MEDIA_URL = "%s/%s/" % (AWS_S3_ENDPOINT_URL, AWS_STORAGE_BUCKET_NAME)
+#### End section #####
+
+#### Uncomment this section for backblaze B2 storage ####
+#LIBCLOUD_PROVIDERS = {
+#	'backblaze': {
+#		'type': 'libcloud.storage.types.Provider.BACKBLAZE_B2',
+#		'user': 'Key ID',
+#		'key': 'Secret key',
+#		'bucket': 'Bucket Name',
+#	}
+#}
+#DEFAULT_LIBCLOUD_PROVIDER = 'backblaze'
+#DEFAULT_FILE_STORAGE = 'storages.backends.apache_libcloud.LibCloudStorage'
+#MEDIA_URL = 'https://f000.backblazeb2.com/file/%s/' % (LIBCLOUD_PROVIDERS['backblaze']['bucket'])
+#### End section ####
 
 # Email stuff
 EMAIL_USE_TLS = True
