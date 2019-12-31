@@ -14,7 +14,6 @@ Copy `olly/settings.py.example` to `olly/settings.py`
 In `olly/settings.py` fill in the following fields:
 - `SECRET_KEY` - This value is used for django's cryptographic signing functions. You can easily generate this by running `from django.core.management.utils import get_random_secret_key` followed by `get_random_secret_key()` in a django shell (`python manage.py shell`)
 - `ALLOWED_HOSTS` -  It is strongly recommended to set this to the domain name of your site to prevent HTTP host header attacks
-- `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, and `AWS_S3_ENDPOINT_URL` - Authentication information for AWS S3 compatable object storage. Note: this is not required, however we do not currently have documentation on how to setup with local storage
 - Uncomment the section for either S3 compatible storage or Backblaze B2 storage and fill in the required information
 - `EMAIL_HOST` - The hostname of your email server (for example `smtp.gmail.com`)
 - `EMAIL_HOST_USER` and `EMAIL_HOST_PASSWORD` - the login information for your email account
