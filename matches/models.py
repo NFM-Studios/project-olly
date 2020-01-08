@@ -6,6 +6,10 @@ from matches.settings import TEAMFORMAT_CHOICES, MAPFORMAT_CHOICES
 from teams.models import Team
 
 
+class SportChoice(models.Model):
+    name = models.CharField(default='unknown sports', null=False, max_length=255)
+
+
 class GameChoice(models.Model):
     name = models.CharField(default='unknown', null=False, max_length=255)
     image = models.ImageField(upload_to='game_images', blank=True)
