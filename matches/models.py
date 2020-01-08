@@ -85,7 +85,7 @@ class Match(models.Model):
     winner = models.ForeignKey(Team, related_name='champions', on_delete=models.SET_NULL, null=True)
     loser = models.ForeignKey(Team, related_name='loser', on_delete=models.SET_NULL, null=True)
     # set the default map format to best of 1
-    bestof = models.SmallIntegerField(choices=MAPFORMAT_CHOICES, default=0)
+    bestof = models.SmallIntegerField(choices=MAPFORMAT_CHOICES, default=0, null=True)
     #          by default set it to be a 2v2.
     teamformat = models.SmallIntegerField(choices=TEAMFORMAT_CHOICES, default=1)
 
