@@ -6,6 +6,11 @@ from staff.forms import *
 from wagers.models import *
 
 
+def calculaterank():
+    for i in UserProfile.objects.all():
+        i.calculate_rank()
+
+
 def add_teams(request, pk):
     user = UserProfile.objects.get(user__username=request.user.username)
     allowed = ['superadmin', 'admin']
