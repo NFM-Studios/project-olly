@@ -226,7 +226,7 @@ class DeleteProductForm(forms.Form):
 class EditMatchForm(forms.ModelForm):
     class Meta:
         model = Match
-        fields = ('info',)
+        fields = ('info','disable_userreport')
 
 
 class GameChoiceForm(forms.ModelForm):
