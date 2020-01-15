@@ -72,6 +72,10 @@
         {{ form.game }}
         <br>
 
+        <label>Map Pool</label>
+        {{ form.map_pool }}
+        <br>
+
         <div class="form-group">
             <div class="input-group">
                 <label>Start Time</label>
@@ -132,12 +136,15 @@
     <script type="text/javascript">
         $(function () {
             $('#datetimepicker1').datetimepicker({
+                date: moment('{{form.open_register.value|date:"Y-m-d H:i" }}'),
                 format: 'YYYY-MM-DD HH:mm'
             });
             $('#datetimepicker2').datetimepicker({
+                date: moment('{{form.close_register.value|date:"Y-m-d H:i" }}'),
                 format: 'YYYY-MM-DD HH:mm'
             });
             $('#datetimepicker3').datetimepicker({
+                date: moment('{{form.start.value|date:"Y-m-d H:i" }}'),
                 format: 'YYYY-MM-DD HH:mm'
             });
         });
