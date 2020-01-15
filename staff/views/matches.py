@@ -19,6 +19,18 @@ def matches_index(request):
         return render(request, 'staff/matches/matches.html', {'tmatches': tmatches, 'wmatches': wmatches})
 
 
+def disputed_matches(request):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        # matches_list = Match.objects.all().order_by('-id')
+        tmatches = Match.objects.filter(type__isnull=True, disputed=True)
+        wmatches = Match.objects.filter(type='w', disputed=True)
+        return render(request, 'staff/matches/matches.html', {'tmatches': tmatches, 'wmatches': wmatches})
+
+
 def match_detail(request, pk):
     user = UserProfile.objects.get(user__username=request.user.username)
     allowed = ['superadmin', 'admin']

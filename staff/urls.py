@@ -41,6 +41,7 @@ urlpatterns = [
     path('tournaments/<int:pk>/addteams/<int:teamid>/', login_required(views.add_teams), name='add_team'),
 
     path('matches/', login_required(views.matches_index), name='matches_index'),
+    path('matches/disputed/', login_required(views.disputed_matches), name='disputed_matches'),
     path('match/<int:pk>', login_required(views.match_detail), name='match_detail'),
     path('match/<int:pk>/declare', login_required(views.MatchDeclareWinner.as_view()), name='match_declare_winner'),
     path('match/<int:pk>/delete', login_required(views.match_delete_winner), name='match_delete_winner'),

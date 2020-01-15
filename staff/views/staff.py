@@ -18,9 +18,10 @@ def staffindex(request):
         teams = Team.objects.all()
         numusers = len(UserProfile.objects.all())
         tournaments = SingleEliminationTournament.objects.all()
+        numdisputes = len(Match.objects.filter(disputed=True))
         return render(request, 'staff/staffindex.html', {'ticket': ticket, 'news': news, 'teams': teams,
                                                          'tournaments': tournaments, 'numusers': numusers,
-                                                         'numtickets': numtickets})
+                                                         'numtickets': numtickets, 'numdisputes': numdisputes})
 
 
 # start static info section

@@ -101,7 +101,22 @@
                 </a>
             </div>
         </div>
-
+        <div class="col-xl-3 col-sm-6 mb-3">
+            <div class="card text-white bg-danger o-hidden h-100" style="max-height:250px">
+                <div class="card-body">
+                    <div class="card-body-icon">
+                        <i class="fa fa-fw fa-exclamation-circle"></i>
+                    </div>
+                    <div class="mr-5"> {{ numdisputes }} Disputes!</div>
+                </div>
+                <a class="card-footer text-white clearfix small z-1" href="{% url 'staff:disputed_matches' %}">
+                    <span class="float-left">View Details</span>
+                    <span class="float-right">
+                <i class="fa fa-angle-right"></i>
+              </span>
+                </a>
+            </div>
+        </div>
     </div>
     <p>Welcome to the Staff Panel for your website! Our goal whilst developing this was to empower the admin/staff team
         by giving you a wide array of tools to use in any sort of scenario. Stay tuned to our Discord for updates, and
