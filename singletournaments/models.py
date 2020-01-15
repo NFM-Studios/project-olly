@@ -69,7 +69,7 @@ class SingleEliminationTournament(models.Model):
     platform = models.ForeignKey(PlatformChoice, on_delete=models.PROTECT, null=True)
     game = models.ForeignKey(GameChoice, related_name='game', on_delete=models.PROTECT, null=True)
 
-    sports = models.ForeignKey(SportChoice, related_name='sport', on_delete=models.PROTECT, null=True)
+    sport = models.ForeignKey(SportChoice, related_name='sport', on_delete=models.PROTECT, null=True)
 
     # when will the first round of matches start?
     start = models.DateTimeField()

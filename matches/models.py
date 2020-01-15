@@ -70,9 +70,11 @@ class Match(models.Model):
     #TODO add mtm field for maps - for cases that it is more then a BO1
     #maps = models.ManyToManyField(MapChoice, related_name='match_maps', on_delete=models.SET_NULL, null=True)
     map = models.ForeignKey(MapChoice, related_name='match_map', on_delete=models.SET_NULL, null=True)
-    game = models.ForeignKey(GameChoice, related_name='GameChoice', on_delete=models.PROTECT)
+    game = models.ForeignKey(GameChoice, related_name='GameChoice', on_delete=models.PROTECT, null=True)
     # default to ps4 for now bc why not
-    platform = models.ForeignKey(PlatformChoice, related_name='PlatformChoice', on_delete=models.PROTECT)
+    platform = models.ForeignKey(PlatformChoice, related_name='PlatformChoice', on_delete=models.PROTECT, null=True)
+    # support for traditional sports
+    sport = models.ForeignKey(SportChoice, related_name='SportChoice', on_delete=models.PROTECT, null=True)
     # assign the match to a tournament with a FK
     # tournament = models.ForeignKey(SingleEliminationTournament, related_name='tournament', on_delete=models.CASCADE)
     # fk fields for the 2 teams that are competiting,
