@@ -157,7 +157,7 @@ def generate_bracket(request, pk):  # Launch tournament
             messages.error(request, message='The bracket is already generated.')
             return redirect('staff:tournamentlist')
         else:
-            calculaterank.calculaterank()
+            calculaterank()
             tournament.generate_rounds()
             tournament.generate_bracket()
             tournament.bracket_generated = True
@@ -299,14 +299,18 @@ def advance(request, pk):
         i = 0
         while i < len(winners):
             if winners[i] is 'BYE TEAM':
-                newmatch = Match(game=tournament.game, platform=tournament.platform, hometeam=winners[i + 1])
-
+                # disable user reports, its a bye match
+                newmatch = Match(game=tournament.game, platform=tournament.platform, hometeam=winners[i + 1],
+                                 disable_userreports=True)
+                # disable user reports, its a bye match
             elif winners[i + 1] is 'BYE TEAM':
                 newmatch = Match(game=tournament.game, platform=tournament.platform,
-                                 awayteam=winners[i])
+                                 awayteam=winners[i], disable_userreports=True)
             else:
                 newmatch = Match(game=tournament.game, platform=tournament.platform,
-                                 awayteam=winners[i], hometeam=winners[i + 1])
+                                 awayteam=winners[i], hometeam=winners[i + 1],
+                                 # disable user match reports based on the field in the tournament
+                                 disable_userreports=tournament.disable_userreports)
             newmatch.save()
             nextround.matches.add(newmatch)
             i += 2
