@@ -1,9 +1,13 @@
 import datetime
 
+from django.conf import settings
 from django.contrib import messages
+from django.contrib.sites.shortcuts import get_current_site
+from django.core.mail import EmailMessage
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render, redirect
+from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone
 from django.views.generic import ListView, DetailView, View
@@ -241,6 +245,19 @@ class TeamInviteCreateView(View):
                 if form.data['captain'] == 'captain' or form.data['captain'] == 'founder':
                     TeamInvite.hasPerms = True
                 TeamInvite.save()
+                if invitee.email_enabled:
+                    current_site = get_current_site(request)
+                    mail_subject = settings.SITE_NAME + ": You've been invited to a team!"
+                    message = render_to_string('teams/' + request.tenant + '/invite_email.html', {
+                        'user': invitee.user.username,
+                        'site': settings.SITE_NAME,
+                        'domain': current_site.domain,
+                        'pk': TeamInvite.pk
+                    })
+                    email = EmailMessage(
+                        mail_subject, message, from_email=settings.FROM_EMAIL, to=[invitee.user.email]
+                    )
+                    email.send()
                 messages.success(request, 'Sent invite successfully')
                 return redirect('/teams/')
 

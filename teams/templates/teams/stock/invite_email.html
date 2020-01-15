@@ -1,0 +1,13 @@
+{% autoescape off %}
+    Hi {{ user }},
+
+    You have been invited to a team on {{ site }}!
+
+    Click the following link to accept or decline.
+    http://{{ domain }}{% url 'teams:invite_detail' num=pk %}
+
+    Note: if the link does not work when you click on it, please copy and paste it into your browser
+
+    To opt-out of these email notifications go to http://{{ domain }}{% url 'profiles:edit_profile' %} and uncheck the
+    box for "Enable email notifications"
+{% endautoescape %}

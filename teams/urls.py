@@ -10,7 +10,7 @@ app_name = 'teams'
 urlpatterns = [
     path('', login_required(MyTeamsListView.as_view()), name='list'),
     path('invites/', login_required(MyInvitesListView.as_view()), name='myinvitelist'),
-    path('invites/<int:num>/', login_required(invite_view)),
+    path('invites/<int:num>/', login_required(invite_view), name='invite_detail'),
     path('<int:pk>/', MyTeamDetailView.as_view(), name='detail'),
     path('create/', login_required(TeamCreateView.as_view()), name='create'),
     path('invite/', login_required(TeamInviteCreateView.as_view()), name='invite'),
