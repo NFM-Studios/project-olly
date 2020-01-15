@@ -106,7 +106,7 @@ class SingleEliminationTournament(models.Model):
 
     # if set to true, admins will have manually input the result of each match, users will not be able to report wins
     # when matches are created it will set the match field to whatever this field is set to.
-    disable_userreports = models.BooleanField(default=True)
+    disable_userreport = models.BooleanField(default=True)
 
     # need to figure out how we will work rules rules = models.ForeignKey(Ruleset, related_name='tournamentrules',
     # on_delete=models.CASCADE, blank=False, null=True)
@@ -252,7 +252,7 @@ class SingleEliminationTournament(models.Model):
                              teamformat=teamformat, bestof=bestof, reported=True,
                              completed=True, winner=team_seeds[0], bye_1=True, info=round1.info,
                              # disable user reports based on the tournament field value
-                             disable_userreports=True)
+                             disable_userreport=True)
                 m[1].save()
 
                 round1.matches.add(m[1])
@@ -271,7 +271,7 @@ class SingleEliminationTournament(models.Model):
                     # and second round
                     m[i] = Match(game=game, matchnum=i, platform=platform,
                                  teamformat=teamformat, bestof=bestof, reported=True,
-                                 completed=True, bye_2=True, info=round1.info, disable_userreports=True)
+                                 completed=True, bye_2=True, info=round1.info, disable_userreport=True)
                     m[i].save()
 
                     round1.matches.add(m[i])
@@ -282,7 +282,7 @@ class SingleEliminationTournament(models.Model):
 
             m[1] = Match(game=game, matchnum=1, platform=platform,
                          teamformat=teamformat, bestof=bestof, reported=True,
-                         completed=True, bye_2=True, info=round1.info, disable_userreports=True)
+                         completed=True, bye_2=True, info=round1.info, disable_userreport=True)
             m[1].save()
 
             round1.matches.add(m[1])
@@ -302,7 +302,7 @@ class SingleEliminationTournament(models.Model):
                     m[x] = Match(game=game, matchnum=x, platform=platform, hometeam=team_seeds[0],
                                  teamformat=teamformat, bestof=bestof, reported=True,
                                  completed=True, winner=team_seeds[0], bye_1=True, info=round1.info,
-                                 disable_userreports=True)
+                                 disable_userreport=True)
                     m[x].save()
 
                     round1.matches.add(m[x])
@@ -320,7 +320,7 @@ class SingleEliminationTournament(models.Model):
                 m[x] = Match(game=game, platform=platform, hometeam=team_seeds[0], awayteam=team_seeds[-1],
                              teamformat=teamformat, bestof=bestof, info=round1.info,
                              # this is an actual match, so disable user reports based on the field setting
-                             disable_userreports=self.disable_userreports)
+                             disable_userreport=self.disable_userreport)
                 m[x].save()
                 round1.matches.add(m[x])
                 round1.save()
@@ -341,7 +341,7 @@ class SingleEliminationTournament(models.Model):
                     m[x] = Match(game=game, matchnum=x, platform=platform, hometeam=team_seeds[0],
                                  teamformat=teamformat, bestof=bestof, reported=True,
                                  completed=True, winner=team_seeds[0], bye_1=True, info=round1.info,
-                                 disable_userreports=True)
+                                 disable_userreport=True)
                     m[x].save()
 
                     round1.matches.add(m[x])
@@ -358,7 +358,7 @@ class SingleEliminationTournament(models.Model):
 
                 m[x] = Match(game=game, platform=platform, hometeam=team_seeds[0], awayteam=team_seeds[-1],
                              teamformat=teamformat, bestof=bestof, info=round1.info,
-                             disable_userreports=self.disable_userreports)
+                             disable_userreport=self.disable_userreport)
                 m[x].save()
                 round1.matches.add(m[x])
                 round1.save()
