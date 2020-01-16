@@ -17,6 +17,7 @@ urlpatterns = [
 
     path('users', login_required(views.users), name='users'),
     path('users/getrank/', login_required(views.getrank), name='get_rank'),
+    path('users/resetxp/', login_required(views.reset_xp), name='reset_xp'),
     path('users/ban/<urlusername>/', login_required(views.banuser), name='ban_user'),
     path('users/unban/<urlusername>/', login_required(views.unbanuser), name='unban_user'),
     path('users/banip/<urlusername>/', login_required(views.banip), name='ban_ip'),

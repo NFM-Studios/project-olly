@@ -118,6 +118,20 @@ def getrank(request):
         return redirect('staff:users')
 
 
+def reset_xp(request):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        allusers = UserProfile.objects.all()
+        for i in allusers:
+            i.xp = 0
+            i.save()
+        messages.success(request, "Reset XP for %s users" % allusers.count())
+        return redirect('staff:users')
+
+
 def modifyuser(request, urlusername):
     user = UserProfile.objects.get(user__username=request.user.username)
     allowed = ['superadmin', 'admin']

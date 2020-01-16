@@ -67,5 +67,6 @@
         </table>
         {% include "pagination.html" with page=userprofiles %}
         <td><a href="/staff/users/getrank/" class="btn btn-primary">Calculate rank for all users</a></td>
+        <td><a href="{% url 'staff:reset_xp' %}" onclick="return confirm('Are you sure you want to reset XP for all users?\nThis cannot be undone!')" class="btn btn-danger">Reset XP for all users</a></td>
     </div>
 {% endblock %}
