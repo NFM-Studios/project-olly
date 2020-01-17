@@ -83,7 +83,7 @@
                 </a>
             </li>
             {% endif %}
-
+            {% if ESPORTS_MODE %}
             <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Games">
                 <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseGames"
                    data-parent="#exampleAccordion">
@@ -137,6 +137,23 @@
                     </li>
                 </ul>
             </li>
+            {% else %}
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Games">
+                <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseGames"
+                   data-parent="#exampleAccordion">
+                    <i class="fa fa-fw fa-gamepad"></i>
+                    <span class="nav-link-text">Sports</span>
+                </a>
+                <ul class="sidenav-second-level collapse" id="collapseGames">
+                    <li>
+                        <a href="#">Create</a>
+                    </li>
+                    <li>
+                        <a href="#">Manage</a>
+                    </li>
+                </ul>
+            </li>
+        {% endif %}
 
             <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tournaments">
                 <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseTournaments"
