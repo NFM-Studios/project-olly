@@ -27,6 +27,27 @@ def teams_detail(request, pk):
         return render(request, 'staff/teams/teams_detail.html', {'team': team, 'players': players, 'pk': pk})
 
 
+def create_team(request):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        if request.method == 'GET':
+            form = CreateTeamForm()
+            return render(request, 'staff/teams/createteam.html', {'form': form})
+        else:
+            form = CreateTeamForm(request.POST)
+            if form.is_valid():
+                team = form.instance
+                team.save()
+                messages.success(request, 'Created tournament')
+                return redirect('staff:team_detail', pk=team.id)
+            else:
+                form = CreateTournamentForm(request.POST)
+                return render(request, 'staff/teams/createteam.html', {'form': form})
+
+
 def delete_team(request, pk):
     user = UserProfile.objects.get(user__username=request.user.username)
     allowed = ['superadmin', 'admin']

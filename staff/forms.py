@@ -263,3 +263,9 @@ class MapPoolChoiceForm(forms.ModelForm):
         self.fields['maps'].widget = forms.widgets.CheckboxSelectMultiple()
         if hasattr(self.instance, 'game'):
             self.fields['maps'].queryset = MapChoice.objects.filter(game_id=self.instance.game)
+
+
+class CreateTeamForm(forms.ModelForm):
+    class Meta:
+        model = Team
+        fields = '__all__'
