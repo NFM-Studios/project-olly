@@ -268,4 +268,4 @@ class MapPoolChoiceForm(forms.ModelForm):
 class CreateTeamForm(forms.ModelForm):
     class Meta:
         model = Team
-        fields = '__all__'
+        fields = ('name', 'founder', 'country', 'players')

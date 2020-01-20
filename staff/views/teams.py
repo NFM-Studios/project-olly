@@ -41,10 +41,10 @@ def create_team(request):
             if form.is_valid():
                 team = form.instance
                 team.save()
-                messages.success(request, 'Created tournament')
+                messages.success(request, 'Created team')
                 return redirect('staff:team_detail', pk=team.id)
             else:
-                form = CreateTournamentForm(request.POST)
+                form = CreateTeamForm(request.POST)
                 return render(request, 'staff/teams/createteam.html', {'form': form})
 
 
