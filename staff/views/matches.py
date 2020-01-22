@@ -258,6 +258,39 @@ def delete_platform(request, pk):
         return redirect('staff:platformlist')
 
 
+def create_platformchoice(request):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        if request.method == 'GET':
+            form = PlatformChoiceForm()
+            return render(request, 'staff/matches/editplatform.html', {'form': form})
+        else:
+            form = PlatformChoiceForm(request.POST, request.FILES)
+            if form.is_valid():
+                platformchoice = form.instance
+                platformchoice.save()
+                messages.success(request, 'Created Game')
+                return redirect('staff:platformlist')
+            else:
+                form = GameChoiceForm(request.POST, request.FILES)
+                return render(request, 'staff/matches/editplatform.html', {'form': form})
+
+
+def delete_sport(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        sport = SportChoice.objects.get(pk=pk)
+        sport.delete()
+        messages.success(request, "Sport Deleted")
+        return redirect('staff:sportlist')
+
+
 def create_sportchoice(request):
     user = UserProfile.objects.get(user__username=request.user.username)
     allowed = ['superadmin', 'admin']
@@ -308,27 +341,6 @@ def sportlist(request):
     else:
         platforms = SportChoice.objects.all().order_by('id')
         return render(request, 'staff/matches/sport_list.html', {'sports': sports})
-
-
-def create_platformchoice(request):
-    user = UserProfile.objects.get(user__username=request.user.username)
-    allowed = ['superadmin', 'admin']
-    if user.user_type not in allowed:
-        return render(request, 'staff/permissiondenied.html')
-    else:
-        if request.method == 'GET':
-            form = PlatformChoiceForm()
-            return render(request, 'staff/matches/editplatform.html', {'form': form})
-        else:
-            form = PlatformChoiceForm(request.POST, request.FILES)
-            if form.is_valid():
-                platformchoice = form.instance
-                platformchoice.save()
-                messages.success(request, 'Created Game')
-                return redirect('staff:platformlist')
-            else:
-                form = GameChoiceForm(request.POST, request.FILES)
-                return render(request, 'staff/matches/editplatform.html', {'form': form})
 
 
 def map_list(request):
