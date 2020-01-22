@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.db.models import Q
 
-from matches.models import Match, GameChoice, PlatformChoice, MapChoice, MapPoolChoice
+from matches.models import Match, GameChoice, PlatformChoice, MapChoice, MapPoolChoice, SportChoice
 from news.models import Post
 from pages.models import StaticInfo, Partner
 from profiles.models import UserProfile
@@ -234,6 +234,11 @@ class GameChoiceForm(forms.ModelForm):
         model = GameChoice
         fields = '__all__'
 
+
+class SportChoiceForm(forms.ModelForm):
+    class Meta:
+        model = SportChoice
+        fields = '__all__'
 
 class PlatformChoiceForm(forms.ModelForm):
     class Meta:
