@@ -44,7 +44,7 @@
 
         <button type="submit" class="btn btn-primary">Submit</button>
         {% if pk %}
-            <a href="{% url 'staff:delete_platform' pk=pk %}" class="btn btn-danger">Delete</a>
+            <a href="{% url 'staff:delete_platform' %}" onclick="return confirm('Are you sure you want to delete this platform?')" class="btn btn-danger">delete</a>
         {% endif %}
     </form>
 

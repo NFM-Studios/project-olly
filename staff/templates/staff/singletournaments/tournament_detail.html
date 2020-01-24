@@ -108,7 +108,7 @@
                 <a href="{% url 'staff:winner' pk=tournament.id %}" class="btn btn-success">Declare Winner</a>
             {% endif %}
         {% endif %}
-        <a href="{% url 'staff:delete_tournament' pk=tournament.id %}" class="btn btn-danger">DELETE</a>
+        <a href="{% url 'staff:delete_tournament' pk=tournament.id %}" onclick="return confirm('Are you sure you want to delete this tournament?')" class="btn btn-danger">DELETE</a>
     </p>
 
 {% endblock %}
