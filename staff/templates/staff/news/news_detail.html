@@ -16,6 +16,6 @@
     <p>{{ article.body | linebreaks }}</p>
 
     <a href="{% url 'staff:edit_article' pk=article.id %}" class="btn btn-primary">Edit</a>
-    <a href="{% url 'staff:delete_article' %}" onclick="return confirm('Are you sure you want to delete this article?')" class="btn btn-danger">DELETE</a>
+    <a href="{% url 'staff:delete_article' pk=article.id %}" onclick="return confirm('Are you sure you want to delete this article?')" class="btn btn-danger">DELETE</a>
 
 {% endblock %}
