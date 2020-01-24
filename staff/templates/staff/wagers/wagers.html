@@ -47,7 +47,7 @@
                     <td>{{ request.get_best_of }}</td>
 
 
-                    <td><a href="{% url 'staff:delete_wager' pk=request.id %}" class="btn btn-primary">Delete Wager Request</a></td>
+                    <td><a href="{% url 'staff:delete_wager' pk=request.id %}" onclick="return confirm('Are you sure you want to delete this wager?')" class="btn btn-primary">Delete Wager Request</a></td>
 
                 </tr>
                 </tbody>
@@ -56,3 +56,4 @@
 
     </div>
 {% endblock %}
+<a href="{% url 'staff:delete_team' pk=tournament.id %}" onclick="return confirm('Are you sure you want to delete this team?')" class="btn btn-danger">Delete Team</a>
