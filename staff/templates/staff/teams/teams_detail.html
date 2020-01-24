@@ -67,8 +67,8 @@
             </tr>
         </table>
 
-        <a href="{% url 'staff:remove_user' pk %}" onclick="return confirm('Are you sure you want to remove these users from the team')" class="btn btn-danger">Remove users from team</a>
+        <a href="{% url 'staff:remove_user' pk %}">Remove users from team</a>
         <br/>
-        <a href="{% url 'staff:delete_team' pk %}" onclick="return confirm('Are you sure you want to delete this team?')" class="btn btn-danger">Delete Team</a>
+        <a href="{% url 'staff:delete_team' pk %}">Delete Team</a>
     </div>
 {% endblock %}
