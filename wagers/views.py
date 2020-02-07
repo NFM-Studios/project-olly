@@ -1,16 +1,16 @@
 from django.contrib import messages
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render, redirect
-from django.views.generic import DetailView, CreateView, ListView, View
+from django.views.generic import DetailView, ListView, View
 from profiles.models import UserProfile
 from datetime import datetime, timedelta
 from .forms import WagerRequestForm, WagerChallengeForm
 from .models import *
-from matches.models import Match, MatchDispute, MatchReport
+from matches.models import Match
 from teams.models import Team
 from django.db.models import Q
 from django.utils import timezone
-import pytz
+#import pytz
 
 
 class WagerRequestList(ListView):

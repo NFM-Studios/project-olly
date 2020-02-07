@@ -7,7 +7,6 @@ from matches.models import Match, GameChoice, PlatformChoice, MapPoolChoice, Map
 from matches.settings import TEAMFORMAT_CHOICES, MAPFORMAT_CHOICES
 from profiles.models import User
 from teams.models import Team
-from django.shortcuts import get_object_or_404
 
 SIZE_CHOICES = (
     (4, 4),
