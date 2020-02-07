@@ -87,6 +87,7 @@ urlpatterns = [
     path('store/products/<int:pk>/edit/', login_required(views.edit_product), name='product_edit'),
 
     path('teams/', login_required(views.teams_index), name='teamindex'),
+    path('teams/create/', login_required(views.create_team), name='create_team'),
     path('teams/<int:pk>/', login_required(views.teams_detail), name='team_detail'),
     path('teams/<int:pk>/remove/', login_required(views.remove_user), name='remove_user'),
     path('teams/getrank/', login_required(views.getteamrank), name='getteamrank'),
