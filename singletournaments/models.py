@@ -1,7 +1,6 @@
 import random
 
 from django.db import models
-from django.dispatch import receiver
 
 from matches.models import Match, GameChoice, PlatformChoice, MapPoolChoice, MapChoice
 from matches.settings import TEAMFORMAT_CHOICES, MAPFORMAT_CHOICES
@@ -386,24 +385,3 @@ class SingleTournamentTeam(models.Model):
     seed = models.PositiveIntegerField(default=0, null=True, blank=True)
     tournament = models.ForeignKey(SingleEliminationTournament, related_name='intournament', null=True,
                                    on_delete=models.CASCADE)
-
-
-@receiver(models.signals.post_delete, sender=SingleEliminationTournament)
-def auto_delete_file(sender, instance, **kwargs):
-    if instance.image:
-        instance.image.delete()
-
-
-@receiver(models.signals.pre_save, sender=SingleEliminationTournament)
-def auto_delete_file_on_change(sender, instance, **kwargs):
-    if not instance.pk:
-        return False
-
-    try:
-        old_file = SingleEliminationTournament.objects.get(pk=instance.pk).image
-    except SingleEliminationTournament.DoesNotExist:
-        return False
-
-    new_file = instance.image
-    if not old_file == new_file:
-        old_file.delete(save=False)
