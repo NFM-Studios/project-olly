@@ -88,8 +88,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'olly.middleware.CheckBanListMiddleware',
-    'olly.middleware.tenant_middleware'
+    'olly.middleware.tenant_middleware',
+    'olly.middleware.ban_middleware',
 
 ]
 
