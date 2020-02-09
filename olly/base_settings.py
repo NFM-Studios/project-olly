@@ -54,6 +54,15 @@ INSTALLED_APPS = [
     # teams
     'teams',
 
+    # matches for all uses
+    'matches',
+
+    # single elimination tournaments
+    'singletournaments',
+
+    # wagers
+    'wagers',
+
     # ip package
     'ipware',
 
@@ -63,16 +72,10 @@ INSTALLED_APPS = [
     # the country field
     'django_countries',
 
-    # matches for all uses
-    'matches',
-
-    # single elimination tournaments
-    'singletournaments',
-
     # object storage
     'storages',
 
-    'wagers'
+    # this is what handles deleting old uploaded files
 ]
 
 MIDDLEWARE = [
