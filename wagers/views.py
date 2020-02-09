@@ -38,7 +38,6 @@ class WagerRequestDetail(DetailView):
 
     def get(self, request, **kwargs):
         template = 'wagers/' + request.tenant + '/wager_request_detail.html'
-        user = request.user
         pk = self.kwargs['pk']
         wrequest = get_object_or_404(WagerRequest, pk=pk)
         if wrequest.wmatch:
