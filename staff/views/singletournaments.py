@@ -4,11 +4,7 @@ from django.views.generic import View
 
 from staff.forms import *
 from wagers.models import *
-
-
-def calculaterank():
-    for i in UserProfile.objects.all():
-        i.calculate_rank()
+from .tools import calculaterank
 
 
 def add_teams(request, pk):
