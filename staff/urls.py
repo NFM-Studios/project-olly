@@ -56,7 +56,7 @@ urlpatterns = [
 
     path('sport/', login_required(views.sportlist), name='sportlist'),
     path('sport/<int:pk>/', login_required(views.sport_detail), name='sport_detail'),
-    path('sport/<int:pk>/', login_required(views.delete_sport), name='delete_sport'),
+    path('sport/<int:pk>/delete/', login_required(views.delete_sport), name='delete_sport'),
     path('sport/create', login_required(views.create_sportchoice), name='create_sportchoice'),
 
     path('platforms/', login_required(views.platformlist), name='platformlist'),
