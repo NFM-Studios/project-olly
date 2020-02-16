@@ -339,7 +339,7 @@ def sportlist(request):
     if user.user_type not in allowed:
         return render(request, 'staff/permissiondenied.html')
     else:
-        platforms = SportChoice.objects.all().order_by('id')
+        sports = SportChoice.objects.all().order_by('id')
         return render(request, 'staff/matches/sport_list.html', {'sports': sports})
 
 
