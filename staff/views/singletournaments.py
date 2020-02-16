@@ -302,8 +302,8 @@ def advance(request, pk):
                 # disable user reports, its a bye match
                 newmatch = Match(game=tournament.game, platform=tournament.platform, hometeam=winners[i + 1],
                                  disable_userreport=True, sport=tournament.sport)
-                # disable user reports, its a bye match
             elif winners[i + 1] is 'BYE TEAM':
+                # disable user reports, its a bye match
                 newmatch = Match(game=tournament.game, platform=tournament.platform, sport=tournament.sport,
                                  awayteam=winners[i], disable_userreport=True)
             else:
