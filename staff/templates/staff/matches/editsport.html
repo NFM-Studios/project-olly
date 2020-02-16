@@ -3,7 +3,7 @@
 {% load static %}
 <link rel="stylesheet" href="{% static "css/staff.css" %}">
 {% block title %}
-    Edit Match
+    Edit/Create Sport
 {% endblock %}
 {% block body %}
     <link rel="stylesheet" href="{% static "css/staff.css" %}">
@@ -28,20 +28,20 @@
             </div>
         {% endfor %}
     {% endif %}
-    <a><a href="{% url 'staff:match_detail' pk=pk %}">Return to match</a></a>
+    <h1><a href="{% url 'staff:sportlist' %}">Return to sport list</a></h1>
 
-    <form method="post">
+    <form enctype="multipart/form-data" method="post">
         {% csrf_token %}
         {{ field.errors }}
 
-        <label>Match Info:</label>
-        {{ form.info }}
-        <br>
-
-        <label>Disable User Match Report</label>
-        {{ form.disable_userreport }}
+        <label>Name</label>
+        {{ form.name }}
         <br>
 
         <button type="submit" class="btn btn-primary">Submit</button>
+        {% if pk %}
+            <a href="{% url 'staff:delete_sport' pk=pk %}" class="btn btn-danger">Delete</a>
+        {% endif %}
     </form>
+
 {% endblock %}

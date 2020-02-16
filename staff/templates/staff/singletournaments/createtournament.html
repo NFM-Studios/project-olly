@@ -66,6 +66,7 @@
         {{ form.req_credits }}
         <br>
 
+        {% if ESPORTS_MODE %}
         <label>Platform</label>
         {{ form.platform }}
         <br>
@@ -73,10 +74,19 @@
         <label>Game</label>
         {{ form.game }}
         <br>
+        {% endif %}
 
+        {% if not ESPORTS_MODE %}
+        <label>Sport</label>
+        {{ form.sport }}
+        <br>
+        {% endif %}
+
+        {% if ESPORTS_MODE %}
         <label>Map Pool</label>
         {{ form.map_pool }}
         <br>
+        {% endif %}
 
         <div class="form-group">
             <div class="input-group">
@@ -96,6 +106,10 @@
 
         <label>Size</label>
         {{ form.size }}
+        <br>
+
+        <label>Disable User Match Report</label>
+        {{ form.disable_userreport }}
         <br>
 
         <label>General Info</label>

@@ -64,6 +64,7 @@
         {{ form.req_credits }}
         <br>
 
+        {% if ESPORTS_MODE %}
         <label>Platform</label>
         {{ form.platform }}
         <br>
@@ -71,6 +72,19 @@
         <label>Game</label>
         {{ form.game }}
         <br>
+        {% endif %}
+
+        {% if not ESPORTS_MODE %}
+        <label>Sport</label>
+        {{ form.sport }}
+        <br>
+        {% endif %}
+
+        <label>Disable User Match Report(won't effect matches that have already been generated)</label>
+        {{ form.disable_userreport }}
+        <br>
+
+
 
         <label>Map Pool</label>
         {{ form.map_pool }}

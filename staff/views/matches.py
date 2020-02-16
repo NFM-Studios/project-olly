@@ -291,6 +291,70 @@ def create_platformchoice(request):
                 return render(request, 'staff/matches/editplatform.html', {'form': form})
 
 
+def delete_sport(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        sport = SportChoice.objects.get(pk=pk)
+        sport.delete()
+        messages.success(request, "Sport Deleted")
+        return redirect('staff:sportlist')
+
+
+def create_sportchoice(request):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        if request.method == 'GET':
+            form = PlatformChoiceForm()
+            return render(request, 'staff/matches/editplatform.html', {'form': form})
+        else:
+            form = SportChoiceForm(request.POST)
+            if form.is_valid():
+                sportchoice = form.instance
+                sportchoice.save()
+                messages.success(request, 'Created Sport')
+                return redirect('staff:platformlist')
+            else:
+                form = SportChoiceForm(request.POST)
+                return render(request, 'staff/matches/editplatform.html', {'form': form})
+
+
+def sport_detail(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        if request.method == 'POST':
+            sport = SportChoice.objects.get(pk=pk)
+            form = SportChoiceForm(request.POST, instance=sport)
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'Sport has been updated')
+                return redirect('staff:sportlist')
+            else:
+                return render(request, 'staff/matches/editsport.html', {'form': form})
+        else:
+            platform = PlatformChoice.objects.get(pk=pk)
+            form = PlatformChoiceForm(instance=platform)
+            return render(request, 'staff/matches/editsport.html', {'form': form, 'pk': pk})
+
+
+def sportlist(request):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        sports = SportChoice.objects.all().order_by('id')
+        return render(request, 'staff/matches/sport_list.html', {'sports': sports})
+
+
 def map_list(request):
     user = UserProfile.objects.get(user__username=request.user.username)
     allowed = ['superadmin', 'admin']

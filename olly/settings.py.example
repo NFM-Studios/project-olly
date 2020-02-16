@@ -11,6 +11,9 @@ DEBUG = True
 # SECURITY WARNING: don't run with this set to true in prod
 PAYPAL_TEST = True
 
+# ESPORTS ONLY MODE: Set to True if you are using the site for esports, set to False for traditional sports
+ESPORTS_MODE = False
+
 ALLOWED_HOSTS = ['*']
 
 SITE_URL = '127.0.0.1'

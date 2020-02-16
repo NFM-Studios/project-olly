@@ -4,6 +4,7 @@ from django.views.generic import View
 
 from staff.forms import *
 from wagers.models import *
+from .tools import calculaterank
 
 
 def add_teams(request, pk):
@@ -152,7 +153,7 @@ def generate_bracket(request, pk):  # Launch tournament
             messages.error(request, message='The bracket is already generated.')
             return redirect('staff:tournamentlist')
         else:
-            calculaterank.calculaterank()
+            calculaterank()
             tournament.generate_rounds()
             tournament.generate_bracket()
             tournament.bracket_generated = True
@@ -294,14 +295,18 @@ def advance(request, pk):
         i = 0
         while i < len(winners):
             if winners[i] is 'BYE TEAM':
-                newmatch = Match(game=tournament.game, platform=tournament.platform, hometeam=winners[i + 1])
-
+                # disable user reports, its a bye match
+                newmatch = Match(game=tournament.game, platform=tournament.platform, hometeam=winners[i + 1],
+                                 disable_userreport=True, sport=tournament.sport)
             elif winners[i + 1] is 'BYE TEAM':
-                newmatch = Match(game=tournament.game, platform=tournament.platform,
-                                 awayteam=winners[i])
+                # disable user reports, its a bye match
+                newmatch = Match(game=tournament.game, platform=tournament.platform, sport=tournament.sport,
+                                 awayteam=winners[i], disable_userreport=True)
             else:
                 newmatch = Match(game=tournament.game, platform=tournament.platform,
-                                 awayteam=winners[i], hometeam=winners[i + 1])
+                                 awayteam=winners[i], hometeam=winners[i + 1],
+                                 # disable user match reports based on the field in the tournament
+                                 disable_userreport=tournament.disable_userreport, sport=tournament.sport)
             newmatch.save()
             nextround.matches.add(newmatch)
             i += 2
