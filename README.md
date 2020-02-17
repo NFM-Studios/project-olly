@@ -14,7 +14,7 @@ Project Olly is an online esports tournament hosting platform written in Python 
 2. Install docker and docker-compose. Follow the instructions [here](https://docs.docker.com/install/linux/docker-ce/ubuntu/) and [here](https://docs.docker.com/compose/install/)
 3. Change `POSTGRES_PASSWORD` in `docker-compose.yml` to something strong and keep it secret
 4. Copy .env.example to .env and edit using the guidance in the file
-5. Change `mystite.com` in `nginx.conf` to your domain
+5. Change `example.com` to your domain and `email.example.com` to your email address in `Caddyfile`
 6. Run `docker-compose up -d`
 7. A user was automatically created with the username `admin` and the password `ChangeMe!` **DON'T FORGET TO CHANGE THE PASSWORD!**
 8. How easy was that!?
