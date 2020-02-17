@@ -49,6 +49,8 @@ venv/
 olly/media/profile_images/
 db\.sqlite3\.1
 .env
+certs/
+database/
 
 env/Include/
 
