@@ -1,0 +1,47 @@
+version: '3.3'
+
+networks:
+  project-olly-net:
+    driver: bridge
+
+services:
+  project-olly-app:
+    build: .
+    depends_on:
+      - project-olly-db
+    volumes:
+      - socket:/sock
+      - static:/static
+    env_file: .env
+    networks:
+      - project-olly-net
+    container_name: project-olly-app
+
+  project-olly-db:
+    image: postgres:12
+    environment:
+      - POSTGRES_PASSWORD=secret_password
+      - POSTGRES_USER=olly
+    networks:
+      - project-olly-net
+    volumes:
+      - project-olly-db:/var/lib/postgresql/data
+    container_name: project-olly-db
+
+  project-olly-proxy:
+    image: nginx:stable
+    depends_on:
+      - project-olly-app
+    ports:
+    - 80:80
+    volumes:
+      - socket:/sock
+      - static:/static
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    container_name: project-olly-proxy
+
+volumes:
+  project-olly-db: ~
+  socket:
+  static:
+  templates:
