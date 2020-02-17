@@ -25,7 +25,7 @@ services:
     networks:
       - project-olly-net
     volumes:
-      - project-olly-db:/var/lib/postgresql/data
+      - ./database:/var/lib/postgresql/data
     container_name: project-olly-db
 
   project-olly-proxy:
@@ -45,7 +45,5 @@ services:
       - ./certs:/etc/caddycerts
 
 volumes:
-  project-olly-db: ~
   socket:
   static:
-  templates:
