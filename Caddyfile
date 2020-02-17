@@ -1,8 +1,0 @@
-example.com {
-        tls email@example.com
-        root /html
-        proxy / unix:/sock/olly.sock {
-            transparent
-            except /static /media
-        }
-    }
