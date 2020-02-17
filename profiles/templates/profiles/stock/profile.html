@@ -11,8 +11,8 @@
         <a style="margin:12px;" href="/store/transfer"><i class="fas fa-arrow-right"></i> Transfer Credits</a><br/>
     {% endif %}
     <div style="text-align:center">
-        {% if userprofile.profile_picture.url != "" %}
-            <img src="{{ userprofile.profile_picture.url }}" align="center" width="200"> <br/>
+        {% if userprofile.profile_picture != "" %}
+            <img src="{{ MEDIA_URL }}{{ userprofile.profile_picture }}" align="center" width="200"> <br/>
         {% else %}
             <img src="{{ MEDIA_URL }}default_profile.png" align="center" width="200"/> <br/>
         {% endif %}

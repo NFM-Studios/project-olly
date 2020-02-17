@@ -31,7 +31,7 @@
                                         {% if ESPORTS_MODE %}
 
 
-                                    {% if tournament.game.image %}{{ tournament.game.image.url }}{% else %}{% static 'images/bf1cover.jpg' %}{% endif %}"
+                                    {% if tournament.game.image %}{{ MEDIA_URL }}{{ tournament.game.image }}{% else %}{% static 'images/bf1cover.jpg' %}{% endif %}"
                                     />
                                 {% else %}
                                     {{ tournament.sport.name }}

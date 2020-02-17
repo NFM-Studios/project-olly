@@ -49,7 +49,7 @@
                                     <img src="
                                             {% if ESPORTS_MODE %}
 
-                                        {% if tournament.game.image != "" %}{{ tournament.game.image.url }}{% else %}{% static 'binge/images/logo.png' %}{% endif %}"
+                                        {% if tournament.game.image != "" %}{{ MEDIA_URL }}{{ tournament.game.image }}{% else %}{% static 'binge/images/logo.png' %}{% endif %}"
                                         ><br>
                                     {% else %}
                                         {{ tournament.sport.name }}
