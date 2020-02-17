@@ -34,48 +34,6 @@ class StaticInfo(models.Model):
     welcomeln1 = models.CharField(default='welcome1', max_length=25, blank=True, null=True)
     welcomeln2 = models.CharField(default='welcome2', max_length=25, blank=True, null=True)
 
-    bingeslide1big = models.TextField(default="Coming Soon!", blank=True, null=True)
-    bingeslide1small = models.TextField(default="Coming Soon!", blank=True, null=True)
-    bingeslide1link = models.URLField(max_length=200, default="https://www.google.com", blank=True, null=True)
-
-    bingeslide2big = models.TextField(default="Coming Soon!", blank=True, null=True)
-    bingeslide2small = models.TextField(default="Coming Soon!", blank=True, null=True)
-    bingeslide2link = models.URLField(max_length=200, default='https://www.google.com', blank=True, null=True)
-
-    bingeslide3big = models.TextField(default="Coming Soon!", blank=True, null=True)
-    bingeslide3small = models.TextField(default="Coming Soon!", blank=True, null=True)
-    bingeslide3link = models.URLField(max_length=200, default="https://www.google.com", blank=True, null=True)
-
-    bingetop1 = models.TextField(default="Coming Soon!", blank=True, null=True)
-    bingetop1image = models.ImageField(upload_to='carousel_images', blank=True)
-    bingetop1link = models.URLField(max_length=200, default="https://www.google.com", blank=True, null=True)
-    bingetop1linktxt = models.TextField(default="Coming Soon!", blank=True, null=True)
-
-    bingetop2 = models.TextField(default="Coming Soon!", blank=True, null=True)
-    bingetop2image = models.ImageField(upload_to='carousel_images', blank=True)
-    bingetop2link = models.URLField(max_length=200, default="https://www.google.com", blank=True, null=True)
-    bingetop2linktxt = models.TextField(default="Coming Soon!", blank=True, null=True)
-
-    bingetop3 = models.TextField(default="Coming Soon!", blank=True, null=True)
-    bingetop3image = models.ImageField(upload_to='carousel_images', blank=True)
-    bingetop3link = models.URLField(max_length=200, default="https://www.google.com", blank=True, null=True)
-    bingetop3linktxt = models.TextField(default="Coming Soon!", blank=True, null=True)
-
-    bingetop4 = models.TextField(default="Coming Soon!", blank=True, null=True)
-    bingetop4image = models.ImageField(upload_to='carousel_images', blank=True)
-    bingetop4link = models.URLField(max_length=200, default="https://www.google.com", blank=True, null=True)
-    bingetop4linktxt = models.TextField(default="Coming Soon!", blank=True, null=True)
-
-    gatournament1 = models.ImageField(upload_to='carousel_images', blank=True)
-    gatournament1big = models.TextField(default="Coming Soon!", blank=True, null=True)
-    gatournament1small = models.TextField(default="Coming Soon!", blank=True, null=True)
-
-    gatournament2 = models.ImageField(upload_to='carousel_images', blank=True)
-    gatournament2big = models.TextField(default="Coming Soon!", blank=True, null=True)
-    gatournament2small = models.TextField(default="Coming Soon!", blank=True, null=True)
-
-    gatournamentbig = models.ImageField(upload_to='carousel_images', blank=True)
-
 
 class Partner(models.Model):
     name = models.CharField(max_length=80)

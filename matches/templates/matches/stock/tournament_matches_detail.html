@@ -13,12 +13,14 @@
                 <div class="panel">
                     <div class="panel-body">
 
+                        {% if not match.disable_userreports %}
                         <a href="{% url 'matches:report' pk=match.id %}"><h2>Submit your match report here.</h2></a>
+                        {% endif %}
 
                         <div class="col-xs-12 banner-head bot20">
                             <div class="row">
                                 <div class="col-xs-12 col-sm-4">
-                                    <img src="{{ match.game.image.url }}"/>
+                                    <img src="{{ MEDIA_URL }}{{ match.game.image }}"/>
                                 </div>
                                 <div class="col-xs-12 col-sm-8">
                                     <br>

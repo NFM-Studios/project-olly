@@ -28,16 +28,24 @@
                             <div class="col-xs-12 col-sm-4">
                                 <img style="size:auto" src="
 
+                                        {% if ESPORTS_MODE %}
 
-                                        {% if tournament.game.image %}{{ tournament.game.image.url }}{% else %}{% static 'images/bf1cover.jpg' %}{% endif %}"/>
+
+                                    {% if tournament.game.image %}{{ MEDIA_URL }}{{ tournament.game.image }}{% else %}{% static 'images/bf1cover.jpg' %}{% endif %}"
+                                    />
+                                {% else %}
+                                    {{ tournament.sport.name }}
+                                {% endif %}
                             </div>
                             <div class="col-xs-12 col-sm-8">
                                 <br>
                                 <h2><b>{{ tournament.name }}</b></h2>
-                                <h4>{{ tournament.platform.name }} | {{ tournament.game.name }}</h4>
-                                Map Pool: <a
-                                    href="{% url 'matches:maps_detail' pk=tournament.map_pool.id %}">{{ tournament.map_pool }}</a>
-                                <br>
+                                {% if ESPORTS_MODE %}
+                                    <h4>{{ tournament.platform.name }} | {{ tournament.game.name }}</h4>
+                                    Map Pool: <a
+                                        href="{% url 'matches:maps_detail' pk=tournament.map_pool.id %}">{{ tournament.map_pool }}</a>
+                                    <br>
+                                {% endif %}
                                 {{ tournament.start }} | 1st Place: {{ tournament.prize1 }}, 2nd
                                 Place: {{ tournament.prize2 }}<br>
                                 <br>
@@ -65,14 +73,16 @@
                             <div class="tab-content clearfix">
                                 <div class="tab-pane info active" id="1">
                                     <div class="row bot10">
-                                        <div class="col-xs-6 col-sm-3 center">
-                                            <div class="panel-default">
-                                                <div class="panel-body">
-                                                    <h4><b>PLATFORM</b></h4>
-                                                    {{ tournament.platform.name }}
+                                        {% if ESPORTS_MODE %}
+                                            <div class="col-xs-6 col-sm-3 center">
+                                                <div class="panel-default">
+                                                    <div class="panel-body">
+                                                        <h4><b>PLATFORM</b></h4>
+                                                        {{ tournament.platform.name }}
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        {% endif %}
                                         <div class="col-xs-6 col-sm-3 center">
                                             <div class="panel-default">
                                                 <div class="panel-body">

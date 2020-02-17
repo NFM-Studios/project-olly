@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.db.models import Q
 
-from matches.models import Match, GameChoice, PlatformChoice, MapChoice, MapPoolChoice
+from matches.models import Match, GameChoice, PlatformChoice, MapChoice, MapPoolChoice, SportChoice
 from news.models import Post
 from pages.models import StaticInfo, Partner
 from profiles.models import UserProfile
@@ -226,7 +226,7 @@ class DeleteProductForm(forms.Form):
 class EditMatchForm(forms.ModelForm):
     class Meta:
         model = Match
-        fields = ('info',)
+        fields = ('info','disable_userreport')
 
 
 class GameChoiceForm(forms.ModelForm):
@@ -234,6 +234,11 @@ class GameChoiceForm(forms.ModelForm):
         model = GameChoice
         fields = '__all__'
 
+
+class SportChoiceForm(forms.ModelForm):
+    class Meta:
+        model = SportChoice
+        fields = '__all__'
 
 class PlatformChoiceForm(forms.ModelForm):
     class Meta:
@@ -263,3 +268,9 @@ class MapPoolChoiceForm(forms.ModelForm):
         self.fields['maps'].widget = forms.widgets.CheckboxSelectMultiple()
         if hasattr(self.instance, 'game'):
             self.fields['maps'].queryset = MapChoice.objects.filter(game_id=self.instance.game)
+
+
+class CreateTeamForm(forms.ModelForm):
+    class Meta:
+        model = Team
+        fields = ('name', 'founder', 'country', 'players')

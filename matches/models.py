@@ -5,6 +5,10 @@ from matches.settings import TEAMFORMAT_CHOICES, MAPFORMAT_CHOICES
 from teams.models import Team
 
 
+class SportChoice(models.Model):
+    name = models.CharField(default='unknown sports', null=False, max_length=255)
+
+
 class GameChoice(models.Model):
     name = models.CharField(default='unknown', null=False, max_length=255)
     image = models.ImageField(upload_to='game_images', blank=True)
@@ -65,9 +69,11 @@ class Match(models.Model):
     #TODO add mtm field for maps - for cases that it is more then a BO1
     #maps = models.ManyToManyField(MapChoice, related_name='match_maps', on_delete=models.SET_NULL, null=True)
     map = models.ForeignKey(MapChoice, related_name='match_map', on_delete=models.SET_NULL, null=True)
-    game = models.ForeignKey(GameChoice, related_name='GameChoice', on_delete=models.PROTECT)
+    game = models.ForeignKey(GameChoice, related_name='GameChoice', on_delete=models.PROTECT, null=True)
     # default to ps4 for now bc why not
-    platform = models.ForeignKey(PlatformChoice, related_name='PlatformChoice', on_delete=models.PROTECT)
+    platform = models.ForeignKey(PlatformChoice, related_name='PlatformChoice', on_delete=models.PROTECT, null=True)
+    # support for traditional sports
+    sport = models.ForeignKey(SportChoice, related_name='SportChoice', on_delete=models.PROTECT, null=True)
     # assign the match to a tournament with a FK
     # tournament = models.ForeignKey(SingleEliminationTournament, related_name='tournament', on_delete=models.CASCADE)
     # fk fields for the 2 teams that are competiting,
@@ -102,6 +108,8 @@ class Match(models.Model):
     bye_1 = models.BooleanField(default=False)
 
     bye_2 = models.BooleanField(default=False)
+    # if set to true, admins will have manually input the result of each match, users will not be able to report wins
+    disable_userreport = models.BooleanField(default=True)
 
     class Meta:
         verbose_name_plural = "matches"

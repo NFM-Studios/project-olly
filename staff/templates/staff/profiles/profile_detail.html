@@ -9,8 +9,8 @@
 
 
     <div style="text-align:center">
-        {% if userprofile.profile_picture.url != "" %}
-            <img src="{{ userprofile.profile_picture.url }}" align="center" width="200"> <br/>
+        {% if userprofile.profile_picture != "" %}
+            <img src="{{ MEDIA_URL }}{{ userprofile.profile_picture }}" align="center" width="200"> <br/>
             <form method="post">
                 {% csrf_token %}
                 <input type="submit" class="btn btn-danger" value="Delete Profile Picture">

@@ -3,7 +3,7 @@
 {% load static %}
 <link rel="stylesheet" href="{% static "css/staff.css" %}">
 {% block title %}
-    Edit/Create Game
+    Create Team
 {% endblock %}
 {% block body %}
     <link rel="stylesheet" href="{% static "css/staff.css" %}">
@@ -28,7 +28,8 @@
             </div>
         {% endfor %}
     {% endif %}
-    <h1><a href="{% url 'staff:gamelist' %}">Return to game list</a></h1>
+    <h1><a href="{% url 'staff:teamindex' %}">Return to team list</a></h1>
+    <br>
 
     <form enctype="multipart/form-data" method="post">
         {% csrf_token %}
@@ -38,14 +39,19 @@
         {{ form.name }}
         <br>
 
-        <label>Image</label>
-        {{ form.image }}
+        <label>Founder</label>
+        {{ form.founder }}
         <br>
 
-        <button type="submit" class="btn btn-primary">Submit</button>
-        {% if pk %}
-            <a href="{% url 'staff:delete_game' pk=pk %}" onclick="return confirm('Are you sure you want to delete this game?')" class="btn btn-danger">Delete</a>
-        {% endif %}
+        <label>Players</label>
+        {{ form.players }}
+        <br>
+
+        <label>Country</label>
+        {{ form.country }}
+        <br>
+
+        <button type="submit" class="btn btn-primary">Create</button>
     </form>
 
 {% endblock %}

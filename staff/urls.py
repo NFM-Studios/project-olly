@@ -56,6 +56,11 @@ urlpatterns = [
     path('games/<int:pk>/delete/', login_required(views.delete_game), name='delete_game'),
     path('games/create/', login_required(views.create_gamechoice), name='create_gamechoice'),
 
+    path('sport/', login_required(views.sportlist), name='sportlist'),
+    path('sport/<int:pk>/', login_required(views.sport_detail), name='sport_detail'),
+    path('sport/<int:pk>/delete/', login_required(views.delete_sport), name='delete_sport'),
+    path('sport/create', login_required(views.create_sportchoice), name='create_sportchoice'),
+
     path('platforms/', login_required(views.platformlist), name='platformlist'),
     path('platforms/<int:pk>/', login_required(views.platform_detail), name='platform_detail'),
     path('platforms/<int:pk>/delete/', login_required(views.delete_platform), name='delete_platform'),
@@ -87,6 +92,7 @@ urlpatterns = [
     path('store/products/<int:pk>/edit/', login_required(views.edit_product), name='product_edit'),
 
     path('teams/', login_required(views.teams_index), name='teamindex'),
+    path('teams/create/', login_required(views.create_team), name='create_team'),
     path('teams/<int:pk>/', login_required(views.teams_detail), name='team_detail'),
     path('teams/<int:pk>/remove/', login_required(views.remove_user), name='remove_user'),
     path('teams/getrank/', login_required(views.getteamrank), name='getteamrank'),

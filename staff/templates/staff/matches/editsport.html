@@ -3,7 +3,7 @@
 {% load static %}
 <link rel="stylesheet" href="{% static "css/staff.css" %}">
 {% block title %}
-    Edit/Create Game
+    Edit/Create Sport
 {% endblock %}
 {% block body %}
     <link rel="stylesheet" href="{% static "css/staff.css" %}">
@@ -28,7 +28,7 @@
             </div>
         {% endfor %}
     {% endif %}
-    <h1><a href="{% url 'staff:gamelist' %}">Return to game list</a></h1>
+    <h1><a href="{% url 'staff:sportlist' %}">Return to sport list</a></h1>
 
     <form enctype="multipart/form-data" method="post">
         {% csrf_token %}
@@ -38,13 +38,9 @@
         {{ form.name }}
         <br>
 
-        <label>Image</label>
-        {{ form.image }}
-        <br>
-
         <button type="submit" class="btn btn-primary">Submit</button>
         {% if pk %}
-            <a href="{% url 'staff:delete_game' pk=pk %}" onclick="return confirm('Are you sure you want to delete this game?')" class="btn btn-danger">Delete</a>
+            <a href="{% url 'staff:delete_sport' pk=pk %}" class="btn btn-danger">Delete</a>
         {% endif %}
     </form>
 

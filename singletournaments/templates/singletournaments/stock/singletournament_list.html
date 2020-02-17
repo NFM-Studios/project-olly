@@ -47,16 +47,35 @@
                             {% for tournament in tournament_list %}
                                 <div class="col-xs-12 col-sm-6 col-md-4 league">
                                     <img src="
+                                            {% if ESPORTS_MODE %}
 
-                                            {% if tournament.game.image != "" %}{{ tournament.game.image.url }}{% else %}{% static 'binge/images/logo.png' %}{% endif %}"><br>
+                                        {% if tournament.game.image != "" %}{{ MEDIA_URL }}{{ tournament.game.image }}{% else %}{% static 'binge/images/logo.png' %}{% endif %}"
+                                        ><br>
+                                    {% else %}
+                                        {{ tournament.sport.name }}
+                                    {% endif %}
                                     <h6><b>{{ tournament.name }}</b></h6>
                                     <br/>
                                     <ul>
-                                        <li><b>Platform:</b> {{ tournament.platform.name }}</li>
+                                        {% if ESPORTS_MODE %}
+                                            <li><b>Platform:</b> {{ tournament.platform.name }}</li>{% endif %}
                                         <li><b>Starts:</b> {{ tournament.start }}</li>
                                         <li><b>Teams: </b> {{ tournament.teams.count }}/{{ tournament.size }}</li>
-                                        <li><b>Game:</b> {{ tournament.game.name }}</li>
-
+                                        {% if ESPORTS_MODE %}
+                                            <li><b>Game:</b> {{ tournament.game.name }}</li>{% endif %}
+                                        <li><b>{% if tournament.teamformat == 0 %}
+                                            1v1
+                                        {% elif tournament.teamformat == 1 %}
+                                            2v2
+                                        {% elif tournament.teamformat == 2 %}
+                                            3v3
+                                        {% elif tournament.teamformat == 3 %}
+                                            4v4
+                                        {% elif tournament.teamformat == 4 %}
+                                            5v5
+                                        {% elif tournament.teamformat == 5 %}
+                                            6v6
+                                        {% endif %}</b></li>
                                     </ul>
                                     <ul>
 

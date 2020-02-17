@@ -2,7 +2,7 @@ import random
 
 from django.db import models
 
-from matches.models import Match, GameChoice, PlatformChoice, MapPoolChoice, MapChoice
+from matches.models import Match, GameChoice, PlatformChoice, MapPoolChoice, MapChoice, SportChoice
 from matches.settings import TEAMFORMAT_CHOICES, MAPFORMAT_CHOICES
 from profiles.models import User
 from teams.models import Team
@@ -64,8 +64,10 @@ class SingleEliminationTournament(models.Model):
     req_credits = models.PositiveSmallIntegerField(default=0)
 
     # game and platform it will be played on
-    platform = models.ForeignKey(PlatformChoice, on_delete=models.PROTECT)
-    game = models.ForeignKey(GameChoice, related_name='game', on_delete=models.PROTECT)
+    platform = models.ForeignKey(PlatformChoice, on_delete=models.PROTECT, null=True)
+    game = models.ForeignKey(GameChoice, related_name='game', on_delete=models.PROTECT, null=True)
+
+    sport = models.ForeignKey(SportChoice, related_name='sport', on_delete=models.PROTECT, null=True)
 
     # when will the first round of matches start?
     start = models.DateTimeField()
@@ -99,6 +101,10 @@ class SingleEliminationTournament(models.Model):
     prize3 = models.CharField(default='no prize specified', max_length=50)
 
     image = models.ImageField(upload_to='tournament_images', blank=True)
+
+    # if set to true, admins will have manually input the result of each match, users will not be able to report wins
+    # when matches are created it will set the match field to whatever this field is set to.
+    disable_userreport = models.BooleanField(default=True)
 
     # need to figure out how we will work rules rules = models.ForeignKey(Ruleset, related_name='tournamentrules',
     # on_delete=models.CASCADE, blank=False, null=True)
@@ -238,10 +244,13 @@ class SingleEliminationTournament(models.Model):
                 hometeam.seeds = seeds[0]
                 hometeam.save()
                 round1 = SingleTournamentRound.objects.get(tournament=self, roundnum=1)
-
+                # bye_1 specifies that the match has only 1 bye team in it, and that one team is being automatically
+                # advanced to the next round
                 m[1] = Match(game=game, matchnum=1, platform=platform, hometeam=team_seeds[0],
                              teamformat=teamformat, bestof=bestof, reported=True,
-                             completed=True, winner=team_seeds[0], bye_1=True, info=round1.info)
+                             completed=True, winner=team_seeds[0], bye_1=True, info=round1.info,
+                             # disable user reports based on the tournament field value
+                             disable_userreport=True, sport=self.sport)
                 m[1].save()
 
                 round1.matches.add(m[1])
@@ -256,10 +265,11 @@ class SingleEliminationTournament(models.Model):
 
                 for i in range(1, int(byematches) + 1):
                     round1 = SingleTournamentRound.objects.get(tournament=self, roundnum=1)
-
+                    # bye_2 specifies that both teams are bye teams, therefor a team will receive a bye in the first
+                    # and second round
                     m[i] = Match(game=game, matchnum=i, platform=platform,
-                                 teamformat=teamformat, bestof=bestof, reported=True,
-                                 completed=True, bye_2=True, info=round1.info)
+                                 teamformat=teamformat, bestof=bestof, reported=True, sport=self.sport,
+                                 completed=True, bye_2=True, info=round1.info, disable_userreport=True)
                     m[i].save()
 
                     round1.matches.add(m[i])
@@ -269,8 +279,8 @@ class SingleEliminationTournament(models.Model):
             round1 = SingleTournamentRound.objects.get(tournament=self, roundnum=1)
 
             m[1] = Match(game=game, matchnum=1, platform=platform,
-                         teamformat=teamformat, bestof=bestof, reported=True,
-                         completed=True, bye_2=True, info=round1.info)
+                         teamformat=teamformat, bestof=bestof, reported=True, sport=self.sport,
+                         completed=True, bye_2=True, info=round1.info, disable_userreport=True)
             m[1].save()
 
             round1.matches.add(m[1])
@@ -288,8 +298,9 @@ class SingleEliminationTournament(models.Model):
                     round1 = SingleTournamentRound.objects.get(tournament=self, roundnum=1)
 
                     m[x] = Match(game=game, matchnum=x, platform=platform, hometeam=team_seeds[0],
-                                 teamformat=teamformat, bestof=bestof, reported=True,
-                                 completed=True, winner=team_seeds[0], bye_1=True, info=round1.info)
+                                 teamformat=teamformat, bestof=bestof, reported=True, sport=self.sport,
+                                 completed=True, winner=team_seeds[0], bye_1=True, info=round1.info,
+                                 disable_userreport=True)
                     m[x].save()
 
                     round1.matches.add(m[x])
@@ -305,7 +316,9 @@ class SingleEliminationTournament(models.Model):
                 round1 = SingleTournamentRound.objects.get(tournament=self, roundnum=1)
 
                 m[x] = Match(game=game, platform=platform, hometeam=team_seeds[0], awayteam=team_seeds[-1],
-                             teamformat=teamformat, bestof=bestof, info=round1.info)
+                             teamformat=teamformat, bestof=bestof, info=round1.info, sport=self.sport,
+                             # this is an actual match, so disable user reports based on the field setting
+                             disable_userreport=self.disable_userreport)
                 m[x].save()
                 round1.matches.add(m[x])
                 round1.save()
@@ -324,8 +337,9 @@ class SingleEliminationTournament(models.Model):
                     round1 = SingleTournamentRound.objects.get(tournament=self, roundnum=1)
 
                     m[x] = Match(game=game, matchnum=x, platform=platform, hometeam=team_seeds[0],
-                                 teamformat=teamformat, bestof=bestof, reported=True,
-                                 completed=True, winner=team_seeds[0], bye_1=True, info=round1.info)
+                                 teamformat=teamformat, bestof=bestof, reported=True, sport=self.sport,
+                                 completed=True, winner=team_seeds[0], bye_1=True, info=round1.info,
+                                 disable_userreport=True)
                     m[x].save()
 
                     round1.matches.add(m[x])
@@ -341,7 +355,8 @@ class SingleEliminationTournament(models.Model):
                 round1 = SingleTournamentRound.objects.get(tournament=self, roundnum=1)
 
                 m[x] = Match(game=game, platform=platform, hometeam=team_seeds[0], awayteam=team_seeds[-1],
-                             teamformat=teamformat, bestof=bestof, info=round1.info)
+                             teamformat=teamformat, bestof=bestof, info=round1.info, sport=self.sport,
+                             disable_userreport=self.disable_userreport)
                 m[x].save()
                 round1.matches.add(m[x])
                 round1.save()
