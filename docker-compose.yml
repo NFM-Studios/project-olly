@@ -29,7 +29,7 @@ services:
     container_name: project-olly-db
 
   project-olly-proxy:
-    image: nginx:stable
+    image: nginx:mainline
     depends_on:
       - project-olly-app
     ports:
