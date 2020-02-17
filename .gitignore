@@ -51,6 +51,7 @@ db\.sqlite3\.1
 .env
 certs/
 database/
+Caddyfile
 
 env/Include/
 
