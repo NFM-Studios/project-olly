@@ -99,7 +99,7 @@ def logout(request, next_page=None,
         next_page = request.POST.get(redirect_field_name,
                                      request.GET.get(redirect_field_name))
         # Security check -- don't allow redirection to a different host.
-        if not is_safe_url(url=next_page, host=request.get_host()):
+        if not is_safe_url(url=next_page, allowed_hosts=request.get_host()):
             next_page = request.path
 
     if next_page:

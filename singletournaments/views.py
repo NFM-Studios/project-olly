@@ -1,6 +1,6 @@
-import datetime
+#import datetime
 
-import pytz
+#import pytz
 from django.contrib import messages
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render, redirect
@@ -89,8 +89,8 @@ class SingleTournamentJoin(View):
             users = TeamInvite.objects.filter(team=form.data['teams'], accepted=True)
             teams = tournament.teams.all()
             teameligible = False
-            utc = pytz.UTC
-            now = utc.localize(datetime.datetime.now())
+            #utc = pytz.UTC
+            #now = utc.localize(datetime.datetime.now())
 
             """if tournament.open_register >= now:
                 messages.error(request, 'Registration for this tournament is not open yet')
@@ -167,15 +167,15 @@ class SingleTournamentJoin(View):
                 if user in tournament_teams_users:
                     messages.error(request, "There is overlap between users in teams in the tournament")
                     return redirect('singletournaments:list')
-            else:
-                tournament.teams.add(new_team)
-                for user in new_team_users:
-                    deduct_credits(user, tournament.req_credits)
-                tournament.save()
-                tournament_team = SingleTournamentTeam(team_id=team.id, tournament_id=tournament.id)
-                tournament_team.save()
-                messages.success(request, message="Joined tournament")
-                return redirect('singletournaments:list')
+
+            tournament.teams.add(new_team)
+            for user in new_team_users:
+                deduct_credits(user, tournament.req_credits)
+            tournament.save()
+            tournament_team = SingleTournamentTeam(team_id=team.id, tournament_id=tournament.id)
+            tournament_team.save()
+            messages.success(request, message="Joined tournament")
+            return redirect('singletournaments:list')
         else:
             messages.error(request, message="You can't join a tournament if you aren't the captain or founder")
             return redirect('singletournaments:list')

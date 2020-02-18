@@ -54,6 +54,15 @@ INSTALLED_APPS = [
     # teams
     'teams',
 
+    # matches for all uses
+    'matches',
+
+    # single elimination tournaments
+    'singletournaments',
+
+    # wagers
+    'wagers',
+
     # ip package
     'ipware',
 
@@ -63,16 +72,12 @@ INSTALLED_APPS = [
     # the country field
     'django_countries',
 
-    # matches for all uses
-    'matches',
-
-    # single elimination tournaments
-    'singletournaments',
-
     # object storage
     'storages',
 
-    'wagers'
+    # this is what handles deleting old uploaded files
+    # NOTE: THIS MUST BE LAST IN THE LIST
+    'django_cleanup.apps.CleanupConfig'
 ]
 
 MIDDLEWARE = [
@@ -83,8 +88,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'olly.middleware.CheckBanListMiddleware',
-    'olly.middleware.tenant_middleware'
+    'olly.middleware.tenant_middleware',
+    'olly.middleware.ban_middleware',
 
 ]
 

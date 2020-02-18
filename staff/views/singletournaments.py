@@ -87,15 +87,6 @@ def edit_round(request, pk):
             return render(request, 'staff/singletournaments/edit_round.html', {'form': form})
 
 
-def tournament_matches(request, pk):
-    user = UserProfile.objects.get(user__username=request.user.username)
-    allowed = ['superadmin', 'admin']
-    if user.user_type not in allowed:
-        return render(request, 'staff/permissiondenied.html')
-    else:
-        tournament = SingleEliminationTournament.objects.get(pk=pk)
-
-
 def edit_tournament(request, pk):
     user = UserProfile.objects.get(user__username=request.user.username)
     allowed = ['superadmin', 'admin']
@@ -223,10 +214,8 @@ def ruleset_detail(request, pk):
             return render(request, 'staff/singletournaments/ruleset_detail.html', {'ruleset': ruleset})
 
 
-def mikes_super_function(pk, currentround, nextround):
-    tournament = SingleEliminationTournament.objects.get(pk=pk)
+def mikes_super_function(currentround):
     currentround = SingleTournamentRound.objects.get(pk=currentround)
-    nextround = SingleTournamentRound.objects.get(pk=nextround)
 
     matches = currentround.matches.all()
     bye2_count = 0
@@ -261,11 +250,11 @@ def advance(request, pk):
         matches = currentround.matches.all()
         for i in matches:
             if i.winner is None:
-                if mikes_super_function(tournament.id, currentround.id, nextround.id) is False:
+                if mikes_super_function(currentround.id) is False:
                     messages.error(request, "Some matches in the current round do not have a winner set")
                     return redirect('staff:tournamentlist')
                 else:
-                    mike = mikes_super_function(tournament.id, currentround.id, nextround.id)
+                    mike = mikes_super_function(currentround.id)
 
             # if i.completed is False:
             # messages.error(request, 'There is a match that is not yet marked as completed in the current round')

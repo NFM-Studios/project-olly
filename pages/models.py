@@ -1,5 +1,4 @@
 from django.db import models
-from django.dispatch import receiver
 
 from singletournaments.models import SingleEliminationTournament
 
@@ -42,72 +41,3 @@ class Partner(models.Model):
     twitter = models.CharField(max_length=100, default="#", blank=True)
     bio = models.TextField()
     logo = models.ImageField(upload_to='partner_images', blank=True)
-
-
-@receiver(models.signals.post_delete, sender=Partner)
-def auto_delete_file(sender, instance, **kwargs):
-    if instance.logo:
-        instance.logo.delete()
-
-
-@receiver(models.signals.pre_save, sender=Partner)
-def auto_delete_file_on_change(sender, instance, **kwargs):
-    if not instance.pk:
-        return False
-
-    try:
-        old_file = Partner.objects.get(pk=instance.pk).logo
-    except Partner.DoesNotExist:
-        return False
-
-    new_file = instance.logo
-    if not old_file == new_file:
-        old_file.delete(save=False)
-
-
-@receiver(models.signals.post_delete, sender=StaticInfo)
-def auto_delete_file(sender, instance, **kwargs):
-    if instance.slide1_img:
-        instance.slide1_img.delete()
-    if instance.slide2_img:
-        instance.slide2_img.delete()
-    if instance.slide3_img:
-        instance.slide3_img.delete()
-
-
-@receiver(models.signals.pre_save, sender=StaticInfo)
-def auto_delete_file_on_change(sender, instance, **kwargs):
-    if not instance.pk:
-        return False
-
-    # Slide 1
-    try:
-        old_slide1 = StaticInfo.objects.get(pk=instance.pk).slide1_img
-    except StaticInfo.DoesNotExist:
-        return False
-
-    new_slide1 = instance.slide1_img
-    if not old_slide1 == new_slide1:
-        old_slide1.delete(save=False)
-
-    # Slide 2
-    try:
-        old_slide2 = StaticInfo.objects.get(pk=instance.pk).slide2_img
-    except StaticInfo.DoesNotExist:
-        return False
-
-    new_slide2 = instance.slide2_img
-    if not old_slide2 == new_slide2:
-        old_slide2.delete(save=False)
-
-    # Slide 3
-    try:
-        old_slide3 = StaticInfo.objects.get(pk=instance.pk).slide3_img
-    except StaticInfo.DoesNotExist:
-        return False
-
-    new_slide3 = instance.slide3_img
-    if not old_slide3 == new_slide3:
-        old_slide3.delete(save=False)
-
-

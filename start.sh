@@ -1,5 +1,5 @@
 #!/bin/bash
-echo Debug is $debug
+echo "Debug is $debug"
 
 echo Running Migrations.
 python3 manage.py migrate
