@@ -1,0 +1,49 @@
+version: '3.3'
+
+networks:
+  project-olly-net:
+    driver: bridge
+
+services:
+  project-olly-app:
+    build: .
+    depends_on:
+      - project-olly-db
+    volumes:
+      - socket:/sock
+      - static:/static
+    env_file: .env
+    networks:
+      - project-olly-net
+    container_name: project-olly-app
+
+  project-olly-db:
+    image: postgres:12
+    environment:
+      - POSTGRES_PASSWORD=secret_password
+      - POSTGRES_USER=olly
+    networks:
+      - project-olly-net
+    volumes:
+      - ./database:/var/lib/postgresql/data
+    container_name: project-olly-db
+
+  project-olly-proxy:
+    image: abiosoft/caddy:no-stats
+    depends_on:
+      - project-olly-app
+    environment:
+      - ACME_AGREE=true
+      - CADDYPATH=/etc/caddycerts
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./Caddyfile:/etc/Caddyfile
+      - socket:/sock
+      - static:/html/static
+      - ./certs:/etc/caddycerts
+
+volumes:
+  socket:
+  static:

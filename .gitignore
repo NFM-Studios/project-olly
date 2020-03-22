@@ -47,8 +47,11 @@ docs/_build/
 venv/
 
 olly/media/profile_images/
-olly/settings.py
 db\.sqlite3\.1
+.env
+certs/
+database/
+Caddyfile
 
 env/Include/
 
