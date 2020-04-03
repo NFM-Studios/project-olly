@@ -29,11 +29,11 @@ class MyInvitesListView(ListView):
     # show all the invites, and an accept or deny button.
     # check if the invite is expired.
     model = TeamInvite
-    #template_name = 'teams/' + request.tenant + 'my-invites.html'
+    #template_name = 'teams/' + request.tenant + 'team_invite_list.html'
 
     def get(self, request):
         teaminvite_list = TeamInvite.objects.filter(user=self.request.user, active=True)
-        return render(request, 'teams/' + request.tenant + '/my-invites.html', {'teaminvite_list': teaminvite_list})
+        return render(request, 'teams/' + request.tenant + '/team_invite_list.html', {'teaminvite_list': teaminvite_list})
 
     def get_queryset(self):
         # make sure that the invites are for the requested user
@@ -41,7 +41,7 @@ class MyInvitesListView(ListView):
 
 
 def invite_view(request, num):
-    template_name = 'teams/' + request.tenant + '/invite.html'
+    template_name = 'teams/' + request.tenant + '/team_invite_detail.html'
 
     if request.method == "GET":
         form = ViewInviteForm()
@@ -85,7 +85,7 @@ class MyTeamsListView(ListView):
 
     def get(self, request):
         team_list = TeamInvite.objects.filter(user=self.request.user, accepted=True)
-        return render(request, 'teams/' + request.tenant + '/my-teams.html', {'team_list': team_list})
+        return render(request, 'teams/' + request.tenant + '/team_list.html', {'team_list': team_list})
 
     def get_queryset(self, **kwargs):
         # TO DO switch the filter to the players field not just the founder field.
@@ -115,7 +115,7 @@ def edit_team_view(request, pk):
     else:
         teamobj = Team.objects.get(id=pk)
         form = EditTeamProfileForm(instance=teamobj)
-        return render(request, 'teams/' + request.tenant + '/edit-team.html', {'form': form})
+        return render(request, 'teams/' + request.tenant + '/team_edit.html', {'form': form})
 
 
 class MyTeamDetailView(DetailView):
@@ -140,9 +140,9 @@ class MyTeamDetailView(DetailView):
                 messages.warning(request, "Xbox Live is not verified")
             if not user.psn_verified:
                 messages.warning(request, "PSN is not verified")
-            return render(request, 'teams/' + request.tenant + '/team.html', {'team': team, 'players': players, 'up':up,'pk': pk, 'matches': matches})
+            return render(request, 'teams/' + request.tenant + '/team_detail.html', {'team': team, 'players': players, 'up':up,'pk': pk, 'matches': matches})
         else:
-            return render(request, 'teams/' + request.tenant + '/team.html', {'team': team, 'players': players, 'up':up, 'pk': pk, 'matches': matches})
+            return render(request, 'teams/' + request.tenant + '/team_detail.html', {'team': team, 'players': players, 'up':up, 'pk': pk, 'matches': matches})
 
     def get_context_date(self, **kwargs):
         context = super(MyTeamDetailView, self).get_context_date(**kwargs)
@@ -173,11 +173,11 @@ class MyTeamDetailView(DetailView):
 
 class TeamCreateView(View):
     form_class = TeamCreateForm
-    # template_name = 'teams/' + request.tenant + '/create-team.html'
+    # template_name = 'teams/' + request.tenant + '/team_create.html'
 
     def get(self, request):
         form = self.form_class()
-        return render(request, 'teams/' + request.tenant + '/create-team.html', {'form': form})
+        return render(request, 'teams/' + request.tenant + '/team_create.html', {'form': form})
 
     def post(self, request):
         form = self.form_class(request.POST)
@@ -210,12 +210,12 @@ def get_invites(form):
 
 
 class TeamInviteCreateView(View):
-    template_name = 'teams/invite-player.html'
+    template_name = 'teams/team_invite_player.html'
     form_class = TeamInviteFormGet
 
     def get(self, request):
         form = self.form_class(request)
-        return render(request, 'teams/' + request.tenant + '/invite-player.html', {'form': form})
+        return render(request, 'teams/' + request.tenant + '/team_invite_player.html', {'form': form})
 
     def post(self, request):
         form = TeamInviteFormPost(request.POST)
@@ -230,7 +230,7 @@ class TeamInviteCreateView(View):
                 invitee = UserProfile.objects.get(user__username=form.data['user'])
             except:
                 messages.error(request, "That isn't a valid user")
-                return render(request, 'teams/' + request.tenant + '/invite-player.html', {'form': form})
+                return render(request, 'teams/' + request.tenant + '/team_invite_player.html', {'form': form})
             query = invite.filter(user=invitee.user, team=form.data['team'])
             if query.exists():
                 messages.error(request, "That user already has been invited to this team")
@@ -267,13 +267,13 @@ class TeamInviteCreateView(View):
 
 
 class LeaveTeamView(View):
-    template_name = 'teams/leave-team.html'
+    template_name = 'teams/team_leave.html'
     form_class = LeaveTeamForm
 
     def get(self, request, pk):
         form = self.form_class()
         team = Team.objects.get(id=pk)
-        return render(request, 'teams/' + request.tenant + '/leave-team.html', {'form': form, 'team': team})
+        return render(request, 'teams/' + request.tenant + '/team_leave.html', {'form': form, 'team': team})
 
     def post(self, request, pk):
         form = self.form_class(request.POST)
@@ -298,13 +298,13 @@ class LeaveTeamView(View):
 
 
 class RemoveUserView(View):
-    template_name = 'teams/remove_user.html'
+    template_name = 'teams/team_remove_user.html'
 
     def get(self, request, pk):
         team = Team.objects.get(id=pk)
         if request.user == team.founder:
             form = RemoveUserForm(request, pk)
-            return render(request, 'teams/' + request.tenant + '/remove_user.html', {'form': form, 'pk': pk})
+            return render(request, 'teams/' + request.tenant + '/team_remove_user.html', {'form': form, 'pk': pk})
         else:
             messages.error(request, "Only the team's founder can remove users")
             return redirect('teams:detail', pk)
@@ -329,13 +329,13 @@ class RemoveUserView(View):
 
 
 class DissolveTeamView(View):
-    template_name = 'teams/dissolve_team.html'
+    template_name = 'teams/team_dissolve.html'
 
     def get(self, request, pk):
         team = Team.objects.get(id=pk)
         if request.user == team.founder:
             form = DissolveTeamForm(request, pk)
-            return render(request, 'teams/' + request.tenant + '/dissolve_team.html', {'form': form, 'pk': pk})
+            return render(request, 'teams/' + request.tenant + '/team_dissolve.html', {'form': form, 'pk': pk})
         else:
             messages.error(request, "Only the team's founder can dissolve the team")
             return redirect('teams:detail', pk)

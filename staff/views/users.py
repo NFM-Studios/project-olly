@@ -141,7 +141,7 @@ def modifyuser(request, urlusername):
         if request.method == 'GET':
             userprofileobj = UserProfile.objects.get(user__username=urlusername)
             form = ModifyUserForm(instance=userprofileobj)
-            return render(request, 'staff/profiles/modifyuser.html', {'form': form})
+            return render(request, 'staff/profiles/user_edit.html', {'form': form})
         else:
             userprofileobj = UserProfile.objects.get(user__username=urlusername)
             form = ModifyUserForm(request.POST, instance=userprofileobj)
@@ -166,7 +166,7 @@ def userdetail(request, urlusername):
 
         else:
             userprofile = UserProfile.objects.get(user__username=urlusername)
-            return render(request, 'staff/profiles/profile_detail.html', {'userprofile': userprofile})
+            return render(request, 'staff/profiles/user_detail.html', {'userprofile': userprofile})
 
 
 def verify(request, urlusername):

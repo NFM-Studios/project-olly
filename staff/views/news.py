@@ -14,7 +14,7 @@ def news_list(request):
         return render(request, 'staff/permissiondenied.html')
     else:
         news_list = Post.objects.all().order_by('-id')
-        return render(request, 'staff/news/news_list.html', {'news_list': news_list})
+        return render(request, 'staff/news/news_article_list.html', {'news_list': news_list})
 
 
 def create_article(request):
@@ -33,10 +33,10 @@ def create_article(request):
                 messages.success(request, 'Your post has been created')
                 return redirect('staff:news_index')
             else:
-                return render(request, 'staff/news/create_article.html', {'form': form})
+                return render(request, 'staff/news/news_article_create.html', {'form': form})
         else:
             form = ArticleCreateForm(None)
-            return render(request, 'staff/news/create_article.html', {'form': form})
+            return render(request, 'staff/news/news_article_create.html', {'form': form})
 
 
 def detail_article(request, pk):
@@ -46,7 +46,7 @@ def detail_article(request, pk):
         return render(request, 'staff/permissiondenied.html')
     else:
         article = Post.objects.get(id=pk)
-        return render(request, 'staff/news/news_detail.html', {'article': article})
+        return render(request, 'staff/news/news_article_detail.html', {'article': article})
 
 
 def edit_post(request, pk):
@@ -58,7 +58,7 @@ def edit_post(request, pk):
         if request.method == 'GET':
             article = get_object_or_404(Post, pk=pk)
             form = EditNewsPostForm(instance=article)
-            return render(request, 'staff/news/edit_article.html', {'form': form})
+            return render(request, 'staff/news/news_article_edit.html', {'form': form})
         else:
             article = get_object_or_404(Post, pk=pk)
             form = EditNewsPostForm(request.POST, instance=article)
@@ -69,7 +69,7 @@ def edit_post(request, pk):
                 messages.success(request, "Updated post")
                 return redirect('staff:detail_article', pk=pk)
             else:
-                return render(request, 'staff/news/edit_article.html', {'form': form})
+                return render(request, 'staff/news/news_article_edit.html', {'form': form})
 
 
 def delete_article(request, pk):

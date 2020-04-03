@@ -377,7 +377,7 @@ def activate(request, uidb64, token):
         messages.success(request, 'Thank you for your email confirmation. You are now logged in.')
         return redirect('profiles:profile_no_username')
     else:
-        return render(request, 'profiles/' + request.tenant + '/activation_invalid.html')
+        return render(request, 'profiles/' + request.tenant + '/activate_invalid.html')
 
 
 class LeaderboardView(View):

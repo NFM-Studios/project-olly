@@ -28,9 +28,9 @@ def add_teams(request, pk):
         else:
             tournament = SingleEliminationTournament.objects.get(pk=pk)
             form = AddTournamentTeamForm()
-            return render(request, 'staff/singletournaments/tournament_add_team.html',
+            return render(request, 'staff/singletournaments/singletournament_add_team.html',
                           {'form': form, 'tournament': tournament})
-        return render(request, 'staff/singletournaments/tournament_detail.html', {'tournament': tournament})
+        return render(request, 'staff/singletournaments/singletournament_detail.html', {'tournament': tournament})
 
 
 def tournaments(request):
@@ -40,7 +40,7 @@ def tournaments(request):
         return render(request, 'staff/permissiondenied.html')
     else:
         tournament_list = SingleEliminationTournament.objects.all().order_by('-id')
-        return render(request, 'staff/singletournaments/tournaments.html', {'tournament_list': tournament_list})
+        return render(request, 'staff/singletournaments/singletournament_list.html', {'tournament_list': tournament_list})
 
 
 def tournament_detail(request, pk):
@@ -51,7 +51,7 @@ def tournament_detail(request, pk):
     else:
         tournament = SingleEliminationTournament.objects.get(pk=pk)
         rounds = SingleTournamentRound.objects.filter(tournament=tournament).order_by('id')
-        return render(request, 'staff/singletournaments/tournament_detail.html',
+        return render(request, 'staff/singletournaments/singletournament_detail.html',
                       {'tournament': tournament, 'rounds': rounds})
 
 
@@ -84,7 +84,7 @@ def edit_round(request, pk):
         else:
             roundobj = SingleTournamentRound.objects.get(id=pk)
             form = EditRoundInfoForm(instance=roundobj)
-            return render(request, 'staff/singletournaments/edit_round.html', {'form': form})
+            return render(request, 'staff/singletournaments/round_edit.html', {'form': form})
 
 
 def edit_tournament(request, pk):
@@ -101,12 +101,12 @@ def edit_tournament(request, pk):
                 messages.success(request, 'Tournament has been updated')
                 return redirect('staff:tournamentlist')
             else:
-                return render(request, 'staff/singletournaments/edittournament.html', {'form': form})
+                return render(request, 'staff/singletournaments/singletournament_edit.html', {'form': form})
         else:
             tournamentobj = SingleEliminationTournament.objects.get(pk=pk)
             if not tournamentobj.bracket_generated:
                 form = EditTournamentForm(instance=tournamentobj)
-                return render(request, 'staff/singletournaments/edittournament.html', {'form': form, 'pk': pk})
+                return render(request, 'staff/singletournaments/singletournament_edit.html', {'form': form, 'pk': pk})
             else:
                 messages.error(request, 'You cannot edit a launched tournament')
                 return redirect('staff:tournamentlist')
@@ -120,7 +120,7 @@ def create_tournament(request):
     else:
         if request.method == 'GET':
             form = CreateTournamentForm()
-            return render(request, 'staff/singletournaments/createtournament.html', {'form': form})
+            return render(request, 'staff/singletournaments/singletournament_create.html', {'form': form})
         else:
             form = CreateTournamentForm(request.POST, request.FILES)
             if form.is_valid():
@@ -130,7 +130,7 @@ def create_tournament(request):
                 return redirect('staff:tournament_detail', pk=tournament.id)
             else:
                 form = CreateTournamentForm(request.POST)
-                return render(request, 'staff/singletournaments/createtournament.html', {'form': form})
+                return render(request, 'staff/singletournaments/singletournament_create.html', {'form': form})
 
 
 def generate_bracket(request, pk):  # Launch tournament
@@ -194,10 +194,10 @@ def ruleset_create(request):
                 messages.success(request, 'Ruleset has been created!')
                 return redirect('staff:tournamentrulesetlist')
             else:
-                return render(request, 'staff/singletournaments/createruleset.html', {'form': form})
+                return render(request, 'staff/singletournaments/ruleset_create.html', {'form': form})
         else:
             form = SingleRulesetCreateForm(None)
-            return render(request, 'staff/singletournaments/createruleset.html', {'form': form})
+            return render(request, 'staff/singletournaments/ruleset_create.html', {'form': form})
 
 
 def ruleset_detail(request, pk):
