@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load humanize %}
+
+{% block head %}
+    <title>Store - {{ SITE_NAME }}</title>
+{% endblock %}
+
+{% block body %}
+    <h1>Store</h1>
+
+    <table class="table table-hover">
+        <tr id="header">
+            <thead>
+            <th scope="row">ID</th>
+            <th>Product Name</th>
+            <th>Price</th>
+            </thead>
+        </tr>
+        {% for product in products %}
+            <tbody>
+            <tr scope="">
+                <td scope="row"><a href="{% url 'store:detail' pk=product.id %}">#{{ product.id }}</a></td>
+                <td>{{ product.name }}</td>
+                <td>${{ product.amount|floatformat:2|intcomma }}</td>
+
+
+            </tr>
+            </tbody>
+        {% endfor %}
+    </table>
+{% endblock %}

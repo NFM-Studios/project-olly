@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <title>Login - {{ SITE_NAME }}</title>
+{% endblock %}
+
+{% block body %}
+
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <h3>LOGIN</h3>
+    <br/>
+    <form method="post">
+        {% csrf_token %}
+        <label>Username</label>
+        {{ form.username }}
+        <br/>
+        <label>Password</label>
+        {{ form.password }}
+        <!-- include 'profiles/stock/captcha.html' %}-->
+        <label><input name="remember me" type="checkbox">Keep me logged in</label> <br/>
+        <button class="btn btn-success" type="submit">Login</button>
+        <a href="{% url 'reset_password' %}" class="btn btn-primary">Forgot password?</a>
+    </form>
+
+{% endblock %}
