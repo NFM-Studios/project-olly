@@ -35,18 +35,23 @@ def pages(request):
     else:
         if request.method == 'POST':
             staticinfoobj = StaticInfo.objects.get(pk=1)
-            form = StaticInfoForm(request.POST, request.FILES, instance=staticinfoobj)
-            if form.is_valid():
-                form.save()
+            socialinfoobj = SocialInfo.objects.get(pk=1)
+            static = StaticInfoForm(request.POST, request.FILES, instance=staticinfoobj)
+            social = SocialInfoForm(request.POST, instance=socialinfoobj)
+            if static.is_valid() and social.is_valid():
+                static.save()
+                social.save()
                 messages.success(request, 'Your information has been updated')
                 return redirect('staff:pages')
             else:
                 messages.error(request, "Something went horribly wrong (this shouldn't be seen)")
-                return render(request, 'staff/pages/staticinfo.html', {'form': form})
+                return redirect('staff:pages')
         else:
             staticinfoobj = StaticInfo.objects.get(pk=1)
-            form = StaticInfoForm(instance=staticinfoobj)
-            return render(request, 'staff/pages/staticinfo.html', {'form': form, 'tenant': request.tenant})
+            socialinfoobj = SocialInfo.objects.get(pk=1)
+            static = StaticInfoForm(instance=staticinfoobj)
+            social = SocialInfoForm(instance=socialinfoobj)
+            return render(request, 'staff/pages/staticinfo.html', {'static': static, 'social': social})
 
 
 def partnerlist(request):
