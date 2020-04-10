@@ -17,7 +17,7 @@ class MapPoolDetail(DetailView):
         pk = self.kwargs['pk']
         # pool = get_object_or_404(MapPoolChoice, pk)
         pool = MapPoolChoice.objects.get(id=pk)
-        return render(request, 'matches/' + request.tenant + '/mappool_detail.html', {'pool': pool})
+        return render(request, 'matches/mappool_detail.html', {'pool': pool})
 
 
 class MatchList(View):
@@ -28,7 +28,7 @@ class MatchList(View):
         matches_away = Match.objects.filter(awayteam__in=team)
         matches_home = Match.objects.filter(hometeam__in=team)
         matches = matches_away | matches_home
-        return render(request, 'matches/' + request.tenant + '/matches_list.html', {'matches': matches})
+        return render(request, 'matches/matches_list.html', {'matches': matches})
 
 
 class TournamentMatchDetailView(DetailView):
@@ -42,18 +42,18 @@ class TournamentMatchDetailView(DetailView):
             team2 = Team.objects.get(id=match.awayteam_id)
             aplayers = team2.players.all()
             hplayers = team1.players.all()
-            return render(request, 'matches/' + request.tenant + '/tournament_matches_detail.html',
+            return render(request, 'matches/tournament_matches_detail.html',
                           {'x': pk, 'match': match,
                            'aplayers': aplayers,
                            'hplayers': hplayers})
         elif match.bye_1:
             team1 = Team.objects.get(id=match.hometeam_id)
             hplayers = team1.players.all()
-            return render(request, 'matches/' + request.tenant + '/tournament_matches_detail.html',
+            return render(request, 'matches/tournament_matches_detail.html',
                           {'x': pk, 'match': match,
                            'hplayers': hplayers})
         elif match.bye_2:
-            return render(request, 'matches/' + request.tenant + '/tournament_matches_detail.html',
+            return render(request, 'matches/tournament_matches_detail.html',
                           {'x': pk, 'match': match})
 
 
@@ -67,7 +67,7 @@ class MatchReportCreateView(View):
             # user reports are disabled, return them to the match detail page with an error
             messages.error(request, "Match reports are disabled for this match")
             return redirect('matches:detail', pk=pk)
-        return render(request, 'matches/' + request.tenant + '/matches_report.html', {'form': form, 'pk': pk})
+        return render(request, 'matches/matches_report.html', {'form': form, 'pk': pk})
 
     def post(self, request, pk):
         form = MatchReportCreateFormPost(request.POST)
@@ -137,7 +137,7 @@ class MatchReportCreateView(View):
                                 if i.user.email_enabled:
                                     current_site = get_current_site(request)
                                     mail_subject = settings.SITE_NAME + ' match disputed!'
-                                    message = render_to_string('matches/' + request.tenant + '/dispute_email.html', {
+                                    message = render_to_string('matches/dispute_email.html', {
                                         'user': i.username,
                                         'site': settings.SITE_NAME,
                                         'domain': current_site.domain,
@@ -206,7 +206,7 @@ class MatchDisputeReportCreateView(CreateView):
 
     def get(self, request, **kwargs):
         form = self.form_class(None)
-        return render(request, 'matches/' + request.tenant + '/tournament_matches_dispute.html',
+        return render(request, 'matches/tournament_matches_dispute.html',
                       {'form': form, 'dispute': kwargs['pk']})
 
     def form_valid(self, form, **kwargs):

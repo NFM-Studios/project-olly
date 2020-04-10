@@ -12,7 +12,7 @@ from .models import Product
 
 def store(request):
     products = Product.objects.filter(active=True)
-    return render(request, 'store/' + request.tenant + '/store.html', {'products': products})
+    return render(request, 'store/store.html', {'products': products})
 
 
 def detail(request, pk):
@@ -32,7 +32,7 @@ def detail(request, pk):
         'cost': product.amount
     }
     form = PayPalPaymentsForm(initial=paypal_dict)
-    return render(request, 'store/' + request.tenant + '/product.html', {'product': product, 'form': form})
+    return render(request, 'store/product.html', {'product': product, 'form': form})
 
 
 '''
@@ -46,7 +46,7 @@ class Transfer(View):
 
     def get(self, request):
         form = self.form_class(None)
-        return render(request, 'store/' + request.tenant + '/transfer.html', {'form': form})
+        return render(request, 'store/transfer.html', {'form': form})
 
     def post(self, request):
         form = self.form_class(request.POST)
@@ -77,4 +77,4 @@ class Transfer(View):
                 xfer.save()
                 return redirect('/profile/')
 
-        return render(request, 'store/' + request.tenant + '/product.html', {'form': form})
+        return render(request, 'store/product.html', {'form': form})

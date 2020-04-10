@@ -16,7 +16,7 @@ class MyTicketListView(View):
     def get(self, request):
         form = self.form
         ticket_list = Ticket.objects.filter(creator=request.user, status__lte=2)
-        return render(request, 'tickets/' + request.tenant + '/ticket_list.html',
+        return render(request, 'tickets/ticket_list.html',
                       {'form': form, 'ticket_list': ticket_list})
 
     def post(self, request):
@@ -30,7 +30,7 @@ class MyTicketListView(View):
                 ticket_list = Ticket.objects.filter(pk=query)
             except ValueError:
                 ticket_list = Ticket.objects.filter(text__contains=query)
-        return render(request, 'tickets/' + request.tenant + '/ticket_list.html',
+        return render(request, 'tickets/ticket_list.html',
                       {'form': form, 'ticket_list': ticket_list})
 
 
@@ -49,10 +49,9 @@ class MyTicketDetailView(DetailView):
         ticket = get_object_or_404(Ticket, pk=pk)
         creator = UserProfile.objects.get(user=ticket.creator)
         comments = TicketComment.objects.filter(ticket=pk)
-        return render(request, 'tickets/' + request.tenant + '/ticket_detail.html', {'form': form1, 'x': pk,
-                                                                                       "ticket": ticket,
-                                                                                       "comments": comments,
-                                                                                       'creator': creator})
+        return render(request, 'tickets/ticket_detail.html', {'form': form1, 'x': pk, "ticket": ticket,
+                                                              "comments": comments,
+                                                              'creator': creator})
 
     def get_context_date(self, **kwargs):
         context = super(MyTicketDetailView, self).get_context_data(**kwargs)
@@ -94,7 +93,7 @@ class TicketCreateView(View):
 
     def get(self, request):
         form = self.form_class()
-        return render(request, 'tickets/' + request.tenant + '/ticket_create.html', {'form': form})
+        return render(request, 'tickets/ticket_create.html', {'form': form})
 
     def post(self, request):
         form = self.form_class(request.POST)
