@@ -27,7 +27,7 @@ class WagerRequestList(ListView):
                 x.expired = True
                 x.save()
         final = wager_list.filter(expired=False)
-        return render(request, 'wagers/' + request.tenant + '/wager_request_list.html', {'wager_list': final})
+        return render(request, 'wagers/wager_request_list.html', {'wager_list': final})
 
     def get_queryset(self):
         return WagerRequest.objects.filter(challenge_accepted=False, expired=False)
@@ -37,7 +37,7 @@ class WagerRequestDetail(DetailView):
     model = WagerChallenge
 
     def get(self, request, **kwargs):
-        template = 'wagers/' + request.tenant + '/wager_request_detail.html'
+        template = 'wagers/wager_request_detail.html'
         pk = self.kwargs['pk']
         wrequest = get_object_or_404(WagerRequest, pk=pk)
         if wrequest.wmatch:
@@ -72,7 +72,7 @@ class WagerRequestCreateView(View):
     form_class = WagerRequestForm
 
     def get(self, request):
-        template = 'wagers/' + request.tenant + '/wager_request_create.html'
+        template = 'wagers/wager_request_create.html'
         form = self.form_class(user=request.user)
         return render(request, template, {'form': form})
 
@@ -128,7 +128,7 @@ class WagerChallengeCreate(View):
 
     def get(self, request, pk):
         # self.user = request.user
-        template = 'wagers/' + request.tenant + '/wager_challenge_create.html'
+        template = 'wagers/wager_challenge_create.html'
         form = WagerChallengeForm(user=request.user)
         myrequest = WagerRequest.objects.get(pk=pk)
         return render(request, template, {'form': form, 'myrequest': myrequest})
@@ -179,7 +179,7 @@ class WagerChallengeCreate(View):
 class WagerMatchDetail(View):
 
     def get(self, request, pk):
-        template = 'wagers/' + request.tenant + '/wager_match_detail.html'
+        template = 'wagers/wager_match_detail.html'
         wmatch = get_object_or_404(WagerMatch, pk=pk)
         match = wmatch.match
         team1 = Team.objects.get(id=match.hometeam_id)
@@ -203,7 +203,7 @@ class MyWagersList(ListView):
                     old_results = old_requests + x
 
         old_matches = WagerMatch.objects.filter()
-        return render(request, 'wagers/' + request.tenant + '/wager_request_list.html', {'wager_list': final})
+        return render(request, 'wagers/wager_request_list.html', {'wager_list': final})
 
     def get_queryset(self):
         return WagerRequest.objects.filter(challenge_accepted=False, expired=False)
