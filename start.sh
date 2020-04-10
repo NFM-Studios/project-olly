@@ -11,6 +11,9 @@ python3 manage.py shell -c "from profiles.models import UserProfile; up=UserProf
 echo creating staticinfo
 python3 manage.py shell -c "from pages.models import StaticInfo; StaticInfo.objects.get_or_create(pk=1);"
 
+echo creating socialinfo
+python3 manage.py shell -c "from pages.models import SocialInfo; SocialInfo.objects.get_or_create(pk=1);"
+
 echo Collecting static files
 python3 manage.py collectstatic --noinput
 
