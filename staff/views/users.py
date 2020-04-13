@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.conf import settings
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render, redirect
 
@@ -29,7 +30,7 @@ def users(request):
         context = {'page': page, 'userprofiles': list_users,
                    'bannedusernames': BannedUser.objects.values_list('user', flat=True),
                    'bannedips': BannedUser.objects.values_list('ip', flat=True), 'numusers': numusers,
-                   'request': request}
+                   'verification': settings.USER_VERIFICATION, 'request': request}
         return render(request, 'staff/profiles/users.html', context)
 
 

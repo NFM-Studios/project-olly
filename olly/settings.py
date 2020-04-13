@@ -18,6 +18,11 @@ SITE_URL = os.environ['site_url']
 
 WSGI_APPLICATION = 'olly.wsgi.application'
 
+try:
+    USER_VERIFICATION = os.environ['user_verification']
+except KeyError:
+    USER_VERIFICATION = False
+
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
