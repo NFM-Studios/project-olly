@@ -44,6 +44,7 @@ services:
       - socket:/sock
       - ${static_path:-static}:/html/static
       - ${cert_path:-./certs}:/etc/caddycerts
+    container_name: project-olly-proxy
 
 volumes:
   socket:
