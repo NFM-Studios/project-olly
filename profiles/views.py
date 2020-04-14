@@ -80,7 +80,7 @@ def login(request, template_name='profiles/login_form.html',
     if current_app is not None:
         request.current_app = current_app
 
-    return TemplateResponse(request, 'profiles/' + request.tenant + '/login_form.html', context)
+    return TemplateResponse(request, 'profiles/login_form.html', context)
 
 
 def logout(request, next_page=None,
@@ -140,7 +140,7 @@ def password_reset(request, is_admin_site=False,
                 'use_https': request.is_secure(),
                 'token_generator': token_generator,
                 'from_email': from_email,
-                'email_template_name': 'profiles/' + request.tenant + '/reset_email.html',
+                'email_template_name': 'profiles/reset_email.html',
                 'subject_template_name': subject_template_name,
                 'request': request,
                 'html_email_template_name': html_email_template_name,
@@ -160,7 +160,7 @@ def password_reset(request, is_admin_site=False,
     if current_app is not None:
         request.current_app = current_app
 
-    return TemplateResponse(request, 'profiles/' + request.tenant + '/reset_form.html', context)
+    return TemplateResponse(request, 'profiles/reset_form.html', context)
 
 
 def password_reset_done(request, current_app=None, extra_context=None):
@@ -173,7 +173,7 @@ def password_reset_done(request, current_app=None, extra_context=None):
     if current_app is not None:
         request.current_app = current_app
 
-    return TemplateResponse(request, 'profiles/' + request.tenant + '/reset_done.html', context)
+    return TemplateResponse(request, 'profiles/reset_done.html', context)
 
 
 def password_reset_confirm(request, uidb64=None, token=None,
@@ -220,7 +220,7 @@ def password_reset_confirm(request, uidb64=None, token=None,
     if current_app is not None:
         request.current_app = current_app
 
-    return TemplateResponse(request, 'profiles/' + request.tenant + '/reset_confirm.html', context)
+    return TemplateResponse(request, 'profiles/reset_confirm.html', context)
 
 
 def password_reset_complete(request, current_app=None, extra_context=None):
@@ -233,14 +233,14 @@ def password_reset_complete(request, current_app=None, extra_context=None):
     if current_app is not None:
         request.current_app = current_app
 
-    return TemplateResponse(request, 'profiles/' + request.tenant + '/reset_complete.html', context)
+    return TemplateResponse(request, 'profiles/reset_complete.html', context)
 
 
 def profile(request, urlusername):
     userprofile = get_object_or_404(UserProfile, user__username=urlusername)
     # following line is not stock olly
     team_list = TeamInvite.objects.filter(accepted=True, user=userprofile.user)
-    return render(request, 'profiles/' + request.tenant + '/profile.html',
+    return render(request, 'profiles/profile.html',
                   {'userprofile': userprofile, 'requestuser': request.user, "team_list": team_list})
 
 
@@ -248,20 +248,20 @@ def profile_no_username(request):
     if not request.user.is_anonymous:
         userprofile = UserProfile.objects.get(user__username=request.user)
         team_list = TeamInvite.objects.filter(accepted=True, user=request.user)
-        return render(request, 'profiles/' + request.tenant + '/profile.html',
+        return render(request, 'profiles/profile.html',
                       {'userprofile': userprofile, 'requestuser': request.user, "team_list": team_list})
     else:
         return redirect('login')
 
 
 def users(request):
-    return render(request, 'profiles/' + request.tenant + '/users.html')
+    return render(request, 'profiles/users.html')
 
 
 def searchusers(request):
     query = request.GET.get('q')
     if query:
-        return render(request, 'profiles/' + request.tenant + '/users.html',
+        return render(request, 'profiles/users.html',
                       {'userprofiles': UserProfile.objects.filter
                        (Q(user__username__icontains=query) | Q(user__email__icontains=query) |
                         Q(psn__icontains=query) | Q(xbl__icontains=query))})
@@ -285,7 +285,7 @@ def edit_profile(request):
     else:
         userprofileobj = UserProfile.objects.get(user__username=request.user.username)
         form = EditProfileForm(instance=userprofileobj)
-        return render(request, 'profiles/' + request.tenant + '/edit_profile.html', {'form': form, 'userprofile': userprofileobj})
+        return render(request, 'profiles/edit_profile.html', {'form': form, 'userprofile': userprofileobj})
 
 
 class CreateUserFormView(View):
@@ -294,7 +294,7 @@ class CreateUserFormView(View):
     def get(self, request):
         if request.user.is_anonymous:
             form = self.form_class(None)
-            return render(request, 'profiles/' + request.tenant + '/registration_form.html',
+            return render(request, 'profiles/registration_form.html',
                           {'form': form, 'site_key': settings.GOOGLE_RECAPTCHA_SITE_KEY})
         else:
             messages.error(request, "You cannot register while logged in")
@@ -335,7 +335,7 @@ class CreateUserFormView(View):
                     current_site = get_current_site(request)
 
                     mail_subject = 'Activate your ' + settings.SITE_NAME + ' account.'
-                    message = render_to_string('profiles/' + request.tenant + '/activate_email.html', {
+                    message = render_to_string('profiles/activate_email.html', {
                         'user': user,
                         'domain': current_site.domain,
                         'uid': urlsafe_base64_encode(force_bytes(user.pk)),
@@ -354,7 +354,7 @@ class CreateUserFormView(View):
             if User.objects.filter(username=form.data['username']).exists():
                 messages.error(request, 'That username already exists')
                 return redirect('register')
-            return render(request, 'profiles/' + request.tenant + '/registration_form.html', {'form': form})
+            return render(request, 'profiles/registration_form.html', {'form': form})
         else:
             messages.error(request, "You cannot register while logged in")
             return redirect('index')
@@ -377,7 +377,7 @@ def activate(request, uidb64, token):
         messages.success(request, 'Thank you for your email confirmation. You are now logged in.')
         return redirect('profiles:profile_no_username')
     else:
-        return render(request, 'profiles/' + request.tenant + '/activate_invalid.html')
+        return render(request, 'profiles/activate_invalid.html')
 
 
 class LeaderboardView(View):
@@ -386,7 +386,7 @@ class LeaderboardView(View):
     def get(self, request, **kwargs):
         user_list = UserProfile.objects.order_by('rank')  # sort by rank default
         form = self.form_class(None)
-        return render(request, 'teams/' + request.tenant + '/leaderboard.html', {'user_list': user_list, 'form': form})
+        return render(request, 'teams/leaderboard.html', {'user_list': user_list, 'form': form})
 
     def post(self, request, **kwargs):
         form = self.form_class(request.POST)
@@ -394,35 +394,35 @@ class LeaderboardView(View):
         if form.cleaned_data['sort_xp_asc']:
             user_list = UserProfile.objects.order_by('xp')
             messages.success(request, "Sorted by ascending XP")
-            return render(request, 'teams/' + request.tenant + '/leaderboard.html',
+            return render(request, 'teams/leaderboard.html',
                           {'user_list': user_list, 'form': self.form_class(None)})
         elif form.cleaned_data['sort_xp_desc']:
             user_list = UserProfile.objects.order_by('-xp')
             messages.success(request, "Sorted by descending XP")
-            return render(request, 'teams/' + request.tenant + '/leaderboard.html',
+            return render(request, 'teams/leaderboard.html',
                           {'user_list': user_list, 'form': self.form_class(None)})
         elif form.cleaned_data['sort_trophies_asc']:
             user_list = UserProfile.objects.order_by('num_trophies')
             messages.success(request, "Sorted by ascending number of trophies")
-            return render(request, 'teams/' + request.tenant + '/leaderboard.html',
+            return render(request, 'teams/leaderboard.html',
                           {'user_list': user_list, 'form': self.form_class(None)})
         elif form.cleaned_data['sort_trophies_desc']:
             user_list = UserProfile.objects.order_by('-num_trophies')
             messages.success(request, "Sorted by descending number of trophies")
-            return render(request, 'teams/' + request.tenant + '/leaderboard.html',
+            return render(request, 'teams/leaderboard.html',
                           {'user_list': user_list, 'form': self.form_class(None)})
         elif form.cleaned_data['sort_rank_asc']:
             user_list = UserProfile.objects.order_by('rank')
             messages.success(request, "Sorted by ascending rank")
-            return render(request, 'teams/' + request.tenant + '/leaderboard.html',
+            return render(request, 'teams/leaderboard.html',
                           {'user_list': user_list, 'form': self.form_class(None)})
         elif form.cleaned_data['sort_rank_desc']:
             user_list = UserProfile.objects.order_by('-rank')
             messages.success(request, "Sorted by descending rank")
-            return render(request, 'teams/' + request.tenant + '/leaderboard.html',
+            return render(request, 'teams/leaderboard.html',
                           {'user_list': user_list, 'form': self.form_class(None)})
         else:
             user_list = UserProfile.objects.order_by('-xp')
             messages.error(request, 'No sort option selected, sorting by descending xp')
-            return render(request, 'teams/' + request.tenant + '/leaderboard.html',
+            return render(request, 'teams/leaderboard.html',
                           {'user_list': user_list, 'form': self.form_class(None)})

@@ -52,7 +52,7 @@
                         <td><a href="/staff/users/banip/{{ up.user }}" class="btn btn-danger">BAN IP</a></td>
                     {% endif %}
 
-                    {% if request.tenant == 'binge' %}
+                    {% if verification %}
                         {% if not up.user_verified %}
                             <td><a href="/staff/users/verify/{{ up.user }}" class="btn btn-primary"> Verify User</a>
                             </td>
@@ -66,7 +66,7 @@
             {% endfor %}
         </table>
         {% include "pagination.html" with page=userprofiles %}
-        <td><a href="/staff/users/getrank/" class="btn btn-primary">Calculate rank for all users</a></td>
+        <td><a href="{% url 'staff:get_rank' %}" class="btn btn-primary">Calculate rank for all users</a></td>
         <td><a href="{% url 'staff:reset_xp' %}" onclick="return confirm('Are you sure you want to reset XP for all users?\nThis cannot be undone!')" class="btn btn-danger">Reset XP for all users</a></td>
     </div>
 {% endblock %}

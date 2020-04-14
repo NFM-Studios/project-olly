@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+    <title>Create Wager Request - {{ SITE_NAME }}</title>
+{% endblock %}
+
+{% block body %}
+    <p>The amount of credits specified in the credits field is the amount of credits only the creator or <br>
+        team founder/captain must have in their profile.</p>
+    <br>
+    <p>Wager request only last for 30 minutes, if no team challenges you, the request will expire automatically</p>
+
+    <p>The challenging team founder/captain must have the amount of credits in his profile</p>
+
+    {{ form.errors }}
+
+    <form method="POST" action="{% url 'wagers:request_create' %}">
+        <table class="table">
+            {% csrf_token %}
+            {{ form.as_table }}
+            <tr>
+                <td colspan="2">
+                    <input type="submit" value="Create"/>
+                </td>
+            </tr>
+        </table>
+    </form>
+
+{% endblock %}

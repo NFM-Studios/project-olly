@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+    <title>My Teams - {{ SITE_NAME }}</title>
+{% endblock %}
+
+{% block body %}
+    <table class="table table-hover">
+        <tr id="header">
+            <thead>
+            <th scope="row">ID</th>
+            <th>Team Name</th>
+            <th>Date Created</th>
+            </thead>
+        </tr>
+        {% for TeamInvite in team_list %}
+            <tbody>
+            <tr scope="">
+                <td scope="row"><a href="/teams/{{ TeamInvite.team.id }}/">{{ TeamInvite.team.id }}</a></td>
+                <td>{{ TeamInvite.team.name }}</td>
+                <td>{{ TeamInvite.team.created }}</td>
+            </tr>
+            </tbody>
+        {% endfor %}
+    </table>
+    <div id="new-ticket">
+        <h2 id="" style="text-decoration: none; margin:8px">
+            <a style="text-decoration:none; color:black;" href="{% url 'teams:create' %}">
+                <i class="fas fa-plus"></i> Create a new team
+            </a>
+        </h2>
+    </div>
+{% endblock %}

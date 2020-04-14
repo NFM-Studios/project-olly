@@ -21,13 +21,7 @@ class List(View):
     def get(self, request):
         form = self.form_class(None)
         tournament_list = SingleEliminationTournament.objects.all()
-        if request.tenant == "ga":
-            partners = Partner.objects.all()
-            staticinfo = StaticInfo.objects.get(id=1)
-            return render(request, 'singletournaments/' + request.tenant + '/singletournament_list.html',
-                          {'tournament_list': tournament_list, 'form': form, 'partners': partners,
-                           'staticinfo': staticinfo})
-        return render(request, 'singletournaments/' + request.tenant + '/singletournament_list.html',
+        return render(request, 'singletournaments/singletournament_list.html',
                       {'tournament_list': tournament_list, 'form': form})
 
     def post(self, request):
@@ -47,7 +41,7 @@ class List(View):
             tournament_list1 = SingleEliminationTournament.objects.filter(platform=platform)
 
         tournament_list = tournament_list1 & tournament_list_
-        return render(request, 'singletournaments/' + request.tenant + '/singletournament_list.html',
+        return render(request, 'singletournaments/singletournament_list.html',
                       {'tournament_list': tournament_list, 'form': form})
 
 
@@ -58,7 +52,7 @@ class SingleTournamentJoin(View):
         tournament = get_object_or_404(SingleEliminationTournament, id=pk)
         if teaminvites.exists():
             form = SingleEliminationTournamentJoinGet(request)
-            return render(request, 'singletournaments/' + request.tenant + '/singletournament_join.html',
+            return render(request, 'singletournaments/singletournament_join.html',
                           {'form': form, 'tournament': tournament})
         else:
             messages.error(request, message="You aren't a captain or founder of any team!")
@@ -184,7 +178,7 @@ class SingleTournamentJoin(View):
 class SingleTournamentLeave(View):
     def get(self, request, pk):
         form = SingleTournamentLeaveForm()
-        return render(request, 'singletournaments/' + request.tenant + '/singletournament_leave.html', {'form': form})
+        return render(request, 'singletournaments/singletournament_leave.html', {'form': form})
 
     def post(self, request, pk):
         form = SingleTournamentLeaveForm(request.POST)
@@ -226,7 +220,7 @@ class SingleTournamentDetail(View):
         tournament = get_object_or_404(SingleEliminationTournament, id=pk)
         ruleset = tournament.ruleset
         teams = tournament.teams.all()
-        return render(request, 'singletournaments/' + request.tenant + '/singletournament_detail.html',
+        return render(request, 'singletournaments/singletournament_detail.html',
                       {'pk': pk, 'tournament': tournament, 'ruleset': ruleset, 'teams': teams})
 
 
@@ -236,7 +230,7 @@ class SingleTournamentTeamsList(View):
         pk = self.kwargs['pk']
         tournament = SingleEliminationTournament.objects.get(id=pk)
         teams = tournament.teams.all
-        return render(request, 'singletournaments/' + request.tenant + '/singletournament_teams.html',
+        return render(request, 'singletournaments/singletournament_teams.html',
                       {'x': pk, 'tournament': tournament, 'teams': teams})
 
 
@@ -246,7 +240,7 @@ class SingleTournamentRules(View):
         pk = pk
         tournament = SingleEliminationTournament.objects.get(id=pk)
         ruleset = tournament.ruleset
-        return render(request, 'singletournaments/' + request.tenant + '/ruleset_detail.html',
+        return render(request, 'singletournaments/ruleset_detail.html',
                       {'pk': pk, 'ruleset': ruleset})
 
 
@@ -262,7 +256,7 @@ class SingleTournamentRules(View):
 #             round1matches = round1.matches.all().order_by('id')
 #             round2matches = round2.matches.all().order_by('id')
 #
-#             return render(request, 'singletournaments/' + request.tenant + '/singletournament_matches.html',
+#             return render(request, 'singletournaments/singletournament_matches.html',
 #                           {'x': pk, 'tournament': tournament,
 #                            'round1matches': round1matches, 'round2matches': round2matches})
 #
@@ -273,7 +267,7 @@ class SingleTournamentRules(View):
 #             round1matches = round1.matches.all().order_by('id')
 #             round2matches = round2.matches.all().order_by('id')
 #             round3matches = round3.matches.all().order_by('id')
-#             return render(request, 'singletournaments/' + request.tenant + '/singletournament_matches.html',
+#             return render(request, 'singletournaments/singletournament_matches.html',
 #                           {'x': pk, 'tournament': tournament,
 #                            'round1matches': round1matches, 'round2matches': round2matches,
 #                            'round3matches': round3matches})
@@ -290,7 +284,7 @@ class SingleTournamentRules(View):
 #             round3matches = round3.matches.all().order_by('id')
 #             round4matches = round4.matches.all().order_by('id')
 #
-#             return render(request, 'singletournaments/' + request.tenant + '/singletournament_matches.html',
+#             return render(request, 'singletournaments/singletournament_matches.html',
 #                           {'x': pk, 'tournament': tournament,
 #                            'round1matches': round1matches, 'round2matches': round2matches,
 #                            'round3matches': round3matches, 'round4matches': round4matches})
@@ -308,7 +302,7 @@ class SingleTournamentRules(View):
 #             round4matches = round4.matches.all().order_by('id')
 #             round5matches = round5.matches.all().order_by('id')
 #
-#             return render(request, 'singletournaments/' + request.tenant + '/singletournament_matches.html',
+#             return render(request, 'singletournaments/singletournament_matches.html',
 #                           {'x': pk, 'tournament': tournament,
 #                            'round1matches': round1matches, 'round2matches': round2matches,
 #                            'round3matches': round3matches, 'round4matches': round4matches,
@@ -329,7 +323,7 @@ class SingleTournamentRules(View):
 #             round5matches = round5.matches.all().order_by('id')
 #             round6matches = round6.matches.all().order_by('id')
 #
-#             return render(request, 'singletournaments/' + request.tenant + '/singletournament_matches.html',
+#             return render(request, 'singletournaments/singletournament_matches.html',
 #                           {'x': pk, 'tournament': tournament,
 #                            'round1matches': round1matches, 'round2matches': round2matches,
 #                            'round3matches': round3matches, 'round4matches': round4matches,
@@ -352,7 +346,7 @@ class SingleTournamentRules(View):
 #             round6matches = round6.matches.all().order_by('id')
 #             round7matches = round7.matches.all().order_by('id')
 #
-#             return render(request, 'singletournaments/' + request.tenant + '/singletournament_matches.html',
+#             return render(request, 'singletournaments/singletournament_matches.html',
 #                           {'x': pk, 'tournament': tournament,
 #                            'round1matches': round1matches, 'round2matches': round2matches,
 #                            'round3matches': round3matches, 'round4matches': round4matches,
@@ -375,7 +369,7 @@ class SingleTournamentBracket(View):
             # show the right bracket
             if tournament.size == 4:
                 # get 2 rounds to pass to the view
-                template_name = 'singletournaments/' + request.tenant + '/singletournament_bracket4.html'
+                template_name = 'singletournaments/singletournament_bracket4.html'
 
                 round1 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=1)
                 round2 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=2)
@@ -389,7 +383,7 @@ class SingleTournamentBracket(View):
 
             elif tournament.size == 8:
                 # get 3 rounds to pass to the view
-                template_name = 'singletournaments/' + request.tenant + '/singletournament_bracket8.html'
+                template_name = 'singletournaments/singletournament_bracket8.html'
                 round1 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=1)
                 round2 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=2)
                 round3 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=3)
@@ -419,7 +413,7 @@ class SingleTournamentBracket(View):
 
             elif tournament.size == 16:
                 # get 4 rounds to pass to the view
-                template_name = 'singletournaments/' + request.tenant + '/singletournament_bracket16.html'
+                template_name = 'singletournaments/singletournament_bracket16.html'
                 round1 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=1)
                 round2 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=2)
                 round3 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=3)
@@ -438,7 +432,7 @@ class SingleTournamentBracket(View):
 
             elif tournament.size == 32:
                 # get 5 rounds to pass to the view
-                template_name = 'singletournaments/' + request.tenant + '/singletournament_bracket32.html'
+                template_name = 'singletournaments/singletournament_bracket32.html'
                 round1 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=1)
                 round2 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=2)
                 round3 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=3)
@@ -460,7 +454,7 @@ class SingleTournamentBracket(View):
 
             elif tournament.size == 64:
                 # get 6 rounds to pass to the view
-                template_name = 'singletournaments/' + request.tenant + '/singletournament_bracket64.html'
+                template_name = 'singletournaments/singletournament_bracket64.html'
                 round1 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=1)
                 round2 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=2)
                 round3 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=3)
@@ -484,7 +478,7 @@ class SingleTournamentBracket(View):
 
             elif tournament.size == 128:
                 # get 7 rounds to pass to the  view
-                template_name = 'singletournaments/' + request.tenant + '/singletournament_bracket128.html'
+                template_name = 'singletournaments/singletournament_bracket128.html'
                 round1 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=1)
                 round2 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=2)
                 round3 = SingleTournamentRound.objects.get(tournament=tournament, roundnum=3)
@@ -511,5 +505,5 @@ class SingleTournamentBracket(View):
                                'round7matches': round7matches})
         else:
             # show some template that its not generated yet
-            return render(request, 'singletournaments/' + request.tenant + '/no_bracket.html',
+            return render(request, 'singletournaments/no_bracket.html',
                           {'tournament': tournament})

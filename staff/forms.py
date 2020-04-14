@@ -4,7 +4,7 @@ from django.db.models import Q
 
 from matches.models import Match, GameChoice, PlatformChoice, MapChoice, MapPoolChoice, SportChoice
 from news.models import Post
-from pages.models import StaticInfo, Partner
+from pages.models import StaticInfo, SocialInfo, Partner
 from profiles.models import UserProfile
 from singletournaments.models import SingleEliminationTournament, SingleTournamentRuleset, SingleTournamentRound
 from store.models import Product
@@ -28,6 +28,12 @@ class StaticInfoForm(forms.ModelForm):
     #                     'bingeslide1link', 'bingeslide2link', 'bingeslide3link')
     #    super().__init__(request, *args, **kwargs)
     #    self.fields.update(newfields)
+
+
+class SocialInfoForm(forms.ModelForm):
+    class Meta:
+        model = SocialInfo
+        fields = '__all__'
 
 
 class PartnerForm(forms.ModelForm):

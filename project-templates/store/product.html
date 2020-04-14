@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load humanize %}
+
+{% block head %}
+    <title>{{ product.item }} - {{ SITE_NAME }}</title>
+{% endblock %}
+
+{% block body %}
+    <h1>{{ product.item }}</h1>
+    <br>
+    <h3>${{ product.cost|floatformat:2|intcomma }}</h3>
+    <br>
+    {{ form.render }}
+
+{% endblock %}

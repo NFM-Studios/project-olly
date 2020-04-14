@@ -14,319 +14,135 @@
             {% csrf_token %}
             <table class="table">
                 <tbody>
-                <tr>
-                    <th>About Us:</th>
-                    <td>{{ form.about_us }}</td>
-                </tr>
-                <tr>
-                    <th>Terms:</th>
-                    <td>{{ form.terms }}</td>
-                </tr>
-                <tr>
-                    <th>Stream:</th>
-                    <td>{{ form.stream }}</td>
-                </tr>
-
-                <tr>
-                    <th>Twitter(The full URL):</th>
-                    <td>{{ form.twitterprofile }}</td>
-                </tr>
-                <tr>
-                    <th>Twitch(The full URL):</th>
-                    <td>{{ form.twitchchannel }}</td>
-                </tr>
-
-                <tr>
-                    <th>Youtube(The full URL):</th>
-                    <td>{{ form.youtubechannel }}</td>
-                </tr>
-
-                <tr>
-                    <th>Instagram(The full URL):</th>
-                    <td>{{ form.instagrampage }}</td>
-                </tr>
-
-                <tr>
-                    <th>Facebook(The full URL):</th>
-                    <td>{{ form.facebookpage }}</td>
-                </tr>
-
-                {% if tenant == "binge" %}
                     <tr>
-                        <th>Slide 1 large text:</th>
-                        <td>{{ form.bingeslide1big }}</td>
+                        <th>About Us:</th>
+                        <td>{{ static.about_us }}</td>
                     </tr>
                     <tr>
-                        <th>Slide 1 small text:</th>
-                        <td>{{ form.bingeslide1small }}</td>
+                        <th>Terms:</th>
+                        <td>{{ static.terms }}</td>
+                    </tr>
+                    <tr>
+                        <th>Stream:</th>
+                        <td>{{ social.stream }}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Twitter(The full URL):</th>
+                        <td>{{ social.twitterprofile }}</td>
+                    </tr>
+                    <tr>
+                        <th>Twitch(The full URL):</th>
+                        <td>{{ social.twitchchannel }}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Youtube(The full URL):</th>
+                        <td>{{ social.youtubechannel }}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Instagram(The full URL):</th>
+                        <td>{{ social.instagrampage }}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Facebook(The full URL):</th>
+                        <td>{{ social.facebookpage }}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Slide 1 header:</th>
+                        <td>{{ static.slide1header }}</td>
+                    </tr>
+                    <tr>
+                        <th>Slide 1 sub header:</th>
+                        <td>{{ static.slide1subhead }}</td>
                     </tr>
                     <tr>
                         <th>Slide 1 link:</th>
-                        <td>{{ form.bingeslide1link }}</td>
+                        <td>{{ static.slide1link }}</td>
                     </tr>
                     <tr>
                         <th>Slide 1 image:</th>
-                        <td>{{ form.slide1_img }}</td>
+                        <td>{{ static.slide1_img }}</td>
                     </tr>
 
                     <tr>
-                        <th>Slide 2 large text:</th>
-                        <td>{{ form.bingeslide2big }}</td>
+                        <th>Slide 2 header:</th>
+                        <td>{{ static.slide2header }}</td>
                     </tr>
                     <tr>
-                        <th>Slide 2 small text:</th>
-                        <td>{{ form.bingeslide2small }}</td>
+                        <th>Slide 2 sub header:</th>
+                        <td>{{ static.slide2subhead }}</td>
                     </tr>
                     <tr>
                         <th>Slide 2 link:</th>
-                        <td>{{ form.bingeslide2link }}</td>
+                        <td>{{ static.slide2link }}</td>
                     </tr>
                     <tr>
                         <th>Slide 2 image:</th>
-                        <td>{{ form.slide2_img }}</td>
+                        <td>{{ static.slide2_img }}</td>
                     </tr>
 
                     <tr>
-                        <th>Slide 3 large text:</th>
-                        <td>{{ form.bingeslide3big }}</td>
+                        <th>Slide 3 header:</th>
+                        <td>{{ static.slide3header }}</td>
                     </tr>
                     <tr>
-                        <th>Slide 3 small text:</th>
-                        <td>{{ form.bingeslide3small }}</td>
+                        <th>Slide 3 sub header:</th>
+                        <td>{{ static.slide3subhead }}</td>
                     </tr>
                     <tr>
                         <th>Slide 3 link:</th>
-                        <td>{{ form.bingeslide3link }}</td>
+                        <td>{{ static.slide3link }}</td>
                     </tr>
                     <tr>
                         <th>Slide 3 image:</th>
-                        <td>{{ form.slide3_img }}</td>
+                        <td>{{ static.slide3_img }}</td>
                     </tr>
 
                     <tr>
-                        <th>Top 1 text:</th>
-                        <td>{{ form.bingetop1 }}</td>
+                        <th>Block 1 text:</th>
+                        <td>{{ static.block1text }}</td>
                     </tr>
 
                     <tr>
-                        <th>Top 1 image:</th>
-                        <td>{{ form.bingetop1image }}</td>
+                        <th>Block 1 link:</th>
+                        <td>{{ static.block1link }}</td>
                     </tr>
                     <tr>
-                        <th>Top 1 link:</th>
-                        <td>{{ form.bingetop1link }}</td>
+                        <th>Block 1 image:</th>
+                        <td>{{ static.block1_img }}</td>
                     </tr>
 
                     <tr>
-                        <th>Top 2 text:</th>
-                        <td>{{ form.bingetop2 }}</td>
+                        <th>Block 2 text:</th>
+                        <td>{{ static.block2text }}</td>
                     </tr>
 
                     <tr>
-                        <th>Top 2 image:</th>
-                        <td>{{ form.bingetop2image }}</td>
+                        <th>Block 2 link:</th>
+                        <td>{{ static.block2link }}</td>
                     </tr>
                     <tr>
-                        <th>Top 2 link:</th>
-                        <td>{{ form.bingetop2link }}</td>
+                        <th>Block 2 image:</th>
+                        <td>{{ static.block2_img }}</td>
                     </tr>
 
                     <tr>
-                        <th>Top 3 text:</th>
-                        <td>{{ form.bingetop3 }}</td>
+                        <th>Block 3 text:</th>
+                        <td>{{ static.block3text }}</td>
                     </tr>
 
                     <tr>
-                        <th>Top 3 image:</th>
-                        <td>{{ form.bingetop3image }}</td>
+                        <th>Block 3 link:</th>
+                        <td>{{ static.block3link }}</td>
                     </tr>
                     <tr>
-                        <th>Top 3 link:</th>
-                        <td>{{ form.bingetop3link }}</td>
+                        <th>Block 3 image:</th>
+                        <td>{{ static.block3_img }}</td>
                     </tr>
-                {% elif tenant == "ga" %}
-
-                    <tr>
-                        <th>Slide 1 large text:</th>
-                        <td>{{ form.bingeslide1big }}</td>
-                    </tr>
-                    <tr>
-                        <th>Slide 1 small text:</th>
-                        <td>{{ form.bingeslide1small }}</td>
-                    </tr>
-                    <tr>
-                        <th>Slide 1 image:</th>
-                        <td>{{ form.slide1_img }}</td>
-                    </tr>
-
-                    <tr>
-                        <th>Slide 2 large text:</th>
-                        <td>{{ form.bingeslide2big }}</td>
-                    </tr>
-                    <tr>
-                        <th>Slide 2 small text:</th>
-                        <td>{{ form.bingeslide2small }}</td>
-                    </tr>
-                    <tr>
-                        <th>Slide 2 image:</th>
-                        <td>{{ form.slide2_img }}</td>
-                    </tr>
-
-                    <tr>
-                        <th>Slide 3 large text:</th>
-                        <td>{{ form.bingeslide3big }}</td>
-                    </tr>
-                    <tr>
-                        <th>Slide 3 small text:</th>
-                        <td>{{ form.bingeslide3small }}</td>
-                    </tr>
-                    <tr>
-                        <th>Slide 3 image:</th>
-                        <td>{{ form.slide3_img }}</td>
-                    </tr>
-
-
-
-                    <tr>
-                        <th>Box 1 large text:</th>
-                        <td>{{ form.bingetop1 }}</td>
-                    </tr>
-                    <tr>
-                        <th>Box 1 link/small text:</th>
-                        <td>{{ form.bingetop1linktxt }}</td>
-                    </tr>
-                    <tr>
-                        <th>Box 1 Link</th>
-                        <td>{{ form.bingetop1link }}</td>
-                    </tr>
-                    <tr>
-                        <th>Box 1 image</th>
-                        <td>{{ form.bingetop1image }}</td>
-                    </tr>
-
-                    <tr>
-                        <th>Box 2 large text:</th>
-                        <td>{{ form.bingetop2 }}</td>
-                    </tr>
-                    <tr>
-                        <th>Box 2 link/small text:</th>
-                        <td>{{ form.bingetop2linktxt }}</td>
-                    </tr>
-                    <tr>
-                        <th>Box 2 Link</th>
-                        <td>{{ form.bingetop2link }}</td>
-                    </tr>
-                    <tr>
-                        <th>Box 2 image</th>
-                        <td>{{ form.bingetop2image }}</td>
-                    </tr>
-
-                    <tr>
-                        <th>Box 3 large text:</th>
-                        <td>{{ form.bingetop3 }}</td>
-                    </tr>
-                    <tr>
-                        <th>Box 3 link/small text:</th>
-                        <td>{{ form.bingetop3linktxt }}</td>
-                    </tr>
-                    <tr>
-                        <th>Box 3 Link</th>
-                        <td>{{ form.bingetop3link }}</td>
-                    </tr>
-                    <tr>
-                        <th>Box 3 image</th>
-                        <td>{{ form.bingetop3image }}</td>
-                    </tr>
-
-                    <tr>
-                        <th>Box 4 large text:</th>
-                        <td>{{ form.bingetop4 }}</td>
-                    </tr>
-                    <tr>
-                        <th>Box 4 link/small text:</th>
-                        <td>{{ form.bingetop4linktxt }}</td>
-                    </tr>
-                    <tr>
-                        <th>Box 4 Link</th>
-                        <td>{{ form.bingetop4link }}</td>
-                    </tr>
-                    <tr>
-                        <th>Box 4 image</th>
-                        <td>{{ form.bingetop4image }}</td>
-                    </tr>
-
-                    <tr>
-                        <th>Featured Tournament</th>
-                        <td>{{ form.featured_tournament }}</td>
-                    </tr>
-
-                    <h2>Tournament Page</h2>
-
-                    <tr>
-                        <th>Tall vertical banner</th>
-                        <td>{{ form.gatournamentbig }}</td>
-                    </tr>
-
-                    <tr>
-                        <th>Tournament Slider 1 Image</th>
-                        <td>{{ form.gatournament1 }}</td>
-                    </tr>
-
-                    <tr>
-                        <th>Tournament Slider 1 BigText</th>
-                        <td>{{ form.gatournament1big }}</td>
-                    </tr>
-
-                    <tr>
-                        <th>Tournament Slider 1 SmallText</th>
-                        <td>{{ form.gatournament1small }}</td>
-                    </tr>
-
-                    <tr>
-                        <th>Tournament Slider 2 Image</th>
-                        <td>{{ form.gatournament2 }}</td>
-                    </tr>
-
-                    <tr>
-                        <th>Tournament Slider 2 BigText</th>
-                        <td>{{ form.gatournament2big }}</td>
-                    </tr>
-
-                    <tr>
-                        <th>Tournament Slider 2 SmallText</th>
-                        <td>{{ form.gatournament2small }}</td>
-                    </tr>
-
-
-                {% else %}
-                    <tr>
-                        <th>Slide 1 link:</th>
-                        <td>{{ form.slide1link }}</td>
-                    </tr>
-                    <tr>
-                        <th>Slide 1 image:</th>
-                        <td>{{ form.slide1_img }}</td>
-                    </tr>
-
-                    <tr>
-                        <th>Slide 2 link:</th>
-                        <td>{{ form.slide2link }}</td>
-                    </tr>
-                    <tr>
-                        <th>Slide 2 image:</th>
-                        <td>{{ form.slide2_img }}</td>
-                    </tr>
-                {% endif %}
-                {% if tenant == 'duel' %}
-                    <tr>
-                        <th>Welcomeln1:</th>
-                        <td>{{ form.welcomeln1 }}</td>
-                    </tr>
-                    <tr>
-                        <th>Welcomeln2:</th>
-                        <td>{{ form.welcomeln2 }}</td>
-                    </tr>
-                {% endif %}
                 </tbody>
             </table>
             <tr>

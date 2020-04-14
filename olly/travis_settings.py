@@ -17,6 +17,11 @@ SITE_URL = '127.0.0.1'
 
 WSGI_APPLICATION = 'olly.wsgi.application'
 
+try:
+    USER_VERIFICATION = os.environ['user_verification']
+except KeyError:
+    USER_VERIFICATION = False
+
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 if 'TRAVIS' in os.environ:

@@ -17,8 +17,6 @@ class PostTestCase1(TestCase):
     def test_listresponse(self):
         request = self.factory.get('/news')
 
-        request.tenant = 'stock'
-
         request.user = self.user
 
         response = post_list(request)
@@ -31,8 +29,6 @@ class PostTestCase1(TestCase):
 
         request = self.factory.get('/news/' + post1.slug)
 
-        request.tenant = 'stock'
-
         request.user = self.user
 
         detailresponse = post_detail(request, post1.slug)
@@ -44,15 +40,11 @@ class PostTestCase1(TestCase):
 
         request = self.factory.get('/news/' + post1.slug)
 
-        request.tenant = 'stock'
-
         detailresponse = post_detail(request, post1.slug)
         self.assertEqual(detailresponse.status_code, 200)
 
     def test_list2response(self):
         request = self.factory.get('/news')
-
-        request.tenant = 'stock'
 
         request.user = self.user
 
