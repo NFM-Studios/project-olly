@@ -56,7 +56,7 @@ def partnerlist(request):
         return render(request, 'staff/permissiondenied.html')
     else:
         partner_list = Partner.objects.all().order_by('id')
-        return render(request, 'staff/pages/partnerslist.html', {'partner_list': partner_list})
+        return render(request, 'staff/pages/partner_list.html', {'partner_list': partner_list})
 
 
 def createpartner(request):
@@ -75,10 +75,10 @@ def createpartner(request):
                 messages.success(request, 'Your partner has been created')
                 return redirect('staff:partner_list')
             else:
-                return render(request, 'staff/pages/partnercreate.html', {'form': form})
+                return render(request, 'staff/pages/partner_create.html', {'form': form})
         else:
             form = PartnerForm(None)
-            return render(request, 'staff/pages/partnercreate.html', {'form': form})
+            return render(request, 'staff/pages/partner_create.html', {'form': form})
 
 
 def partner_detail(request, pk):
@@ -95,10 +95,10 @@ def partner_detail(request, pk):
                 messages.success(request, 'Your information has been updated')
                 return redirect('staff:partner_list')
             else:
-                return render(request, 'staff/pages/partnercreate.html', {'form': form})
+                return render(request, 'staff/pages/partner_create.html', {'form': form})
         else:
             partner = Partner.objects.get(pk=pk)
             form = PartnerForm(instance=partner)
-            return render(request, 'staff/pages/partnercreate.html', {'form': form})
+            return render(request, 'staff/pages/partner_create.html', {'form': form})
 
 # end static info section

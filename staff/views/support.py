@@ -16,7 +16,7 @@ def tickets(request):
         if request.method == 'GET':
             form = TicketSearchForm
             ticket_list = Ticket.objects.filter(status__lte=2).order_by('-id')
-            return render(request, 'staff/support/tickets.html', {'form': form, 'ticket_list': ticket_list})
+            return render(request, 'staff/support/ticket_list.html', {'form': form, 'ticket_list': ticket_list})
 
         elif request.method == 'POST':
             form = TicketSearchForm(request.POST)
@@ -30,7 +30,7 @@ def tickets(request):
                 except ValueError:
                     ticket_list = Ticket.objects.filter(Q(text__contains=query) |
                                                         Q(creator__username__contains=query)).order_by('-id')
-            return render(request, 'staff/support/tickets.html', {'form': form, 'ticket_list': ticket_list})
+            return render(request, 'staff/support/ticket_list.html', {'form': form, 'ticket_list': ticket_list})
 
 
 def ticket_category_list(request):
@@ -40,12 +40,12 @@ def ticket_category_list(request):
         return render(request, 'staff/permissiondenied.html')
     else:
         cats = TicketCategory.objects.all()
-        return render(request, 'staff/support/ticket_cats.html', {'cats': cats})
+        return render(request, 'staff/support/ticket_category_list.html', {'cats': cats})
 
 
 class TicketCategoryCreate(View):
     form_class = TicketCategoryCreateForm
-    template_name = 'staff/support/ticket_cat_create.html'
+    template_name = 'staff/support/ticket_category_create.html'
 
     def get(self, request):
         user = UserProfile.objects.get(user__username=request.user.username)
@@ -151,7 +151,7 @@ class TicketDetail(DetailView):
 
 class TicketCommentCreate(View):
     form_class = TicketCommentCreateForm
-    template_name = 'staff/ticketcomment.html'
+    template_name = 'staff/ticket_comment_create.html'
 
     def get(self, request, pk):
         user = UserProfile.objects.get(user__username=request.user.username)

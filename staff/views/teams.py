@@ -13,7 +13,7 @@ def teams_index(request):
         return render(request, 'staff/permissiondenied.html')
     else:
         teams_list = Team.objects.all().order_by('id')
-        return render(request, 'staff/teams/teams.html', {'teams_list': teams_list})
+        return render(request, 'staff/teams/team_list.html', {'teams_list': teams_list})
 
 
 def teams_detail(request, pk):
@@ -24,7 +24,7 @@ def teams_detail(request, pk):
     else:
         team = Team.objects.get(id=pk)
         players = TeamInvite.objects.filter(team=team, accepted=True).order_by('id')
-        return render(request, 'staff/teams/teams_detail.html', {'team': team, 'players': players, 'pk': pk})
+        return render(request, 'staff/teams/team_detail.html', {'team': team, 'players': players, 'pk': pk})
 
 
 def create_team(request):
@@ -35,7 +35,7 @@ def create_team(request):
     else:
         if request.method == 'GET':
             form = CreateTeamForm()
-            return render(request, 'staff/teams/createteam.html', {'form': form})
+            return render(request, 'staff/teams/team_create.html', {'form': form})
         else:
             form = CreateTeamForm(request.POST)
             if form.is_valid():
@@ -45,7 +45,7 @@ def create_team(request):
                 return redirect('staff:team_detail', pk=team.id)
             else:
                 form = CreateTeamForm(request.POST)
-                return render(request, 'staff/teams/createteam.html', {'form': form})
+                return render(request, 'staff/teams/team_create.html', {'form': form})
 
 
 def delete_team(request, pk):
@@ -82,7 +82,7 @@ def remove_user(request, pk):
                 return redirect('staff:team_detail', pk=pk)
         else:
             form = RemovePlayerForm(request, pk)
-            return render(request, 'staff/teams/remove_player.html', {'form': form, 'pk': pk})
+            return render(request, 'staff/teams/team_remove_player.html', {'form': form, 'pk': pk})
 
 
 def getteamrank(request):

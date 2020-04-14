@@ -92,7 +92,7 @@ def create_product(request):
     else:
         if request.method == 'GET':
             form = CreateProductForm(None)
-            return render(request, 'staff/store/create_product.html', {'form': form})
+            return render(request, 'staff/store/product_create.html', {'form': form})
         else:
             form = CreateProductForm(request.POST)
             if form.is_valid():
@@ -101,7 +101,7 @@ def create_product(request):
                 product.save()
                 return redirect('staff:product_detail', pk=product.id)
             else:
-                return render(request, 'staff/store/create_product.html', {'form': form})
+                return render(request, 'staff/store/product_create.html', {'form': form})
 
 
 def edit_product(request, pk):
@@ -112,7 +112,7 @@ def edit_product(request, pk):
     else:
         if request.method == 'GET':
             form = CreateProductForm(instance=Product.objects.get(id=pk))
-            return render(request, 'staff/store/edit_product.html', {'form': form, 'pk': pk})
+            return render(request, 'staff/store/product_edit.html', {'form': form, 'pk': pk})
         else:
             form = CreateProductForm(request.POST)
             if form.is_valid():
@@ -125,7 +125,7 @@ def edit_product(request, pk):
                 product.save()
                 return redirect('staff:product_detail', pk=product.id)
             else:
-                return render(request, 'staff/store/edit_product.html', {'form': form, 'pk': pk})
+                return render(request, 'staff/store/product_edit.html', {'form': form, 'pk': pk})
 
 
 def delete_product(request):
@@ -136,7 +136,7 @@ def delete_product(request):
     else:
         if request.method == 'GET':
             form = DeleteProductForm(None)
-            return render(request, 'staff/store/delete_product.html', {'form': form})
+            return render(request, 'staff/store/product_delete.html', {'form': form})
         else:
             form = DeleteProductForm(request.POST)
             if form.is_valid():
@@ -145,4 +145,4 @@ def delete_product(request):
                 product.delete()
                 return redirect('staff:index')  # need list view
             else:
-                return render(request, 'staff/store/delete_product.html', {'form': form})
+                return render(request, 'staff/store/product_delete.html', {'form': form})
