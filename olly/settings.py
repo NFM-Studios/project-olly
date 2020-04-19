@@ -19,7 +19,7 @@ SITE_URL = os.environ['site_url']
 WSGI_APPLICATION = 'olly.wsgi.application'
 
 try:
-    if os.environ['user_verification'] == 'True'
+    if os.environ['user_verification'] == 'True':
         USER_VERIFICATION = True
     else:
         USER_VERIFICATION = False
