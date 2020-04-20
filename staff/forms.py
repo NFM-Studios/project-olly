@@ -8,7 +8,7 @@ from pages.models import StaticInfo, SocialInfo, Partner
 from profiles.models import UserProfile
 from singletournaments.models import SingleEliminationTournament, SingleTournamentRuleset, SingleTournamentRound
 from store.models import Product
-from support.models import TicketComment, Ticket, TicketCategory
+from support.models import TicketComment, Ticket, TicketCategory, QuestionAnswerCategory, QuestionAnswer
 from teams.models import Team, TeamInvite
 
 
@@ -232,7 +232,7 @@ class DeleteProductForm(forms.Form):
 class EditMatchForm(forms.ModelForm):
     class Meta:
         model = Match
-        fields = ('info','disable_userreport')
+        fields = ('info', 'disable_userreport')
 
 
 class GameChoiceForm(forms.ModelForm):
@@ -245,6 +245,7 @@ class SportChoiceForm(forms.ModelForm):
     class Meta:
         model = SportChoice
         fields = '__all__'
+
 
 class PlatformChoiceForm(forms.ModelForm):
     class Meta:
@@ -280,3 +281,15 @@ class CreateTeamForm(forms.ModelForm):
     class Meta:
         model = Team
         fields = ('name', 'founder', 'country', 'players')
+
+
+class CreateQuestionAnswerCategory(forms.ModelForm):
+    class Meta:
+        model = QuestionAnswerCategory
+        fields = 'name'
+
+
+class CreateQuestionAnswer(forms.ModelForm):
+    class Meta:
+        model = QuestionAnswer
+        fields = ('question', 'answer', 'category')
