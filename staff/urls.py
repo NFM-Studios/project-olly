@@ -13,6 +13,15 @@ urlpatterns = [
     path('tickets/cats', login_required(views.ticket_category_list), name='ticket_categories'),
     path('tickets/cat/create', login_required(views.TicketCategoryCreate.as_view()), name='ticket_cat_create'),
     path('tickets/cat/<pk>', login_required(views.ticket_cat_delete), name='ticket_cat_delete'),
+    path('qa/', login_required(views.list_qa), name='qa_list'),
+    path('qa/cat/', login_required(views.list_qa_category), name='qa_cat_list'),
+    path('qa/cat/create', login_required(views.create_qa_category), name='qa_cat_create'),
+    #path('qa/cat/<pk>/delete'),
+    #path('qa/cat/<pk>/edit'),
+    #path('qa/<pk>'),
+    #path('qa/<pk>/edit/'),
+    path('qa/create', login_required(views.create_qa), name='qa_create'),
+
     path('pages', login_required(views.pages), name='pages'),
 
     path('users', login_required(views.users), name='users'),

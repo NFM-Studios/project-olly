@@ -179,3 +179,74 @@ class TicketCommentCreate(View):
         else:
             messages.error(self.request, 'An error occurred')
             return render(request, self.template_name, {'form': form})
+
+
+def list_qa(request):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        qas = QuestionAnswer.objects.all
+        return render(request, 'staff/qa_list.html', qas)
+
+
+def create_qa(request):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        if request.method == 'POST':
+            form = CreateQuestionAnswer(request.POST)
+            if form.is_valid():
+                qa = form.instance
+                qa.creator = user
+                qa.save()
+                form.save()
+                messages.success(request, 'Your QA has been created')
+                return redirect('staff:qa_list')
+            else:
+                return render(request, 'staff/support/qa_create', {'form': form})
+        else:
+            form = CreateQuestionAnswer(None)
+            return render(request, 'staff/support/qa_create', {'form': form})
+
+
+def list_qa_category(request):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        cats = QuestionAnswerCategory.objects.all
+        return render(request, 'staff/support/qa_cat_list.html', cats)
+
+
+def create_qa_category(request):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        if request.method == 'POST':
+            form = CreateQuestionAnswerCategory(request.POST)
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'Your post has been created')
+                return redirect('staff:qa_list')
+            else:
+                return render(request, 'staff/support/qa_cat_create', {'form': form})
+        else:
+            form = CreateQuestionAnswerCategory(None)
+            return render(request, 'staff/support/qa_cat_create', {'form': form})
+
+
+def qa_category_detail(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        cat = QuestionAnswerCategory.objects.get(pk=pk)
+        return render(request, 'staff/qa_cat_detail', cat)
