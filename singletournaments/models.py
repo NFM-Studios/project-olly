@@ -64,10 +64,10 @@ class SingleEliminationTournament(models.Model):
     req_credits = models.PositiveSmallIntegerField(default=0)
 
     # game and platform it will be played on
-    platform = models.ForeignKey(PlatformChoice, on_delete=models.PROTECT, null=True)
-    game = models.ForeignKey(GameChoice, related_name='game', on_delete=models.PROTECT, null=True)
+    platform = models.ForeignKey(PlatformChoice, on_delete=models.PROTECT, null=True, blank=True)
+    game = models.ForeignKey(GameChoice, related_name='game', on_delete=models.PROTECT, null=True, blank=True)
 
-    sport = models.ForeignKey(SportChoice, related_name='sport', on_delete=models.PROTECT, null=True)
+    sport = models.ForeignKey(SportChoice, related_name='sport', on_delete=models.PROTECT, null=True, blank=True)
 
     # when will the first round of matches start?
     start = models.DateTimeField()
