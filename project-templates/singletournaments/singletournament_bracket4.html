@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block body %}
-    <link rel="stylesheet" href="{% static "css/singletournament.css" %}">
+    <link rel="stylesheet" href="{% static "css/singletournaments.css" %}">
     <br/>
     <br/>
     <br/>
@@ -28,7 +28,7 @@
             {% else %}
 
             {% endif %}"><a href="{% url 'matches:detail' pk=match.id %}">{% if match.awayteam.id is None %}BYE
-                                    TEAM{% else %}{{ match.awayteam }}{% endif %}</a><span>
+                                    TEAM{% else %}{{ match.awayteam }}<img src="{{ match.awayteam.country.flag }}">{% endif %}</a><span>
             {% if match.bye_2 is True %}
                 BYE
             {% elif match.hometeam.id is None or match.awayteam.id is None %}
@@ -45,7 +45,7 @@
             {% else %}
 
             {% endif %}"><a href="{% url 'matches:detail' pk=match.id %}">{% if match.hometeam.id is None %}BYE
-                                    TEAM{% else %}{{ match.hometeam }}{% endif %}</a><span>
+                                    TEAM{% else %}{{ match.hometeam }}<img src="{{ match.hometeam.country.flag }}">{% endif %}</a><span>
             {% if match.bye_2 is True %}
                 BYE
             {% elif match.hometeam.id is None or match.awayteam.id is None %}
@@ -80,7 +80,7 @@
             winner
             {% else %}
 
-            {% endif %}"><a href="{% url 'matches:detail' pk=match2.id %}">{{ match2.awayteam }}</a><span>
+            {% endif %}"><a href="{% url 'matches:detail' pk=match2.id %}">{{ match2.awayteam }}<img src="{{ match2.awayteam.country.flag }}"></a><span>
             {% if match2.winner.id == match2.awayteam.id %}
                 1
             {% else %}
@@ -92,7 +92,7 @@
             winner
             {% else %}
 
-            {% endif %}"><a href="{% url 'matches:detail' pk=match2.id %}">{{ match2.hometeam }}</a><span>
+            {% endif %}"><a href="{% url 'matches:detail' pk=match2.id %}">{{ match2.hometeam }}<img src="{{ match2.hometeam.country.flag }}"></a><span>
             {% if match2.winner.id == match2.hometeam.id %}
                 1
             {% else %}
