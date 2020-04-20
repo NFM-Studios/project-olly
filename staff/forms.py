@@ -286,7 +286,7 @@ class CreateTeamForm(forms.ModelForm):
 class CreateQuestionAnswerCategory(forms.ModelForm):
     class Meta:
         model = QuestionAnswerCategory
-        fields = 'name'
+        fields = ('name',)
 
 
 class CreateQuestionAnswer(forms.ModelForm):
