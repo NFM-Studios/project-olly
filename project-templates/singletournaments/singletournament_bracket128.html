@@ -33,7 +33,8 @@
             {% else %}
 
             {% endif %}"><a href="{% url 'matches:detail' pk=match.id %}">{% if match.awayteam.id is None %}BYE
-                                    TEAM{% else %}{{ match.awayteam }}{% endif %}</a><span>
+                                    TEAM{% else %}{{ match.awayteam }}
+                                    <img src="{{ match.awayteam.country.flag }}">{% endif %}</a><span>
             {% if match.bye_2 is True %}
                 BYE
             {% elif match.hometeam.id is None or match.awayteam.id is None %}
@@ -50,7 +51,8 @@
             {% else %}
 
             {% endif %}"><a href="{% url 'matches:detail' pk=match.id %}">{% if match.hometeam.id is None %}BYE
-                                    TEAM{% else %}{{ match.hometeam }}{% endif %}</a><span>
+                                    TEAM{% else %}{{ match.hometeam }}
+                                    <img src="{{ match.hometeam.country.flag }}">{% endif %}</a><span>
             {% if match.bye_2 is True %}
                 BYE
             {% elif match.hometeam.id is None or match.awayteam.id is None %}
@@ -72,7 +74,7 @@
 
                             <li class="spacer">&nbsp;</li>
 
-                            {% if round2matches.count is 0 %}
+                            {% if round2matches.count == 0 %}
 
                                 <li class="game game-top">TBD</li>
                                 <li class="game game-spacer">&nbsp;</li>
@@ -274,7 +276,8 @@
             {% else %}
 
             {% endif %}"><a href="{% url 'matches:detail' pk=match2.id %}">{% if match2.awayteam.id is None %}BYE
-                                        TEAM{% else %}{{ match2.awayteam }}{% endif %}</a><span>
+                                        TEAM{% else %}{{ match2.awayteam }}
+                                        <img src="{{ match2.awayteam.country.flag }}">{% endif %}</a><span>
             {% if match2.bye_2 is True %}
                 BYE
             {% elif match2.hometeam.id is None or match2.awayteam.id is None %}
@@ -291,7 +294,8 @@
             {% else %}
 
             {% endif %}"><a href="{% url 'matches:detail' pk=match2.id %}">{% if match2.hometeam.id is None %}BYE
-                                        TEAM{% else %}{{ match2.hometeam }}{% endif %}</a><span>
+                                        TEAM{% else %}{{ match2.hometeam }}
+                                        <img src="{{ match2.hometeam.country.flag }}">{% endif %}</a><span>
             {% if match2.hometeam.id is None or match2.awayteam.id is None %}
                 BYE
             {% elif match2.winner.id == match2.hometeam.id %}
@@ -309,7 +313,7 @@
 
                         <ul class="round round-3">
                             <li class="spacer">&nbsp;</li>
-                            {% if round3matches.count is 0 %}
+                            {% if round3matches.count == 0 %}
 
                                 <li class="game game-top">TBD</li>
                                 <li class="game game-spacer">&nbsp;</li>
@@ -415,7 +419,8 @@
             {% else %}
 
             {% endif %}"><a href="{% url 'matches:detail' pk=match3.id %}">{% if match3.awayteam.id is None %}BYE
-                                        TEAM{% else %}{{ match3.awayteam }}{% endif %}</a><span>
+                                        TEAM{% else %}{{ match3.awayteam }}
+                                        <img src="{{ match3.awayteam.country.flag }}">{% endif %}</a><span>
             {% if match3.awayteam.id is None %}
                 BYE
             {% elif match3.winner.id == match3.awayteam.id %}
@@ -430,7 +435,8 @@
             {% else %}
 
             {% endif %}"><a href="{% url 'matches:detail' pk=match3.id %}">{% if match3.hometeam.id is None %}BYE
-                                        TEAM{% else %}{{ match3.hometeam }}{% endif %}</a><span>
+                                        TEAM{% else %}{{ match3.hometeam }}
+                                        <img src="{{ match3.hometeam.country.flag }}">{% endif %}</a><span>
             {% if match3.hometeam.id is None or match3.awayteam.id is None %}
                 BYE
             {% elif match3.winner.id == match3.hometeam.id %}
@@ -448,7 +454,7 @@
 
                         <ul class="round round-4">
                             <li class="spacer">&nbsp;</li>
-                            {% if round4matches.count is 0 %}
+                            {% if round4matches.count == 0 %}
 
                                 <li class="game game-top">TBD</li>
                                 <li class="game game-spacer">&nbsp;</li>
@@ -506,7 +512,8 @@
             {% else %}
 
             {% endif %}"><a href="{% url 'matches:detail' pk=match4.id %}">{% if match4.awayteam.id is None %}BYE
-                                        TEAM{% else %}{{ match4.awayteam }}{% endif %}</a><span>
+                                        TEAM{% else %}{{ match4.awayteam }}
+                                        <img src="{{ match4.awayteam.country.flag }}">{% endif %}</a><span>
             {% if match4.awayteam.id is None %}
                 BYE
             {% elif match4.winner.id == match4.awayteam.id %}
@@ -521,7 +528,8 @@
             {% else %}
 
             {% endif %}"><a href="{% url 'matches:detail' pk=match4.id %}">{% if match4.hometeam.id is None %}BYE
-                                        TEAM{% else %}{{ match4.hometeam }}{% endif %}</a><span>
+                                        TEAM{% else %}{{ match4.hometeam }}
+                                        <img src="{{ match4.hometeam.country.flag }}">{% endif %}</a><span>
             {% if match4.hometeam.id is None or match4.awayteam.id is None %}
                 BYE
             {% elif match4.winner.id == match4.hometeam.id %}
@@ -539,7 +547,7 @@
 
                         <ul class="round round-5">
                             <li class="spacer">&nbsp;</li>
-                            {% if round5matches.count is 0 %}
+                            {% if round5matches.count == 0 %}
 
                                 <li class="game game-top">TBD</li>
                                 <li class="game game-spacer">&nbsp;</li>
@@ -573,7 +581,8 @@
             {% else %}
 
             {% endif %}"><a href="{% url 'matches:detail' pk=match5.id %}">{% if match5.awayteam.id is None %}BYE
-                                        TEAM{% else %}{{ match5.awayteam }}{% endif %}</a><span>
+                                        TEAM{% else %}{{ match5.awayteam }}
+                                        <img src="{{ match5.awayteam.country.flag }}">{% endif %}</a><span>
             {% if match5.awayteam.id is None %}
                 BYE
             {% elif match5.winner.id == match5.awayteam.id %}
@@ -588,7 +597,8 @@
             {% else %}
 
             {% endif %}"><a href="{% url 'matches:detail' pk=match5.id %}">{% if match5.hometeam.id is None %}BYE
-                                        TEAM{% else %}{{ match5.hometeam }}{% endif %}</a><span>
+                                        TEAM{% else %}{{ match5.hometeam }}
+                                        <img src="{{ match5.hometeam.country.flag }}">{% endif %}</a><span>
             {% if match5.hometeam.id is None or match5.awayteam.id is None %}
                 BYE
             {% elif match5.winner.id == match5.hometeam.id %}
@@ -605,7 +615,7 @@
 
                         <ul class="round round-6">
                             <li class="spacer">&nbsp;</li>
-                            {% if round6matches.count is 0 %}
+                            {% if round6matches.count == 0 %}
 
                                 <li class="game game-top">TBD</li>
                                 <li class="game game-spacer">&nbsp;</li>
@@ -627,7 +637,8 @@
             {% else %}
 
             {% endif %}"><a href="{% url 'matches:detail' pk=match6.id %}">{% if match6.awayteam.id is None %}BYE
-                                        TEAM{% else %}{{ match6.awayteam }}{% endif %}</a><span>
+                                        TEAM{% else %}{{ match6.awayteam }}
+                                        <img src="{{ match6.awayteam.country.flag }}">{% endif %}</a><span>
             {% if match6.awayteam.id is None %}
                 BYE
             {% elif match6.winner.id == match6.awayteam.id %}
@@ -642,7 +653,8 @@
             {% else %}
 
             {% endif %}"><a href="{% url 'matches:detail' pk=match6.id %}">{% if match6.hometeam.id is None %}BYE
-                                        TEAM{% else %}{{ match6.hometeam }}{% endif %}</a><span>
+                                        TEAM{% else %}{{ match6.hometeam }}
+                                        <img src="{{ match6.hometeam.country.flag }}">{% endif %}</a><span>
             {% if match6.hometeam.id is None or match6.awayteam.id is None %}
                 BYE
             {% elif match6.winner.id == match6.hometeam.id %}
@@ -660,7 +672,7 @@
 
                         <ul class="round round-7">
                             <li class="spacer">&nbsp;</li>
-                            {% if round7matches.count is 0 %}
+                            {% if round7matches.count == 0 %}
 
                                 <li class="game game-top">TBD</li>
                                 <li class="game game-spacer">&nbsp;</li>
@@ -671,24 +683,26 @@
                             {% else %}
                                 {% for match7 in round7matches %}
 
-                                    <li class="game game-top {% if match7.winner is match7.awayteam %}
+                                    <li class="game game-top {% if match7.winner.id == match7.awayteam.id %}
             winner
             {% else %}
 
-            {% endif %}"><a href="{% url 'matches:detail' pk=match7.id %}">{{ match7.awayteam }}</a><span>
-            {% if match7.winner is match7.awayteam %}
+            {% endif %}"><a href="{% url 'matches:detail' pk=match7.id %}">{{ match7.awayteam }}<img
+                                            src="{{ match7.awayteam.country.flag }}"></a><span>
+            {% if match7.winner.id == match7.awayteam.id %}
                 1
             {% else %}
                 0
             {% endif %}
         </span></li>
                                     <li class="game game-spacer">&nbsp;</li>
-                                    <li class="game game-bottom {% if match7.winner is match7.hometeam %}
+                                    <li class="game game-bottom {% if match7.winner.id == match7.hometeam.id %}
             winner
             {% else %}
 
-            {% endif %}"><a href="{% url 'matches:detail' pk=match7.id %}">{{ match7.hometeam }}</a><span>
-            {% if match7.winner is match7.hometeam %}
+            {% endif %}"><a href="{% url 'matches:detail' pk=match7.id %}">{{ match7.hometeam }}<img
+                                            src="{{ match7.hometeam.country.flag }}"></a><span>
+            {% if match7.winner.id == match7.hometeam.id %}
                 1
             {% else %}
                 0
