@@ -187,8 +187,8 @@ def list_qa(request):
     if user.user_type not in allowed:
         return render(request, 'staff/permissiondenied.html')
     else:
-        qas = QuestionAnswer.objects.all
-        return render(request, 'staff/qa_list.html', qas)
+        qas = QuestionAnswer.objects.all()
+        return render(request, 'staff/support/qa_list.html', qas)
 
 
 def create_qa(request):
