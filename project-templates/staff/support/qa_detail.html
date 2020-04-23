@@ -1,0 +1,27 @@
+{% extends "staff/staffbase.html" %}
+{% load static %}
+<link rel="stylesheet" href="{% static "css/staff.css" %}">
+{% block title %}
+    Edit Q&A
+{% endblock %}
+{% block body %}
+    <form method="post">
+        {% csrf_token %}
+
+        {{ field.errors }}
+
+        <label>Category</label>
+        <div class="form-group">{{ form.category }}</div>
+
+        <label>Question</label>
+        <div class="form-group">{{ form.question }}</div>
+
+        <label>Answer</label>
+        <div class="form-group">{{ form.answer }}</div>
+
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <a href="{% url 'staff:qa_delete' pk=pk %}" onclick="return confirm('Are you sure you want to delete this Q&A?')" class="btn btn-danger">Delete</a>
+
+    </form>
+{% endblock %}

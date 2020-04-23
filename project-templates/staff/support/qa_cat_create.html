@@ -1,0 +1,19 @@
+{% extends "staff/staffbase.html" %}
+{% load static %}
+<link rel="stylesheet" href="{% static "css/staff.css" %}">
+{% block title %}
+    Create Q&A Categories
+{% endblock %}
+{% block body %}
+    <form method="post">
+        {% csrf_token %}
+
+        {{ field.errors }}
+
+        <label>Name</label>
+        <div class="form-group">{{ form.name }}</div>
+
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+{% endblock %}

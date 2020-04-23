@@ -181,17 +181,17 @@ class TicketCommentCreate(View):
             return render(request, self.template_name, {'form': form})
 
 
-def list_qa(request):
+def qa_list(request):
     user = UserProfile.objects.get(user__username=request.user.username)
     allowed = ['superadmin', 'admin']
     if user.user_type not in allowed:
         return render(request, 'staff/permissiondenied.html')
     else:
         qas = QuestionAnswer.objects.all()
-        return render(request, 'staff/support/qa_list.html', qas)
+        return render(request, 'staff/support/qa_list.html', {'qas': qas})
 
 
-def create_qa(request):
+def qa_create(request):
     user = UserProfile.objects.get(user__username=request.user.username)
     allowed = ['superadmin', 'admin']
     if user.user_type not in allowed:
@@ -201,29 +201,62 @@ def create_qa(request):
             form = CreateQuestionAnswer(request.POST)
             if form.is_valid():
                 qa = form.instance
-                qa.creator = user
+                qa.creator = request.user
                 qa.save()
                 form.save()
-                messages.success(request, 'Your QA has been created')
+                messages.success(request, 'Your Q&A has been created')
                 return redirect('staff:qa_list')
             else:
-                return render(request, 'staff/support/qa_create', {'form': form})
+                return render(request, 'staff/support/qa_create.html', {'form': form})
         else:
             form = CreateQuestionAnswer(None)
-            return render(request, 'staff/support/qa_create', {'form': form})
+            return render(request, 'staff/support/qa_create.html', {'form': form})
 
 
-def list_qa_category(request):
+def qa_detail(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        if request.method == 'POST':
+            cat_obj = QuestionAnswer.objects.get(pk=pk)
+            form = CreateQuestionAnswer(request.POST, instance=cat_obj)
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'Your changes have been saved')
+                return redirect('staff:qa_list')
+            else:
+                return render(request, 'staff/support/qa_detail.html', {'form': form, 'pk': pk})
+        else:
+            cat_obj =  QuestionAnswer.objects.get(pk=pk)
+            form = CreateQuestionAnswer(instance=cat_obj)
+            return render(request, 'staff/support/qa_detail.html', {'form': form, 'pk': pk})
+
+
+def qa_delete(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        qa = QuestionAnswer.objects.get(pk=pk)
+        qa.delete()
+        messages.success(request, 'Q&A has been deleted')
+        return redirect('staff:qa_list')
+
+
+def qa_cat_list(request):
     user = UserProfile.objects.get(user__username=request.user.username)
     allowed = ['superadmin', 'admin']
     if user.user_type not in allowed:
         return render(request, 'staff/permissiondenied.html')
     else:
         cats = QuestionAnswerCategory.objects.all
-        return render(request, 'staff/support/qa_cat_list.html', cats)
+        return render(request, 'staff/support/qa_cat_list.html', {'cats': cats})
 
 
-def create_qa_category(request):
+def qa_cat_create(request):
     user = UserProfile.objects.get(user__username=request.user.username)
     allowed = ['superadmin', 'admin']
     if user.user_type not in allowed:
@@ -233,20 +266,43 @@ def create_qa_category(request):
             form = CreateQuestionAnswerCategory(request.POST)
             if form.is_valid():
                 form.save()
-                messages.success(request, 'Your post has been created')
-                return redirect('staff:qa_list')
+                messages.success(request, 'Your category has been created')
+                return redirect('staff:qa_cat_list')
             else:
-                return render(request, 'staff/support/qa_cat_create', {'form': form})
+                return render(request, 'staff/support/qa_cat_create.html', {'form': form})
         else:
             form = CreateQuestionAnswerCategory(None)
-            return render(request, 'staff/support/qa_cat_create', {'form': form})
+            return render(request, 'staff/support/qa_cat_create.html', {'form': form})
 
 
-def qa_category_detail(request, pk):
+def qa_cat_detail(request, pk):
     user = UserProfile.objects.get(user__username=request.user.username)
     allowed = ['superadmin', 'admin']
     if user.user_type not in allowed:
         return render(request, 'staff/permissiondenied.html')
     else:
-        cat = QuestionAnswerCategory.objects.get(pk=pk)
-        return render(request, 'staff/qa_cat_detail', cat)
+        if request.method == 'POST':
+            cat_obj = QuestionAnswerCategory.objects.get(pk=pk)
+            form = CreateQuestionAnswerCategory(request.POST, instance=cat_obj)
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'Your changes have been saved')
+                return redirect('staff:qa_cat_list')
+            else:
+                return render(request, 'staff/support/qa_cat_detail.html', {'form': form, 'pk': pk})
+        else:
+            cat_obj =  QuestionAnswerCategory.objects.get(pk=pk)
+            form = CreateQuestionAnswerCategory(instance=cat_obj)
+            return render(request, 'staff/support/qa_cat_detail.html', {'form': form, 'pk': pk})
+
+
+def qa_cat_delete(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        qa_cat = QuestionAnswerCategory.objects.get(pk=pk)
+        qa_cat.delete()
+        messages.success(request, 'Q&A category has been deleted')
+        return redirect('staff:qa_cat_list')
