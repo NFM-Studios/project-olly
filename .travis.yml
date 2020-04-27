@@ -3,7 +3,9 @@ language: python
 python:
   - 3.7
 
-services: postgresql
+services:
+  - postgresql
+  - docker
 
 install:
   - pip install -r requirements.txt
@@ -29,3 +31,9 @@ notifications:
       - nfm.studios@gmail.com
     on_success: never
     on_failure: always
+
+deploy:
+  provider: script
+  script: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD && docker build . && docker push nfmstudios/project-olly:master
+  on:
+    branch: master
