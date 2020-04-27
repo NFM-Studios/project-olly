@@ -34,6 +34,6 @@ notifications:
 
 deploy:
   provider: script
-  script: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD && docker build . && docker push nfmstudios/project-olly:master
+  script: echo "$DOCKER_PASSWORD" | docker login -u $DOCKER_USERNAME --password-stdin && docker build -t nfmstudios/project-olly:master . && docker push nfmstudios/project-olly:master
   on:
     branch: master
