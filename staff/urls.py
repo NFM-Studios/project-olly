@@ -87,7 +87,7 @@ urlpatterns = [
     path('store/transfers/list', login_required(views.TransferView.as_view()), name='transfer_list'),
     path('store/products/', login_required(views.products), name='product_list'),
     path('store/products/create/', login_required(views.create_product), name='create_product'),
-    path('store/products/delete/', login_required(views.delete_product), name='delete_product'),
+    path('store/products/<int:pk>/delete/', login_required(views.delete_product), name='delete_product'),
     path('store/products/<int:pk>/', login_required(views.product_detail), name='product_detail'),
     path('store/products/<int:pk>/edit/', login_required(views.edit_product), name='product_edit'),
 

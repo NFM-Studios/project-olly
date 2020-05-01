@@ -128,21 +128,13 @@ def edit_product(request, pk):
                 return render(request, 'staff/store/product_edit.html', {'form': form, 'pk': pk})
 
 
-def delete_product(request):
+def delete_product(request, pk):
     user = UserProfile.objects.get(user__username=request.user.username)
     allowed = ['superadmin', 'admin']
     if user.user_type not in allowed:
         return render(request, 'staff/permissiondenied.html')
     else:
-        if request.method == 'GET':
-            form = DeleteProductForm(None)
-            return render(request, 'staff/store/product_delete.html', {'form': form})
-        else:
-            form = DeleteProductForm(request.POST)
-            if form.is_valid():
-                product = Product.objects.get(price=form.data['price'], name=form.data['name'])
-                messages.success(request, "Deleted product %s" % product.name)
-                product.delete()
-                return redirect('staff:index')  # need list view
-            else:
-                return render(request, 'staff/store/product_delete.html', {'form': form})
+        product = Product.objects.get(pk=pk)
+        product.delete()
+        messages.success(request, "Product Deleted")
+        return redirect('staff:product_list')
