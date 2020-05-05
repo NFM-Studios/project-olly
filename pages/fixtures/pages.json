@@ -1,0 +1,32 @@
+[
+  {
+    "model": "pages.socialinfo",
+    "pk": 1,
+    "fields": {
+      "twitchchannel": null,
+      "youtubechannel": null,
+      "twitterprofile": "http://twitter.com/NFM_Studios",
+      "facebookpage": null,
+      "instagrampage": null,
+      "stream": null
+    }
+  },
+  {
+    "model": "pages.staticinfo",
+    "pk": 1,
+    "fields": {
+      "featured_tournament": null,
+      "about_us": "about us",
+      "terms": "terms of service",
+      "block1text": null,
+      "block1link": null,
+      "block1_img": "",
+      "block2text": null,
+      "block2link": null,
+      "block2_img": "",
+      "block3text": null,
+      "block3link": null,
+      "block3_img": ""
+    }
+  }
+]
