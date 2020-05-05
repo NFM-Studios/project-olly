@@ -5,7 +5,7 @@ from .base_settings import *
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ['secret_key']
 
-if os.environ['debug'] == 'True':
+if os.environ['debug'] == 'True' or 'TRAVIS' in os.environ:
     DEBUG = True
     PAYPAL_TEST = True
 else:
