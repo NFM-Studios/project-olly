@@ -56,7 +56,7 @@
                                                     style="margin-bottom:4px;">TEAMS</a></li>
                                     <li class=""><a href="{% url 'singletournaments:bracket' pk=tournament.id %}"
                                                     style="margin-bottom:4px;">BRACKET</a></li>
-                                    <li class=""><a href="#4" data-toggle="tab" aria-expanded="false"
+                                    <li class=""><a href="{% url 'singletournaments:ruleset' pk=tournament.id %}"
                                                     style="margin-bottom:4px;">RULES</a></li>
                                     <li class=""><a href="{% url 'singletournaments:join' pk=tournament.id %}"
                                                     style="margin-bottom:4px;">JOIN</a></li>
@@ -167,13 +167,6 @@
 
                                 </div>
 
-                                <div class="tab-pane" id="4">
-                                    <div class="col-md-12">
-
-
-                                        {% include 'singletournaments/stock/singletournament_rules.html' with ruleset=ruleset %}
-                                    </div>
-                                </div>
 
                                 <div class="tab-pane" id="5">
                                     <div class="col-md-12">

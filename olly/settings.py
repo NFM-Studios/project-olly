@@ -19,9 +19,20 @@ SITE_URL = os.environ['site_url']
 WSGI_APPLICATION = 'olly.wsgi.application'
 
 try:
-    USER_VERIFICATION = os.environ['user_verification']
+    if os.environ['user_verification'] == 'True':
+        USER_VERIFICATION = True
+    else:
+        USER_VERIFICATION = False
 except KeyError:
     USER_VERIFICATION = False
+
+try:
+    if os.environ['esports_mode'] == 'False':
+        ESPORTS_MODE = False
+    else:
+        ESPORTS_MODE = True
+except KeyError:
+    ESPORTS_MODE = True
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases

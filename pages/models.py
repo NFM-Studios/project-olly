@@ -3,6 +3,16 @@ from django.db import models
 from singletournaments.models import SingleEliminationTournament
 
 
+class FrontPageSlide(models.Model):
+    class Meta:
+        verbose_name_plural = "Front Page Slides"
+
+    header = models.CharField(default="", max_length=50, blank=True, null=True)
+    subhead = models.CharField(default="", max_length=100, blank=True, null=True)
+    link = models.URLField(blank=True, null=True)
+    image = models.ImageField(upload_to='carousel_images', blank=True)
+
+
 class SocialInfo(models.Model):
     class Meta:
         verbose_name_plural = "Social info"
@@ -26,21 +36,6 @@ class StaticInfo(models.Model):
     terms = models.TextField(default='terms of service')
     # privacy = models.TextField(default='privacy policy')
 
-    slide1header = models.CharField(default="", max_length=50, blank=True, null=True)
-    slide1subhead = models.CharField(default="", max_length=50, blank=True, null=True)
-    slide1link = models.URLField(blank=True, null=True)
-    slide1_img = models.ImageField(upload_to='carousel_images', blank=True)
-
-    slide2header = models.CharField(default="", max_length=50, blank=True, null=True)
-    slide2subhead = models.CharField(default="", max_length=50, blank=True, null=True)
-    slide2link = models.URLField(blank=True, null=True)
-    slide2_img = models.ImageField(upload_to='carousel_images', blank=True)
-
-    slide3header = models.CharField(default="", max_length=50, blank=True, null=True)
-    slide3subhead = models.CharField(default="", max_length=50, blank=True, null=True)
-    slide3link = models.URLField(blank=True, null=True)
-    slide3_img = models.ImageField(upload_to='carousel_images', blank=True)
-
     block1text = models.CharField(default="", max_length=50, blank=True, null=True)
     block1link = models.URLField(blank=True, null=True)
     block1_img = models.ImageField(upload_to='carousel_images', blank=True)
@@ -52,9 +47,6 @@ class StaticInfo(models.Model):
     block3text = models.CharField(default="", max_length=50, blank=True, null=True)
     block3link = models.URLField(blank=True, null=True)
     block3_img = models.ImageField(upload_to='carousel_images', blank=True)
-
-    welcomeln1 = models.CharField(default='welcome1', max_length=25, blank=True, null=True)
-    welcomeln2 = models.CharField(default='welcome2', max_length=25, blank=True, null=True)
 
 
 class Partner(models.Model):

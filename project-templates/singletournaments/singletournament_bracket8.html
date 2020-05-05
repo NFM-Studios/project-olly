@@ -6,6 +6,8 @@
 {% endblock %}
 
 {% block body %}
+
+    <link rel="stylesheet" href="{% static "css/singletournaments.css" %}">
     <br/>
     <br/>
     <br/>
@@ -29,7 +31,8 @@
             {% else %}
 
             {% endif %}"><a href="{% url 'matches:detail' pk=match.id %}">{% if match.awayteam.id is None %}BYE
-                                    TEAM{% else %}{{ match.awayteam }}{% endif %}</a><span>
+                                    TEAM{% else %}{{ match.awayteam }}
+                                    <img src="{{ match.awayteam.country.flag }}">{% endif %}</a><span>
             {% if match.bye_2 is True %}
                 BYE
             {% elif match.hometeam.id is None or match.awayteam.id is None %}
@@ -46,7 +49,8 @@
             {% else %}
 
             {% endif %}"><a href="{% url 'matches:detail' pk=match.id %}">{% if match.hometeam.id is None %}BYE
-                                    TEAM{% else %}{{ match.hometeam }}{% endif %}</a><span>
+                                    TEAM{% else %}{{ match.hometeam }}
+                                    <img src="{{ match.hometeam.country.flag }}">{% endif %}</a><span>
             {% if match.bye_2 is True %}
                 BYE
             {% elif match.hometeam.id is None or match.awayteam.id is None %}
@@ -67,7 +71,7 @@
 
                             <li class="spacer">&nbsp;</li>
 
-                            {% if round2matches.count is 0 %}
+                            {% if round2matches.count == 0 %}
 
                                 <li class="game game-top">TBD</li>
                                 <li class="game game-spacer">&nbsp;</li>
@@ -89,7 +93,8 @@
             {% else %}
 
             {% endif %}"><a href="{% url 'matches:detail' pk=match2.id %}">{% if match2.awayteam.id is None %}BYE
-                                        TEAM{% else %}{{ match2.awayteam }}{% endif %}</a><span>
+                                        TEAM{% else %}{{ match2.awayteam }}
+                                        <img src="{{ match2.awayteam.country.flag }}">{% endif %}</a><span>
             {% if match2.awayteam.id is None %}
                 BYE
             {% elif match2.winner.id == match2.awayteam.id %}
@@ -104,7 +109,8 @@
             {% else %}
 
             {% endif %}"><a href="{% url 'matches:detail' pk=match2.id %}">{% if match2.hometeam.id is None %}BYE
-                                        TEAM{% else %}{{ match2.hometeam }}{% endif %}</a><span>
+                                        TEAM{% else %}{{ match2.hometeam }}
+                                        <img src="{{ match2.hometeam.country.flag }}">{% endif %}</a><span>
             {% if match2.hometeam.id is None or match2.awayteam.id is None %}
                 BYE
             {% elif match2.winner.id == match2.hometeam.id %}
@@ -123,7 +129,7 @@
 
                         <ul class="round round-3">
                             <li class="spacer">&nbsp;</li>
-                            {% if round3matches.count is 0 %}
+                            {% if round3matches.count == 0 %}
 
                                 <li class="game game-top">TBD</li>
                                 <li class="game game-spacer">&nbsp;</li>
@@ -139,7 +145,8 @@
             winner
             {% else %}
 
-            {% endif %}"><a href="{% url 'matches:detail' pk=match3.id %}">{{ match3.awayteam }}</a><span>
+            {% endif %}"><a href="{% url 'matches:detail' pk=match3.id %}">{ match3.awayteam }}<img
+                                            src="{{ match3.awayteam.country.flag }}"></a><span>
             {% if match3.winner.id == match3.awayteam.id %}
                 1
             {% else %}
@@ -151,7 +158,8 @@
             winner
             {% else %}
 
-            {% endif %}"><a href="{% url 'matches:detail' pk=match3.id %}">{{ match3.hometeam }}</a><span>
+            {% endif %}"><a href="{% url 'matches:detail' pk=match3.id %}">{{ match3.hometeam }}<img
+                                            src="{{ match3.hometeam.country.flag }}"></a><span>
             {% if match3.winner.id == match3.hometeam.id %}
                 1
             {% else %}

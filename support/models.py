@@ -5,6 +5,22 @@ from django.db import models
 from support.settings import STATUS_CHOICES, CLOSED_STATUSES
 
 
+class QuestionAnswerCategory(models.Model):
+    name = models.CharField(max_length=255, default='General')
+
+    def __str__(self):
+        return self.name
+
+
+class QuestionAnswer(models.Model):
+    creator = models.ForeignKey(User, verbose_name='Creator', related_name='qa_creator', on_delete=models.SET_NULL, null=True)
+    updated = models.DateTimeField(auto_now=True, auto_now_add=False)
+    created = models.DateTimeField(auto_now_add=True, auto_now=False)
+    question = models.CharField(max_length=255, blank=True, null=True)
+    answer = models.CharField(max_length=2555, blank=True, null=True)
+    category = models.ForeignKey(QuestionAnswerCategory, related_name='qa_category', on_delete=models.SET_NULL, null=True)
+
+
 class TicketCategory(models.Model):
     name = models.CharField(max_length=255, default='no name specified')
     priority = models.PositiveSmallIntegerField(default=0)

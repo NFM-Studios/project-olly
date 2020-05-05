@@ -64,10 +64,22 @@
                 </a>
             </li>
             <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Support">
-                <a class="nav-link" href="{% url 'staff:tickets' %}">
+                <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseSupport"
+                   data-parent="#exampleAccordion">
                     <i class="fa fa-fw fa-support"></i>
                     <span class="nav-link-text">Support</span>
                 </a>
+                <ul class="sidenav-second-level collapse" id="collapseSupport">
+                    <li>
+                        <a href="{% url 'staff:tickets' %}">Tickets</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'staff:qa_cat_list' %}">Q&A Categories</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'staff:qa_list' %}">Q&A Entries</a>
+                    </li>
+                </ul>
             </li>
             <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Pages">
                 <a class="nav-link" href="{% url 'staff:pages' %}">
@@ -165,6 +177,9 @@
                     </li>
                     <li>
                         <a href="{% url 'staff:tournamentlist' %}">Manage</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'staff:tournamentrulesetlist' %}">Manage Rulesets</a>
                     </li>
                 </ul>
             </li>
@@ -265,7 +280,7 @@
     <br/>
 
 
-    <div class="container-fluid">
+    <div class="container-fluid" style="padding-right: 20px; padding-left: 20px">
         <!-- Breadcrumbs-->
     {% if messages %}
         <ol class="breadcrumb">
@@ -306,11 +321,13 @@
 
     </div>
 </div>
+<br />
+<br />
 {% block footer %}
-    <footer class="sticky-footer" style="width:auto">
+    <footer class="sticky-footer" style="">
         <div class="container">
             <div class="text-center">
-                <small>Copyright NFM Studios© {{ SITE_NAME }} 2019</small>
+                <small>Copyright NFM Studios© {{ SITE_NAME }} 2020</small>
             </div>
         </div>
     </footer>

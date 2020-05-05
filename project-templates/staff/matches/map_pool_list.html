@@ -25,12 +25,14 @@
         <tr id="header">
             <thead>
             <th scope="row">Name</th>
+            <th scope="row">Game</th>
             </thead>
         </tr>
         <tbody>
         {% for mappool in mappools %}
             <tr>
                 <td scope="row"><a href="{% url 'staff:map_pool_detail' pk=mappool.id %}">{{ mappool.name }}</a></td>
+                <td scope="row">{{ mappool.game.name }}</td>
             </tr>
         {% endfor %}
         </tbody>
