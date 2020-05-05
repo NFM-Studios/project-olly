@@ -6,6 +6,7 @@ networks:
 
 services:
   project-olly-app:
+    restart: always
     build: .
     depends_on:
       - project-olly-db
@@ -19,6 +20,7 @@ services:
     container_name: project-olly-app
 
   project-olly-db:
+    restart: always
     image: postgres:12
     environment:
       - POSTGRES_PASSWORD=${db_password}
@@ -30,6 +32,7 @@ services:
     container_name: project-olly-db
 
   project-olly-proxy:
+    restart: always
     image: abiosoft/caddy:no-stats
     depends_on:
       - project-olly-app
