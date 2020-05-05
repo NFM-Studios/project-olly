@@ -12,7 +12,7 @@ install:
 
 before_script:
   - psql -c "CREATE DATABASE olly;" -U postgres
-  - psql -c "CREATE USER olly WITH PASSWORD secret_password;" -U postgres
+  - psql -c "CREATE USER olly WITH PASSWORD 'secret_password';" -U postgres
   - psql -c "GRANT ALL PRIVILEGES ON DATABASE olly to olly;" -U postgres
 
 script:
