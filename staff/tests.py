@@ -4,6 +4,8 @@ from .views import *
 
 
 class StaffBasicTest1(TestCase):
+    fixtures = ['pages.json']
+
     def setUp(self):
         self.factory = RequestFactory()
         self.user = User.objects.create_user(username='testuser', email='test@nfmstudios.com', password='password')
@@ -196,5 +198,3 @@ class StaffBasicTest1(TestCase):
         response = users(request)
         self.assertEqual(response.status_code, 200)
         print('Completed staff:partner_list')
-
-    print('Basic Staff tests have finished')
