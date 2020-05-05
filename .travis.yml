@@ -20,7 +20,7 @@ before_script:
   - psql -c "GRANT ALL PRIVILEGES ON DATABASE olly to olly;" -U postgres
 
 script:
-  - docker run --env-file .env.example nfmstudios/project-olly:master python3 manage.py test
+  - docker run --network=host --env-file .env.example nfmstudios/project-olly:master python3 manage.py test
 
 after_success:
   - wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
