@@ -6,7 +6,19 @@ from django.views.generic import DetailView, View
 
 from profiles.models import UserProfile
 from support.forms import TicketCreateForm, TicketCommentCreateForm, TicketStatusChangeForm, ListFilterForm
-from support.models import Ticket, TicketComment
+from support.models import Ticket, TicketComment, QuestionAnswer, QuestionAnswerCategory
+
+
+def FAQListView(request):
+    questions = QuestionAnswer.objects.all()
+    return render(request, 'support/faq_list.html',
+                  {'questions': questions})
+
+
+def FAQDetail(request, pk):
+    faq = get_object_or_404(QuestionAnswer, pk=pk)
+    template = 'support/faq_detail.html'
+    return render(request, template, {'faq': faq})
 
 
 class MyTicketListView(View):
