@@ -1,0 +1,37 @@
+{% extends 'staff/staffbase.html' %}
+{% load static %}
+<link rel="stylesheet" href="{% static "css/staff.css" %}">
+
+{% block title %}
+    Slides
+{% endblock %}
+{% block body %}
+    <div style="overflow-x:auto;">
+        <h2><a href="{% url 'staff:slide_create' %}"><i class="fa fa-plus"></i>Create new slide </a></h2>
+
+        <table class="table table-hover">
+            <tr id="header">
+                <thead>
+                <th>Header</th>
+                <th>Subhead</th>
+                <th>Link</th>
+                </thead>
+            </tr>
+            {% for slide in slides %}
+                <tbody>
+                <tr scope="">
+                    <td>
+                        <a href="{% url 'staff:slide_detail' pk=slide.pk %}">{{ slide.header }}</a>
+                    </td>
+                    <td>
+                        {{ slide.subhead }}
+                    </td>
+                    <td>
+                        {{ slide.link }}
+                    </td>
+                </tr>
+                </tbody>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}

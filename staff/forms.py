@@ -4,7 +4,7 @@ from django.db.models import Q
 
 from matches.models import Match, GameChoice, PlatformChoice, MapChoice, MapPoolChoice, SportChoice
 from news.models import Post
-from pages.models import StaticInfo, SocialInfo, Partner
+from pages.models import StaticInfo, SocialInfo, Partner, FrontPageSlide
 from profiles.models import UserProfile
 from singletournaments.models import SingleEliminationTournament, SingleTournamentRuleset, SingleTournamentRound
 from store.models import Product
@@ -293,3 +293,9 @@ class CreateQuestionAnswer(forms.ModelForm):
     class Meta:
         model = QuestionAnswer
         fields = ('question', 'answer', 'category')
+
+
+class CreateSlide(forms.ModelForm):
+    class Meta:
+        model = FrontPageSlide
+        fields = '__all__'
