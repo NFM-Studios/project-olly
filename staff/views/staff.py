@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 
 from staff.forms import *
 from support.models import Ticket
+from pages.models import FrontPageSlide
 from wagers.models import *
 
 
@@ -105,5 +106,67 @@ def partner_detail(request, pk):
             partner = Partner.objects.get(pk=pk)
             form = PartnerForm(instance=partner)
             return render(request, 'staff/pages/partner_create.html', {'form': form})
+
+
+def slide_list(request):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        slides = FrontPageSlide.objects.all()
+        return render(request, 'staff/pages/slide_list.html', {'slides': slides})
+
+
+def slide_create(request):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        if request.method == 'POST':
+            form = CreateSlide(request.POST, request.FILES)
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'Your slide has been created')
+                return redirect('staff:slide_list')
+            else:
+                return render(request, 'staff/pages/slide_create.html', {'form': form})
+        else:
+            form = CreateSlide(None)
+            return render(request, 'staff/pages/slide_create.html', {'form': form})
+
+
+def slide_detail(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        if request.method == 'POST':
+            slide_obj = FrontPageSlide.objects.get(pk=pk)
+            form = CreateSlide(request.POST, request.FILES, instance=slide_obj)
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'Your changes have been saved')
+                return redirect('staff:slide_list')
+            else:
+                return render(request, 'staff/pages/slide_detail.html', {'form': form, 'pk': pk})
+        else:
+            slide_obj =  FrontPageSlide.objects.get(pk=pk)
+            form = CreateSlide(instance=slide_obj)
+            return render(request, 'staff/pages/slide_detail.html', {'form': form, 'pk': pk})
+
+
+def slide_delete(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        slide = FrontPageSlide.objects.get(pk=pk)
+        slide.delete()
+        messages.success(request, 'slide has been deleted')
+        return redirect('staff:slide_list')
 
 # end static info section

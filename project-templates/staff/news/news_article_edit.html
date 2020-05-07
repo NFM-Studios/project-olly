@@ -56,6 +56,7 @@
     <script type="text/javascript">
         $(function () {
             $('#datetimepicker1').datetimepicker({
+                date: moment('{{form.publish.value|date:"Y-m-d H:i" }}'),
                 format: 'YYYY-MM-DD HH:mm'
             });
 

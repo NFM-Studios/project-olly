@@ -4,21 +4,6 @@ from django.db.models.signals import post_save
 from django_countries.fields import CountryField
 
 
-# Create your models here.
-
-
-class UserGear(models.Model):
-    user = models.ForeignKey(User, related_name='userspecs', on_delete=models.CASCADE)
-    # see if the guy actually owns a pc
-    ownpc = models.BooleanField(default=False)
-
-    cpu = models.CharField(max_length=30, default='No CPU specified')
-    gpu = models.CharField(max_length=30, default='No GPU specified')
-    psu = models.CharField(max_length=30, default='No PSU specified')
-    case = models.CharField(max_length=30, default='No Case specified')
-    os = models.CharField(max_length=30, default='No OS specified')
-
-
 class UserProfile(models.Model):
     def __str__(self):
         return str(self.user)
@@ -40,6 +25,7 @@ class UserProfile(models.Model):
     epic = models.CharField(max_length=30, default='No Epic Linked', blank=True)
     lol = models.CharField(max_length=30, default='No LOL Linked', blank=True)
     battlenet = models.CharField(max_length=30, default='No Battle.net Linked', blank=True)
+    activisionid = models.CharField(max_length=30, default='No Activision ID Linked', blank=True)
     twitter_profile = models.CharField(max_length=30, default='No Twitter Linked', blank=True)
     twitch_channel = models.CharField(max_length=50, default='No Twitch Linked', blank=True)
     favorite_game = models.CharField(max_length=50, default='N/A', blank=True)

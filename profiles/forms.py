@@ -35,6 +35,7 @@ class EditProfileForm(forms.ModelForm):
             'epic',
             'lol',
             'battlenet',
+            'activisionid',
             'twitter_profile',
             'twitch_channel',
             'favorite_game',
@@ -56,6 +57,8 @@ class EditProfileForm(forms.ModelForm):
         self.fields['epic'].widget.attrs.update({'name': 'epic', 'class': 'form-control', 'style':
             ''})
         self.fields['battlenet'].widget.attrs.update({'name': 'battlenet', 'class': 'form-control', 'style':
+            ''})
+        self.fields['activisionid'].widget.attrs.update({'name': 'activisionid', 'class': 'form-control', 'style':
             ''})
         self.fields['twitter_profile'].widget.attrs.update({'name': 'twitter_profile', 'class': 'form-control', 'style':
             ''})

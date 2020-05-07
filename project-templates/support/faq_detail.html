@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+    <title>FAQ #{{ faq.pk }} - {{ SITE_NAME }}</title>
+{% endblock %}
+
+{% block body %}
+<h1>{{ faq.category.name }}</h1>
+<h2>{{ faq.question }}</h2>
+    <p>{{ faq.anaswer }}</p>
+    <p>Creator: {{ faq.creator }}</p>
+    <p>Created: {{ faq.created }}, Updated: {{ faq.updated }}</p>
+
+{% endblock %}
+

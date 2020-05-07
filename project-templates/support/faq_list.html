@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+    <title>FAQ - {{ SITE_NAME }}</title>
+{% endblock %}
+
+{% block body %}
+{% if questions.count == 0 %}
+    <h2>There's nothing here yet! Check back soon!</h2>
+    {% endif %}
+
+    <table class="table table-hover">
+        <tr id="header">
+            <thead>
+            <th>Category</th>
+            <th>Question</th>
+            <th>Answer</th>
+            <th>Last Updated</th>
+            </thead>
+        </tr>
+        {% for q in questions %}
+            <tbody>
+            <tr>
+                <td>{{ q.category.name }}</td>
+                <td><a href="{% url 'support:faq_detail' pk=q.pk %}">{{ q.question }}</a></td>
+                <td><a href="{% url 'support:faq_detail' pk=q.pk %}">{{ q.answer|truncatewords:20 }}</a></td>
+                <td>{{ q.updated }}</td>
+            </tr>
+            </tbody>
+        {% endfor %}
+    </table>
+
+
+{% endblock %}
+

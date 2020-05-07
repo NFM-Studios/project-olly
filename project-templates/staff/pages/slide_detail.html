@@ -1,0 +1,30 @@
+{% extends "staff/staffbase.html" %}
+{% load static %}
+<link rel="stylesheet" href="{% static "css/staff.css" %}">
+{% block title %}
+    Edit Slide
+{% endblock %}
+{% block body %}
+    <form enctype="multipart/form-data" method="post">
+        {% csrf_token %}
+
+        {{ field.errors }}
+
+        <label>Header</label>
+        <div class="form-group">{{ form.header }}</div>
+
+        <label>Sub header</label>
+        <div class="form-group">{{ form.subhead }}</div>
+
+        <label>Link</label>
+        <div class="form-group">{{ form.link }}</div>
+
+        <label>Image</label>
+        <div class="form-group">{{ form.image }}</div>
+
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <a href="{% url 'staff:slide_delete' pk=pk %}" onclick="return confirm('Are you sure you want to delete this Slide?')" class="btn btn-danger">Delete</a>
+
+    </form>
+{% endblock %}
