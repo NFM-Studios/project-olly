@@ -59,6 +59,7 @@ else:
 # Media files
 MEDIA_ROOT = os.path.join(BASE_DIR, 'olly/media')
 
+AWS_DEFAULT_ACL = 'public-read'
 AWS_ACCESS_KEY_ID = os.environ['storage_key_id']
 AWS_SECRET_ACCESS_KEY = os.environ['storage_secret_key']
 AWS_S3_ENDPOINT_URL = os.environ['storage_endpoint_url']
