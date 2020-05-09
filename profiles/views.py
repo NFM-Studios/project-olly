@@ -36,7 +36,7 @@ def login(request, template_name='profiles/login_form.html',
         form = authentication_form(request, data=request.POST)
         if form.is_valid():
             ''' reCAPTCHA validation '''
-            """recaptcha_response = request.POST.get('g-recaptcha-response')
+            recaptcha_response = request.POST.get('g-recaptcha-response')
             data = {
                 'secret': settings.GOOGLE_RECAPTCHA_SECRET_KEY,
                 'response': recaptcha_response
@@ -44,21 +44,21 @@ def login(request, template_name='profiles/login_form.html',
 
             r = requests.post('https://www.google.com/recaptcha/api/siteverify', data=data)
             result = r.json()
-            """
+            
             ''' End reCAPTCHA validation'''
-            #if result['success']:
-            if not request.POST.get('remember me', None):
-                request.session.set_expiry(0)
-            # Ensure the user-originating redirection url is safe.
-            if not is_safe_url(url=redirect_to, allowed_hosts=settings.ALLOWED_HOSTS):
-                redirect_to = resolve_url(settings.LOGIN_REDIRECT_URL)
+            if result['success']:
+                if not request.POST.get('remember me', None):
+                    request.session.set_expiry(0)
+                # Ensure the user-originating redirection url is safe.
+                if not is_safe_url(url=redirect_to, allowed_hosts=settings.ALLOWED_HOSTS):
+                    redirect_to = resolve_url(settings.LOGIN_REDIRECT_URL)
 
-            # Okay, security check complete. Log the user in.
-            auth_login(request, form.get_user())
+                # Okay, security check complete. Log the user in.
+                auth_login(request, form.get_user())
 
-            return HttpResponseRedirect(redirect_to)
-                #else:
-                #    messages.error(request, 'Invalid or missing reCAPTCHA. Please try again.')
+                return HttpResponseRedirect(redirect_to)
+            else:
+                messages.error(request, 'Invalid or missing reCAPTCHA. Please try again.')
         else:
             messages.error(request, message='Error trying to log you in')
 
@@ -72,7 +72,7 @@ def login(request, template_name='profiles/login_form.html',
         redirect_field_name: redirect_to,
         'site': current_site,
         'site_name': current_site.name,
-        #'site_key': settings.GOOGLE_RECAPTCHA_SITE_KEY
+        'site_key': settings.GOOGLE_RECAPTCHA_SITE_KEY
     }
     if extra_context is not None:
         context.update(extra_context)
