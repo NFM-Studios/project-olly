@@ -89,3 +89,13 @@ def create_league_settings(request):
         if request.method == 'GET':
             form = CreateLeagueSettingsForm
             return render(request, 'staff/leagues/league_settings_create.html', {'form': form})
+
+
+def detail_league_settings(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        settings = LeagueSettings.objects.get(pk=pk)
+        return render(request, 'staff/leagues/league_settings_detail.html', {'settings': settings})
