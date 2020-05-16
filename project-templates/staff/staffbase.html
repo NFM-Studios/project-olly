@@ -176,6 +176,25 @@
             </li>
         {% endif %}
 
+            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Leagues">
+                <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseLeagues"
+                   data-parent="#exampleAccordion">
+                    <i class="fa fa-fw fa-users"></i>
+                    <span class="nav-link-text">Leagues</span>
+                </a>
+                <ul class="sidenav-second-level collapse" id="collapseLeagues">
+                    <li>
+                        <a href="{% url 'staff:create_league' %}">Create</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'staff:list_league' %}">Manage</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'staff:list_league_settings' %}">League Settings</a>
+                    </li>
+                </ul>
+            </li>
+
             <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tournaments">
                 <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseTournaments"
                    data-parent="#exampleAccordion">
