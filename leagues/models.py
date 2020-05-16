@@ -33,7 +33,7 @@ class LeagueSettings(models.Model):
         (5, "W-L"),
     )
     # record format to show on front end
-    record_format = models.CharField(choices=RECORD_FORMAT_CHOICES, default="W-L-OTL", max_length=20)
+    # record_format = models.CharField(choices=RECORD_FORMAT_CHOICES, default=1, max_length=20)
     # number of divisions to break teams into
     num_divisions = models.PositiveSmallIntegerField(default=2)
     # max amount of teams to allow into a division
