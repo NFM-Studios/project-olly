@@ -10,6 +10,7 @@ from singletournaments.models import SingleEliminationTournament, SingleTourname
 from store.models import Product
 from support.models import TicketComment, Ticket, TicketCategory, QuestionAnswerCategory, QuestionAnswer
 from teams.models import Team, TeamInvite
+from leagues.models import League, LeagueDivision, LeagueSettings, LeagueTeam
 
 
 class StaticInfoForm(forms.ModelForm):
@@ -299,3 +300,16 @@ class CreateSlide(forms.ModelForm):
     class Meta:
         model = FrontPageSlide
         fields = '__all__'
+
+
+class CreateLeagueForm(forms.ModelForm):
+    class Meta:
+        model = League
+        fields = '__all__'
+
+
+class CreateLeagueSettingsForm(forms.ModelForm):
+    class Meta:
+        model = LeagueSettings
+        fields = '__all__'
+
