@@ -85,6 +85,7 @@ class League(models.Model):
     close_register = models.DateTimeField()
     # when is the league going to start?
     start = models.DateTimeField()
+    maps = models.ForeignKey(MapPoolChoice, related_name='league_maps', on_delete=models.PROTECT, null=True)
 
 
 
