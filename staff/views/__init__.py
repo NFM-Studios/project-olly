@@ -7,3 +7,4 @@ from .support import *
 from .teams import *
 from .wagers import *
 from .staff import *
+from .leagues import *
