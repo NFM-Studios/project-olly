@@ -22,5 +22,70 @@ def create_league(request):
                 league = form.instance
                 league.save()
                 messages.success(request, 'Created League')
-                #return redirect()
+                return redirect()
+            else:
+                form = CreateLeagueForm(request.POST)
+                return render(request, 'staff/leagues/league_create.html', {'form': form})
 
+
+def list_league(request):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        leagues = League.objects.all()
+        return render(request, 'staff/leagues/league_list.html', {'leagues': leagues})
+
+
+def detail_league(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        league = League.objects.get(pk=pk)
+        return render(request, 'staff/leagues/league_detail.html', {'league': league})
+
+
+def edit_league(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        if request.method == 'POST':
+            league = League.objects.get(pk=pk)
+            form = CreateLeagueForm(request.POST, request.FILES, instance=league)
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'League has been updated')
+                return redirect('staff:list_league')
+            else:
+                messages.error(request, 'Form validation error')
+                return redirect('staff:list_league')
+        else:
+            league = League.objects.get(pk=pk)
+            form = CreateLeagueForm(instance=league)
+            return render(request, 'staff/leagues/league_edit.html', {'form': form, 'pk':pk, 'league':league})
+
+
+def list_league_settings(request):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        settings = LeagueSettings.objects.all()
+        return render(request, 'staff/leagues/league_settings_list.html', {'settings': settings})
+
+
+def create_league_settings(request):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        if request.method == 'GET':
+            form = CreateLeagueSettingsForm
+            return render(request, 'staff/leagues/league_settings_create.html', {'form': form})
