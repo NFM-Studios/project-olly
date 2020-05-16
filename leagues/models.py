@@ -2,8 +2,10 @@ from django.db import models
 from teams.models import Team
 from matches.models import Match, GameChoice, PlatformChoice, MapPoolChoice, MapChoice, SportChoice
 from matches.settings import TEAMFORMAT_CHOICES, MAPFORMAT_CHOICES
+from singletournaments.models import SingleTournamentRuleset
 
 
+# a way to create default values for a field over multiple seasons
 class LeagueSettings(models.Model):
     name = models.CharField(default='League Ruleset', max_length=50)
     # whether or not to keep track of Overtime Losses in a separate column
@@ -16,7 +18,6 @@ class LeagueSettings(models.Model):
     # amount of points to award teams for a win
     pts_win = models.PositiveSmallIntegerField(default=3)
     pts_loss = models.PositiveSmallIntegerField(default=0)
-
     # whether or not to allow tie
     allow_tie = models.BooleanField(default=False)
     # number of games each team plays during the regular season
@@ -29,6 +30,7 @@ class LeagueSettings(models.Model):
         (2, "W-L-T"),
         (3, "W-L-OTW-OTL"),
         (4, "W-L-OTW-OTL-OTT"),
+        (5, "W-L"),
     )
     # record format to show on front end
     record_format = models.CharField(choices=RECORD_FORMAT_CHOICES, default="W-L-OTL", max_length=20)
@@ -58,12 +60,11 @@ class LeagueDivision(models.Model):
 
 class League(models.Model):
     name = models.CharField(default="League Name", max_length=50)
-    rules = models.ForeignKey(LeagueSettings, related_name="league_rules", on_delete=models.PROTECT)
+    settings = models.ForeignKey(LeagueSettings, related_name="league_settings", on_delete=models.PROTECT)
+    ruleset = models.ForeignKey(SingleTournamentRuleset, related_name="league_ruleset", on_delete=models.PROTECT)
     # if set to true the league will display on the front page, false and it will not
     active = models.BooleanField(default=False)
     info = models.TextField(default="No information provided")
-    # TODO - remove this, going to be redundant
-    all_teams = models.ManyToManyField(LeagueTeam, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     divisions = models.ManyToManyField(LeagueDivision, blank=True)
