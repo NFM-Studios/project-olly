@@ -86,6 +86,7 @@ class League(models.Model):
     # when is the league going to start?
     start = models.DateTimeField()
     maps = models.ForeignKey(MapPoolChoice, related_name='league_maps', on_delete=models.PROTECT, null=True)
-
-
+    # the amount of credits that should be charged when joining
+    credits = models.PositiveSmallIntegerField(default=0)
+    size = models.PositiveSmallIntegerField(default=8)
 
