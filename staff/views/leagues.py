@@ -89,6 +89,17 @@ def create_league_settings(request):
         if request.method == 'GET':
             form = CreateLeagueSettingsForm
             return render(request, 'staff/leagues/league_settings_create.html', {'form': form})
+        else:
+            form = CreateLeagueSettingsForm(request.POST)
+            if form.is_valid():
+                settings = form.instance
+                settings.save()
+                messages.success(request, 'Create League Settings')
+                return redirect('staff:list_league_settings')
+            else:
+                messages.error(request, 'A form validation error has occured')
+                form = CreateLeagueSettingsForm(request.POST)
+                return render(request, 'staff/leagues/league_settings_create.html', {'form': form})
 
 
 def detail_league_settings(request, pk):
