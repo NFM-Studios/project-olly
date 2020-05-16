@@ -94,7 +94,7 @@ def create_league_settings(request):
             if form.is_valid():
                 settings = form.instance
                 settings.save()
-                messages.success(request, 'Create League Settings')
+                messages.success(request, 'Created League Settings')
                 return redirect('staff:list_league_settings')
             else:
                 messages.error(request, 'A form validation error has occured')
