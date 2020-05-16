@@ -11,7 +11,11 @@
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
             crossorigin="anonymous"></script>
     <link rel="stylesheet" href="{% static "fontawesome5.0.4/css/fontawesome-all.min.css" %}">
-    
+    <script src="{% static 'fontawesome5.0.4/js/fontawesome-all.min.js' %}"></script>
+    <script src="{% static 'fontawesome5.0.4/js/fontawesome-all.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static "css/olly.css" %}">
+
+
     {% block head %}
         <title>PageName - {{ SITE_NAME }}</title>
     {% endblock %}
@@ -72,12 +76,16 @@
 {% block body %}
     <h1>base</h1>
 {% endblock %}
-
-<footer>
+<footer class="footer">
+<div class="container">
     {% block foot %}
         Powered by <a href="https://olly.nfmstudios.com" target="_blank">Project Olly</a> Version: {{ SITE_VERSION }} On
         Server: {{ SITE_SERVER }}
+
+         <a href="{{ SocialInfo.twitterprofile }}"><i class="fab fa-twitter-square"></i></a> <a href="{{ SocialInfo.facebookpage }}"><i class="fab fa-facebook-square"></i></a>  <a href="{{ SocialInfo.youtubechannel }}"><i class="fab fa-youtube-square"></i></a>  <a href="{{ SocialInfo.twitchchannel }}"><i class="fab fa-twitch"></i></a>
+
     {% endblock %}
+</div>
 </footer>
 
 </body>
