@@ -63,6 +63,8 @@ INSTALLED_APPS = [
     # wagers
     'wagers',
 
+    'leagues',
+
     # ip package
     'ipware',
 
