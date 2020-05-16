@@ -39,6 +39,9 @@ class LeagueSettings(models.Model):
     # max amount of teams to allow into a division
     max_division_size = models.PositiveSmallIntegerField(default=5)
 
+    def __str__(self):
+        return self.name
+
 
 class LeagueTeam(models.Model):
     team = models.ForeignKey(Team, related_name='league_team', on_delete=models.PROTECT)
@@ -68,10 +71,10 @@ class League(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     divisions = models.ManyToManyField(LeagueDivision, blank=True)
-    platform = models.ForeignKey(PlatformChoice, related_name='league_platform', on_delete=models.PROTECT, null=True)
-    game = models.ForeignKey(GameChoice, related_name='league_game', on_delete=models.PROTECT, null=True)
-    sport = models.ForeignKey(SportChoice, related_name='league_sport', on_delete=models.PROTECT, null=True)
-    image = models.ImageField(upload_to='league_images', blank=True)
+    platform = models.ForeignKey(PlatformChoice, related_name='league_platform', on_delete=models.PROTECT, null=True, blank=True)
+    game = models.ForeignKey(GameChoice, related_name='league_game', on_delete=models.PROTECT, null=True, blank=True)
+    sport = models.ForeignKey(SportChoice, related_name='league_sport', on_delete=models.PROTECT, null=True, blank=True)
+    image = models.ImageField(upload_to='league_images', blank=True, null=True)
     # team format, ex 1v1, 2v2, 3v3, 4v4, 5v5, 6v6
     teamformat = models.SmallIntegerField(choices=TEAMFORMAT_CHOICES, default=1)
     # by default its a best of 1. Not sure if we need this here. Finals might be best of 3, etc in
@@ -85,8 +88,9 @@ class League(models.Model):
     close_register = models.DateTimeField()
     # when is the league going to start?
     start = models.DateTimeField()
-    maps = models.ForeignKey(MapPoolChoice, related_name='league_maps', on_delete=models.PROTECT, null=True)
+    maps = models.ForeignKey(MapPoolChoice, related_name='league_maps', on_delete=models.PROTECT, null=True, blank=True)
     # the amount of credits that should be charged when joining
-    credits = models.PositiveSmallIntegerField(default=0)
+    req_credits = models.PositiveSmallIntegerField(default=0)
     size = models.PositiveSmallIntegerField(default=8)
+    disable_userreport = models.BooleanField(default=False)
 
