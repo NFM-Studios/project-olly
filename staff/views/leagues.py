@@ -17,12 +17,12 @@ def create_league(request):
             return render(request, 'staff/leagues/league_create.html', {'form': form})
         else:
             # the form is posting, lets start validating
-            form = CreateLeagueForm(request.POSt, request.FILES)
+            form = CreateLeagueForm(request.POST, request.FILES)
             if form.is_valid():
                 league = form.instance
                 league.save()
                 messages.success(request, 'Created League')
-                return redirect()
+                return redirect('staff:list_league')
             else:
                 form = CreateLeagueForm(request.POST)
                 return render(request, 'staff/leagues/league_create.html', {'form': form})
