@@ -306,6 +306,16 @@ class CreateLeagueForm(forms.ModelForm):
     class Meta:
         model = League
         fields = '__all__'
+        widgets = {
+            'open_register': forms.DateTimeInput(
+                attrs={'class': 'form-control datetimepicker-input', 'id': 'datetimepicker1',
+                       'data-toggle': 'datetimepicker', 'data-target': '#datetimepicker1'}),
+            'close_register': forms.DateTimeInput(
+                attrs={'class': 'form-control datetimepicker-input', 'id': 'datetimepicker2',
+                       'data-toggle': 'datetimepicker', 'data-target': '#datetimepicker2'}),
+            'start': forms.DateTimeInput(attrs={'class': 'form-control datetimepicker-input', 'id': 'datetimepicker3',
+                                                'data-toggle': 'datetimepicker', 'data-target': '#datetimepicker3'})
+        }
 
 
 class CreateLeagueSettingsForm(forms.ModelForm):
