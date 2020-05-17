@@ -45,7 +45,31 @@ def detail_league(request, pk):
         return render(request, 'staff/permissiondenied.html')
     else:
         league = League.objects.get(pk=pk)
+        divisions = league.divisions
         return render(request, 'staff/leagues/league_detail.html', {'league': league})
+
+
+# list all the teams in the league and the divisions
+def league_teams(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        league = League.objects.get(pk=pk)
+        divisions = league.divisions
+        return render(request, 'staff/leagues/league_teams.html', {'league': league, 'divisions': divisions})
+
+
+# used for adding teams to a league before the league is launched
+def league_teams_add(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.hmtl')
+    else:
+        league = League.objects.get(pk=pk)
+        return render(request, 'staff/leagues/league_teams_add.html', {'league': league})
 
 
 def edit_league(request, pk):
