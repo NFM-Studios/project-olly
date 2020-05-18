@@ -110,3 +110,13 @@ def detail_league_settings(request, pk):
     else:
         settings = LeagueSettings.objects.get(pk=pk)
         return render(request, 'staff/leagues/league_settings_detail.html', {'settings': settings})
+
+
+def launch_league(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        league = League.objects.get(pk=pk)
+        settings = league.settings
