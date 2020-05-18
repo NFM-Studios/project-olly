@@ -1,0 +1,11 @@
+{% extends 'staff/staffbase.html' %}
+{% load static %}
+
+{% block title %}
+    League #{{ league.id }} Teams
+{% endblock %}
+
+{% block body %}
+<p><a href="{% url 'staff:detail_league' %}"></a></p>
+
+{% endblock %}
