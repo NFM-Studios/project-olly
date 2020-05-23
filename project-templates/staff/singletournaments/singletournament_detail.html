@@ -54,8 +54,13 @@
             <td>{{ tournament.size }}</td>
         </tr>
         <tr>
+            {% if ESPORTS_MODE %}
             <td>Game</td>
             <td>{{ tournament.game.name }}</td>
+            {% else %}
+            <td>Sport</td>
+            <td>{{ tournament.sport.name }}</td>
+            {% endif %}
         </tr>
         <tr>
             <td>Format</td>

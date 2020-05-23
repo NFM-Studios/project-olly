@@ -18,7 +18,11 @@
                 <th scope="row">ID</th>
                 <th>Tournament Name</th>
                 <th>Platform</th>
+                {% if ESPORTS_MODE %}
                 <th>Game</th>
+                {% else %}
+                <th>Sport</th>
+                {% endif %}
                 <th>Start Date/Time</th>
                 <th>Registration Open</th>
                 <th>Required Credits</th>
@@ -35,7 +39,11 @@
 
                     <td>{{ tournament.platform.name }}</td>
 
+                    {% if ESPORTS_MODE %}
                     <td>{{ tournament.game.name }}</td>
+                    {% else %}
+                    <td>{{ sport.game.name }}</td>
+                    {% endif %}
 
                     <td>{{ tournament.start }}</td>
                     <td>{{ tournament.open_register }}</td>
