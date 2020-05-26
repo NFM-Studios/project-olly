@@ -126,6 +126,27 @@ def create_league_settings(request):
                 return render(request, 'staff/leagues/league_settings_create.html', {'form': form})
 
 
+def edit_league_settings(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        if request.method == 'POST':
+            league = LeagueSettings.objects.get(pk=pk)
+            form = EditLeagueSettingsForm(request.POST, request.FILES, instance=league)
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'League Settings has been updated')
+                return redirect('staff:list_league_settings')
+            else:
+                return render(request, 'staff/leagues/league_settings_edit.html', {'form': form})
+        else:
+            league = LeagueSettings.objects.get(pk=pk)
+            form = EditLeagueSettingsForm(instance=league)
+            return render(request, 'staff/leagues/league_settings_edit.html', {'form': form, 'pk': pk})
+
+
 def detail_league_settings(request, pk):
     user = UserProfile.objects.get(user__username=request.user.username)
     allowed = ['superadmin', 'admin']
