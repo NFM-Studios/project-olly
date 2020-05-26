@@ -323,3 +323,9 @@ class CreateLeagueSettingsForm(forms.ModelForm):
         model = LeagueSettings
         fields = '__all__'
 
+
+class EditLeagueSettingsForm(forms.ModelForm):
+    class Meta:
+        model = LeagueSettings
+        fields = '__all__'
+
