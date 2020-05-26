@@ -165,3 +165,21 @@ def launch_league(request, pk):
     else:
         league = League.objects.get(pk=pk)
         settings = league.settings
+
+
+def league_addmatch(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        league = League.objects.get(pk=pk)
+        settings = league.settings
+        if request.method == 'POST':
+            form = League_AddMatch(request.POST, league)
+            if form.is_valid():
+                match = Match(awayteam=form.awayteam, hometeam=form.hometeam)
+                messages.success(request, 'League match added has been updated')
+                return redirect('staff:list_league_settings')
+            else:
+                return render(request, 'staff/leagues/league_settings_edit.html', {'form': form})

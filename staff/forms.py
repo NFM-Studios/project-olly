@@ -329,3 +329,8 @@ class EditLeagueSettingsForm(forms.ModelForm):
         model = LeagueSettings
         fields = '__all__'
 
+
+class League_AddMatch(forms.Form, League):
+    hometeam = forms.ModelChoiceField(League.teams)
+    awayteam = forms.ModelChoiceField(League.teams)
+    datetime = forms.DateTimeField(blank=True)

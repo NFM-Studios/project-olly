@@ -95,4 +95,5 @@ class League(models.Model):
     req_credits = models.PositiveSmallIntegerField(default=0)
     size = models.PositiveSmallIntegerField(default=8)
     disable_userreport = models.BooleanField(default=False)
+    teams = models.ManyToManyField(LeagueTeam, blank=True)
 
