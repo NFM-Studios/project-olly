@@ -24,6 +24,8 @@ class LeagueSettings(models.Model):
     num_games = models.PositiveIntegerField(default=10)
     # automatically schedule games. TODO - implement auto schedule
     auto_schedule = models.BooleanField(default=False)
+    # automatically generate matches, enabling this will create matches but will not set match times
+    auto_matchup = models.BooleanField(default=False)
     # W=Win, L=Loss, OTL=Overtime Loss, T=Tie, OTW=Overtime Win, OTT=Overtime Tie
     RECORD_FORMAT_CHOICES = (
         (1, "W-L-OTL"),
