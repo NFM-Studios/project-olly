@@ -165,3 +165,28 @@ def launch_league(request, pk):
     else:
         league = League.objects.get(pk=pk)
         settings = league.settings
+
+
+def league_match_add(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied')
+    else:
+        league = League.objects.get(pk=pk)
+
+
+def league_match_list(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied')
+    else:
+        all = []
+        league = League.objects.get(pk=pk)
+        divisions = league.divisions
+        #for x in divisions:
+        #    for y in x.matches:
+        #        # each match
+        #        all.append(y)
+        return render(request, 'staff/leagues/league_matches.html', {'divisions': divisions})
