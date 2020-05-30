@@ -60,7 +60,7 @@ class LeagueDivision(models.Model):
     # teams that are in that division, allow it to be empty
     teams = models.ManyToManyField(LeagueTeam, blank=True)
     # games that are to be played and have been played in that division, blank until all matches are generated
-    games = models.ManyToManyField(Match, blank=True)
+    matches = models.ManyToManyField(Match, blank=True)
 
 
 class League(models.Model):
