@@ -168,7 +168,14 @@ def launch_league(request, pk):
 
 
 def list_division(request, pk):
-    pass
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        league = League.objects.get(pk=pk)
+        divisions = league.divisions.all()
+        return render(request, 'staff/leagues/league_divisions_list.html', {'league': league, 'divisions': divisions})
 
 
 def detail_division(request, pk):
@@ -189,9 +196,13 @@ def create_divisions(request, pk):
             # lets make the divisions
             ids = []
             for x in league.settings.num_divisions:
-                tempdiv = LeagueDivision()
-                tempdiv.save()
-                ids.append(tempdiv.id)
+                try:
+                    tempdiv = LeagueDivision()
+                    tempdiv.save()
+                    ids.append(tempdiv.id)
+                except:
+                    messages.error(request, 'ERROR: Could not create divisions')
+                    return redirect('staff:list_division')
             messages.success(request, 'League divisions created with id: '+ids)
             return redirect('staff:list_division')
 
@@ -202,7 +213,7 @@ def league_match_add(request, pk):
     if user.user_type not in allowed:
         return render(request, 'staff/permissiondenied')
     else:
-        if request.method is 'POST':
+        if request.method == 'POST':
             league = League.objects.get(pk=pk)
             form = AddLeagueMatchForm
             if form.awayteam == '' or form.hometeam == '':
