@@ -20,11 +20,9 @@
                 </thead>
             </tr>
             <tbody>
-            {% for division in divisions %}
-                <tr scope="">
+            {% for match in matches %}
                 <td>{{ division.id }}</td>
-                </tr>
-                {% for match in division.matches %}
+
                 <tr scope="">
                     <td></td>
                     <td><a href="{% url 'staff:match_detail' pk=match.id %}">#{{ match.id }}</a></td>
@@ -49,9 +47,9 @@
                 </tr>
                 </tbody>
             {% endfor %}
-        </table>
 
         </table>
+
 
     </div>
 {% endblock %}
