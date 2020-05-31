@@ -167,26 +167,74 @@ def launch_league(request, pk):
         settings = league.settings
 
 
+def list_division(request, pk):
+    pass
+
+
+def detail_division(request, pk):
+    pass
+
+
+def create_divisions(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        league = League.objects.get(pk=pk)
+        if league.divisions.count() >= league.settings.num_divisions:
+            messages.error(request, 'ERROR: There are already too many divisions created')
+            return redirect('staff:list_division')
+        else:
+            # lets make the divisions
+            ids = []
+            for x in league.settings.num_divisions:
+                tempdiv = LeagueDivision()
+                tempdiv.save()
+                ids.append(tempdiv.id)
+            messages.success(request, 'League divisions created with id: '+ids)
+            return redirect('staff:list_division')
+
+
 def league_match_add(request, pk):
     user = UserProfile.objects.get(user__username=request.user.username)
     allowed = ['superadmin', 'admin']
     if user.user_type not in allowed:
         return render(request, 'staff/permissiondenied')
     else:
-        league = League.objects.get(pk=pk)
+        if request.method is 'POST':
+            league = League.objects.get(pk=pk)
+            form = AddLeagueMatchForm
+            if form.awayteam == '' or form.hometeam == '':
+                form.add_error(form, error='Away Team or Home Team values are blank', field=form.awayteam)
+                try:
+                    awayteam = Team.objects.get(pk=form.awayteam)
+                    hometeam = Team.objects.get(pk=form.hometeam)
+                except:
+                    form.add_error(form, error='Team not found', field=form.awayteam)
+                    return redirect('staff:add_match_league')
+                try:
+                    tempmatch = Match(awayteam=awayteam, hometeam=hometeam, type='league', game=league.game,
+                                  platform=league.platform, sport=league.sport, bestof=1, teamformat=league.teamformat)
+                    tempmatch.save()
+                    division = LeagueDivision.objects.get(pk=form.division)
+                    division.matches.add(tempmatch)
+                except:
+                    messages.error(request, 'Error creating match')
+                    return render(request, 'staff/leagues/league_addmatch.html', {'form': form})
+        else:
+            # its a simple get
+            form = AddLeagueMatchForm
+            return render(request, 'staff/leagues/league_addmatch.html', {'form': form})
 
 
-def league_match_list(request, pk):
+def division_match_list(request, pk, divid):
     user = UserProfile.objects.get(user__username=request.user.username)
     allowed = ['superadmin', 'admin']
     if user.user_type not in allowed:
         return render(request, 'staff/permissiondenied')
     else:
-        all = []
         league = League.objects.get(pk=pk)
-        divisions = league.divisions
-        #for x in divisions:
-        #    for y in x.matches:
-        #        # each match
-        #        all.append(y)
-        return render(request, 'staff/leagues/league_matches.html', {'divisions': divisions})
+        division = LeagueDivision.objects.get(pk=pk)
+        matches = division.matches
+        return render(request, 'staff/leagues/league_matches.html', {'league': league, 'division': division, 'matches':matches })
