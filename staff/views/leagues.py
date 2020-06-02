@@ -179,8 +179,16 @@ def list_division(request, pk):
         return render(request, 'staff/leagues/league_divisions_list.html', {'league': league, 'divisions': divisions})
 
 
-def detail_division(request, pk):
-    pass
+def detail_division(request, pk, divid):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        league = League.objects.get(pk=pk)
+        division = LeagueDivision.objects.get(pk=divid)
+        return render(request, 'staff/leagues/league_division_detail.html', {'league': league, 'division': division})
+    # show add match, add team button
 
 
 def create_divisions(request, pk):
