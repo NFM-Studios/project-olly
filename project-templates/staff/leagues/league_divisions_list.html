@@ -13,14 +13,6 @@
                 <thead>
                 <th>ID</th>
                 <th>League Name</th>
-                <th>Settings</th>
-                <th>Platform</th>
-                <th>Game</th>
-                <th>Start Date/Time</th>
-                <th>Registration Open</th>
-                <th>Required Credits</th>
-                <th>Active</th>
-                <th>Size</th>
                 </thead>
             </tr>
         <tbody>
@@ -30,7 +22,7 @@
                             href="{% url 'staff:division_matches_league' pk=league.id divid=division.pk %}">
                         <btn class="btn btn-primary">#{{ division.id }}</btn>
                     </a></td>
-
+                <td>{{ league.name }}</td>
                 </tr>
                 </tbody>
             {% endfor %}

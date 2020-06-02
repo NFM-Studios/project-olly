@@ -175,6 +175,7 @@ def list_division(request, pk):
     else:
         league = League.objects.get(pk=pk)
         divisions = league.divisions.all()
+        print(divisions)
         return render(request, 'staff/leagues/league_divisions_list.html', {'league': league, 'divisions': divisions})
 
 
@@ -191,20 +192,22 @@ def create_divisions(request, pk):
         league = League.objects.get(pk=pk)
         if league.divisions.count() >= league.settings.num_divisions:
             messages.error(request, 'ERROR: There are already too many divisions created')
-            return redirect('staff:list_division')
+            return redirect('staff:list_division', pk=league.id)
         else:
             # lets make the divisions
             ids = []
-            for x in league.settings.num_divisions:
+            for x in range(league.settings.num_divisions):
                 try:
-                    tempdiv = LeagueDivision()
+                    tempdiv = LeagueDivision(name=league.name+" Division "+str(x))
                     tempdiv.save()
                     ids.append(tempdiv.id)
+                    league.divisions.add(tempdiv)
+                    league.save()
                 except:
                     messages.error(request, 'ERROR: Could not create divisions')
-                    return redirect('staff:list_division')
-            messages.success(request, 'League divisions created with id: '+ids)
-            return redirect('staff:list_division')
+                    return redirect('staff:list_division', pk=league.id)
+            messages.success(request, 'League divisions created with id: '+str(ids))
+            return redirect('staff:list_division', pk=league.id)
 
 
 def league_match_add(request, pk):
