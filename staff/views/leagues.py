@@ -197,15 +197,11 @@ def create_divisions(request, pk):
             # lets make the divisions
             ids = []
             for x in range(league.settings.num_divisions):
-                try:
-                    tempdiv = LeagueDivision(name=league.name+" Division "+str(x))
-                    tempdiv.save()
-                    ids.append(tempdiv.id)
-                    league.divisions.add(tempdiv)
-                    league.save()
-                except:
-                    messages.error(request, 'ERROR: Could not create divisions')
-                    return redirect('staff:list_division', pk=league.id)
+                tempdiv = LeagueDivision(name=league.name+" Division "+str(x))
+                tempdiv.save()
+                ids.append(tempdiv.id)
+                league.divisions.add(tempdiv)
+                league.save()
             messages.success(request, 'League divisions created with id: '+str(ids))
             return redirect('staff:list_division', pk=league.id)
 
