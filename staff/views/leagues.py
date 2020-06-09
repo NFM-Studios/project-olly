@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect
+from django.core.exceptions import ObjectDoesNotExist
 #from django.views.generic import View
 
 #from matches.models import MatchReport, MatchDispute, Match, MapChoice, MapPoolChoice
@@ -214,7 +215,7 @@ def create_divisions(request, pk):
             return redirect('staff:list_division', pk=league.id)
 
 
-def league_match_add(request, pk):
+def division_match_add(request, pk, divid):
     user = UserProfile.objects.get(user__username=request.user.username)
     allowed = ['superadmin', 'admin']
     if user.user_type not in allowed:
@@ -222,24 +223,23 @@ def league_match_add(request, pk):
     else:
         if request.method == 'POST':
             league = League.objects.get(pk=pk)
+            division = LeagueDivision.objects.get(pk=divid)
             form = AddLeagueMatchForm
             if form.awayteam == '' or form.hometeam == '':
                 form.add_error(form, error='Away Team or Home Team values are blank', field=form.awayteam)
                 try:
                     awayteam = Team.objects.get(pk=form.awayteam)
                     hometeam = Team.objects.get(pk=form.hometeam)
-                except:
-                    form.add_error(form, error='Team not found', field=form.awayteam)
-                    return redirect('staff:add_match_league')
-                try:
+
                     tempmatch = Match(awayteam=awayteam, hometeam=hometeam, type='league', game=league.game,
-                                  platform=league.platform, sport=league.sport, bestof=1, teamformat=league.teamformat)
+                                      platform=league.platform, sport=league.sport, bestof=1,
+                                      teamformat=league.teamformat)
                     tempmatch.save()
                     division = LeagueDivision.objects.get(pk=form.division)
                     division.matches.add(tempmatch)
-                except:
-                    messages.error(request, 'Error creating match')
-                    return render(request, 'staff/leagues/league_addmatch.html', {'form': form})
+                except ObjectDoesNotExist:
+                    form.add_error(form, error='Team not found', field=form.awayteam)
+                    return redirect('staff:add_match_league')
         else:
             # its a simple get
             form = AddLeagueMatchForm
@@ -254,5 +254,5 @@ def division_match_list(request, pk, divid):
     else:
         league = League.objects.get(pk=pk)
         division = LeagueDivision.objects.get(pk=pk)
-        matches = division.matches
-        return render(request, 'staff/leagues/league_matches.html', {'league': league, 'division': division, 'matches':matches })
+        matches = division.matches.all()
+        return render(request, 'staff/leagues/league_division_matches.html', {'league': league, 'division': division, 'matches':matches })
