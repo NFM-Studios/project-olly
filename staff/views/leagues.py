@@ -221,15 +221,15 @@ def division_match_add(request, pk, divid):
     if user.user_type not in allowed:
         return render(request, 'staff/permissiondenied')
     else:
+        league = League.objects.get(pk=pk)
+        division = LeagueDivision.objects.get(pk=divid)
         if request.method == 'POST':
-            league = League.objects.get(pk=pk)
-            division = LeagueDivision.objects.get(pk=divid)
-            form = AddLeagueMatchForm
-            if form.awayteam == '' or form.hometeam == '':
-                form.add_error(form, error='Away Team or Home Team values are blank', field=form.awayteam)
+            form = AddLeagueMatchForm(request.POST)
+            if form.is_valid():
                 try:
-                    awayteam = Team.objects.get(pk=form.awayteam)
-                    hometeam = Team.objects.get(pk=form.hometeam)
+
+                    awayteam = Team.objects.get(pk=int(form.data['awayteam']))
+                    hometeam = Team.objects.get(pk=int(form.data['hometeam']))
 
                     tempmatch = Match(awayteam=awayteam, hometeam=hometeam, type='league', game=league.game,
                                       platform=league.platform, sport=league.sport, bestof=1,
@@ -242,8 +242,8 @@ def division_match_add(request, pk, divid):
                     return redirect('staff:add_match_league')
         else:
             # its a simple get
-            form = AddLeagueMatchForm
-            return render(request, 'staff/leagues/league_addmatch.html', {'form': form})
+            form = AddLeagueMatchForm()
+            return render(request, 'staff/leagues/league_addmatch.html', {'form': form, 'league': league, 'division': division})
 
 
 def division_match_list(request, pk, divid):
