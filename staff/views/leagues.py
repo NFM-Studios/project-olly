@@ -228,8 +228,8 @@ def division_match_add(request, pk, divid):
             if form.is_valid():
                 try:
 
-                    awayteam = Team.objects.get(pk=int(form.data['awayteam']))
-                    hometeam = Team.objects.get(pk=int(form.data['hometeam']))
+                    awayteam = Team.objects.get(pk=form.cleaned_data['awayteam'])
+                    hometeam = Team.objects.get(pk=form.cleaned_data['hometeam'])
 
                     tempmatch = Match(awayteam=awayteam, hometeam=hometeam, type='league', game=league.game,
                                       platform=league.platform, sport=league.sport, bestof=1,
