@@ -331,9 +331,9 @@ class EditLeagueSettingsForm(forms.ModelForm):
 
 
 class AddLeagueMatchForm(forms.Form):
-    awayteam = forms.IntegerField
-    hometeam = forms.IntegerField
-    division = forms.IntegerField
+    awayteam = forms.IntegerField(required=True)
+    hometeam = forms.IntegerField(required=True)
+    division = forms.IntegerField(required=False)
 
     class Meta:
         fields = ('hometeam', 'awayteam', 'division')
