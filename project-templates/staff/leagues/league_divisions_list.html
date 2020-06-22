@@ -12,15 +12,17 @@
             <tr id="header">
                 <thead>
                 <th>ID</th>
+                <th>Matches</th>
                 <th>League Name</th>
                 </thead>
             </tr>
         <tbody>
             {% for division in divisions %}
                 <tr scope="">
-                    <td scope="row"><a
+                    <td scope="row"><a href="{% url 'staff:detail_division' divid=division.id pk=league.id %}">{{ division.id }}</a></td>
+                    <td><a
                             href="{% url 'staff:division_matches_league' pk=league.id divid=division.pk %}">
-                        <btn class="btn btn-primary">#{{ division.id }}</btn>
+                        <btn class="btn btn-primary">Matches#{{ division.id }}</btn>
                     </a></td>
                 <td>{{ league.name }}</td>
                 </tr>
