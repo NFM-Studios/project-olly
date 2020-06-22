@@ -176,7 +176,6 @@ def list_division(request, pk):
     else:
         league = League.objects.get(pk=pk)
         divisions = league.divisions.all()
-        print(divisions)
         return render(request, 'staff/leagues/league_divisions_list.html', {'league': league, 'divisions': divisions})
 
 
