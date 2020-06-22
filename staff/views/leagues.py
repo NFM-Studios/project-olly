@@ -46,8 +46,8 @@ def detail_league(request, pk):
         return render(request, 'staff/permissiondenied.html')
     else:
         league = League.objects.get(pk=pk)
-        divisions = league.divisions
-        return render(request, 'staff/leagues/league_detail.html', {'league': league})
+        divisions = league.divisions.all()
+        return render(request, 'staff/leagues/league_detail.html', {'league': league, 'divisions': divisions})
 
 
 # list all the teams in the league and the divisions
