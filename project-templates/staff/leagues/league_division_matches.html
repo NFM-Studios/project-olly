@@ -8,7 +8,8 @@
 
 {% block body %}
     <div style="overflow-x:auto;">
-        <h1>Tournament Matches</h1>
+        <h1>Tournament Matches -
+            <a href="{% url 'staff:division_match_add' divid=division.id pk=league.id %}">(Manually add a match to this division)</a></h1>
         <table class="table table-hover">
             <tr id="header">
                 <thead>
