@@ -104,10 +104,12 @@
         </tr>
 
         <tr>
-            <td>Divisions</td>
+            <td><a href="{% url 'staff:list_division' pk=league.pk %}">Divisions</a></td>
+            <td>
             {% for x in divisions %}
-                Division: #{{ x.id }}- Name={{ x.name }}
+                Division: <a href="{% url 'staff:detail_division' divid=x.id pk=league.pk %}">#{{ x.id }}</a>- Name={{ x.name }} <br />
             {% endfor %}
+            </td>
         </tr>
     </table>
 
