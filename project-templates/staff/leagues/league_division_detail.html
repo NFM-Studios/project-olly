@@ -32,6 +32,12 @@
 
     </table>
 
+    <button class="btn btn-primary"><a style="color:white" href="{% url 'staff:division_add_team' pk=league.pk divid=division.pk %}">Add a team to this division</a></button>
+
+    <br />
+    <button class="btn btn-primary"><a style="color:white" href="{% url 'staff:division_match_add' pk=league.pk divid=division.pk %}">Add a match to this division</a></button>
+    <br />
+
     <h1>Matches</h1>
     <table class="table-hover">
     <thead>
@@ -40,8 +46,17 @@
     <th>Home Team</th>
     </thead>
     {% for match in matches %}
+        <tr>
+        <td>{{ match.pk }}</td>
+        <td><a href="{% url 'staff:team_detail' pk=match.awayteam.pk %}">{{ match.awayteam.name }}</a></td>
+        <td><a href="{% url 'staff:team_detail' pk=match.hometeam.pk %}">{{ match.hometeam.name }}</a></td>
+
+    </tr>
     {% endfor %}
+
     </table>
     <h1>Teams</h1>
-    <
+    {% for team in division.teams.all %}
+    {{ team.name }}
+    {% endfor %}
 {% endblock %}

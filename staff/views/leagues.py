@@ -243,15 +243,19 @@ def division_match_add(request, pk, divid):
         if request.method == 'POST':
             form = AddLeagueMatchForm(request.POST)
             if form.is_valid():
+
                 try:
 
                     awayteam = Team.objects.get(pk=form.cleaned_data['awayteam'])
                     hometeam = Team.objects.get(pk=form.cleaned_data['hometeam'])
-
-                    tempmatch = Match(awayteam=awayteam, hometeam=hometeam, type='league', game=league.game,
+                    if awayteam in division.teams.all() and hometeam in division.teams.all():
+                        tempmatch = Match(awayteam=awayteam, hometeam=hometeam, type='league', game=league.game,
                                       platform=league.platform, sport=league.sport, bestof=1,
                                       teamformat=league.teamformat)
-                    tempmatch.save()
+                        tempmatch.save()
+                    else:
+                        messages.error(request, "One of the teams does not exist within the division")
+                        return redirect('staff:detail_division', pk=league.id, divid=division.pk)
                     division = LeagueDivision.objects.get(pk=form.division)
                     division.matches.add(tempmatch)
                 except ObjectDoesNotExist:
@@ -263,6 +267,39 @@ def division_match_add(request, pk, divid):
             return render(request, 'staff/leagues/league_addmatch.html', {'form': form, 'league': league, 'division': division})
 
 
+def division_add_team(request, pk, divid):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        league = League.objects.get(pk=pk)
+        division = LeagueDivision.objects.get(pk=divid)
+        if request.method == 'POST':
+            form = DivisionAddTeamForm(request.POST)
+            if form.is_valid():
+                try:
+                    team = Team.objects.get(pk=form.cleaned_data['teamid'])
+                except ObjectDoesNotExist:
+                    messages.error(request, 'Team does not exist')
+                    return redirect('staff:detail_division', pk=league.pk, divid=division.pk)
+                if team in division.teams.all():
+                    messages.error(request, 'That Team already exists in the division')
+                    return redirect('staff:detail_division', pk=league.pk, divid=division.pk)
+                temp = LeagueTeam(team=team)
+                temp.save()
+                division.teams.add(temp)
+                division.save()
+                messages.success(request, 'Team has been added to the division')
+                return redirect('staff:detail_division', pk=league.pk, divid=division.pk)
+            else:
+                messages.error(request, 'Form validation error')
+                return redirect('staff:detail_division', pk=league.pk, divid=division.pk)
+        else:
+            form = DivisionAddTeamForm()
+            return render(request, 'staff/leagues/league_division_addteam.html', {'division': division, 'league': league, 'form': form})
+
+
 def division_match_list(request, pk, divid):
     user = UserProfile.objects.get(user__username=request.user.username)
     allowed = ['superadmin', 'admin']
@@ -270,6 +307,6 @@ def division_match_list(request, pk, divid):
         return render(request, 'staff/permissiondenied')
     else:
         league = League.objects.get(pk=pk)
-        division = LeagueDivision.objects.get(pk=pk)
+        division = LeagueDivision.objects.get(pk=divid)
         matches = division.matches.all()
         return render(request, 'staff/leagues/league_division_matches.html', {'league': league, 'division': division, 'matches':matches })

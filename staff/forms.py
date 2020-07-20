@@ -337,3 +337,10 @@ class AddLeagueMatchForm(forms.Form):
 
     class Meta:
         fields = ('hometeam', 'awayteam', 'division')
+
+
+class DivisionAddTeamForm(forms.Form):
+    teamid = forms.IntegerField(required=True)
+
+    class Meta:
+        fields = ('teamid')
