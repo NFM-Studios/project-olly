@@ -187,8 +187,24 @@ def detail_division(request, pk, divid):
     else:
         league = League.objects.get(pk=pk)
         division = LeagueDivision.objects.get(pk=divid)
-        return render(request, 'staff/leagues/league_division_detail.html', {'league': league, 'division': division})
+        matches = division.matches.all()
+        return render(request, 'staff/leagues/league_division_detail.html', {'league': league, 'division': division, 'matches':matches})
     # show add match, add team button
+
+
+def add_division(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        league = League.objects.get(pk=pk)
+        tempdiv = LeagueDivision()
+        tempdiv.save()
+        tempdiv.name = league.name + " Division " + str(tempdiv.pk)
+        league.divisions.add(tempdiv)
+        messages.success(request, "Division manually added")
+        return redirect('staff:detail_league', pk=pk)
 
 
 def create_divisions(request, pk):
@@ -205,9 +221,11 @@ def create_divisions(request, pk):
             # lets make the divisions
             ids = []
             for x in range(league.settings.num_divisions):
-                tempdiv = LeagueDivision(name=league.name+" Division "+str(x))
+                tempdiv = LeagueDivision()
                 tempdiv.save()
-                ids.append(tempdiv.id)
+                tempdiv.name = league.name+" Division "+str(tempdiv.pk)
+                tempdiv.save()
+                ids.append(tempdiv.pk)
                 league.divisions.add(tempdiv)
                 league.save()
             messages.success(request, 'League divisions created with id: '+str(ids))

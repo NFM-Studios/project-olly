@@ -57,6 +57,7 @@ urlpatterns = [
     path('leagues/', login_required(views.list_league), name='list_league'),
     path('leagues/<int:pk>/', login_required(views.detail_league), name='detail_league'),
     path('leagues/<int:pk>/division/', login_required(views.list_division), name='list_division'),
+    path('leagues/<int:pk>/division/add', login_required(views.add_division), name='add_division'),
     path('leagues/<int:pk>/division/create', login_required(views.create_divisions), name='create_division'),
     path('leagues/<int:pk>/division/<int:divid>/', login_required(views.detail_division), name='detail_division'),
     path('leagues/<int:pk>/division/<int:divid>/matches', login_required(views.division_match_list), name='division_matches_league'),
