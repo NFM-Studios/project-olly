@@ -53,6 +53,9 @@ class LeagueTeam(models.Model):
     ot_wins = models.PositiveSmallIntegerField(default=0)
     ties = models.PositiveSmallIntegerField(default=0)
 
+    def __str__(self):
+        return self.team.name
+
 
 class LeagueDivision(models.Model):
     # name for the league division - set to null in case admins wish to manually change it
@@ -61,6 +64,12 @@ class LeagueDivision(models.Model):
     teams = models.ManyToManyField(LeagueTeam, blank=True)
     # games that are to be played and have been played in that division, blank until all matches are generated
     matches = models.ManyToManyField(Match, blank=True)
+
+    def __str__(self):
+        if self.name is None:
+            return "Division "+str(self.pk)
+        else:
+            return self.name
 
 
 class League(models.Model):
@@ -98,5 +107,6 @@ class League(models.Model):
     prize1 = models.CharField(default='no prize specified', max_length=50)
     prize2 = models.CharField(default='no prize specified', max_length=50)
     prize3 = models.CharField(default='no prize specified', max_length=50)
+    teams = models.ManyToManyField(LeagueTeam, blank=True)
 
 
