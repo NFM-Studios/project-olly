@@ -95,4 +95,8 @@ class League(models.Model):
     req_credits = models.PositiveSmallIntegerField(default=0)
     size = models.PositiveSmallIntegerField(default=8)
     disable_userreport = models.BooleanField(default=False)
+    prize1 = models.CharField(default='no prize specified', max_length=50)
+    prize2 = models.CharField(default='no prize specified', max_length=50)
+    prize3 = models.CharField(default='no prize specified', max_length=50)
+
 

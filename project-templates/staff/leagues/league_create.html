@@ -13,6 +13,8 @@
             src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/js/tempusdominus-bootstrap-4.min.js"></script>
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/css/tempusdominus-bootstrap-4.min.css"/>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
 
     {% if form.errors %}
         {% for field in form %}
@@ -31,6 +33,9 @@
     <h1><a href="{% url 'staff:list_league' %}">Return to league list</a></h1>
     <br>
     <a href="{% url 'staff:tournamentrulesetcreate' %}"><i class="fa fa-plus"></i> Create a new ruleset</a>
+    <br>
+    <a href="{% url 'staff:create_league_settings' %}"><i class="fa fa-plus"></i> Create League Settings</a>
+
 
     <form enctype="multipart/form-data" method="post">
         {% csrf_token %}
@@ -73,28 +78,28 @@
 
         <label>Max Number of Teams (in the entire league)</label>
         {{ form.size }}
-        <br />
+        <br/>
 
         {% if ESPORTS_MODE %}
-        <label>Platform</label>
-        {{ form.platform }}
-        <br>
+            <label>Platform</label>
+            {{ form.platform }}
+            <br>
 
-        <label>Game</label>
-        {{ form.game }}
-        <br>
+            <label>Game</label>
+            {{ form.game }}
+            <br>
         {% endif %}
 
         {% if not ESPORTS_MODE %}
-        <label>Sport</label>
-        {{ form.sport }}
-        <br>
+            <label>Sport</label>
+            {{ form.sport }}
+            <br>
         {% endif %}
 
         {% if ESPORTS_MODE %}
-        <label>Map Pool</label>
-        {{ form.maps }}
-        <br>
+            <label>Map Pool</label>
+            {{ form.maps }}
+            <br>
         {% endif %}
 
         <div class="form-group">
@@ -103,7 +108,6 @@
                 {{ form.start }}
             </div>
         </div>
-        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 
         <label>Image</label>
         {{ form.image }}
@@ -118,15 +122,15 @@
         <br>
 
         <label>Prize 1</label>
-         form.prize1 }}
+        {{ form.prize1 }}
         <br>
 
         <label>Prize 2</label>
-         form.prize2 }}
+        {{ form.prize2 }}
         <br>
 
         <label>Prize 3</label>
-         form.prize3 }}
+        {{ form.prize3 }}
         <br>
 
         <label>Active</label>

@@ -49,7 +49,7 @@
                                     <img src="
                                             {% if ESPORTS_MODE %}
 
-                                        {% if league.game.image != "" %}{{ MEDIA_URL }}{{ league.game.image }}{% else %}{% static 'binge/images/logo.png' %}{% endif %}"
+                                        {% if league.game.image != "" %}{{ MEDIA_URL }}{{ league.game.image }}{% endif %}"
                                         ><br>
                                     {% else %}
                                         {{ league.sport.name }}
@@ -58,11 +58,15 @@
                                     <br/>
                                     <ul>
                                         {% if ESPORTS_MODE %}
-                                            <li><b>Platform:</b> {{ league.platform.name }}</li>{% endif %}
+                                            <li><b>Platform:</b> {{ league.platform.name }}</li>
+                                        {% endif %}
                                         <li><b>Starts:</b> {{ league.start }}</li>
                                         <li><b>Teams: </b> {{ league.teams.count }}/{{ league.size }}</li>
                                         {% if ESPORTS_MODE %}
-                                            <li><b>Game:</b> {{ league.game.name }}</li>{% endif %}
+                                            <li><b>Game:</b> {{ league.game.name }}</li>
+                                        {% else %}
+                                            <li><b>Sport:</b> {{ league.sport.name }}</li>
+                                        {% endif %}
                                         <li><b>{% if league.teamformat == 0 %}
                                             1v1
                                         {% elif league.teamformat == 1 %}
@@ -82,14 +86,12 @@
                                         <li><b>Registration Opens: (Local time)</b>
                                             <script>
                                                 const date = new Date("{{ league.open_register|safe }}");
-                                                console.log(date);
                                                 document.write(date.toLocaleString());
                                             </script>
                                         </li>
                                         <li><b>Registration Closes (Local time)</b>
                                             <script>
                                                 const date2 = new Date("{{ league.close_register|safe }}");
-                                                console.log(date2);
                                                 document.write(date2.toLocaleString());
                                             </script>
                                         </li>
