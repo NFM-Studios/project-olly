@@ -57,6 +57,7 @@
     </table>
     <h1>Teams</h1>
     {% for team in division.teams.all %}
-    {{ team.name }}
+        <a href="{% url 'staff:team_detail' pk=team.team.id %}">{{ team.team.name }}</a>
+        </br>
     {% endfor %}
 {% endblock %}
