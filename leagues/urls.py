@@ -11,4 +11,6 @@ urlpatterns = [
     path('<int:pk>/teams/', login_required(views.detail_league_teams), name='teams'),
     path('<int:pk>/divisions/', login_required(views.detail_league_divisions), name='divisions'),
     path('<int:pk>/rules/', login_required(views.detail_league_rules), name='rules'),
+    path('<int:pk>/join/', login_required(views.join_league), name='join'),
+    path('<int:pk>/leave/', login_required(views.leave_league), name='leave'),
 ]

@@ -9,10 +9,15 @@ def list_leagues(request):
 
 def detail_league(request, pk):
     league = get_object_or_404(League, pk)
-    return render(request, 'leagues/league_detail.html', {'league': league})
+    teams = league.teams.all()
+    return render(request, 'leagues/league_detail.html', {'league': league, 'teams':teams})
 
 
 def join_league(request, pk):
+    pass
+
+
+def leave_league(request, pk):
     pass
 
 
