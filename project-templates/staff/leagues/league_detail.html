@@ -1,0 +1,136 @@
+{% extends 'staff/staffbase.html' %}
+{% load static %}
+
+{% block title %}
+    League #{{ league.id }}
+{% endblock %}
+
+{% block body %}
+
+
+    <p><a href="{% url 'staff:list_league' %}"><i class="fa fa-arrow-left"></i> <strong>Back to League
+        list</strong></a></p>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Key</th>
+            <th>Value</th>
+        </tr>
+        </thead>
+        <tr>
+            <td>ID</td>
+            <td>{{ league.id }}</td>
+        </tr>
+        <tr>
+            <td>Platform</td>
+            <td>{{ league.platform.name }}</td>
+        </tr>
+        <tr>
+            <td>Name</td>
+            <td>{{ league.name }}</td>
+        </tr>
+        <tr>
+            <td>Settings</td>
+            <td><a href="{% url 'staff:detail_league_settings' pk=league.settings.id %}">{{ league.settings.name }}</a></td>
+        </tr>
+        <tr>
+            <td>Start Date/Time</td>
+            <td>{{ league.start }}</td>
+        </tr>
+        <tr>
+            <td>Registration Open</td>
+            <td>{{ league.open_register }}</td>
+        </tr>
+        <tr>
+            <td>Required Credits</td>
+            <td>{{ league.req_credits }}</td>
+        </tr>
+        <tr>
+            <td>Active</td>
+            {% if league.active %}
+                <td>Yes</td>
+            {% elif not league.active %}
+                <td>No</td>
+            {% endif %}
+        </tr>
+        <tr>
+            <td>Max Teams/Size</td>
+            <td>{{ league.size }}</td>
+        </tr>
+        <tr>
+            <td>Game</td>
+            <td>{{ league.game.name }}</td>
+        </tr>
+        <tr>
+            <td>Format</td>
+            {% if league.teamformat == 0 %}
+                <td>1v1</td>
+            {% elif league.teamformat == 1 %}
+                <td>2v2</td>
+            {% elif league.teamformat == 2 %}
+                <td>3v3</td>
+            {% elif league.teamformat == 3 %}
+                <td>4v4</td>
+            {% elif league.teamformat == 4 %}
+                <td>5v5</td>
+            {% elif league.teamformat == 5 %}
+                <td>6v6</td>
+            {% endif %}
+        </tr>
+
+        <tr>
+            <td>Best Of</td>
+            {% if league.bestof == 0 %}
+                <td>Best of 1</td>
+            {% elif league.bestof == 1 %}
+                <td>Best of 3</td>
+            {% elif league.bestof == 2 %}
+                <td>Best of 5</td>
+            {% elif league.bestof == 3 %}
+                <td>Best of 7</td>
+            {% elif league.bestof == 4 %}
+                <td>Best of 9</td>
+            {% endif %}
+        </tr>
+
+        <tr>
+            <td>Created</td>
+            <td>{{ league.created }}</td>
+        </tr>
+
+        <tr>
+            <td>Updated</td>
+            <td>{{ league.updated }}</td>
+        </tr>
+
+        <tr>
+            <td><a href="{% url 'staff:list_division' pk=league.pk %}">Divisions</a></td>
+            <td>
+            {% for x in divisions %}
+                Division: <a href="{% url 'staff:detail_division' divid=x.id pk=league.pk %}">#{{ x.id }}</a>- Name={{ x.name }} <br />
+            {% endfor %}
+            </td>
+        </tr>
+
+        <tr>
+            <td><a href="{% url 'staff:teams_league' pk=league.id %}">Teams</a></td>
+        </tr>
+    </table>
+
+    <p>
+        <a href="{% url 'staff:edit_league' pk=league.id %}" class="btn btn-primary">Edit</a>
+         <!--if tournament.active %}
+             if not tournament.bracket_generated %}
+                <a href=" url 'staff:generate_bracket' pk=tournament.id %}" class="btn btn-success">LAUNCH</a>
+                <a href=" url 'staff:add_team' pk=tournament.id %}" class="btn btn-success">ADD TEAMS</a>
+             else
+                <a href=" url 'staff:advance' pk=tournament.id %}" class="btn btn-success">Advance</a>
+                <a href=" url 'staff:winner' pk=tournament.id %}" class="btn btn-success">Declare Winner</a>
+            endif
+         endif %}--->
+        <a href="{% url 'staff:create_division' pk=league.id %}" onclick="return confirm('Are you sure you want to create divisions for this league?')" class="btn btn-primary">CREATE DIVISIONS</a>
+        <a href="{% url 'staff:add_division' pk=league.id %}" onclick="return confirm('Are you sure you want to manually create a division for this league?')" class="btn btn-primary">FORCE ADD DIVISION</a>
+        <a href="{% url 'staff:delete_tournament' pk=league.id %}" onclick="return confirm('Are you sure you want to delete this league?')" class="btn btn-danger">DELETE</a>
+    </p>
+
+{% endblock %}

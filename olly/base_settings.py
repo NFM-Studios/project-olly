@@ -63,6 +63,8 @@ INSTALLED_APPS = [
     # wagers
     'wagers',
 
+    'leagues',
+
     # ip package
     'ipware',
 
@@ -156,4 +158,4 @@ STATICFILES_DIRS = [
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/login/'
 
-SITE_VERSION = "0.8.1"
+SITE_VERSION = "0.9.0"

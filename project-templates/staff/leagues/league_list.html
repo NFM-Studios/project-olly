@@ -1,0 +1,72 @@
+{% extends 'staff/staffbase.html' %}
+{% load static %}
+<link rel="stylesheet" href="{% static "css/staff.css" %}">
+
+{% block title %}
+    All Leagues
+{% endblock %}
+
+{% block body %}
+    <div style="overflow-x:auto;">
+        <h2><a href="{% url 'staff:tournamentrulesetcreate' %}">Create a ruleset</a></h2>
+        <table class="table table-hover">
+            <tr id="header">
+                <thead>
+                <th scope="row">ID</th>
+                <th>League Name</th>
+                <th>Settings</th>
+                <th>Platform</th>
+                <th>Game</th>
+                <th>Start Date/Time</th>
+                <th>Registration Open</th>
+                <th>Required Credits</th>
+                <th>Active</th>
+                <th>Size</th>
+                </thead>
+            </tr>
+            {% for league in leagues %}
+                <tbody>
+                <tr scope="">
+                    <td scope="row"><a
+                            href="{% url 'staff:detail_league' pk=league.id %}">
+                        <btn class="btn btn-primary">#{{ league.id }}</btn>
+                    </a></td>
+                    <td><a href="{% url 'staff:detail_league' pk=league.id %}">{{ league.name }}</a></td>
+                    <td>
+                        <a href="{% url 'staff:detail_league_settings' pk=league.settings.id %}">{{ league.settings.name }}</a>
+                    </td>
+                    <td>{{ league.platform.name }}</td>
+
+                    <td>{{ league.game.name }}</td>
+
+                    <td>{{ league.start }}</td>
+                    <td>{{ league.open_register }}</td>
+                    <td>{{ league.req_credits }}</td>
+
+                    {% if league.active %}
+                        <td>Active</td>
+                    {% elif not league.active %}
+                        <td>Not Active</td>
+                    {% endif %}
+
+                    <td>{{ league.size }}</td>
+
+
+                </tr>
+                </tbody>
+            {% endfor %}
+        </table>
+
+        <div id="new-tournament">
+            <h2 id="" style="text-decoration: none; margin:8px">
+                <a style="text-decoration:none; color:black;" href="{% url 'staff:create_league' %}">
+                    <i class="fa fa-plus"></i> Create a new league
+                </a>
+                <br />
+                <a style="text-decoration:none; color:black;" href="{% url 'staff:create_league_settings' %}">
+                    <i class="fa fa-plus"></i> Create new league settings
+                </a>
+            </h2>
+        </div>
+    </div>
+{% endblock %}

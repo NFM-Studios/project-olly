@@ -10,6 +10,7 @@ from singletournaments.models import SingleEliminationTournament, SingleTourname
 from store.models import Product
 from support.models import TicketComment, Ticket, TicketCategory, QuestionAnswerCategory, QuestionAnswer
 from teams.models import Team, TeamInvite
+from leagues.models import League, LeagueDivision, LeagueSettings, LeagueTeam
 
 
 class StaticInfoForm(forms.ModelForm):
@@ -299,3 +300,47 @@ class CreateSlide(forms.ModelForm):
     class Meta:
         model = FrontPageSlide
         fields = '__all__'
+
+
+class CreateLeagueForm(forms.ModelForm):
+    class Meta:
+        model = League
+        fields = '__all__'
+        widgets = {
+            'open_register': forms.DateTimeInput(
+                attrs={'class': 'form-control datetimepicker-input', 'id': 'datetimepicker1',
+                       'data-toggle': 'datetimepicker', 'data-target': '#datetimepicker1'}),
+            'close_register': forms.DateTimeInput(
+                attrs={'class': 'form-control datetimepicker-input', 'id': 'datetimepicker2',
+                       'data-toggle': 'datetimepicker', 'data-target': '#datetimepicker2'}),
+            'start': forms.DateTimeInput(attrs={'class': 'form-control datetimepicker-input', 'id': 'datetimepicker3',
+                                                'data-toggle': 'datetimepicker', 'data-target': '#datetimepicker3'})
+        }
+
+
+class CreateLeagueSettingsForm(forms.ModelForm):
+    class Meta:
+        model = LeagueSettings
+        fields = '__all__'
+
+
+class EditLeagueSettingsForm(forms.ModelForm):
+    class Meta:
+        model = LeagueSettings
+        fields = '__all__'
+
+
+class AddLeagueMatchForm(forms.Form):
+    awayteam = forms.IntegerField(required=True)
+    hometeam = forms.IntegerField(required=True)
+    division = forms.IntegerField(required=False)
+
+    class Meta:
+        fields = ('hometeam', 'awayteam', 'division')
+
+
+class DivisionAddTeamForm(forms.Form):
+    teamid = forms.IntegerField(required=True)
+
+    class Meta:
+        fields = ('teamid')

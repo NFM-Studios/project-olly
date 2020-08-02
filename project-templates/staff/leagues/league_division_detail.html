@@ -1,0 +1,63 @@
+{% extends 'staff/staffbase.html' %}
+{% load static %}
+
+{% block title %}
+    Division #{{ division.id }}
+{% endblock %}
+
+{% block body %}
+
+
+    <p><a href="{% url 'staff:list_league' %}"><i class="fa fa-arrow-left"></i> <strong>Back to Tournament
+        list</strong></a></p>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Key</th>
+            <th>Value</th>
+        </tr>
+        </thead>
+        <tr>
+            <td>ID</td>
+            <td>{{ division.id }}</td>
+        </tr>
+        <tr>
+            <td>Name</td>
+            <td>{{ division.name }}</td>
+        </tr>
+        <tr>
+            <td>Apart of League</td>
+            <td><a href="{% url 'staff:detail_league' pk=league.id %}">{{ league.name }} (League ID:{{ league.id }})</a></td>
+        </tr>
+
+    </table>
+
+    <button class="btn btn-primary"><a style="color:white" href="{% url 'staff:division_add_team' pk=league.pk divid=division.pk %}">Add a team to this division</a></button>
+
+    <br />
+    <button class="btn btn-primary"><a style="color:white" href="{% url 'staff:division_match_add' pk=league.pk divid=division.pk %}">Add a match to this division</a></button>
+    <br />
+
+    <h1>Matches</h1>
+    <table class="table-hover">
+    <thead>
+    <th>Match ID</th>
+    <th>Away Team</th>
+    <th>Home Team</th>
+    </thead>
+    {% for match in matches %}
+        <tr>
+        <td>{{ match.pk }}</td>
+        <td><a href="{% url 'staff:team_detail' pk=match.awayteam.pk %}">{{ match.awayteam.name }}</a></td>
+        <td><a href="{% url 'staff:team_detail' pk=match.hometeam.pk %}">{{ match.hometeam.name }}</a></td>
+
+    </tr>
+    {% endfor %}
+
+    </table>
+    <h1>Teams</h1>
+    {% for team in division.teams.all %}
+        <a href="{% url 'staff:team_detail' pk=team.team.id %}">{{ team.team.name }}</a>
+        </br>
+    {% endfor %}
+{% endblock %}

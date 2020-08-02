@@ -101,6 +101,9 @@ class Match(models.Model):
     team2reportedwinner = models.ForeignKey(Team, related_name='team2reportedwinner', on_delete=models.SET_NULL,
                                             null=True, blank=True)
 
+    # TODO: implement datetime field for matches
+    #datetime = models.DateTimeField(null=True)
+
     info = models.TextField(default="Match Info: ")
 
     disputed = models.BooleanField(default=False)
