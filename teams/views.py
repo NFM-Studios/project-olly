@@ -114,7 +114,7 @@ def edit_team_view(request, pk):
     else:
         teamobj = Team.objects.get(id=pk)
         form = EditTeamProfileForm(instance=teamobj)
-        return render(request, 'team/team_edit.html', {'form': form})
+        return render(request, 'teams/team_edit.html', {'form': form})
 
 
 class MyTeamDetailView(DetailView):

@@ -243,12 +243,17 @@ def division_match_add(request, pk, divid):
         if request.method == 'POST':
             form = AddLeagueMatchForm(request.POST)
             if form.is_valid():
-
                 try:
-
+                    away = False
+                    home = False
                     awayteam = Team.objects.get(pk=form.cleaned_data['awayteam'])
                     hometeam = Team.objects.get(pk=form.cleaned_data['hometeam'])
-                    if awayteam in division.teams.all() and hometeam in division.teams.all():
+                    for team in division.teams.all():
+                        if team.team.pk is awayteam.pk:
+                            away = True
+                        if team.team.pk is hometeam.pk:
+                            home = True
+                    if away and home:
                         tempmatch = Match(awayteam=awayteam, hometeam=hometeam, type='league', game=league.game,
                                       platform=league.platform, sport=league.sport, bestof=1,
                                       teamformat=league.teamformat)
@@ -256,8 +261,9 @@ def division_match_add(request, pk, divid):
                     else:
                         messages.error(request, "One of the teams does not exist within the division")
                         return redirect('staff:detail_division', pk=league.id, divid=division.pk)
-                    division = LeagueDivision.objects.get(pk=form.division)
+                    division = LeagueDivision.objects.get(pk=division.pk)
                     division.matches.add(tempmatch)
+                    return redirect('staff:detail_division', pk=league.id, divid=division.id)
                 except ObjectDoesNotExist:
                     form.add_error(form, error='Team not found', field=form.awayteam)
                     return redirect('staff:add_match_league')
