@@ -20,7 +20,7 @@ class List(View):
 
     def get(self, request):
         form = self.form_class(None)
-        tournament_list = SingleEliminationTournament.objects.all()
+        tournament_list = SingleEliminationTournament.objects.all().filter(active=True)
         return render(request, 'singletournaments/singletournament_list.html',
                       {'tournament_list': tournament_list, 'form': form})
 
