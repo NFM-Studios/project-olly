@@ -4,6 +4,7 @@ from django.conf.urls import include
 from django.contrib import admin
 from django.urls import path, re_path
 from paypal.standard.ipn import views as paypal_views
+from two_factor.urls import urlpatterns as tf_urls
 
 from pages import views as pages_views
 from profiles import views as profile_views
@@ -11,6 +12,7 @@ from profiles import views as profile_views
 handler404 = pages_views.notfound
 
 urlpatterns = [
+    path('2fa/', include(tf_urls)),
     path('admin/', admin.site.urls),
 
     path('', pages_views.index, name='index'),
