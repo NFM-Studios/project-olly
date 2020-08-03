@@ -28,7 +28,7 @@ INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
-    'django.contrib.sessions',
+    'user_sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
@@ -89,7 +89,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
+    'user_sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -101,6 +101,8 @@ MIDDLEWARE = [
     'olly.middleware.check_2fa'
 
 ]
+
+SESSION_ENGINE = 'user_sessions.backends.db'
 
 ROOT_URLCONF = 'olly.urls'
 
@@ -164,6 +166,9 @@ STATICFILES_DIRS = [
 
 # Where to redirect users after login
 LOGIN_REDIRECT_URL = '/'
+# Where to redirect users to login
 LOGIN_URL = 'two_factor:login'
+# where to redirect users after logout
+LOGOUT_REDIRECT_URL = '/'
 
 SITE_VERSION = "0.9.0"
