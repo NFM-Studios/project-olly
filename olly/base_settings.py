@@ -77,6 +77,11 @@ INSTALLED_APPS = [
     # object storage
     'storages',
 
+    'django_otp',
+    'django_otp.plugins.otp_static',
+    'django_otp.plugins.otp_totp',
+    'two_factor',
+
     # this is what handles deleting old uploaded files
     # NOTE: THIS MUST BE LAST IN THE LIST
     'django_cleanup.apps.CleanupConfig'
@@ -88,9 +93,12 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django_otp.middleware.OTPMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'olly.middleware.ban_middleware',
+    'olly.middleware.check_2fa'
 
 ]
 
@@ -156,6 +164,6 @@ STATICFILES_DIRS = [
 
 # Where to redirect users after login
 LOGIN_REDIRECT_URL = '/'
-LOGIN_URL = '/login/'
+LOGIN_URL = 'two_factor:login'
 
 SITE_VERSION = "0.9.0"
