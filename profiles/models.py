@@ -3,6 +3,31 @@ from django.db import models
 from django.db.models.signals import post_save
 from django_countries.fields import CountryField
 
+NOTIFICATION_TYPES = [
+    ('match', 1),
+    ('tournament', 2),
+    ('league', 3),
+    ('team', 4),
+    ('support', 5),
+    ('news', 6),
+    ('general', 7),
+    ('store', 8),
+]
+
+
+class Notification(models.Model):
+    title = models.CharField(max_length=255, null=True, blank=True)
+    description = models.TextField(default="No description given")
+    # set the default sender of a notification as "System"
+    sender = models.CharField(max_length=255, default="System")
+    type = models.CharField(choices=NOTIFICATION_TYPES, default='general', max_length=255)
+    datetime = models.DateTimeField(auto_created=True)
+    link = models.CharField(max_length=255)
+    # has the user marked the notification as read? default to false
+    read = models.BooleanField(default=False)
+    # has the user visited the notification list page since the notification was generated? used for stats
+    seen = models.BooleanField(default=False)
+
 
 class UserProfile(models.Model):
     def __str__(self):
@@ -12,6 +37,8 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, related_name='user', on_delete=models.CASCADE)
     # xp they have from winning events
     xp = models.PositiveSmallIntegerField(default=0)
+    # all notifications associated with this user
+    notifications = models.ManyToManyField(Notification, related_name='user_notifications', blank=True)
     # credits they own from purchasing things in the store
     credits = models.PositiveSmallIntegerField(default=0)
     passes = models.PositiveSmallIntegerField(default=0)
