@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <title>Notifications - {{ SITE_NAME }}</title>
+{% endblock %}
+
+{% block body %}
+
+    <h2>Unread Notifications</h2>
+    <table class="table">
+        <th>Time</th>
+        <th></th>
+        <th>Description</th>
+        <th></th>
+
+        {% for notif in notifications %}
+            <tr>
+                <td>{{ notif.datetime }}</td>
+                <td> {{ notif.title }} </td>
+                <td> {{ notif.description }}</td>
+                <td>
+                    <button class="btn btn-primary btn-link" ><a href="{% url 'profiles:notification_read' pk=notif.pk %}">Mark as
+                        Read</a></button>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    <br />
+    <br />
+    <h2>Read Notifications</h2>
+    <table class="table table-active">
+    <th>Time</th>
+        <th></th>
+        <th>Description</th>
+
+
+        {% for notif in read %}
+            <tr>
+                <td>{{ notif.datetime }}</td>
+                <td> {{ notif.title }} </td>
+                <td> {{ notif.description }}</td>
+                <td>
+                    <button class="btn btn-primary btn-link" ><a href="{% url 'profiles:notification_unread' pk=notif.pk %}">Mark as
+                        Unread</a></button>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

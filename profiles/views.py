@@ -1,5 +1,6 @@
 import requests
 from django.conf import settings
+from django.core.exceptions import ObjectDoesNotExist
 from django.contrib import messages
 from django.contrib.auth import login as auth_login, REDIRECT_FIELD_NAME, logout as auth_logout, get_user_model
 from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm, SetPasswordForm
@@ -15,10 +16,10 @@ from django.urls import reverse
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode, is_safe_url
 from django.views.generic import View
-
+import datetime
 from teams.models import TeamInvite
 from .forms import CreateUserForm, EditProfileForm, SortForm
-from .models import UserProfile
+from .models import UserProfile, Notification
 from .tokens import account_activation_token
 
 
@@ -44,7 +45,7 @@ def login(request, template_name='profiles/login_form.html',
 
             r = requests.post('https://www.google.com/recaptcha/api/siteverify', data=data)
             result = r.json()
-            
+
             ''' End reCAPTCHA validation'''
             if result['success']:
                 if not request.POST.get('remember me', None):
@@ -240,6 +241,11 @@ def profile(request, urlusername):
     userprofile = get_object_or_404(UserProfile, user__username=urlusername)
     # following line is not stock olly
     team_list = TeamInvite.objects.filter(accepted=True, user=userprofile.user)
+    test = Notification(title="You visited your profile")
+    test.datetime = datetime.datetime.now()
+    test.save()
+    userprofile.notifications.add(test)
+    userprofile.save()
     return render(request, 'profiles/profile.html',
                   {'userprofile': userprofile, 'requestuser': request.user, "team_list": team_list})
 
@@ -263,8 +269,8 @@ def searchusers(request):
     if query:
         return render(request, 'profiles/users.html',
                       {'userprofiles': UserProfile.objects.filter
-                       (Q(user__username__icontains=query) | Q(user__email__icontains=query) |
-                        Q(psn__icontains=query) | Q(xbl__icontains=query))})
+                      (Q(user__username__icontains=query) | Q(user__email__icontains=query) |
+                       Q(psn__icontains=query) | Q(xbl__icontains=query))})
     else:
         return redirect('profiles:users')
 
@@ -363,8 +369,8 @@ class CreateUserFormView(View):
 def activate(request, uidb64, token):
     try:
         uid = force_text(urlsafe_base64_decode(uidb64))
-        #a = uidb64.split("'")[1]
-        #uid = urlsafe_base64_decode(a).decode()
+        # a = uidb64.split("'")[1]
+        # uid = urlsafe_base64_decode(a).decode()
         user = User.objects.get(pk=uid)
     except(TypeError, ValueError, OverflowError, User.DoesNotExist) as e:
         print("Exception")
@@ -426,3 +432,39 @@ class LeaderboardView(View):
             messages.error(request, 'No sort option selected, sorting by descending xp')
             return render(request, 'teams/leaderboard.html',
                           {'user_list': user_list, 'form': self.form_class(None)})
+
+
+def notifications_list(request):
+    if request.user.is_anonymous:
+        messages.error('You must be signed in to view your notifications', request)
+        return redirect('index')
+    else:
+        profile = UserProfile.objects.get(user=request.user)
+        notifications = profile.notifications.all()
+        notifications = notifications.filter(read=False)
+        read = profile.notifications.all().filter(read=True)
+        for x in profile.notifications.all():
+            x.seen = True
+            x.save()
+        return render(request, 'profiles/notifications_list.html',
+                      {'profile': profile, 'notifications': notifications, 'read': read})
+
+
+def notification_read(request, pk):
+    try:
+        notif = Notification.objects.get(pk=pk)
+        notif.read = True
+        notif.save()
+    except ObjectDoesNotExist:
+        messages.error(request, 'Error marking notification as read')
+    return redirect('profiles:notifications')
+
+
+def notification_unread(request, pk):
+    try:
+        notif = Notification.objects.get(pk=pk)
+        notif.read = False
+        notif.save()
+    except ObjectDoesNotExist:
+        messages.error(request, 'Error marking notification as unread')
+    return redirect('profiles:notifications')
