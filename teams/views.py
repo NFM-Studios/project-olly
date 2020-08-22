@@ -232,7 +232,7 @@ class TeamInviteCreateView(View):
             query = invite.filter(user=invitee.user, team=form.data['team'])
             if query.exists():
                 messages.error(request, "That user already has been invited to this team")
-                return redirect('/teams/')
+                return redirect('teams:list')
             else:
                 TeamInvite = form.instance
                 TeamInvite.inviter = self.request.user
@@ -266,11 +266,11 @@ class TeamInviteCreateView(View):
                     )
                     email.send()
                 messages.success(request, 'Sent invite successfully')
-                return redirect('/teams/')
+                return redirect('teams:list')
 
         else:
             messages.error(request, "You must be a captain or the founder to invite")
-            return redirect('/teams/')
+            return redirect('teams:list')
 
 
 class LeaveTeamView(View):
