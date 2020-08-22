@@ -243,6 +243,15 @@ class TeamInviteCreateView(View):
                 if form.data['captain'] == 'captain' or form.data['captain'] == 'founder':
                     TeamInvite.hasPerms = True
                 TeamInvite.save()
+                # lets send a notification
+                notif = UserProfile.objects.get(user=TeamInvite.user)
+                temp = Notification(type='team', title="You've been invited to join a team",
+                                    description="What are you waiting for? Someone needs you to join their team! "
+                                                "View your team invites now!", link='teams:myinvitelist')
+                temp.save()
+                notif = notif.add(temp)
+                notif.save()
+                messages.success(request, 'Successfully notified user')
                 if invitee.email_enabled:
                     current_site = get_current_site(request)
                     mail_subject = settings.SITE_NAME + ": You've been invited to a team!"
