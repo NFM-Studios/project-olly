@@ -11,9 +11,10 @@ from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone
 from django.views.generic import ListView, DetailView, View
+from django.db.models import Q
 
 from matches.models import Match
-from profiles.models import UserProfile
+from profiles.models import UserProfile, Notification
 # team create forms
 from teams.forms import TeamCreateForm
 # import the team models
@@ -31,7 +32,9 @@ class MyInvitesListView(ListView):
     model = TeamInvite
 
     def get(self, request):
-        teaminvite_list = TeamInvite.objects.filter(user=self.request.user, active=True)
+
+        teaminvite_list = TeamInvite.objects.filter(Q(user=self.request.user, active=True))
+        #teaminvite_list = teaminvite_list.filter(Q(fou))
         return render(request, 'teams/team_invite_list.html', {'teaminvite_list': teaminvite_list})
 
     def get_queryset(self):
