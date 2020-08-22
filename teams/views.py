@@ -188,7 +188,7 @@ class TeamCreateView(View):
 
             Team.founder = self.request.user
             Team.save()
-            """invite = TeamInvite()
+            invite = TeamInvite()
             invite.expire = timezone.now()
             invite.user = self.request.user
             invite.captain = 'founder'
@@ -197,7 +197,7 @@ class TeamCreateView(View):
             invite.inviter = self.request.user
             invite.inviter_id = self.request.user.id
             invite.team_id = Team.id
-            invite.save()"""
+            invite.save()
 
             messages.success(self.request, 'Your Team has been created successfully')
             return redirect('teams:list')
