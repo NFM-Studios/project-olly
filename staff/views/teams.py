@@ -23,8 +23,11 @@ def teams_detail(request, pk):
         return render(request, 'staff/permissiondenied.html')
     else:
         team = Team.objects.get(id=pk)
-        players = TeamInvite.objects.filter(team=team, accepted=True).order_by('id')
-        return render(request, 'staff/teams/team_detail.html', {'team': team, 'players': players, 'pk': pk})
+        players = team.players.all()
+        captain = team.captain.all()
+
+        return render(request, 'staff/teams/team_detail.html',
+                      {'team': team, 'players': players, 'captain': captain, 'pk': pk})
 
 
 def create_team(request):
@@ -61,6 +64,7 @@ def delete_team(request, pk):
         return redirect('staff:teamindex')
 
 
+#TODO remove TeamInvite object
 def remove_user(request, pk):
     user = UserProfile.objects.get(user__username=request.user.username)
     allowed = ['superadmin', 'admin']

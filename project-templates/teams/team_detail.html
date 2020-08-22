@@ -41,6 +41,10 @@
             <td><a href="{% url 'profiles:profile' urlusername=team.founder %}">{{ team.founder }}</a></td>
         </tr>
         <tr>
+            <td class="">Captain</td>
+            <td><a href="{% url 'profiles:profile' urlusername=team.captain.name %}">{{ team.captain.name }}</a></td>
+        </tr>
+        <tr>
             <td>Created</td>
             <td>{{ team.created }}</td>
         </tr>
