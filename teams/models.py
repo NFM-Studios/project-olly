@@ -21,9 +21,9 @@ class Team(models.Model):
     # whoever filled out the form to create the team, limited to only one
     founder = models.ForeignKey(User, related_name='founder', on_delete=models.SET_NULL, null=True)
     # basically founder permissions, but to other people that didn't create the actual team
-    captain = models.ManyToManyField(User, through='CaptainMembership', related_name='teamcaptain')
+    captains = models.ManyToManyField(User, blank=True, related_name='team_captains')
     # the people of the actual team, now a many to many, not a forkey
-    players = models.ManyToManyField(User, through='TeamInvite', through_fields=('team', 'user', 'inviter'))
+    players = models.ManyToManyField(User, blank=True, related_name='team_players')
     # when they created the team
     created = models.DateTimeField(auto_now_add=True)
     # when they last updated anything in the team
@@ -88,9 +88,3 @@ class TeamInvite(models.Model):
 
     def __str__(self):
         return str(self.user)
-
-
-class CaptainMembership(models.Model):
-    user = models.ForeignKey(User, related_name='captainperson', on_delete=models.CASCADE)
-    team = models.ForeignKey(Team, related_name='team', on_delete=models.CASCADE)
-    active = models.BooleanField(default=True)
