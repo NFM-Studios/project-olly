@@ -32,9 +32,8 @@ class MyInvitesListView(ListView):
     model = TeamInvite
 
     def get(self, request):
-
         teaminvite_list = TeamInvite.objects.filter(Q(user=self.request.user, active=True))
-        #teaminvite_list = teaminvite_list.filter(Q(fou))
+        # teaminvite_list = teaminvite_list.filter(Q(fou))
         return render(request, 'teams/team_invite_list.html', {'teaminvite_list': teaminvite_list})
 
     def get_queryset(self):
@@ -68,7 +67,7 @@ def invite_view(request, num):
                     invite.expire = timezone.now()
                     invite.active = False
                     invite.save()
-                    messages.success(request, 'Accepted invite to '+str(invite.team.name))
+                    messages.success(request, 'Accepted invite to ' + str(invite.team.name))
                     return redirect('/teams/')
                 elif accepted == 'off':
                     invite = TeamInvite.objects.get(id=num)
@@ -76,7 +75,7 @@ def invite_view(request, num):
                     invite.expire = timezone.now()
                     invite.active = False
                     invite.save()
-                    messages.success(request, 'Declined invite to '+str(invite.team.name))
+                    messages.success(request, 'Declined invite to ' + str(invite.team.name))
                     return redirect('/teams/')
 
 
@@ -101,13 +100,13 @@ def edit_team_view(request, pk):
         teamobj = get_object_or_404(Team, id=pk)
         form = EditTeamProfileForm(request.POST, request.FILES, instance=teamobj)
         if form.is_valid():
-            #teamobj.about_us = form.data['about_us']
-            #teamobj.website = form.data['website']
-            #teamobj.twitter = form.data['twitter']
-            #teamobj.twitch = form.data['twitch']
-            #teamobj.country = form.data['country']
-            #teamobj.image = form.data['image']
-            #teamobj.save()
+            # teamobj.about_us = form.data['about_us']
+            # teamobj.website = form.data['website']
+            # teamobj.twitter = form.data['twitter']
+            # teamobj.twitch = form.data['twitch']
+            # teamobj.country = form.data['country']
+            # teamobj.image = form.data['image']
+            # teamobj.save()
             form.save()
             messages.success(request, 'Team successfully updated')
             return redirect(reverse('teams:detail', args=[pk]))
@@ -142,9 +141,11 @@ class MyTeamDetailView(DetailView):
                 messages.warning(request, "Xbox Live is not verified")
             if not user.psn_verified:
                 messages.warning(request, "PSN is not verified")
-            return render(request, 'teams/team_detail.html', {'team': team, 'players': players, 'up':up,'pk': pk, 'matches': matches})
+            return render(request, 'teams/team_detail.html',
+                          {'team': team, 'players': players, 'up': up, 'pk': pk, 'matches': matches})
         else:
-            return render(request, 'teams/team_detail.html', {'team': team, 'players': players, 'up':up, 'pk': pk, 'matches': matches})
+            return render(request, 'teams/team_detail.html',
+                          {'team': team, 'players': players, 'up': up, 'pk': pk, 'matches': matches})
 
     def get_context_date(self, **kwargs):
         context = super(MyTeamDetailView, self).get_context_date(**kwargs)
