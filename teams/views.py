@@ -12,6 +12,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.views.generic import ListView, DetailView, View
 from django.db.models import Q
+from django.core.exceptions import ObjectDoesNotExist
 
 from matches.models import Match
 from profiles.models import UserProfile, Notification
@@ -204,7 +205,7 @@ class TeamCreateView(View):
             invite.save()"""
 
             messages.success(self.request, 'Your Team has been created successfully')
-            return redirect('teams:list')
+            return redirect('teams:detail', pk=Team.pk)
 
 
 def get_invites(form):
@@ -223,11 +224,11 @@ class TeamInviteCreateView(View):
         form = TeamInviteFormPost(request.POST)
         team = Team.objects.get(id=form.data['team'])
         invite = get_invites(form)
-        captains = invite.filter(captain='captain')
+        captains = Team.captains.all()
         x = {}
-        for captain in captains:
-            x[captain] = str(captain.user.username)
-        if (request.user == team.founder) or (request.user.username in x.values()):
+        # for captain in captains:
+        #    x[captain] = str(captain.user.username)
+        if (request.user == team.founder) or (request.user.username in captains):
             try:
                 invitee = UserProfile.objects.get(user__username=form.data['user'])
             except:
@@ -235,16 +236,15 @@ class TeamInviteCreateView(View):
                 return render(request, 'teams/team_invite_player.html', {'form': form})
             query = invite.filter(user=invitee.user, team=form.data['team'])
             if query.exists():
-                messages.error(request, "That user already has been invited to this team")
-                return redirect('teams:list')
+                messages.error(request, "That user already has already been invited to this team")
+                return redirect('teams:detail', pk=team.pk)
             else:
                 TeamInvite = form.instance
                 TeamInvite.inviter = self.request.user
                 TeamInvite.team = team
                 TeamInvite.user = invitee.user
                 TeamInvite.expire = timezone.now() + datetime.timedelta(days=1)
-                TeamInvite.captain = form.data['captain']
-                if form.data['captain'] == 'captain' or form.data['captain'] == 'founder':
+                if form.data['captain']:
                     TeamInvite.hasPerms = True
                 TeamInvite.save()
                 # lets send a notification
@@ -288,23 +288,30 @@ class LeaveTeamView(View):
 
     def post(self, request, pk):
         form = self.form_class(request.POST)
-        try:
-            if form.data['confirmed']:
-                invite = TeamInvite.objects.get(user=request.user, team_id=pk)
-                try:
-                    invite.delete()
-                    messages.success(request, "Left team")
-                    invites = TeamInvite.objects.filter(team_id=pk)
-                    if not invites.exists():
-                        team = Team.objects.get(id=pk)
-                        team.delete()
-                        messages.success(request, 'Deleted team due to the last user leaving')
-                    return redirect('teams:list')
-                except:
-                    messages.error(request, "You don't appear to be on this team")
-                    return redirect('teams:detail', pk=pk)
-        except:
-            messages.error(request, "You submitted without confirming that you wanted to leave, redirecting to team detail")
+        if form.data['confirmed']:
+            try:
+                team = Team.objects.get(pk=pk)
+            except ObjectDoesNotExist:
+                messages.error(request, 'Team cannot be found')
+                return redirect('teams:list')
+            if request.user in team.players:
+                team.players.remove(request.user)
+                messages.success(request, 'Successfully removed you from the players role')
+            if request.user in team.captains:
+                team.captains.remove(request.user)
+                messages.success(request, 'Successfully removed you from the captain role')
+            if request.user is team.founder:
+                # founders cannot leave their team. they must delete the team
+                messages.error(request,
+                               'You cannot leave the team you founded, you can only delete it.')
+            if not (request.user in team.players) or not (request.user in team.captains) or not (
+                    request.user is team.founder):
+                messages.error(request, "You don't appear to be on this team")
+                return redirect('teams:detail', pk=pk)
+            return redirect('teams:list')
+        else:
+            messages.error(request,
+                           "You submitted without confirming that you wanted to leave, redirecting to team detail")
             return redirect('teams:detail', pk=pk)
 
 
