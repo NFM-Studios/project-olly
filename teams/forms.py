@@ -54,7 +54,6 @@ class TeamInviteFormPost(forms.ModelForm):
     class Meta:
         captain = forms.BooleanField(required=False)
         model = TeamInvite
-        # maybe????
         fields = ('user', 'team', 'captain',)
         widgets = {
             'user': forms.CharField(),
