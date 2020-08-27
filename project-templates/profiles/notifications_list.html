@@ -16,7 +16,11 @@
         {% for notif in notifications %}
             <tr>
                 <td>{{ notif.datetime }}</td>
-                <td> {{ notif.title }} </td>
+                {% if notif.pk1 is not 0 %}
+                <td> <a href="{% url notif.link pk=notif.pk1 %}">{{ notif.title }}</a></td>
+                {% else %}
+                <td> <a href="{% url notif.link %}">{{ notif.title }}</a></td>
+                {% endif %}
                 <td> {{ notif.description }}</td>
                 <td>
                     <button class="btn btn-primary btn-link" ><a href="{% url 'profiles:notification_read' pk=notif.pk %}">Mark as
