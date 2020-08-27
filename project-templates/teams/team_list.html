@@ -14,12 +14,12 @@
             <th>Date Created</th>
             </thead>
         </tr>
-        {% for TeamInvite in team_list %}
+        {% for team in team_list %}
             <tbody>
             <tr scope="">
-                <td scope="row"><a href="/teams/{{ TeamInvite.team.id }}/">{{ TeamInvite.team.id }}</a></td>
-                <td>{{ TeamInvite.team.name }}</td>
-                <td>{{ TeamInvite.team.created }}</td>
+                <td scope="row"><a href="{% url 'teams:detail' pk=team.id %}">{{ team.id }}</a></td>
+                <td>{{ team.name }}</td>
+                <td>{{ team.created }}</td>
             </tr>
             </tbody>
         {% endfor %}
