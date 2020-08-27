@@ -10,6 +10,8 @@ from django.db.models import Q
 from matches.models import Match, MatchReport, MatchDispute, MapPoolChoice
 from teams.models import Team, TeamInvite
 from .forms import MatchReportCreateFormGet, MatchReportCreateFormPost, DisputeCreateForm
+from profiles.models import Notification, UserProfile
+import datetime
 
 
 class MapPoolDetail(DetailView):
@@ -146,6 +148,14 @@ class MatchReportCreateView(View):
                         match.save()
 
                         for i in [report1.reporting_user, report2.reporting_user]:
+                            test = Notification(title="A match you're playing in has been disputed")
+                            test.link = 'matches:detail'
+                            test.pk1 = match.pk
+                            test.datetime = datetime.datetime.now()
+                            test.save()
+                            userprofile = UserProfile.objects.get(user=request.user)
+                            userprofile.notifications.add(test)
+                            userprofile.save()
                             if i.user.email_enabled:
                                 current_site = get_current_site(request)
                                 mail_subject = settings.SITE_NAME + ' match disputed!'
