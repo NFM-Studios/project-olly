@@ -241,11 +241,6 @@ def profile(request, urlusername):
     userprofile = get_object_or_404(UserProfile, user__username=urlusername)
     # following line is not stock olly
     team_list = TeamInvite.objects.filter(accepted=True, user=userprofile.user)
-    test = Notification(title="You visited your profile")
-    test.datetime = datetime.datetime.now()
-    test.save()
-    userprofile.notifications.add(test)
-    userprofile.save()
     return render(request, 'profiles/profile.html',
                   {'userprofile': userprofile, 'requestuser': request.user, "team_list": team_list})
 
