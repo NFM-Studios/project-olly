@@ -3,7 +3,7 @@ import datetime
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.sites.shortcuts import get_current_site
-from django.core.mail import EmailMessage
+from django.core.mail import EmailMessage, send_mail
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render, redirect
@@ -221,10 +221,14 @@ class TeamInviteCreateView(View):
                 TeamInvite.team = team
                 TeamInvite.user = invitee.user
                 TeamInvite.expire = timezone.now() + datetime.timedelta(days=1)
-                if form.data['captain']:
-                    TeamInvite.captain = True
-                TeamInvite.save()
+                #TODO remove try except
+                try:
+                    if form.data['captain']:
+                        TeamInvite.captain = True
+                except:
+                    pass
                 # lets send a notification
+                TeamInvite.save()
                 notif = UserProfile.objects.get(user=TeamInvite.user)
                 temp = Notification(type='team', title="You've been invited to join a team",
                                     description="What are you waiting for? Someone needs you to join their team! "
@@ -247,7 +251,7 @@ class TeamInviteCreateView(View):
                     email = EmailMessage(
                         mail_subject, message, from_email=settings.FROM_EMAIL, to=[invitee.user.email]
                     )
-                    email.send()
+                    email.send(fail_silently=True)
                 messages.success(request, 'Sent invite successfully')
                 return redirect('teams:list')
 
