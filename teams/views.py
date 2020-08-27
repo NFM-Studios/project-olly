@@ -143,10 +143,10 @@ class MyTeamDetailView(DetailView):
             if not user.psn_verified:
                 messages.warning(request, "PSN is not verified")
             return render(request, 'teams/team_detail.html',
-                          {'team': team, 'players': players, 'up': up, 'pk': pk, 'matches': matches})
+                          {'team': team, 'players': players, 'pk': pk, 'matches': matches, 'captains': captains})
         else:
             return render(request, 'teams/team_detail.html',
-                          {'team': team, 'players': players, 'up': up, 'pk': pk, 'matches': matches})
+                          {'team': team, 'players': players, 'pk': pk, 'matches': matches, 'captains': captains})
 
     def get_context_date(self, **kwargs):
         context = super(MyTeamDetailView, self).get_context_date(**kwargs)
