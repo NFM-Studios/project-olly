@@ -34,7 +34,6 @@ class MyInvitesListView(ListView):
 
     def get(self, request):
         teaminvite_list = TeamInvite.objects.filter(Q(user=self.request.user, active=True))
-        # teaminvite_list = teaminvite_list.filter(Q(fou))
         return render(request, 'teams/team_invite_list.html', {'teaminvite_list': teaminvite_list})
 
     def get_queryset(self):
@@ -90,7 +89,6 @@ class MyTeamsListView(ListView):
     def get(self, request):
         team_list = Team.objects.filter(
             Q(captains__exact=request.user) | Q(founder=request.user) | Q(players__exact=request.user))
-        # team_list = TeamInvite.objects.filter(user=self.request.user, accepted=True)
         return render(request, 'teams/team_list.html', {'team_list': team_list})
 
     def get_queryset(self, **kwargs):
@@ -102,19 +100,10 @@ def edit_team_view(request, pk):
     if request.method == 'POST':
         teamobj = get_object_or_404(Team, id=pk)
         form = EditTeamProfileForm(request.POST, request.FILES, instance=teamobj)
-        if request.user in teamobj.captains or request.user is teamobj.founder:
-            pass
-        else:
+        if request.user not in teamobj.captains or request.user is not teamobj.founder:
             messages.error(request, 'ERROR: You must be a captain or founder update team info')
             return redirect('teams:detail', pk=teamobj.pk)
         if form.is_valid():
-            # teamobj.about_us = form.data['about_us']
-            # teamobj.website = form.data['website']
-            # teamobj.twitter = form.data['twitter']
-            # teamobj.twitch = form.data['twitch']
-            # teamobj.country = form.data['country']
-            # teamobj.image = form.data['image']
-            # teamobj.save()
             form.save()
             messages.success(request, 'Team successfully updated')
             return redirect(reverse('teams:detail', args=[pk]))
@@ -143,12 +132,6 @@ class MyTeamDetailView(DetailView):
         matches = matches_ | matches__
         if not request.user.is_anonymous:
             user = UserProfile.objects.get(user__username=request.user.username)
-            if not user.xbl_verified:
-                pass
-                # messages.warning(request, "Xbox Live is not verified")
-            if not user.psn_verified:
-                pass
-                # messages.warning(request, "PSN is not verified")
             return render(request, 'teams/team_detail.html',
                           {'team': team, 'players': players, 'pk': pk, 'matches': matches, 'captains': captains})
         else:
@@ -178,8 +161,6 @@ class MyTeamDetailView(DetailView):
         invite.team = self.request.team
 
     def get_queryset(self):
-        # TO DO switch the filter to the players field not just the founder field.
-        # TODO: FIX
         return Team.objects.filter(
             Q(captains__exact=self.request.user) | Q(founder=self.request.user) | Q(players__exact=self.request.user))
 
@@ -202,16 +183,6 @@ class TeamCreateView(View):
 
             Team.founder = self.request.user
             Team.save()
-            """invite = TeamInvite()
-            invite.expire = timezone.now()
-            invite.user = self.request.user
-            invite.captain = 'founder'
-            invite.hasPerms = True
-            invite.accepted = True
-            invite.inviter = self.request.user
-            invite.inviter_id = self.request.user.id
-            invite.team_id = Team.id
-            invite.save()"""
 
             messages.success(self.request, 'Your Team has been created successfully')
             return redirect('teams:detail', pk=Team.pk)
@@ -234,9 +205,6 @@ class TeamInviteCreateView(View):
         team = Team.objects.get(id=form.data['team'])
         invite = get_invites(form)
         captains = team.captains.all()
-        # x = {}
-        # for captain in captains:
-        #    x[captain] = str(captain.user.username)
         if (request.user == team.founder) or (request.user.username in captains):
             try:
                 invitee = UserProfile.objects.get(user__username=form.data['user'])
@@ -245,7 +213,7 @@ class TeamInviteCreateView(View):
                 return render(request, 'teams/team_invite_player.html', {'form': form})
             query = invite.filter(user=invitee.user, team=form.data['team'])
             if query.exists():
-                messages.error(request, "That user already has already been invited to this team")
+                messages.error(request, "That user has already been invited to this team")
                 return redirect('teams:detail', pk=team.pk)
             else:
                 TeamInvite = form.instance
@@ -352,7 +320,7 @@ class RemoveUserView(View):
                 messages.success(request, 'Removed user %s from team' % player)
 
         else:
-            messages.error(request, "Only the team's founder/captain can remove users")
+            messages.error(request, "Only the team's founder or a captain can remove users")
             return redirect('teams:detail', pk)
 
 
