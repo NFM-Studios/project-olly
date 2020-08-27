@@ -41,6 +41,12 @@
             <td><a href="{% url 'profiles:profile' urlusername=team.founder %}">{{ team.founder }}</a></td>
         </tr>
         <tr>
+            <td class="">Captains</td>
+            {% for captain in captains %}
+                <td><a href="{% url 'profiles:profile' urlusername=captain.user %}">{{ captain.name }}</a></td>
+            {% endfor %}
+        </tr>
+        <tr>
             <td>Created</td>
             <td>{{ team.created }}</td>
         </tr>
@@ -69,7 +75,7 @@
         </tr>
         <tr>
             <td>Players</td>
-            {% for profile in up %}
+            {% for profile in players %}
 
                 <tr>
                     <td valign="middle"><img src="{{ profile.country.flag }}"> <a
@@ -78,7 +84,13 @@
                         NO{% endif %}</td>
                 </tr>
             {% endfor %}
-        </tr>
+        {% if players.count == 0 %}
+            <tr>
+                <td>
+                    There are no players on the team yet
+                </td>
+            </tr>
+        {% endif %}
     </table>
 
     <a href="{% url 'teams:leave' pk=pk %}">Leave team</a><br>
