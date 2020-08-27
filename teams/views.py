@@ -88,20 +88,25 @@ class MyTeamsListView(ListView):
     model = Team
 
     def get(self, request):
-        team_list = TeamInvite.objects.filter(user=self.request.user, accepted=True)
+        team_list = Team.objects.filter(
+            Q(captains__exact=request.user) | Q(founder=request.user) | Q(players__exact=request.user))
+        # team_list = TeamInvite.objects.filter(user=self.request.user, accepted=True)
         return render(request, 'teams/team_list.html', {'team_list': team_list})
 
     def get_queryset(self, **kwargs):
-        # TO DO switch the filter to the players field not just the founder field.
-        if TeamInvite.objects.filter(user=self.request.user, accepted=True):
-            # TO DO switch the filter to the players field not just the founder field.
-            return TeamInvite.objects.filter(user=self.request.user, accepted=True)
+        return Team.objects.filter(
+            Q(captains__exact=self.request.user) | Q(founder=self.request.user) | Q(players__exact=self.request.user))
 
 
 def edit_team_view(request, pk):
     if request.method == 'POST':
         teamobj = get_object_or_404(Team, id=pk)
         form = EditTeamProfileForm(request.POST, request.FILES, instance=teamobj)
+        if request.user in teamobj.captains or request.user is teamobj.founder:
+            pass
+        else:
+            messages.error(request, 'ERROR: You must be a captain or founder update team info')
+            return redirect('teams:detail', pk=teamobj.pk)
         if form.is_valid():
             # teamobj.about_us = form.data['about_us']
             # teamobj.website = form.data['website']
@@ -139,9 +144,11 @@ class MyTeamDetailView(DetailView):
         if not request.user.is_anonymous:
             user = UserProfile.objects.get(user__username=request.user.username)
             if not user.xbl_verified:
-                messages.warning(request, "Xbox Live is not verified")
+                pass
+                # messages.warning(request, "Xbox Live is not verified")
             if not user.psn_verified:
-                messages.warning(request, "PSN is not verified")
+                pass
+                # messages.warning(request, "PSN is not verified")
             return render(request, 'teams/team_detail.html',
                           {'team': team, 'players': players, 'pk': pk, 'matches': matches, 'captains': captains})
         else:
@@ -173,7 +180,8 @@ class MyTeamDetailView(DetailView):
     def get_queryset(self):
         # TO DO switch the filter to the players field not just the founder field.
         # TODO: FIX
-        return Team.objects.filter(Q(founder=self.request.user) or Q(captains__in=self.request.user))
+        return Team.objects.filter(
+            Q(captains__exact=self.request.user) | Q(founder=self.request.user) | Q(players__exact=self.request.user))
 
 
 class TeamCreateView(View):
