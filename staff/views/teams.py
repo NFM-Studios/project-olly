@@ -24,10 +24,10 @@ def teams_detail(request, pk):
     else:
         team = Team.objects.get(id=pk)
         players = team.players.all()
-        captain = team.captain.all()
+        captains = team.captain.all()
 
         return render(request, 'staff/teams/team_detail.html',
-                      {'team': team, 'players': players, 'captain': captain, 'pk': pk})
+                      {'team': team, 'players': players, 'captains': captains, 'pk': pk})
 
 
 def create_team(request):
