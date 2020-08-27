@@ -153,7 +153,7 @@ class MatchReportCreateView(View):
                             test.pk1 = match.pk
                             test.datetime = datetime.datetime.now()
                             test.save()
-                            userprofile = UserProfile.objects.get(user=request.user)
+                            userprofile = UserProfile.objects.get(user=i.user)
                             userprofile.notifications.add(test)
                             userprofile.save()
                             if i.user.email_enabled:
