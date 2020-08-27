@@ -232,7 +232,7 @@ class TeamInviteCreateView(View):
 
                 temp.datetime = datetime.datetime.utcnow()
                 temp.save()
-                notif = notif.add(temp)
+                notif = notif.notifications.add(temp)
                 notif.save()
                 messages.success(request, 'Successfully notified user')
                 if invitee.email_enabled:
