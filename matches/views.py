@@ -6,7 +6,7 @@ from django.shortcuts import get_object_or_404
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.views.generic import DetailView, CreateView, View
-
+from django.db.models import Q
 from matches.models import Match, MatchReport, MatchDispute, MapPoolChoice
 from teams.models import Team, TeamInvite
 from .forms import MatchReportCreateFormGet, MatchReportCreateFormPost, DisputeCreateForm
@@ -23,10 +23,10 @@ class MapPoolDetail(DetailView):
 class MatchList(View):
 
     def get(self, request):
-        invites = TeamInvite.objects.filter(hasPerms=True, user_id=request.user.id)
-        team = list(Team.objects.filter(id__in=invites.values_list('team', flat=True)))
-        matches_away = Match.objects.filter(awayteam__in=team)
-        matches_home = Match.objects.filter(hometeam__in=team)
+        teams = Team.objects.filter(
+            Q(captains__exact=request.user) | Q(founder=request.user) | Q(players__exact=request.user))
+        matches_away = Match.objects.filter(awayteam__in=teams)
+        matches_home = Match.objects.filter(hometeam__in=teams)
         matches = matches_away | matches_home
         return render(request, 'matches/matches_list.html', {'matches': matches})
 
