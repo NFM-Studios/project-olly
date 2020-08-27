@@ -23,6 +23,7 @@ class Notification(models.Model):
     type = models.CharField(choices=NOTIFICATION_TYPES, default='general', max_length=255)
     datetime = models.DateTimeField(auto_created=True)
     link = models.CharField(max_length=255)
+    pk1 = models.IntegerField(default=0)
     # has the user marked the notification as read? default to false
     read = models.BooleanField(default=False)
     # has the user visited the notification list page since the notification was generated? used for stats
