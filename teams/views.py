@@ -226,7 +226,7 @@ class TeamInviteCreateView(View):
         team = Team.objects.get(id=form.data['team'])
         invite = get_invites(form)
         captains = team.captains.all()
-        x = {}
+        # x = {}
         # for captain in captains:
         #    x[captain] = str(captain.user.username)
         if (request.user == team.founder) or (request.user.username in captains):
@@ -333,20 +333,18 @@ class RemoveUserView(View):
         team = Team.objects.get(id=pk)
         if request.user == team.founder or request.user in team.captains:
             form = RemovePlayerFormPost(request.POST)
-            invite = TeamInvite.objects.get(id=form.data['remove'])
-            player = UserProfile.objects.get()
-
-            messages.success(request, 'Removed user %s from team' % invite)
-            invite.delete()
-            invites = TeamInvite.objects.filter(team=team)
-            if not invites.exists():
-                messages.warning(request, "Last user in team removed, team deleted")
-                team.delete()
+            # invite = TeamInvite.objects.get(id=form.data['remove'])
+            player = UserProfile.objects.get(form.data['remove'])
+            if player == team.founder:
+                messages.error(request, "You cannot remove the Team founder from the team")
                 return redirect('teams:list')
             else:
-                return redirect('teams:detail', pk)
+                team.players.remove(player)
+                team.save()
+                messages.success(request, 'Removed user %s from team' % player)
+
         else:
-            messages.error(request, "Only the team's founder can remove users")
+            messages.error(request, "Only the team's founder/captain can remove users")
             return redirect('teams:detail', pk)
 
 
@@ -369,9 +367,12 @@ class DissolveTeamView(View):
             if form.is_valid():
                 if form.cleaned_data['confirmed']:
                     team = Team.objects.get(id=pk)
-                    invites = list(TeamInvite.objects.filter(team=team))
-                    for invite in invites:
-                        invite.delete()
+                    try:
+                        invites = list(TeamInvite.objects.filter(team=team))
+                        for invite in invites:
+                            invite.delete()
+                    except:
+                        messages.error(request, "Warning: Couldn't delete team invites")
                     messages.success(request, 'Dissolved team %s' % team)
                     team.delete()
                     return redirect('teams:list')
@@ -379,5 +380,5 @@ class DissolveTeamView(View):
                     messages.warning(request, "You didn't confirm that you wanted to dissolve the team")
                     return redirect('teams:detail', pk)
         else:
-            messages.error(request, "Only the team's founder can remove users")
+            messages.error(request, "Only the team's founder can dissolve the team")
             return redirect('teams:detail', pk)
