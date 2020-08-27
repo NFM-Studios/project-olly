@@ -1,10 +1,15 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.views.generic import View
-
+from django.template.loader import render_to_string
+from django.conf import settings
 from matches.models import MatchReport, MatchDispute
 from staff.forms import *
 from wagers.models import *
+from profiles.models import UserProfile, Notification
+from django.core.mail import EmailMessage
+import datetime
+from django.contrib.sites.shortcuts import get_current_site
 
 
 def matches_index(request):
@@ -481,3 +486,41 @@ def create_map_pool_choice(request):
             else:
                 form = GameChoiceForm(request.POST, request.FILES)
                 return render(request, 'staff/matches/editmappool.html', {'form': form})
+
+
+def set_dispute_match(request, pk):
+    # set the specific match as disputed
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        match = Match.objects.get(pk=pk)
+        match.disputed = True
+        for i in [match.team1.players, match.team2.players]:
+            temp = Notification(title="A staff member set one of your matches as disputed")
+            temp.link = 'matches:detail'
+            temp.pk1 = match.pk
+            temp.datetime = datetime.datetime.now()
+            temp.save()
+            userprofile = UserProfile.objects.get(user=i.user)
+            userprofile.notifications.add(temp)
+            userprofile.save()
+            if i.user.email_enabled:
+                current_site = get_current_site(request)
+                mail_subject = settings.SITE_NAME + ' match disputed!'
+                message = render_to_string('matches/dispute_email.html', {
+                    'user': i.username,
+                    'site': settings.SITE_NAME,
+                    'domain': current_site.domain,
+                    'pk': match.pk
+                })
+                to_email = i.email
+                email = EmailMessage(
+                    mail_subject, message, from_email=settings.FROM_EMAIL, to=[to_email]
+                )
+                email.send()
+        dispute = MatchDispute(id=match.id, match=match, team1=match.team1, team2=match.team2)
+        dispute.save()
+        messages.success(request, "Set the match as disputed, notified users, and created the Match Dispute")
+        return redirect('staff:match_detail', pk=match.id)

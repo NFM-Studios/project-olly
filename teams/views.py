@@ -229,6 +229,7 @@ class TeamInviteCreateView(View):
                 temp = Notification(type='team', title="You've been invited to join a team",
                                     description="What are you waiting for? Someone needs you to join their team! "
                                                 "View your team invites now!", link='teams:myinvitelist')
+
                 temp.datetime = datetime.datetime.utcnow()
                 temp.save()
                 notif = notif.add(temp)
