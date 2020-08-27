@@ -31,8 +31,10 @@
                 <td><a href="{% url 'profiles:profile' urlusername=team.founder %}">{{ team.founder }}</a></td>
             </tr>
             <tr>
-                <td class="">Captain</td>
-                <td><a href="{% url 'profiles:profile' urlusername=team.captain.name %}">{{ team.captain.name }}</a>
+                <td class="">Captains</td>
+                {% for captain in captains %}
+                <td><a href="{% url 'profiles:profile' urlusername=captain.name %}">{{ captain.name }}</a>
+                {% endfor %}
                 </td>
             </tr>
             <tr>
