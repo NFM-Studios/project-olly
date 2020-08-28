@@ -1,7 +1,8 @@
 from django import forms
-
+from django.db.models import Q
 # import the actual team model for the create team forms
 from teams.models import Team
+from profiles.models import UserProfile
 # import the model for the team invite
 from teams.models import TeamInvite
 
@@ -42,8 +43,10 @@ class TeamInviteFormGet(forms.ModelForm):
         self.fields['captain'].widget.attrs.update({'name': 'captain', 'class': 'form-control', 'style': 'width:30%'})
 
         self.username = request.user
-        invites = TeamInvite.objects.filter(hasPerms=True, user=request.user, accepted=True)
-        teams = Team.objects.filter(id__in=invites.values_list('team'))
+        # invites = TeamInvite.objects.filter(user=request.user, accepted=True)
+        # profile = UserProfile.objects.get(user=request.user)
+        # teams = Team.objects.filter(founder=request.user)
+        teams = Team.objects.filter(Q(captains__exact=request.user) | Q(founder=request.user))
         # super().__init__(*args, **kwargs)
         self.fields['team'].queryset = teams
 
@@ -54,7 +57,6 @@ class TeamInviteFormPost(forms.ModelForm):
     class Meta:
         captain = forms.BooleanField(required=False)
         model = TeamInvite
-        # maybe????
         fields = ('user', 'team', 'captain',)
         widgets = {
             'user': forms.CharField(),
@@ -103,7 +105,7 @@ class RemoveUserForm(forms.Form):
 
     def __init__(self, request, pk, *args, **kwargs):
         team = Team.objects.get(id=pk)
-        players = TeamInvite.objects.filter(team=team, accepted=True)
+        players = team.players.all()
         super().__init__(*args, **kwargs)
         self.fields['remove'].queryset = players
         self.fields['remove'].widget.attrs.update(
