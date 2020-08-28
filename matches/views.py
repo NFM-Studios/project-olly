@@ -169,7 +169,7 @@ class MatchReportCreateView(View):
                                 email = EmailMessage(
                                     mail_subject, message, from_email=settings.FROM_EMAIL, to=[to_email]
                                 )
-                                email.send()
+                                email.send(fail_silently=True)
 
                         messages.warning(self.request,
                                          "Both teams have reported different winners; a dispute has been created")
