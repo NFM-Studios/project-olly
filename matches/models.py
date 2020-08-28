@@ -5,6 +5,45 @@ from matches.settings import TEAMFORMAT_CHOICES, MAPFORMAT_CHOICES
 from teams.models import Team
 
 
+class StatsPlayer(models.Model):
+    rating = models.DecimalField(max_digits=6, decimal_places=3)
+    kills = models.IntegerField(default=0)
+    assists = models.IntegerField(default=0)
+    deaths = models.IntegerField(default=0)
+    killround = models.DecimalField(max_digits=6, decimal_places=3)
+    adr = models.IntegerField(default=0)
+    ud = models.IntegerField(default=0)
+    ef = models.IntegerField(default=0)
+    f_assists = models.IntegerField(default=0)
+    hs = models.IntegerField(default=0)
+    kast = models.IntegerField(default=0)
+    awp_k = models.IntegerField(default=0)
+    twok = models.IntegerField(default=0)
+    threek = models.IntegerField(default=0)
+    fourk = models.IntegerField(default=0)
+    fivek = models.IntegerField(default=0)
+    one_v_one = models.IntegerField(default=0)
+    one_v_two = models.IntegerField(default=0)
+    one_v_three = models.IntegerField(default=0)
+    one_v_four = models.IntegerField(default=0)
+    one_v_five = models.IntegerField(default=0)
+    f_kills = models.IntegerField(default=0)
+    f_deaths = models.IntegerField(default=0)
+    entries = models.IntegerField(default=0)
+    trades = models.IntegerField(default=0)
+    rounds = models.IntegerField(default=0)
+    rf = models.IntegerField(default=0)
+    ra = models.IntegerField(default=0)
+    damage = models.IntegerField(default=0)
+
+
+class MatchStats(models.Model):
+    matchid = models.PositiveIntegerField(default=0)
+    map = models.CharField(default="unknown", max_length=255)
+    team1 = models.CharField(default="unknown", max_length=255)
+    team2 = models.CharField(default="unknown", max_length=255)
+
+
 class SportChoice(models.Model):
     name = models.CharField(default='unknown sports', null=False, max_length=255)
 
@@ -54,7 +93,7 @@ class MapPoolChoice(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
-    #def add_map(self, mappk):
+    # def add_map(self, mappk):
     #    newmap = MapChoice.objects.get(id=mappk)
     #    newmap.map_num = self.maps.count() + 1
     #    self.maps.add(newmap)
@@ -66,8 +105,8 @@ class MapPoolChoice(models.Model):
 class Match(models.Model):
     type = models.CharField(blank=True, null=True, max_length=20)
     matchnum = models.SmallIntegerField(default=0)
-    #TODO add mtm field for maps - for cases that it is more then a BO1
-    #maps = models.ManyToManyField(MapChoice, related_name='match_maps', on_delete=models.SET_NULL, null=True)
+    # TODO add mtm field for maps - for cases that it is more then a BO1
+    # maps = models.ManyToManyField(MapChoice, related_name='match_maps', on_delete=models.SET_NULL, null=True)
     map = models.ForeignKey(MapChoice, related_name='match_map', on_delete=models.SET_NULL, null=True)
     game = models.ForeignKey(GameChoice, related_name='GameChoice', on_delete=models.PROTECT, null=True)
     # default to ps4 for now bc why not
@@ -102,7 +141,7 @@ class Match(models.Model):
                                             null=True, blank=True)
 
     # TODO: implement datetime field for matches
-    #datetime = models.DateTimeField(null=True)
+    # datetime = models.DateTimeField(null=True)
 
     info = models.TextField(default="Match Info: ")
 
