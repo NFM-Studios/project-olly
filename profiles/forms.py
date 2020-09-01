@@ -32,6 +32,8 @@ class EditProfileForm(forms.ModelForm):
             'xbl',
             'psn',
             'steam',
+            'steamid64',
+            'discord',
             'epic',
             'lol',
             'battlenet',
