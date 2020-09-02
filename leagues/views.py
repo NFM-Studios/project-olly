@@ -24,7 +24,17 @@ def leave_league(request, pk):
 
 
 def detail_league_teams(request, pk):
-    pass
+    league = get_object_or_404(League)
+    if league.divisions.count() == 0:
+        messages.warning(request, 'There are no divisions for this league yet')
+        return redirect('leagues:detail', pk)
+    else:
+        divisions = league.divisions.all()  # .teams.all()
+        teams = []
+        for division in divisions:
+            teams.append(division.teams.all())
+        teams = teams  # .order_by
+        return render(request, 'leagues/league_teams.html', {'teams': teams})
 
 
 def list_league_divisions(request, pk):
