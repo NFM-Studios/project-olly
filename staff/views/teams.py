@@ -24,7 +24,7 @@ def teams_detail(request, pk):
     else:
         team = Team.objects.get(id=pk)
         players = team.players.all()
-        captains = team.captain.all()
+        captains = team.captains.all()
 
         return render(request, 'staff/teams/team_detail.html',
                       {'team': team, 'players': players, 'captains': captains, 'pk': pk})
