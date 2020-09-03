@@ -21,7 +21,8 @@ def matches_index(request):
         # matches_list = Match.objects.all().order_by('-id')
         tmatches = Match.objects.filter(type__isnull=True)
         wmatches = Match.objects.filter(type='w')
-        return render(request, 'staff/matches/matches.html', {'tmatches': tmatches, 'wmatches': wmatches})
+        lmatches = Match.objects.filter(type="leagues")
+        return render(request, 'staff/matches/matches.html', {'tmatches': tmatches, 'wmatches': wmatches, 'lmatches': lmatches})
 
 
 def disputed_matches(request):
@@ -93,6 +94,9 @@ class MatchDeclareWinner(View):
             return render(request, 'staff/permissiondenied.html')
         else:
             matchobj = Match.objects.get(pk=pk)
+            if matchobj.type == "league":
+                # TODO: 107
+                pass
             if not matchobj.bye_2 and not matchobj.bye_1:
                 form = DeclareMatchWinnerPost(request.POST, instance=matchobj)
                 instance = form.instance
@@ -139,23 +143,27 @@ def match_delete_winner(request, pk):
         return render(request, 'staff/permissiondenied.html')
     else:
         match = Match.objects.get(pk=pk)
-        if not match.bye_1 and not match.bye_2:
-            match.winner = None
-            match.completed = False
-            match.reported = False
-            match.team1reported = False
-            match.team2reported = False
-            match.team1reportedwinner = None
-            match.team2reportedwinner = None
-            match.disputed = False
-            match.save()
-            for i in MatchReport.objects.filter(match_id=pk):
-                i.delete()
-            messages.success(request, "Winner reset")
-            return redirect('staff:matches_index')
+        if match.type == "league":
+            # TODO: #107
+            pass
         else:
-            messages.error(request, 'Bye match, cannot change winner')
-            return redirect('staff:matches_index')
+            if not match.bye_1 and not match.bye_2:
+                match.winner = None
+                match.completed = False
+                match.reported = False
+                match.team1reported = False
+                match.team2reported = False
+                match.team1reportedwinner = None
+                match.team2reportedwinner = None
+                match.disputed = False
+                match.save()
+                for i in MatchReport.objects.filter(match_id=pk):
+                    i.delete()
+                messages.success(request, "Winner reset")
+                return redirect('staff:matches_index')
+            else:
+                messages.error(request, 'Bye match, cannot change winner')
+                return redirect('staff:matches_index')
 
 
 def dispute_detail(request, pk):
