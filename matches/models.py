@@ -37,12 +37,18 @@ class StatsPlayer(models.Model):
     damage = models.IntegerField(default=0)
 
 
+class TeamMatchStats(models.Model):
+    rounds_won = models.PositiveSmallIntegerField(default=0)
+    rounds_lost = models.PositiveSmallIntegerField(default=0)
+    total_kills = models.PositiveSmallIntegerField(default=0)
+    total_deaths = models.PositiveSmallIntegerField(default=0)
+
+
 class MatchStats(models.Model):
     matchid = models.PositiveIntegerField(default=0)
     map = models.CharField(default="unknown", max_length=255)
     team1 = models.CharField(default="unknown", max_length=255)
     team2 = models.CharField(default="unknown", max_length=255)
-
 
 
 class SportChoice(models.Model):
@@ -174,6 +180,14 @@ class Match(models.Model):
             return 5
         if self.teamformat == 5:
             return 6
+
+
+class MatchCheckIn(models.Model):
+    match = models.ForeignKey(Match, related_name='match_checkin', on_delete=models.SET_NULL, null=True)
+    reporter = models.ForeignKey(User, related_name='checkin_user', on_delete=models.SET_NULL, null=True)
+    team = models.ForeignKey(Team, related_name='checking_in_team', on_delete=models.SET_NULL, null=True)
+    # players should == match.get_min_team_size
+    players = models.ManyToManyField(User)
 
 
 class MatchReport(models.Model):
