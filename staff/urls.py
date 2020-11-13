@@ -82,6 +82,8 @@ urlpatterns = [
     path('round/<int:pk>/edit', login_required(views.edit_round), name='edit_round'),
     path('round/<int:pk>/', login_required(views.round_detail), name='round_detail'),
     path('dispute/<int:pk>/', login_required(views.dispute_detail), name='dispute_detail'),
+    path('match/<int:pk>/checkins/', login_required(views.match_checkins), name='match_checkins'),
+    path('match/<int:pk>/checkins/<int:checkinid>/delete/', login_required(views.delete_checkin), name='delete_match_checkin'),
 
     path('games/', login_required(views.gamelist), name='gamelist'),
     path('games/<int:pk>/', login_required(views.game_detail), name='game_detail'),
