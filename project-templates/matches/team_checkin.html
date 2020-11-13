@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+    <title>Team Checkin #{{ match.pk }} - {{ SITE_NAME }}</title>
+{% endblock %}
+
+{% block body %}
+    <p>Please select the players from your team below that are playing in the match</p>
+    {{ form.as_table}}
+{% endblock %}
