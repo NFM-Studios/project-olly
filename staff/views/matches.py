@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.views.generic import View
 
-from matches.models import MatchReport, MatchDispute
+from matches.models import *
 from staff.forms import *
 from wagers.models import *
 
@@ -481,3 +481,38 @@ def create_map_pool_choice(request):
             else:
                 form = GameChoiceForm(request.POST, request.FILES)
                 return render(request, 'staff/matches/editmappool.html', {'form': form})
+
+
+def match_checkins(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        mymatch = Match.objects.get(pk=pk)
+        checkins = MatchCheckIn.objects.filter(match=mymatch)
+        return render(request, 'staff/matches/checkins.html', {'checkins': checkins, 'mymatch':mymatch})
+
+
+def delete_checkin(request, pk, checkinid):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        checkin = MatchCheckIn.objects.get(pk=pk)
+        checkin.delete()
+        checkin.save()
+        messages.success(request, "Checkin #"+checkin.pk+" has been deleted")
+        return redirect('staff:index')
+
+def match_stats_create(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        match = Match.objects.get(pk=pk)
+        stats = MatchStats()
+        team1 = match.awayteam
+        team2 = match.hometeam
