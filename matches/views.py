@@ -63,7 +63,7 @@ class MatchReportCreateView(View):
     def get(self, request, pk):
         form = MatchReportCreateFormGet(request, pk)
         match = get_object_or_404(Match, pk)
-        if match.disable_userreports:
+        if match.disable_userreport:
             # user reports are disabled, return them to the match detail page with an error
             messages.error(request, "Match reports are disabled for this match")
             return redirect('matches:detail', pk=pk)
