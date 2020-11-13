@@ -1,0 +1,33 @@
+{% extends 'staff/staffbase.html' %}
+{% load static %}
+<link rel="stylesheet" href="{% static "css/staff.css" %}">
+
+{% block title %}
+    Matches #{{ mymatch.pk }} Checkins
+{% endblock %}
+
+{% block body %}
+    <div style="overflow-x:auto;">
+        <h1>Match #{{ mymatch.pk }} Checkins</h1>
+        <table class="table table-hover">
+            <thead>
+                <th>Checkin ID</th>
+                <th>Reporter</th>
+                <th>Team</th>
+                <th>Players</th>
+            </thead>
+            {% for checkin in checkins %}
+                <tr>
+                    <td>{{ checkin.pk }} - <a href="#">DELETE CHECKIN</a></td>
+                    <td><a href="{% url 'staff:userdetail' urlusername=checkin.reporter %}">{{ checkin.reporter }}</a></td>
+                    <td><a href="{% url 'staff:team_detail' pk=checkin.team.pk %}">{{ checkin.team.name }}</a></td>
+                    <td>{% for x in checkin.players %}
+                        <a href="{% url 'staff:userdetail' urlusername=x %}">{{ x }}</a><br />
+                        {% endfor %}
+                    </td>
+
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}
