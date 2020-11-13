@@ -506,6 +506,7 @@ def delete_checkin(request, pk, checkinid):
         messages.success(request, "Checkin #"+checkin.pk+" has been deleted")
         return redirect('staff:index')
 
+
 def match_stats_create(request, pk):
     user = UserProfile.objects.get(user__username=request.user.username)
     allowed = ['superadmin', 'admin']
@@ -516,3 +517,13 @@ def match_stats_create(request, pk):
         stats = MatchStats()
         team1 = match.awayteam
         team2 = match.hometeam
+
+
+def create_match_config(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        # create the get5 config for the match
+        pass
