@@ -40,6 +40,15 @@ class LeagueSettings(models.Model):
     num_divisions = models.PositiveSmallIntegerField(default=2)
     # max amount of teams to allow into a division
     max_division_size = models.PositiveSmallIntegerField(default=5)
+    # is xbl required to join?
+    require_xbl = models.BooleanField(default=False)
+    require_psn = models.BooleanField(default=False)
+    require_steam = models.BooleanField(default=False)
+    require_epic = models.BooleanField(default=False)
+    require_lol = models.BooleanField(default=False)
+    require_battlenet = models.BooleanField(default=False)
+    require_activision = models.BooleanField(default=False)
+
 
     def __str__(self):
         return self.name
