@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django_countries.fields import CountryField
-
+#from matches.models import Match, TeamMatchStats
 from profiles.models import UserProfile
 
 
@@ -44,6 +44,8 @@ class Team(models.Model):
     country = CountryField(blank=True)
 
     image = models.ImageField(upload_to='team_images', blank=True)
+    matches = models.ManyToManyField('matches.Match', related_name='team_matches')
+    team_stat = models.ManyToManyField('matches.TeamMatchStats', related_name='match_team_stat')
 
     class Meta:
         verbose_name = 'Team'
