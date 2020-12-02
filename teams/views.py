@@ -10,6 +10,7 @@ from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone
+from django.db.models import Q
 from django.views.generic import ListView, DetailView, View
 from django.db.models import Q
 from django.core.exceptions import ObjectDoesNotExist
@@ -67,11 +68,19 @@ def invite_view(request, num):
                     invite.expire = timezone.now()
                     invite.active = False
                     invite.save()
-                    team = invite.team
-                    if invite.captain:
-                        team.captains.add(request.user)
+
+                    if invite.hasPerms:
+                        profile = UserProfile.objects.get(user=invite.user)
+                        profile.captain_teams.add(invite.team)
+                        profile.save()
+                        messages.success(request, 'Successfully added the team to your profile as a captain')
                     else:
-                        team.players.add(request.user)
+                        profile = UserProfile.objects.get(user=invite.user)
+                        profile.player_teams.add(invite.team)
+                        profile.save()
+                        messages.success(request, 'Successfully added the team to your profile as a player')
+                    invite.team.players.add(invite.user)
+                    invite.team.save()
                     messages.success(request, 'Accepted invite to ' + str(invite.team.name))
                     return redirect('teams:list')
                 elif accepted == 'off':
@@ -81,7 +90,7 @@ def invite_view(request, num):
                     return redirect('teams:list')
 
 
-class MyTeamsListView(ListView):
+"""class MyTeamsListView(ListView):
     # list all the teams they are apart of
     # maybe list the role they have?
     model = Team
@@ -92,8 +101,21 @@ class MyTeamsListView(ListView):
         return render(request, 'teams/team_list.html', {'team_list': team_list})
 
     def get_queryset(self, **kwargs):
-        return Team.objects.filter(
-            Q(captains__exact=self.request.user) | Q(founder=self.request.user) | Q(players__exact=self.request.user))
+        # TO DO switch the filter to the players field not just the founder field.
+        if TeamInvite.objects.filter(user=self.request.user, accepted=True):
+            # TO DO switch the filter to the players field not just the founder field.
+            return TeamInvite.objects.filter(user=self.request.user, accepted=True)
+"""
+
+
+def MyTeamsListView(request):
+    profile = UserProfile.objects.get(user=request.user)
+    # team_list = Team.objects.filter(players__in=[request.user])
+    # team_list = Team.objects.filter(Q(founder=request.user) or Q(captain=request.user) or Q(players__in=[request.user]))
+    # team_list = TeamInvite.objects.filter(user=request.user, accepted=True, active=True)
+    return render(request, 'teams/team_list.html',
+                  {'founder_teams': profile.founder_teams.all(), 'captain_teams': profile.captain_teams.all(),
+                   'player_teams': profile.player_teams.all()})
 
 
 def edit_team_view(request, pk):
@@ -104,6 +126,14 @@ def edit_team_view(request, pk):
             messages.error(request, 'ERROR: You must be a captain or founder update team info')
             return redirect('teams:detail', pk=teamobj.pk)
         if form.is_valid():
+            # teamobj.about_us = form.data['about_us']
+            # teamobj.website = form.data['website']
+            # teamobj.twitter = form.data['twitter']
+            # teamobj.twitch = form.data['twitch']
+            # teamobj.country = form.data['country']
+            # teamobj.image = form.data['image']
+            # teamobj.save()
+
             form.save()
             messages.success(request, 'Team successfully updated')
             return redirect(reverse('teams:detail', args=[pk]))
@@ -182,7 +212,20 @@ class TeamCreateView(View):
                 return redirect('teams:create')
 
             Team.founder = self.request.user
+            profile = UserProfile.objects.get(user=request.user)
             Team.save()
+            profile.founder_teams.add(Team)
+            profile.save()
+            invite = TeamInvite()
+            invite.expire = timezone.now()
+            invite.user = self.request.user
+            invite.captain = 'founder'
+            invite.hasPerms = True
+            invite.accepted = True
+            invite.inviter = self.request.user
+            invite.inviter_id = self.request.user.id
+            invite.team_id = Team.id
+            invite.save()
 
             messages.success(self.request, 'Your Team has been created successfully')
             return redirect('teams:detail', pk=Team.pk)

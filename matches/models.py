@@ -1,8 +1,84 @@
 from django.contrib.auth.models import User
 from django.db import models
-
 from matches.settings import TEAMFORMAT_CHOICES, MAPFORMAT_CHOICES
 from teams.models import Team
+
+
+class StatsPlayer(models.Model):
+    rating = models.DecimalField(max_digits=6, decimal_places=3, default=0)
+    kills = models.IntegerField(default=0)
+    assists = models.IntegerField(default=0)
+    deaths = models.IntegerField(default=0)
+    killround = models.DecimalField(max_digits=6, decimal_places=3, default=0)
+    adr = models.IntegerField(default=0)
+    ud = models.IntegerField(default=0)
+    ef = models.IntegerField(default=0)
+    f_assists = models.IntegerField(default=0)
+    hs = models.IntegerField(default=0)
+    kast = models.IntegerField(default=0)
+    awp_k = models.IntegerField(default=0)
+    twok = models.IntegerField(default=0)
+    threek = models.IntegerField(default=0)
+    fourk = models.IntegerField(default=0)
+    fivek = models.IntegerField(default=0)
+    one_v_one = models.IntegerField(default=0)
+    one_v_two = models.IntegerField(default=0)
+    one_v_three = models.IntegerField(default=0)
+    one_v_four = models.IntegerField(default=0)
+    one_v_five = models.IntegerField(default=0)
+    f_kills = models.IntegerField(default=0)
+    f_deaths = models.IntegerField(default=0)
+    entries = models.IntegerField(default=0)
+    trades = models.IntegerField(default=0)
+    rounds = models.IntegerField(default=0)
+    rf = models.IntegerField(default=0)
+    ra = models.IntegerField(default=0)
+    damage = models.IntegerField(default=0)
+
+
+class TeamMatchStats(models.Model):
+    rounds_won = models.PositiveSmallIntegerField(default=0)
+    rounds_lost = models.PositiveSmallIntegerField(default=0)
+    total_kills = models.PositiveSmallIntegerField(default=0)
+    total_deaths = models.PositiveSmallIntegerField(default=0)
+    avg_rating = models.DecimalField(max_digits=6, decimal_places=3, default=0)
+    avg_killround = models.DecimalField(max_digits=6, decimal_places=3, default=0)
+    avg_adr = models.IntegerField(default=0)
+    avg_ud = models.IntegerField(default=0)
+    avg_ef = models.IntegerField(default=0)
+    total_rating = models.DecimalField(max_digits=6, decimal_places=3, default=0)
+    total_killround = models.DecimalField(max_digits=6, decimal_places=3, default=0)
+    total_adr = models.IntegerField(default=0)
+    total_ud = models.IntegerField(default=0)
+    total_ef = models.IntegerField(default=0)
+    # ??? f_assists = models.IntegerField(default=0)
+    avg_hs = models.IntegerField(default=0)
+    avg_kast = models.IntegerField(default=0)
+    awp_k = models.IntegerField(default=0)
+    twok = models.IntegerField(default=0)
+    threek = models.IntegerField(default=0)
+    fourk = models.IntegerField(default=0)
+    fivek = models.IntegerField(default=0)
+    one_v_one = models.IntegerField(default=0)
+    one_v_two = models.IntegerField(default=0)
+    one_v_three = models.IntegerField(default=0)
+    one_v_four = models.IntegerField(default=0)
+    one_v_five = models.IntegerField(default=0)
+    f_kills = models.IntegerField(default=0)
+    f_deaths = models.IntegerField(default=0)
+    entries = models.IntegerField(default=0)
+    trades = models.IntegerField(default=0)
+    # rounds played
+    rounds = models.IntegerField(default=0)
+    avg_damage = models.IntegerField(default=0)
+    total_damage = models.IntegerField(default=0)
+
+
+class MatchStats(models.Model):
+    matchid = models.PositiveIntegerField(default=0)
+    map = models.CharField(default="unknown", max_length=255)
+    team1 = models.CharField(default="unknown", max_length=255)
+    team2 = models.CharField(default="unknown", max_length=255)
 
 
 class SportChoice(models.Model):
@@ -134,6 +210,14 @@ class Match(models.Model):
             return 5
         if self.teamformat == 5:
             return 6
+
+
+class MatchCheckIn(models.Model):
+    match = models.ForeignKey(Match, related_name='match_checkin', on_delete=models.SET_NULL, null=True)
+    reporter = models.ForeignKey(User, related_name='checkin_user', on_delete=models.SET_NULL, null=True)
+    team = models.ForeignKey(Team, related_name='checking_in_team', on_delete=models.SET_NULL, null=True)
+    # players should == match.get_min_team_size
+    players = models.ManyToManyField(User)
 
 
 class MatchReport(models.Model):

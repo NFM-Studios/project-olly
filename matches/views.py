@@ -7,11 +7,12 @@ from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.views.generic import DetailView, CreateView, View
 from django.db.models import Q
-from matches.models import Match, MatchReport, MatchDispute, MapPoolChoice
+from matches.models import Match, MatchReport, MatchDispute, MapPoolChoice, MatchCheckIn
 from teams.models import Team, TeamInvite
 from .forms import MatchReportCreateFormGet, MatchReportCreateFormPost, DisputeCreateForm
 from profiles.models import Notification, UserProfile
 import datetime
+
 
 
 class MapPoolDetail(DetailView):
@@ -65,7 +66,7 @@ class MatchReportCreateView(View):
     def get(self, request, pk):
         form = MatchReportCreateFormGet(request, pk)
         match = get_object_or_404(Match, pk)
-        if match.disable_userreports:
+        if match.disable_userreport:
             # user reports are disabled, return them to the match detail page with an error
             messages.error(request, "Match reports are disabled for this match")
             return redirect('matches:detail', pk=pk)
@@ -244,3 +245,54 @@ class MatchDisputeReportCreateView(CreateView):
             dispute.team1origreporter = matchreport_1.reporting_user
         dispute.save()
         return redirect('matches:detail', pk=self.kwargs['pk'])
+
+
+def match_checkin(request, pk):
+    match = Match.objects.get(pk=pk)
+    user = UserProfile.objects.get(user__username=request.user.username)
+    away = match.awayteam
+    home = match.hometeam
+    if user not in away.captain or user not in home.captain or user is not away.founder or user is not home.founder:
+        messages.error(request, "You don't have permission to checkin for this match")
+        return redirect('match:detail', pk=pk)
+    else:
+        return render(request, 'matches/match_checkin.html', {'match': match})
+
+
+def team_checkin(request, pk, teamid):
+    # get the team they're trying to checkin from the get
+    team = Team.objects.get(pk=teamid)
+    # get the match from the pk in the url
+    match = Match.objects.get(pk=pk)
+    # get logged in user
+    user = UserProfile.objects.get(user__username=request.user.username)
+    if user is not team.founder or user not in team.captain:
+        # they don't have perms - gtfo
+        messages.error(request, "You do not have permissions to checkin this team")
+        return redirect('matches:detail', pk=pk)
+    if request.method == 'GET':
+        # send the form, render
+        form = TeamCheckInForm(request.GET)
+        return render(request, 'matches/team_checkin.html', {'form': form})
+        pass
+    elif request.method == 'POST':
+        # lets make it and get the data
+        # TODO: find a way to get the team instance in the form
+        form = TeamCheckInForm(request.POST,)
+        if form.is_valid():
+            temp = MatchCheckIn()
+            temp.match = match
+            temp.team = team
+            temp.reporter = user
+            # TODO: verify posted data from form of field 'players'
+            temp.players = form.cleaned_data['players']
+            temp.save()
+            messages.success(request, 'Your team has been checked in, checkin #'+temp.pk)
+            return redirect('matches:detail', pk=match.pk)
+        else:
+            messages.error(request, "Form error, this should not occur")
+            return redirect('matches:detail', pk=pk)
+
+
+def create_checkin(request, pk):
+    pass

@@ -5,7 +5,7 @@ from teams.models import Team
 from profiles.models import UserProfile
 # import the model for the team invite
 from teams.models import TeamInvite
-
+from profiles.models import UserProfile
 
 # forms to create a team of various sizes
 
@@ -43,10 +43,11 @@ class TeamInviteFormGet(forms.ModelForm):
         self.fields['captain'].widget.attrs.update({'name': 'captain', 'class': 'form-control', 'style': 'width:30%'})
 
         self.username = request.user
-        # invites = TeamInvite.objects.filter(user=request.user, accepted=True)
-        # profile = UserProfile.objects.get(user=request.user)
-        # teams = Team.objects.filter(founder=request.user)
-        teams = Team.objects.filter(Q(captains__exact=request.user) | Q(founder=request.user))
+        invites = TeamInvite.objects.filter(hasPerms=True, user=request.user, accepted=True)
+        profile = UserProfile.objects.get(user=request.user)
+        tlist = profile.captain_teams.all() | profile.founder_teams.all()
+        # tlist = profile.captain_teams.all() + profile.founder_teams.all()
+        teams = tlist  #profile.captain_teams.all() + profile.founder_teams.all())
         # super().__init__(*args, **kwargs)
         self.fields['team'].queryset = teams
 

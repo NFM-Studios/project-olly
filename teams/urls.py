@@ -8,7 +8,7 @@ from . import views
 app_name = 'teams'
 
 urlpatterns = [
-    path('', login_required(MyTeamsListView.as_view()), name='list'),
+    path('', login_required(MyTeamsListView), name='list'),
     path('invites/', login_required(MyInvitesListView.as_view()), name='myinvitelist'),
     path('invites/<int:num>/', login_required(invite_view), name='invite_detail'),
     path('<int:pk>/', MyTeamDetailView.as_view(), name='detail'),

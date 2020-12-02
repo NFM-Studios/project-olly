@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django_countries.fields import CountryField
-
+#from matches.models import Match, TeamMatchStats
 from profiles.models import UserProfile
 
 
@@ -21,9 +21,9 @@ class Team(models.Model):
     # whoever filled out the form to create the team, limited to only one
     founder = models.ForeignKey(User, related_name='founder', on_delete=models.SET_NULL, null=True)
     # basically founder permissions, but to other people that didn't create the actual team
-    captains = models.ManyToManyField(User, blank=True, related_name='team_captains')
+    captain = models.ManyToManyField(User, related_name='teamcaptain')
     # the people of the actual team, now a many to many, not a forkey
-    players = models.ManyToManyField(User, blank=True, related_name='team_players')
+    players = models.ManyToManyField(User, related_name='teamplayers')
     # when they created the team
     created = models.DateTimeField(auto_now_add=True)
     # when they last updated anything in the team
@@ -44,6 +44,8 @@ class Team(models.Model):
     country = CountryField(blank=True)
 
     image = models.ImageField(upload_to='team_images', blank=True)
+    matches = models.ManyToManyField('matches.Match', related_name='team_matches')
+    team_stat = models.ManyToManyField('matches.TeamMatchStats', related_name='match_team_stat')
 
     class Meta:
         verbose_name = 'Team'

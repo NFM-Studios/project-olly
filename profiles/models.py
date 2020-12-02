@@ -93,6 +93,12 @@ class UserProfile(models.Model):
     country = CountryField(blank_label='(select country)', default='US')
 
     email_enabled = models.BooleanField(default=True)
+    # teams the user founded
+    founder_teams = models.ManyToManyField('teams.Team', related_name='profile_founder_teams')
+    # teams the user is a captain of
+    captain_teams = models.ManyToManyField('teams.Team', related_name='profile_captain_teams')
+    # teams the user is a player on
+    player_teams = models.ManyToManyField('teams.Team', related_name='profile_player_teams')
 
     def calculate_rank(self):
         self.rank = int(UserProfile.objects.filter(xp__gt=self.xp).count()) + 1

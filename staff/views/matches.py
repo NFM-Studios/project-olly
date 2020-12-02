@@ -1,9 +1,9 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.views.generic import View
+from matches.models import *
 from django.template.loader import render_to_string
 from django.conf import settings
-from matches.models import MatchReport, MatchDispute
 from staff.forms import *
 from wagers.models import *
 from profiles.models import UserProfile, Notification
@@ -496,14 +496,55 @@ def create_map_pool_choice(request):
                 return render(request, 'staff/matches/editmappool.html', {'form': form})
 
 
+
+def match_checkins(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        mymatch = Match.objects.get(pk=pk)
+        checkins = MatchCheckIn.objects.filter(match=mymatch)
+        return render(request, 'staff/matches/checkins.html', {'checkins': checkins, 'mymatch':mymatch})
+
+
+def delete_checkin(request, pk, checkinid):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        checkin = MatchCheckIn.objects.get(pk=pk)
+        checkin.delete()
+        checkin.save()
+        messages.success(request, "Checkin #"+checkin.pk+" has been deleted")
+        return redirect('staff:index')
+
+
+def match_stats_create(request, pk):
+    pass
+  
 def set_dispute_match(request, pk):
     # set the specific match as disputed
+
     user = UserProfile.objects.get(user__username=request.user.username)
     allowed = ['superadmin', 'admin']
     if user.user_type not in allowed:
         return render(request, 'staff/permissiondenied.html')
     else:
         match = Match.objects.get(pk=pk)
+        stats = MatchStats()
+        team1 = match.awayteam
+        team2 = match.hometeam
+
+
+def create_match_config(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        # create the get5 config for the match
         match.disputed = True
         for i in [match.team1.players, match.team2.players]:
             temp = Notification(title="A staff member set one of your matches as disputed")

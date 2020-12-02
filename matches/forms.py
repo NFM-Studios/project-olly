@@ -1,6 +1,6 @@
 from django import forms
 
-from matches.models import MatchReport, MatchDispute, Match
+from matches.models import MatchReport, MatchDispute, Match, MatchCheckIn
 from teams.models import Team
 
 
@@ -37,3 +37,10 @@ class DisputeCreateForm(forms.ModelForm):
     class Meta:
         model = MatchDispute
         fields = ['teamproof_1', 'teamproof_2', 'teamproof_3']
+
+
+class TeamCheckInForm(forms.Form):
+    #TODO: define queryset for players team checkin form
+    def __init__(self, team):
+        mylist = team.players + team.founder + team.captain
+    players = forms.ModelMultipleChoiceField(queryset=None)
