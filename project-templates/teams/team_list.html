@@ -6,6 +6,10 @@
 {% endblock %}
 
 {% block body %}
+    <h2><a href="{% url 'teams:myinvitelist' %}">View team invites</a></h2>
+    <br />
+    <br />
+    <h3>Teams Founded</h3>
     <table class="table table-hover">
         <tr id="header">
             <thead>
@@ -14,12 +18,50 @@
             <th>Date Created</th>
             </thead>
         </tr>
-        {% for TeamInvite in team_list %}
+        {% for team in founder_teams %}
             <tbody>
             <tr scope="">
-                <td scope="row"><a href="/teams/{{ TeamInvite.team.id }}/">{{ TeamInvite.team.id }}</a></td>
-                <td>{{ TeamInvite.team.name }}</td>
-                <td>{{ TeamInvite.team.created }}</td>
+                <td scope="row"><a href="{% url 'teams:detail' pk=team.id %}">{{ team.id }}</a></td>
+                <td>{{ team.name }}</td>
+                <td>{{ team.created }}</td>
+            </tr>
+            </tbody>
+        {% endfor %}
+    </table>
+    <h3>Active Captain Teams</h3>
+    <table class="table table-hover">
+        <tr id="header">
+            <thead>
+            <th scope="row">ID</th>
+            <th>Team Name</th>
+            <th>Date Created</th>
+            </thead>
+        </tr>
+        {% for team in captain_teams %}
+            <tbody>
+            <tr scope="">
+                <td scope="row"><a href="{% url 'teams:detail' pk=team.id %}">{{ team.id }}</a></td>
+                <td>{{ team.name }}</td>
+                <td>{{ team.created }}</td>
+            </tr>
+            </tbody>
+        {% endfor %}
+    </table>
+    <h3>Active Player Teams</h3>
+    <table class="table table-hover">
+        <tr id="header">
+            <thead>
+            <th scope="row">ID</th>
+            <th>Team Name</th>
+            <th>Date Created</th>
+            </thead>
+        </tr>
+        {% for team in player_teams %}
+            <tbody>
+            <tr scope="">
+                <td scope="row"><a href="{% url 'teams:detail' pk=team.id %}">{{ team.id }}</a></td>
+                <td>{{ team.name }}</td>
+                <td>{{ team.created }}</td>
             </tr>
             </tbody>
         {% endfor %}
