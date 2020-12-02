@@ -255,13 +255,17 @@ class TeamInviteCreateView(View):
                     email = EmailMessage(
                         mail_subject, message, from_email=settings.FROM_EMAIL, to=[invitee.user.email]
                     )
-                    email.send()
+                    try:
+                        email.send()
+                    except:
+                        messages.error(request, 'Unable to send email')
+                        return redirect('teams:list')
                 messages.success(request, 'Sent invite successfully')
-                return redirect('/teams/')
+                return redirect('teams:list')
 
         else:
             messages.error(request, "You must be a captain or the founder to invite")
-            return redirect('/teams/')
+            return redirect('teams:list')
 
 
 class LeaveTeamView(View):
