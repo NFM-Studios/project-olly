@@ -65,19 +65,32 @@ def invite_view(request, num):
                     invite.expire = timezone.now()
                     invite.active = False
                     invite.save()
-                    messages.success(request, 'Accepted invite to '+str(invite.team.name))
-                    return redirect('/teams/')
+                    if invite.hasPerms:
+                        profile = UserProfile.objects.get(user=invite.user)
+                        profile.captain_teams.add(invite.team)
+                        profile.save()
+                        messages.success(request, 'Successfully added the team to your profile as a captain')
+                    else:
+                        profile = UserProfile.objects.get(user=invite.user)
+                        profile.player_teams.add(invite.team)
+                        profile.save()
+                        messages.success(request, 'Successfully added the team to your profile as a player')
+                    # TODO: verify
+                    invite.team.players.add(invite.user)
+                    invite.team.save()
+                    messages.success(request, 'Accepted invite to ' + str(invite.team.name))
+                    return redirect('teams:list')
                 elif accepted == 'off':
                     invite = TeamInvite.objects.get(id=num)
                     invite.declined = True
                     invite.expire = timezone.now()
                     invite.active = False
                     invite.save()
-                    messages.success(request, 'Declined invite to '+str(invite.team.name))
-                    return redirect('/teams/')
+                    messages.success(request, 'Declined invite to ' + str(invite.team.name))
+                    return redirect('teams:list')
 
 
-class MyTeamsListView(ListView):
+"""class MyTeamsListView(ListView):
     # list all the teams they are apart of
     # maybe list the role they have?
     model = Team
@@ -91,6 +104,17 @@ class MyTeamsListView(ListView):
         if TeamInvite.objects.filter(user=self.request.user, accepted=True):
             # TO DO switch the filter to the players field not just the founder field.
             return TeamInvite.objects.filter(user=self.request.user, accepted=True)
+"""
+
+
+def MyTeamsListView(request):
+    profile = UserProfile.objects.get(user=request.user)
+    # team_list = Team.objects.filter(players__in=[request.user])
+    # team_list = Team.objects.filter(Q(founder=request.user) or Q(captain=request.user) or Q(players__in=[request.user]))
+    # team_list = TeamInvite.objects.filter(user=request.user, accepted=True, active=True)
+    return render(request, 'teams/team_list.html',
+                  {'founder_teams': profile.founder_teams.all(), 'captain_teams': profile.captain_teams.all(),
+                   'player_teams': profile.player_teams.all()})
 
 
 def edit_team_view(request, pk):
@@ -189,7 +213,10 @@ class TeamCreateView(View):
                 return redirect('teams:create')
 
             Team.founder = self.request.user
+            profile = UserProfile.objects.get(user=request.user)
             Team.save()
+            profile.founder_teams.add(Team)
+            profile.save()
             invite = TeamInvite()
             invite.expire = timezone.now()
             invite.user = self.request.user
@@ -290,6 +317,11 @@ class LeaveTeamView(View):
                     invites = TeamInvite.objects.filter(team_id=pk)
                     if not invites.exists():
                         team = Team.objects.get(id=pk)
+                        profile = UserProfile.objects.get(user=request.user)
+                        try:
+                            profile.founder_teams.remove(team)
+                        except:
+                            messages.error(request, 'Unable to remove the team from your profile')
                         team.delete()
                         messages.success(request, 'Deleted team due to the last user leaving')
                     return redirect('teams:list')
