@@ -1,10 +1,10 @@
 from django import forms
-
+from django.db.models import Q
 # import the actual team model for the create team forms
 from teams.models import Team
 # import the model for the team invite
 from teams.models import TeamInvite
-
+from profiles.models import UserProfile
 
 # forms to create a team of various sizes
 
@@ -43,7 +43,10 @@ class TeamInviteFormGet(forms.ModelForm):
 
         self.username = request.user
         invites = TeamInvite.objects.filter(hasPerms=True, user=request.user, accepted=True)
-        teams = Team.objects.filter(id__in=invites.values_list('team'))
+        profile = UserProfile.objects.get(user=request.user)
+        tlist = profile.captain_teams.all() | profile.founder_teams.all()
+        # tlist = profile.captain_teams.all() + profile.founder_teams.all()
+        teams = tlist  #profile.captain_teams.all() + profile.founder_teams.all())
         # super().__init__(*args, **kwargs)
         self.fields['team'].queryset = teams
 
