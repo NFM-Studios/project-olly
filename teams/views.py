@@ -98,13 +98,13 @@ def edit_team_view(request, pk):
         teamobj = get_object_or_404(Team, id=pk)
         form = EditTeamProfileForm(request.POST, request.FILES, instance=teamobj)
         if form.is_valid():
-            #teamobj.about_us = form.data['about_us']
-            #teamobj.website = form.data['website']
-            #teamobj.twitter = form.data['twitter']
-            #teamobj.twitch = form.data['twitch']
-            #teamobj.country = form.data['country']
-            #teamobj.image = form.data['image']
-            #teamobj.save()
+            # teamobj.about_us = form.data['about_us']
+            # teamobj.website = form.data['website']
+            # teamobj.twitter = form.data['twitter']
+            # teamobj.twitch = form.data['twitch']
+            # teamobj.country = form.data['country']
+            # teamobj.image = form.data['image']
+            # teamobj.save()
             form.save()
             messages.success(request, 'Team successfully updated')
             return redirect(reverse('teams:detail', args=[pk]))
@@ -139,9 +139,11 @@ class MyTeamDetailView(DetailView):
                 messages.warning(request, "Xbox Live is not verified")
             if not user.psn_verified:
                 messages.warning(request, "PSN is not verified")
-            return render(request, 'teams/team_detail.html', {'team': team, 'players': players, 'up':up,'pk': pk, 'matches': matches})
+            return render(request, 'teams/team_detail.html',
+                          {'team': team, 'players': players, 'up': up, 'pk': pk, 'matches': matches})
         else:
-            return render(request, 'teams/team_detail.html', {'team': team, 'players': players, 'up':up, 'pk': pk, 'matches': matches})
+            return render(request, 'teams/team_detail.html',
+                          {'team': team, 'players': players, 'up': up, 'pk': pk, 'matches': matches})
 
     def get_context_date(self, **kwargs):
         context = super(MyTeamDetailView, self).get_context_date(**kwargs)
@@ -295,7 +297,8 @@ class LeaveTeamView(View):
                     messages.error(request, "You don't appear to be on this team")
                     return redirect('teams:detail', pk=pk)
         except:
-            messages.error(request, "You submitted without confirming that you wanted to leave, redirecting to team detail")
+            messages.error(request,
+                           "You submitted without confirming that you wanted to leave, redirecting to team detail")
             return redirect('teams:detail', pk=pk)
 
 
