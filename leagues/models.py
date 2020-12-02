@@ -48,6 +48,8 @@ class LeagueSettings(models.Model):
     require_lol = models.BooleanField(default=False)
     require_battlenet = models.BooleanField(default=False)
     require_activision = models.BooleanField(default=False)
+    # whether or not to allow users to register as a free agent to the league
+    allow_fa = models.BooleanField(default=False)
 
 
     def __str__(self):
