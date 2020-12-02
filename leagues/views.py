@@ -71,7 +71,9 @@ def detail_league_division(request, pk, divid):
     league = get_object_or_404(League, pk=pk)
     division = LeagueDivision.objects.get(pk=divid)
     matches = division.matches.all()
-    return render(request, 'leagues/league_division.html', {'league': league, 'division': division, 'matches': matches})
+    teams = division.teams.all().order_by('-points')
+    return render(request, 'leagues/league_division.html', {'league': league, 'division': division, 'matches': matches,
+                                                            'teams': teams})
 
 
 def detail_league_rules(request, pk):

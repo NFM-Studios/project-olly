@@ -3,7 +3,7 @@ import datetime
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.sites.shortcuts import get_current_site
-from django.core.mail import EmailMessage
+from django.core.mail import EmailMessage, send_mail
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render, redirect
@@ -12,9 +12,11 @@ from django.urls import reverse
 from django.utils import timezone
 from django.db.models import Q
 from django.views.generic import ListView, DetailView, View
+from django.db.models import Q
+from django.core.exceptions import ObjectDoesNotExist
 
 from matches.models import Match
-from profiles.models import UserProfile
+from profiles.models import UserProfile, Notification
 # team create forms
 from teams.forms import TeamCreateForm
 # import the team models
@@ -32,7 +34,7 @@ class MyInvitesListView(ListView):
     model = TeamInvite
 
     def get(self, request):
-        teaminvite_list = TeamInvite.objects.filter(user=self.request.user, active=True)
+        teaminvite_list = TeamInvite.objects.filter(Q(user=self.request.user, active=True))
         return render(request, 'teams/team_invite_list.html', {'teaminvite_list': teaminvite_list})
 
     def get_queryset(self):
@@ -66,6 +68,7 @@ def invite_view(request, num):
                     invite.expire = timezone.now()
                     invite.active = False
                     invite.save()
+
                     if invite.hasPerms:
                         profile = UserProfile.objects.get(user=invite.user)
                         profile.captain_teams.add(invite.team)
@@ -76,17 +79,13 @@ def invite_view(request, num):
                         profile.player_teams.add(invite.team)
                         profile.save()
                         messages.success(request, 'Successfully added the team to your profile as a player')
-                    # TODO: verify
                     invite.team.players.add(invite.user)
                     invite.team.save()
                     messages.success(request, 'Accepted invite to ' + str(invite.team.name))
                     return redirect('teams:list')
                 elif accepted == 'off':
                     invite = TeamInvite.objects.get(id=num)
-                    invite.declined = True
-                    invite.expire = timezone.now()
-                    invite.active = False
-                    invite.save()
+                    invite.delete()
                     messages.success(request, 'Declined invite to ' + str(invite.team.name))
                     return redirect('teams:list')
 
@@ -97,7 +96,8 @@ def invite_view(request, num):
     model = Team
 
     def get(self, request):
-        team_list = TeamInvite.objects.filter(user=self.request.user, accepted=True)
+        team_list = Team.objects.filter(
+            Q(captains__exact=request.user) | Q(founder=request.user) | Q(players__exact=request.user))
         return render(request, 'teams/team_list.html', {'team_list': team_list})
 
     def get_queryset(self, **kwargs):
@@ -122,6 +122,9 @@ def edit_team_view(request, pk):
     if request.method == 'POST':
         teamobj = get_object_or_404(Team, id=pk)
         form = EditTeamProfileForm(request.POST, request.FILES, instance=teamobj)
+        if request.user not in teamobj.captains or request.user is not teamobj.founder:
+            messages.error(request, 'ERROR: You must be a captain or founder update team info')
+            return redirect('teams:detail', pk=teamobj.pk)
         if form.is_valid():
             # teamobj.about_us = form.data['about_us']
             # teamobj.website = form.data['website']
@@ -130,6 +133,7 @@ def edit_team_view(request, pk):
             # teamobj.country = form.data['country']
             # teamobj.image = form.data['image']
             # teamobj.save()
+
             form.save()
             messages.success(request, 'Team successfully updated')
             return redirect(reverse('teams:detail', args=[pk]))
@@ -151,24 +155,18 @@ class MyTeamDetailView(DetailView):
 
     def get(self, request, pk):
         team = get_object_or_404(Team, id=pk)
-        players = TeamInvite.objects.filter(team=team, accepted=True)
-        up = []
-        for player in players:
-            up.append(UserProfile.objects.get(user__username=player))
+        players = team.players.all()
+        captains = team.captains.all()
         matches_ = Match.objects.filter(awayteam_id=team.id)
         matches__ = Match.objects.filter(hometeam_id=team.id)
         matches = matches_ | matches__
         if not request.user.is_anonymous:
             user = UserProfile.objects.get(user__username=request.user.username)
-            if not user.xbl_verified:
-                messages.warning(request, "Xbox Live is not verified")
-            if not user.psn_verified:
-                messages.warning(request, "PSN is not verified")
             return render(request, 'teams/team_detail.html',
-                          {'team': team, 'players': players, 'up': up, 'pk': pk, 'matches': matches})
+                          {'team': team, 'players': players, 'pk': pk, 'matches': matches, 'captains': captains})
         else:
             return render(request, 'teams/team_detail.html',
-                          {'team': team, 'players': players, 'up': up, 'pk': pk, 'matches': matches})
+                          {'team': team, 'players': players, 'pk': pk, 'matches': matches, 'captains': captains})
 
     def get_context_date(self, **kwargs):
         context = super(MyTeamDetailView, self).get_context_date(**kwargs)
@@ -193,8 +191,8 @@ class MyTeamDetailView(DetailView):
         invite.team = self.request.team
 
     def get_queryset(self):
-        # TO DO switch the filter to the players field not just the founder field.
-        return Team.objects.filter(founder=self.request.user)
+        return Team.objects.filter(
+            Q(captains__exact=self.request.user) | Q(founder=self.request.user) | Q(players__exact=self.request.user))
 
 
 class TeamCreateView(View):
@@ -230,7 +228,7 @@ class TeamCreateView(View):
             invite.save()
 
             messages.success(self.request, 'Your Team has been created successfully')
-            return redirect('teams:list')
+            return redirect('teams:detail', pk=Team.pk)
 
 
 def get_invites(form):
@@ -249,11 +247,8 @@ class TeamInviteCreateView(View):
         form = TeamInviteFormPost(request.POST)
         team = Team.objects.get(id=form.data['team'])
         invite = get_invites(form)
-        captains = invite.filter(captain='captain')
-        x = {}
-        for captain in captains:
-            x[captain] = str(captain.user.username)
-        if (request.user == team.founder) or (request.user.username in x.values()):
+        captains = team.captains.all()
+        if (request.user == team.founder) or (request.user.username in captains):
             try:
                 invitee = UserProfile.objects.get(user__username=form.data['user'])
             except:
@@ -261,18 +256,32 @@ class TeamInviteCreateView(View):
                 return render(request, 'teams/team_invite_player.html', {'form': form})
             query = invite.filter(user=invitee.user, team=form.data['team'])
             if query.exists():
-                messages.error(request, "That user already has been invited to this team")
-                return redirect('/teams/')
+                messages.error(request, "That user has already been invited to this team")
+                return redirect('teams:detail', pk=team.pk)
             else:
                 TeamInvite = form.instance
                 TeamInvite.inviter = self.request.user
                 TeamInvite.team = team
                 TeamInvite.user = invitee.user
                 TeamInvite.expire = timezone.now() + datetime.timedelta(days=1)
-                TeamInvite.captain = form.data['captain']
-                if form.data['captain'] == 'captain' or form.data['captain'] == 'founder':
-                    TeamInvite.hasPerms = True
+                #TODO remove try except
+                try:
+                    if form.data['captain']:
+                        TeamInvite.captain = True
+                except:
+                    pass
+                # lets send a notification
                 TeamInvite.save()
+                notif = UserProfile.objects.get(user=TeamInvite.user)
+                temp = Notification(type='team', title="You've been invited to join a team",
+                                    description="What are you waiting for? Someone needs you to join their team! "
+                                                "View your team invites now!", link='teams:myinvitelist')
+
+                temp.datetime = datetime.datetime.utcnow()
+                temp.save()
+                notif.notifications.add(temp)
+                notif.save()
+                messages.success(request, 'Successfully notified user')
                 if invitee.email_enabled:
                     current_site = get_current_site(request)
                     mail_subject = settings.SITE_NAME + ": You've been invited to a team!"
@@ -285,11 +294,7 @@ class TeamInviteCreateView(View):
                     email = EmailMessage(
                         mail_subject, message, from_email=settings.FROM_EMAIL, to=[invitee.user.email]
                     )
-                    try:
-                        email.send()
-                    except:
-                        messages.error(request, 'Unable to send email')
-                        return redirect('teams:list')
+                    email.send(fail_silently=True)
                 messages.success(request, 'Sent invite successfully')
                 return redirect('teams:list')
 
@@ -309,27 +314,28 @@ class LeaveTeamView(View):
 
     def post(self, request, pk):
         form = self.form_class(request.POST)
-        try:
-            if form.data['confirmed']:
-                invite = TeamInvite.objects.get(user=request.user, team_id=pk)
-                try:
-                    invite.delete()
-                    messages.success(request, "Left team")
-                    invites = TeamInvite.objects.filter(team_id=pk)
-                    if not invites.exists():
-                        team = Team.objects.get(id=pk)
-                        profile = UserProfile.objects.get(user=request.user)
-                        try:
-                            profile.founder_teams.remove(team)
-                        except:
-                            messages.error(request, 'Unable to remove the team from your profile')
-                        team.delete()
-                        messages.success(request, 'Deleted team due to the last user leaving')
-                    return redirect('teams:list')
-                except:
-                    messages.error(request, "You don't appear to be on this team")
-                    return redirect('teams:detail', pk=pk)
-        except:
+        if form.data['confirmed']:
+            try:
+                team = Team.objects.get(pk=pk)
+            except ObjectDoesNotExist:
+                messages.error(request, 'Team cannot be found')
+                return redirect('teams:list')
+            if request.user in team.players:
+                team.players.remove(request.user)
+                messages.success(request, 'Successfully removed you from the players role')
+            if request.user in team.captains:
+                team.captains.remove(request.user)
+                messages.success(request, 'Successfully removed you from the captain role')
+            if request.user is team.founder:
+                # founders cannot leave their team. they must delete the team
+                messages.error(request,
+                               'You cannot leave the team you founded, you can only delete it.')
+            if not (request.user in team.players) or not (request.user in team.captains) or not (
+                    request.user is team.founder):
+                messages.error(request, "You don't appear to be on this team")
+                return redirect('teams:detail', pk=pk)
+            return redirect('teams:list')
+        else:
             messages.error(request,
                            "You submitted without confirming that you wanted to leave, redirecting to team detail")
             return redirect('teams:detail', pk=pk)
@@ -340,7 +346,7 @@ class RemoveUserView(View):
 
     def get(self, request, pk):
         team = Team.objects.get(id=pk)
-        if request.user == team.founder:
+        if request.user == team.founder or request.user in team.captains:
             form = RemoveUserForm(request, pk)
             return render(request, 'teams/team_remove_user.html', {'form': form, 'pk': pk})
         else:
@@ -349,20 +355,20 @@ class RemoveUserView(View):
 
     def post(self, request, pk):
         team = Team.objects.get(id=pk)
-        if request.user == team.founder:
+        if request.user == team.founder or request.user in team.captains:
             form = RemovePlayerFormPost(request.POST)
-            invite = TeamInvite.objects.get(id=form.data['remove'])
-            messages.success(request, 'Removed user %s from team' % invite)
-            invite.delete()
-            invites = TeamInvite.objects.filter(team=team)
-            if not invites.exists():
-                messages.warning(request, "Last user in team removed, team deleted")
-                team.delete()
+            # invite = TeamInvite.objects.get(id=form.data['remove'])
+            player = UserProfile.objects.get(form.data['remove'])
+            if player == team.founder:
+                messages.error(request, "You cannot remove the Team founder from the team")
                 return redirect('teams:list')
             else:
-                return redirect('teams:detail', pk)
+                team.players.remove(player)
+                team.save()
+                messages.success(request, 'Removed user %s from team' % player)
+
         else:
-            messages.error(request, "Only the team's founder can remove users")
+            messages.error(request, "Only the team's founder or a captain can remove users")
             return redirect('teams:detail', pk)
 
 
@@ -385,9 +391,12 @@ class DissolveTeamView(View):
             if form.is_valid():
                 if form.cleaned_data['confirmed']:
                     team = Team.objects.get(id=pk)
-                    invites = list(TeamInvite.objects.filter(team=team))
-                    for invite in invites:
-                        invite.delete()
+                    try:
+                        invites = list(TeamInvite.objects.filter(team=team))
+                        for invite in invites:
+                            invite.delete()
+                    except:
+                        messages.error(request, "Warning: Couldn't delete team invites")
                     messages.success(request, 'Dissolved team %s' % team)
                     team.delete()
                     return redirect('teams:list')
@@ -395,5 +404,5 @@ class DissolveTeamView(View):
                     messages.warning(request, "You didn't confirm that you wanted to dissolve the team")
                     return redirect('teams:detail', pk)
         else:
-            messages.error(request, "Only the team's founder can remove users")
+            messages.error(request, "Only the team's founder can dissolve the team")
             return redirect('teams:detail', pk)

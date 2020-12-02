@@ -1,10 +1,15 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.views.generic import View
-
 from matches.models import *
+from django.template.loader import render_to_string
+from django.conf import settings
 from staff.forms import *
 from wagers.models import *
+from profiles.models import UserProfile, Notification
+from django.core.mail import EmailMessage
+import datetime
+from django.contrib.sites.shortcuts import get_current_site
 
 
 def matches_index(request):
@@ -16,7 +21,8 @@ def matches_index(request):
         # matches_list = Match.objects.all().order_by('-id')
         tmatches = Match.objects.filter(type__isnull=True)
         wmatches = Match.objects.filter(type='w')
-        return render(request, 'staff/matches/matches.html', {'tmatches': tmatches, 'wmatches': wmatches})
+        lmatches = Match.objects.filter(type="leagues")
+        return render(request, 'staff/matches/matches.html', {'tmatches': tmatches, 'wmatches': wmatches, 'lmatches': lmatches})
 
 
 def disputed_matches(request):
@@ -88,6 +94,9 @@ class MatchDeclareWinner(View):
             return render(request, 'staff/permissiondenied.html')
         else:
             matchobj = Match.objects.get(pk=pk)
+            if matchobj.type == "league":
+                # TODO: 107
+                pass
             if not matchobj.bye_2 and not matchobj.bye_1:
                 form = DeclareMatchWinnerPost(request.POST, instance=matchobj)
                 instance = form.instance
@@ -134,23 +143,27 @@ def match_delete_winner(request, pk):
         return render(request, 'staff/permissiondenied.html')
     else:
         match = Match.objects.get(pk=pk)
-        if not match.bye_1 and not match.bye_2:
-            match.winner = None
-            match.completed = False
-            match.reported = False
-            match.team1reported = False
-            match.team2reported = False
-            match.team1reportedwinner = None
-            match.team2reportedwinner = None
-            match.disputed = False
-            match.save()
-            for i in MatchReport.objects.filter(match_id=pk):
-                i.delete()
-            messages.success(request, "Winner reset")
-            return redirect('staff:matches_index')
+        if match.type == "league":
+            # TODO: #107
+            pass
         else:
-            messages.error(request, 'Bye match, cannot change winner')
-            return redirect('staff:matches_index')
+            if not match.bye_1 and not match.bye_2:
+                match.winner = None
+                match.completed = False
+                match.reported = False
+                match.team1reported = False
+                match.team2reported = False
+                match.team1reportedwinner = None
+                match.team2reportedwinner = None
+                match.disputed = False
+                match.save()
+                for i in MatchReport.objects.filter(match_id=pk):
+                    i.delete()
+                messages.success(request, "Winner reset")
+                return redirect('staff:matches_index')
+            else:
+                messages.error(request, 'Bye match, cannot change winner')
+                return redirect('staff:matches_index')
 
 
 def dispute_detail(request, pk):
@@ -483,6 +496,7 @@ def create_map_pool_choice(request):
                 return render(request, 'staff/matches/editmappool.html', {'form': form})
 
 
+
 def match_checkins(request, pk):
     user = UserProfile.objects.get(user__username=request.user.username)
     allowed = ['superadmin', 'admin']
@@ -508,6 +522,11 @@ def delete_checkin(request, pk, checkinid):
 
 
 def match_stats_create(request, pk):
+    pass
+  
+def set_dispute_match(request, pk):
+    # set the specific match as disputed
+
     user = UserProfile.objects.get(user__username=request.user.username)
     allowed = ['superadmin', 'admin']
     if user.user_type not in allowed:
@@ -526,4 +545,31 @@ def create_match_config(request, pk):
         return render(request, 'staff/permissiondenied.html')
     else:
         # create the get5 config for the match
-        pass
+        match.disputed = True
+        for i in [match.team1.players, match.team2.players]:
+            temp = Notification(title="A staff member set one of your matches as disputed")
+            temp.link = 'matches:detail'
+            temp.pk1 = match.pk
+            temp.datetime = datetime.datetime.now()
+            temp.save()
+            userprofile = UserProfile.objects.get(user=i.user)
+            userprofile.notifications.add(temp)
+            userprofile.save()
+            if i.user.email_enabled:
+                current_site = get_current_site(request)
+                mail_subject = settings.SITE_NAME + ' match disputed!'
+                message = render_to_string('matches/dispute_email.html', {
+                    'user': i.username,
+                    'site': settings.SITE_NAME,
+                    'domain': current_site.domain,
+                    'pk': match.pk
+                })
+                to_email = i.email
+                email = EmailMessage(
+                    mail_subject, message, from_email=settings.FROM_EMAIL, to=[to_email]
+                )
+                email.send()
+        dispute = MatchDispute(id=match.id, match=match, team1=match.team1, team2=match.team2)
+        dispute.save()
+        messages.success(request, "Set the match as disputed, notified users, and created the Match Dispute")
+        return redirect('staff:match_detail', pk=match.id)

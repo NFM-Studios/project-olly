@@ -2,6 +2,7 @@ from django import forms
 from django.db.models import Q
 # import the actual team model for the create team forms
 from teams.models import Team
+from profiles.models import UserProfile
 # import the model for the team invite
 from teams.models import TeamInvite
 from profiles.models import UserProfile
@@ -57,7 +58,6 @@ class TeamInviteFormPost(forms.ModelForm):
     class Meta:
         captain = forms.BooleanField(required=False)
         model = TeamInvite
-        # maybe????
         fields = ('user', 'team', 'captain',)
         widgets = {
             'user': forms.CharField(),
@@ -106,7 +106,7 @@ class RemoveUserForm(forms.Form):
 
     def __init__(self, request, pk, *args, **kwargs):
         team = Team.objects.get(id=pk)
-        players = TeamInvite.objects.filter(team=team, accepted=True)
+        players = team.players.all()
         super().__init__(*args, **kwargs)
         self.fields['remove'].queryset = players
         self.fields['remove'].widget.attrs.update(

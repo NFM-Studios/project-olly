@@ -77,6 +77,7 @@ urlpatterns = [
     path('matches/disputed/', login_required(views.disputed_matches), name='disputed_matches'),
     path('match/<int:pk>', login_required(views.match_detail), name='match_detail'),
     path('match/<int:pk>/declare', login_required(views.MatchDeclareWinner.as_view()), name='match_declare_winner'),
+    path('match/<int:pk>/dispute', login_required(views.set_dispute_match), name='match_create_dispute'),
     path('match/<int:pk>/delete', login_required(views.match_delete_winner), name='match_delete_winner'),
     path('match/<int:pk>/edit', login_required(views.match_edit), name='match_edit'),
     path('round/<int:pk>/edit', login_required(views.edit_round), name='edit_round'),

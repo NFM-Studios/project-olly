@@ -3,6 +3,7 @@ from teams.models import Team
 from matches.models import Match, GameChoice, PlatformChoice, MapPoolChoice, MapChoice, SportChoice
 from matches.settings import TEAMFORMAT_CHOICES, MAPFORMAT_CHOICES
 from singletournaments.models import SingleTournamentRuleset
+from profiles.models import UserProfile
 
 
 # a way to create default values for a field over multiple seasons
@@ -51,7 +52,6 @@ class LeagueSettings(models.Model):
     # whether or not to allow users to register as a free agent to the league
     allow_fa = models.BooleanField(default=False)
 
-
     def __str__(self):
         return self.name
 
@@ -63,6 +63,7 @@ class LeagueTeam(models.Model):
     ot_losses = models.PositiveSmallIntegerField(default=0)
     ot_wins = models.PositiveSmallIntegerField(default=0)
     ties = models.PositiveSmallIntegerField(default=0)
+    points = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return self.team.name
@@ -81,6 +82,11 @@ class LeagueDivision(models.Model):
             return "Division "+str(self.pk)
         else:
             return self.name
+
+
+class LeagueFreeAgent(models.Model):
+    user = models.ForeignKey(UserProfile, related_name='fa_profile', on_delete=models.CASCADE)
+    description = models.TextField(default="Include information about Free Agent here")
 
 
 class League(models.Model):
@@ -119,5 +125,6 @@ class League(models.Model):
     prize2 = models.CharField(default='no prize specified', max_length=50)
     prize3 = models.CharField(default='no prize specified', max_length=50)
     teams = models.ManyToManyField(LeagueTeam, blank=True)
+    fa = models.ManyToManyField(LeagueFreeAgent, related_name="league_fas", blank=True)
 
 

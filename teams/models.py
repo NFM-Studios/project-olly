@@ -74,19 +74,14 @@ class Team(models.Model):
 
 
 class TeamInvite(models.Model):
-    INVITE_CHOICES = (
-        ('captain', 'Captain'),
-        ('player', 'Player'),
-    )
     expire = models.DateTimeField(auto_now=False, auto_now_add=False)
     team = models.ForeignKey(Team, related_name='invitedto', on_delete=models.CASCADE)
     user = models.ForeignKey(User, related_name='toinvite', on_delete=models.CASCADE)
     inviter = models.ForeignKey(User, related_name='frominvite', on_delete=models.CASCADE)
-    captain = models.CharField(choices=INVITE_CHOICES, max_length=20, default='player')
+    captain = models.BooleanField(default=False)
     accepted = models.BooleanField(default=False)
     declined = models.BooleanField(default=False)
     active = models.BooleanField(default=True)
-    hasPerms = models.BooleanField(default=False)
 
     def __str__(self):
         return str(self.user)
