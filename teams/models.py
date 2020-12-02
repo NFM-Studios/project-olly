@@ -90,9 +90,3 @@ class TeamInvite(models.Model):
 
     def __str__(self):
         return str(self.user)
-
-
-class CaptainMembership(models.Model):
-    user = models.ForeignKey(User, related_name='captainperson', on_delete=models.CASCADE)
-    team = models.ForeignKey(Team, related_name='team', on_delete=models.CASCADE)
-    active = models.BooleanField(default=True)
