@@ -23,12 +23,12 @@ pipeline {
     post {
         success {
             withCredentials([string(credentialsId: 'Webook_URL', variable: 'webhook_url')]) {
-                discordSend description: 'Build Success', link: 'env.BUILD_URL', result: 'SUCCESS', title: 'env.JOB_NAME', webhookURL: '$webhook_url'
+                discordSend description: 'Build Success', link: 'env.BUILD_URL', result: 'SUCCESS', title: 'env.JOB_NAME', webhookURL: "$webhook_url"
                 }
             }
         failure {
                 withCredentials([string(credentialsId: 'Webook_URL', variable: 'webhook_url')]) {
-                discordSend description: 'Build Success', link: 'env.BUILD_URL', result: 'FAILURE', title: 'env.JOB_NAME', webhookURL: '$webhook_url'
+                discordSend description: 'Build Success', link: 'env.BUILD_URL', result: 'FAILURE', title: 'env.JOB_NAME', webhookURL: "$webhook_url"
                 }
             }
         cleanup {
