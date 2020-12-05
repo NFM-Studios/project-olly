@@ -21,14 +21,21 @@ pipeline {
         }
     }
     post {
-        success {
-            withCredentials([string(credentialsId: 'Webook_URL', variable: 'WEBHOOK_URL')]) {
-                discordSend description: "Build Success", link: env.BUILD_URL, result: currentBuild.currentResult, title: JOB_NAME, webhookURL: env.WEBHOOK_URL
-                }
+        always {
+            def msg = "**Status:** " + currentBuild.currentResult.toLowerCase() + "\n"
+            msg += "**Branch:** ${branch}\n"
+            msg += "**Changes:** \n"
+            if (!currentBuild.changeSets.isEmpty()) {
+                currentBuild.changeSets.first().getLogs().each {
+                    msg += "- `" + it.getCommitId().substring(0, 8) + "` *" + it.getComment().substring(0, it.getComment().length()-1) + "*\n"
             }
-        failure {
-            withCredentials([string(credentialsId: 'Webook_URL', variable: 'webhook_url')]) {
-                discordSend description: "Build Failure", link: env.BUILD_URL, result: currentBuild.currentResult, title: JOB_NAME, webhookURL: env.WEBHOOK_URL
+        } else {
+            msg += "no changes for this run\n"
+        }
+
+        if (msg.length() > 1024) msg.take(msg.length() - 1024)
+            withCredentials([string(credentialsId: 'Webook_URL', variable: 'WEBHOOK_URL')]) {
+                discordSend description: "${msg}", link: env.BUILD_URL, result: currentBuild.currentResult, title: "Project Olly:${branch} #${BUILD_NUMBER}", webhookURL: env.WEBHOOK_URL
                 }
             }
         cleanup {
