@@ -22,18 +22,19 @@ pipeline {
     }
     post {
         always {
-            def msg = "**Status:** " + currentBuild.currentResult.toLowerCase() + "\n"
-            msg += "**Branch:** ${branch}\n"
-            msg += "**Changes:** \n"
-            if (!currentBuild.changeSets.isEmpty()) {
-                currentBuild.changeSets.first().getLogs().each {
+            script {
+                def msg = "**Status:** " + currentBuild.currentResult.toLowerCase() + "\n"
+                msg += "**Branch:** ${branch}\n"
+                msg += "**Changes:** \n"
+                if (!currentBuild.changeSets.isEmpty()) {
+                    currentBuild.changeSets.first().getLogs().each {
                     msg += "- `" + it.getCommitId().substring(0, 8) + "` *" + it.getComment().substring(0, it.getComment().length()-1) + "*\n"
+                    }
+                } else {
+                    msg += "no changes for this run\n"
+                }
+                if (msg.length() > 1024) msg.take(msg.length() - 1024)
             }
-        } else {
-            msg += "no changes for this run\n"
-        }
-
-        if (msg.length() > 1024) msg.take(msg.length() - 1024)
             withCredentials([string(credentialsId: 'Webook_URL', variable: 'WEBHOOK_URL')]) {
                 discordSend description: "${msg}", link: env.BUILD_URL, result: currentBuild.currentResult, title: "Project Olly:${branch} #${BUILD_NUMBER}", webhookURL: env.WEBHOOK_URL
                 }
