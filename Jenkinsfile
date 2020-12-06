@@ -24,7 +24,7 @@ pipeline {
         always {
             script {
                 def msg = "**Status:** " + currentBuild.currentResult.toLowerCase() + "\n"
-                msg += "**Branch:** ${branch}\n"
+                msg += "**Branch:** ${env.GIT_LOCAL_BRANCH}\n"
                 msg += "**Changes:** \n"
                 if (!currentBuild.changeSets.isEmpty()) {
                     currentBuild.changeSets.first().getLogs().each {
@@ -36,7 +36,7 @@ pipeline {
                 if (msg.length() > 1024) msg.take(msg.length() - 1024)
             }
             withCredentials([string(credentialsId: 'Webook_URL', variable: 'WEBHOOK_URL')]) {
-                discordSend description: "${msg}", link: env.BUILD_URL, result: currentBuild.currentResult, title: "Project Olly:${env.BRANCH_NAME} #${env.BUILD_NUMBER}", webhookURL: env.WEBHOOK_URL
+                discordSend description: "${msg}", link: env.BUILD_URL, result: currentBuild.currentResult, title: "Project Olly:${env.GIT_LOCAL_BRANCH} #${env.BUILD_NUMBER}", webhookURL: env.WEBHOOK_URL
                 }
             }
         cleanup {
