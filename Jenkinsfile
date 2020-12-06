@@ -23,20 +23,20 @@ pipeline {
     post {
         always {
             script {
-                def msg = "**Status:** " + currentBuild.currentResult.toLowerCase() + "\n"
-                msg += "**Branch:** ${env.GIT_LOCAL_BRANCH}\n"
-                msg += "**Changes:** \n"
+                env.msg = "**Status:** " + currentBuild.currentResult.toLowerCase() + "\n"
+                env.msg += "**Branch:** ${env.GIT_LOCAL_BRANCH}\n"
+                env.msg += "**Changes:** \n"
                 if (!currentBuild.changeSets.isEmpty()) {
                     currentBuild.changeSets.first().getLogs().each {
-                    msg += "- `" + it.getCommitId().substring(0, 8) + "` *" + it.getComment().substring(0, it.getComment().length()-1) + "*\n"
+                    env.msg += "- `" + it.getCommitId().substring(0, 8) + "` *" + it.getComment().substring(0, it.getComment().length()-1) + "*\n"
                     }
                 } else {
-                    msg += "no changes for this run\n"
+                    env.msg += "no changes for this run\n"
                 }
-                if (msg.length() > 1024) msg.take(msg.length() - 1024)
+                if (env.msg.length() > 1024) env.msg.take(env.msg.length() - 1024)
             }
             withCredentials([string(credentialsId: 'Webook_URL', variable: 'WEBHOOK_URL')]) {
-                discordSend description: "${msg}", link: env.BUILD_URL, result: currentBuild.currentResult, title: "Project Olly:${env.GIT_LOCAL_BRANCH} #${env.BUILD_NUMBER}", webhookURL: env.WEBHOOK_URL
+                discordSend description: "${env.msg}", link: env.BUILD_URL, result: currentBuild.currentResult, title: "Project Olly:${env.GIT_LOCAL_BRANCH} #${env.BUILD_NUMBER}", webhookURL: env.WEBHOOK_URL
                 }
             }
         cleanup {
