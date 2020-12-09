@@ -156,7 +156,7 @@ class MyTeamDetailView(DetailView):
     def get(self, request, pk):
         team = get_object_or_404(Team, id=pk)
         players = team.players.all()
-        captains = team.captains.all()
+        captains = team.captain.all()
         matches_ = Match.objects.filter(awayteam_id=team.id)
         matches__ = Match.objects.filter(hometeam_id=team.id)
         matches = matches_ | matches__
@@ -216,17 +216,6 @@ class TeamCreateView(View):
             Team.save()
             profile.founder_teams.add(Team)
             profile.save()
-            invite = TeamInvite()
-            invite.expire = timezone.now()
-            invite.user = self.request.user
-            invite.captain = 'founder'
-            invite.hasPerms = True
-            invite.accepted = True
-            invite.inviter = self.request.user
-            invite.inviter_id = self.request.user.id
-            invite.team_id = Team.id
-            invite.save()
-
             messages.success(self.request, 'Your Team has been created successfully')
             return redirect('teams:detail', pk=Team.pk)
 

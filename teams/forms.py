@@ -43,7 +43,7 @@ class TeamInviteFormGet(forms.ModelForm):
         self.fields['captain'].widget.attrs.update({'name': 'captain', 'class': 'form-control', 'style': 'width:30%'})
 
         self.username = request.user
-        invites = TeamInvite.objects.filter(hasPerms=True, user=request.user, accepted=True)
+        #invites = TeamInvite.objects.filter(hasPerms=True, user=request.user, accepted=True)
         profile = UserProfile.objects.get(user=request.user)
         tlist = profile.captain_teams.all() | profile.founder_teams.all()
         # tlist = profile.captain_teams.all() + profile.founder_teams.all()
