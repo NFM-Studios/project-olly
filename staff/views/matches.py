@@ -19,7 +19,7 @@ def matches_index(request):
         return render(request, 'staff/permissiondenied.html')
     else:
         # matches_list = Match.objects.all().order_by('-id')
-        tmatches = Match.objects.filter(type__isnull=True)
+        tmatches = Match.objects.filter(type="singletournament")
         wmatches = Match.objects.filter(type='w')
         lmatches = Match.objects.filter(type="leagues")
         return render(request, 'staff/matches/matches.html', {'tmatches': tmatches, 'wmatches': wmatches, 'lmatches': lmatches})
