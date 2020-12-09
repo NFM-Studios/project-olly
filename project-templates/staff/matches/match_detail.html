@@ -51,11 +51,24 @@
                 <td>3v3</td>
             {% elif match.teamformat == 3 %}
                 <td>4v4</td>
-            {% elif tournament.teamformat == 4 %}
+            {% elif match.teamformat == 4 %}
                 <td>5v5</td>
-            {% elif tournament.teamformat == 5 %}
+            {% elif match.teamformat == 5 %}
                 <td>6v6</td>
             {% endif %}
+        </tr>
+        <tr>
+            <td>Best of {{ match.bestof }}</td>
+        </tr>
+        <tr>
+            <td>Maps: </td>
+            {% for map in match.maps.all %}
+            <td>{{ map.name }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>Choosen maps</td>
+            <td><a class="btn-link" href="{% url 'staff:match_pickmap' pk=match.pk %}">Randomly Repick maps (in given Best of format)</a></td>
         </tr>
         <tr>
             <td>Home team</td>
