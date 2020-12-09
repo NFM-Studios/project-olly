@@ -107,7 +107,7 @@ class League(models.Model):
     teamformat = models.SmallIntegerField(choices=TEAMFORMAT_CHOICES, default=1)
     # by default its a best of 1. Not sure if we need this here. Finals might be best of 3, etc in
     # the future possibly. TBD. For now this will work though.
-    bestof = models.SmallIntegerField(choices=MAPFORMAT_CHOICES, default=0)
+    bestof = models.SmallIntegerField(choices=MAPFORMAT_CHOICES, default=1)
     # manually open registration even if outside registration window
     allow_register = models.BooleanField(default=False)
     # when does registration open, and when does it close? specified when created in staff panel

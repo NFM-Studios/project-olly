@@ -28,7 +28,7 @@ class WagerRequest(models.Model):
     credits = models.PositiveIntegerField(default=5)
     game = models.ForeignKey(GameChoice, related_name='game_choices', on_delete=models.PROTECT)
     platform = models.ForeignKey(PlatformChoice, related_name='platform_choices', on_delete=models.PROTECT)
-    bestof = models.SmallIntegerField(choices=MAPFORMAT_CHOICES, default=0)
+    bestof = models.SmallIntegerField(choices=MAPFORMAT_CHOICES, default=1)
     teamformat = models.SmallIntegerField(choices=TEAMFORMAT_CHOICES, default=1)
     info = models.TextField(default="No additional info given")
     creator = models.ForeignKey(User, related_name='creator_user', on_delete=models.CASCADE, null=True)
@@ -50,13 +50,13 @@ class WagerRequest(models.Model):
             return 6
 
     def get_best_of(self):
-        if self.bestof == 0:
-            return 1
         if self.bestof == 1:
-            return 3
+            return 1
         if self.bestof == 2:
-            return 5
+            return 2
         if self.bestof == 3:
-            return 7
+            return 3
         if self.bestof == 4:
-            return 9
+            return 4
+        if self.bestof == 5:
+            return 5

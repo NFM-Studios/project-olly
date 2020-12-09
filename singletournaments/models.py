@@ -34,7 +34,7 @@ class SingleEliminationTournament(models.Model):
     teamformat = models.SmallIntegerField(choices=TEAMFORMAT_CHOICES, default=1)
     # by default its a best of 1. Not sure if we need this here. Finals might be best of 3, etc in
     # the future possibly. TBD. For now this will work though.
-    bestof = models.SmallIntegerField(choices=MAPFORMAT_CHOICES, default=0)
+    bestof = models.SmallIntegerField(choices=MAPFORMAT_CHOICES, default=1)
 
     # by default the tournament is not active. an admin has to activate it in order for it to be public
     active = models.BooleanField(default=False)
