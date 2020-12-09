@@ -503,29 +503,35 @@ def pick_map(request, pk):
         return render(request, 'staff/permissiondenied.html')
     else:
         match = Match.objects.get(pk=pk)
+        match.maps.clear()
+        match.save()
         if match.bestof == 1:
             # bo1
             # make sure the mappoolchoice is big enough
-            pool = match.map_pool
-            if len(pool.maps) >= 1:
-                map = pool.maps.all().order_by("?").first()
+            pool = match.map_pool.maps
+            if pool.count() >= 1:
+                map = pool.all().order_by("?").first()
                 match.maps.add(map)
                 match.save()
+                messages.success(request, "Maps updated!")
+                return redirect('staff:match_detail', pk=pk)
             else:
                 messages.error(request, "There are not enough maps in this map pool for Best of 1")
                 return redirect('staff:match_detail', pk=pk)
         elif match.bestof == 2:
             # bo2
-            pool = match.map_pool
-            if len(pool.maps) >= 2:
-                map = pool.maps.all().order_by("?").first()
+            pool = match.map_pool.maps
+            if pool.count() >= 2:
+                map = pool.all().order_by("?").first()
                 match.maps.add(map)
                 match.save()
                 pool.remove(map)
-                pool.save()
-                map2 = pool.maps.all().order_by("?").first()
+                #pool.save()
+                map2 = pool.all().order_by("?").first()
                 match.maps.add(map2)
                 match.save()
+                messages.success(request, "Maps updated!")
+                return redirect('staff:match_detail', pk=pk)
             else:
                 messages.error(request, "There are not enough maps in this map pool for Best of 2")
                 return redirect('staff:match_detail', pk=pk)
@@ -533,25 +539,27 @@ def pick_map(request, pk):
         elif match.bestof == 3:
             # bo3
             # make sure the mappoolchoice is big enough
-            pool = match.map_pool
-            if len(pool.maps) >= 3:
-                map = pool.maps.all().order_by("?").first()
+            pool = match.map_pool.maps
+            if pool.count() >= 3:
+                map = pool.all().order_by("?").first()
                 pool.remove(map)
-                pool.save()
+                #pool.save()
                 match.maps.add(map)
                 match.save()
-                map2 = pool.maps.all().order_by("?").first()
+                map2 = pool.all().order_by("?").first()
                 pool.remove(map2)
-                pool.save()
+                #pool.save()
                 match.maps.add(map2)
                 match.save()
-                map3 = pool.maps.all().order_by("?").first()
+                map3 = pool.all().order_by("?").first()
                 pool.remove(map3)
-                pool.save()
+                #pool.save()
                 match.maps.add(map3)
                 match.save()
                 match.maps.add(map3)
                 match.save()
+                messages.success(request, "Maps updated!")
+                return redirect('staff:match_detail', pk=pk)
             else:
                 messages.error(request, "There are not enough maps in this map pool for Best of 3")
                 return redirect('staff:match_detail', pk=pk)
@@ -559,29 +567,30 @@ def pick_map(request, pk):
         elif match.bestof == 4:
             # bo4
             # make sure the mappoolchoice is big enough
-            pool = match.map_pool
-            if len(pool.maps) >= 4:
-                map = pool.maps.all().order_by("?").first()
+            pool = match.map_pool.maps
+            if pool.count() >= 4:
+                map = pool.all().order_by("?").first()
                 pool.remove(map)
-                pool.save()
+                #pool.save()
                 match.maps.add(map)
                 match.save()
-                map2 = pool.maps.all().order_by("?").first()
+                map2 = pool.all().order_by("?").first()
                 pool.remove(map2)
-                pool.save()
+                #pool.save()
                 match.maps.add(map2)
                 match.save()
-                map3 = pool.maps.all().order_by("?").first()
+                map3 = pool.all().order_by("?").first()
                 pool.remove(map3)
-                pool.save()
+                #pool.save()
                 match.maps.add(map3)
                 match.save()
-                map4 = pool.maps.all().order_by("?").first()
+                map4 = pool.all().order_by("?").first()
                 pool.remove(map4)
-                pool.save()
+                #pool.save()
                 match.maps.add(map4)
                 match.save()
-
+                messages.success(request, "Maps updated!")
+                return redirect('staff:match_detail', pk=pk)
             else:
                 messages.error(request, "There are not enough maps in this map pool for Best of 4")
                 return redirect('staff:match_detail', pk=pk)
@@ -590,32 +599,35 @@ def pick_map(request, pk):
         elif match.bestof == 5:
             # bo5
             # make sure the mappoolchoice is big enough
-            pool = match.map_pool
-            if len(pool.maps) >= 5:
-                map = pool.maps.all().order_by("?").first()
+            pool = match.map_pool.maps
+            if pool.count() >= 5:
+                map = pool.all().order_by("?").first()
                 pool.remove(map)
-                pool.save()
-                map2 = pool.maps.all().order_by("?").first()
+                #pool.save()
+                map2 = pool.all().order_by("?").first()
                 pool.remove(map2)
-                pool.save()
-                map3 = pool.maps.all().order_by("?").first()
+                #pool.save()
+                map3 = pool.all().order_by("?").first()
                 pool.remove(map3)
-                pool.save()
-                map4 = pool.maps.all().order_by("?").first()
+                #pool.save()
+                map4 = pool.all().order_by("?").first()
                 pool.remove(map4)
-                pool.save()
-                map5 = pool.maps.all().order_by("?").first()
+                #pool.save()
+                map5 = pool.all().order_by("?").first()
                 pool.remove(map5)
-                pool.save()
+                #pool.save()
                 match.maps.add(map)
                 match.maps.add(map2)
                 match.maps.add(map3)
                 match.maps.add(map4)
                 match.maps.add(map5)
                 match.save()
+                messages.success(request, "Maps updated!")
+                return redirect('staff:match_detail', pk=pk)
             else:
                 messages.error(request, "There are not enough maps in this map pool for Best of 5")
                 return redirect('staff:match_detail', pk=pk)
+
         else:
             messages.error(request, 'Unknown BestOf selected for this match')
             return redirect('staff:match_detail', pk=pk)
