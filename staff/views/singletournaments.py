@@ -145,7 +145,7 @@ def generate_bracket(request, pk):  # Launch tournament
             return redirect('staff:tournamentlist')
         else:
             calculaterank()
-            tournament.generate_rounds()
+            #tournament.generate_rounds()
             tournament.generate_bracket()
             tournament.bracket_generated = True
             tournament.save()
