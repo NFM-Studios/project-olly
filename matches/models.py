@@ -142,8 +142,8 @@ class MapPoolChoice(models.Model):
 class Match(models.Model):
     type = models.CharField(blank=True, null=True, max_length=20)
     matchnum = models.SmallIntegerField(default=0)
-    maps = models.ManyToManyField(MapPoolChoice)
-    map = models.ForeignKey(MapChoice, related_name='match_map', on_delete=models.SET_NULL, null=True)
+    map_pool = models.ForeignKey(MapPoolChoice, related_name='mappoolchoice', on_delete=models.SET_NULL, null=True)
+    maps = models.ManyToManyField(MapChoice)
     game = models.ForeignKey(GameChoice, related_name='GameChoice', on_delete=models.PROTECT, null=True)
     # default to ps4 for now bc why not
     platform = models.ForeignKey(PlatformChoice, related_name='PlatformChoice', on_delete=models.PROTECT, null=True)
