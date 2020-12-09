@@ -133,8 +133,8 @@ class SingleEliminationTournament(models.Model):
         tournament.save()
 
     def generate_bracket(self):
-        teams = len(self.teams)
-        myteams = self.teams
+        teams = len(self.teams.all())
+        myteams = self.teams.all()
         round1 = SingleTournamentRound(tournament=self)
         if teams % 2 == 0:
             # no byes required - get 2 teams and make a match
