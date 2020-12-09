@@ -136,16 +136,20 @@ class SingleEliminationTournament(models.Model):
         teams = len(self.teams.all())
         myteams = self.teams.all()
         round1 = SingleTournamentRound(tournament=self)
+        round1.save()
         if teams % 2 == 0:
             # no byes required - get 2 teams and make a match
             while len(myteams) != 0:
                 temp1 = myteams.all().order_by("?").first()
+                myteams.remove(temp1)
+                myteams.save()
                 temp2 = myteams.all().order_by("?").first()
                 tempmatch = Match(awayteam=temp1, hometeam=temp2, maps=self.map_pool, game=self.game, platform=self.platform)
                 tempmatch.save()
-                myteams.remove(temp1)
                 myteams.remove(temp2)
+                myteams.save()
                 round1.matches.add(tempmatch)
+                round1.save()
 
         else:
             # take the first team and give them a bye
@@ -161,12 +165,15 @@ class SingleEliminationTournament(models.Model):
                 return
             while len(myteams) != 0:
                 temp1 = myteams.all().order_by("?").first()
+                myteams.remove(temp1)
+                myteams.save()
                 temp2 = myteams.all().order_by("?").first()
                 tempmatch = Match(awayteam=temp1, hometeam=temp2, maps=self.map_pool, game=self.game, platform=self.platform)
                 tempmatch.save()
-                myteams.remove(temp1)
                 myteams.remove(temp2)
+                myteams.save()
                 round1.matches.add(tempmatch)
+                round1.save()
 
         round1.save()
 
