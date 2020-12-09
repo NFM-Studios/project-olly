@@ -1,6 +1,12 @@
 Project Olly Changelog
 
-# 1.0.0
+# 1.0.0 - YES WE'VE MADE IT
+Started in August of 2017, after much delays of life and school 
+we're happy to call this a release build of project-olly. Thank you to al our contributors 
+that have made this goal possible! The support in all shapes and forms don't go unnoticed!
+
+Please note the substantial and large
+changes made in this update may affect compatibility with previous versions databases 
 - Add SteamID64 and Discord profile fields
 - Add basic stats models (will be built upon further in later updates)
 - Added notification system for users
@@ -11,9 +17,15 @@ Project Olly Changelog
 - Add free agents to Leagues
 - Allow staff to disable free agent registration for leagues within LeagueSettings
 - Implement point system for LeagueMatches
-- Basis team checkin process ahead of matches
+- Basic team checkin process ahead of matches
 - Multiple other staff panel league improvements
 - Front end league template improvements (standings, and more)
+- Complete rework of tournament brackets - no more size restrictions, much more efficient brackets!
+- Switched to jenkins for project builds, no more travisci
+- Implement map random picking for tournaments and league matches
+- Shift to single template tournament brackets
+- General code cleanup and improvement  
+- DoubleElimination tournaments soon!
 
 # 0.9.0
 - Implement leagues functionality
