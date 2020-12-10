@@ -239,69 +239,29 @@ def advance(request, pk):
         return render(request, 'staff/permissiondenied.html')
     else:
         tournament = SingleEliminationTournament.objects.get(pk=pk)
-        currentround = SingleTournamentRound.objects.get(tournament=pk, roundnum=tournament.current_round)
-        try:
-            nextround = SingleTournamentRound.objects.get(tournament=tournament, roundnum=tournament.current_round + 1)
-        except:
-            messages.warning(request, "All rounds are complete")
-            tournament.active = False
-            tournament.save()
-            return redirect('staff:tournamentlist')
-        matches = currentround.matches.all()
-        for i in matches:
-            if i.winner is None:
-                if mikes_super_function(currentround.id) is False:
-                    messages.error(request, "Some matches in the current round do not have a winner set")
-                    return redirect('staff:tournamentlist')
-                else:
-                    mike = mikes_super_function(currentround.id)
-
-            # if i.completed is False:
-            # messages.error(request, 'There is a match that is not yet marked as completed in the current round')
-            # return redirect('staff:tournamentlist')
-
-        winners = []
-
-        for i in matches:
-
-            try:
-                if i.winner is None:
-                    winners.append('BYE TEAM')
-
-                else:
-                    winners.append(i.winner)
-                    team = Team.objects.get(id=i.winner_id)
-                    team.num_matchwin += 1
-                    team.save()
-                    team1 = Team.objects.get(id=i.loser_id)
-                    team1.num_matchloss += 1
-                    team1.save()
-            except:
-                pass
-
-        # check to make sure mike +
-
-        i = 0
-        while i < len(winners):
-            if winners[i] == 'BYE TEAM':
-                # disable user reports, its a bye match
-                newmatch = Match(game=tournament.game, platform=tournament.platform, hometeam=winners[i + 1],
-                                 disable_userreport=True, sport=tournament.sport)
-            elif winners[i + 1] == 'BYE TEAM':
-                # disable user reports, its a bye match
-                newmatch = Match(game=tournament.game, platform=tournament.platform, sport=tournament.sport,
-                                 awayteam=winners[i], disable_userreport=True)
-            else:
-                newmatch = Match(game=tournament.game, platform=tournament.platform,
-                                 awayteam=winners[i], hometeam=winners[i + 1],
-                                 # disable user match reports based on the field in the tournament
-                                 disable_userreport=tournament.disable_userreport, sport=tournament.sport)
-            newmatch.save()
-            nextround.matches.add(newmatch)
-            i += 2
-
-        tournament.current_round = tournament.current_round + 1
+        currentround = SingleTournamentRound.objects.get(tournament=tournament, roundnum=tournament.current_round)
+        nextround = SingleTournamentRound(tournament=tournament, roundnum=tournament.current_round+1)
+        winners = Team.objects.none()
+        tournament.current_round = tournament.current_round+1
         tournament.save()
+        for x in currentround.matches.all():
+            winners.append(x.winner)
+        if len(winners) % 2 != 0:
+            messages.error(request, 'Invalid round')
+            return redirect('staff:tournamentlist')
+        while len(winners) != 0:
+            temp1 = winners.order_by("?").first()
+            winners.remove(temp1)
+            winners.save()
+            temp2 = winners.order_by("?").first()
+            tempmatch = Match(awayteam=temp1, hometeam=temp2, maps=tournament.map_pool, game=tournament.game,
+                              platform=tournament.platform)
+            tempmatch.save()
+            winners.remove(temp2)
+            winners.save()
+            nextround.matches.add(tempmatch)
+            nextround.save()
+
         messages.success(request, "Advanced to next round")
         return redirect('staff:tournamentlist')
 
