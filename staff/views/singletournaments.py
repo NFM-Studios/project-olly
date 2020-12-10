@@ -245,9 +245,18 @@ def advance(request, pk):
         tournament.current_round = tournament.current_round+1
         tournament.save()
         for x in currentround.matches.all():
+            if x.winner is None:
+                messages.error(request, 'Error: There is not a winner for a match in the previous round, cannot advance')
+                return redirect(request, 'staff:tournamentlist')
+            if not x.completed:
+                messages.error(request, 'Error: There is a match that is not marked as completed yet')
+                return redirect(request, 'staff:tournamentlist')
             winners.append(x.winner)
         if len(winners) % 2 != 0:
-            messages.error(request, 'Invalid round')
+            messages.error(request, 'Error: Invalid round')
+            return redirect('staff:tournamentlist')
+        if len(winners) == 1:
+            messages.error(request, 'Warning: The tournament is over, cannot advance further')
             return redirect('staff:tournamentlist')
         while len(winners) != 0:
             temp1 = winners.order_by("?").first()
