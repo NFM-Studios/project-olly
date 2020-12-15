@@ -250,14 +250,20 @@ class MatchDisputeReportCreateView(CreateView):
 
 def match_checkin(request, pk):
     match = Match.objects.get(pk=pk)
-    user = UserProfile.objects.get(user__username=request.user.username)
+    profile = UserProfile.objects.get(user__username=request.user.username)
+    user = request.user
     away = match.awayteam
     home = match.hometeam
-    if user not in away.captain or user not in home.captain or user is not away.founder or user is not home.founder:
-        messages.error(request, "You don't have permission to checkin for this match")
-        return redirect('match:detail', pk=pk)
-    else:
+    if (user in away.captain.all() or user in home.captain.all()) or (user is away.founder and user is home.founder):
         return render(request, 'matches/match_checkin.html', {'match': match})
+    else:
+        messages.error(request, "222You don't have permission to checkin for this match")
+        return redirect('matches:detail', pk=pk)
+
+    """elif :
+        messages.error(request, "You don't have permission to checkin for this match")
+        return redirect('matches:detail', pk=pk)
+    """
 
 
 def team_checkin(request, pk, teamid):
@@ -266,20 +272,21 @@ def team_checkin(request, pk, teamid):
     # get the match from the pk in the url
     match = Match.objects.get(pk=pk)
     # get logged in user
-    user = UserProfile.objects.get(user__username=request.user.username)
-    if user is not team.founder or user not in team.captain:
+    profile = UserProfile.objects.get(user__username=request.user.username)
+    user = request.user
+    if user is not team.founder and user not in team.captain.all():
         # they don't have perms - gtfo
-        messages.error(request, "You do not have permissions to checkin this team")
+        messages.error(request, "FFFFFYou do not have permissions to checkin this team")
         return redirect('matches:detail', pk=pk)
     if request.method == 'GET':
         # send the form, render
-        form = TeamCheckInForm(request.GET)
+        form = TeamCheckInForm(request=request.GET, team=team)
         return render(request, 'matches/team_checkin.html', {'form': form})
         pass
     elif request.method == 'POST':
         # lets make it and get the data
         # TODO: find a way to get the team instance in the form
-        form = TeamCheckInForm(request.POST, )
+        form = TeamCheckInForm(request=request.POST, team=team)
         if form.is_valid():
             temp = MatchCheckIn()
             temp.match = match

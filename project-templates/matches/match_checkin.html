@@ -32,6 +32,6 @@
     <h2>Please note only captains and team founder's can checkin for matches</h2>
     <p>To proceed with match checkin process, please click the corresponding button below. <br />
     You will be redirected to a new page where you will select the players that will be playing in the match</p>
-    <button href="{% url 'matches:team_checkin' pk=match.pk teamid=match.hometeam.pk %}">Checkin for Home Team here</button>
-    <button href="{% url 'matches:team_checkin' pk=match.pk teamid=match.awayteam.pk %}">Chcekin for Away Team here</button>
+    <button><a href="{% url 'matches:team_checkin' pk=match.pk teamid=match.hometeam.pk %}">Checkin for Home Team here</a></button>
+    <button><a class="btn-link" href="{% url 'matches:team_checkin' pk=match.pk teamid=match.awayteam.pk %}">Chcekin for Away Team here</a></button>
 {% endblock %}
