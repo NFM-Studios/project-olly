@@ -49,7 +49,7 @@ class SingleTournamentJoin(View):
     def get(self, request, pk):
         # teaminvites = TeamInvite.objects.filter(user_id=request.user.id, hasPerms=True)
         profile = UserProfile.objects.get(user=request.user)
-        teams = profile.founder_teams + profile.captain_teams
+        teams = profile.founder_teams.all() | profile.captain_teams.all()
         tournament = get_object_or_404(SingleEliminationTournament, id=pk)
         if teams.count() != 0:
             form = SingleEliminationTournamentJoinGet(request)
@@ -63,7 +63,7 @@ class SingleTournamentJoin(View):
         form = SingleEliminationTournamentJoinPost(request.POST)
         profile = UserProfile.objects.get(user=request.user)
         team = Team.objects.get(id=int(form.data['teams']))
-        if team in profile.captain_teams or team in profile.founder_teams:
+        if team in profile.captain_teams.all() or team in profile.founder_teams.all():
             # good to go
             pass
         else:
@@ -147,24 +147,24 @@ class SingleTournamentJoin(View):
             return redirect('singletournaments:list')
         # loop through every user on the team trying to join - see if they're a player/founder/captain
         # on any other team thats already registered
-        for user in team.players:
-            for otherteam in tournament.teams:
-                for player in otherteam.players:
+        for user in team.players.all():
+            for otherteam in tournament.teams.all():
+                for player in otherteam.players.all():
                     if user == player:
                         messages.error(request, "There is overlap between users in teams in the tournament")
                         return redirect('singletournaments:list')
-                for captain in otherteam.captain:
+                for captain in otherteam.captain.all():
                     if user == captain:
                         messages.error(request, "There is overlap between users in teams in the tournament")
                         return redirect('singletournaments:list')
-                if user == otherteam.captain:
+                if user == otherteam.captain.all():
                     messages.error(request, "There is overlap between users in teams in the tournament")
                     return redirect('singletournaments:list')
 
         tournament.teams.add(team)
-        for user in team.players:
+        for user in team.players.all():
             deduct_credits(user, tournament.req_credits)
-        for captain in team.captain:
+        for captain in team.captain.all():
             deduct_credits(captain, tournament.req_credits)
         deduct_credits(team.founder, tournament.req_credits)
         tournament.save()
@@ -198,7 +198,7 @@ class SingleTournamentLeave(View):
                     team = SingleTournamentTeam.objects.get(team_id=user_team.id, tournament=tournament)
                     team.delete()
                     tournament.teams.remove(user_team)
-                    team_users = user_team.players + user_team.founder + user_team.captain
+                    team_users = user_team.players.all() | user_team.founder | user_team.captain.all()
                     for user in team_users:
                         give_credits(user=user, num=tournament.req_credits)
                     messages.success(request, "Gave %s credits to %s users" % (tournament.req_credits, len(team_users)))
