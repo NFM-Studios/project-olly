@@ -86,12 +86,12 @@ class MatchReportCreateView(View):
 
             one_perms = False
             two_perms = False
-            if self.request.user in team1.captains or self.request.user == team1.founder:
+            if self.request.user in team1.captain.all() or self.request.user == team1.founder:
                 one_perms = True
-            elif self.request.user in team2.captains or self.request.user == team2.founder:
+            elif self.request.user in team2.captain.all() or self.request.user == team2.founder:
                 two_perms = True
             else:
-                messages.error(request, message="You aren't a part of the teams in this match")
+                messages.error(request, message="You don't have permission to report for any team in this match")
                 if match.type == 'w':
                     return redirect('wagers:list')
                 return redirect('matches:detail', pk=pk)
