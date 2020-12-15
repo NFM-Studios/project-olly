@@ -232,16 +232,6 @@ class SingleTournamentTeamsList(View):
                       {'x': pk, 'tournament': tournament, 'teams': teams})
 
 
-class SingleTournamentRules(View):
-
-    def get(self, request, pk):
-        pk = pk
-        tournament = SingleEliminationTournament.objects.get(id=pk)
-        ruleset = tournament.ruleset
-        return render(request, 'singletournaments/ruleset_detail.html',
-                      {'pk': pk, 'ruleset': ruleset})
-
-
 class SingleTournamentBracket(View):
 
     def get(self, request, **kwargs):

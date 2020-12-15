@@ -94,11 +94,11 @@ class UserProfile(models.Model):
 
     email_enabled = models.BooleanField(default=True)
     # teams the user founded
-    founder_teams = models.ManyToManyField('teams.Team', related_name='profile_founder_teams')
+    founder_teams = models.ManyToManyField('teams.Team', related_name='profile_founder_teams', blank=True)
     # teams the user is a captain of
-    captain_teams = models.ManyToManyField('teams.Team', related_name='profile_captain_teams')
+    captain_teams = models.ManyToManyField('teams.Team', related_name='profile_captain_teams', blank=True)
     # teams the user is a player on
-    player_teams = models.ManyToManyField('teams.Team', related_name='profile_player_teams')
+    player_teams = models.ManyToManyField('teams.Team', related_name='profile_player_teams', blank=True)
 
     def calculate_rank(self):
         self.rank = int(UserProfile.objects.filter(xp__gt=self.xp).count()) + 1
