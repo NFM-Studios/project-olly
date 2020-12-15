@@ -41,6 +41,9 @@ class DisputeCreateForm(forms.ModelForm):
 
 class TeamCheckInForm(forms.Form):
     #TODO: define queryset for players team checkin form
+    players = forms.ModelMultipleChoiceField(queryset=None)
     def __init__(self, team):
         mylist = team.players + team.founder + team.captain
-    players = forms.ModelMultipleChoiceField(queryset=None)
+        super().__init__()
+        self.fields['players'].widget.attrs.update({'name': 'players', 'class': 'form-control'})
+        self.fields['players'].queryset = mylist
