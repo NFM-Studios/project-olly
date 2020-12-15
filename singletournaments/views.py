@@ -1,4 +1,5 @@
-#import datetime
+import datetime
+import pytz
 from django.contrib import messages
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render, redirect
@@ -197,13 +198,10 @@ class SingleTournamentLeave(View):
                     team = SingleTournamentTeam.objects.get(team_id=user_team.id, tournament=tournament)
                     team.delete()
                     tournament.teams.remove(user_team)
-                    team_users = TeamInvite.objects.filter(team=user_team)
-                    users = []
-                    for invite in team_users:
-                        users.append(invite.user)
-                    for user in users:
+                    team_users = user_team.players + user_team.founder + user_team.captain
+                    for user in team_users:
                         give_credits(user=user, num=tournament.req_credits)
-                    messages.success(request, "Gave %s credits to %s users" % (tournament.req_credits, len(users)))
+                    messages.success(request, "Gave %s credits to %s users" % (tournament.req_credits, len(team_users)))
                     messages.success(request, "Left tournament %s" % tournament.name)
                     return redirect('singletournaments:list')
             else:
@@ -241,8 +239,9 @@ class SingleTournamentBracket(View):
         if tournament.bracket_generated:
             # show the right bracket
             rounds = SingleTournamentRound.objects.all().filter(tournament=tournament)
-            return render(request, 'singletournaments/singletournament_bracket.html', {'x':pk, 'tournament': tournament,
-                                                                                       'teams':teams, 'rounds': rounds})
+            return render(request, 'singletournaments/singletournament_bracket.html',
+                          {'x': pk, 'tournament': tournament,
+                           'teams': teams, 'rounds': rounds})
         else:
             # show some template that its not generated yet
             return render(request, 'singletournaments/no_bracket.html',
