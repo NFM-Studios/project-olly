@@ -21,9 +21,9 @@ class Team(models.Model):
     # whoever filled out the form to create the team, limited to only one
     founder = models.ForeignKey(User, related_name='founder', on_delete=models.SET_NULL, null=True)
     # basically founder permissions, but to other people that didn't create the actual team
-    captain = models.ManyToManyField(User, related_name='teamcaptain')
+    captain = models.ManyToManyField(User, related_name='teamcaptain', blank=True)
     # the people of the actual team, now a many to many, not a forkey
-    players = models.ManyToManyField(User, related_name='teamplayers')
+    players = models.ManyToManyField(User, related_name='teamplayers', blank=True)
     # when they created the team
     created = models.DateTimeField(auto_now_add=True)
     # when they last updated anything in the team
@@ -44,8 +44,8 @@ class Team(models.Model):
     country = CountryField(blank=True)
 
     image = models.ImageField(upload_to='team_images', blank=True)
-    matches = models.ManyToManyField('matches.Match', related_name='team_matches')
-    team_stat = models.ManyToManyField('matches.TeamMatchStats', related_name='match_team_stat')
+    matches = models.ManyToManyField('matches.Match', related_name='team_matches', blank=True)
+    team_stat = models.ManyToManyField('matches.TeamMatchStats', related_name='match_team_stat', blank=True)
 
     class Meta:
         verbose_name = 'Team'

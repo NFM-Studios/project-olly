@@ -84,6 +84,9 @@ class MatchStats(models.Model):
 class SportChoice(models.Model):
     name = models.CharField(default='unknown sports', null=False, max_length=255)
 
+    def __str__(self):
+        return "" + self.name
+
 
 class GameChoice(models.Model):
     name = models.CharField(default='unknown', null=False, max_length=255)
@@ -130,7 +133,7 @@ class MapPoolChoice(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
-    #def add_map(self, mappk):
+    # def add_map(self, mappk):
     #    newmap = MapChoice.objects.get(id=mappk)
     #    newmap.map_num = self.maps.count() + 1
     #    self.maps.add(newmap)
@@ -143,12 +146,12 @@ class Match(models.Model):
     type = models.CharField(blank=True, null=True, max_length=20)
     matchnum = models.SmallIntegerField(default=0)
     map_pool = models.ForeignKey(MapPoolChoice, related_name='mappoolchoice', on_delete=models.SET_NULL, null=True)
-    maps = models.ManyToManyField(MapChoice)
+    maps = models.ManyToManyField(MapChoice, blank=True)
     game = models.ForeignKey(GameChoice, related_name='GameChoice', on_delete=models.PROTECT, null=True)
     # default to ps4 for now bc why not
     platform = models.ForeignKey(PlatformChoice, related_name='PlatformChoice', on_delete=models.PROTECT, null=True)
     # support for traditional sports
-    sport = models.ForeignKey(SportChoice, related_name='SportChoice', on_delete=models.PROTECT, null=True)
+    sport = models.ForeignKey(SportChoice, related_name='SportChoice', on_delete=models.PROTECT, null=True, blank=True)
     # assign the match to a tournament with a FK
     # tournament = models.ForeignKey(SingleEliminationTournament, related_name='tournament', on_delete=models.CASCADE)
     # fk fields for the 2 teams that are competiting,
@@ -162,8 +165,8 @@ class Match(models.Model):
     # simple bool field to see if the entire match is completed
     completed = models.BooleanField(default=False)
     # field to declare the winner
-    winner = models.ForeignKey(Team, related_name='champions', on_delete=models.SET_NULL, null=True)
-    loser = models.ForeignKey(Team, related_name='loser', on_delete=models.SET_NULL, null=True)
+    winner = models.ForeignKey(Team, related_name='champions', on_delete=models.SET_NULL, null=True, blank=True)
+    loser = models.ForeignKey(Team, related_name='loser', on_delete=models.SET_NULL, null=True, blank=True)
     # set the default map format to best of 1
     bestof = models.SmallIntegerField(choices=MAPFORMAT_CHOICES, default=1)
     #          by default set it to be a 2v2.
@@ -177,7 +180,7 @@ class Match(models.Model):
                                             null=True, blank=True)
 
     # TODO: implement datetime field for matches
-    #datetime = models.DateTimeField(null=True)
+    # datetime = models.DateTimeField(null=True)
 
     info = models.TextField(default="Match Info: ")
 
