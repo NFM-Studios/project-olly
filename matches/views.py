@@ -9,7 +9,7 @@ from django.views.generic import DetailView, CreateView, View
 from django.db.models import Q
 from matches.models import Match, MatchReport, MatchDispute, MapPoolChoice, MatchCheckIn
 from teams.models import Team, TeamInvite
-from .forms import MatchReportCreateFormGet, MatchReportCreateFormPost, DisputeCreateForm
+from .forms import MatchReportCreateFormGet, MatchReportCreateFormPost, DisputeCreateForm, TeamCheckInForm
 from profiles.models import Notification, UserProfile
 import datetime
 

@@ -7,5 +7,17 @@
 
 {% block body %}
     <p>Please select the players from your team below that are playing in the match</p>
-    {{ form.as_table}}
+
+        <form method="POST" action="{% url 'matches:team_checkin' pk=match.pk teamid=teamid %}">
+        <table class="table">
+            {% csrf_token %}
+            {{ form.as_table }}
+            <tr>
+                <td colspan="2">
+                    <input type="submit" value="Submit"/>
+                </td>
+            </tr>
+        </table>
+    </form>
+
 {% endblock %}
