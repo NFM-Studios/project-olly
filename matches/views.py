@@ -14,7 +14,6 @@ from profiles.models import Notification, UserProfile
 import datetime
 
 
-
 class MapPoolDetail(DetailView):
     def get(self, request, **kwargs):
         pk = self.kwargs['pk']
@@ -26,8 +25,10 @@ class MapPoolDetail(DetailView):
 class MatchList(View):
 
     def get(self, request):
-        teams = Team.objects.filter(
-            Q(captains__exact=request.user) | Q(founder=request.user) | Q(players__exact=request.user))
+        # teams = Team.objects.filter(
+        #    Q(captains__exact=request.user) | Q(founder=request.user) | Q(players__exact=request.user))
+        profile = UserProfile.objects.get(user=request.user)
+        teams = profile.player_teams.all() | profile.captain_teams.all() | profile.founder_teams.all()
         matches_away = Match.objects.filter(awayteam__in=teams)
         matches_home = Match.objects.filter(hometeam__in=teams)
         matches = matches_away | matches_home
@@ -278,7 +279,7 @@ def team_checkin(request, pk, teamid):
     elif request.method == 'POST':
         # lets make it and get the data
         # TODO: find a way to get the team instance in the form
-        form = TeamCheckInForm(request.POST,)
+        form = TeamCheckInForm(request.POST, )
         if form.is_valid():
             temp = MatchCheckIn()
             temp.match = match
@@ -287,7 +288,7 @@ def team_checkin(request, pk, teamid):
             # TODO: verify posted data from form of field 'players'
             temp.players = form.cleaned_data['players']
             temp.save()
-            messages.success(request, 'Your team has been checked in, checkin #'+temp.pk)
+            messages.success(request, 'Your team has been checked in, checkin #' + temp.pk)
             return redirect('matches:detail', pk=match.pk)
         else:
             messages.error(request, "Form error, this should not occur")
