@@ -36,7 +36,7 @@ pipeline {
                 if (env.msg.length() > 1024) env.msg.take(env.msg.length() - 1024)
             }
             withCredentials([string(credentialsId: 'Webook_URL', variable: 'WEBHOOK_URL')]) {
-                discordSend description: "${env.msg}", link: env.BUILD_URL, result: currentBuild.currentResult, title: "Project Olly:${env.BRANCH_NAME} Build #${env.BUILD_NUMBER} ${currentBuild.CurrentResult}", webhookURL: env.WEBHOOK_URL
+                discordSend description: "${env.msg}", link: env.BUILD_URL, result: currentBuild.currentResult, title: "Project Olly:${env.BRANCH_NAME} Build #${env.BUILD_NUMBER} ${currentBuild.currentResult}", webhookURL: env.WEBHOOK_URL
                 }
             }
         cleanup {
