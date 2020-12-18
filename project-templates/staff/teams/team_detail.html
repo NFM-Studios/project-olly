@@ -33,7 +33,7 @@
             <tr>
                 <td class="">Captains</td>
                 {% for captain in captains %}
-                <td><a href="{% url 'profiles:profile' urlusername=captain.name %}">{{ captain.name }}</a>
+                    <td><a href="{% url 'profiles:profile' urlusername=captain.name %}">{{ captain.name }}</a>
                 {% endfor %}
                 </td>
             </tr>
@@ -80,5 +80,6 @@
         <br/>
         <a href="{% url 'staff:delete_team' pk %}"
            onclick="return confirm('Are you sure you want to delete this team?')" class="btn btn-danger">Delete Team</a>
+        <a href="{% url 'staff:add_player' pk %}" class="btn btn-success">Add Player</a>
     </div>
 {% endblock %}
