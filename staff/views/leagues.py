@@ -38,7 +38,8 @@ def list_league(request):
         return render(request, 'staff/permissiondenied.html')
     else:
         leagues = League.objects.all()
-        return render(request, 'staff/leagues/league_list.html', {'leagues': leagues})
+        time = datetime.datetime.utcnow()
+        return render(request, 'staff/leagues/league_list.html', {'leagues': leagues, 'time': time})
 
 
 def detail_league(request, pk):
