@@ -96,7 +96,6 @@ def delete_team(request, pk):
         return redirect('staff:teamindex')
 
 
-#TODO remove TeamInvite object
 def remove_user(request, pk):
     user = UserProfile.objects.get(user__username=request.user.username)
     allowed = ['superadmin', 'admin']
@@ -105,17 +104,28 @@ def remove_user(request, pk):
     else:
         if request.method == 'POST':
             form = RemovePlayerFormPost(request.POST)
-            invite = TeamInvite.objects.get(id=form.data['remove'])
-            messages.success(request, 'Removed user %s from team' % invite)
-            invite.delete()
-            invites = TeamInvite.objects.filter(team_id=pk)
-            if not invites.exists():
-                team = Team.objects.get(id=pk)
-                team.delete()
-                messages.success(request, 'Deleted team due to the last user being removed')
-                return redirect('staff:teamindex')
+            team = Team.objects.get(pk=pk)
+            muser = form.data['remove']
+            user = User.objects.get(user=muser)
+            if user in team.players.all():
+                try:
+                    team.players.remove(form.data['remove'])
+                    team.save()
+                except:
+                    messages.error(request, "Failed to remove player from team")
+                    return redirect('staff:team_detail', pk=team.id)
+            elif user in team.captain.all():
+                try:
+                    team.captain.remove(form.data['remove'])
+                    team.save()
+                except:
+                    messages.error(request, "Failed to remove user as captain from team")
+                    return redirect('staff:team_detail', pk=team.id)
             else:
-                return redirect('staff:team_detail', pk=pk)
+                messages.error(request, "Unable to verify user is on the team as player/captain")
+                return redirect('staff:team_detail', pk=team.id)
+            messages.success(request, 'Removed user %s from team' % user)
+            return redirect('staff:team_detail', pk=pk)
         else:
             form = RemovePlayerForm(request, pk)
             return render(request, 'staff/teams/team_remove_player.html', {'form': form, 'pk': pk})
