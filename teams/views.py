@@ -335,7 +335,7 @@ class RemoveUserView(View):
 
     def get(self, request, pk):
         team = Team.objects.get(id=pk)
-        if request.user == team.founder or request.user in team.captains:
+        if request.user == team.founder or request.user in team.captain.all():
             form = RemoveUserForm(request, pk)
             return render(request, 'teams/team_remove_user.html', {'form': form, 'pk': pk})
         else:
@@ -344,17 +344,19 @@ class RemoveUserView(View):
 
     def post(self, request, pk):
         team = Team.objects.get(id=pk)
-        if request.user == team.founder or request.user in team.captains:
+        if request.user == team.founder or request.user in team.captain.all():
             form = RemovePlayerFormPost(request.POST)
             # invite = TeamInvite.objects.get(id=form.data['remove'])
-            player = UserProfile.objects.get(form.data['remove'])
-            if player == team.founder:
+            user = form.data['remove']
+            player = UserProfile.objects.get(user=user)
+            if player.user == team.founder:
                 messages.error(request, "You cannot remove the Team founder from the team")
-                return redirect('teams:list')
+                return redirect('teams:detail', pk=pk)
             else:
-                team.players.remove(player)
+                team.players.remove(player.user)
                 team.save()
                 messages.success(request, 'Removed user %s from team' % player)
+                return redirect('team:detail', pk=pk)
 
         else:
             messages.error(request, "Only the team's founder or a captain can remove users")

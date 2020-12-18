@@ -80,8 +80,7 @@
                 <tr>
                     <td valign="middle"><img src="{{ profile.country.flag }}"> <a
                             href="{% url 'profiles:profile' urlusername=profile.user %}">{{ profile.user }}</a></td>
-                    <td valign="middle">{% if profile.xbl_verified and profile.psn_verified %}YES{% else %}
-                        NO{% endif %}</td>
+
                 </tr>
             {% endfor %}
         {% if players.count == 0 %}

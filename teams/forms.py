@@ -106,7 +106,7 @@ class RemoveUserForm(forms.Form):
 
     def __init__(self, request, pk, *args, **kwargs):
         team = Team.objects.get(id=pk)
-        players = team.players.all()
+        players = team.players.all() | team.captain.all()
         super().__init__(*args, **kwargs)
         self.fields['remove'].queryset = players
         self.fields['remove'].widget.attrs.update(
