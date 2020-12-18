@@ -42,7 +42,7 @@ class DisputeCreateForm(forms.ModelForm):
 class TeamCheckInForm(forms.Form):
     #TODO: define queryset for players team checkin form
     players = forms.ModelMultipleChoiceField(queryset=None)
-    forfeit = forms.Che
+    #forfeit = forms.Che
     def __init__(self, request, team):
         mylist = team.players.all() | team.founder | team.captain.all()
         super().__init__()
