@@ -24,10 +24,42 @@ def teams_detail(request, pk):
     else:
         team = Team.objects.get(id=pk)
         players = team.players.all()
-        captains = team.captains.all()
+        captains = team.captain.all()
 
         return render(request, 'staff/teams/team_detail.html',
                       {'team': team, 'players': players, 'captains': captains, 'pk': pk})
+
+
+def force_addplayer(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        team = Team.objects.get(id=pk)
+        if request.method == "GET":
+            form = TeamForceAddUser()
+            return render(request, 'staff/teams/force_addplayer.html', {'form': form, 'team': team})
+        else:
+            form = TeamForceAddUser(request.POST)
+            if form.is_valid():
+                muser = form.cleaned_data['user']
+                user = User.objects.get(username=muser)
+                try:
+                    temp = UserProfile.objects.get(user=user)
+                except:
+                    messages.error(request, 'Unable to find user')
+                    return redirect('staff:team_detail', pk=team.id)
+                if (temp.user in team.players.all()) or (temp.user in team.captain.all()) or (temp.user == team.founder):
+                    messages.error(request, "This user already exists on the team")
+                    return redirect('staff:team_detail', pk=team.id)
+                team.players.add(temp.user)
+                team.save()
+                messages.success(request, "Successfully added user to team - as role:player")
+                return redirect('staff:team_detail', pk=team.id)
+            else:
+                messages.error(request, "Unknown Form Error")
+                return redirect('staff:team_detail', pk=team.id)
 
 
 def create_team(request):
