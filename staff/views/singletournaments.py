@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.views.generic import View
-
+import datetime
 from staff.forms import *
 from wagers.models import *
 from .tools import calculaterank
@@ -40,7 +40,8 @@ def tournaments(request):
         return render(request, 'staff/permissiondenied.html')
     else:
         tournament_list = SingleEliminationTournament.objects.all().order_by('-id')
-        return render(request, 'staff/singletournaments/singletournament_list.html', {'tournament_list': tournament_list})
+        time = datetime.datetime.utcnow()
+        return render(request, 'staff/singletournaments/singletournament_list.html', {'tournament_list': tournament_list, 'time': time})
 
 
 def tournament_detail(request, pk):
@@ -104,9 +105,10 @@ def edit_tournament(request, pk):
                 return render(request, 'staff/singletournaments/singletournament_edit.html', {'form': form})
         else:
             tournamentobj = SingleEliminationTournament.objects.get(pk=pk)
+            time = datetime.datetime.utcnow()
             if not tournamentobj.bracket_generated:
                 form = EditTournamentForm(instance=tournamentobj)
-                return render(request, 'staff/singletournaments/singletournament_edit.html', {'form': form, 'pk': pk})
+                return render(request, 'staff/singletournaments/singletournament_edit.html', {'form': form, 'pk': pk, 'time': time})
             else:
                 messages.error(request, 'You cannot edit a launched tournament')
                 return redirect('staff:tournamentlist')
@@ -120,7 +122,8 @@ def create_tournament(request):
     else:
         if request.method == 'GET':
             form = CreateTournamentForm()
-            return render(request, 'staff/singletournaments/singletournament_create.html', {'form': form})
+            time = datetime.datetime.utcnow()
+            return render(request, 'staff/singletournaments/singletournament_create.html', {'form': form, 'time': time})
         else:
             form = CreateTournamentForm(request.POST, request.FILES)
             if form.is_valid():
