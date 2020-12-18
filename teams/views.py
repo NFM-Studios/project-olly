@@ -119,31 +119,28 @@ def MyTeamsListView(request):
 
 
 def edit_team_view(request, pk):
+    teamobj = get_object_or_404(Team, id=pk)
+    profile = UserProfile.objects.get(user=request.user)
     if request.method == 'POST':
-        teamobj = get_object_or_404(Team, id=pk)
         form = EditTeamProfileForm(request.POST, request.FILES, instance=teamobj)
-        if request.user not in teamobj.captains or request.user is not teamobj.founder:
-            messages.error(request, 'ERROR: You must be a captain or founder update team info')
-            return redirect('teams:detail', pk=teamobj.pk)
-        if form.is_valid():
-            # teamobj.about_us = form.data['about_us']
-            # teamobj.website = form.data['website']
-            # teamobj.twitter = form.data['twitter']
-            # teamobj.twitch = form.data['twitch']
-            # teamobj.country = form.data['country']
-            # teamobj.image = form.data['image']
-            # teamobj.save()
-
-            form.save()
-            messages.success(request, 'Team successfully updated')
-            return redirect(reverse('teams:detail', args=[pk]))
+        if profile.user in teamobj.captain.all() or profile.user == teamobj.founder:
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'Team successfully updated')
+                return redirect(reverse('teams:detail', args=[pk]))
+            else:
+                messages.error(request, 'An unknown error has occured')
+                return redirect(reverse('teams:detail', args=[pk]))
         else:
-            messages.error(request, 'An unknown error has occured')
-            return redirect(reverse('teams:detail', args=[pk]))
+            messages.error(request, 'ERROR: You must be a captain or founder to update team info')
+            return redirect('teams:detail', pk=teamobj.pk)
     else:
-        teamobj = Team.objects.get(id=pk)
-        form = EditTeamProfileForm(instance=teamobj)
-        return render(request, 'teams/team_edit.html', {'form': form})
+        if profile.user in teamobj.captain.all() or profile.user == teamobj.founder:
+            form = EditTeamProfileForm(instance=teamobj)
+            return render(request, 'teams/team_edit.html', {'form': form})
+        else:
+            messages.error(request, 'ERROR: You must be a captain or founder to update team info')
+            return redirect('teams:detail', pk=teamobj.pk)
 
 
 class MyTeamDetailView(DetailView):
