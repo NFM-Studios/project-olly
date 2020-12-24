@@ -39,6 +39,15 @@ pipeline {
                 discordSend description: "${env.msg}", link: env.BUILD_URL, result: currentBuild.currentResult, title: "Project Olly:${env.BRANCH_NAME} Build #${env.BUILD_NUMBER} ${currentBuild.currentResult}", webhookURL: env.WEBHOOK_URL
                 }
             }
+        success {
+        	script {
+        		if (env.BRANCH_NAME == 'master') {
+        			withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+        				sh'echo "$PASSWORD" | docker login -u $USERNAME --password-stdin && docker push nfmstudios/project-olly:master'
+        			}
+        		}
+        	}
+        }
         cleanup {
             sh '''#!/bin/bash
             docker rm -f project-olly 2> /dev/null
