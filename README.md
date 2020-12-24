@@ -8,6 +8,19 @@
 # About the project
 Project Olly is an online esports tournament hosting platform written in Python 3 using the Django web framework. It began as a closed source commercial product until November 2019 when it was re-released under the MPL2.0 license (see license.md)
 
+# Roadmap
+
+- Single Eliminations Tournaments (Live - improvements coming soon)
+- Leagues (Live - improvements coming soon)
+- UserProfiles (completed)
+- Support Tickets (completed)
+- News Posts (completed)
+- Match System (Live - improvements coming soon)
+- Team system - team invites, captains (completed - improvements coming soon)
+- PayPal Store for processing some payments (completed)
+- Double Elimination Tournaments (planned)
+- Ladders (planned)
+
 # Installation
 
 1. Clone the repository! You need the code, it won't just magically work without it. `git clone https://github.com/NFM-Studios/project-olly.git`
