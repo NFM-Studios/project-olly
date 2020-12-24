@@ -1,5 +1,5 @@
 # Project Olly
-[![Build Status](https://travis-ci.org/NFM-Studios/project-olly.svg?branch=master)](https://travis-ci.org/NFM-Studios/project-olly)
+[![Build Status](https://jenkins.nightfury.pw/buildStatus/icon?job=Project-Olly-Multibranch%2Fmaster)](https://jenkins.nightfury.pw/job/Project-Olly-Multibranch/job/master/)
 [![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors)
 <a href="https://discord.gg/5dp8x2t">
     <img src="https://img.shields.io/badge/discord-join-7289DA.svg?logo=discord&longCache=true&style=flat" />
