@@ -280,9 +280,8 @@ def team_checkin(request, pk, teamid):
         return redirect('matches:detail', pk=pk)
     if request.method == 'GET':
         # send the form, render
-        form = TeamCheckInForm(request=request.GET, team=team)
-        return render(request, 'matches/team_checkin.html', {'form': form})
-        pass
+        form = TeamCheckInForm(team=team, request=request.GET)
+        return render(request, 'matches/team_checkin.html', {'form': form, 'match': match, 'teamid': teamid})
     elif request.method == 'POST':
         # lets make it and get the data
         # TODO: find a way to get the team instance in the form
@@ -298,6 +297,8 @@ def team_checkin(request, pk, teamid):
             messages.success(request, 'Your team has been checked in, checkin #' + temp.pk)
             return redirect('matches:detail', pk=match.pk)
         else:
+            print('dammit')
+            print(form.cleaned_data)
             messages.error(request, "Form error, this should not occur")
             return redirect('matches:detail', pk=pk)
 

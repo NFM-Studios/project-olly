@@ -40,11 +40,12 @@ class DisputeCreateForm(forms.ModelForm):
 
 
 class TeamCheckInForm(forms.Form):
-    #TODO: define queryset for players team checkin form
+    #TODO: allow forfeit before match starts
+    #TODO: allow request for sub player
     players = forms.ModelMultipleChoiceField(queryset=None)
     #forfeit = forms.Che
     def __init__(self, request, team):
-        mylist = team.players.all() | team.founder | team.captain.all()
+        mylist = team.players.all() | team.captain.all() # | team.founder
         super().__init__()
         self.fields['players'].widget.attrs.update({'name': 'players', 'class': 'form-control'})
         self.fields['players'].queryset = mylist

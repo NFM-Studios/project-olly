@@ -8,10 +8,10 @@
 {% block body %}
     <p>Please select the players from your team below that are playing in the match</p>
 
-        <form method="POST" action="{% url 'matches:team_checkin' pk=match.pk teamid=teamid %}">
+        <form method="POST" action="{% url 'matches:team_checkin' pk=match.pk teamid=teamid %}" enctype="multipart/form-data">
         <table class="table">
             {% csrf_token %}
-            {{ form.as_table }}
+            {{ form.as_p }}
             <tr>
                 <td colspan="2">
                     <input type="submit" value="Submit"/>
