@@ -115,7 +115,11 @@
         </tr>
 
     </table>
-
+    {% if match.config_generated %}
+    <a href="/match/config/{{ match.id }}">View Match Config</a>
+    {% else %}
+    <a href="{% url 'staff:generate_cfg' pk=match.id %}">Generate Match Config</a>
+    {% endif %}
     <p>
         {% if not match.completed %}
             <a href="{% url 'staff:match_declare_winner' pk=match.id %}" class="btn btn-primary">Declare Winner</a>
