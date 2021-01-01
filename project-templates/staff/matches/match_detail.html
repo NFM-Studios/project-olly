@@ -60,9 +60,11 @@
         </tr>
         <tr>
             <td>Maps: </td>
+            <td>
             {% for map in match.maps.all %}
-            <td>{{ map.name }}</td>
+            {{ map.name }}
             {% endfor %}
+            </td>
         </tr>
         <tr>
             <td>Choosen maps</td>
