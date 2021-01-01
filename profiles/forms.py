@@ -29,6 +29,7 @@ class EditProfileForm(forms.ModelForm):
         fields = (
             'profile_picture',
             'about_me',
+            'alternate_name',
             'xbl',
             'psn',
             'steam',
@@ -52,6 +53,7 @@ class EditProfileForm(forms.ModelForm):
             {'name': 'profile_picture', 'class': 'form-control', 'style': ''})
         self.fields['about_me'].widget.attrs.update({'name': 'about_me', 'class': 'form-control', 'style': ''})
         self.fields['xbl'].widget.attrs.update({'name': 'xbl', 'class': 'form-control', 'style': ''})
+        self.fields['alternate_name'].widget.attrs.update({'name': 'xbl', 'class': 'form-control', 'style': ''})
         self.fields['psn'].widget.attrs.update({'name': 'psn', 'class': 'form-control',
                                                 'style': ''})
         self.fields['steam'].widget.attrs.update({'name': 'steam', 'class': 'form-control', 'style':

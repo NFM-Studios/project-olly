@@ -36,6 +36,7 @@ class UserProfile(models.Model):
 
     # associate the userprofile with the django user
     user = models.OneToOneField(User, related_name='user', on_delete=models.CASCADE)
+    alternate_name = models.CharField(blank=True, null=True, max_length=50)
     # xp they have from winning events
     xp = models.PositiveSmallIntegerField(default=0)
     # all notifications associated with this user
