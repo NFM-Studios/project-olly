@@ -734,7 +734,8 @@ def create_match_config(request, pk):
             return redirect('staff:match_detail', pk=match.pk)
         elif match.hometeam.tag is None:
             messages.error(request, "Home Team has no Team Tag set! Have the captain/founder add a team tag on the"
-                                    " edit team page", pk=match.pk)
+                                    " edit team page")
+            return redirect('staff:match_detail', pk=match.pk)
         data = {}
         data['matchid'] = match.pk
         data['num_maps'] = 1
@@ -742,11 +743,8 @@ def create_match_config(request, pk):
         data['min_players_to_ready'] = 5
         data['min_spectators_to_ready'] = 0
         data['skip_veto'] = False
-        vetofirst = randint(1, 2)
-        if vetofirst == 1:
-            data['veto_first'] = 'team1'
-        else:
-            data['veto_first'] = 'team2'
+        # TEAM2 IS HOME
+        data['veto_first'] = 'team2'
 
         data['side_type'] = "standard"
         data['favored_percentage_team1'] = 50
@@ -768,14 +766,25 @@ def create_match_config(request, pk):
                 return redirect('matches:detail', pk=match.pk)
         # get home team checkin
         homecheck = MatchCheckIn.objects.get(match=match, team=match.hometeam)
+        homeplayers = []
         for y in homecheck.players.all():
             # get each player that checked in steamid
             try:
                 temp = UserProfile.objects.get(user=y)
-                awayplayers.add(temp.steamid64)
+                homeplayers.add(temp.steamid64)
             except:
                 messages.error(request, "An error occurred finding a checkedin players profile/steamid")
                 return redirect('matches:detail', pk=match.pk)
-        data['team1'] = {'name': match.awayteam.name, 'tag': match.awayteam.tag, 'flag': match.awayteam.country.code, 'players': {} }
+        if match.awayteam.country == "":
+            data['team1'] = {'name': match.awayteam.name, 'tag': match.awayteam.tag, 'flag': "US"}
+            messages.error(request, "Away Team has no country set, using US as default")
+        else:
+            data['team1'] = {'name': match.awayteam.name, 'tag': match.awayteam.tag, 'flag': match.awayteam.country.code}
+        data['team1']['players'] = {}
+        data['team2'] = {'name': match.awayteam.name, 'tag': match.awayteam.tag, 'flag': match.awayteam.country.code}
+        data['team2']['players'] = {}
+        for x in awayplayers:
+            data['team1']['players'][x.steamid64] = x.alternate_name
+        for y in homeplayers:
+            data['team2']['players'][y.steamid64] = y.alternate_name
 
-        pass
