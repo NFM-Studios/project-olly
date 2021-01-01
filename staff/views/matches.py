@@ -9,6 +9,8 @@ from wagers.models import *
 from profiles.models import UserProfile, Notification
 from django.core.mail import EmailMessage
 import datetime
+import json
+from random import randint
 from django.contrib.sites.shortcuts import get_current_site
 
 
@@ -641,7 +643,6 @@ def pick_map(request, pk):
     """
 
 
-
 def match_checkins(request, pk):
     user = UserProfile.objects.get(user__username=request.user.username)
     allowed = ['superadmin', 'admin']
@@ -668,7 +669,8 @@ def delete_checkin(request, pk, checkinid):
 
 def match_stats_create(request, pk):
     pass
-  
+
+
 def set_dispute_match(request, pk):
     # set the specific match as disputed
 
@@ -681,20 +683,12 @@ def set_dispute_match(request, pk):
         stats = MatchStats()
         team1 = match.awayteam
         team2 = match.hometeam
-
-
-def create_match_config(request, pk):
-    user = UserProfile.objects.get(user__username=request.user.username)
-    allowed = ['superadmin', 'admin']
-    if user.user_type not in allowed:
-        return render(request, 'staff/permissiondenied.html')
-    else:
-        # create the get5 config for the match
-        match.disputed = True
+        # match.disputed = True
         for i in [match.team1.players, match.team2.players]:
-            temp = Notification(title="A staff member set one of your matches as disputed")
-            temp.link = 'matches:detail'
-            temp.pk1 = match.pk
+            temp = Notification(title="A match you're playing in is disputed!", description="Captains, please visit "
+                                                                                             "the match page for more"
+                                                                                             "details on resolving this",
+                                 sender="Match Manager", type='match', link='match:detail', pk1=match.pk)
             temp.datetime = datetime.datetime.now()
             temp.save()
             userprofile = UserProfile.objects.get(user=i.user)
@@ -714,7 +708,73 @@ def create_match_config(request, pk):
                     mail_subject, message, from_email=settings.FROM_EMAIL, to=[to_email]
                 )
                 email.send()
+
+
         dispute = MatchDispute(id=match.id, match=match, team1=match.team1, team2=match.team2)
         dispute.save()
         messages.success(request, "Set the match as disputed, notified users, and created the Match Dispute")
         return redirect('staff:match_detail', pk=match.id)
+
+
+def create_match_config(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        # create the get5 config for the match
+        match = Match.objects.get(pk=pk)
+        if match.config_generated:
+            messages.error(request, "A config has already been generated for this match")
+            return redirect('staff:match_detail', pk=match.pk)
+        if match.awayteam.tag is None:
+            messages.error(request, "Away Team has no Team Tag set! Have the captain/founder add a team tag on the"
+                                    " edit team page")
+            return redirect('staff:match_detail', pk=match.pk)
+        elif match.hometeam.tag is None:
+            messages.error(request, "Home Team has no Team Tag set! Have the captain/founder add a team tag on the"
+                                    " edit team page", pk=match.pk)
+        data = {}
+        data['matchid'] = match.pk
+        data['num_maps'] = 1
+        data['players_per_team'] = 5
+        data['min_players_to_ready'] = 5
+        data['min_spectators_to_ready'] = 0
+        data['skip_veto'] = False
+        vetofirst = randint(1, 2)
+        if vetofirst == 1:
+            data['veto_first'] = 'team1'
+        else:
+            data['veto_first'] = 'team2'
+
+        data['side_type'] = "standard"
+        data['favored_percentage_team1'] = 50
+        data['favored_percentage_team2'] = 50
+        data['favored_percentage_text'] = "CSC Website Predictions"
+
+        data['maplist'] = ['de_dust2', 'de_inferno', 'de_mirage', 'de_nuke', 'de_overpass', 'de_train', 'de_vertigo']
+        # todo: test tag, name, country code is 2 letter country
+        # get away team checkin
+        awayplayers = []
+        awaycheck = MatchCheckIn.objects.get(match=match, team=match.awayteam)
+        for x in awaycheck.players.all():
+            # get each player that checked in steamid
+            try:
+                temp = UserProfile.objects.get(user=x)
+                awayplayers.add(temp.steamid64)
+            except:
+                messages.error(request, "An error occurred finding a checkedin players profile/steamid")
+                return redirect('matches:detail', pk=match.pk)
+        # get home team checkin
+        homecheck = MatchCheckIn.objects.get(match=match, team=match.hometeam)
+        for y in homecheck.players.all():
+            # get each player that checked in steamid
+            try:
+                temp = UserProfile.objects.get(user=y)
+                awayplayers.add(temp.steamid64)
+            except:
+                messages.error(request, "An error occurred finding a checkedin players profile/steamid")
+                return redirect('matches:detail', pk=match.pk)
+        data['team1'] = {'name': match.awayteam.name, 'tag': match.awayteam.tag, 'flag': match.awayteam.country.code, 'players': {} }
+
+        pass
