@@ -8,6 +8,7 @@ from profiles.models import UserProfile
 class Team(models.Model):
     # team name
     name = models.CharField(max_length=25)
+    tag = models.CharField(max_length=10, null=True)
     # team bio
     about_us = models.CharField(max_length=250, default='Forever a mystery', blank=True)
     # not sure if we really need the earnings, but its here for now...
