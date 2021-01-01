@@ -62,6 +62,7 @@ def match_edit(request, pk):
     if user.user_type not in allowed:
         return render(request, 'staff/permissiondenied.html')
     else:
+        time = datetime.datetime.utcnow()
         if request.method == 'POST':
             matchobj = Match.objects.get(pk=pk)
             form = EditMatchForm(request.POST, instance=matchobj)
@@ -70,11 +71,11 @@ def match_edit(request, pk):
                 messages.success(request, 'Match has been updated')
                 return redirect('staff:match_detail', pk=pk)
             else:
-                return render(request, 'staff/matches/match_edit.html', {'form': form})
+                return render(request, 'staff/matches/match_edit.html', {'form': form, 'time': time, 'pk': pk})
         else:
             matchobj = Match.objects.get(pk=pk)
             form = EditMatchForm(instance=matchobj)
-            return render(request, 'staff/matches/match_edit.html', {'form': form, 'pk': pk})
+            return render(request, 'staff/matches/match_edit.html', {'form': form, 'pk': pk, 'time': time})
 
 
 class MatchDeclareWinner(View):

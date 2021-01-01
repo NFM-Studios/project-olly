@@ -36,6 +36,20 @@
             <td>{{ match.platform.name }}</td>
         </tr>
         <tr>
+            <td>Scheduled time</td>
+            {% if match.datetime is None %}
+            <td>Not scheduled yet, click <a href="{% url 'staff:match_edit' pk=match.id %}">here to schedule</a></td>
+            {% else %}
+
+            <td>UTC: {{ match.datetime }}<br>
+            Local: <script>
+                const date = new Date("{{ match.datetime|safe }}");
+                console.log(date);
+                document.write(date.toLocaleString());
+                </script></td>
+            {% endif %}
+        </tr>
+        <tr>
             <td>Game</td>
             <td>{{ match.game.name }}</td>
         </tr>
