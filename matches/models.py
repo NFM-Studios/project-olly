@@ -164,6 +164,7 @@ class Match(models.Model):
     reported = models.BooleanField(default=False)
     # simple bool field to see if the entire match is completed
     completed = models.BooleanField(default=False)
+    config_generated = models.BooleanField(default=False)
     # field to declare the winner
     winner = models.ForeignKey(Team, related_name='champions', on_delete=models.SET_NULL, null=True, blank=True)
     loser = models.ForeignKey(Team, related_name='loser', on_delete=models.SET_NULL, null=True, blank=True)
