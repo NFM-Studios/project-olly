@@ -69,6 +69,7 @@ class EditTeamProfileForm(forms.ModelForm):
         model = Team
         fields = (
             'about_us',
+            'tag',
             'website',
             'twitter',
             'twitch',
@@ -79,6 +80,7 @@ class EditTeamProfileForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(EditTeamProfileForm, self).__init__(*args, **kwargs)
         self.fields['about_us'].widget.attrs.update({'name': 'about_us', 'class': 'form-control', 'style': 'width:30%'})
+        self.fields['tag'].widget.attrs.update({'name': 'about_us', 'class': 'form-control', 'style': 'width:30%'})
         self.fields['website'].widget.attrs.update({'name': 'website', 'class': 'form-control', 'style': 'width:30%'})
         self.fields['twitter'].widget.attrs.update({'name': 'twitter', 'class': 'form-control', 'style': 'width:30%'})
         self.fields['twitch'].widget.attrs.update({'name': 'twitch', 'class': 'form-control', 'style': 'width:30%'})
