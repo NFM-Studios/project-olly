@@ -4,7 +4,7 @@ from django.test import TestCase, RequestFactory
 from .views import *
 
 
-"""class PostTestCase1(TestCase):
+class PostTestCase1(TestCase):
     fixtures = ['pages.json']
 
     def setUp(self):
@@ -50,4 +50,3 @@ from .views import *
         response = post_list(request)
 
         self.assertEqual(response.status_code, 200)
-"""
