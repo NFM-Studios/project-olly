@@ -7,9 +7,8 @@ from django.shortcuts import get_object_or_404
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.views.generic import DetailView, CreateView, View
-from django.db.models import Q
 from matches.models import Match, MatchReport, MatchDispute, MapPoolChoice, MatchCheckIn
-from teams.models import Team, TeamInvite
+from teams.models import Team
 from .forms import MatchReportCreateFormGet, MatchReportCreateFormPost, DisputeCreateForm, TeamCheckInFormGet, TeamCheckInFormPost
 from profiles.models import Notification, UserProfile
 import datetime
@@ -260,11 +259,6 @@ def match_checkin(request, pk):
     else:
         messages.error(request, "You don't have permission to checkin for this match")
         return redirect('matches:detail', pk=pk)
-
-    """elif :
-        messages.error(request, "You don't have permission to checkin for this match")
-        return redirect('matches:detail', pk=pk)
-    """
 
 
 def team_checkin(request, pk, teamid):

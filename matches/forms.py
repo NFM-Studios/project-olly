@@ -1,6 +1,5 @@
 from django import forms
-
-from matches.models import MatchReport, MatchDispute, Match, MatchCheckIn
+from matches.models import MatchReport, MatchDispute, Match
 from teams.models import Team
 
 
@@ -30,9 +29,6 @@ class MatchReportCreateFormPost(forms.ModelForm):
 
 
 class DisputeCreateForm(forms.ModelForm):
-    # teamproof_1 = forms.URLField()
-    # teamproof_2 = forms.URLField()
-    # teamproof_3 = forms.URLField()
 
     class Meta:
         model = MatchDispute
