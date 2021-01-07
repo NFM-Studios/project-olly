@@ -39,19 +39,18 @@ class DisputeCreateForm(forms.ModelForm):
         fields = ['teamproof_1', 'teamproof_2', 'teamproof_3']
 
 
-class TeamCheckInForm(forms.Form):
+class TeamCheckInFormGet(forms.Form):
     class Meta:
         model = Team
 
-    #TODO: allow forfeit before match starts
-    #TODO: allow request for sub player
-    #players = forms.ModelMultipleChoiceField(queryset=None, widget=forms.CheckboxSelectMultiple,)
-    players = forms.CheckboxSelectMultiple()
-    #forfeit = forms.Che
-    def __init__(self, request, team):
-        mylist = team.players.all() | team.captain.all() #| team.founder
+    players = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple)
+
+    def __init__(self, team):
+        mylist = team.players.all().values_list("pk", "username") | team.captain.all().values_list("pk", "username")
         super().__init__()
-        self.players.choices = mylist
-        #self.fields['players'].widget.attrs.update({'name': 'players', 'class': 'form-control'})
+        self.fields['players'].choices = mylist
         # self.fields['players'].queryset = mylist
-        # self.fields['players'].queryset = mylist
+
+
+class TeamCheckInFormPost(forms.Form):
+    players = forms.Form()

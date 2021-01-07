@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.contrib import messages
+from django.contrib.auth.models import User
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
 from django.shortcuts import get_object_or_404
@@ -9,7 +10,7 @@ from django.views.generic import DetailView, CreateView, View
 from django.db.models import Q
 from matches.models import Match, MatchReport, MatchDispute, MapPoolChoice, MatchCheckIn
 from teams.models import Team, TeamInvite
-from .forms import MatchReportCreateFormGet, MatchReportCreateFormPost, DisputeCreateForm, TeamCheckInForm
+from .forms import MatchReportCreateFormGet, MatchReportCreateFormPost, DisputeCreateForm, TeamCheckInFormGet, TeamCheckInFormPost
 from profiles.models import Notification, UserProfile
 import datetime
 
@@ -254,7 +255,7 @@ def match_checkin(request, pk):
     user = request.user
     away = match.awayteam
     home = match.hometeam
-    if (user in away.captain.all() or user in home.captain.all()) or (user is away.founder and user is home.founder):
+    if (user in away.captain.all() or user in home.captain.all()) or (user == away.founder or user == home.founder):
         return render(request, 'matches/match_checkin.html', {'match': match})
     else:
         messages.error(request, "222You don't have permission to checkin for this match")
@@ -274,27 +275,35 @@ def team_checkin(request, pk, teamid):
     # get logged in user
     profile = UserProfile.objects.get(user__username=request.user.username)
     user = request.user
-    if user is not team.founder and user not in team.captain.all():
+    if user == team.founder:
+        pass
+    elif user == team.captain.all():
+        pass
+    else:
         # they don't have perms - gtfo
         messages.error(request, "FFFFFYou do not have permissions to checkin this team")
         return redirect('matches:detail', pk=pk)
     if request.method == 'GET':
         # send the form, render
-        form = TeamCheckInForm(team=team, request=request.GET)
+        form = TeamCheckInFormGet(team=team)
         return render(request, 'matches/team_checkin.html', {'form': form, 'match': match, 'teamid': teamid})
     elif request.method == 'POST':
         # lets make it and get the data
         # TODO: find a way to get the team instance in the form
-        form = TeamCheckInForm(request=request.POST, team=team)
+        form = TeamCheckInFormPost(request.POST)
         if form.is_valid():
             temp = MatchCheckIn()
+            temp.save()
             temp.match = match
             temp.team = team
             temp.reporter = user
             # TODO: verify posted data from form of field 'players'
-            temp.players = form.cleaned_data['players']
+            for playerid in form.data.getlist('players'):
+                playerid = int(playerid)
+                player = User.objects.get(pk=playerid)
+                temp.players.add(player)
             temp.save()
-            messages.success(request, 'Your team has been checked in, checkin #' + temp.pk)
+            messages.success(request, 'Your team has been checked in, checkin #' + str(temp.pk))
             return redirect('matches:detail', pk=match.pk)
         else:
             print('dammit')
