@@ -258,7 +258,7 @@ def match_checkin(request, pk):
     if (user in away.captain.all() or user in home.captain.all()) or (user == away.founder or user == home.founder):
         return render(request, 'matches/match_checkin.html', {'match': match})
     else:
-        messages.error(request, "222You don't have permission to checkin for this match")
+        messages.error(request, "You don't have permission to checkin for this match")
         return redirect('matches:detail', pk=pk)
 
     """elif :
