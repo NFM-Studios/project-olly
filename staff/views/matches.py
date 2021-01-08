@@ -77,7 +77,7 @@ def match_edit(request, pk):
 
 
 class MatchDeclareWinner(View):
-    template_name = 'staff/matches_winner.html'
+    template_name = 'staff/matches/matches_winner.html'
 
     def get(self, request, pk):
         user = UserProfile.objects.get(user__username=request.user.username)
