@@ -13,7 +13,11 @@ def list_leagues(request):
 def detail_league(request, pk):
     league = get_object_or_404(League, pk=pk)
     teams = league.teams.all()
-    if len(league.divisions) == 1:
+    print(league.divisions)
+    if league.divisions is None:
+        # there are no divisions
+        pass
+    elif len(league.divisions.all()) == 1:
         # there is only one division show the matches in the one page
         division = league.divisions.first()
         matches = division.matches
