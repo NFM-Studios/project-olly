@@ -59,7 +59,7 @@
                                                     style="margin-bottom:4px;">DIVISIONS</a></li>
                                     <li class=""><a href="{% url 'leagues:rules' pk=league.id %}"
                                                     style="margin-bottom:4px;">RULES</a></li>
-                                    <li class=""><a href="{% url 'leagues:join' pk=league.id %}"
+                                    <li class=""><a href="#2" data-toggle="tab" aria-expanded="false"
                                                     style="margin-bottom:4px;">JOIN</a></li>
                                 </ul>
                             </div>
@@ -134,8 +134,9 @@
 
                                 </div>
 
-                                <!--<div class="tab-pane" id="2">
-                                </div>-->
+                                <div class="tab-pane" id="2">
+                                    <h2>Please contact an admin about joining this league</h2>
+                                </div>
 
                                 <div class="tab-pane" id="3">
 
