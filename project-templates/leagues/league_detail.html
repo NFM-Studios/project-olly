@@ -10,165 +10,156 @@
 
 
 
-    <div class="container page">
+    <div class="col-xs-12">
 
-        <div class="col-xs-12">
-            <div class="panel">
-                <div class="panel-body">
-                    {% if not user.is_anonymous %}
-                        <p><a href="{% url 'leagues:list' %}"><i class="fa fa-arrow-left"></i> <strong>Back to
-                            League list</strong></a></p>
-                    {% else %}
-                        <a href="{% url 'index' %}"><i class="fa fa-arrow-left"></i> <strong>Back to home</strong></a>
-                    {% endif %}
-                    <br/>
-                    <br/>
-                    <div class="col-xs-12 banner-head bot20">
-                        <div class="row">
-                            <div class="col-xs-12 col-sm-4">
-                                <img style="" src="
+        {% if not user.is_anonymous %}
+            <p><a href="{% url 'leagues:list' %}"><i class="fa fa-arrow-left"></i> <strong>Back to
+                League list</strong></a></p>
+        {% else %}
+            <a href="{% url 'index' %}"><i class="fa fa-arrow-left"></i> <strong>Back to home</strong></a>
+        {% endif %}
+        <br/>
+        <br/>
+        <div class="col-xs-12 banner-head bot20">
+            <div class="row">
+                <div class="col-xs-12 col-sm-4">
+                    <img style="" src="
 
                                         {% if ESPORTS_MODE %}
 
 
-                                    {% if league.game.image %}{{ MEDIA_URL }}{{ league.game.image }}{% else %}{% static 'images/bf1cover.jpg' %}{% endif %}"
-                                    />
-                                {% else %}
-                                    {{ league.sport.name }}
-                                {% endif %}
+
+
+                        {% if league.game.image %}{{ MEDIA_URL }}{{ league.game.image }}{% else %}{% static 'images/bf1cover.jpg' %}{% endif %}"
+                        />
+                    {% else %}
+                        {{ league.sport.name }}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-8">
+                <br>
+                <h2><b>{{ league.name }}</b></h2>
+                {% if ESPORTS_MODE %}
+                    <h4>{{ league.platform.name }} | {{ league.game.name }}</h4>
+                    Map Pool: <a
+                        href="{% url 'matches:maps_detail' pk=league.maps.id %}">{{ league.maps }}</a>
+                    <br>
+                {% endif %}
+                {{ league.start }} | 1st Place: {{ league.prize1 }}, 2nd
+                Place: {{ league.prize2 }}<br>
+                <br>
+                <ul class="nav nav-pills">
+                    <li class="active"><a href="#1" data-toggle="tab" aria-expanded="true"
+                                          style="margin-bottom:4px;">INFO</a></li>
+                    <li class=""><a href="#3" data-toggle="tab" aria-expanded="false"
+                                    style="margin-bottom:4px;">TEAMS</a></li>
+                    <li class=""><a href="{% url 'leagues:list_divisions' pk=league.id %}"
+                                    style="margin-bottom:4px;">DIVISIONS</a></li>
+                    <li class=""><a href="{% url 'leagues:rules' pk=league.id %}"
+                                    style="margin-bottom:4px;">RULES</a></li>
+                    <li class=""><a href="#2" data-toggle="tab" aria-expanded="false"
+                                    style="margin-bottom:4px;">JOIN</a></li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-xs-12">
+
+            <div class="tab-content clearfix">
+                <div class="tab-pane info active" id="1">
+                    <div class="row bot10">
+                        {% if ESPORTS_MODE %}
+                            <div class="col-xs-6 col-sm-3 center">
+                                <div class="panel-default">
+                                    <div class="panel-body">
+                                        <h4><b>PLATFORM</b></h4>
+                                        {{ league.platform.name }}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                        <div class="col-xs-6 col-sm-3 center">
+                            <div class="panel-default">
+                                <div class="panel-body">
+                                    <h4><b>Format</b></h4>
+                                    {% if league.teamformat == 0 %}
+                                        1v1
+                                    {% elif league.teamformat == 1 %}
+                                        2v2
+                                    {% elif league.teamformat == 2 %}
+                                        3v3
+                                    {% elif league.teamformat == 3 %}
+                                        4v4
+                                    {% elif league.teamformat == 4 %}
+                                        5v5
+                                    {% elif league.teamformat == 5 %}
+                                        6v6
+                                    {% endif %}
+                                </div>
                             </div>
                         </div>
-                            <div class="col-xs-12 col-sm-8">
-                                <br>
-                                <h2><b>{{ league.name }}</b></h2>
-                                {% if ESPORTS_MODE %}
-                                    <h4>{{ league.platform.name }} | {{ league.game.name }}</h4>
-                                    Map Pool: <a
-                                        href="{% url 'matches:maps_detail' pk=league.maps.id %}">{{ league.maps }}</a>
-                                    <br>
-                                {% endif %}
-                                {{ league.start }} | 1st Place: {{ league.prize1 }}, 2nd
-                                Place: {{ league.prize2 }}<br>
-                                <br>
-                                <ul class="nav nav-pills">
-                                    <li class="active"><a href="#1" data-toggle="tab" aria-expanded="true"
-                                                          style="margin-bottom:4px;">INFO</a></li>
-                                    <li class=""><a href="#3" data-toggle="tab" aria-expanded="false"
-                                                    style="margin-bottom:4px;">TEAMS</a></li>
-                                    <li class=""><a href="{% url 'leagues:list_divisions' pk=league.id %}"
-                                                    style="margin-bottom:4px;">DIVISIONS</a></li>
-                                    <li class=""><a href="{% url 'leagues:rules' pk=league.id %}"
-                                                    style="margin-bottom:4px;">RULES</a></li>
-                                    <li class=""><a href="#2" data-toggle="tab" aria-expanded="false"
-                                                    style="margin-bottom:4px;">JOIN</a></li>
-                                </ul>
+                        <div class="col-xs-6 col-sm-8 center">
+                            <div class="panel-default">
+                                <div class="panel-body">
+                                    <h4><b>Registration Opens->Closes</b></h4>
+                                    <script>
+                                        const date = new Date("{{ league.open_register|safe }}");
+                                        document.write(date.toLocaleString());
+                                    </script>
+                                    ->
+                                    <script>
+                                        const date2 = new Date("{{ league.close_register|safe }}");
+                                        document.write(date2.toLocaleString());
+                                    </script>
+                                </div>
                             </div>
-
+                        </div>
+                        <div class="col-xs-6 col-sm-3 center">
+                            <div class="panel-default">
+                                <div class="panel-body">
+                                    <h4><b>Registration Fee</b></h4>
+                                    {{ league.req_credits }} credits
+                                </div>
+                            </div>
                         </div>
                     </div>
+                    {{ league.info|linebreaksbr }}
 
 
-                    <div class="row">
-                        <div class="col-xs-12">
+                </div>
 
-                            <div class="tab-content clearfix">
-                                <div class="tab-pane info active" id="1">
-                                    <div class="row bot10">
-                                        {% if ESPORTS_MODE %}
-                                            <div class="col-xs-6 col-sm-3 center">
-                                                <div class="panel-default">
-                                                    <div class="panel-body">
-                                                        <h4><b>PLATFORM</b></h4>
-                                                        {{ league.platform.name }}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        {% endif %}
-                                        <div class="col-xs-6 col-sm-3 center">
-                                            <div class="panel-default">
-                                                <div class="panel-body">
-                                                    <h4><b>Format</b></h4>
-                                                    {% if league.teamformat == 0 %}
-                                                        1v1
-                                                    {% elif league.teamformat == 1 %}
-                                                        2v2
-                                                    {% elif league.teamformat == 2 %}
-                                                        3v3
-                                                    {% elif league.teamformat == 3 %}
-                                                        4v4
-                                                    {% elif league.teamformat == 4 %}
-                                                        5v5
-                                                    {% elif league.teamformat == 5 %}
-                                                        6v6
-                                                    {% endif %}
-                                                </div>
-                                            </div>
+                <div class="tab-pane" id="2">
+                    <h2>Please contact an admin about joining this league</h2>
+                </div>
+
+                <div class="tab-pane" id="3">
+
+                    <div class="row bot10">
+                        {% if teams.count == 0 %}
+                            <p style="text-align: center">There are no teams in this league!</p>
+                        {% endif %}
+                        {% for team in teams %}
+                            <div class="col-xs-6 col-sm-3 center">
+                                <div class="panel-default">
+                                    <div class="panel-body">
+                                        <div class="col-xs-4">
+                                            <img src="{% static 'images/bf1cover.jpg' %}"/>
                                         </div>
-                                        <div class="col-xs-6 col-sm-8 center">
-                                            <div class="panel-default">
-                                                <div class="panel-body">
-                                                    <h4><b>Registration Opens->Closes</b></h4>
-                                                    <script>
-                                                        const date = new Date("{{ league.open_register|safe }}");
-                                                        document.write(date.toLocaleString());
-                                                    </script>
-                                                    ->
-                                                    <script>
-                                                        const date2 = new Date("{{ league.close_register|safe }}");
-                                                        document.write(date2.toLocaleString());
-                                                    </script>
-                                                </div>
-                                            </div>
+                                        <div class="col-xs-8">
+                                            <br>
+                                            <b><a href="{% url 'teams:detail' pk=team.team.pk %}">{{ team.team.name }}</a></b><br>
+                                            {{ team.team.num_matchwin }} match wins<br>
                                         </div>
-                                        <div class="col-xs-6 col-sm-3 center">
-                                            <div class="panel-default">
-                                                <div class="panel-body">
-                                                    <h4><b>Registration Fee</b></h4>
-                                                    {{ league.req_credits }} credits
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <!--<div class="col-xs-12"><label style="width:100%;text-align:center;background:#1dcb6a;color:#fff;padding:8px;">ELIGABLE</label></div>-->
                                     </div>
-                                    {{ league.info|linebreaksbr }}
-
-
                                 </div>
-
-                                <div class="tab-pane" id="2">
-                                    <h2>Please contact an admin about joining this league</h2>
-                                </div>
-
-                                <div class="tab-pane" id="3">
-
-                                    <div class="row bot10">
-                                        {% if teams.count == 0 %}
-                                            <p style="text-align: center">There are no teams in this league!</p>
-                                        {% endif %}
-                                        {% for team in teams %}
-                                            <div class="col-xs-6 col-sm-3 center">
-                                                <div class="panel-default">
-                                                    <div class="panel-body">
-                                                        <div class="col-xs-4">
-                                                            <img src="{% static 'images/bf1cover.jpg' %}"/>
-                                                        </div>
-                                                        <div class="col-xs-8">
-                                                            <br>
-                                                            <b><a href="{% url 'teams:detail' pk=team.team.pk %}">{{ team.team.name }}</a></b><br>
-                                                            {{ team.team.num_matchwin }} match wins<br>
-                                                        </div>
-                                                        <!--<div class="col-xs-12"><label style="width:100%;text-align:center;background:#1dcb6a;color:#fff;padding:8px;">ELIGABLE</label></div>-->
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        {% endfor %}
-
-                                    </div>
-
-                                </div>
-
                             </div>
-
-                        </div>
+                        {% endfor %}
 
                     </div>
 
@@ -179,6 +170,8 @@
         </div>
 
     </div>
+
+
 
 
 
