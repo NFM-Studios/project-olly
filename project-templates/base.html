@@ -77,10 +77,17 @@
     </ul>
 {% endif %}
 
+<div class="container page">
 
-{% block body %}
-    <h1>base</h1>
-{% endblock %}
+    <div class="col-xs-12">
+        <div class="panel">
+            <!--<div class="panel-body">--->
+            {% block body %}
+                <h1>base</h1>
+            {% endblock %}
+        </div>
+    </div>
+</div>
 <footer class="footer">
     <div class="container">
         {% block foot %}
