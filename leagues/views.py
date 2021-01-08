@@ -13,7 +13,6 @@ def list_leagues(request):
 def detail_league(request, pk):
     league = get_object_or_404(League, pk=pk)
     teams = league.teams.all()
-    print(league.divisions)
     if league.divisions is None:
         # there are no divisions
         pass
