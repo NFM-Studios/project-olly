@@ -2,14 +2,16 @@
 {% load static %}
 
 {% block head %}
-    <title>{{ tournament.name }} Details - {{ SITE_NAME }}</title>
+    <title>{{ ruleset.name }} - {{ SITE_NAME }}</title>
 {% endblock %}
 
 {% block body %}
-    
-    <p><a href="{% url 'singletournaments:detail' pk=pk %}"><i class="fas fa-arrow-left"></i> <strong>Back to tournament
-        detail</strong></a></p>
 
-    {{ ruleset.text }}
+    <h1>{{ ruleset.name }}</h1>
+    <br>
+    {{ ruleset.text|linebreaksbr }}
 
+    <br>
+    <br>
+    <p>Last updated {{ ruleset.updated }}</p>
 {% endblock %}
