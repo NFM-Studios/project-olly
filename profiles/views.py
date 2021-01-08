@@ -16,7 +16,6 @@ from django.urls import reverse
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode, is_safe_url
 from django.views.generic import View
-import datetime
 from teams.models import TeamInvite
 from .forms import CreateUserForm, EditProfileForm, SortForm
 from .models import UserProfile, Notification

@@ -10,7 +10,6 @@ from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone
-from django.db.models import Q
 from django.views.generic import ListView, DetailView, View
 from django.db.models import Q
 from django.core.exceptions import ObjectDoesNotExist

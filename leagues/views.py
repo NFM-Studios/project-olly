@@ -1,8 +1,9 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib import messages
 from django.shortcuts import redirect
-from .models import League, LeagueDivision, LeagueSettings
-from profiles.models import User, UserProfile
+from .models import League, LeagueDivision
+from profiles.models import UserProfile
+
 
 def list_leagues(request):
     leagues = League.objects.filter(active=True)
@@ -42,7 +43,6 @@ def join_league(request, pk):
                 messages.error(request, "You do not have enough credits to enter your team in this league")
                 return redirect('leagues:detail', pk=pk)
         # now lets check that the team has enough players
-
 
     return render(request, 'leagues/league_join.html', {'league': league})
 

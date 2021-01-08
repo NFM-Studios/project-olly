@@ -7,11 +7,10 @@ from django.views.generic import View
 
 from profiles.models import UserProfile
 from store.models import deduct_credits, give_credits
-from teams.models import TeamInvite, Team
+from teams.models import Team
 from .forms import SingleEliminationTournamentJoinGet, SingleEliminationTournamentJoinPost, \
     SingleEliminationTournamentSort, SingleTournamentLeaveForm
 from .models import SingleTournamentRound, SingleEliminationTournament, SingleTournamentTeam
-from pages.models import Partner, StaticInfo
 
 
 class List(View):

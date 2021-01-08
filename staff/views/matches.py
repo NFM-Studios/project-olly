@@ -9,8 +9,6 @@ from wagers.models import *
 from profiles.models import UserProfile, Notification
 from django.core.mail import EmailMessage
 import datetime
-import json
-from random import randint
 from django.contrib.sites.shortcuts import get_current_site
 
 
@@ -513,8 +511,8 @@ def pick_map(request, pk):
             # make sure the mappoolchoice is big enough
             pool = match.map_pool.maps
             if pool.count() >= 1:
-                map = pool.all().order_by("?").first()
-                match.maps.add(map)
+                chosen_map = pool.all().order_by("?").first()
+                match.maps.add(chosen_map)
                 match.save()
                 messages.success(request, "Maps updated!")
                 return redirect('staff:match_detail', pk=pk)
@@ -525,13 +523,13 @@ def pick_map(request, pk):
             # bo2
             pool = match.map_pool.maps
             if pool.count() >= 2:
-                map = pool.all().order_by("?").first()
-                match.maps.add(map)
+                chosen_map = pool.all().order_by("?").first()
+                match.maps.add(chosen_map)
                 match.save()
-                pool.remove(map)
+                pool.remove(chosen_map)
                 #pool.save()
-                map2 = pool.all().order_by("?").first()
-                match.maps.add(map2)
+                chosen_map2 = pool.all().order_by("?").first()
+                match.maps.add(chosen_map2)
                 match.save()
                 messages.success(request, "Maps updated!")
                 return redirect('staff:match_detail', pk=pk)
@@ -544,22 +542,22 @@ def pick_map(request, pk):
             # make sure the mappoolchoice is big enough
             pool = match.map_pool.maps
             if pool.count() >= 3:
-                map = pool.all().order_by("?").first()
-                pool.remove(map)
+                chosen_map = pool.all().order_by("?").first()
+                pool.remove(chosen_map)
                 #pool.save()
-                match.maps.add(map)
+                match.maps.add(chosen_map)
                 match.save()
-                map2 = pool.all().order_by("?").first()
-                pool.remove(map2)
+                chosen_map2 = pool.all().order_by("?").first()
+                pool.remove(chosen_map2)
                 #pool.save()
-                match.maps.add(map2)
+                match.maps.add(chosen_map2)
                 match.save()
-                map3 = pool.all().order_by("?").first()
-                pool.remove(map3)
+                chosen_map3 = pool.all().order_by("?").first()
+                pool.remove(chosen_map3)
                 #pool.save()
-                match.maps.add(map3)
+                match.maps.add(chosen_map3)
                 match.save()
-                match.maps.add(map3)
+                match.maps.add(chosen_map3)
                 match.save()
                 messages.success(request, "Maps updated!")
                 return redirect('staff:match_detail', pk=pk)
@@ -572,25 +570,25 @@ def pick_map(request, pk):
             # make sure the mappoolchoice is big enough
             pool = match.map_pool.maps
             if pool.count() >= 4:
-                map = pool.all().order_by("?").first()
-                pool.remove(map)
+                chosen_map = pool.all().order_by("?").first()
+                pool.remove(chosen_map)
                 #pool.save()
-                match.maps.add(map)
+                match.maps.add(chosen_map)
                 match.save()
-                map2 = pool.all().order_by("?").first()
-                pool.remove(map2)
+                chosen_map2 = pool.all().order_by("?").first()
+                pool.remove(chosen_map2)
                 #pool.save()
-                match.maps.add(map2)
+                match.maps.add(chosen_map2)
                 match.save()
-                map3 = pool.all().order_by("?").first()
-                pool.remove(map3)
+                chosen_map3 = pool.all().order_by("?").first()
+                pool.remove(chosen_map3)
                 #pool.save()
-                match.maps.add(map3)
+                match.maps.add(chosen_map3)
                 match.save()
-                map4 = pool.all().order_by("?").first()
-                pool.remove(map4)
+                chosen_map4 = pool.all().order_by("?").first()
+                pool.remove(chosen_map4)
                 #pool.save()
-                match.maps.add(map4)
+                match.maps.add(chosen_map4)
                 match.save()
                 messages.success(request, "Maps updated!")
                 return redirect('staff:match_detail', pk=pk)
@@ -598,32 +596,31 @@ def pick_map(request, pk):
                 messages.error(request, "There are not enough maps in this map pool for Best of 4")
                 return redirect('staff:match_detail', pk=pk)
 
-
         elif match.bestof == 5:
             # bo5
             # make sure the mappoolchoice is big enough
             pool = match.map_pool.maps
             if pool.count() >= 5:
-                map = pool.all().order_by("?").first()
-                pool.remove(map)
+                chosen_map = pool.all().order_by("?").first()
+                pool.remove(chosen_map)
                 #pool.save()
-                map2 = pool.all().order_by("?").first()
-                pool.remove(map2)
+                chosen_map2 = pool.all().order_by("?").first()
+                pool.remove(chosen_map2)
                 #pool.save()
-                map3 = pool.all().order_by("?").first()
-                pool.remove(map3)
+                chosen_map3 = pool.all().order_by("?").first()
+                pool.remove(chosen_map3)
                 #pool.save()
-                map4 = pool.all().order_by("?").first()
-                pool.remove(map4)
+                chosen_map4 = pool.all().order_by("?").first()
+                pool.remove(chosen_map4)
                 #pool.save()
-                map5 = pool.all().order_by("?").first()
-                pool.remove(map5)
+                chosen_map5 = pool.all().order_by("?").first()
+                pool.remove(chosen_map5)
                 #pool.save()
-                match.maps.add(map)
-                match.maps.add(map2)
-                match.maps.add(map3)
-                match.maps.add(map4)
-                match.maps.add(map5)
+                match.maps.add(chosen_map)
+                match.maps.add(chosen_map2)
+                match.maps.add(chosen_map3)
+                match.maps.add(chosen_map4)
+                match.maps.add(chosen_map5)
                 match.save()
                 messages.success(request, "Maps updated!")
                 return redirect('staff:match_detail', pk=pk)
