@@ -56,7 +56,18 @@ def leave_league(request, pk):
 
 
 def detail_league_teams(request, pk):
-    pass
+    # show all the teams in the league
+    # get all divisions first
+    league = League.objects.get(pk=pk)
+    if league.divisions.count() == 0:
+        messages.error(request, "There are no divisions or teams in this league yet, check back later")
+        return redirect('league:list')
+    teams = []
+    for x in league.divisions.all():
+        for y in x.teams.all():
+            teams.append(y)
+
+    return render(request, "leagues/league_teams.html", {'teams': teams, 'league': league})
 
 
 def list_league_divisions(request, pk):
