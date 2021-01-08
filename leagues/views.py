@@ -81,4 +81,6 @@ def detail_league_division(request, pk, divid):
 
 
 def detail_league_rules(request, pk):
-    pass
+    league = get_object_or_404(League, pk=pk)
+    rules = league.ruleset
+    return render(request, 'singletournaments/ruleset_detail.html', {'ruleset': rules})
