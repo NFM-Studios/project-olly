@@ -22,7 +22,8 @@ def matches_index(request):
         tmatches = Match.objects.filter(type="singletournament")
         wmatches = Match.objects.filter(type='w')
         lmatches = Match.objects.filter(type="leagues")
-        return render(request, 'staff/matches/matches.html', {'tmatches': tmatches, 'wmatches': wmatches, 'lmatches': lmatches})
+        return render(request, 'staff/matches/matches.html',
+                      {'tmatches': tmatches, 'wmatches': wmatches, 'lmatches': lmatches})
 
 
 def disputed_matches(request):
@@ -96,6 +97,58 @@ class MatchDeclareWinner(View):
         else:
             matchobj = Match.objects.get(pk=pk)
             if matchobj.type == "league":
+                form = DeclareMatchWinnerPost(request.POST, instance=matchobj)
+                instance = form.instance
+                match = Match.objects.get(id=self.kwargs['pk'])
+                winner = Team.objects.get(id=form.data['winner'])
+                league = None
+                division = None
+                for x in League.objects.all():
+                    for y in LeagueDivision.objects.all():
+                        if match in y.matches:
+                            league = x
+                            division = y
+                            messages.success(request, "Found match league and division")
+                if league is None or division is None:
+                    messages.error(request, "Failed to find league or division this match is apart of")
+                    return redirect('staff:match_detail', pk=match.pk)
+                # leagueteam = division.teams.all()
+                awayleagueteam = None
+                homeleagueteam = None
+                for z in division.teams.all():
+                    if z.team == match.awayteam:
+                        # found away team
+                        awayleagueteam = z
+                    if z.team == match.hometeam:
+                        homeleagueteam = z
+                if awayleagueteam is None or homeleagueteam is None:
+                    messages.error(request, "Unable to find home or away league team objects")
+                    return redirect('staff:match_detail', pk=match.pk)
+                teams = list()
+                teams.append(match.hometeam)
+                teams.append(match.awayteam)
+                teams.remove(winner)
+                loser = teams[0]
+                instance.match = match
+                instance.winner = winner
+                instance.loser = loser
+                instance.completed = True
+                instance.save()
+                if loser == match.awayteam:
+                    awayleagueteam.losses += 1
+                    awayleagueteam.save()
+                    match.awayteam.num_losses += 1
+                    match.hometeam.num_wins += 1
+                    homeleagueteam.wins += 1
+                    homeleagueteam.save()
+                elif loser == match.hometeam:
+                    awayleagueteam.wins += 1
+                    homeleagueteam.losses += 1
+                    awayleagueteam.save()
+                    homeleagueteam.save()
+                    match.awayteam.num_wins += 1
+                    match.hometeam.num_losses += 1
+
                 # TODO: 107
                 pass
             if not matchobj.bye_2 and not matchobj.bye_1:
@@ -128,6 +181,15 @@ class MatchDeclareWinner(View):
                             wplayer = UserProfile.objects.get(user=player)
                             wplayer.total_earning += wmatch.credits
                         messages.success(request, 'Wager Winner declared')
+                    for player in winner.players | winner.captain:
+                        tp = UserProfile.objects.get(user=player)
+                        notif = Notification(title="You won a match!", type=1,
+                                             description="A match your team was in was finalized and your team won!" +
+                                                         " Time to celebrate!", link="matches:detail", pk1=match.pk)
+                        notif.save()
+                        tp.notifications.add(notif)
+                        tp.save()
+                        messages.success(request, "Winning team players and captains notified about the victory")
                     messages.success(request, "Winner declared")
                 except:
                     messages.error(request, "Match statistics were not properly logged")
@@ -527,7 +589,7 @@ def pick_map(request, pk):
                 match.maps.add(chosen_map)
                 match.save()
                 pool.remove(chosen_map)
-                #pool.save()
+                # pool.save()
                 chosen_map2 = pool.all().order_by("?").first()
                 match.maps.add(chosen_map2)
                 match.save()
@@ -544,17 +606,17 @@ def pick_map(request, pk):
             if pool.count() >= 3:
                 chosen_map = pool.all().order_by("?").first()
                 pool.remove(chosen_map)
-                #pool.save()
+                # pool.save()
                 match.maps.add(chosen_map)
                 match.save()
                 chosen_map2 = pool.all().order_by("?").first()
                 pool.remove(chosen_map2)
-                #pool.save()
+                # pool.save()
                 match.maps.add(chosen_map2)
                 match.save()
                 chosen_map3 = pool.all().order_by("?").first()
                 pool.remove(chosen_map3)
-                #pool.save()
+                # pool.save()
                 match.maps.add(chosen_map3)
                 match.save()
                 match.maps.add(chosen_map3)
@@ -572,22 +634,22 @@ def pick_map(request, pk):
             if pool.count() >= 4:
                 chosen_map = pool.all().order_by("?").first()
                 pool.remove(chosen_map)
-                #pool.save()
+                # pool.save()
                 match.maps.add(chosen_map)
                 match.save()
                 chosen_map2 = pool.all().order_by("?").first()
                 pool.remove(chosen_map2)
-                #pool.save()
+                # pool.save()
                 match.maps.add(chosen_map2)
                 match.save()
                 chosen_map3 = pool.all().order_by("?").first()
                 pool.remove(chosen_map3)
-                #pool.save()
+                # pool.save()
                 match.maps.add(chosen_map3)
                 match.save()
                 chosen_map4 = pool.all().order_by("?").first()
                 pool.remove(chosen_map4)
-                #pool.save()
+                # pool.save()
                 match.maps.add(chosen_map4)
                 match.save()
                 messages.success(request, "Maps updated!")
@@ -603,19 +665,19 @@ def pick_map(request, pk):
             if pool.count() >= 5:
                 chosen_map = pool.all().order_by("?").first()
                 pool.remove(chosen_map)
-                #pool.save()
+                # pool.save()
                 chosen_map2 = pool.all().order_by("?").first()
                 pool.remove(chosen_map2)
-                #pool.save()
+                # pool.save()
                 chosen_map3 = pool.all().order_by("?").first()
                 pool.remove(chosen_map3)
-                #pool.save()
+                # pool.save()
                 chosen_map4 = pool.all().order_by("?").first()
                 pool.remove(chosen_map4)
-                #pool.save()
+                # pool.save()
                 chosen_map5 = pool.all().order_by("?").first()
                 pool.remove(chosen_map5)
-                #pool.save()
+                # pool.save()
                 match.maps.add(chosen_map)
                 match.maps.add(chosen_map2)
                 match.maps.add(chosen_map3)
@@ -649,7 +711,7 @@ def match_checkins(request, pk):
     else:
         mymatch = Match.objects.get(pk=pk)
         checkins = MatchCheckIn.objects.filter(match=mymatch)
-        return render(request, 'staff/matches/checkins.html', {'checkins': checkins, 'mymatch':mymatch})
+        return render(request, 'staff/matches/checkins.html', {'checkins': checkins, 'mymatch': mymatch})
 
 
 def delete_checkin(request, pk, checkinid):
@@ -661,7 +723,7 @@ def delete_checkin(request, pk, checkinid):
         checkin = MatchCheckIn.objects.get(pk=pk)
         checkin.delete()
         checkin.save()
-        messages.success(request, "Checkin #"+checkin.pk+" has been deleted")
+        messages.success(request, "Checkin #" + checkin.pk + " has been deleted")
         return redirect('staff:index')
 
 
@@ -684,9 +746,9 @@ def set_dispute_match(request, pk):
         # match.disputed = True
         for i in [match.team1.players, match.team2.players]:
             temp = Notification(title="A match you're playing in is disputed!", description="Captains, please visit "
-                                                                                             "the match page for more"
-                                                                                             "details on resolving this",
-                                 sender="Match Manager", type='match', link='match:detail', pk1=match.pk)
+                                                                                            "the match page for more"
+                                                                                            "details on resolving this",
+                                sender="Match Manager", type='match', link='match:detail', pk1=match.pk)
             temp.datetime = datetime.datetime.now()
             temp.save()
             userprofile = UserProfile.objects.get(user=i.user)
@@ -706,7 +768,6 @@ def set_dispute_match(request, pk):
                     mail_subject, message, from_email=settings.FROM_EMAIL, to=[to_email]
                 )
                 email.send()
-
 
         dispute = MatchDispute(id=match.id, match=match, team1=match.team1, team2=match.team2)
         dispute.save()
@@ -776,7 +837,8 @@ def create_match_config(request, pk):
             data['team1'] = {'name': match.awayteam.name, 'tag': match.awayteam.tag, 'flag': "US"}
             messages.error(request, "Away Team has no country set, using US as default")
         else:
-            data['team1'] = {'name': match.awayteam.name, 'tag': match.awayteam.tag, 'flag': match.awayteam.country.code}
+            data['team1'] = {'name': match.awayteam.name, 'tag': match.awayteam.tag,
+                             'flag': match.awayteam.country.code}
         data['team1']['players'] = {}
         data['team2'] = {'name': match.awayteam.name, 'tag': match.awayteam.tag, 'flag': match.awayteam.country.code}
         data['team2']['players'] = {}
@@ -784,4 +846,3 @@ def create_match_config(request, pk):
             data['team1']['players'][x.steamid64] = x.alternate_name
         for y in homeplayers:
             data['team2']['players'][y.steamid64] = y.alternate_name
-
