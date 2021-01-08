@@ -1,5 +1,21 @@
 /* The alert message box */
-.myalert {
+.warning {
+  padding: 20px;
+  background: orange;
+  /* background-color: #f44336; /* Red */
+  color: white;
+  margin-bottom: 15px;
+}
+
+.success {
+  padding: 20px;
+  background: green;
+  /* background-color: #f44336; /* Red */
+  color: white;
+  margin-bottom: 15px;
+}
+
+.error {
   padding: 20px;
   background: #f44336;
   /* background-color: #f44336; /* Red */

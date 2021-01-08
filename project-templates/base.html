@@ -69,7 +69,7 @@
 {% if messages %}
     <ul class="messages">
         {% for message in messages %}
-            <div class="myalert">
+            <div class="{{ message.tags }}">
                 <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
                 <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
             </div>
