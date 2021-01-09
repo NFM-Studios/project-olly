@@ -82,6 +82,22 @@ INSTALLED_APPS = [
     'django_cleanup.apps.CleanupConfig'
 ]
 
+try:
+    if os.environ['enable_store'] == 'True':
+        STORE_ENABLED = True
+    else:
+        STORE_ENABLED = False
+except KeyError:
+    STORE_ENABLED = False
+
+try:
+    if os.environ['enable_wagers'] == 'True':
+        WAGERS_ENABLED = True
+    else:
+        WAGERS_ENABLED = False
+except KeyError:
+    WAGERS_ENABLED = False
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

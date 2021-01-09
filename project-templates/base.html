@@ -45,9 +45,9 @@
                     <li><a href="{% url 'profiles:users' %}">Users</a></li>
                     <li><a href="{% url 'singletournaments:list' %}">Tournaments</a></li>
                     <li><a href="{% url 'profiles:profile_no_username' %}">My Profile</a></li>
-                    <li><a href="{% url 'wagers:list' %}">Wagers</a></li>
+                    {% if WAGERS_ENABLED %}<li><a href="{% url 'wagers:list' %}">Wagers</a></li> {% endif %}
                     <li><a href="{% url 'support:list' %}">My Support Tickets</a></li>
-                    <li><a href="{% url 'store:store' %}">Store</a></li>
+                    {% if STORE_ENABLED %} <li><a href="{% url 'store:store' %}">Store</a></li> {% endif %}
                     <li><a href="{% url 'teams:list' %}">Teams</a></li>
                     <li><a href="{% url 'profiles:notifications' %}">Notifications</a></li>
                     <li><a href="{% url 'league:list' %}">Leagues</a></li>
