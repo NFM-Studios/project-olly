@@ -76,7 +76,12 @@ EMAIL_HOST_USER = os.environ['email_host_user']
 EMAIL_HOST_PASSWORD = os.environ['email_host_password']
 FROM_EMAIL = os.environ['from_email'].split('"')[1]
 EMAIL_PORT = os.environ['email_port']
-PAYPAL_EMAIL = os.environ['paypal_email']
+
+try:
+    PAYPAL_EMAIL = os.environ['paypal_email'].split('"')[1]
+except (KeyError, IndexError):
+    PAYPAL_EMAIL = 'none@example.com'
+
 
 # Captcha
 GOOGLE_RECAPTCHA_SECRET_KEY = os.environ['google_recaptcha_secret_key']
