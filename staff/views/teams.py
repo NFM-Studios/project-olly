@@ -23,8 +23,43 @@ def teams_detail(request, pk):
         return render(request, 'staff/permissiondenied.html')
     else:
         team = Team.objects.get(id=pk)
-        players = TeamInvite.objects.filter(team=team, accepted=True).order_by('id')
-        return render(request, 'staff/teams/team_detail.html', {'team': team, 'players': players, 'pk': pk})
+        players = team.players.all()
+        captains = team.captain.all()
+
+        return render(request, 'staff/teams/team_detail.html',
+                      {'team': team, 'players': players, 'captains': captains, 'pk': pk})
+
+
+def force_addplayer(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        team = Team.objects.get(id=pk)
+        if request.method == "GET":
+            form = TeamForceAddUser()
+            return render(request, 'staff/teams/force_addplayer.html', {'form': form, 'team': team})
+        else:
+            form = TeamForceAddUser(request.POST)
+            if form.is_valid():
+                muser = form.cleaned_data['user']
+                user = User.objects.get(username=muser)
+                try:
+                    temp = UserProfile.objects.get(user=user)
+                except:
+                    messages.error(request, 'Unable to find user')
+                    return redirect('staff:team_detail', pk=team.id)
+                if (temp.user in team.players.all()) or (temp.user in team.captain.all()) or (temp.user == team.founder):
+                    messages.error(request, "This user already exists on the team")
+                    return redirect('staff:team_detail', pk=team.id)
+                team.players.add(temp.user)
+                team.save()
+                messages.success(request, "Successfully added user to team - as role:player")
+                return redirect('staff:team_detail', pk=team.id)
+            else:
+                messages.error(request, "Unknown Form Error")
+                return redirect('staff:team_detail', pk=team.id)
 
 
 def create_team(request):
@@ -69,17 +104,28 @@ def remove_user(request, pk):
     else:
         if request.method == 'POST':
             form = RemovePlayerFormPost(request.POST)
-            invite = TeamInvite.objects.get(id=form.data['remove'])
-            messages.success(request, 'Removed user %s from team' % invite)
-            invite.delete()
-            invites = TeamInvite.objects.filter(team_id=pk)
-            if not invites.exists():
-                team = Team.objects.get(id=pk)
-                team.delete()
-                messages.success(request, 'Deleted team due to the last user being removed')
-                return redirect('staff:teamindex')
+            team = Team.objects.get(pk=pk)
+            muser = form.data['remove']
+            user = User.objects.get(user=muser)
+            if user in team.players.all():
+                try:
+                    team.players.remove(form.data['remove'])
+                    team.save()
+                except:
+                    messages.error(request, "Failed to remove player from team")
+                    return redirect('staff:team_detail', pk=team.id)
+            elif user in team.captain.all():
+                try:
+                    team.captain.remove(form.data['remove'])
+                    team.save()
+                except:
+                    messages.error(request, "Failed to remove user as captain from team")
+                    return redirect('staff:team_detail', pk=team.id)
             else:
-                return redirect('staff:team_detail', pk=pk)
+                messages.error(request, "Unable to verify user is on the team as player/captain")
+                return redirect('staff:team_detail', pk=team.id)
+            messages.success(request, 'Removed user %s from team' % user)
+            return redirect('staff:team_detail', pk=pk)
         else:
             form = RemovePlayerForm(request, pk)
             return render(request, 'staff/teams/team_remove_player.html', {'form': form, 'pk': pk})

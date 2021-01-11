@@ -3,6 +3,7 @@ from django import forms
 from singletournaments.models import SingleEliminationTournament
 from teams.models import Team, TeamInvite
 from matches.models import PlatformChoice, GameChoice
+from profiles.models import UserProfile
 
 
 class SingleEliminationTournamentJoinGet(forms.ModelForm):
@@ -16,11 +17,13 @@ class SingleEliminationTournamentJoinGet(forms.ModelForm):
 
     def __init__(self, request, *args, **kwargs):
         self.username = request.user
-        invites = TeamInvite.objects.filter(hasPerms=True, user_id=self.username.id)
-        team = Team.objects.filter(id__in=invites.values_list('team', flat=True))
+        #invites = TeamInvite.objects.filter(hasPerms=True, user_id=self.username.id)
+        profile = UserProfile.objects.get(user=request.user)
+        teams = profile.captain_teams | profile.founder_teams
+        #team = Team.objects.filter(id__in=invites.values_list('team', flat=True))
         super().__init__(*args, **kwargs)
         self.fields['teams'].widget.attrs.update({'name': 'teams', 'class': 'form-control'})
-        self.fields['teams'].queryset = team
+        self.fields['teams'].queryset = teams
 
 
 class SingleEliminationTournamentJoinPost(forms.ModelForm):

@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.views.generic import View
-
+import datetime
 from staff.forms import *
 from wagers.models import *
 from .tools import calculaterank
@@ -40,7 +40,8 @@ def tournaments(request):
         return render(request, 'staff/permissiondenied.html')
     else:
         tournament_list = SingleEliminationTournament.objects.all().order_by('-id')
-        return render(request, 'staff/singletournaments/singletournament_list.html', {'tournament_list': tournament_list})
+        time = datetime.datetime.utcnow()
+        return render(request, 'staff/singletournaments/singletournament_list.html', {'tournament_list': tournament_list, 'time': time})
 
 
 def tournament_detail(request, pk):
@@ -104,9 +105,10 @@ def edit_tournament(request, pk):
                 return render(request, 'staff/singletournaments/singletournament_edit.html', {'form': form})
         else:
             tournamentobj = SingleEliminationTournament.objects.get(pk=pk)
+            time = datetime.datetime.utcnow()
             if not tournamentobj.bracket_generated:
                 form = EditTournamentForm(instance=tournamentobj)
-                return render(request, 'staff/singletournaments/singletournament_edit.html', {'form': form, 'pk': pk})
+                return render(request, 'staff/singletournaments/singletournament_edit.html', {'form': form, 'pk': pk, 'time': time})
             else:
                 messages.error(request, 'You cannot edit a launched tournament')
                 return redirect('staff:tournamentlist')
@@ -120,7 +122,8 @@ def create_tournament(request):
     else:
         if request.method == 'GET':
             form = CreateTournamentForm()
-            return render(request, 'staff/singletournaments/singletournament_create.html', {'form': form})
+            time = datetime.datetime.utcnow()
+            return render(request, 'staff/singletournaments/singletournament_create.html', {'form': form, 'time': time})
         else:
             form = CreateTournamentForm(request.POST, request.FILES)
             if form.is_valid():
@@ -145,7 +148,7 @@ def generate_bracket(request, pk):  # Launch tournament
             return redirect('staff:tournamentlist')
         else:
             calculaterank()
-            tournament.generate_rounds()
+            #tournament.generate_rounds()
             tournament.generate_bracket()
             tournament.bracket_generated = True
             tournament.save()
@@ -239,69 +242,38 @@ def advance(request, pk):
         return render(request, 'staff/permissiondenied.html')
     else:
         tournament = SingleEliminationTournament.objects.get(pk=pk)
-        currentround = SingleTournamentRound.objects.get(tournament=pk, roundnum=tournament.current_round)
-        try:
-            nextround = SingleTournamentRound.objects.get(tournament=tournament, roundnum=tournament.current_round + 1)
-        except:
-            messages.warning(request, "All rounds are complete")
-            tournament.active = False
-            tournament.save()
-            return redirect('staff:tournamentlist')
-        matches = currentround.matches.all()
-        for i in matches:
-            if i.winner is None:
-                if mikes_super_function(currentround.id) is False:
-                    messages.error(request, "Some matches in the current round do not have a winner set")
-                    return redirect('staff:tournamentlist')
-                else:
-                    mike = mikes_super_function(currentround.id)
-
-            # if i.completed is False:
-            # messages.error(request, 'There is a match that is not yet marked as completed in the current round')
-            # return redirect('staff:tournamentlist')
-
-        winners = []
-
-        for i in matches:
-
-            try:
-                if i.winner is None:
-                    winners.append('BYE TEAM')
-
-                else:
-                    winners.append(i.winner)
-                    team = Team.objects.get(id=i.winner_id)
-                    team.num_matchwin += 1
-                    team.save()
-                    team1 = Team.objects.get(id=i.loser_id)
-                    team1.num_matchloss += 1
-                    team1.save()
-            except:
-                pass
-
-        # check to make sure mike +
-
-        i = 0
-        while i < len(winners):
-            if winners[i] is 'BYE TEAM':
-                # disable user reports, its a bye match
-                newmatch = Match(game=tournament.game, platform=tournament.platform, hometeam=winners[i + 1],
-                                 disable_userreport=True, sport=tournament.sport)
-            elif winners[i + 1] is 'BYE TEAM':
-                # disable user reports, its a bye match
-                newmatch = Match(game=tournament.game, platform=tournament.platform, sport=tournament.sport,
-                                 awayteam=winners[i], disable_userreport=True)
-            else:
-                newmatch = Match(game=tournament.game, platform=tournament.platform,
-                                 awayteam=winners[i], hometeam=winners[i + 1],
-                                 # disable user match reports based on the field in the tournament
-                                 disable_userreport=tournament.disable_userreport, sport=tournament.sport)
-            newmatch.save()
-            nextround.matches.add(newmatch)
-            i += 2
-
-        tournament.current_round = tournament.current_round + 1
+        currentround = SingleTournamentRound.objects.get(tournament=tournament, roundnum=tournament.current_round)
+        nextround = SingleTournamentRound(tournament=tournament, roundnum=tournament.current_round+1)
+        winners = Team.objects.none()
+        tournament.current_round = tournament.current_round+1
         tournament.save()
+        for x in currentround.matches.all():
+            if x.winner is None:
+                messages.error(request, 'Error: There is not a winner for a match in the previous round, cannot advance')
+                return redirect(request, 'staff:tournamentlist')
+            if not x.completed:
+                messages.error(request, 'Error: There is a match that is not marked as completed yet')
+                return redirect(request, 'staff:tournamentlist')
+            winners.append(x.winner)
+        if len(winners) % 2 != 0:
+            messages.error(request, 'Error: Invalid round')
+            return redirect('staff:tournamentlist')
+        if len(winners) == 1:
+            messages.error(request, 'Warning: The tournament is over, cannot advance further')
+            return redirect('staff:tournamentlist')
+        while len(winners) != 0:
+            temp1 = winners.order_by("?").first()
+            winners.remove(temp1)
+            winners.save()
+            temp2 = winners.order_by("?").first()
+            tempmatch = Match(awayteam=temp1, hometeam=temp2, maps=tournament.map_pool, game=tournament.game,
+                              platform=tournament.platform)
+            tempmatch.save()
+            winners.remove(temp2)
+            winners.save()
+            nextround.matches.add(tempmatch)
+            nextround.save()
+
         messages.success(request, "Advanced to next round")
         return redirect('staff:tournamentlist')
 

@@ -3,6 +3,7 @@ from teams.models import Team
 from matches.models import Match, GameChoice, PlatformChoice, MapPoolChoice, MapChoice, SportChoice
 from matches.settings import TEAMFORMAT_CHOICES, MAPFORMAT_CHOICES
 from singletournaments.models import SingleTournamentRuleset
+from profiles.models import UserProfile
 
 
 # a way to create default values for a field over multiple seasons
@@ -40,6 +41,16 @@ class LeagueSettings(models.Model):
     num_divisions = models.PositiveSmallIntegerField(default=2)
     # max amount of teams to allow into a division
     max_division_size = models.PositiveSmallIntegerField(default=5)
+    # is xbl required to join?
+    require_xbl = models.BooleanField(default=False)
+    require_psn = models.BooleanField(default=False)
+    require_steam = models.BooleanField(default=False)
+    require_epic = models.BooleanField(default=False)
+    require_lol = models.BooleanField(default=False)
+    require_battlenet = models.BooleanField(default=False)
+    require_activision = models.BooleanField(default=False)
+    # whether or not to allow users to register as a free agent to the league
+    allow_fa = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
@@ -52,6 +63,7 @@ class LeagueTeam(models.Model):
     ot_losses = models.PositiveSmallIntegerField(default=0)
     ot_wins = models.PositiveSmallIntegerField(default=0)
     ties = models.PositiveSmallIntegerField(default=0)
+    points = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return self.team.name
@@ -72,6 +84,11 @@ class LeagueDivision(models.Model):
             return self.name
 
 
+class LeagueFreeAgent(models.Model):
+    user = models.ForeignKey(UserProfile, related_name='fa_profile', on_delete=models.CASCADE)
+    description = models.TextField(default="Include information about Free Agent here")
+
+
 class League(models.Model):
     name = models.CharField(default="League Name", max_length=50)
     settings = models.ForeignKey(LeagueSettings, related_name="league_settings", on_delete=models.PROTECT)
@@ -90,7 +107,7 @@ class League(models.Model):
     teamformat = models.SmallIntegerField(choices=TEAMFORMAT_CHOICES, default=1)
     # by default its a best of 1. Not sure if we need this here. Finals might be best of 3, etc in
     # the future possibly. TBD. For now this will work though.
-    bestof = models.SmallIntegerField(choices=MAPFORMAT_CHOICES, default=0)
+    bestof = models.SmallIntegerField(choices=MAPFORMAT_CHOICES, default=1)
     # manually open registration even if outside registration window
     allow_register = models.BooleanField(default=False)
     # when does registration open, and when does it close? specified when created in staff panel
@@ -108,5 +125,6 @@ class League(models.Model):
     prize2 = models.CharField(default='no prize specified', max_length=50)
     prize3 = models.CharField(default='no prize specified', max_length=50)
     teams = models.ManyToManyField(LeagueTeam, blank=True)
+    fa = models.ManyToManyField(LeagueFreeAgent, related_name="league_fas", blank=True)
 
 

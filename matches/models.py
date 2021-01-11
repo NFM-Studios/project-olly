@@ -1,12 +1,91 @@
 from django.contrib.auth.models import User
 from django.db import models
-
 from matches.settings import TEAMFORMAT_CHOICES, MAPFORMAT_CHOICES
 from teams.models import Team
 
 
+class StatsPlayer(models.Model):
+    rating = models.DecimalField(max_digits=6, decimal_places=3, default=0)
+    kills = models.IntegerField(default=0)
+    assists = models.IntegerField(default=0)
+    deaths = models.IntegerField(default=0)
+    killround = models.DecimalField(max_digits=6, decimal_places=3, default=0)
+    adr = models.IntegerField(default=0)
+    ud = models.IntegerField(default=0)
+    ef = models.IntegerField(default=0)
+    f_assists = models.IntegerField(default=0)
+    hs = models.IntegerField(default=0)
+    kast = models.IntegerField(default=0)
+    awp_k = models.IntegerField(default=0)
+    twok = models.IntegerField(default=0)
+    threek = models.IntegerField(default=0)
+    fourk = models.IntegerField(default=0)
+    fivek = models.IntegerField(default=0)
+    one_v_one = models.IntegerField(default=0)
+    one_v_two = models.IntegerField(default=0)
+    one_v_three = models.IntegerField(default=0)
+    one_v_four = models.IntegerField(default=0)
+    one_v_five = models.IntegerField(default=0)
+    f_kills = models.IntegerField(default=0)
+    f_deaths = models.IntegerField(default=0)
+    entries = models.IntegerField(default=0)
+    trades = models.IntegerField(default=0)
+    rounds = models.IntegerField(default=0)
+    rf = models.IntegerField(default=0)
+    ra = models.IntegerField(default=0)
+    damage = models.IntegerField(default=0)
+
+
+class TeamMatchStats(models.Model):
+    rounds_won = models.PositiveSmallIntegerField(default=0)
+    rounds_lost = models.PositiveSmallIntegerField(default=0)
+    total_kills = models.PositiveSmallIntegerField(default=0)
+    total_deaths = models.PositiveSmallIntegerField(default=0)
+    avg_rating = models.DecimalField(max_digits=6, decimal_places=3, default=0)
+    avg_killround = models.DecimalField(max_digits=6, decimal_places=3, default=0)
+    avg_adr = models.IntegerField(default=0)
+    avg_ud = models.IntegerField(default=0)
+    avg_ef = models.IntegerField(default=0)
+    total_rating = models.DecimalField(max_digits=6, decimal_places=3, default=0)
+    total_killround = models.DecimalField(max_digits=6, decimal_places=3, default=0)
+    total_adr = models.IntegerField(default=0)
+    total_ud = models.IntegerField(default=0)
+    total_ef = models.IntegerField(default=0)
+    # ??? f_assists = models.IntegerField(default=0)
+    avg_hs = models.IntegerField(default=0)
+    avg_kast = models.IntegerField(default=0)
+    awp_k = models.IntegerField(default=0)
+    twok = models.IntegerField(default=0)
+    threek = models.IntegerField(default=0)
+    fourk = models.IntegerField(default=0)
+    fivek = models.IntegerField(default=0)
+    one_v_one = models.IntegerField(default=0)
+    one_v_two = models.IntegerField(default=0)
+    one_v_three = models.IntegerField(default=0)
+    one_v_four = models.IntegerField(default=0)
+    one_v_five = models.IntegerField(default=0)
+    f_kills = models.IntegerField(default=0)
+    f_deaths = models.IntegerField(default=0)
+    entries = models.IntegerField(default=0)
+    trades = models.IntegerField(default=0)
+    # rounds played
+    rounds = models.IntegerField(default=0)
+    avg_damage = models.IntegerField(default=0)
+    total_damage = models.IntegerField(default=0)
+
+
+class MatchStats(models.Model):
+    matchid = models.PositiveIntegerField(default=0)
+    map = models.CharField(default="unknown", max_length=255)
+    team1 = models.CharField(default="unknown", max_length=255)
+    team2 = models.CharField(default="unknown", max_length=255)
+
+
 class SportChoice(models.Model):
     name = models.CharField(default='unknown sports', null=False, max_length=255)
+
+    def __str__(self):
+        return "" + self.name
 
 
 class GameChoice(models.Model):
@@ -54,7 +133,7 @@ class MapPoolChoice(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
-    #def add_map(self, mappk):
+    # def add_map(self, mappk):
     #    newmap = MapChoice.objects.get(id=mappk)
     #    newmap.map_num = self.maps.count() + 1
     #    self.maps.add(newmap)
@@ -66,14 +145,13 @@ class MapPoolChoice(models.Model):
 class Match(models.Model):
     type = models.CharField(blank=True, null=True, max_length=20)
     matchnum = models.SmallIntegerField(default=0)
-    #TODO add mtm field for maps - for cases that it is more then a BO1
-    #maps = models.ManyToManyField(MapChoice, related_name='match_maps', on_delete=models.SET_NULL, null=True)
-    map = models.ForeignKey(MapChoice, related_name='match_map', on_delete=models.SET_NULL, null=True)
+    map_pool = models.ForeignKey(MapPoolChoice, related_name='mappoolchoice', on_delete=models.SET_NULL, null=True)
+    maps = models.ManyToManyField(MapChoice, blank=True)
     game = models.ForeignKey(GameChoice, related_name='GameChoice', on_delete=models.PROTECT, null=True)
     # default to ps4 for now bc why not
     platform = models.ForeignKey(PlatformChoice, related_name='PlatformChoice', on_delete=models.PROTECT, null=True)
     # support for traditional sports
-    sport = models.ForeignKey(SportChoice, related_name='SportChoice', on_delete=models.PROTECT, null=True)
+    sport = models.ForeignKey(SportChoice, related_name='SportChoice', on_delete=models.PROTECT, null=True, blank=True)
     # assign the match to a tournament with a FK
     # tournament = models.ForeignKey(SingleEliminationTournament, related_name='tournament', on_delete=models.CASCADE)
     # fk fields for the 2 teams that are competiting,
@@ -86,11 +164,12 @@ class Match(models.Model):
     reported = models.BooleanField(default=False)
     # simple bool field to see if the entire match is completed
     completed = models.BooleanField(default=False)
+    config_generated = models.BooleanField(default=False)
     # field to declare the winner
-    winner = models.ForeignKey(Team, related_name='champions', on_delete=models.SET_NULL, null=True)
-    loser = models.ForeignKey(Team, related_name='loser', on_delete=models.SET_NULL, null=True)
+    winner = models.ForeignKey(Team, related_name='champions', on_delete=models.SET_NULL, null=True, blank=True)
+    loser = models.ForeignKey(Team, related_name='loser', on_delete=models.SET_NULL, null=True, blank=True)
     # set the default map format to best of 1
-    bestof = models.SmallIntegerField(choices=MAPFORMAT_CHOICES, default=0)
+    bestof = models.SmallIntegerField(choices=MAPFORMAT_CHOICES, default=1)
     #          by default set it to be a 2v2.
     teamformat = models.SmallIntegerField(choices=TEAMFORMAT_CHOICES, default=1)
 
@@ -101,8 +180,9 @@ class Match(models.Model):
     team2reportedwinner = models.ForeignKey(Team, related_name='team2reportedwinner', on_delete=models.SET_NULL,
                                             null=True, blank=True)
 
-    # TODO: implement datetime field for matches
-    #datetime = models.DateTimeField(null=True)
+    server = models.CharField(blank=True, null=True, max_length=255)
+
+    datetime = models.DateTimeField(null=True, blank=True)
 
     info = models.TextField(default="Match Info: ")
 
@@ -134,6 +214,14 @@ class Match(models.Model):
             return 5
         if self.teamformat == 5:
             return 6
+
+
+class MatchCheckIn(models.Model):
+    match = models.ForeignKey(Match, related_name='match_checkin', on_delete=models.SET_NULL, null=True)
+    reporter = models.ForeignKey(User, related_name='checkin_user', on_delete=models.SET_NULL, null=True)
+    team = models.ForeignKey(Team, related_name='checking_in_team', on_delete=models.SET_NULL, null=True)
+    # players should == match.get_min_team_size
+    players = models.ManyToManyField(User)
 
 
 class MatchReport(models.Model):

@@ -16,6 +16,9 @@
             <th>Price</th>
             </thead>
         </tr>
+    {% if products.count == 0 %}
+    <h2>No store products! Check back later!</h2>
+    {% endif %}
         {% for product in products %}
             <tbody>
             <tr scope="">

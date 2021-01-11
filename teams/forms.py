@@ -1,10 +1,9 @@
 from django import forms
-
 # import the actual team model for the create team forms
 from teams.models import Team
 # import the model for the team invite
 from teams.models import TeamInvite
-
+from profiles.models import UserProfile
 
 # forms to create a team of various sizes
 
@@ -42,8 +41,11 @@ class TeamInviteFormGet(forms.ModelForm):
         self.fields['captain'].widget.attrs.update({'name': 'captain', 'class': 'form-control', 'style': 'width:30%'})
 
         self.username = request.user
-        invites = TeamInvite.objects.filter(hasPerms=True, user=request.user, accepted=True)
-        teams = Team.objects.filter(id__in=invites.values_list('team'))
+        #invites = TeamInvite.objects.filter(hasPerms=True, user=request.user, accepted=True)
+        profile = UserProfile.objects.get(user=request.user)
+        tlist = profile.captain_teams.all() | profile.founder_teams.all()
+        # tlist = profile.captain_teams.all() + profile.founder_teams.all()
+        teams = tlist  #profile.captain_teams.all() + profile.founder_teams.all())
         # super().__init__(*args, **kwargs)
         self.fields['team'].queryset = teams
 
@@ -54,7 +56,6 @@ class TeamInviteFormPost(forms.ModelForm):
     class Meta:
         captain = forms.BooleanField(required=False)
         model = TeamInvite
-        # maybe????
         fields = ('user', 'team', 'captain',)
         widgets = {
             'user': forms.CharField(),
@@ -66,6 +67,7 @@ class EditTeamProfileForm(forms.ModelForm):
         model = Team
         fields = (
             'about_us',
+            'tag',
             'website',
             'twitter',
             'twitch',
@@ -76,6 +78,7 @@ class EditTeamProfileForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(EditTeamProfileForm, self).__init__(*args, **kwargs)
         self.fields['about_us'].widget.attrs.update({'name': 'about_us', 'class': 'form-control', 'style': 'width:30%'})
+        self.fields['tag'].widget.attrs.update({'name': 'about_us', 'class': 'form-control', 'style': 'width:30%'})
         self.fields['website'].widget.attrs.update({'name': 'website', 'class': 'form-control', 'style': 'width:30%'})
         self.fields['twitter'].widget.attrs.update({'name': 'twitter', 'class': 'form-control', 'style': 'width:30%'})
         self.fields['twitch'].widget.attrs.update({'name': 'twitch', 'class': 'form-control', 'style': 'width:30%'})
@@ -103,7 +106,7 @@ class RemoveUserForm(forms.Form):
 
     def __init__(self, request, pk, *args, **kwargs):
         team = Team.objects.get(id=pk)
-        players = TeamInvite.objects.filter(team=team, accepted=True)
+        players = team.players.all() | team.captain.all()
         super().__init__(*args, **kwargs)
         self.fields['remove'].queryset = players
         self.fields['remove'].widget.attrs.update(

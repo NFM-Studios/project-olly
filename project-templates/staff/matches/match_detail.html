@@ -14,9 +14,8 @@
         </ul>
     {% endif %}
 
+    <a href="{% url 'staff:match_create_dispute' pk=match.pk %}"><button class="btn btn-danger">FORCE DISPUTE</button></a>
 
-    <p><a href="{% url 'staff:round_detail' pk=match.singletournamentround_set.get.id %}"><i
-            class="fa fa-arrow-left"></i> <strong>Back to Round</strong></a></p>
     <table class="table">
         <thead>
         <tr>
@@ -37,6 +36,20 @@
             <td>{{ match.platform.name }}</td>
         </tr>
         <tr>
+            <td>Scheduled time</td>
+            {% if match.datetime is None %}
+            <td>Not scheduled yet, click <a href="{% url 'staff:match_edit' pk=match.id %}">here to schedule</a></td>
+            {% else %}
+
+            <td>UTC: {{ match.datetime }}<br>
+            Local: <script>
+                const date = new Date("{{ match.datetime|safe }}");
+                console.log(date);
+                document.write(date.toLocaleString());
+                </script></td>
+            {% endif %}
+        </tr>
+        <tr>
             <td>Game</td>
             <td>{{ match.game.name }}</td>
         </tr>
@@ -50,11 +63,26 @@
                 <td>3v3</td>
             {% elif match.teamformat == 3 %}
                 <td>4v4</td>
-            {% elif tournament.teamformat == 4 %}
+            {% elif match.teamformat == 4 %}
                 <td>5v5</td>
-            {% elif tournament.teamformat == 5 %}
+            {% elif match.teamformat == 5 %}
                 <td>6v6</td>
             {% endif %}
+        </tr>
+        <tr>
+            <td>Best of {{ match.bestof }}</td>
+        </tr>
+        <tr>
+            <td>Maps: </td>
+            <td>
+            {% for map in match.maps.all %}
+            {{ map.name }}
+            {% endfor %}
+            </td>
+        </tr>
+        <tr>
+            <td>Choosen maps</td>
+            <td><a class="btn-link" href="{% url 'staff:match_pickmap' pk=match.pk %}">Randomly Repick maps (in given Best of format)</a></td>
         </tr>
         <tr>
             <td>Home team</td>
@@ -103,7 +131,11 @@
         </tr>
 
     </table>
-
+    {% if match.config_generated %}
+    <a href="/match/config/{{ match.id }}">View Match Config</a>
+    {% else %}
+    <a href="{% url 'staff:generate_cfg' pk=match.id %}">Generate Match Config</a>
+    {% endif %}
     <p>
         {% if not match.completed %}
             <a href="{% url 'staff:match_declare_winner' pk=match.id %}" class="btn btn-primary">Declare Winner</a>

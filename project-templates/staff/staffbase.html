@@ -259,12 +259,14 @@
                     </li>-->
                 </ul>
             </li>
-            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Store">
-                <a class="nav-link" href="{% url 'staff:store' %}">
-                    <i class="fa fa-fw fa-shopping-cart"></i>
-                    <span class="nav-link-text">Store</span>
-                </a>
-            </li>
+            {% if STORE_ENABLED %}
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Store">
+                    <a class="nav-link" href="{% url 'staff:store' %}">
+                        <i class="fa fa-fw fa-shopping-cart"></i>
+                        <span class="nav-link-text">Store</span>
+                    </a>
+                </li>
+            {% endif %}
         </ul>
     <!--
         <ul class="navbar-nav sidenav-toggler">

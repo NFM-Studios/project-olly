@@ -10,6 +10,7 @@ urlpatterns = [
     path('<int:pk>/', login_required(TournamentMatchDetailView.as_view()), name='detail'),
     path('<int:pk>/report/', login_required(MatchReportCreateView.as_view()), name='report'),
     path('<int:pk>/dispute/', login_required(MatchDisputeReportCreateView.as_view()), name='dispute'),
-    path('maps/<int:pk>/', login_required(MapPoolDetail.as_view()), name='maps_detail')
-
+    path('maps/<int:pk>/', login_required(MapPoolDetail.as_view()), name='maps_detail'),
+    path('<int:pk>/checkin/', login_required(match_checkin), name='checkin'),
+    path('<int:pk>/checkin/<int:teamid>/', login_required(team_checkin), name='team_checkin')
 ]

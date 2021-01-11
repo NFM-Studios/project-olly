@@ -14,7 +14,7 @@
                     <div class="panel-body">
 
                         {% if not match.disable_userreports %}
-                        <a href="{% url 'matches:report' pk=match.id %}"><h2>Submit your match report here.</h2></a>
+                            <a href="{% url 'matches:report' pk=match.id %}"><h2>Submit your match report here.</h2></a>
                         {% endif %}
 
                         <div class="col-xs-12 banner-head bot20">
@@ -41,7 +41,22 @@
                                         6v6
                                     {% endif %}</h3>
                                     <br>
+                                    <h3 style="font-weight:200;">{% if match.bestof == 1 %}
+                                        Best of 1
+                                    {% elif match.bestof == 2 %}
+                                        Best of 2
+                                    {% elif match.bestof == 3 %}
+                                        Best of 3
+                                    {% elif match.bestof == 4 %}
+                                        Best of 4
+                                    {% elif match.bestof == 5 %}
+                                        Best of 5
+                                    {% endif %}</h3>
+                                    <br>
                                     <h3>{{ match.info }}</h3>
+                                    <h3>Maps:{% if  match.maps.count == 0 %}N/a
+                                        {% else %}{% for x in match.maps.all %}#{{ forloop.counter }} {{ x.name }} -
+                                        {% endfor %}{% endif %}</h3>
                                 </div>
 
                             </div>

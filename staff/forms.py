@@ -182,26 +182,18 @@ class EditNewsPostForm(forms.ModelForm):
         }
 
 
-class RemovePlayerForm(forms.ModelForm):
+class RemovePlayerForm(forms.Form):
     remove = forms.ModelChoiceField(queryset=None)
-
-    class Meta:
-        model = TeamInvite
-        fields = ()
 
     def __init__(self, request, pk, *args, **kwargs):
         team = Team.objects.get(id=pk)
-        players = TeamInvite.objects.filter(team=team, accepted=True)
+        players = team.players.all() | team.captain.all()
         super().__init__(*args, **kwargs)
         self.fields['remove'].queryset = players
 
 
-class RemovePlayerFormPost(forms.ModelForm):
+class RemovePlayerFormPost(forms.Form):
     remove = forms.ModelChoiceField(queryset=None)
-
-    class Meta:
-        model = TeamInvite
-        fields = ()
 
 
 class ModifyUserForm(forms.ModelForm):
@@ -233,7 +225,11 @@ class DeleteProductForm(forms.Form):
 class EditMatchForm(forms.ModelForm):
     class Meta:
         model = Match
-        fields = ('info', 'disable_userreport')
+        fields = ('info', 'disable_userreport', 'bestof', 'server', 'datetime')
+        widgets = {
+            'datetime': forms.DateTimeInput(
+                attrs={'class': 'form-control datetimepicker-input', 'id': 'datetimepicker1',
+                       'data-toggle': 'datetimepicker', 'data-target': '#datetimepicker1'})}
 
 
 class GameChoiceForm(forms.ModelForm):
@@ -316,6 +312,10 @@ class CreateLeagueForm(forms.ModelForm):
             'start': forms.DateTimeInput(attrs={'class': 'form-control datetimepicker-input', 'id': 'datetimepicker3',
                                                 'data-toggle': 'datetimepicker', 'data-target': '#datetimepicker3'})
         }
+
+
+class TeamForceAddUser(forms.Form):
+    user = forms.CharField(required=True, max_length=50)
 
 
 class CreateLeagueSettingsForm(forms.ModelForm):

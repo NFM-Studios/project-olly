@@ -1,13 +1,14 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django_countries.fields import CountryField
-
+#from matches.models import Match, TeamMatchStats
 from profiles.models import UserProfile
 
 
 class Team(models.Model):
     # team name
     name = models.CharField(max_length=25)
+    tag = models.CharField(max_length=10, null=True)
     # team bio
     about_us = models.CharField(max_length=250, default='Forever a mystery', blank=True)
     # not sure if we really need the earnings, but its here for now...
@@ -21,9 +22,9 @@ class Team(models.Model):
     # whoever filled out the form to create the team, limited to only one
     founder = models.ForeignKey(User, related_name='founder', on_delete=models.SET_NULL, null=True)
     # basically founder permissions, but to other people that didn't create the actual team
-    captain = models.ManyToManyField(User, through='CaptainMembership', related_name='teamcaptain')
+    captain = models.ManyToManyField(User, related_name='teamcaptain', blank=True)
     # the people of the actual team, now a many to many, not a forkey
-    players = models.ManyToManyField(User, through='TeamInvite', through_fields=('team', 'user', 'inviter'))
+    players = models.ManyToManyField(User, related_name='teamplayers', blank=True)
     # when they created the team
     created = models.DateTimeField(auto_now_add=True)
     # when they last updated anything in the team
@@ -44,6 +45,8 @@ class Team(models.Model):
     country = CountryField(blank=True)
 
     image = models.ImageField(upload_to='team_images', blank=True)
+    matches = models.ManyToManyField('matches.Match', related_name='team_matches', blank=True)
+    team_stat = models.ManyToManyField('matches.TeamMatchStats', related_name='match_team_stat', blank=True)
 
     class Meta:
         verbose_name = 'Team'
@@ -72,25 +75,14 @@ class Team(models.Model):
 
 
 class TeamInvite(models.Model):
-    INVITE_CHOICES = (
-        ('captain', 'Captain'),
-        ('player', 'Player'),
-    )
     expire = models.DateTimeField(auto_now=False, auto_now_add=False)
     team = models.ForeignKey(Team, related_name='invitedto', on_delete=models.CASCADE)
     user = models.ForeignKey(User, related_name='toinvite', on_delete=models.CASCADE)
     inviter = models.ForeignKey(User, related_name='frominvite', on_delete=models.CASCADE)
-    captain = models.CharField(choices=INVITE_CHOICES, max_length=20, default='player')
+    captain = models.BooleanField(default=False)
     accepted = models.BooleanField(default=False)
     declined = models.BooleanField(default=False)
     active = models.BooleanField(default=True)
-    hasPerms = models.BooleanField(default=False)
 
     def __str__(self):
         return str(self.user)
-
-
-class CaptainMembership(models.Model):
-    user = models.ForeignKey(User, related_name='captainperson', on_delete=models.CASCADE)
-    team = models.ForeignKey(Team, related_name='team', on_delete=models.CASCADE)
-    active = models.BooleanField(default=True)

@@ -34,12 +34,12 @@
             <td><a href="{% url 'staff:detail_league_settings' pk=league.settings.id %}">{{ league.settings.name }}</a></td>
         </tr>
         <tr>
-            <td>Start Date/Time</td>
+            <td>Start Date/Time -- Current UTC Time {{ time }}</td>
             <td>{{ league.start }}</td>
         </tr>
         <tr>
-            <td>Registration Open</td>
-            <td>{{ league.open_register }}</td>
+            <td>Registration Open->Close -- Current UTC Time {{ time }}</td>
+            <td>{{ league.open_register }}->{{ league.close_register }}</td>
         </tr>
         <tr>
             <td>Required Credits</td>

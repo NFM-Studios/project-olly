@@ -38,10 +38,32 @@
         {{ form.info }}
         <br>
 
-        <label>Disable User Match Report</label>
+        <label>Match Server Information</label>
+        {{ form.server }}
+        <br>
+
+        <div class="form-group">
+            <div class="input-group">
+                <label>Match DateTime(IN UTC) - Current UTC Time = {{ time }}</label>
+                {{ form.datetime }}
+            </div>
+        </div>
+
+        <label>Match best of</label>
+        {{ form.bestof }}
+        <br>
+
+        <label>Disable User Match Report - Users will not be able to submit reports on who won the match</label>
         {{ form.disable_userreport }}
         <br>
 
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
+    <script type="text/javascript">
+        $(function () {
+            $('#datetimepicker1').datetimepicker({
+                date: moment('{{form.datetime.value|date:"Y-m-d H:i" }}'),
+                format: 'YYYY-MM-DD HH:mm'
+            });})
+    </script>
 {% endblock %}

@@ -5,7 +5,6 @@ from .views import *
 
 
 class PostTestCase1(TestCase):
-    fixtures = ['pages.json']
 
     def setUp(self):
         self.factory = RequestFactory()

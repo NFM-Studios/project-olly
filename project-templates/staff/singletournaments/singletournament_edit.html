@@ -29,6 +29,7 @@
         {% endfor %}
     {% endif %}
     <h1><a href="{% url 'staff:tournamentlist' %}">Return to tournament list</a></h1>
+    <h2>Current UTC Time {{ time }}</h2>
 
     <form enctype="multipart/form-data" method="post">
         {% csrf_token %}

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+    <title>Team Checkin #{{ match.pk }} - {{ SITE_NAME }}</title>
+{% endblock %}
+
+{% block body %}
+    <p>Please select the players from your team below that are playing in the match</p>
+
+        <form method="POST" action="{% url 'matches:team_checkin' pk=match.pk teamid=teamid %}">
+        <table class="table">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <tr>
+                <td colspan="2">
+                    <button type="submit" value="Submit">Submit</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+
+{% endblock %}

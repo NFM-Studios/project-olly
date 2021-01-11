@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.core.exceptions import ObjectDoesNotExist
+import datetime
 #from django.views.generic import View
 
 #from matches.models import MatchReport, MatchDispute, Match, MapChoice, MapPoolChoice
@@ -15,7 +16,8 @@ def create_league(request):
     else:
         if request.method == 'GET':
             form = CreateLeagueForm
-            return render(request, 'staff/leagues/league_create.html', {'form': form})
+            time = datetime.datetime.utcnow()
+            return render(request, 'staff/leagues/league_create.html', {'form': form, 'time': time})
         else:
             # the form is posting, lets start validating
             form = CreateLeagueForm(request.POST, request.FILES)
@@ -36,7 +38,8 @@ def list_league(request):
         return render(request, 'staff/permissiondenied.html')
     else:
         leagues = League.objects.all()
-        return render(request, 'staff/leagues/league_list.html', {'leagues': leagues})
+        time = datetime.datetime.utcnow()
+        return render(request, 'staff/leagues/league_list.html', {'leagues': leagues, 'time': time})
 
 
 def detail_league(request, pk):
@@ -47,7 +50,8 @@ def detail_league(request, pk):
     else:
         league = League.objects.get(pk=pk)
         divisions = league.divisions.all()
-        return render(request, 'staff/leagues/league_detail.html', {'league': league, 'divisions': divisions})
+        time = datetime.datetime.utcnow()
+        return render(request, 'staff/leagues/league_detail.html', {'league': league, 'divisions': divisions, 'time': time})
 
 
 # list all the teams in the league and the divisions
@@ -92,7 +96,8 @@ def edit_league(request, pk):
         else:
             league = League.objects.get(pk=pk)
             form = CreateLeagueForm(instance=league)
-            return render(request, 'staff/leagues/league_edit.html', {'form': form, 'pk':pk, 'league':league})
+            time = datetime.datetime.utcnow()
+            return render(request, 'staff/leagues/league_edit.html', {'form': form, 'pk':pk, 'league':league, 'time': time})
 
 
 def list_league_settings(request):

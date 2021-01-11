@@ -82,6 +82,22 @@ INSTALLED_APPS = [
     'django_cleanup.apps.CleanupConfig'
 ]
 
+try:
+    if os.environ['enable_store'] == 'True':
+        STORE_ENABLED = True
+    else:
+        STORE_ENABLED = False
+except KeyError:
+    STORE_ENABLED = False
+
+try:
+    if os.environ['enable_wagers'] == 'True':
+        WAGERS_ENABLED = True
+    else:
+        WAGERS_ENABLED = False
+except KeyError:
+    WAGERS_ENABLED = False
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -158,4 +174,4 @@ STATICFILES_DIRS = [
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/login/'
 
-SITE_VERSION = "0.9.0"
+SITE_VERSION = "1.0.0"

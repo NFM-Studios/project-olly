@@ -14,4 +14,6 @@ def site_info(request):
             'SITE_SERVER': settings.SITE_SERVER,
             'SITE_VERSION': settings.SITE_VERSION,
             'SocialInfo': SocialInfo,
-            'ESPORTS_MODE': settings.ESPORTS_MODE}
+            'ESPORTS_MODE': settings.ESPORTS_MODE,
+            'STORE_ENABLED': settings.STORE_ENABLED,
+            'WAGERS_ENABLED': settings.WAGERS_ENABLED}

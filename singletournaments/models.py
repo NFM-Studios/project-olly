@@ -34,7 +34,7 @@ class SingleEliminationTournament(models.Model):
     teamformat = models.SmallIntegerField(choices=TEAMFORMAT_CHOICES, default=1)
     # by default its a best of 1. Not sure if we need this here. Finals might be best of 3, etc in
     # the future possibly. TBD. For now this will work though.
-    bestof = models.SmallIntegerField(choices=MAPFORMAT_CHOICES, default=0)
+    bestof = models.SmallIntegerField(choices=MAPFORMAT_CHOICES, default=1)
 
     # by default the tournament is not active. an admin has to activate it in order for it to be public
     active = models.BooleanField(default=False)
@@ -132,239 +132,52 @@ class SingleEliminationTournament(models.Model):
         tournament.active = False
         tournament.save()
 
-    def generate_rounds(self):
-        # create the round objects based on the tournament size
-        if self.size == 4:
-            # generate 2 rounds
-            round1 = SingleTournamentRound(matchesnum=2, roundnum=1, tournament=self)
-            round1.save()
-            round2 = SingleTournamentRound(matchesnum=1, roundnum=2, tournament=self)
-            round2.save()
-        elif self.size == 8:
-            # generate 3 rounds
-            round1 = SingleTournamentRound(matchesnum=4, roundnum=1, tournament=self)
-            round2 = SingleTournamentRound(matchesnum=2, roundnum=2, tournament=self)
-            round3 = SingleTournamentRound(matchesnum=1, roundnum=3, tournament=self)
-            round1.save()
-            round2.save()
-            round3.save()
-        elif self.size == 16:
-            # generate 4 rounds
-            round1 = SingleTournamentRound(matchesnum=8, roundnum=1, tournament=self)
-            round2 = SingleTournamentRound(matchesnum=4, roundnum=2, tournament=self)
-            round3 = SingleTournamentRound(matchesnum=2, roundnum=3, tournament=self)
-            round4 = SingleTournamentRound(matchesnum=1, roundnum=4, tournament=self)
-            round1.save()
-            round2.save()
-            round3.save()
-            round4.save()
-        elif self.size == 32:
-            # generate 5 rounds
-            round1 = SingleTournamentRound(matchesnum=16, roundnum=1, tournament=self)
-            round2 = SingleTournamentRound(matchesnum=8, roundnum=2, tournament=self)
-            round3 = SingleTournamentRound(matchesnum=4, roundnum=3, tournament=self)
-            round4 = SingleTournamentRound(matchesnum=2, roundnum=4, tournament=self)
-            round5 = SingleTournamentRound(matchesnum=1, roundnum=5, tournament=self)
-            round1.save()
-            round2.save()
-            round3.save()
-            round4.save()
-            round5.save()
-        elif self.size == 64:
-            # generate 6 rounds
-            round1 = SingleTournamentRound(matchesnum=32, roundnum=1, tournament=self)
-            round2 = SingleTournamentRound(matchesnum=16, roundnum=2, tournament=self)
-            round3 = SingleTournamentRound(matchesnum=8, roundnum=3, tournament=self)
-            round4 = SingleTournamentRound(matchesnum=4, roundnum=4, tournament=self)
-            round5 = SingleTournamentRound(matchesnum=2, roundnum=5, tournament=self)
-            round6 = SingleTournamentRound(matchesnum=1, roundnum=6, tournament=self)
-            round1.save()
-            round2.save()
-            round3.save()
-            round4.save()
-            round5.save()
-            round6.save()
-        elif self.size == 128:
-            # generate 7 rounds
-            round1 = SingleTournamentRound(matchesnum=64, roundnum=1, tournament=self)
-            round2 = SingleTournamentRound(matchesnum=32, roundnum=2, tournament=self)
-            round3 = SingleTournamentRound(matchesnum=16, roundnum=3, tournament=self)
-            round4 = SingleTournamentRound(matchesnum=8, roundnum=4, tournament=self)
-            round5 = SingleTournamentRound(matchesnum=4, roundnum=5, tournament=self)
-            round6 = SingleTournamentRound(matchesnum=2, roundnum=6, tournament=self)
-            round7 = SingleTournamentRound(matchesnum=1, roundnum=7, tournament=self)
-            round1.save()
-            round2.save()
-            round3.save()
-            round4.save()
-            round5.save()
-            round6.save()
-            round7.save()
-
     def generate_bracket(self):
-        # seed teams and make matches
-        game = self.game
-        platform = self.platform
-        teamformat = self.teamformat
-        bestof = self.bestof
-        size = self.size
-        numteams = self.teams.count()
-        bye = size - numteams
-        teams = list(self.teams.all())
-
-        for team in teams:
-            team.get_total_xp()
-
-        count = 1
-        seeds = []
-        while count <= size:
-            seeds.append(count)
-            count += 1
-
-        team_seeds = []
-        max_matches = size / 2
-        if not self.xp_seed:
-            random.shuffle(teams)
-        else:
-            teams = self.teams.order_by('-totalxp')
-
-        for i in teams:
-            team_seeds.append(i)
-
-        m = dict()
-        if bye == 2 or bye == 1:
-            offset = 0
-        else:
-            offset = -2
-        skipotherbye = False
-
-        if bye >= 3:
-            if bye % 2 != 0:
-                hometeam = team_seeds[0]
-                hometeam.seeds = seeds[0]
-                hometeam.save()
-                round1 = SingleTournamentRound.objects.get(tournament=self, roundnum=1)
-                # bye_1 specifies that the match has only 1 bye team in it, and that one team is being automatically
-                # advanced to the next round
-                m[1] = Match(game=game, matchnum=1, platform=platform, hometeam=team_seeds[0],
-                             teamformat=teamformat, bestof=bestof, reported=True,
-                             completed=True, winner=team_seeds[0], bye_1=True, info=round1.info,
-                             # disable user reports based on the tournament field value
-                             disable_userreport=True, sport=self.sport)
-                m[1].save()
-
-                round1.matches.add(m[1])
-                round1.save()
-                del team_seeds[0]
-                del seeds[0]
-
-                bye -= 1
-
-            if bye % 2 == 0:
-                byematches = bye / 2
-
-                for i in range(1, int(byematches) + 1):
-                    round1 = SingleTournamentRound.objects.get(tournament=self, roundnum=1)
-                    # bye_2 specifies that both teams are bye teams, therefor a team will receive a bye in the first
-                    # and second round
-                    m[i] = Match(game=game, matchnum=i, platform=platform,
-                                 teamformat=teamformat, bestof=bestof, reported=True, sport=self.sport,
-                                 completed=True, bye_2=True, info=round1.info, disable_userreport=True)
-                    m[i].save()
-
-                    round1.matches.add(m[i])
-                    round1.save()
-                skipotherbye = True
-        elif bye == 2 and not skipotherbye:
-            round1 = SingleTournamentRound.objects.get(tournament=self, roundnum=1)
-
-            m[1] = Match(game=game, matchnum=1, platform=platform,
-                         teamformat=teamformat, bestof=bestof, reported=True, sport=self.sport,
-                         completed=True, bye_2=True, info=round1.info, disable_userreport=True)
-            m[1].save()
-
-            round1.matches.add(m[1])
-            round1.save()
-        if bye != 0:
-            for x in range(bye + 1, int(max_matches) + bye + offset):
-
-                if len(team_seeds) == 0:
-                    break
-
-                if len(team_seeds) == 1:
-                    hometeam = team_seeds[0]
-                    hometeam.seeds = seeds[0]
-                    hometeam.save()
-                    round1 = SingleTournamentRound.objects.get(tournament=self, roundnum=1)
-
-                    m[x] = Match(game=game, matchnum=x, platform=platform, hometeam=team_seeds[0],
-                                 teamformat=teamformat, bestof=bestof, reported=True, sport=self.sport,
-                                 completed=True, winner=team_seeds[0], bye_1=True, info=round1.info,
-                                 disable_userreport=True)
-                    m[x].save()
-
-                    round1.matches.add(m[x])
-                    round1.save()
-                    break
-
-                hometeam = team_seeds[0]
-                hometeam.seed = seeds[0]
-                hometeam.save()
-                awayteam = team_seeds[-1]
-                awayteam.seed = seeds[-1]
-                awayteam.save()
-                round1 = SingleTournamentRound.objects.get(tournament=self, roundnum=1)
-
-                m[x] = Match(game=game, platform=platform, hometeam=team_seeds[0], awayteam=team_seeds[-1],
-                             teamformat=teamformat, bestof=bestof, info=round1.info, sport=self.sport,
-                             # this is an actual match, so disable user reports based on the field setting
-                             disable_userreport=self.disable_userreport)
-                m[x].save()
-                round1.matches.add(m[x])
+        teams = len(self.teams.all())
+        myteams = self.teams.all()
+        self.current_round = 1
+        self.save()
+        round1 = SingleTournamentRound(tournament=self, roundnum=1)
+        round1.save()
+        if teams % 2 == 0:
+            # no byes required - get 2 teams and make a match
+            while len(myteams) != 0:
+                temp1 = myteams.all().order_by("?").first()
+                myteams.remove(temp1)
+                myteams.save()
+                temp2 = myteams.all().order_by("?").first()
+                tempmatch = Match(awayteam=temp1, hometeam=temp2, maps=self.map_pool, game=self.game, platform=self.platform)
+                tempmatch.save()
+                myteams.remove(temp2)
+                myteams.save()
+                round1.matches.add(tempmatch)
                 round1.save()
 
-                del team_seeds[0]
-                del team_seeds[-1]
-                del seeds[0]
-                del seeds[-1]
         else:
-            for x in range(1, int(max_matches) + 1):
-
-                if len(team_seeds) == 1:
-                    hometeam = team_seeds[0]
-                    hometeam.seeds = seeds[0]
-                    hometeam.save()
-                    round1 = SingleTournamentRound.objects.get(tournament=self, roundnum=1)
-
-                    m[x] = Match(game=game, matchnum=x, platform=platform, hometeam=team_seeds[0],
-                                 teamformat=teamformat, bestof=bestof, reported=True, sport=self.sport,
-                                 completed=True, winner=team_seeds[0], bye_1=True, info=round1.info,
-                                 disable_userreport=True)
-                    m[x].save()
-
-                    round1.matches.add(m[x])
-                    round1.save()
-                    break
-
-                hometeam = team_seeds[0]
-                hometeam.seed = seeds[0]
-                hometeam.save()
-                awayteam = team_seeds[-1]
-                awayteam.seed = seeds[-1]
-                awayteam.save()
-                round1 = SingleTournamentRound.objects.get(tournament=self, roundnum=1)
-
-                m[x] = Match(game=game, platform=platform, hometeam=team_seeds[0], awayteam=team_seeds[-1],
-                             teamformat=teamformat, bestof=bestof, info=round1.info, sport=self.sport,
-                             disable_userreport=self.disable_userreport)
-                m[x].save()
-                round1.matches.add(m[x])
+            # take the first team and give them a bye
+            # TODO: verify this randomly grabs a random team
+            bteam = self.teams.all.order_by("?").first()
+            bmatch = Match(hometeam=None, bye_1=True, awayteam=bteam, winner=bteam, completed=True,
+                           type='singletournament', maps=self.map_pool, game=self.game, platform=self.platform)
+            bmatch.save()
+            round1.matches.add(bmatch)
+            myteams.remove(bteam)
+            if len(myteams) % 2 != 0:
+                print("ITS BROKEN YOU SUCK")
+                return
+            while len(myteams) != 0:
+                temp1 = myteams.all().order_by("?").first()
+                myteams.remove(temp1)
+                myteams.save()
+                temp2 = myteams.all().order_by("?").first()
+                tempmatch = Match(awayteam=temp1, hometeam=temp2, maps=self.map_pool, game=self.game, platform=self.platform)
+                tempmatch.save()
+                myteams.remove(temp2)
+                myteams.save()
+                round1.matches.add(tempmatch)
                 round1.save()
 
-                del team_seeds[0]
-                del team_seeds[-1]
-                del seeds[0]
-                del seeds[-1]
+        round1.save()
 
     def get_round1_byes(self, **kwargs):
         # only used for round 1 purposes

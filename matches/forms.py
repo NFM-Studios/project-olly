@@ -1,5 +1,4 @@
 from django import forms
-
 from matches.models import MatchReport, MatchDispute, Match
 from teams.models import Team
 
@@ -30,10 +29,24 @@ class MatchReportCreateFormPost(forms.ModelForm):
 
 
 class DisputeCreateForm(forms.ModelForm):
-    # teamproof_1 = forms.URLField()
-    # teamproof_2 = forms.URLField()
-    # teamproof_3 = forms.URLField()
 
     class Meta:
         model = MatchDispute
         fields = ['teamproof_1', 'teamproof_2', 'teamproof_3']
+
+
+class TeamCheckInFormGet(forms.Form):
+    class Meta:
+        model = Team
+
+    players = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple)
+
+    def __init__(self, team):
+        mylist = team.players.all().values_list("pk", "username") | team.captain.all().values_list("pk", "username")
+        super().__init__()
+        self.fields['players'].choices = mylist
+        # self.fields['players'].queryset = mylist
+
+
+class TeamCheckInFormPost(forms.Form):
+    players = forms.Form()
