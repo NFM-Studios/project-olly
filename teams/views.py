@@ -305,18 +305,18 @@ class LeaveTeamView(View):
             except ObjectDoesNotExist:
                 messages.error(request, 'Team cannot be found')
                 return redirect('teams:list')
-            if request.user in team.players:
+            if request.user in team.players.all():
                 team.players.remove(request.user)
                 messages.success(request, 'Successfully removed you from the players role')
-            if request.user in team.captains:
+            if request.user in team.captains.all():
                 team.captains.remove(request.user)
                 messages.success(request, 'Successfully removed you from the captain role')
-            if request.user is team.founder:
+            if request.user is team.founder.all():
                 # founders cannot leave their team. they must delete the team
                 messages.error(request,
                                'You cannot leave the team you founded, you can only delete it.')
-            if not (request.user in team.players) or not (request.user in team.captains) or not (
-                    request.user is team.founder):
+            if not (request.user in team.players.all()) or not (request.user in team.captains.all()) or not (
+                    request.user is team.founder.all()):
                 messages.error(request, "You don't appear to be on this team")
                 return redirect('teams:detail', pk=pk)
             return redirect('teams:list')
