@@ -239,9 +239,8 @@ def password_reset_complete(request, current_app=None, extra_context=None):
 def profile(request, urlusername):
     userprofile = get_object_or_404(UserProfile, user__username=urlusername)
     # following line is not stock olly
-    team_list = TeamInvite.objects.filter(accepted=True, user=userprofile.user)
     return render(request, 'profiles/profile.html',
-                  {'userprofile': userprofile, 'requestuser': request.user, "team_list": team_list})
+                  {'userprofile': userprofile, 'requestuser': request.user})
 
 
 def profile_no_username(request):

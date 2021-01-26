@@ -84,31 +84,56 @@
     </table>
     <!-- email_verified total_earning -->
 
-
-    <!-- this is not stock olly -->
-    <!-- from here -->
+    <h2>Teams {{ userprofile.user }} founded</h2>
     <table class="table">
 
         <tr id="header">
             <thead>
-            <th scope="row">Team ID</th>
-            <th>Team Name</th>
-            <th>Team Role</th>
+            <th scope="row">Team Name</th>
             </thead>
         </tr>
-        {% for invite in team_list %}
+        {% for found in userprofile.founder_teams.all %}
             <tbody>
             <tr scope="">
-                <td scope="row"><a href="/teams/{{ invite.team.id }}/">#{{ invite.team.id }}</a></td>
-                <td>{{ invite.team.name }}</td>
-                <td>{{ invite.captain }}</td>
+                <td scope="row"><a href="{% url 'teams:detail' pk=found.pk %}">{{ found.name }}</a></td>
             </tr>
             </tbody>
-
-
         {% endfor %}
     </table>
 
-    <!-- to here -->
+    <h2>Teams {{ userprofile.user }} is a captain of</h2>
+    <table class="table">
+
+        <tr id="header">
+            <thead>
+            <th scope="row">Team Name</th>
+            </thead>
+        </tr>
+        {% for found in userprofile.captain_teams.all %}
+            <tbody>
+            <tr scope="">
+                <td scope="row"><a href="{% url 'teams:detail' pk=found.pk %}">{{ found.name }}</a></td>
+            </tr>
+            </tbody>
+        {% endfor %}
+    </table>
+
+    <h2>Teams {{ userprofile.user }} is a part of</h2>
+    <table class="table">
+
+        <tr id="header">
+            <thead>
+            <th scope="row">Team Name</th>
+            </thead>
+        </tr>
+        {% for found in userprofile.player_teams.all %}
+            <tbody>
+            <tr scope="">
+                <td scope="row"><a href="{% url 'teams:detail' pk=found.pk %}">{{ found.name }}</a></td>
+            </tr>
+            </tbody>
+        {% endfor %}
+    </table>
+
 
 {% endblock %}
