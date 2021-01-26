@@ -22,6 +22,7 @@ class SocialInfo(models.Model):
     twitterprofile = models.URLField(verbose_name='twitter_profile', null=True, blank=True)
     facebookpage = models.URLField(verbose_name='facebook_page', null=True, blank=True)
     instagrampage = models.URLField(verbose_name='instagram_page', null=True, blank=True)
+    discord = models.URLField(verbose_name="discord_server", null=True, blank=True)
 
     stream = models.CharField(max_length=25, null=True, blank=True)
 

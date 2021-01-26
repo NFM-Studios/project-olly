@@ -32,6 +32,12 @@ class StaticInfoForm(forms.ModelForm):
 
 
 class SocialInfoForm(forms.ModelForm):
+    twitchchannel = forms.URLField(required=False)
+    youtubechannel = forms.URLField(required=False)
+    twitterprofile = forms.URLField(required=False)
+    facebookpage = forms.URLField(required=False)
+    instagrampage = forms.URLField(required=False)
+
     class Meta:
         model = SocialInfo
         fields = '__all__'
