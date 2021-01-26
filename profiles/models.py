@@ -49,7 +49,7 @@ class UserProfile(models.Model):
     current_earning = models.PositiveSmallIntegerField(default=0)
     about_me = models.TextField(default='Forever a mystery', blank=True)
     steamid64 = models.CharField(max_length=255, default='No SteamID64', blank=True)
-    discord = models.CharField(max_length=255, default='No Dsicord', blank=True)
+    discord = models.CharField(max_length=255, default='No Discord', blank=True)
     xbl = models.CharField(max_length=30, default='No Xbox Live Linked', blank=True)
     psn = models.CharField(max_length=30, default='No PSN Linked', blank=True)
     steam = models.CharField(max_length=30, default='No Steam Linked', blank=True)
