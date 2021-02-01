@@ -46,9 +46,13 @@
         </tr>
         <tr>
             <td class="">Captains</td>
-            {% for captain in captains %}
-                <td><a href="{% url 'profiles:profile' urlusername=captain.user %}">{{ captain.name }}</a></td>
-            {% endfor %}
+            {% if team.captain.count == 0 %}
+            <td>There are no captains on this team!</td>
+            {% else %}
+                {% for captain in team.captain.all %}
+                    <td><a href="{% url 'profiles:profile' urlusername=captain.user %}">{{ captain }}</a></td>
+                {% endfor %}
+            {% endif %}
         </tr>
         <tr>
             <td>Created</td>
