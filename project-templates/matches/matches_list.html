@@ -13,13 +13,24 @@
     <table class="table table-hover">
         <tr id="header">
             <thead>
-            <th scope="row">ID</th>
+            <th scope="row">Match ID</th>
+            <th>Match DateTime (Local)</th>
             </thead>
         </tr>
         {% for match in matches %}
             <tbody>
             <tr scope="">
                 <td scope="row"><a href="{% url 'matches:detail' pk=match.id %}">#{{ match.id }}</a></td>
+                <td>
+                    {% if match.datetime != None or match.datetime != "" %}
+                        <script>
+                            const date = new Date("{{ match.datetime|safe }}");
+                            document.write(date.toLocaleString());
+                        </script>
+                    {% else %}
+                        TBD
+                    {% endif %}
+                </td>
             </tr>
             </tbody>
         {% endfor %}
