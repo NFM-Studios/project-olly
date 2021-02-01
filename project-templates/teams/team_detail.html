@@ -101,7 +101,10 @@
     {% if team.founder == request.user %}
         <a href="{% url 'teams:remove' pk %}">Remove users</a><br>
         <a href="{% url 'teams:edit' pk %}">Edit Team</a><br>
-        <a href="{% url 'teams:invite' %}">Invite Players</a>
+        <a href="{% url 'teams:invite' %}">Invite Players</a><br>
+        {% if team.founder not in team.captain.all %}
+        <a href="{% url 'teams:founder_captain' pk %}">Add Founder as Captain</a>
+        {% endif %}
     {% endif %}
 
 

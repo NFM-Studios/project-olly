@@ -359,6 +359,28 @@ class RemoveUserView(View):
             return redirect('teams:detail', pk)
 
 
+def add_founder_as_captain(request, pk):
+    team = Team.objects.get(pk=pk)
+    if team != None:
+        if request.user == team.founder:
+            # its the right guy
+            if team.founder not in team.captain.all():
+                team.captain.add(request.user)
+                # mtm fields don't need to be saved :thinking:
+                # team.captain.save()
+                messages.success(request, "You were added as a captain to the team")
+                return redirect('teams:detail', pk=pk)
+            else:
+                messages.error(request, "You are already a captain on your team")
+                return redirect('teams:detail', pk=pk)
+        else:
+            messages.error(request, "Error, You are not the founder of this team")
+            return redirect('teams:detail', pk=pk)
+    else:
+        messages.error(request, "Error finding the correct team")
+        return redirect('teams:detail', pk=pk)
+
+
 class DissolveTeamView(View):
     template_name = 'teams/team_dissolve.html'
 
