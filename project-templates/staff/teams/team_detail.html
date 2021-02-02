@@ -28,13 +28,28 @@
             </tr>
             <tr>
                 <td class="">Founder</td>
-                <td><a href="{% url 'profiles:profile' urlusername=team.founder %}">{{ team.founder }}</a></td>
+                <td><a href="{% url 'staff:userdetail' urlusername=team.founder %}">{{ team.founder }}</a></td>
             </tr>
             <tr>
                 <td class="">Captains</td>
-                {% for captain in captains %}
-                    <td><a href="{% url 'profiles:profile' urlusername=captain.name %}">{{ captain.name }}</a>
-                {% endfor %}
+                {% if team.captain.count == 0 %}
+                    <td>No captains!</td>
+                {% else %}
+                    {% for captain in team.captain.all %}
+                        <td><a href="{% url 'staff:userdetail' urlusername=captain %}">{{ captain }}</a>
+                    {% endfor %}
+                {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td class="">Players</td>
+                {% if team.players.count == 0 %}
+                    <td>No players!</td>
+                {% else %}
+                    {% for player in team.players.all %}
+                        <td><a href="{% url 'staff:userdetail' urlusername=player %}">{{ player }}</a>
+                    {% endfor %}
+                {% endif %}
                 </td>
             </tr>
             <tr>
