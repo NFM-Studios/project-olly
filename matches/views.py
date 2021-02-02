@@ -46,18 +46,18 @@ class TournamentMatchDetailView(DetailView):
             team2 = Team.objects.get(id=match.awayteam_id)
             aplayers = team2.players.all()
             hplayers = team1.players.all()
-            return render(request, 'matches/tournament_matches_detail.html',
+            return render(request, 'matches/match_detail.html',
                           {'x': pk, 'match': match,
                            'aplayers': aplayers,
                            'hplayers': hplayers})
         elif match.bye_1:
             team1 = Team.objects.get(id=match.hometeam_id)
             hplayers = team1.players.all()
-            return render(request, 'matches/tournament_matches_detail.html',
+            return render(request, 'matches/match_detail.html',
                           {'x': pk, 'match': match,
                            'hplayers': hplayers})
         elif match.bye_2:
-            return render(request, 'matches/tournament_matches_detail.html',
+            return render(request, 'matches/match_detail.html',
                           {'x': pk, 'match': match})
 
 

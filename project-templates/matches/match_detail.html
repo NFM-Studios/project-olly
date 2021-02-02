@@ -53,9 +53,9 @@
                                         Best of 5
                                     {% endif %}</h3>
                                     <br>
-                                    <h3>{{ match.info }}</h3>
+                                    <h3>{{ match.info }}</h3><br>
                                     <h3>Maps:{% if  match.maps.count == 0 %}N/a
-                                        {% else %}{% for x in match.maps.all %}#{{ forloop.counter }} {{ x.name }} -
+                                        {% else %}{% for x in match.maps.all %}<br>#{{ forloop.counter }} {{ x.name }}
                                         {% endfor %}{% endif %}</h3>
                                 </div>
 
@@ -67,7 +67,7 @@
                             <div class="col-xs-12 align-self-center bot20">
 
                                 <div class="col-xs-4 center">
-                                    <img src="{% static 'binge/images/avatar.jpg' %}"/><br>
+                                    <img style="width: 50%" src="{% static 'images/gamepad-solid.svg' %}"/><br>
                                     <a href="{% url 'teams:detail' pk=match.awayteam.id %}">{{ match.awayteam }} -
                                         {% if match.team2reported %}
                                             <i class="fa fa-check" style="color:green"></i> Reported{% else %}
@@ -76,7 +76,7 @@
                                 </div>
 
                                 <div class="col-xs-4 center">
-                                    <h1 style="font-size:60px;font-weight:800;margin-top:40px;">
+                                    <h1 style="font-weight:800;margin-top:40px;">
                                         {% if match.winner_id == match.awayteam_id %}<span style="color:green;">
                                             1{% else %}<span style="color:black;">0{% endif %}</span> vs
                                         {% if match.winner_id == match.hometeam_id %}<span style="color:green;">
@@ -84,7 +84,7 @@
                                 </div>
 
                                 <div class="col-xs-4 center">
-                                    <img src="{% static 'binge/images/avatar.jpg' %}"/><br>
+                                    <img style="width: 50%" src="{% static 'images/gamepad-solid.svg' %}"/><br>
                                     <a href="{% url 'teams:detail' pk=match.hometeam.id %}">{{ match.hometeam }} -
                                         {% if match.team1reported %}
                                             <i class="fa fa-check" style="color:green"></i> Reported{% else %}
@@ -93,66 +93,68 @@
                                 </div>
 
                             </div>
+                            <div class="col-xs-12 align-self-center bot20">
+                                <div class="row bot20">
+                                    <div class="col-md-6">
+                                        <table class="table table-hover">
+                                            <thead>
 
-                            <div class="row bot20">
-                                <div class="col-md-6">
-                                    <table class="table table-hover">
-                                        <thead>
-
-                                        <tr>
-                                            <th>USERNAME</th>
-                                            <th></th>
-                                            <th>Profile</th>
-                                        </tr>
-
-                                        </thead>
-                                        <tbody>
-                                        {% for aplayer in aplayers %}
                                             <tr>
-                                                <td valign="middle"><img src="{% static 'binge/images/avatar.jpg' %}"
-                                                                         width="30" height="30">
-                                                    <b>{{ aplayer.user }}</b></td>
-                                                <td valign="middle"></td>
-                                                <td valign="middle"><span class="highlight"><b><a
-                                                        href="{% url 'profiles:profile' urlusername=aplayer.user %}">Here</a></b></span>
-                                                </td>
+                                                <th>USERNAME</th>
+                                                <th>TEAM</th>
+                                                <th>Profile</th>
                                             </tr>
-                                        {% endfor %}
-                                        </tbody>
-                                    </table>
+
+                                            </thead>
+                                            <tbody>
+                                            {% for aplayer in aplayers %}
+                                                <tr>
+                                                    <td valign="middle"><img
+                                                            src="{% static 'images/gamepad-solid.svg' %}"
+                                                            width="30" height="30">
+                                                        <b>{{ aplayer.user }}</b></td>
+                                                    <td valign="middle">{{ match.awayteam.name }}</td>
+                                                    <td valign="middle"><span class="highlight"><b><a
+                                                            href="{% url 'profiles:profile' urlusername=aplayer.user %}">Here</a></b></span>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <table class="table table-hover">
+                                            <thead>
+
+                                            <tr>
+                                                <th>USERNAME</th>
+                                                <th>TEAM</th>
+                                                <th>Profile</th>
+                                            </tr>
+
+                                            </thead>
+                                            <tbody>
+                                            {% for hplayer in hplayers %}
+                                                <tr>
+                                                    <td valign="middle"><img
+                                                            src="{% static 'binge/images/avatar.jpg' %}"
+                                                            width="30" height="30">
+                                                        <b>{{ hplayer.user }}</b></td>
+                                                    <td valign="middle">{{ match.hometeam.name }}</td>
+                                                    <td valign="middle"><span class="highlight"><b><a
+                                                            href="{% url 'profiles:profile' urlusername=hplayer.user %}">Here</a></b></span>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+
+                                    </div>
 
                                 </div>
-
-                                <div class="col-md-6">
-                                    <table class="table table-hover">
-                                        <thead>
-
-                                        <tr>
-                                            <th>USERNAME</th>
-                                            <th></th>
-                                            <th>Profile</th>
-                                        </tr>
-
-                                        </thead>
-                                        <tbody>
-                                        {% for hplayer in hplayers %}
-                                            <tr>
-                                                <td valign="middle"><img src="{% static 'binge/images/avatar.jpg' %}"
-                                                                         width="30" height="30">
-                                                    <b>{{ hplayer.user }}</b></td>
-                                                <td valign="middle"></td>
-                                                <td valign="middle"><span class="highlight"><b><a
-                                                        href="{% url 'profiles:profile' urlusername=hplayer.user %}">Here</a></b></span>
-                                                </td>
-                                            </tr>
-                                        {% endfor %}
-                                        </tbody>
-                                    </table>
-
-                                </div>
-
                             </div>
-
                             </div>
                         {% endif %}
 
