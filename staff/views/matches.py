@@ -185,7 +185,7 @@ class MatchDeclareWinner(View):
                         tp = UserProfile.objects.get(user=player)
                         notif = Notification(title="You won a match!", type=1,
                                              description="A match your team was in was finalized and your team won!" +
-                                                         " Time to celebrate!", link="matches:detail", pk1=match.pk)
+                                                         " Time to celebrate!", link="matches:detail", pk1=match.pk, datetime=datetime.datetime.utcnow())
                         notif.save()
                         tp.notifications.add(notif)
                         tp.save()
@@ -748,7 +748,7 @@ def set_dispute_match(request, pk):
             temp = Notification(title="A match you're playing in is disputed!", description="Captains, please visit "
                                                                                             "the match page for more"
                                                                                             "details on resolving this",
-                                sender="Match Manager", type='match', link='match:detail', pk1=match.pk)
+                                sender="Match Manager", type='match', link='match:detail', pk1=match.pk, datetime=datetime.datetime.utcnow())
             temp.datetime = datetime.datetime.now()
             temp.save()
             userprofile = UserProfile.objects.get(user=i.user)
