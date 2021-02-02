@@ -1,5 +1,16 @@
 Project Olly Changelog
 
+# 1.0.1 
+- Add front end changes for match scheduling in match list page
+- Fix captains list on team detail template. 
+- #116 - Allow founders to add themselves as a captain
+- Add discord icon to footer #118
+- Fix template logic for social info in footer
+- make link fields in socialinfo not required
+- fix manyrelatedmanager error on team leave
+- improve teams section on player profile
+- fix spelling error in default models value
+
 # 1.0.0 - YES WE'VE MADE IT
 Started in August of 2017, after much delays of life and school 
 we're happy to call this a release build of project-olly. Thank you to al our contributors 
