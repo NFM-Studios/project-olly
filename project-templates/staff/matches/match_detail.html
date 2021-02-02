@@ -6,14 +6,6 @@
 {% endblock %}
 
 {% block body %}
-    {% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-                <li class="{{ message.tags }}">{{ message }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-
     <a href="{% url 'staff:match_create_dispute' pk=match.pk %}"><button class="btn btn-danger">FORCE DISPUTE</button></a>
 
     <table class="table">
