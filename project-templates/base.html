@@ -44,13 +44,12 @@
                 {% if not user.is_anonymous %}
                     <li><a href="{% url 'profiles:users' %}">Users</a></li>
                     <li><a href="{% url 'singletournaments:list' %}">Tournaments</a></li>
-                    <li><a href="{% url 'profiles:profile_no_username' %}">My Profile</a></li>
-                    {% if WAGERS_ENABLED %}<li><a href="{% url 'wagers:list' %}">Wagers</a></li> {% endif %}
-                    <li><a href="{% url 'support:list' %}">My Support Tickets</a></li>
-                    {% if STORE_ENABLED %} <li><a href="{% url 'store:store' %}">Store</a></li> {% endif %}
-                    <li><a href="{% url 'teams:list' %}">Teams</a></li>
-                    <li><a href="{% url 'profiles:notifications' %}">Notifications</a></li>
                     <li><a href="{% url 'league:list' %}">Leagues</a></li>
+                    {% if WAGERS_ENABLED %}
+                        <li><a href="{% url 'wagers:list' %}">Wagers</a></li> {% endif %}
+                    <li><a href="{% url 'support:list' %}">Support Tickets</a></li>
+                    {% if STORE_ENABLED %}
+                        <li><a href="{% url 'store:store' %}">Store</a></li> {% endif %}
                 {% endif %}
             </ul>
             <ul class="nav navbar-nav navbar-right">
@@ -58,7 +57,25 @@
                     <li><a href="{% url 'login' %}">Login</a></li>
                     <li><a href="{% url 'register' %}">Register</a></li>
                 {% elif not user.is_anonymous %}
-                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                    <li>
+                        <div class="dropdown" style="position: relative;display: block;padding: 10px 15px;">
+                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                {{ user }}
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                <li><a href="{% url 'profiles:profile_no_username' %}">Profile</a></li>
+                                <li><a href="{% url 'profiles:notifications' %}">Notifications</a></li>
+                                <li><a href="{% url 'matches:list' %}">My Matches</a></li>
+                                <li><a href="{% url 'teams:list' %}">My Teams</a></li>
+                                <li><a href="{% url 'teams:myinvitelist' %}">Team Invites</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="{% url 'logout' %}">Logout</a></li>
+                            </ul>
+                        </div>
+                    </li>
+
                 {% endif %}
             </ul>
         </div><!--/.nav-collapse -->
