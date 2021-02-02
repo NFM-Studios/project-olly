@@ -21,7 +21,7 @@ class Notification(models.Model):
     # set the default sender of a notification as "System"
     sender = models.CharField(max_length=255, default="System")
     type = models.CharField(choices=NOTIFICATION_TYPES, default='general', max_length=255)
-    datetime = models.DateTimeField(auto_created=True, auto_now_add=True)
+    datetime = models.DateTimeField(auto_created=True, auto_now_add=True, blank=True)
     link = models.CharField(max_length=255)
     pk1 = models.IntegerField(default=0)
     # has the user marked the notification as read? default to false
