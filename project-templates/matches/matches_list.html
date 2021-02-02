@@ -17,6 +17,7 @@
             <th>Match DateTime (Local)</th>
             </thead>
         </tr>
+        <script>let date;</script>
         {% for match in matches %}
             <tbody>
             <tr scope="">
@@ -24,7 +25,7 @@
                 <td>
                     {% if match.datetime != None or match.datetime != "" %}
                         <script>
-                            const date = new Date("{{ match.datetime|safe }}");
+                            date = new Date("{{ match.datetime|safe }}");
                             document.write(date.toLocaleString());
                         </script>
                     {% else %}
