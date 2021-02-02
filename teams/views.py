@@ -309,7 +309,7 @@ class LeaveTeamView(View):
                 team.players.remove(request.user)
                 messages.success(request, 'Successfully removed you from the players role')
             if request.user in team.captains.all():
-                team.captains.remove(request.user)
+                team.captain.remove(request.user)
                 messages.success(request, 'Successfully removed you from the captain role')
             if request.user is team.founder.all():
                 # founders cannot leave their team. they must delete the team
