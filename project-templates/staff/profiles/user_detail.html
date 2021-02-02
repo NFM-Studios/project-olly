@@ -80,11 +80,7 @@
             <td> {{ userprofile.total_earning }}</td>
         </tr>
     </table>
-    <!-- email_verified total_earning -->
 
-
-    <!-- this is not stock olly -->
-    <!-- from here -->
     <table class="table">
 
         <tr id="header">
@@ -94,19 +90,62 @@
             <th>Team Role</th>
             </thead>
         </tr>
-        {% for invite in team_list %}
+        {% for team in userprofile.founder_teams.all %}
             <tbody>
             <tr scope="">
-                <td scope="row"><a href="/teams/{{ invite.team.id }}/">#{{ invite.team.id }}</a></td>
-                <td>{{ invite.team.name }}</td>
-                <td>{{ invite.captain }}</td>
+                <td scope="row"><a href="{% url 'staff:team_detail' pk=team.pk %}">#{{ team.pk }}</a></td>
+                <td>{{ team.name }}</td>
+                <td>Founded</td>
             </tr>
             </tbody>
-
-
         {% endfor %}
+        {% for team in userprofile.captain_teams.all %}
+            <tbody>
+            <tr scope="">
+                <td scope="row"><a href="{% url 'staff:team_detail' pk=team.pk %}">#{{ team.pk }}</a></td>
+                <td>{{ team.name }}</td>
+                <td>Captain</td>
+            </tr>
+            </tbody>
+        {% endfor %}
+        {% for team in userprofile.player_teams.all %}
+            <tbody>
+            <tr scope="">
+                <td scope="row"><a href="{% url 'staff:team_detail' pk=team.pk %}">#{{ team.pk }}</a></td>
+                <td>{{ team.name }}</td>
+                <td>Player</td>
+            </tr>
+            </tbody>
+        {% endfor %}
+
     </table>
 
-    <!-- to here -->
+    <table class="table">
+
+        <tr id="header">
+            <thead>
+            <th scope="row">Notification Date/Time</th>
+            <th>Title</th>
+            <th>Description</th>
+            </thead>
+        </tr>
+        <tbody>
+        {% if userprofile.notifications.count == 0 %}
+            <td>This user has 0 notifications</td>
+        {% else %}
+            {% for notif in userprofile.notifications.all %}
+                <tr>
+                    <td>{{ notif.datetime }}</td>
+                    {% if notif.pk1 is not 0 %}
+                        <td><a href="#">{{ notif.title }}</a></td>
+                    {% else %}
+                        <td><a href="#">{{ notif.title }}</a></td>
+                    {% endif %}
+                    <td> {{ notif.description }}</td>
+                </tr>
+            {% endfor %}
+        {% endif %}
+        </tbody>
+    </table>
 
 {% endblock %}
