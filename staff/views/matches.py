@@ -68,6 +68,39 @@ def match_edit(request, pk):
             if form.is_valid():
                 form.save()
                 messages.success(request, 'Match has been updated')
+                for x in matchobj.awayteam.players.all():
+                    temp = Notification(title="Match has been updated", type=1,
+                                        description="One of your teams matches has been updated!",
+                                        link="matches:detail", pk1=matchobj.pk, datetime=datetime.datetime.utcnow())
+                    tp = UserProfile.objects.get(user=x)
+                    temp.save()
+                    tp.notifications.add(temp)
+                    tp.save()
+                for y in matchobj.hometeam.players.all():
+                    temp = Notification(title="Match has been updated", type=1,
+                                        description="One of your teams matches has been updated!",
+                                        link="matches:detail", pk1=matchobj.pk, datetime=datetime.datetime.utcnow())
+                    tp = UserProfile.objects.get(user=y)
+                    temp.save()
+                    tp.notifications.add(temp)
+                    tp.save()
+                for x in matchobj.awayteam.captain.all():
+                    temp = Notification(title="Match has been updated", type=1,
+                                        description="One of your teams matches has been updated!",
+                                        link="matches:detail", pk1=matchobj.pk, datetime=datetime.datetime.utcnow())
+                    tp = UserProfile.objects.get(user=x)
+                    temp.save()
+                    tp.notifications.add(temp)
+                    tp.save()
+                for y in matchobj.hometeam.players.all():
+                    temp = Notification(title="Match has been updated", type=1,
+                                        description="One of your teams matches has been updated!",
+                                        link="matches:detail", pk1=matchobj.pk, datetime=datetime.datetime.utcnow())
+                    tp = UserProfile.objects.get(user=y)
+                    temp.save()
+                    tp.notifications.add(temp)
+                    tp.save()
+                messages.success(request, "Notification sent successfully to both teams")
                 return redirect('staff:match_detail', pk=pk)
             else:
                 return render(request, 'staff/matches/match_edit.html', {'form': form, 'time': time, 'pk': pk})
