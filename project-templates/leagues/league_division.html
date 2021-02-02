@@ -22,7 +22,7 @@
         {% for team in teams %}
 
             <tr scope="">
-                <td><a href="{% url 'teams:detail' pk=team.id %}">{{ team.team.name }}</a></td>
+                <td><a href="{% url 'staff:team_detail' pk=team.id %}">{{ team.team.name }}</a></td>
                 <td>{{ team.wins }}/{{ team.losses }}</td>
                 <td>{{ team.points }}</td>
             </tr>
