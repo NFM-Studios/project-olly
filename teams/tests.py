@@ -1,7 +1,8 @@
 from django.test import TestCase, RequestFactory
-from .models import Team
+from .models import Team, TeamInvite
 from django.contrib.auth.models import User
 from .views import *
+from .forms import RemovePlayerFormPost
 
 
 class TeamTestCase(TestCase):
@@ -54,4 +55,10 @@ class TeamTestCase(TestCase):
         request = self.factory.get('teams:detail', pk=self.team.id)
         request.user = self.user
         response = MyTeamDetailView.get(None, request, pk=self.team.id)
+        self.assertEqual(response.status_code, 200)
+
+    def test_teameditview(self):
+        request = self.factory.get('teams:edit', pk=self.team.id)
+        request.user = self.user
+        response = edit_team_view(request, pk=self.team.id)
         self.assertEqual(response.status_code, 200)
