@@ -54,8 +54,11 @@
 
                     {% if verification %}
                         {% if not up.user_verified %}
-                            <td><a href="/staff/users/verify/{{ up.user }}" class="btn btn-primary"> Verify User</a>
+                            <td><a href="/staff/users/verify/{{ up.user }}" class="btn btn-primary"> Force Verify
+                                User</a>
                             </td>
+                            <td><a href="{% url 'staff:resend_verify_email' urlusername=up.user %}"
+                                   class="btn btn-primary"> Resend verification email</a></td>
                         {% else %}
                             <td><a href="/staff/users/verify/{{ up.user }}" class="btn btn-primary"> Unverify User</a>
                             </td>
