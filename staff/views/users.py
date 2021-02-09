@@ -1,8 +1,14 @@
-from django.contrib import messages
-from django.conf import settings
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.shortcuts import render, redirect
+from django.conf import settings
+from django.contrib import messages
+from django.contrib.sites.shortcuts import get_current_site
+from django.core.mail import EmailMessage
+from django.shortcuts import render, redirect, get_object_or_404
+from django.template.loader import render_to_string
+from django.utils.encoding import force_bytes, force_text
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode, is_safe_url
 
+from profiles.tokens import account_activation_token
 from profiles.models import BannedUser
 from staff.forms import *
 from wagers.models import *
@@ -168,6 +174,31 @@ def userdetail(request, urlusername):
         else:
             userprofile = UserProfile.objects.get(user__username=urlusername)
             return render(request, 'staff/profiles/user_detail.html', {'userprofile': userprofile})
+
+
+def resend_verify_email(request, urlusername):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        # should be a get request
+        user = User.objects.get(username=urlusername)
+        current_site = get_current_site(request)
+        mail_subject = 'Activate your ' + settings.SITE_NAME + ' account.'
+        message = render_to_string('profiles/activate_email.html', {
+            'user': user,
+            'domain': current_site.domain,
+            'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+            'token': account_activation_token.make_token(user),
+        })
+        to_email = user.email
+        email = EmailMessage(
+            mail_subject, message, from_email=settings.FROM_EMAIL, to=[to_email]
+        )
+        email.send()
+        messages.success(request, "Resent verification email")
+        return redirect('staff:users')
 
 
 def verify(request, urlusername):

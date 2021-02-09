@@ -1,5 +1,17 @@
 Project Olly Changelog
 
+# 1.0.2
+- Allow staff to send email reverification email (in the case of an email server hiccup) - closes #123
+- Fixed hard coded redirects in staff:users template
+- Added additional UserProfile fields to staff:modify_user
+- Fix javascript datetime error with multiple matches in matches:list
+- Revamp staff:team_detail template
+- Revamp staff:user_detail template
+- Fixed datetime constraints for some Notification object creation events
+- Added user notifications for match updates made within staff panel 
+- Remove duplicate django messages
+- PEP8 improvements
+
 # 1.0.1 
 - Add front end changes for match scheduling in match list page
 - Fix captains list on team detail template. 

@@ -9,6 +9,18 @@
         {% csrf_token %}
         {{ field.errors }}
 
+        <label>Alternate Name:</label>
+        {{ form.alternate_name }}
+        <br>
+
+        <label>SteamID64:</label>
+        {{ form.steamid64 }}
+        <br>
+
+        <label>Discord:</label>
+        {{ form.discord }}
+        <br>
+
         <label>Bronze:</label>
         {{ form.num_bronze }}
         <br>

@@ -38,6 +38,7 @@ urlpatterns = [
     path('users/search/', login_required(views.searchusers), name='searchusers'),
     path('users/modify/<urlusername>/', login_required(views.modifyuser), name='modify_user'),
     path('users/<urlusername>/', login_required(views.userdetail), name='userdetail'),
+    path('users/<urlusername>/resend_verify_email/', login_required(views.resend_verify_email), name='resend_verify_email'),
     path('users/verify/<urlusername>/', login_required(views.verify), name='verify_user'),
 
     path('tournaments/', login_required(views.tournaments), name='tournamentlist'),
