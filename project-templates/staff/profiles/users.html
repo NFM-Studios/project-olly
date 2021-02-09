@@ -38,29 +38,36 @@
                         <td>Standard User</td>
                     {% endif %}
 
-                    <td><a href="/staff/users/modify/{{ up.user }}" class="btn btn-primary">Modify User</a></td>
+                    <td><a href="{% url 'staff:modify_user' urlusername=up.user %}" class="btn btn-primary">Modify
+                        User</a></td>
 
                     {% if up.user.id in bannedusernames %}
-                        <td><a href="/staff/users/unban/{{ up.user }}" class="btn btn-warning">UNBAN USERNAME</a></td>
+                        <td><a href="{% url 'staff:unban_user' urlusername=up.user %}" class="btn btn-warning">UNBAN
+                            USERNAME</a></td>
                     {% else %}
-                        <td><a href="/staff/users/ban/{{ up.user }}" class="btn btn-danger">BAN USERNAME</a></td>
+                        <td><a href="{% url 'staff:ban_user' urlusername=up.user %}" class="btn btn-danger">BAN
+                            USERNAME</a></td>
                     {% endif %}
 
                     {% if up.ip in bannedips %}
-                        <td><a href="/staff/users/unbanip/{{ up.user }}" class="btn btn-warning">UNBAN IP</a></td>
+                        <td><a href="{% url 'staff:unban_ip' urlusername=up.user %}" class="btn btn-warning">UNBAN
+                            IP</a></td>
                     {% else %}
-                        <td><a href="/staff/users/banip/{{ up.user }}" class="btn btn-danger">BAN IP</a></td>
+                        <td><a href="{% url 'staff:ban_ip' urlusername=up.user %}" class="btn btn-danger">BAN IP</a>
+                        </td>
                     {% endif %}
 
                     {% if verification %}
                         {% if not up.user_verified %}
-                            <td><a href="/staff/users/verify/{{ up.user }}" class="btn btn-primary"> Force Verify
+                            <td><a href="{% url 'staff:verify_user' urlusername=up.user %}" class="btn btn-primary">
+                                Force Verify
                                 User</a>
                             </td>
                             <td><a href="{% url 'staff:resend_verify_email' urlusername=up.user %}"
                                    class="btn btn-primary"> Resend verification email</a></td>
                         {% else %}
-                            <td><a href="/staff/users/verify/{{ up.user }}" class="btn btn-primary"> Unverify User</a>
+                            <td><a href="{% url 'staff:verify_user' urlusername=up.user %}" class="btn btn-primary">
+                                Unverify User</a>
                             </td>
                         {% endif %}
                     {% endif %}
