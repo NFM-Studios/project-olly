@@ -56,6 +56,27 @@ class LeagueSettings(models.Model):
         return self.name
 
 
+class LeagueMatchScheduler(models.Model):
+    DAYS_OF_WEEK = (
+        (0, 'Monday'),
+        (1, 'Tuesday'),
+        (2, 'Wednesday'),
+        (3, 'Thursday'),
+        (4, 'Friday'),
+        (5, 'Saturday'),
+        (6, 'Sunday'),
+    )
+    name = models.CharField(default='Default Match Scheduler', max_length=35)
+    matches_per_day = models.PositiveSmallIntegerField(default=1)
+    matches_per_week = models.PositiveSmallIntegerField(default=2)
+    match_days = models.CharField(max_length=1, choices=DAYS_OF_WEEK)
+    match_times_same = models.BooleanField(default=True)
+    match_time = models.TimeField(blank=True, null=True)
+    total_matches = models.PositiveSmallIntegerField(default=10)
+    created = models.DateTimeField(auto_created=True)
+    updated = models.DateTimeField(auto_now=True)
+
+
 class LeagueTeam(models.Model):
     team = models.ForeignKey(Team, related_name='league_team', on_delete=models.PROTECT)
     wins = models.PositiveSmallIntegerField(default=0)
@@ -79,7 +100,7 @@ class LeagueDivision(models.Model):
 
     def __str__(self):
         if self.name is None:
-            return "Division "+str(self.pk)
+            return "Division " + str(self.pk)
         else:
             return self.name
 
@@ -99,7 +120,9 @@ class League(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     divisions = models.ManyToManyField(LeagueDivision, blank=True)
-    platform = models.ForeignKey(PlatformChoice, related_name='league_platform', on_delete=models.PROTECT, null=True, blank=True)
+    platform = models.ForeignKey(PlatformChoice, related_name='league_platform', on_delete=models.PROTECT, null=True,
+                                 blank=True)
+    scheduler = models.ForeignKey(LeagueMatchScheduler, blank=True, null=True, on_delete=models.PROTECT)
     game = models.ForeignKey(GameChoice, related_name='league_game', on_delete=models.PROTECT, null=True, blank=True)
     sport = models.ForeignKey(SportChoice, related_name='league_sport', on_delete=models.PROTECT, null=True, blank=True)
     image = models.ImageField(upload_to='league_images', blank=True, null=True)
@@ -126,5 +149,3 @@ class League(models.Model):
     prize3 = models.CharField(default='no prize specified', max_length=50)
     teams = models.ManyToManyField(LeagueTeam, blank=True)
     fa = models.ManyToManyField(LeagueFreeAgent, related_name="league_fas", blank=True)
-
-
