@@ -1,0 +1,22 @@
+{% extends 'staff/staffbase.html' %}
+{% load static %}
+
+{% block title %}
+    Olly Settings - CREATE
+{% endblock %}
+
+{% block body %}
+    <form enctype="multipart/form-data" method="post">
+    {% csrf_token %}
+        <label>Disable Team Invites</label>
+        {{ form.freeze_team_invites }}
+        <br />
+
+        <label>Disable Team Creation</label>
+        {{ form.disable_team_creation }}
+        <br />
+        <button type="submit" class="btn btn-primary">Create</button>
+
+    </form>
+
+{% endblock %}

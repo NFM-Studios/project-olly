@@ -13,7 +13,7 @@ from django.utils import timezone
 from django.views.generic import ListView, DetailView, View
 from django.db.models import Q
 from django.core.exceptions import ObjectDoesNotExist
-
+from pages.models import OllySetting
 from matches.models import Match
 from profiles.models import UserProfile, Notification
 # team create forms
@@ -195,10 +195,20 @@ class TeamCreateView(View):
     form_class = TeamCreateForm
 
     def get(self, request):
+        if OllySetting.objects.get(pk=1).can_create_team():
+            pass
+        else:
+            messages.error(request, "An admin has disabled team creation")
+            return redirect('teams:list')
         form = self.form_class()
         return render(request, 'teams/team_create.html', {'form': form})
 
     def post(self, request):
+        if OllySetting.objects.get(pk=1).can_create_team():
+            pass
+        else:
+            messages.error(request, "An admin has disabled team creation")
+            return redirect('teams:list')
         form = self.form_class(request.POST)
 
         if form.is_valid():
@@ -225,10 +235,20 @@ class TeamInviteCreateView(View):
     form_class = TeamInviteFormGet
 
     def get(self, request):
+        if OllySetting.objects.get(pk=1).can_invite():
+            pass
+        else:
+            messages.error(request, "An admin has disabled team invite creation")
+            return redirect('teams:list')
         form = self.form_class(request)
         return render(request, 'teams/team_invite_player.html', {'form': form})
 
     def post(self, request):
+        if OllySetting.objects.get(pk=1).can_invite():
+            pass
+        else:
+            messages.error(request, "An admin has disabled team invite creation")
+            return redirect('teams:list')
         form = TeamInviteFormPost(request.POST)
         team = Team.objects.get(id=form.data['team'])
         invite = get_invites(form)

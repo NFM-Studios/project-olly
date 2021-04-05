@@ -27,6 +27,8 @@ urlpatterns = [
     path('slides/create', login_required(views.slide_create), name='slide_create'),
     path('slides/<pk>', login_required(views.slide_detail), name='slide_detail'),
     path('slides/<pk>/delete', login_required(views.slide_delete), name='slide_delete'),
+    path('settings/create', login_required(views.create_settings), name='create_settings'),
+    path('settings/edit', login_required(views.edit_settings), name='edit_settings'),
 
     path('users', login_required(views.users), name='users'),
     path('users/getrank/', login_required(views.getrank), name='get_rank'),
