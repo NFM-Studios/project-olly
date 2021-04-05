@@ -10,7 +10,7 @@ from singletournaments.models import SingleEliminationTournament, SingleTourname
 from store.models import Product
 from support.models import TicketComment, Ticket, TicketCategory, QuestionAnswerCategory, QuestionAnswer
 from teams.models import Team, TeamInvite
-from leagues.models import League, LeagueDivision, LeagueSettings, LeagueTeam
+from leagues.models import League, LeagueDivision, LeagueSettings, LeagueTeam, LeagueMatchScheduler
 
 
 class StaticInfoForm(forms.ModelForm):
@@ -352,3 +352,12 @@ class DivisionAddTeamForm(forms.Form):
 
     class Meta:
         fields = ('teamid')
+
+
+class CreateLeagueMatchScheduler(forms.ModelForm):
+    class Meta:
+        model = LeagueMatchScheduler
+        fields = '__all__'
+        widgets = {
+            'match_days': forms.CheckboxSelectMultiple
+        }

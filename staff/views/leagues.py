@@ -6,7 +6,7 @@ import datetime
 
 #from matches.models import MatchReport, MatchDispute, Match, MapChoice, MapPoolChoice
 from staff.forms import *
-
+from leagues.models import *
 
 def create_league(request):
     user = UserProfile.objects.get(user__username=request.user.username)
@@ -315,9 +315,74 @@ def division_match_list(request, pk, divid):
     user = UserProfile.objects.get(user__username=request.user.username)
     allowed = ['superadmin', 'admin']
     if user.user_type not in allowed:
-        return render(request, 'staff/permissiondenied')
+        return render(request, 'staff/permissiondenied.html')
     else:
         league = League.objects.get(pk=pk)
         division = LeagueDivision.objects.get(pk=divid)
         matches = division.matches.all()
         return render(request, 'staff/leagues/league_division_matches.html', {'league': league, 'division': division, 'matches':matches })
+
+
+def list_match_scheduler(request):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        objects = LeagueMatchScheduler.objects.all()
+        return render(request, 'staff/leagues/match_scheduler_list.html', {'objects': objects})
+
+
+def detail_match_scheduler(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        try:
+            scheduler = LeagueMatchScheduler.objects.get(pk)
+        except ObjectDoesNotExist:
+            messages.error(request, "ERROR: Unable to find that Match Scheduler Object")
+            return redirect('staff:list_match_scheduler')
+        except Exception:
+            messages.error(request, 'An unknown error has occured')
+            return redirect('staff:index')
+        return render(request, 'staff/leagues/league_match_scheduler_detail.html', {'scheduler':scheduler})
+
+
+def create_match_scheduler(request):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        if request.method == 'POST':
+            # posting data - process
+            form = CreateLeagueMatchScheduler(request.POST)
+        else:
+            # get request return form to template
+            form = CreateLeagueMatchScheduler()
+            return render(request, 'staff/leagues/match_scheduler_create.html', {'form': form})
+
+
+def delete_match_scheduler(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        try:
+            scheduler = LeagueMatchScheduler.objects.get(pk)
+            scheduler.delete()
+            messages.success(request, 'Match scheduler object deleted')
+            return redirect('staff:list_match_scheduler')
+        except ObjectDoesNotExist:
+            messages.error(request, "ERROR: Unable to find that Match Scheduler Object")
+            return redirect('staff:list_match_scheduler')
+        except Exception:
+            messages.error(request, 'An unknown error has occured')
+            return redirect('staff:index')
+
+
+def edit_match_scheduler(request, pk):
+    pass

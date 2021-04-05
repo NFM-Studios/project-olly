@@ -72,6 +72,11 @@ urlpatterns = [
     path('leagues/settings/create', login_required(views.create_league_settings), name='create_league_settings'),
     path('leagues/settings/<int:pk>/', login_required(views.detail_league_settings), name='detail_league_settings'),
     path('leagues/settings/<int:pk>/edit/', login_required(views.edit_league_settings), name='edit_league_settings'),
+    path('leagues/match-scheduler/', login_required(views.list_match_scheduler), name='list_match_scheduler'),
+    path('leagues/match-scheduler/<int:pk>/detail', login_required(views.detail_match_scheduler), name='detail_match_scheduler'),
+    path('leagues/match-scheduler/create', login_required(views.create_match_scheduler), name='create_match_scheduler'),
+    path('leagues/match-scheduler/<int:pk>/edit', login_required(views.edit_match_scheduler), name='edit_match_scheduler'),
+    path('leagues/match-scheduler/<int:pk>/delete', login_required(views.detail_match_scheduler), name='delete_match_scheduler'),
 
 
     path('matches/', login_required(views.matches_index), name='matches_index'),
