@@ -7,14 +7,6 @@
 
 {% block body %}
 
-    {% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-                <li class="{{ message.tags }}">{{ message }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-
     <form method="POST" action="{% url 'teams:create' %}">
         <table class="table">
             {% csrf_token %}
