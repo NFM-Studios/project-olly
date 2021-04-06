@@ -5,7 +5,7 @@ from .base_settings import *
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ['secret_key']
 
-if os.environ['debug'] == 'True' or 'TRAVIS' in os.environ:
+if os.environ['debug'] == 'True':
     DEBUG = True
     PAYPAL_TEST = True
 else:
@@ -74,7 +74,14 @@ EMAIL_USE_TLS = os.environ['email_use_tls']
 EMAIL_HOST = os.environ['email_host']
 EMAIL_HOST_USER = os.environ['email_host_user']
 EMAIL_HOST_PASSWORD = os.environ['email_host_password']
-FROM_EMAIL = os.environ['from_email'].split('"')[1]
+
+try:
+    FROM_EMAIL = os.environ['from_email'].split('"')[1]
+except IndexError:
+    FROM_EMAIL = os.environ['from_email']
+except KeyError:
+    FROM_EMAIL = "MySite <noreply@example.com>"
+
 EMAIL_PORT = os.environ['email_port']
 
 try:
