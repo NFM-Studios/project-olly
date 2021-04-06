@@ -6,5 +6,51 @@
 {% endblock %}
 
 {% block body %}
-    {{ form.as_table }}
+    <form enctype="multipart/form-data" method="post">
+        {% csrf_token %}
+        {{ field.errors }}
+        <label>Name</label>
+        {{ form.name }}
+        <br/>
+
+        <label>Matches per given day</label>
+        {{ form.matches_per_day }}
+        <br />
+
+        <label>Total matches per week</label>
+        {{ form.matches_per_week }}
+        <br />
+
+        <label>Select the days of the week matches will be played on</label>
+        {{ form.match_days }}
+        <br />
+
+        <label>Same match time for each match? (Click for yes)</label>
+        {{ form.match_times_same }}
+        <br />
+
+        <label>Match Time</label>
+        {{ form.match.time }}
+        <br />
+
+        <label>Total Match Days</label>
+        {{ form.total_matches }}
+        <br />
+
+
+        <button type="submit" class="btn btn-primary">Create</button>
+
+        <script type="text/javascript">
+            $(function () {
+                $('#timepicker1').timepicker({
+                    format: 'HH:mm'
+                });
+                $('#datetimepicker2').datetimepicker({
+                    format: 'YYYY-MM-DD HH:mm'
+                });
+                $('#datetimepicker3').datetimepicker({
+                    format: 'YYYY-MM-DD HH:mm'
+                });
+            });
+        </script>
 {% endblock %}
