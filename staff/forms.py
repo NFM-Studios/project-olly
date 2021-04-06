@@ -206,8 +206,8 @@ class ModifyUserForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = (
-        'num_bronze', 'num_silver', 'num_gold', 'current_earning', 'xp', 'credits', 'user_type', 'alternate_name',
-        'steamid64', 'discord')
+            'num_bronze', 'num_silver', 'num_gold', 'current_earning', 'xp', 'credits', 'user_type', 'alternate_name',
+            'steamid64', 'discord')
 
 
 class CreateProductForm(forms.ModelForm):
