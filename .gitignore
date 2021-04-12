@@ -2,6 +2,9 @@
 .vs
 .idea
 
+project-static/
+project-templates
+
 # Byte-compiled / optimized / DLL files
 *.pyc
 __pycache__/

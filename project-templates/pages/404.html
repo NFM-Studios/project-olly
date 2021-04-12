@@ -1,11 +1,81 @@
 {% extends "base.html" %}
 
-{% block head %}
-    <title>404 - {{ SITE_NAME }}</title>
+{% block title %}
+404
 {% endblock %}
-
 {% block body %}
 
-    <h1>ERROR:404 PAGE NOT FOUND</h1>
+
+  <!-- LAYOUT CONTENT FULL -->
+  <div class="layout-content-full">
+    <!-- ERROR DISPLAY -->
+    <div class="error-display grid-limit">
+      <!-- ERROR IMG -->
+      <figure class="error-img liquid">
+        <img src="{% static 'csc/img/other/error-img.png' %}" alt="error-img">
+      </figure>
+      <!-- /ERROR IMG -->
+
+      <!-- ERROR TITLE -->
+      <p class="error-title">Oooooopsss!</p>
+      <!-- /ERROR TITLE -->
+
+      <!-- ERROR SUBTITLE -->
+      <p class="error-subtitle">Seems that something went wrong</p>
+      <!-- /ERROR SUBTITLE -->
+
+      <!-- ERROR TEXT -->
+      <p class="error-text">The page you are looking for has been moved or doesn’t exist anymore, if you like you can return to the previous page, or go to our main homepage. If the problem persists, please send us an email to <a class="highlight" href="mailto:info@pixeldiamonds.com">info@pixeldiamonds.com</a></p>
+      <!-- /ERROR TEXT -->
+    </div>
+    <!-- /ERROR DISPLAY -->
+
+    <!-- SECTION ACTIONS -->
+    <div class="section-actions">
+      <!-- BUTTON -->
+      <a href="#" class="button blue">
+        Go to previous page
+        <!-- BUTTON ORNAMENT -->
+        <div class="button-ornament">
+          <!-- ARROW ICON -->
+          <svg class="arrow-icon medium">
+            <use xlink:href="#svg-arrow-medium"></use>
+          </svg>
+          <!-- /ARROW ICON -->
+
+          <!-- CROSS ICON -->
+          <svg class="cross-icon small">
+            <use xlink:href="#svg-cross-small"></use>
+          </svg>
+          <!-- /CROSS ICON -->
+        </div>
+        <!-- /BUTTON ORNAMENT -->
+      </a>
+      <!-- /BUTTON -->
+
+      <!-- BUTTON -->
+      <a href="index.html" class="button violet">
+        Go to main home
+        <!-- BUTTON ORNAMENT -->
+        <div class="button-ornament">
+          <!-- ARROW ICON -->
+          <svg class="arrow-icon medium">
+            <use xlink:href="#svg-arrow-medium"></use>
+          </svg>
+          <!-- /ARROW ICON -->
+
+          <!-- CROSS ICON -->
+          <svg class="cross-icon small">
+            <use xlink:href="#svg-cross-small"></use>
+          </svg>
+          <!-- /CROSS ICON -->
+        </div>
+        <!-- /BUTTON ORNAMENT -->
+      </a>
+      <!-- /BUTTON -->
+    </div>
+    <!-- /SECTION ACTIONS -->
+  </div>
+  <!-- LAYOUT CONTENT FULL -->
 
 {% endblock %}
