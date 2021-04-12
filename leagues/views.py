@@ -19,7 +19,7 @@ def detail_league(request, pk):
     elif len(league.divisions.all()) == 1:
         # there is only one division show the matches in the one page
         division = league.divisions.first()
-        matches = division.matches
+        matches = division.matches.all()
         return render(request, 'leagues/league_division.html',
                       {'league': league, 'matches': matches, 'division': division})
     return render(request, 'leagues/league_detail.html', {'league': league, 'teams': teams})
