@@ -1,0 +1,7 @@
+<!-- SVG CHECK -->
+<svg style="display: none;">
+  <symbol id="svg-check" viewBox="0 0 16 13" preserveAspectRatio="xMinYMin meet">
+    <path d="M16,2.167L5.091,13L0,7.945l2.182-2.167l2.909,2.888L13.819,0L16,2.167z"/>
+  </symbol>
+</svg>
+<!-- /SVG CHECK -->

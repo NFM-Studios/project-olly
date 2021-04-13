@@ -1,0 +1,86 @@
+@mixin floatfix() {
+  &:after {
+    content: '';
+    display: table;
+    clear: both;
+  }
+}
+
+@mixin flex($flow: row wrap) {
+  display: flex;
+  flex-flow: $flow;
+}
+
+@mixin transition($duration, $who: all, $ease: ease-in-out) {
+  transition: $who $duration $ease;
+}
+
+@mixin transition_delay($duration) {
+  transition-delay: $duration;
+}
+
+@mixin transform_skew($deg) {
+  -o-transform: skew($deg);
+  -moz-transform: skew($deg);
+  -ms-transform: skew($deg);
+  -webkit-transform: skew($deg);
+  transform: skew($deg);
+}
+
+@mixin transform_rotate($deg) {
+  -o-transform: rotate($deg);
+  -moz-transform: rotate($deg);
+  -ms-transform: rotate($deg);
+  -webkit-transform: rotate($deg);
+  transform: rotate($deg);
+}
+
+@mixin transform_scale($scale) {
+  -o-transform: scale($scale);
+  -moz-transform: scale($scale);
+  -ms-transform: scale($scale);
+  -webkit-transform: scale($scale);
+  transform: scale($scale);
+}
+
+@mixin transform_translate($x, $y) {
+  -o-transform: translate($x, $y);
+  -moz-transform: translate($x, $y);
+  -ms-transform: translate($x, $y);
+  -webkit-transform: translate($x, $y);
+  transform: translate($x, $y);
+}
+
+@mixin appearance($value) {
+  -webkit-appearance: $value;
+  -moz-appearance: $value;
+  appearance: $value;
+}
+
+@mixin user_select($value: none) {
+  -moz-user-select: $value;
+  -ms-user-select: $value;
+  -webkit-user-select: $value;
+  user-select: $value;
+}
+
+@mixin filter_blur($q) {
+  -webkit-filter: blur($q);
+  filter: blur($q);
+}
+
+@mixin filter_brightness($p) {
+  -webkit-filter: brightness($p);
+  filter: brightness($p);
+}
+
+/**
+** Index values
+**/
+$index-global-max: 99999;
+$index-global-mid: 66666;
+$index-global-min: 33333;
+
+$index-local-max: 9999;
+$index-local-mid: 6666;
+$index-local-min: 3333;

@@ -1,0 +1,345 @@
+.s-icon {
+  color: $black;
+}
+
+.play-button-icon {
+  width: 12px;
+  height: 14px;
+  fill: $white;
+
+  &.tiny {
+    width: 8px;
+    height: 10px;
+  }
+
+  &.big {
+    width: 24px;
+    height: 28px;
+  }
+}
+
+.bullet-icon, .tower-icon,
+.shield-icon, .plus-icon {
+  width: 16px;
+  height: 20px;
+  fill: $black-lighter;
+  
+  &.big {
+    width: 22px;
+    height: 28px;
+  }
+}
+
+.shield-icon {
+  &.big {
+    width: 24px;
+  }
+}
+
+.plus-icon {
+  height: 16px;
+
+  &.rate-up {
+    fill: $cyan;
+    width: 6px;
+    height: 6px;
+  }
+
+  &.big {
+    width: 28px;
+  }
+}
+
+.rating-ornament-icon {
+  width: 10px;
+  height: 9px;
+}
+
+.arrow-icon {
+  width: 3px;
+  height: 5px;
+  
+  &.big {
+    width: 9px;
+    height: 15px;
+  }
+  
+  &.medium {
+    width: 6px;
+    height: 10px;
+  }
+}
+
+.cross-icon {
+  &.big {
+    width: 15px;
+    height: 15px;
+  }
+
+  &.small {
+    width: 10px;
+    height: 10px;
+  }
+}
+
+.cross-cb-icon {
+  fill: $white;
+  width: 16px;
+  height: 16px;
+
+  &.small {
+    width: 8px;
+    height: 8px;
+  }
+}
+
+.search-icon,
+.inventory-icon,
+.inventory-close-icon {
+  fill: $black-lighter;
+  width: 24px;
+  height: 24px;
+}
+
+.search-icon {
+  &.small {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.inventory-icon-points {
+  fill: $inventory-icon-points;
+}
+
+.inventory-icon-points-light {
+  fill: $inventory-icon-points-light;
+}
+
+.plus-cc-icon,
+.minus-cc-icon {
+  fill: $black-lighter;
+  width: 8px;
+  height: 8px;
+
+  &.medium {
+    width: 10px;
+    height: 10px;
+  }
+}
+
+.minus-cc-icon {
+  &.rate-down {
+    fill: $red;
+    width: 6px;
+    height: 6px;
+  }
+}
+
+.plus-cc-2-icon {
+  width: 12px;
+  height: 12px;
+}
+
+.hexagon-icon {
+  &.hexagon-border {
+    fill: $white-darker;
+    width: 80px;
+    height: 86px;
+  }
+
+  &.hexagon-fill {
+    fill: $hexagon-bg-color;
+    width: 68px;
+    height: 74px;
+  }
+}
+
+.menu-pull-icon {
+  fill: $white;
+  width: 22px;
+  height: 14px;
+}
+
+.facebook-icon,
+.twitter-icon,
+.instagram-icon,
+.twitch-icon,
+.gplus-icon,
+.youtube-icon {
+  fill: $white;
+}
+
+.facebook-icon {
+  width: 12px;
+  height: 12px;
+
+  &.big {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+.twitter-icon {
+  width: 12px;
+  height: 10px;
+
+  &.big {
+    width: 16px;
+    height: 13px;
+  }
+}
+
+.instagram-icon {
+  width: 12px;
+  height: 12px;
+
+  &.big {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+.twitch-icon {
+  width: 12px;
+  height: 13px;
+
+  &.big {
+    width: 14px;
+    height: 15px;
+  }
+}
+
+.gplus-icon {
+  width: 15px;
+  height: 9px;
+
+  &.big {
+    width: 18px;
+    height: 12px;
+  }
+}
+
+.youtube-icon {
+  width: 14px;
+  height: 12px;
+}
+
+.live-icon {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  background-color: $red;
+  border-radius: 50%;
+}
+
+.check-icon {
+  width: 16px;
+  height: 13px;
+
+  &.medium {
+    width: 20px;
+    height: 16px;
+  }
+}
+
+.exclamation-icon {
+  width: 6px;
+  height: 20px;
+}
+
+.bars-icon {
+  width: 11px;
+  height: 10px;
+}
+
+.skull-icon,
+.pliers-icon,
+.explosion-icon,
+.stopwatch-icon {
+  &.blue {
+    fill: #57a9ee;
+  }
+
+  &.yellow {
+    fill: #e5bf65;
+  }
+}
+
+.skull-icon {
+  width: 22px;
+  height: 22px;
+}
+
+.pliers-icon {
+  width: 22px;
+  height: 22px;
+}
+
+.explosion-icon {
+  width: 30px;
+  height: 30px;
+}
+
+.stopwatch-icon {
+  width: 22px;
+  height: 22px;
+}
+
+.featured-corner-icon {
+  width: 24px;
+  height: 24px;
+  fill: $white-darker;
+}
+
+.role-top-icon,
+.role-jungler-icon,
+.role-middle-icon,
+.role-adcarry-icon,
+.role-support-icon {
+  width: 20px;
+  height: 20px;
+  fill: #d6d6d6;
+}
+
+.calendar-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.baron-icon,
+.dragon-icon,
+.inhibitor-icon,
+.rift-herald-icon,
+.tower-icon {
+  width: 20px;
+  height: 20px;
+  fill: $black-lighter;
+
+  &.red {
+    fill: $red;
+  }
+
+  &.blue {
+    fill: $team-blue;
+  }
+}
+
+.track-icon {
+  width: 10px;
+  height: 10px;
+  fill: $black-lighter;
+}
+
+.close-icon {
+  width: 24px;
+  height: 24px;
+  color: $black-lighter;
+}
+
+.grid-icon,
+.list-icon {
+  fill: $white-darker;
+  width: 10px;
+  height: 10px;
+}

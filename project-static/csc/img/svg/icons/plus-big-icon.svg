@@ -1,0 +1,9 @@
+<!-- SVG PLUS BIG -->
+<svg style="display: none;">
+  <symbol id="svg-plus-big" viewBox="0 0 28 28" preserveAspectRatio="xMinYMin meet">
+    <path d="M26,19h-7v7c0,1.104-0.896,2-2,2h-6c-1.104,0-2-0.896-2-2v-7H2
+    c-1.104,0-2-0.896-2-2v-6.001c0-1.104,0.896-2,2-2h7v-7C9,0.895,9.896,0,11,0h6c1.104,0,2,0.895,2,1.999v7h7c1.104,0,2,0.896,2,2V17
+    C28,18.104,27.104,19,26,19z"/>
+  </symbol>
+</svg>
+<!-- /SVG PLUS BIG -->

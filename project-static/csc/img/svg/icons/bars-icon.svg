@@ -1,0 +1,7 @@
+<!-- SVG BARS -->
+<svg style="display: none;">
+  <symbol id="svg-bars" viewBox="0 0 11 10" preserveAspectRatio="xMinYMin meet">
+    <path d="M0,10h3V2H0V10z M4,10h3V0H4V10z M8,4v6h3V4H8z"/>
+  </symbol>
+</svg>
+<!-- /SVG BARS -->

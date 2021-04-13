@@ -1,0 +1,431 @@
+.button {
+  display: inline-block;
+  height: 46px;
+  border-radius: 200px;
+  padding: 0 68px 0 34px;
+  background-color: $black-lighter;
+  color: $white;
+  font-family: $font-primary;
+  font-size: $fs-11;
+  font-weight: $weight-extrabold;
+  line-height: 46px;
+  text-transform: uppercase;
+  cursor: pointer;
+  @include transition(.2s, background-color);
+  position: relative;
+
+  &.no-decoration {
+    padding: 0 34px;
+    text-align: center;
+  }
+
+  &.full {
+    width: 100%;
+    padding: 0;
+    text-align: center;
+  }
+
+  &.big {
+    height: 55px;
+    padding: 0 92px 0 52px;
+    font-size: $fs-14;
+    line-height: 55px;
+
+    .button-ornament {
+      width: 43px;
+      height: 43px;
+    }
+
+    .arrow-icon {
+      top: 14px;
+      left: 19px;
+    }
+
+    .cross-icon {
+      top: 14px;
+      margin-left: -7px;
+    }
+  }
+
+  &.small {
+    height: 34px;
+    padding: 0 24px;
+    font-size: $fs-10;
+    line-height: 34px;
+  }
+
+  &.tiny {
+    height: 27px;
+    padding: 0 32px 0 14px;
+    font-size: $fs-9;
+    line-height: 27px;
+
+    &.disabled {
+      .cross-icon {
+        width: 9px;
+        height: 9px;
+      }
+    }
+
+    .button-ornament {
+      width: 21px;
+      height: 21px;
+      top: 3px;
+      right: 3px;
+    }
+
+    .arrow-icon {
+      top: 8px;
+      left: 10px;
+    }
+
+    .cross-icon {
+      top: 6px;
+    }
+
+    &:hover {
+      .arrow-icon {
+        @include transform_rotate(0deg);
+      }
+    }
+  }
+
+  &.disabled {
+    color: $gray;
+    background-color: $black-lighter;
+    pointer-events: none;
+
+    .button-ornament {
+      background-color: $disabled-ornament;
+    }
+
+    .arrow-icon {
+      display: none;
+    }
+
+    .cross-icon {
+      display: block;
+    }
+
+    &:hover {
+      background-color: $black-lighter;
+
+      .button-ornament {
+        background-color: $disabled-ornament;
+      }
+    }
+  }
+
+  &.blue, &.red, &.green,
+  &.violet, &.yellow, &.cyan,
+  &.gray {
+    &.disabled {
+      color: $gray;
+      background-color: $black-lighter;
+  
+      .button-ornament {
+        background-color: $disabled-ornament;
+      }
+
+      .arrow-icon {
+        display: none;
+      }
+
+      .cross-icon {
+        display: block;
+      }
+  
+      &:hover {
+        background-color: $black-lighter;
+
+        .button-ornament {
+          background-color: $disabled-ornament;
+        }
+      }
+    }
+  }
+
+  &.blue {
+    background-color: $blue;
+
+    .button-ornament {
+      background-color: $blue-ornament;
+    }
+
+    &:hover {
+      background-color: $blue-hover;
+    }
+  }
+
+  &.red {
+    background-color: $red;
+
+    .button-ornament {
+      background-color: $red-ornament;
+    }
+
+    &:hover {
+      background-color: $red-hover;
+    }
+  }
+
+  &.green {
+    background-color: $green;
+
+    .button-ornament {
+      background-color: $green-ornament;
+    }
+
+    &:hover {
+      background-color: $green-hover;
+    }
+  }
+
+  &.violet {
+    background-color: $violet;
+
+    .button-ornament {
+      background-color: $violet-ornament;
+    }
+
+    &:hover {
+      background-color: $violet-hover;
+    }
+  }
+
+  &.cyan {
+    background-color: $cyan;
+
+    .button-ornament {
+      background-color: $cyan-ornament;
+    }
+
+    &:hover {
+      background-color: $cyan-hover;
+    }
+  }
+
+  &.yellow {
+    background-color: $yellow;
+
+    .button-ornament {
+      background-color: $yellow-ornament;
+    }
+
+    &:hover {
+      background-color: $yellow-hover;
+    }
+  }
+
+  &.gray {
+    background-color: $white-darker;
+
+    .button-ornament {
+      background-color: $gray-ornament;
+    }
+
+    &:hover {
+      background-color: $gray-hover;
+
+      .button-ornament {
+        background-color: $gray-ornament-hover; 
+      }
+    }
+  }
+
+  &.fb {
+    background-color: $fb-color;
+  }
+
+  &.twt {
+    background-color: $twt-color;
+  }
+
+  &.gplus {
+    background-color: $gplus-color;
+  }
+
+  &:hover {
+    .arrow-icon {
+      @include transform_rotate(360deg);
+    }
+  }
+
+  .button-ornament {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background-color: $gray-dark;
+    position: absolute;
+    top: 6px;
+    right: 6px;
+  }
+
+  .track-icon {
+    fill: $white;
+  }
+
+  .arrow-icon {
+    fill: $white;
+    position: absolute;
+    top: 12px;
+    left: 15px;
+    @include transition(.3s, transform);
+  }
+
+  .cross-icon {
+    fill: $white;
+    position: absolute;
+    top: 12px;
+    left: 50%;
+    margin-left: -5px;
+    display: none;
+  }
+}
+
+.button-social {
+  width: 220px;
+  height: 46px;
+  border-radius: 200px;
+  @extend %heading-11;
+  color: $white;
+  line-height: 46px;
+  text-align: center;
+
+  &.big {
+    width: 278px;
+  }
+
+  &.fb {
+    background-color: $fb-color;
+  }
+
+  &.twt {
+    background-color: $twt-color;
+  }
+
+  &.gplus {
+    background-color: $gplus-color;
+  }
+
+  .facebook-icon {
+    position: relative;
+    top: 2px;
+    margin-right: 6px;
+  }
+
+  .twitter-icon {
+    position: relative;
+    top: 1px;
+    margin-right: 8px;
+  }
+
+  .gplus-icon {
+    position: relative;
+    top: 2px;
+    margin-right: 6px;
+  }
+}
+
+.button-social-list {
+  @include flex();
+
+  &.big {
+    .button-social {
+      margin-right: 18px;
+    }
+  }
+  
+  .button-social {
+    margin-right: 20px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+
+.button-replay {
+  @extend %heading-10;
+  color: $black-lighter;
+  cursor: pointer;
+
+  &:hover {
+    color: $violet;
+  }
+
+  .play-button-icon {
+    fill: $violet;
+    position: relative;
+    top: 1px;
+    margin-right: 6px;
+  }
+}
+
+.decorated-link {
+  @extend %heading-10;
+  color: $black-lighter;
+  cursor: pointer;
+
+  &:hover {
+    color: $violet;
+  }
+
+  &.red {
+    color: $red;
+  }
+
+  .bars-icon {
+    fill: $violet;
+    margin-right: 6px;
+  }
+}
+
+.link-text-form {
+  @extend %heading-10;
+  color: $gray;
+  @include transition(.15s);
+
+  &.blue {
+    &:hover {
+      color: $blue;
+    }
+  }
+
+  &.red {
+    &:hover {
+      color: $red;
+    }
+  }
+
+  &.yellow {
+    &:hover {
+      color: $yellow;
+    }
+  }
+
+  &.green {
+    &:hover {
+      color: $green;
+    }
+  }
+
+  &.violet {
+    &:hover {
+      color: $violet;
+    }
+  }
+
+  &.cyan {
+    &:hover {
+      color: $cyan;
+    }
+  }
+}
+
+.button-popup-demo {
+  display: block;
+  width: 200px;
+  margin: 40px auto 80px;
+  text-align: center;
+}

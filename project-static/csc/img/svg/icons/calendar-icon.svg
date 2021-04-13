@@ -1,0 +1,9 @@
+<!-- SVG CALENDAR -->
+<svg style="display: none;">
+  <symbol id="svg-calendar" viewBox="0 0 24 24" preserveAspectRatio="xMinYMin meet">
+    <path id="Outter_Edge" fill="#363636" d="M20,2H4C1.791,2,0,3.791,0,6v14c0,2.209,1.791,4,4,4h16c2.209,0,4-1.791,4-4V6 C24,3.791,22.209,2,20,2z M22,20c0,1.103-0.897,2-2,2H4c-1.103,0-2-0.897-2-2V6c0-1.103,0.897-2,2-2h16c1.103,0,2,0.897,2,2V20z"/>
+    <path fill="#363636" d="M8,0C7.447,0,7,0.448,7,1v4c0,0.553,0.447,1,1,1c0.552,0,1-0.447,1-1V1C9,0.448,8.552,0,8,0z M16,0c-0.553,0-1,0.448-1,1v4c0,0.553,0.447,1,1,1c0.552,0,1-0.447,1-1V1C17,0.448,16.552,0,16,0z"/>
+    <path fill="#7442CE" d="M5,11h2V9H5V11z M9,11h2V9H9V11z M13,11h2V9h-2V11z M17,9v2h2V9H17z M5,15h2v-2H5V15z M9,15h2v-2H9V15z M13,15h2v-2h-2V15z M17,15h2v-2h-2V15z M5,19h2v-2H5V19z M9,19h2v-2H9V19z M13,19h2v-2h-2V19z M17,19h2v-2h-2V19z"/>
+  </symbol>
+</svg>
+<!-- /SVG CALENDAR -->

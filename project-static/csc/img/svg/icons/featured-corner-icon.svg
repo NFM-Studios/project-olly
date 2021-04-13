@@ -1,0 +1,7 @@
+<!-- SVG FEATURED CORNER -->
+<svg style="display: none;">
+  <symbol id="svg-featured-corner" viewBox="0 0 24 24" preserveAspectRatio="xMinYMin meet">
+    <path d="M0,0l24,24V0H0z M19.472,11L17,9.781L14.528,11l0.339-2.849L13,6.056l2.682-0.542L17,3l1.318,2.515L21,6.056l-1.867,2.095L19.472,11z"/>
+  </symbol>
+</svg>
+<!-- /SVG FEATURED CORNER -->

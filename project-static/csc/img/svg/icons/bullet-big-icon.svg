@@ -1,0 +1,9 @@
+<!-- SVG BULLET BIG -->
+<svg style="display: none;">
+  <symbol id="svg-bullet-big" viewBox="0 0 22 28" preserveAspectRatio="xMinYMin meet">
+    <path d="M11,0C9.528,0,8,4,8,4v18h6V4C14,4,12.527,0,11,0z M8,28h6v-4H8
+      V28z M19,0c-1.472,0-3,4-3,4v18h6V4C22,4,20.527,0,19,0z M16,28h6v-4h-6V28z M3,0C1.528,0,0,4,0,4v18h6V4C6,4,4.527,0,3,0z M0,28
+      h6v-4H0V28z"/>
+  </symbol>
+</svg>
+<!-- /SVG BULLET BIG -->

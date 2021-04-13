@@ -1,0 +1,7 @@
+<!-- SVG EXCLAMATION -->
+<svg style="display: none;">
+  <symbol id="svg-exclamation" viewBox="0 0 6 20" preserveAspectRatio="xMinYMin meet">
+    <path fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" d="M0,0l1,14h4L6,0H0z M1,20h4v-4H1V20z"/>
+  </symbol>
+</svg>
+<!-- /SVG EXCLAMATION -->

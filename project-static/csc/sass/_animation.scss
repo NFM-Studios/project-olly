@@ -1,0 +1,33 @@
+@keyframes translate-from-bottom {
+  0% {
+    @include transform_translate(0, 50%);
+    opacity: 0;
+  }
+
+  100% {
+    @include transform_translate(0, 0);
+    opacity: 1;
+  }
+}
+
+@keyframes translate-from-right {
+  0% {
+    @include transform_translate(30%, 0);
+    opacity: 0;
+  }
+
+  100% {
+    @include transform_translate(0, 0);
+    opacity: 1;
+  }
+}
+
+@keyframes spin {
+  0% {
+    @include transform_rotate(0);
+  }
+
+  100% {
+    @include transform_rotate(360deg);
+  }
+}

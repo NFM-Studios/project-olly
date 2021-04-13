@@ -1,0 +1,423 @@
+.profile-header {
+  min-height: 126px;
+  padding-bottom: 26px;
+  border-bottom: 1px solid $color-line;
+  @include flex();
+  justify-content: space-between;
+
+  & > {
+    .button {
+      padding: 0 34px;
+      margin-top: 26px;
+    }
+  }
+}
+
+.profile-user {
+  padding-left: 116px;
+  position: relative;
+
+  .user-avatar {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  .profile-user-name {
+    margin-top: 6px;
+    @extend %heading-16;
+    color: $black-lighter;
+    line-height: 1em;
+  }
+
+  .profile-user-info {
+    margin-top: 8px;
+    @extend %heading-10;
+    color: $black-lighter;
+
+    .highlight {
+      color: $gray;
+    }
+  }
+
+  .badge-list {
+    margin-top: 20px;
+  }
+}
+
+.topic-link-items {
+  .topic-link-item {
+    margin-bottom: 20px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.topic-link-item {
+  .topic-link-item-info {
+    @include flex();
+
+    .topic-link-item-timestamp {
+      line-height: 1em;
+    }
+
+    .topic-link-item-stat {
+      line-height: 1em;
+
+      .like-icon,
+      .dislike-icon,
+      .reply-icon {
+        margin: 0 8px 0 12px;
+        font-size: 12px;
+        font-weight: $weight-bold;
+      }
+
+      .like-icon {
+        color: $cyan;
+      }
+
+      .dislike-icon {
+        color: $red;
+      }
+
+      .reply-icon {
+        color: $blue;
+      }
+    }
+  }
+
+  .topic-link-item-title {
+    margin-top: 12px;
+    @extend %heading-12;
+    color: $black-lighter;
+  }
+}
+
+.user-link-items {
+  .user-link-item {
+    margin-bottom: 16px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.user-link-item {
+  height: 60px;
+  padding: 8px 0 0 76px;
+  position: relative;
+
+  .user-avatar {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  .user-link-item-title {
+    @extend %heading-12;
+    color: $black-lighter;
+    line-height: 1em;
+  }
+
+  .user-link-item-stat {
+    margin-top: 12px;
+    line-height: 1em;
+
+    .like-icon,
+    .dislike-icon,
+    .reply-icon {
+      margin-right: 8px;
+      font-size: 12px;
+      font-weight: $weight-bold;
+    }
+
+    .like-icon {
+      color: $cyan;
+    }
+
+    .dislike-icon {
+      color: $red;
+    }
+
+    .reply-icon {
+      color: $blue;
+    }
+  }
+}
+
+.activity-items {
+  .activity-item {
+    &:last-child {
+      border-bottom: 1px solid $color-line;
+    }
+  }
+}
+
+.activity-item {
+  padding: 26px 0 30px 72px;
+  border-top: 1px solid $color-line;
+  position: relative;
+
+  .activity-item-dropdown-button {
+    width: 10px;
+    height: 20px;
+    position: absolute;
+    top: 28px;
+    right: 0;
+    cursor: pointer;
+    
+    .arrow-icon {
+      @include transform_rotate(90deg);
+    }
+  }
+
+  & > {
+    .user-avatar {
+      position: absolute;
+      top: 26px;
+      left: 0;
+    }
+  }
+
+  .activity-item-row {
+    padding-right: 26px;
+    @include flex();
+    justify-content: space-between;
+
+    .activity-item-title {
+      margin-top: 4px;
+      @extend %heading-12;
+      color: $black-lighter;
+
+      .highlight {
+        &.red {
+          color: $red;
+        }
+      }
+    }
+  
+    .activity-item-timestamp {
+      margin-top: 4px;
+      color: $gray;
+      font-size: $fs-12;
+      line-height: 1em;
+    }
+  }
+
+  .forum-category-text {
+    display: inline-block;
+    margin-top: 10px;
+  }
+
+  .activity-item-text {
+    margin-top: 20px;
+
+    .highlight {
+      &.red {
+        color: $red;
+      }
+    }
+  }
+
+  .activity-item-stat {
+    margin-top: 18px;
+    @include flex();
+    align-items: center;
+
+    .like-icon,
+    .dislike-icon,
+    .reply-icon {
+      margin-right: 8px;
+      font-size: 12px;
+      font-weight: $weight-bold;
+    }
+
+    .like-icon {
+      color: $cyan;
+    }
+
+    .dislike-icon {
+      color: $red;
+    }
+
+    .reply-icon {
+      color: $blue;
+    }
+  }
+}
+
+.notification-items {
+  &.bordered {
+    .notification-item {
+      border-top: 1px solid $color-line;
+  
+      &:last-child {
+        border-bottom: 1px solid $color-line;
+      }
+    }
+  }
+
+  &.padded {
+    .notification-item {
+      padding-top: 36px;
+      padding-bottom: 36px;
+
+      .notification-item-icon {
+        top: 34px;
+      }
+    }
+  }
+}
+
+.notification-item {
+  padding-left: 22px;
+  position: relative;
+
+  &.medium {
+    padding-left: 40px;
+
+    .notification-item-icon {
+      left: 6px;
+      font-size: 18px;
+    }
+
+    .notification-item-text {
+      @extend %heading-12;
+    }
+  }
+
+  .notification-item-icon {
+    color: $blue;
+    font-size: 14px;
+    font-weight: $weight-bold;
+    line-height: 1em;
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    &.read {
+      color: $white-darker;
+    }
+  }
+
+  .notification-item-text {
+    @extend %heading-10;
+    color: $gray;
+    line-height: 14px;
+
+    .highlight {
+      color: $black-lighter;
+    }
+  }
+}
+
+.more-items-loader {
+  display: block;
+  width: 100%;
+  height: 38px;
+  @include flex();
+  justify-content: center;
+  align-items: center;
+
+  .square {
+    width: 2px;
+    height: 2px;
+    background-color: $black-lighter;
+    margin-right: 4px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+
+  &.medium {
+    height: 124px;
+
+    .square {
+      width: 4px;
+      height: 4px;
+    }
+  }
+}
+
+.profile-messages-actions {
+  padding-bottom: 16px;
+  border-bottom: 1px solid $color-line;
+  @include flex();
+  justify-content: space-between;
+
+  .action-wrap {
+    @include flex();
+
+    .button {
+      padding: 0 34px;
+      margin-right: 8px;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+}
+
+/**
+ *  MEDIA QUERIES
+ */
+@media screen and (max-width: 680px) {
+  .profile-header {
+    display: block;
+    padding-bottom: 30px;
+    text-align: center;
+
+    .profile-user {
+      padding: 0;
+
+      .user-avatar {
+        display: block;
+        margin: 0 auto;
+        position: static;
+      }
+
+      .profile-user-name,
+      .profile-user-info {
+        text-align: center;
+        margin-top: 12px;
+      }
+
+      .badge-list {
+        justify-content: center;
+      }
+    }
+
+    & > .button {
+      display: inline-block;
+    }
+  }
+
+  .activity-item {
+    padding-left: 0;
+  
+    & > {
+      .user-avatar {
+        position: static;
+      }
+    }
+
+    .activity-item-row {
+      .activity-item-title {
+        margin-top: 10px;
+      }
+
+      .activity-item-timestamp {
+        margin-top: 10px;
+      }
+    }
+
+    .forum-category-text {
+      margin-top: 16px;
+    }
+  }
+}

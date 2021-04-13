@@ -1,0 +1,894 @@
+.tag-ornament {
+  display: inline-block;
+  padding: 0 10px;
+  background-color: $black-light;
+  color: $white;
+  font-family: $font-secondary;
+  font-size: $fs-10;
+  line-height: 20px;
+  font-weight: $weight-tag-ornament;
+  text-transform: uppercase;
+
+  &.bold {
+    font-weight: $weight-bold;
+  }
+
+  &.blue {
+    background-color: $blue;
+  }
+
+  &.red {
+    background-color: $red;
+  }
+
+  &.green {
+    background-color: $green;
+  }
+
+  &.yellow {
+    background-color: $yellow;
+  }
+
+  &.cyan {
+    background-color: $cyan;
+  }
+
+  &.violet {
+    background-color: $violet;
+  }
+}
+
+.rating-ornament {
+  @include floatfix;
+  padding: 2px 6px 4px;
+  background-color: rgba(0, 0, 0, .75);
+
+  &.void {
+    background-color: transparent;
+  }
+
+  &.small {
+    .rating-ornament-icon {
+      width: 8px;
+      height: 8px;
+    }
+  }
+
+  &.medium {
+    .rating-ornament-icon {
+      width: 12px;
+      height: 12px;
+    }
+  }
+
+  &.yellow {
+    .rating-ornament-icon {
+      fill: $yellow-light;
+
+      &.empty {
+        fill: $white-darker;
+      }
+    }
+  }
+
+  .rating-ornament-item {
+    float: left;
+    margin-right: 3px;
+
+    &.empty {
+      fill: $gray-light;
+    }
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+
+.bubble-ornament {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: $white-darker;
+  text-align: center;
+  cursor: pointer;
+  position: relative;
+
+  &.no-link {
+    cursor: auto;
+  }
+
+  & > * {
+    position: relative;
+    z-index: $index-local-mid;
+  }
+
+  .bubble-ornament-info,
+  .bubble-ornament-text {
+    @extend %heading-10;
+    color: $white;
+  }
+
+  .hover-replace {
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    top: 29px;
+    left: 60px;
+  }
+
+  &.big {
+    width: 55px;
+    height: 55px;
+    padding-top: 10px;
+
+    &.smaller {
+      width: 48px;
+      height: 48px;
+
+      .hover-replace {
+        top: 27px;
+      }
+
+      .bubble-ornament-text {
+        font-size: $fs-9;
+      }
+
+      .facebook-icon,
+      .twitter-icon,
+      .instagram-icon,
+      .twitch-icon {
+        top: 0;
+        margin-bottom: 1px;
+      }
+
+      .gplus-icon {
+        top: 4px;
+        margin-bottom: 3px;
+      }
+    }
+
+    &:after {
+      border-left: 7px solid transparent;
+      border-right: 7px solid transparent;
+      border-top: 14px solid transparent;
+    }
+
+    .heart-icon,
+    .tag-icon,
+    .reply-icon,
+    .share-icon,
+    .report-icon,
+    .like-icon,
+    .dislike-icon {
+      line-height: 1em;
+    }
+
+    .cross-cb-icon {
+      top: 0;
+    }
+
+    .facebook-icon,
+    .twitter-icon,
+    .instagram-icon,
+    .twitch-icon {
+      top: 2px;
+      margin-bottom: 3px;
+    }
+
+    .gplus-icon {
+      width: 19px;
+      height: 12px;
+      top: 5px;
+      margin-bottom: 6px;
+    }
+
+    .youtube-icon {
+      width: 16px;
+      height: 14px;
+      top: 2px;
+      margin-bottom: 4px;
+    }
+
+    .bubble-ornament-text {
+      margin-top: 4px;
+    }
+  }
+
+  &.medium {
+    width: 50px;
+    height: 50px;
+
+    .heart-icon,
+    .tag-icon,
+    .reply-icon,
+    .share-icon,
+    .report-icon,
+    .like-icon,
+    .dislike-icon,
+    .bubbles-icon {
+      color: $white;
+      font-size: 24px;
+      line-height: 50px;
+    }
+
+    .heart-icon,
+    .tag-icon,
+    .reply-icon,
+    .share-icon,
+    .report-icon,
+    .like-icon,
+    .dislike-icon {
+      font-size: 20px;
+    }
+
+    .cross-cb-icon {
+      width: 16px;
+      height: 16px;
+      top: 16px;
+    }
+
+    .facebook-icon,
+    .twitter-icon,
+    .instagram-icon,
+    .twitch-icon,
+    .gplus-icon,
+    .youtube-icon {
+      top: 16px;
+    }
+
+    .facebook-icon,
+    .twitter-icon,
+    .instagram-icon,
+    .twitch-icon {
+      width: 16px;
+      height: 16px;
+    }
+
+    .twitter-icon {
+      width: 18px;
+      height: 18px;
+      top: 18px;
+    }
+
+    .gplus-icon {
+      width: 20px;
+      height: 20px;
+      top: 18px;
+    }
+
+    .youtube-icon {
+      width: 20px;
+      height: 20px;
+    }
+
+    .bubble-ornament-info {
+      font-size: $fs-20;
+      line-height: 50px;
+    }
+  }
+
+  &.small {
+    width: 24px;
+    height: 24px;
+
+    .bubble-ornament-info {
+      line-height: 24px;
+    }
+
+    .cross-cb-icon {
+      top: 3px;
+    }
+  }
+
+  &.tiny {
+    width: 22px;
+    height: 22px;
+
+    .cross-cb-icon {
+      width: 8px;
+      height: 8px;
+      top: 1px;
+    }
+
+    .heart-icon,
+    .tag-icon,
+    .dislike-icon {
+      line-height: 24px;
+    }
+
+    .reply-icon,
+    .share-icon {
+      font-size: 11px;
+      line-height: 22px;
+    }
+
+    .heart-icon,
+    .like-icon,
+    .dislike-icon {
+      font-size: 10px;
+    }
+    
+    .tag-icon {
+      font-size: 11px;
+    }
+    
+    .report-icon {
+      font-size: 12px;
+      line-height: 22px;
+    }
+
+    .like-icon {
+      line-height: 22px;
+    }
+  }
+ 
+  &:after {
+    content: '';
+    width: 0; 
+    height: 0; 
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 12px solid transparent;
+    position: absolute;
+    bottom: -2px;
+    left: -2px;
+    @include transform_rotate(45deg);
+  }
+
+  &.cyan {
+    background-color: $cyan;
+
+    &:after {
+      border-top-color: $cyan;
+    }
+  }
+
+  &.blue {
+    background-color: $blue;
+
+    &:after {
+      border-top-color: $blue;
+    }
+  }
+
+  &.violet {
+    background-color: $violet;
+
+    &:after {
+      border-top-color: $violet;
+    }
+  }
+
+  &.red {
+    background-color: $red;
+
+    &:after {
+      border-top-color: $red;
+    }
+  }
+
+  &.green {
+    background-color: $green;
+
+    &:after {
+      border-top-color: $green;
+    }
+  }
+
+  &.pink {
+    background-color: $pink;
+
+    &:after {
+      border-top-color: $pink;
+    }
+  }
+
+  &.black {
+    background-color: $black-lighter;
+
+    &:after {
+      border-top-color: $black-lighter;
+    }
+  }
+
+  &.fb {
+    background-color: $fb-color;
+
+    &:after {
+      border-top-color: $fb-color;
+    }
+  }
+
+  &.twt {
+    background-color: $twt-color;
+
+    &:after {
+      border-top-color: $twt-color;
+    }
+  }
+
+  &.insta {
+    background-color: $insta-color;
+
+    &:after {
+      border-top-color: $insta-color;
+    }
+  }
+
+  &.twitch {
+    background-color: $twitch-color;
+
+    &:after {
+      border-top-color: $twitch-color;
+    }
+  }
+
+  &.gplus {
+    background-color: $gplus-color;
+
+    &:after {
+      border-top-color: $gplus-color;
+    }
+  }
+
+  &.youtube {
+    background-color: $youtube-color;
+
+    &:after {
+      border-top-color: $youtube-color;
+    }
+  }
+
+  &.hoverable {
+    background-color: $white-darker;
+    @include transition(.3s);
+
+    &:after {
+      border-top-color: $white-darker;
+      @include transition(.3s);
+    }
+
+    &:hover {
+      &.cyan {
+        background-color: $cyan;
+    
+        &:after {
+          border-top-color: $cyan;
+        }
+      }
+    
+      &.blue {
+        background-color: $blue;
+    
+        &:after {
+          border-top-color: $blue;
+        }
+      }
+
+      &.violet {
+        background-color: $violet;
+    
+        &:after {
+          border-top-color: $violet;
+        }
+      }
+    
+      &.red {
+        background-color: $red;
+    
+        &:after {
+          border-top-color: $red;
+        }
+      }
+    
+      &.pink {
+        background-color: $pink;
+    
+        &:after {
+          border-top-color: $pink;
+        }
+      }
+
+      &.black {
+        background-color: $black-lighter;
+    
+        &:after {
+          border-top-color: $black-lighter;
+        }
+      }
+
+      &.fb {
+        background-color: $fb-color;
+    
+        &:after {
+          border-top-color: $fb-color;
+        }
+      }
+    
+      &.twt {
+        background-color: $twt-color;
+    
+        &:after {
+          border-top-color: $twt-color;
+        }
+      }
+    
+      &.insta {
+        background-color: $insta-color;
+    
+        &:after {
+          border-top-color: $insta-color;
+        }
+      }
+    
+      &.twitch {
+        background-color: $twitch-color;
+    
+        &:after {
+          border-top-color: $twitch-color;
+        }
+      }
+    
+      &.gplus {
+        background-color: $gplus-color;
+    
+        &:after {
+          border-top-color: $gplus-color;
+        }
+      }
+    
+      &.youtube {
+        background-color: $youtube-color;
+    
+        &:after {
+          border-top-color: $youtube-color;
+        }
+      }
+    }
+  }
+
+  .heart-icon,
+  .tag-icon,
+  .reply-icon,
+  .share-icon,
+  .report-icon,
+  .like-icon,
+  .dislike-icon {
+    color: $white;
+  }
+
+  .track-icon {
+    fill: $white;
+    margin-top: 10px;
+  }
+
+  .heart-icon,
+  .tag-icon,
+  .dislike-icon {
+    line-height: 32px;
+  }
+
+  .reply-icon,
+  .share-icon {
+    font-size: 14px;
+    line-height: 30px;
+  }
+
+  .heart-icon,
+  .like-icon,
+  .dislike-icon {
+    font-size: 12px;
+  }
+  
+  .tag-icon {
+    font-size: 13px;
+    position: relative;
+    right: 1px;
+  }
+  
+  .report-icon {
+    font-size: 15px;
+    line-height: 30px;
+  }
+
+  .like-icon {
+    line-height: 30px;
+  }
+
+  .cross-cb-icon {
+    fill: $white;
+    width: 10px;
+    height: 10px;
+    position: relative;
+    top: 6px;
+  }
+
+  .facebook-icon,
+  .instagram-icon,
+  .youtube-icon {
+    position: relative;
+    top: 8px;
+  }
+
+  .twitter-icon,
+  .gplus-icon {
+    position: relative;
+    top: 7px;
+  }
+
+  .twitch-icon {
+    position: relative;
+    top: 9px;
+  }
+
+  .plus-cc-2-icon {
+    fill: $white;
+    position: relative;
+    top: 7px;
+  }
+}
+
+.tag-quantity {
+  height: 16px;
+  padding: 4px 6px 0;
+  background-color: $black-lighter;
+
+  .tag-quantity-text {
+    @extend %heading-10;
+    color: $white;
+    text-transform: none;
+  }
+}
+
+.social-links {
+  @include flex;
+
+  .social-link {
+    margin-right: 26px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    .facebook-icon,
+    .twitter-icon,
+    .instagram-icon,
+    .twitch-icon,
+    .gplus-icon,
+    .youtube-icon {
+      width: 14px;
+      height: 14px;
+      fill: $white-darker;
+      @include transition(fill, .2s);
+    }
+
+    .gplus-icon {
+      position: relative;
+      top: 2px;
+    }
+
+    &:hover {
+      .facebook-icon {
+        fill: $fb-color;
+      }
+
+      .twitter-icon {
+        fill: $twt-color;
+      }
+
+      .instagram-icon {
+        fill: $insta-color;
+      }
+
+      .twitch-icon {
+        fill: $twitch-color;
+      }
+
+      .gplus-icon {
+        fill: $gplus-color;
+      }
+
+      .youtube-icon {
+        fill: $youtube-color;
+      }
+    }
+  }
+
+  .bubble-ornament {
+    margin-right: 14px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+
+  &.medium {
+    .bubble-ornament {
+      margin-right: 16px;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+
+  &.aligned {
+    align-items: center;
+  }
+
+  &.centered {
+    justify-content: center;
+  }
+
+  &.vertical {
+    width: auto;
+    flex-direction: column;
+    
+    .bubble-ornament {
+      margin-right: 0;
+      margin-bottom: 16px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  .bubble-ornament {
+    @include transition(.3s);
+
+    &:hover {
+      @include transform_translate(0, -5px);
+    }
+  }
+
+  &.animated {
+    overflow: hidden;
+    
+    .bubble-ornament {
+      .bubble-ornament-text {
+        @include transition(.3s);
+      }
+
+      &:hover {
+        @include transform_translate(0, 0);
+
+        .bubble-ornament-text {
+          opacity: 0;
+          visibility: hidden;
+
+          &.hover-replace {
+            visibility: visible;
+            opacity: 1;
+            @include transform_translate(-49px, 0);
+          }
+        }
+
+        &.big {
+          &.smaller {
+            .bubble-ornament-text {
+              &.hover-replace {
+                @include transform_translate(-50px, 0);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.tag-list {
+  @include flex;
+
+  .tag-item {
+    margin: 0 6px 10px 0;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+
+  .tag-ornament {
+    margin-right: 8px;
+  }
+
+  &.violet {
+    .tag-item {
+      &:hover {
+        background-color: $violet;
+        border-color: $violet;
+      }
+    }
+  }
+}
+
+.tag-item {
+  display: inline-block;
+  height: 25px;
+  padding: 0 12px;
+  border: 1px solid $white-darker;
+  border-radius: 200px;
+  color: $gray-dark;
+  font-family: $font-secondary;
+  font-size: $fs-12;
+  line-height: 25px;
+
+  &:hover {
+    color: $white;
+    font-weight: $weight-bold;
+    background-color: $blue;
+    border-color: $blue;
+  }
+}
+
+.photo-list {
+  display: grid;
+  grid-template-columns: repeat(4, 60px);
+  grid-gap: 10px;
+  justify-content: center;
+  position: relative;
+  min-height: 120px;
+
+  .loader {
+    position: absolute;
+    top: 30px;
+    left: 50%;
+    margin-left: -20px;
+  }
+
+  .loader-error {
+    width: 100%;
+    position: absolute;
+    top: 30px;
+  }
+}
+
+.photo-item-wrap {
+  display: inline-block;
+  width: 60px;
+  height: 60px;
+  position: relative;
+  animation: translate-from-bottom .5s ease-in-out;
+
+  &:hover {
+    .photo-item-overlay {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .plus-cc-icon {
+      @include transform_scale(1);
+    }
+  }
+
+  .photo-item {
+    width: 100%;
+    height: 100%;
+  }
+
+  .plus-cc-icon {
+    width: 20px;
+    height: 20px;
+    fill: $white;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    @include transform_scale(0);
+    @include transition(.3s);
+  }
+
+  .photo-item-overlay {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(249, 40, 138, .8);
+    opacity: 0;
+    visibility: hidden;
+    @include transition(.3s);
+  }
+}

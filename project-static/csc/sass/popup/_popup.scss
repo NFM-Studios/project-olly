@@ -1,0 +1,158 @@
+.search-popup {
+  width: 100%;
+  height: 100%;
+  padding-top: 300px;
+  background-color: rgba(28, 149, 243, .94);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: $index-global-max;
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  @include transition(.4s);
+
+  &.open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .close-button {
+    position: absolute;
+    top: 50px;
+    right: 50px;
+    cursor: pointer;
+  }
+
+  .cross-icon {
+    fill: $white;
+  }
+
+  .search-popup-form {
+    width: 850px;
+    margin: 0 auto;
+  }
+
+  .input-line,
+  .search-popup-text {
+    color: $white;
+  }
+
+  .input-line {
+    height: auto; 
+    padding: 0 0 32px;
+    font-family: $font-primary;
+    font-size: $fs-56;
+    font-weight: $weight-bold;
+    text-transform: uppercase;
+
+    &::-webkit-input-placeholder { /* Chrome/Safari */
+      color: $white;
+      opacity: 1;
+      text-align: center;
+    }
+    
+    &:-ms-input-placeholder { /* IE */
+      color: $white;
+      opacity: 1;
+      text-align: center;
+    }
+    
+    &::-ms-placeholder { /* Edge */
+      color: $white;
+      opacity: 1;
+      text-align: center;
+    }
+
+    &.animate {
+      animation: translate-from-bottom .4s ease-in 1 forwards;
+    }
+  }
+
+  .search-popup-text {
+    margin-top: 30px;
+    font-size: $fs-12;
+    text-align: center;
+    @include transform_translate(30%, 0);
+    opacity: 0;
+
+    &.animate {
+      animation: translate-from-right .6s ease-in 1 forwards;
+      animation-delay: .25s;
+    }
+  }
+}
+
+.popup-wrap {
+  display: none;
+
+  &.full {
+    width: 100%;
+  }
+
+  &.mid {
+    width: 770px;
+  }
+
+  &.medium {
+    width: 800px;
+  }
+
+  &.big {
+    width: 930px;
+  }
+
+  .form-box,
+  .form-box-wrap {
+    width: 100%;
+  }
+}
+
+/**
+ *  MEDIA QUERIES
+ */
+@media screen and (max-width: 960px) {
+  .search-popup {
+    padding-left: 20px;
+    padding-right: 20px;
+
+    .search-popup-form {
+      width: 100%;
+
+      .input-line {
+        font-size: $fs-42;
+      }
+    }
+  }
+
+  .popup-wrap {
+    &.medium {
+      width: 430px;
+    }
+
+    &.mid,
+    &.big {
+      width: 95%;
+    }
+  }
+}
+
+@media screen and (max-width: 680px) {
+  .search-popup {
+    .search-popup-form {
+      .input-line {
+        font-size: $fs-22;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .popup-wrap {
+    width: 95%;
+
+    &.medium {
+      width: 95%;
+    }
+  }
+}

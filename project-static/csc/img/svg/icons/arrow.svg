@@ -1,0 +1,7 @@
+<!-- SVG ARROW -->
+<svg style="display: none;">
+  <symbol id="svg-arrow" viewBox="0 0 3 5" preserveAspectRatio="xMinYMin meet">
+      <path d="M0,4.996h1v-1H0V4.996z M1,3.996h1v-1H1V3.996z M1,0.996v1h1l-0.001-1H1z M0-0.004v1h1v-1H0z M2,1.996v1h1v-1H2z"/>
+  </symbol>
+</svg>
+<!-- /SVG ARROW -->

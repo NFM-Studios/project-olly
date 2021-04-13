@@ -1,0 +1,105 @@
+$black: #1e1f20;
+$black-light: #252627;
+$black-lighter: #363636;
+
+$white: #ffffff;
+$white-dark: #f4f4f4;
+$white-darker: #dbdbdb;
+
+$gray-dark: #777777;
+$gray: #8b8b8b;
+// b8b8b8 -> sobre negro
+$gray-light: #b8b8b8;
+// bfbfbfb -> clarito sobre blanco
+$gray-lighter: #bfbfbf;
+
+$red: #f30a5c;
+$red-light: #f30a36;
+$green: #58d819;
+
+$another-red: #ff005a;
+
+$blue: #1c95f3;
+$blue-light: #10caff;
+$blue-lighter: #00d1f7;
+
+$cyan: #00e3d0;
+$cyan-light: #00fee9;
+
+$yellow: #ffb400;
+$yellow-light: #ffd800;
+
+$violet: #7442ce;
+
+$pink: #f9288a;
+
+/**
+ * BUTTONS
+ */
+$blue-hover: #3ca4f5;
+$blue-ornament: #0270c5;
+
+$red-hover: #f52d73;
+$red-ornament: #bd0244;
+
+$green-hover: #70de39;
+$green-ornament: #37a800;
+
+$yellow-hover: #ffbf24;
+$yellow-ornament: #ee7c00;
+
+$violet-hover: #885dd5;
+$violet-ornament: #4d2498;
+
+$cyan-hover: #24e7d7;
+$cyan-ornament: #00ab9d;
+
+$gray-hover: $blue;
+$gray-ornament: #b2b2b2;
+$gray-ornament-hover: $blue-ornament;
+
+$disabled-ornament: $gray-dark;
+
+/**
+ * ICONS
+ */
+$inventory-icon-points: #afafaf;
+$inventory-icon-light: #e5e5e5;
+$inventory-icon-points-light: #f1f1f1;
+$star-icon-dark: #4d4d4d;
+$hexagon-bg-color: #2c2f3c;
+$team-yellow: #dee807;
+$team-blue: #107df8; 
+$widget-option-border: #424242;
+$fb-color: #4153b3;
+$twt-color: #10caff;
+$insta-color: #f9288a;
+$twitch-color: #7442ce;
+$gplus-color: #ffb400;
+$youtube-color: #eb1940;
+/**
+** Component color
+**/
+// Line Separator
+$color-line: $white-darker;
+$color-line-negative: #383838;
+
+// Header
+$bg-color-header: $black-light;
+
+// Title
+$color-title: $black-lighter;
+
+// Paragraph
+$color-paragraph: $gray-dark;
+$color-paragraph-light: $gray;
+
+// Calendar
+$color-day: #808080;
+$color-day-disabled: #d2d2d2;
+
+/**
+ *  FORM
+ */
+$input-border-color: $white-darker;
+$items-row-filled-color: #f9f9f9;

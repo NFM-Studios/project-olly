@@ -1,0 +1,7 @@
+<!-- SVG TOWER -->
+<svg style="display: none;">
+  <symbol id="svg-tower" viewBox="0 0 20 20" preserveAspectRatio="xMinYMin meet">
+    <path d="M14.56,10h-1.581v2h0.777h1.222v2h-1.442l-0.557,5H6.983l-0.555-5H4.984v-2h1.221h0.777v-2H5.441L2,6.988h3.983V5l3.998-4l3.997,4v1.988h4.023L14.56,10z M10.98,5H8.981v2h1.999V5z"/>
+  </symbol>
+</svg>
+<!-- /SVG TOWER -->

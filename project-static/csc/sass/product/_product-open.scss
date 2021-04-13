@@ -1,0 +1,257 @@
+.product-open-wrap {
+  @include flex();
+  justify-content: space-between;
+}
+
+.product-open {
+  width: 570px;
+  padding-top: 26px;
+
+  &.inventory {
+    width: 770px;
+    padding: 16px 0 0 400px;
+    position: relative;
+
+    .product-img {
+      width: 370px;
+      height: 380px;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .product-name {
+      font-size: $fs-22;
+      line-height: 26px;
+    }
+
+    .product-category-wrap {
+      margin-top: 4px;
+
+      .product-category {
+        font-size: $fs-10;
+      }
+    }
+
+    .product-price {
+      margin-top: 20px;
+      font-size: $fs-18;
+    }
+
+    .product-description {
+      margin-top: 20px;
+      font-size: $fs-13;
+      line-height: $lh-22-13;
+    }
+
+    .product-features {
+      margin-top: 40px;
+    }
+
+    .product-open-row {
+      margin-top: 70px;
+      @include flex();
+      justify-content: space-between;
+
+      .form-row {
+        width: 270px;
+      }
+
+      .product-features {
+        margin-top: 34px;
+      }
+    }
+
+    .inventory-remove-item {
+      width: 370px;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+    }
+  }
+
+  .product-name {
+    @extend %heading-28;
+    color: $black-lighter;
+    line-height: 30px;
+  }
+
+  .product-category-wrap {
+    margin-top: 8px;
+    @include flex();
+    align-items: center;
+
+    .product-category {
+      @extend %heading-12;
+      color: $gray;
+    }
+
+    .rating-ornament {
+      margin-left: 6px;
+    }
+
+    .product-stock {
+      margin-left: 4px;
+      @extend %heading-10;
+      color: $black-lighter;
+
+      .highlight {
+        color: $violet;
+      }
+    }
+  }
+
+  .product-price {
+    margin-top: 30px;
+    color: $black-lighter;
+    font-size: $fs-24;
+    font-weight: $weight-bold;
+    line-height: 1em;
+
+    .currency {
+      margin-right: 6px;
+    }
+  }
+
+  .product-description {
+    margin-top: 30px;
+    font-size: $fs-14;
+    line-height: $lh-26-14;
+  }
+
+  .product-features {
+    @include flex();
+    margin-top: 50px;
+    
+    .product-feature {
+      @include flex();
+      margin-right: 60px;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+
+  .product-open-form {
+    width: 360px;
+    margin-top: 55px;
+  }
+
+  .product-actions {
+    @include flex();
+    margin-top: 60px;
+
+    .button {
+      width: 200px;
+      padding-left: 50px;
+    }
+
+    .social-links {
+      margin: 15px 0 0 16px;
+    }
+  }
+
+  .product-info-list {
+    @include flex();
+    margin-top: 50px;
+
+    .product-info-list-item {
+      margin-right: 26px;
+      @extend %heading-10;
+      color: $gray;
+
+      &:last-child {
+        margin-right: 0;
+      }
+
+      .highlight {
+        color: $black-lighter;
+      }
+
+      a.highlight {
+        &:hover {
+          color: $violet;
+        }
+      }
+    }
+  }
+}
+
+.product-feature {
+  .product-feature-icon {
+    margin-right: 22px;
+    color: $black-lighter;
+    font-size: 24px;
+    font-weight: $weight-bold;
+  }
+
+  .product-feature-info {
+    .product-feature-title {
+      @extend %heading-10;
+      color: $gray;
+      line-height: 1em;
+
+      &.right {
+        text-align: right;
+      }
+    }
+
+    .product-feature-text {
+      margin-top: 4px;
+      @extend %heading-12;
+      color: $black-lighter;
+      line-height: 1em;
+
+      &.price {
+        font-family: $font-secondary;
+        font-size: $fs-18;
+
+        .currency {
+          margin-right: 4px;
+        }
+      }
+    }
+  }
+}
+
+/**
+ *  MEDIA QUERIES
+ */
+@media screen and (max-width: 1260px) {
+  .product-open-wrap {
+    display: block;
+
+    .product-slider-wrap {
+      margin: 0 auto;
+    }
+
+    .product-open {
+      width: 100%;
+      padding-top: 40px;
+    
+      &.inventory {
+        width: 100%;
+        padding-left: 0;
+    
+        .product-img {
+          position: static;
+        }
+    
+        .product-open-row {
+          justify-content: flex-start;
+    
+          .form-row {
+            margin-right: 30px;
+          }
+        }
+    
+        .inventory-remove-item {
+          width: 270px;
+          position: static;
+          margin-top: 40px;
+        }
+      }
+    }
+  }
+}

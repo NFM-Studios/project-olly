@@ -1,0 +1,764 @@
+.option-list {
+  @include flex();
+
+  .option-list-item {
+    height: 40px;
+    padding: 0 20px;
+    @extend %heading-10;
+    color: $gray-lighter;
+    line-height: 40px;
+    cursor: pointer;
+
+    &.selected {
+      color: $black-lighter;
+      border-bottom: 3px solid $violet;
+    }
+  }
+}
+
+.forum-actions {
+  @include flex();
+
+  .dropdown-simple-wrap {
+    margin-right: 10px;
+
+    .form-wrap {
+      width: 320px;
+    }
+  }
+
+  & > * {
+    margin-right: 10px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+
+.user-dropdown {
+  width: 224px;
+
+  .user-dropdown-header {
+    padding: 4px 0 12px;
+    border-bottom: 1px solid $color-line;
+    @include flex();
+    justify-content: space-between;
+
+    .user-dropdown-header-text {
+      margin-top: 4px;
+      @extend %heading-10;
+      color: $black-lighter;
+    }
+
+    .user-dropdown-header-actions {
+      .user-dropdown-header-action {
+        margin-right: 8px;
+
+        .icon-envelope,
+        .icon-settings {
+          color: $black-lighter;
+          font-size: 16px;
+          font-weight: $weight-bold;
+        }
+
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+    }
+  }
+
+  .user-dropdown-body {
+    padding: 20px 0 16px;
+    border-bottom: 1px solid $color-line;
+
+    .notification-item {
+      margin-bottom: 14px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+.forum-category-wrap {
+  width: 370px;
+  padding: 40px 0 40px 100px;
+  position: relative;
+
+  .forum-category-img {
+    position: absolute;
+    top: 34px;
+    left: 6px;
+  }
+
+  .forum-category-title {
+    @extend %heading-14;
+    color: $black-lighter;
+    line-height: 1em;
+  }
+
+  .forum-category-description {
+    margin-top: 12px;
+  }
+
+  .forum-category-subcategories {
+    margin-top: 16px;
+    padding: 10px 0 10px 8px;
+    border-left: 1px solid $color-line;
+
+    .forum-category-subcategory {
+      margin-bottom: 14px;
+      @extend %heading-11;
+      color: $black-lighter;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+.forum-post-links {
+  .forum-post-link-wrap {
+    margin-bottom: 20px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.forum-post-link-wrap {
+  @include flex();
+  align-items: center;
+}
+
+.forum-post-link {
+  @extend %heading-11;
+  color: $black-lighter;
+  line-height: 18px;
+
+  & + {
+    .forum-post-timestamp {
+      margin: 0 0 2px 6px;
+    }
+
+    .forum-post-description-preview,
+    .forum-post-tags {
+      margin-top: 10px;
+    }
+  }
+
+  &.medium {
+    font-size: $fs-12;
+  }
+
+  &.pin-tag {
+    font-size: $fs-14;
+    padding-left: 34px;
+    position: relative;
+
+    &:before {
+      content: url('../img/icons/pinned-icon.png');
+      margin-right: 10px;
+      position: absolute;
+      top: -4px;
+      left: 0;
+    }
+
+    &:after {
+      content: 'Pinned';
+      color: $blue;
+      font-size: 10px;
+      margin-left: 8px;
+    }
+  }
+
+  &.spoiler-tag {
+    font-size: $fs-12;
+    padding-left: 34px;
+    position: relative;
+
+    &:before {
+      content: url('../img/icons/spoiler-icon.png');
+      margin-right: 10px;
+      position: absolute;
+      top: -4px;
+      left: 0;
+    }
+
+    &:after {
+      content: 'Spoilers';
+      color: $red;
+      font-size: 10px;
+      margin-left: 8px;
+    }
+  }
+}
+
+.forum-post-timestamp {
+  color: $gray;
+  font-size: $fs-12;
+  line-height: 1em;
+}
+
+.forum-category-text {
+  @extend %heading-11;
+  color: $gray-dark;
+
+  &:before {
+    content: '';
+    display: inline-block;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    border: 2px solid $black-lighter;
+    margin-right: 6px;
+  }
+
+  &.blue {
+    &:before {
+      border-color: $blue;
+    }
+  }
+
+  &.red {
+    &:before {
+      border-color: $red;
+    }
+  }
+
+  &.violet {
+    &:before {
+      border-color: $violet;
+    }
+  }
+
+  &.green {
+    &:before {
+      border-color: $green;
+    }
+  }
+
+  &.cyan {
+    &:before {
+      border-color: $cyan;
+    }
+  }
+
+  &.yellow {
+    &:before {
+      border-color: $yellow;
+    }
+  }
+}
+
+.forum-user-list {
+  @include flex();
+
+  & > * {
+    margin-right: 8px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+
+.forum-post-tags {
+  @include flex();
+
+  & > * {
+    margin-right: 6px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+
+.forum-tag-button {
+  height: 24px;
+  padding: 0 12px;
+  border-radius: 200px;
+  background-color: $black-lighter;
+  color: $white;
+  font-size: $fs-10;
+  line-height: 24px;
+
+  &.red {
+    background-color: $red;
+  }
+
+  &.cyan {
+    background-color: $cyan;
+  }
+}
+
+.topic-wrap {
+  position: relative;
+
+  .topic-scroll-wrap {
+    position: absolute;
+    top: 0;
+    left: 1030px;
+
+    .topic-scroll-date-start,
+    .topic-scroll-date-end,
+    .topic-scroll-date-current {
+      color: $gray;
+      font-size: $fs-12;
+      line-height: 1em;
+    }
+
+    .topic-action {
+      margin-top: 22px;
+    }
+
+    .topic-scroll {
+      height: 220px;
+      padding-left: 20px;
+      margin: 14px 0;
+      border-left: 1px solid $color-line;
+      position: relative;
+
+      .topic-scroll-info {
+        @include transform_translate(0, 46px);
+        position: relative;
+
+        &:before {
+          content: '';
+          display: block;
+          width: 3px;
+          height: 40px;
+          border-radius: 200px;
+          background-color: $blue;
+          position: absolute;
+          top: 3px;
+          left: -22px;
+        }
+
+        .topic-scroll-counter {
+          @extend %heading-14;
+          color: $black-lighter;
+          line-height: 1em;
+        }
+
+        .topic-scroll-date-current {
+          margin-top: 6px;
+        }
+      }
+    }
+  }
+
+  .topic-header {
+    width: 83%;
+
+    .topic-title {
+      @extend %heading-24;
+      color: $black-lighter;
+      line-height: 28px;
+    }
+
+    .forum-category-text {
+      margin-top: 16px;
+    }
+
+    .topic-info {
+      margin-top: 16px;
+      padding: 24px 16px 0;
+      border-top: 1px solid $color-line;
+      border-bottom: 1px solid $color-line;
+      @include flex();
+      align-items: center;
+
+      & > * {
+        margin: 0 50px 24px 0;
+
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+    }
+  }
+
+  .topic-body {
+    width: 83%;
+
+    .topic-comment {
+      display: grid;
+      grid-template-columns: 15% 85%;
+    }
+  }
+
+  .topic-footer {
+    padding: 60px 0 30px;
+    border-bottom: 1px solid $color-line;
+
+    .topic-footer-info {
+      @include flex();
+      align-items: center;
+
+      .topic-footer-icon {
+        margin-right: 10px;
+      }
+      
+      .topic-footer-text {
+        @extend %heading-12;
+        color: $black-lighter;
+      }
+    }
+
+    .topic-footer-actions {
+      @include flex();
+      margin-top: 60px;
+
+      .button {
+        padding: 0 50px 0 30px;
+        margin: 0 8px 30px 0;
+
+        .action-icon {
+          margin-right: 12px;
+          font-size: 14px;
+          position: relative;
+          top: 2px;
+        }
+
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+    }
+  }
+}
+
+.topic-comment {
+  padding-top: 36px;
+  border-bottom: 1px solid $color-line;
+
+  .topic-comment-user {
+    width: 80px;
+    margin-left: 20px;
+
+    .topic-comment-user-text {
+      margin-top: 12px;
+      @extend %heading-10;
+      color: $black-lighter;
+      text-align: center;
+    }
+
+    .badge-list {
+      margin: 14px auto 0;
+    }
+  }
+
+  .topic-comment-content {
+    padding: 12px 0 40px;
+
+    .topic-comment-content-header {
+      @include flex();
+      justify-content: space-between;
+
+      .topic-comment-username {
+        @extend %heading-16;
+        color: $black-lighter;
+        line-height: 1em;
+      }
+
+      .topic-comment-info {
+        @include flex();
+
+        .topic-comment-reply-user {
+          position: relative;
+          top: -6px;
+        }
+
+        .topic-comment-timestamp {
+          color: $gray;
+          font-size: $fs-12;
+          line-height: 1em;
+        }
+      }
+
+      & + {
+        .topic-comment-text {
+          margin-top: 34px;
+        }
+      }
+    }
+
+    .topic-comment-text {
+      margin-top: 40px;
+      font-size: $fs-14;
+      line-height: $lh-26-14;
+    }
+
+    .topic-comment-quote {
+      margin-top: 36px;
+      padding: 30px 34px;
+      background-color: $white-dark;
+      position: relative;
+
+      &:before {
+        content: '"';
+        width: 20px;
+        height: 18px;
+        padding-top: 2px;
+        background-color: $red;
+        @extend %heading-32;
+        color: $white;
+        text-align: center;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+
+      .topic-comment-quote-user {
+        @include flex();
+        align-items: center;
+
+        .user-avatar {
+          margin-right: 8px;
+        }
+
+        .topic-comment-quote-user-name {
+          @extend %heading-12;
+          color: $black-lighter;
+          line-height: 1em;
+        }
+      }
+
+      .topic-comment-quote-text {
+        margin-top: 22px;
+        font-size: $fs-14;
+        line-height: $lh-26-14;
+      }
+    }
+
+    .widget-media-wrap {
+      margin-top: 40px;
+    }
+  }
+
+  .topic-comment-actions {
+    padding: 26px 0 0;
+    border-top: 1px solid $color-line;
+    @include flex();
+    justify-content: space-between;
+  }
+}
+
+.topic-actions {
+  @include flex();
+
+  .topic-action {
+    @include flex();
+    align-items: center;
+    margin: 0 20px 26px 0;
+
+    &.inverted {
+      .topic-action-icon {
+        order: 2;
+      }
+
+      .topic-action-text {
+        margin: 0 12px 0 0;
+        order: 1;
+      }
+    }
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    .topic-action-text {
+      margin: 0 0 0 12px;
+      color: $gray;
+      font-size: $fs-11;
+      line-height: 1em;
+    }
+  }
+}
+
+.topic-comment-reply-user {
+  @include flex();
+  align-items: center;
+
+  & + {
+    .form-wrap {
+      margin-top: 30px;
+    }
+  }
+
+  .topic-comment-reply-icon {
+    margin-right: 10px;
+    color: $white-darker;
+    font-size: 14px;
+  }
+
+  .user-avatar {
+    margin-right: 8px;
+  }
+
+  .topic-comment-reply-name {
+    margin-right: 16px;
+    @extend %heading-12;
+    color: $black-lighter;
+    line-height: 1em;
+  }
+}
+
+.badge-list {
+  @include flex();
+
+  & > * {
+    margin: 0 10px 10px 0;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+
+  &.small {
+    width: 66px;
+    justify-content: space-between;
+    
+    & > * {
+      margin: 0 0 6px 0;
+    }
+  }
+}
+
+.badge-item {
+  padding: 0 16px;
+  position: relative;
+
+  & > {
+    .badge-img {
+      position: absolute;
+      top: 52px;
+      right: 57px;
+    }
+  }
+
+  &.hoverable {
+    .badge-img-wrap {
+      .badge-img {
+        &.unlocked {
+          opacity: 0;
+          visibility: hidden;
+        }
+      }
+    }
+
+    &:hover {
+      .badge-img-wrap {
+        .badge-img {
+          &.locked {
+            opacity: 0;
+            visibility: hidden;
+          }
+
+          &.unlocked {
+            opacity: 1;
+            visibility: visible;
+          }
+        }
+      }
+    }
+  }
+
+  .badge-img-wrap {
+    height: 130px;
+    position: relative;
+
+    .badge-img {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      margin-left: -40px;
+      @include transition(.3s);
+    }
+  }
+
+  .badge-item-title {
+    @extend %heading-18;
+    color: $black-lighter;
+    text-align: center;
+  }
+
+  .badge-item-text {
+    margin-top: 30px;
+    text-align: center;
+  }
+
+  .progress-badge-wrap {
+    width: 160px;
+    margin: 54px auto 0;
+  }
+}
+
+/**
+ *  MEDIA QUERIES
+ */
+@media screen and (max-width: 1260px) {
+  .topic-wrap {
+    .topic-scroll-wrap {
+      display: none;
+    }
+
+    .topic-header {
+      width: 100%;
+    }
+
+    .topic-body {
+      width: 100%;
+
+      .topic-comment {
+        display: block;
+
+        .topic-comment-user {
+          width: 100%;
+          margin-left: 0;
+
+          .topic-comment-user-text {
+            width: 80px;
+          }
+
+          .badge-list {
+            justify-content: flex-start;
+
+            & > * {
+              margin-right: 8px;
+
+              &:last-child {
+                margin-right: 0;
+              }
+            }
+
+            &.small {
+              width: 100%;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 960px) {
+  .topic-comment {
+    .topic-comment-content {
+      .topic-comment-content-header {
+        display: block;
+
+        .topic-comment-info {
+          margin-top: 20px;
+        }
+      }
+    }
+  }
+}

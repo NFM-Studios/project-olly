@@ -1,0 +1,302 @@
+.banner-wrap {
+  background-color: $black-lighter;
+
+  &.gaming-news {
+    background: url('../img/banners/gaming-news-banner.jpg') no-repeat center,
+                linear-gradient(45deg, #1c59f3, #00d8ff);
+    background-size: cover;
+  }
+
+  &.game-review {
+    background: url('../img/banners/game-reviews-banner.jpg') no-repeat center,
+                linear-gradient(45deg, #420ed9, #ff055d);
+    background-size: cover;
+  }
+
+  &.movie-reviews {
+    background: url('../img/banners/movie-news-banner.jpg') no-repeat center,
+                linear-gradient(45deg, #3a8800, #60ec1b);
+    background-size: cover;
+  }
+
+  &.geeky-news {
+    background: url('../img/banners/geeky-news-banner.jpg') no-repeat center,
+                linear-gradient(45deg, #ff6600, #ffde00);
+    background-size: cover;
+  }
+
+  &.e-sport {
+    background: url('../img/banners/esport-banner.jpg') no-repeat center,
+                linear-gradient(45deg, #21149e, #8314ff);
+    background-size: cover;
+  }
+
+  &.pixel-videos {
+    background: url('../img/banners/pixel-videos-banner.jpg') no-repeat center,
+                linear-gradient(45deg, #0088af, #00ffea);
+    background-size: cover;
+  }
+
+  &.forum-banner {
+    background: url('../img/banners/pixel-banner.jpg') no-repeat center,
+                linear-gradient(45deg, #f30a5c, #1c95f3);
+    background-size: cover;
+  }
+
+  &.shop-banner {
+    background: url('../img/banners/shop-banner.jpg') no-repeat center,
+                linear-gradient(45deg, #420ca2, #00d8ff);
+    background-size: cover;
+  }
+}
+
+.banner {
+  min-height: 260px;
+  padding: 102px 0 90px;
+
+  .banner-title {
+    @extend %heading-42;
+    color: $white;
+    text-align: center;
+  }
+
+  .banner-sections {
+    margin-top: 16px;
+    color: $white;
+    font-size: $fs-12;
+    line-height: 1em;
+    text-align: center;
+
+    .arrow-icon {
+      fill: $white;
+      margin: 0 6px;
+      position: relative;
+      top: -1px;
+    }
+  }
+}
+
+.banner-top-slider {
+  padding-top: 60px;
+}
+
+.promo-banner {
+  min-height: 130px;
+  background: url('../img/banners/live-play-banner.jpg') no-repeat 0 0;
+  background-size: cover;
+  position: relative;
+
+  .promo-banner-img {
+    position: absolute;
+    top: 35px;
+    left: 30px;
+  }
+
+  .tag-ornament {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+  }
+
+  .promo-banner-info {
+    position: absolute;
+    top: 36px;
+    left: 226px;
+
+    .promo-banner-pre-title {
+      color: $white;
+      @extend %heading-11;
+      margin-bottom: 4px;
+
+      .live-icon {
+        margin: 0 8px;
+        position: relative;
+        top: -2px;
+      }
+    }
+  
+    .promo-banner-title {
+      color: $white;
+      @extend %heading-26;
+      margin-bottom: 6px;
+    }
+  
+    .promo-banner-text {
+      color: $white-dark;
+      @extend %heading-10;
+      text-transform: none;
+      font-weight: $weight-regular;
+    }
+  }
+
+  .countdown-arc {
+    position: absolute;
+    top: 24px;
+    right: 48px;
+  }
+}
+
+.promo-advert {
+  width: 270px;
+  height: 270px;
+  border: 1px solid $color-line;
+  margin: 0 auto;
+  position: relative;
+
+  .promo-advert-img {
+    width: 250px;
+    height: 250px;
+    position: absolute;
+    top: 9px;
+    left: 9px;
+  }
+}
+
+.banner-post {
+  @include flex();
+
+  .banner-post-item {
+    @include flex();
+    width: 50%;
+    height: 360px;
+  }
+
+  & > {
+    .banner-post-item {
+      height: 720px;
+
+      .post-preview {
+        width: 100%;
+
+        &.large {
+          .post-preview-overlay {
+            .post-preview-title {
+              width: 510px;
+            }
+          }
+        }
+
+        &.big {
+          .post-preview-img {
+            height: 360px;
+          }
+
+          .post-preview-overlay {
+            .post-preview-title {
+              width: 450px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.banner-display-separator {
+  height: 60px;
+  background-color: $white;
+}
+
+/**
+ *  MEDIA QUERIES
+ */
+@media screen and (max-width: 1260px) {
+  .banner-post {
+    display: block;
+
+    .banner-post-item {
+      display: block;
+      width: 100%;
+    }
+  
+    & > {
+      .banner-post-item {
+        height: auto;
+  
+        .post-preview {
+          width: 100%;
+  
+          &.large {
+            .post-preview-img {
+              height: 360px;
+            }
+
+            .post-preview-overlay {
+              padding: 0 30px;
+              margin-bottom: 26px;
+
+              .post-preview-title {
+                width: 100%;
+                font-size: $fs-36;
+                margin-top: 14px;
+              }
+
+              .post-preview-text {
+                font-size: $fs-13;
+                line-height: $lh-22-13;
+              }
+            }
+          }
+  
+          &.big {
+            .post-preview-img {
+              height: 360px;
+            }
+  
+            .post-preview-overlay {
+              .post-preview-title {
+                width: 100%;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 960px) {
+  .promo-banner {
+    padding: 40px;
+
+    .promo-banner-img,
+    .promo-banner-info,
+    .countdown-arc {
+      position: static;
+    }
+
+    .tag-ornament {
+      top: 0;
+      bottom: auto;
+    }
+
+    .promo-banner-img {
+      display: block;
+      margin: 0 auto;
+    }
+
+    .promo-banner-info {
+      margin: 20px auto 0;
+      text-align: center;
+    }
+
+    .countdown-arc {
+      margin: 40px auto 0;
+    }
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .promo-banner {
+    .countdown-arc {
+      width: 160px;
+
+      .counter-wrap {
+        &:nth-last-child(1),
+        &:nth-last-child(2) {
+          margin-top: 20px;
+        }
+      }
+    }
+  }
+}

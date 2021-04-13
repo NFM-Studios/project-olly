@@ -1,0 +1,85 @@
+.countdown-arc {
+  width: 318px;
+  @include flex;
+  justify-content: space-between;
+
+  .counter-wrap {
+    .counter-text {
+      margin-top: 10px;
+      color: $white;
+      font-size: $fs-9;
+      text-align: center;
+    }
+  }
+
+  .arc-progress-text {
+    color: $white;
+    font-family: $font-primary;
+    font-size: $fs-22;
+    line-height: 66px;
+    font-weight: $weight-bold;
+    text-align: center;
+    text-transform: uppercase;
+  }
+}
+
+.countdown-text-wrap {
+  &.small {
+    .countdown-text-heading {
+      margin-bottom: 8px;
+    }
+
+    .countdown-text {
+      font-size: $fs-14;
+    }
+
+    .progress-bar {
+      margin-top: 8px;
+    }
+  }
+
+  &.bordered {
+    padding-bottom: 24px;
+    border-bottom: 1px solid $color-line;
+  }
+
+  .countdown-text-heading {
+    margin-bottom: 20px;
+    @extend %heading-10;
+    color: $black-lighter;
+    text-align: center;
+  }
+
+  .countdown-text {
+    text-align: center;
+  }
+
+  .countdown-text-info {
+    margin-top: 10px;
+    color: $gray;
+    font-size: $fs-10;
+    line-height: 1em;
+    text-align: center;
+
+    .countdown-text-info-separator {
+      margin: 0 3px;
+    }
+  }
+
+  .progress-bar {
+    margin: 22px auto 0;
+  }
+}
+
+.countdown-text {
+  @extend %heading-24;
+  color: $black-lighter;
+
+  .timer-text-days, .timer-text-hours,
+  .timer-text-minutes {
+    &:after {
+      content: ':';
+      margin: 0 5px;
+    }
+  }
+}

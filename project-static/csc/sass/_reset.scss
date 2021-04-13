@@ -1,0 +1,32 @@
+* {
+  margin: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+  box-sizing: border-box;
+}
+
+h1, h2, h3, h4,
+h5, h6, p, a {
+  line-height: 1em;
+}
+
+a {
+  text-decoration: none;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+figure {
+  & > {
+    figcaption {
+      display: none;
+    }
+    
+    img {
+      width: 100%;
+    }
+  }
+}

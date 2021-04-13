@@ -1,0 +1,13 @@
+<!-- SVG INVENTORY LIGHT -->
+<svg style="display: none;">
+  <symbol id="svg-inventory-light" viewBox="0 0 24 24" preserveAspectRatio="xMinYMin meet">
+    <g>
+      <path d="M22,0H2C0.896,0,0,0.896,0,2v20c0,1.104,0.896,2,2,2h20c1.104,0,2-0.896,2-2V2C24,0.896,23.104,0,22,0z M22,22.002H2v-20h20V22.002z M9.784,12.649l-0.883,3.333l0.03-0.021L8.901,16
+        L12,14.168l3.072,1.781l0.025,0.033l-0.006-0.021l0.006,0.002l-0.016-0.041l-0.886-3.273l2.616-2.057l0.168-0.129L17,10.445l-3.63-0.238l0.002-0.003L12,7.001v0.018l-1.373,3.186L7.02,10.426l0.024,0.014L7,10.426L9.784,12.649z"/>
+    </g>
+    <g class="inventory-icon-points-light">
+      <path d="M4,6.001h2v-2H4V6.001z M18,4.002v2h2v-2H18z M4,20.002h2v-2H4V20.002z M18,20.002h2v-2h-2V20.002z"/>
+    </g>
+  </symbol>
+</svg>
+<!-- /SVG INVENTORY LIGHT -->

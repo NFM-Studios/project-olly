@@ -1,0 +1,217 @@
+.arc {
+  &.negative {
+    .arc-progress-text {
+      color: $black-lighter;
+      text-shadow: none;
+    }
+  }
+
+  &.big {
+    .arc-progress-text {
+      font-size: $fs-50;
+      line-height: 170px;
+    }
+  }
+
+  &.medium {
+    .arc-progress-text {
+      font-size: $fs-32;
+      line-height: 112px;
+    }
+  }
+
+  &.small {
+    .arc-progress-text {
+      font-size: $fs-18;
+      line-height: 64px;
+    }
+  }
+
+  &.tiny {
+    .arc-progress-text {
+      font-size: $fs-14;
+      line-height: 48px;
+    }
+  }
+
+  &.stats {
+    .arc-progress-text {
+      font-size: $fs-14;
+      line-height: 46px;
+    }
+  }
+
+  &.rate {
+    .arc-progress-text {
+      font-size: $fs-40;
+      line-height: 160px;
+
+      .arc-progress-unit {
+        font-size: .8em;
+      }
+    }
+
+    &.small {
+      .arc-progress-text {
+        font-size: $fs-14;
+      }
+    }
+
+    &.tiny {
+      .arc-progress-text {
+        font-size: $fs-10;
+      }
+    }
+  }
+
+  .arc-progress-text {
+    color: $white;
+    font-family: $font-primary;
+    font-size: $fs-26;
+    line-height: 90px;
+    font-weight: $weight-bold;
+    text-align: center;
+    text-transform: uppercase;
+    text-shadow: 0px 0px 14px rgba(2, 1, 2, 1);
+  }
+}
+
+.arc-rate-wrap {
+  width: 160px;
+  height: 160px;
+  margin: 0 auto;
+  position: relative;
+
+  &.half {
+    width: 90px;
+    height: 64px;
+
+    .arc {
+      &.rate {
+        .arc-progress-text {
+          font-size: $fs-12;
+          line-height: 68px;
+
+          .arc-progress-unit {
+            font-size: 1em;
+          }
+        }
+      }
+    }
+
+    .arc-rate-info {
+      font-size: $fs-9;
+      bottom: 0;
+    }
+  }
+
+  &.tiny {
+    width: 48px;
+    height: 48px;
+
+    .arc {
+      &.rate {
+        .arc-progress-text {
+          line-height: 42px;
+        }
+      }
+    }
+
+    .arc-rate-info {
+      font-size: $fs-9;
+      text-transform: none;
+      bottom: 12px;
+    }
+  }
+
+  .arc {
+    &.rate {
+      .arc-progress-text {
+        line-height: 140px;
+      }
+    }
+  }
+
+  .arc-rate-icon {
+    position: absolute;
+    top: 44px;
+    left: 50%;
+    margin-left: -11px;
+
+    &.shield-icon {
+      margin-left: -12px;
+    }
+
+    &.plus-icon {
+      margin-left: -14px;
+    }
+  }
+
+  .arc-rate-stat, .arc-rate-info {
+    width: 100%;
+    text-align: center;
+    line-height: 1em;
+    text-transform: uppercase;
+    position: absolute;
+  }
+
+  .arc-rate-stat {
+    @extend %heading-10;
+    color: $black-lighter;
+    bottom: 58px;
+  }
+
+  .arc-rate-info {
+    color: $gray;
+    font-size: $fs-10;
+    bottom: 44px;
+  }
+}
+
+.arc-stats-wrap {
+  &.landscape {
+    @include flex();
+
+    .arc-stats {
+      margin: 0;
+    }
+
+    .arc-stats-info {
+      margin: 12px 0 0 20px;
+      text-align: left;
+    }
+  }
+
+  .arc-stats {
+    margin: 0 auto;
+    position: relative;
+
+    .s-icon {
+      font-size: 18px;
+      font-weight: $weight-bold;
+      position: absolute;
+      top: 13px;
+      left: 14px;
+    }
+
+    .icon-shield {
+      top: 14px;
+      left: 15px;
+    }
+  }
+
+  .arc-stats-info {
+    margin-top: 8px;
+    text-align: center;
+
+    .arc-stats-stat {
+      @extend %heading-11;
+      color: $black-lighter;
+    }
+
+    .arc-stats-measure {
+      color: $gray;
+      font-size: $fs-9;
+    }
+  }
+}

@@ -1,0 +1,8 @@
+<!-- SVG CROSS BIG -->
+<svg style="display: none;">
+  <symbol id="svg-cross-big" viewBox="0 0 15 15" preserveAspectRatio="xMinYMin meet">
+    <path d="M0-0.002v3h3v-3H0z M3,2.998v2.999h3V2.998H3z M3,11.998h3V8.997H3V11.998z M0,14.997h3v-2.999H0V14.997z M15-0.002h-3v3h3V-0.002z M12,2.998H9v2.999h3V2.998z M6,5.997v3h3v-3H6z M12,11.998
+      V8.997H9v3.001H12z M15,14.997v-2.999h-3v2.999H15z"/>
+  </symbol>
+</svg>
+<!-- /SVG CROSS BIG -->

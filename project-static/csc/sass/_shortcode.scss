@@ -1,0 +1,194 @@
+.shortcode-section {
+  margin-bottom: 76px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  .shortcode-section-title {
+    margin-bottom: 36px;
+    @extend %heading-10;
+    color: $black-lighter;
+
+    &.bottom-space {
+      margin-bottom: 16px;
+    }
+  }
+
+  .shortcode-section-items {
+    @include flex();
+    justify-content: space-around;
+
+    &.between {
+      justify-content: space-between;
+    }
+
+    .shortcode-color,
+    .button,
+    .shortcode-font,
+    .information-box {
+      margin-top: 20px;
+    }
+
+    .shortcode-form {
+      margin-top: 40px;
+    }
+  }
+}
+
+.shortcode-color {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  padding: 14px 0 0 14px;
+
+  &.color-black-lighter {
+    background-color: $black-lighter;
+  }
+
+  &.color-gray-dark {
+    background-color: $gray-dark;
+  }
+
+  &.color-gray {
+    background-color: $gray;
+  }
+
+  &.color-white-darker {
+    background-color: $white-darker;
+  }
+
+  &.color-violet {
+    background-color: $violet;
+  }
+
+  &.color-blue {
+    background-color: $blue;
+  }
+
+  &.color-cyan {
+    background-color: $cyan;
+  }
+
+  &.color-green {
+    background-color: $green;
+  }
+
+  &.color-yellow {
+    background-color: $yellow;
+  }
+
+  &.color-red {
+    background-color: $red;
+  }
+
+  .shortcode-color-code {
+    width: 62px;
+    height: 62px;
+    border-radius: 50%;
+    background-color: $white;
+    @extend %heading-10;
+    color: $black-lighter;
+    line-height: 62px;
+    text-align: center;
+  }
+}
+
+.shortcode-font {
+  &.extrabold {
+    .shortcode-font-demo,
+    .shortcode-font-family,
+    .shortcode-font-weight {
+      font-weight: $weight-extrabold;
+    }
+  }
+
+  &.bold {
+    .shortcode-font-demo,
+    .shortcode-font-family,
+    .shortcode-font-weight {
+      font-weight: $weight-bold;
+    }
+  }
+
+  &.regular {
+    .shortcode-font-demo,
+    .shortcode-font-family,
+    .shortcode-font-weight {
+      font-weight: $weight-regular;
+    }
+  }
+
+  &.medium {
+    .shortcode-font-demo,
+    .shortcode-font-family,
+    .shortcode-font-weight {
+      font-weight: $weight-medium;
+    }
+  }
+
+  &.roboto {
+    .shortcode-font-demo,
+    .shortcode-font-family,
+    .shortcode-font-weight {
+      font-family: $font-secondary;
+      text-transform: none;
+    }
+  }
+
+  .shortcode-font-demo {
+    @extend %heading;
+    color: $black-lighter;
+    font-size: $fs-110;
+    text-transform: none;
+  }
+
+  .shortcode-font-family,
+  .shortcode-font-weight {
+    @extend %heading-12;
+  }
+
+  .shortcode-font-family {
+    margin-top: 16px;
+    color: $black-lighter;
+  }
+
+  .shortcode-font-weight {
+    color: $gray;
+  }
+}
+
+.shortcode-form {
+  width: 270px;
+
+  &.medium {
+    width: 570px;
+  }
+
+  .check-radio-items {
+    @include flex();
+    justify-content: space-between;
+  }
+
+  .check-item-list,
+  .radio-item-list {
+    margin-top: 36px;
+  }
+}
+
+/**
+ *  MEDIA QUERIES
+ */
+ @media screen and (max-width: 1260px) {
+  .shortcode-section {
+    .shortcode-section-items {
+      .information-box {
+        margin-top: 44px;
+
+        &:first-child {
+          margin-top: 20px;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,7 @@
+<!-- SVG TRACK -->
+<svg style="display: none;">
+  <symbol id="svg-track" viewBox="0 0 10 10" preserveAspectRatio="xMinYMin meet">
+    <path d="M5,10c-2.762,0-5-2.238-5-5s2.238-5,5-5s5,2.238,5,5S7.762,10,5,10z M5,1C2.791,1,1,2.791,1,5s1.791,4,4,4s4-1.791,4-4S7.209,1,5,1z"/>
+  </symbol>
+</svg>
+<!-- /SVG TRACK -->

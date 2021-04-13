@@ -1,0 +1,7 @@
+<!-- SVG ARROW BIG -->
+<svg style="display: none;">
+  <symbol id="svg-arrow-big" viewBox="0 0 9 15" preserveAspectRatio="xMinYMin meet">
+    <path d="M0-0.002v3h3v-3H0z M3,2.998v3h3v-3H3z M6,5.998v3h3v-3H6zM3,11.998h3V8.997H3V11.998z M0,14.998h3v-3H0V14.998z"/>
+  </symbol>
+</svg>
+<!-- /SVG ARROW BIG -->

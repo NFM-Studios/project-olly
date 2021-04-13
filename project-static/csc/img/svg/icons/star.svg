@@ -1,0 +1,7 @@
+<!-- SVG STAR -->
+<svg style="display: none;">
+  <symbol id="svg-star" viewBox="0 0 13 12" preserveAspectRatio="xMinYMin meet">
+    <path d="M6.5,0l2.145,3.771l4.362,0.813L9.971,7.727l0.551,4.272L6.5,10.171l-4.021,1.828l0.551-4.272l-3.037-3.144l4.362-0.813L6.5,0"/>
+  </symbol>
+</svg>
+<!-- /SVG STAR -->

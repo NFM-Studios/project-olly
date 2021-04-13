@@ -1,0 +1,7 @@
+<!-- SVG LIST -->
+<svg style="display: none;">
+  <symbol id="svg-list" viewBox="0 0 10 10" preserveAspectRatio="xMinYMin meet">
+    <path d="M0,0v2h10V0H0z M0,6h10V4H0V6z M0,10h10V8H0V10z"/>
+  </symbol>
+</svg>
+<!-- /SVG LIST -->

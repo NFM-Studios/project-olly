@@ -1,0 +1,8 @@
+<!-- SVG CROSS SMALL -->
+<svg style="display: none;">
+  <symbol id="svg-cross-small" viewBox="0 0 10 10" preserveAspectRatio="xMinYMin meet">
+    <path d="M4.01,6.007h1.979V3.991H4.01V6.007z M2.01,4.007h1.979V1.992H2.01V4.007z M0.01,2.007h1.979v-2.015H0.01V2.007z M2.01,8.008h1.979V5.992H2.01V8.008z M0.01,10.008h1.979V7.992H0.01V10.008z
+    M6.01,4.007h1.98V1.992H6.01V4.007z M8.01-0.008v2.015h1.98v-2.015H8.01z M6.01,8.008h1.98V5.992H6.01V8.008z M8.01,10.008h1.98V7.992H8.01V10.008z"/>
+  </symbol>
+</svg>
+<!-- /SVG CROSS SMALL -->

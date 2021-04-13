@@ -1,0 +1,8 @@
+<!-- SVG GRID -->
+<svg style="display: none;">
+  <symbol id="svg-grid" viewBox="0 0 10 10" preserveAspectRatio="xMinYMin meet">
+    <path d="M0,4h4V0H0V4z M0,10h4V6H0V10z M6,0v4h4V0H6z M6,10h4V6H6V10z"/>
+  </symbol>
+</svg>
+<!-- /SVG GRID -->
+

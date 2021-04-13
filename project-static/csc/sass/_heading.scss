@@ -1,0 +1,146 @@
+%heading {
+  display: block;
+  font-family: $font-primary;
+  font-weight: $weight-bold;
+  text-transform: uppercase;
+  line-height: 1em;
+}
+
+%heading-86,
+%heading-50, %heading-52,
+%heading-40, %heading-42,
+%heading-36,
+%heading-30, %heading-32,
+%heading-22, %heading-24, %heading-26, %heading-28,
+%heading-16, %heading-16-28, %heading-18, %heading-18-30,
+%heading-10, %heading-11, %heading-12, %heading-13, %heading-14, %heading-14-18,
+%heading-8, %heading-9 {
+  @extend %heading;
+}
+
+%heading-86 {
+  font-size: $fs-86;
+}
+
+%heading-52 {
+  font-size: $fs-52;
+}
+
+%heading-50 {
+  font-size: $fs-50;
+  line-height: $lh-52-50;
+}
+
+%heading-42 {
+  font-size: $fs-42;
+}
+
+%heading-40 {
+  font-size: $fs-40;
+  line-height: $lh-46-40;
+}
+
+%heading-36 {
+  font-size: $fs-36;
+  line-height: $lh-42-36;
+}
+
+%heading-32 {
+  font-size: $fs-32;
+}
+
+%heading-30 {
+  font-size: $fs-30;
+  line-height: $lh-34-30;
+}
+
+%heading-28 {
+  font-size: $fs-28;
+}
+
+%heading-26 {
+  font-size: $fs-26;
+  line-height: $lh-32-26;
+}
+
+%heading-24 {
+  font-size: $fs-24;
+}
+
+%heading-22 {
+  font-size: $fs-22;
+}
+
+%heading-18 {
+  font-size: $fs-18;
+}
+
+%heading-18-30 {
+  font-size: $fs-18;
+  line-height: $lh-30-18;
+}
+
+%heading-16 {
+  font-size: $fs-16;
+  line-height: $lh-22-16;
+}
+
+%heading-16-28 {
+  font-size: $fs-16;
+  line-height: $lh-28-16;
+}
+
+%heading-14 {
+  font-size: $fs-14;
+  line-height: $lh-20-14;
+}
+
+%heading-14-18 {
+  font-size: $fs-14;
+  line-height: $lh-18-14;
+}
+
+%heading-14-26 {
+  font-size: $fs-14;
+  line-height: $lh-26-14;
+}
+
+%heading-13 {
+  font-size: $fs-13;
+}
+
+%heading-12 {
+  font-size: $fs-12;
+  line-height: $lh-16-12;
+}
+
+%heading-11 {
+  font-size: $fs-11;
+}
+
+%heading-10 {
+  font-size: $fs-10;
+}
+
+%heading-9 {
+  font-size: $fs-9;
+}
+
+%heading-8 {
+  font-size: $fs-8;
+}
+
+.banner-title {
+  @extend %heading-50;
+}
+
+.post-preview-title {
+  @extend %heading-16;
+  color: $black-lighter;
+}
+
+.product-preview-title {
+  @extend %heading-14;
+  color: $black-lighter;
+  line-height: 1em;
+}

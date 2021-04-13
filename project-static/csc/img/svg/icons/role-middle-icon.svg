@@ -1,0 +1,7 @@
+<!-- SVG ROLE MIDDLE -->
+<svg style="display: none;">
+  <symbol id="svg-role-middle" viewBox="0 0 20 20" preserveAspectRatio="xMinYMin meet">
+    <path d="M16,19H8l3-3h5v-5l3-3v8v3H16z M1,19v-4L15,1h4v4L5,19H1z M4,4v5l-3,3V4V1h3h8L9,4H4z"/>
+  </symbol>
+</svg>
+<!-- /SVG ROLE MIDDLE -->

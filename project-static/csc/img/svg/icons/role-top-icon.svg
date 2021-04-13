@@ -1,0 +1,7 @@
+<!-- SVG ROLE TOP -->
+<svg style="display: none;">
+  <symbol id="svg-role-top" viewBox="0 0 20 20" preserveAspectRatio="xMinYMin meet">
+    <path d="M16,19H3l3-3h10V6l3-3v13v3H16z M7,13V7h6v6H7z M4,4v10l-3,3V4V1h3h13l-3,3H4z"/>
+  </symbol>
+</svg>
+<!-- /SVG ROLE TOP -->

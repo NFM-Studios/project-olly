@@ -1,0 +1,8 @@
+<!-- SVG PLAY -->
+<svg style="display: none;">
+  <symbol id="svg-play" viewBox="0 0 24 28" preserveAspectRatio="xMinYMin meet">
+  <path d="M22.363,11.728L3.607,0.529C1.501-0.717,0,0.288,0,2.76V25.23c0,2.469,1.502,3.475,3.607,2.227L22.469,16.26
+  C24.582,15.014,24.475,12.974,22.363,11.728z"/>
+  </symbol>
+</svg>
+<!-- /SVG PLAY -->
