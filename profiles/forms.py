@@ -14,14 +14,6 @@ class CreateUserForm(forms.ModelForm):
         model = User
         fields = ['username', 'email', 'password']
 
-    def __init__(self, *args, **kwargs):
-        super(CreateUserForm, self).__init__(*args, **kwargs)
-        self.fields['username'].widget.attrs.update({'name': 'username', 'class': 'form-control', 'style': 'width:30%'})
-        self.fields['email'].widget.attrs.update({'name': 'email', 'class': 'form-control', 'style': 'width:30%'})
-        self.fields['password'].widget.attrs.update({'name': 'password', 'class': 'form-control', 'style': 'width:30%'})
-        self.fields['password_confirm'].widget.attrs.update({'name': 'password_confirm', 'class': 'form-control',
-                                                             'style': 'width:30%'})
-
 
 class EditProfileForm(forms.ModelForm):
     class Meta:
