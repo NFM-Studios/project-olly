@@ -21,7 +21,7 @@ def matches_index(request):
         # matches_list = Match.objects.all().order_by('-id')
         tmatches = Match.objects.filter(type="singletournament")
         wmatches = Match.objects.filter(type='w')
-        lmatches = Match.objects.filter(type="leagues")
+        lmatches = Match.objects.filter(type="league")
         return render(request, 'staff/matches/matches.html',
                       {'tmatches': tmatches, 'wmatches': wmatches, 'lmatches': lmatches})
 
