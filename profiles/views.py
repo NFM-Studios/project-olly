@@ -433,7 +433,6 @@ def notifications_list(request):
         return redirect('index')
     else:
         profile = UserProfile.objects.get(user=request.user)
-        notifications = profile.notifications.all()
         notifications = notifications.filter(read=False)
         read = profile.notifications.all().filter(read=True)
         for x in profile.notifications.all():
