@@ -65,8 +65,7 @@ class EditProfileForm(forms.ModelForm):
         self.fields['favorite_console'].widget.attrs.update(
             {'name': 'favorite_console', 'class': 'form-control', 'style':
                 ''})
-        self.fields['country'].widget.attrs.update({'name': 'country', 'class': 'form-control',
-                                                    'style': 'background-color: black;'})
+        self.fields['country'].widget.attrs.update({'name': 'country', 'class': 'form-control'})
         self.fields['email_enabled'].widget.attrs.update({'name': 'email_enabled', 'class': 'form-control',
                                                           'style': 'background-color: black;'})
 
