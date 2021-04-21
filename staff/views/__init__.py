@@ -8,3 +8,4 @@ from .teams import *
 from .wagers import *
 from .staff import *
 from .leagues import *
+from .statsparser import upload_parse

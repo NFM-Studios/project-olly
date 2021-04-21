@@ -257,6 +257,10 @@ def users(request):
     return render(request, 'profiles/users.html')
 
 
+def display(request):
+    up = UserProfile.objects.all()
+    return render(request,'staff/profiles/users.html',{'up':up})
+
 def searchusers(request):
     query = request.GET.get('q')
     if query:

@@ -73,7 +73,7 @@
             </td>
         </tr>
         <tr>
-            <td>Choosen maps</td>
+            <td>Chosen maps</td>
             <td><a class="btn-link" href="{% url 'staff:match_pickmap' pk=match.pk %}">Randomly Repick maps (in given Best of format)</a></td>
         </tr>
         <tr>
@@ -137,7 +137,20 @@
         &nbsp;
         <a href="{% url 'staff:match_edit' pk=match.id %}" class="btn btn-primary">Edit Match</a>
     </p>
-
+    <form action="{% url 'staff:upload_parse' pk=match.id %}" method="POST" enctype="multipart/form-data" class="form-horizontal">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="csv_file" class="col-md-3 col-sm-3 col-xs-12 control-label">File: </label>
+        <div class="col-md-8">
+            <input type="file" name="csv_file" id="csv_file" required="True" class="form-control">
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-3 col-sm-3 col-xs-12 col-md-offset-3" style="margin-bottom:10px;">
+             <button class="btn btn-primary"> <span class="glyphicon glyphicon-upload" style="margin-right:5px;"></span>Upload </button>
+        </div>
+    </div>
+    </form>
     <h2>Reports for this match...</h2>
 
     <table>
@@ -158,5 +171,6 @@
 
         </tbody>
     </table>
+
 
 {% endblock %}
