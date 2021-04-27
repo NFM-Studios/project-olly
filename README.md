@@ -46,7 +46,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <table>
   <tr>
     <td align="center"><a href="https://github.com/mulveyben1"><img src="https://avatars1.githubusercontent.com/u/22732775?v=4?s=100" width="100px;" alt=""/><br /><sub><b>mulveyben1</b></sub></a><br /><a href="https://github.com/NFM-Studios/project-olly/commits?author=mulveyben1" title="Code">💻</a></td>
-    <td align="center"><a href="http://mikemadden.me"><img src="https://avatars.githubusercontent.com/u/19417674?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Mike M.</b></sub></a><br /><a href="https://github.com/NFM-Studios/project-olly/commits?author=mikemaddem" title="Tests">⚠️</a> <a href="https://github.com/NFM-Studios/project-olly/commits?author=mikemaddem" title="Code">💻</a></td>
+    <td align="center"><a href="http://mikemadden.me"><img src="https://avatars.githubusercontent.com/u/19417674?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Mike M.</b></sub></a><br /><a href="https://github.com/NFM-Studios/project-olly/commits?author=mikemaddem" title="Tests">⚠️</a> <a href="https://github.com/NFM-Studios/project-olly/commits?author=mikemaddem" title="Code">💻</a> <a href="#infra-mikemaddem" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="https://github.com/NFM-Studios/project-olly/commits?author=mikemaddem" title="Documentation">📖</a></td>
   </tr>
 </table>
 
