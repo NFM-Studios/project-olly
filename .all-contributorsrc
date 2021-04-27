@@ -21,7 +21,9 @@
       "profile": "http://mikemadden.me",
       "contributions": [
         "test",
-        "code"
+        "code",
+        "infra",
+        "doc"
       ]
     }
   ],
