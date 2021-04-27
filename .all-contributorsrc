@@ -24,6 +24,27 @@
         "code",
         "infra",
         "doc"
+        "code"
+      ]
+    },
+    {
+      "login": "techlover1",
+      "name": "Steven Young",
+      "avatar_url": "https://avatars.githubusercontent.com/u/17421974?v=4",
+      "profile": "http://nightfury.pw",
+      "contributions": [
+        "infra",
+        "ideas",
+        "code"
+      ]
+    },
+    {
+      "login": "tkenney124",
+      "name": "tkenney124",
+      "avatar_url": "https://avatars.githubusercontent.com/u/29129110?v=4",
+      "profile": "https://github.com/tkenney124",
+      "contributions": [
+        "code"
       ]
     }
   ],
