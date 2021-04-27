@@ -11,7 +11,19 @@
       "avatar_url": "https://avatars1.githubusercontent.com/u/22732775?v=4",
       "profile": "https://github.com/mulveyben1",
       "contributions": [
-
+        "code"
+      ]
+    },
+    {
+      "login": "mikemaddem",
+      "name": "Mike M.",
+      "avatar_url": "https://avatars.githubusercontent.com/u/19417674?v=4",
+      "profile": "http://mikemadden.me",
+      "contributions": [
+        "test",
+        "code",
+        "infra",
+        "doc"
         "code"
       ]
     },
