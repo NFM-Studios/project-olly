@@ -41,31 +41,6 @@ class EditProfileForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(EditProfileForm, self).__init__(*args, **kwargs)
-        self.fields['profile_picture'].widget.attrs.update(
-            {'name': 'profile_picture', 'class': 'form-control', 'style': ''})
-        self.fields['about_me'].widget.attrs.update({'name': 'about_me', 'class': 'form-control', 'style': ''})
-        self.fields['xbl'].widget.attrs.update({'name': 'xbl', 'class': 'form-control', 'style': ''})
-        self.fields['alternate_name'].widget.attrs.update({'name': 'xbl', 'class': 'form-control', 'style': ''})
-        self.fields['psn'].widget.attrs.update({'name': 'psn', 'class': 'form-control',
-                                                'style': ''})
-        self.fields['steam'].widget.attrs.update({'name': 'steam', 'class': 'form-control', 'style':
-            ''})
-        self.fields['epic'].widget.attrs.update({'name': 'epic', 'class': 'form-control', 'style':
-            ''})
-        self.fields['battlenet'].widget.attrs.update({'name': 'battlenet', 'class': 'form-control', 'style':
-            ''})
-        self.fields['activisionid'].widget.attrs.update({'name': 'activisionid', 'class': 'form-control', 'style':
-            ''})
-        self.fields['twitter_profile'].widget.attrs.update({'name': 'twitter_profile', 'class': 'form-control', 'style':
-            ''})
-        self.fields['twitch_channel'].widget.attrs.update({'name': 'twitch_channel', 'class': 'form-control', 'style':
-            ''})
-        self.fields['favorite_game'].widget.attrs.update({'name': 'favorite_game', 'class': 'form-control', 'style':
-            ''})
-        self.fields['favorite_console'].widget.attrs.update(
-            {'name': 'favorite_console', 'class': 'form-control', 'style':
-                ''})
-        self.fields['country'].widget.attrs.update({'name': 'country', 'class': 'form-control'})
         self.fields['email_enabled'].widget.attrs.update({'name': 'email_enabled', 'class': 'form-control',
                                                           'style': 'background-color: black;'})
 
