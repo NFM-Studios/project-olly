@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 
 from staff.forms import *
 from support.models import Ticket
-from pages.models import FrontPageSlide
+from pages.models import FrontPageSlide, OllySetting
 from wagers.models import *
 
 
@@ -153,7 +153,7 @@ def slide_detail(request, pk):
             else:
                 return render(request, 'staff/pages/slide_detail.html', {'form': form, 'pk': pk})
         else:
-            slide_obj =  FrontPageSlide.objects.get(pk=pk)
+            slide_obj = FrontPageSlide.objects.get(pk=pk)
             form = CreateSlide(instance=slide_obj)
             return render(request, 'staff/pages/slide_detail.html', {'form': form, 'pk': pk})
 
@@ -169,4 +169,53 @@ def slide_delete(request, pk):
         messages.success(request, 'slide has been deleted')
         return redirect('staff:slide_list')
 
+
 # end static info section
+
+
+def create_settings(request):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        if len(OllySetting.objects.all()) > 1:
+            # one already exists
+            messages.warning(request, 'Settings already exist, redirecting to modify current settings.')
+            return redirect('staff:edit_settings')
+        else:
+            if request.method == 'POST':
+                # validate data, make object
+                form = CreateOllySetting(request.POST)
+                if form.is_valid():
+                    temp = form.instance
+                    temp.save()
+                    #temp = OllySetting()
+                    #temp.freeze_team_invites = form.cleaned_data['freeze_team_invites']
+                    #temp.disable_team_creation = form.cleaned_data['disable_team_creation']
+                    #temp.save()
+                    messages.success(request, "Settings created")
+                    return redirect('staff:edit_settings')
+            else:
+                form = CreateOllySetting()
+                return render(request, 'staff/pages/create_olly_settings.html', {'form': form})
+
+
+def edit_settings(request):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        settings = OllySetting.objects.get(pk=1)
+        if request.method == 'POST':
+            # validate
+            form = CreateOllySetting(request.POST)
+            settings.freeze_team_invites = form.cleaned_data['freeze_team_invites']
+            settings.disable_team_creation = form.cleaned_data['disable_team_creation']
+            settings.save()
+            messages.success(request, 'Settings updated')
+            return redirect('staff:index')
+        else:
+            form = CreateOllySetting(instance=settings)
+            return render(request, 'staff/pages/edit_olly_settings.html', {'form': form})

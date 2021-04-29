@@ -1,0 +1,20 @@
+{% extends 'staff/staffbase.html' %}
+{% load static %}
+
+{% block title %}
+    Olly Settings - Edit
+{% endblock %}
+
+{% block body %}
+    <form enctype="multipart/form-data" method="post">
+        <label>Disable Team Invites</label>
+        {{ form.freeze_team_invites }}
+        <br />
+        <label>Disable Team Creation</label>
+        {{ form.disable_team_creation }}
+        <br />
+        <button type="submit" class="btn btn-primary">Update</button>
+
+    </form>
+
+{% endblock %}

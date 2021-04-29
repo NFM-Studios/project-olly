@@ -3,6 +3,32 @@ from django.db import models
 from singletournaments.models import SingleEliminationTournament
 
 
+class OllySetting(models.Model):
+    class Meta:
+        verbose_name_plural = "Olly Settings"
+
+    freeze_team_invites = models.BooleanField(default=False)
+    disable_team_creation = models.BooleanField(default=False)
+
+    def can_invite(self):
+        try:
+            if OllySetting.objects.get(pk=1).freeze_team_invites:
+                return False
+            else:
+                return True
+        except:
+            return False
+
+    def can_create_team(self):
+        try:
+            if OllySetting.objects.get(pk=1).disable_team_creation:
+                return False
+            else:
+                return True
+        except:
+            return False
+
+
 class FrontPageSlide(models.Model):
     class Meta:
         verbose_name_plural = "Front Page Slides"
