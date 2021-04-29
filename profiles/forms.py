@@ -36,13 +36,16 @@ class EditProfileForm(forms.ModelForm):
             'favorite_game',
             'favorite_console',
             'country',
-            'email_enabled'
+            'email_enabled',
+            'feat_team'
         )
 
     def __init__(self, *args, **kwargs):
         super(EditProfileForm, self).__init__(*args, **kwargs)
-        self.fields['email_enabled'].widget.attrs.update({'name': 'email_enabled', 'class': 'form-control',
-                                                          'style': 'background-color: black;'})
+        self.fields['feat_team'].queryset = self.instance.founder_teams.all() | self.instance.captain_teams.all() | self.instance.player_teams.all()
+        # super(EditProfileForm, self).__init__(*args, **kwargs)
+        # self.fields['email_enabled'].widget.attrs.update({'name': 'email_enabled', 'class': 'form-control',
+        #                                                  'style': 'background-color: black;'})
 
 
 class SortForm(forms.Form):  # it works but is messy af. should be replaced with something like
