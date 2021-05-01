@@ -47,7 +47,7 @@ def pages(request):
             else:
                 messages.error(request, "Something went horribly wrong (this shouldn't be seen)")
                 return redirect('staff:pages')
-        else:
+        elif request.method == 'GET':
             staticinfoobj = StaticInfo.objects.get(pk=1)
             socialinfoobj = SocialInfo.objects.get(pk=1)
             static = StaticInfoForm(instance=staticinfoobj)
@@ -82,7 +82,7 @@ def createpartner(request):
                 return redirect('staff:partner_list')
             else:
                 return render(request, 'staff/pages/partner_create.html', {'form': form})
-        else:
+        elif request.method == 'POST':
             form = PartnerForm(None)
             return render(request, 'staff/pages/partner_create.html', {'form': form})
 
@@ -102,7 +102,7 @@ def partner_detail(request, pk):
                 return redirect('staff:partner_list')
             else:
                 return render(request, 'staff/pages/partner_create.html', {'form': form})
-        else:
+        elif request.method == 'GET':
             partner = Partner.objects.get(pk=pk)
             form = PartnerForm(instance=partner)
             return render(request, 'staff/pages/partner_create.html', {'form': form})
@@ -132,7 +132,7 @@ def slide_create(request):
                 return redirect('staff:slide_list')
             else:
                 return render(request, 'staff/pages/slide_create.html', {'form': form})
-        else:
+        elif request.method == 'GET':
             form = CreateSlide(None)
             return render(request, 'staff/pages/slide_create.html', {'form': form})
 
@@ -152,7 +152,7 @@ def slide_detail(request, pk):
                 return redirect('staff:slide_list')
             else:
                 return render(request, 'staff/pages/slide_detail.html', {'form': form, 'pk': pk})
-        else:
+        elif request.method == 'GET':
             slide_obj = FrontPageSlide.objects.get(pk=pk)
             form = CreateSlide(instance=slide_obj)
             return render(request, 'staff/pages/slide_detail.html', {'form': form, 'pk': pk})
@@ -192,7 +192,7 @@ def create_settings(request):
                     temp.save()
                     messages.success(request, "Settings created")
                     return redirect('staff:edit_settings')
-            else:
+            elif request.method == 'GET':
                 form = CreateOllySetting()
                 return render(request, 'staff/pages/create_olly_settings.html', {'form': form})
 
@@ -212,6 +212,6 @@ def edit_settings(request):
             settings.save()
             messages.success(request, 'Settings updated')
             return redirect('staff:index')
-        else:
+        elif request.method == 'GET':
             form = CreateOllySetting(instance=settings)
             return render(request, 'staff/pages/edit_olly_settings.html', {'form': form})
