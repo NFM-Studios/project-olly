@@ -190,10 +190,6 @@ def create_settings(request):
                 if form.is_valid():
                     temp = form.instance
                     temp.save()
-                    #temp = OllySetting()
-                    #temp.freeze_team_invites = form.cleaned_data['freeze_team_invites']
-                    #temp.disable_team_creation = form.cleaned_data['disable_team_creation']
-                    #temp.save()
                     messages.success(request, "Settings created")
                     return redirect('staff:edit_settings')
             else:
