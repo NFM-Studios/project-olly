@@ -20,6 +20,7 @@ from teams.models import TeamInvite
 from .forms import CreateUserForm, EditProfileForm, SortForm
 from .models import UserProfile, Notification
 from .tokens import account_activation_token
+from django.conf import Settings
 
 
 def login(request, template_name='profiles/login_form.html',
@@ -139,7 +140,7 @@ def password_reset(request, is_admin_site=False,
             opts = {
                 'use_https': request.is_secure(),
                 'token_generator': token_generator,
-                'from_email': from_email,
+                'from_email': settings.FROM_EMAIL,
                 'email_template_name': 'profiles/reset_email.html',
                 'subject_template_name': subject_template_name,
                 'request': request,
