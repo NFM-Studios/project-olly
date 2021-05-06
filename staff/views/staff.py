@@ -180,12 +180,10 @@ def create_settings(request):
         return render(request, 'staff/permissiondenied.html')
     else:
         if len(OllySetting.objects.all()) > 1:
-            # one already exists
             messages.warning(request, 'Settings already exist, redirecting to modify current settings.')
             return redirect('staff:edit_settings')
         else:
             if request.method == 'POST':
-                # validate data, make object
                 form = CreateOllySetting(request.POST)
                 if form.is_valid():
                     temp = form.instance
@@ -205,7 +203,6 @@ def edit_settings(request):
     else:
         settings = OllySetting.objects.get(pk=1)
         if request.method == 'POST':
-            # validate
             form = CreateOllySetting(request.POST)
             settings.freeze_team_invites = form.cleaned_data['freeze_team_invites']
             settings.disable_team_creation = form.cleaned_data['disable_team_creation']
