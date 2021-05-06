@@ -14,6 +14,11 @@ class CreateUserForm(forms.ModelForm):
         model = User
         fields = ['username', 'email', 'password', 'tos']
 
+    def __init__(self, *args, **kwargs):
+        super(CreateUserForm, self).__init__(*args, **kwargs)
+        self.fields['tos'].widget.attrs.update({'name': 'tos', 'class': 'form-control',
+                                                'style': 'display: block;'})
+
 
 class EditProfileForm(forms.ModelForm):
     class Meta:
