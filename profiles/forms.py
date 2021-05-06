@@ -37,12 +37,13 @@ class EditProfileForm(forms.ModelForm):
             'favorite_console',
             'country',
             'email_enabled',
-            'feat_team'
+            'featured_team'
         )
 
     def __init__(self, *args, **kwargs):
         super(EditProfileForm, self).__init__(*args, **kwargs)
-        self.fields['feat_team'].queryset = self.instance.founder_teams.all() | self.instance.captain_teams.all() | self.instance.player_teams.all()
+        self.fields[
+            'featured_team'].queryset = self.instance.founder_teams.all() | self.instance.captain_teams.all() | self.instance.player_teams.all()
 
 
 class SortForm(forms.Form):  # to be improved

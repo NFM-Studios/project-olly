@@ -95,7 +95,7 @@ class UserProfile(models.Model):
 
     email_enabled = models.BooleanField(default=True)
     # team to display on their profile
-    feat_team = models.ForeignKey('teams.Team', related_name='profile_feat_team', blank=True, null=True, on_delete=models.SET_NULL)
+    featured_team = models.ForeignKey('teams.Team', related_name='profile_featured_team', blank=True, null=True, on_delete=models.SET_NULL)
     # teams the user founded
     founder_teams = models.ManyToManyField('teams.Team', related_name='profile_founder_teams', blank=True)
     # teams the user is a captain of
