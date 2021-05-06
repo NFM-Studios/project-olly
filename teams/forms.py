@@ -5,6 +5,7 @@ from teams.models import Team
 from teams.models import TeamInvite
 from profiles.models import UserProfile
 
+
 # forms to create a team of various sizes
 
 
@@ -35,15 +36,15 @@ class TeamInviteFormGet(forms.ModelForm):
 
     def __init__(self, request, *args, **kwargs):
         super(TeamInviteFormGet, self).__init__(*args, **kwargs)
-        self.fields['captain'].widget.attrs.update({'name': 'captain', 'class': 'form-control', 'style': 'width:30%;display: block'})
+        self.fields['captain'].widget.attrs.update(
+            {'name': 'captain', 'class': 'form-control', 'style': 'width:30%;display: block'})
 
         self.username = request.user
         profile = UserProfile.objects.get(user=request.user)
         tlist = profile.captain_teams.all() | profile.founder_teams.all()
         teams = tlist
         self.fields['team'].queryset = teams
-        #super().__init__(*args, **kwargs)
-
+        # super().__init__(*args, **kwargs)
 
 
 class TeamInviteFormPost(forms.ModelForm):
@@ -95,6 +96,11 @@ class ViewInviteForm(forms.ModelForm):
 
 class LeaveTeamForm(forms.Form):
     confirmed = forms.BooleanField(required=False)
+
+    def __init__(self, request, pk, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['confirmed'].widget.attrs.update(
+            {'name': 'confirmed', 'class': 'form-control', 'style': 'display: block'})
 
 
 class RemoveUserForm(forms.Form):
