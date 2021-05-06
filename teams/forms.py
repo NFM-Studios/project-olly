@@ -35,7 +35,7 @@ class TeamInviteFormGet(forms.ModelForm):
 
     def __init__(self, request, *args, **kwargs):
         super(TeamInviteFormGet, self).__init__(*args, **kwargs)
-        self.fields['captain'].widget.attrs.update({'name': 'captain', 'class': 'form-control', 'style': 'width:30%'})
+        self.fields['captain'].widget.attrs.update({'name': 'captain', 'class': 'form-control', 'style': 'width:30%;display: block'})
 
         self.username = request.user
         profile = UserProfile.objects.get(user=request.user)
