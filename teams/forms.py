@@ -28,26 +28,22 @@ class TeamInviteFormGet(forms.ModelForm):
     class Meta:
         captain = forms.BooleanField(required=False)
         model = TeamInvite
-        # maybe????
-        fields = ('user', 'team', 'captain',)
+        fields = ('user', 'team', 'captain')
         widgets = {
             'user': forms.CharField(),
         }
 
     def __init__(self, request, *args, **kwargs):
         super(TeamInviteFormGet, self).__init__(*args, **kwargs)
-        self.fields['user'].widget.attrs.update({'name': 'user', 'class': 'form-control', 'style': 'width:30%'})
-        self.fields['team'].widget.attrs.update({'name': 'team', 'class': 'form-control', 'style': 'width:30%'})
         self.fields['captain'].widget.attrs.update({'name': 'captain', 'class': 'form-control', 'style': 'width:30%'})
 
         self.username = request.user
-        #invites = TeamInvite.objects.filter(hasPerms=True, user=request.user, accepted=True)
         profile = UserProfile.objects.get(user=request.user)
         tlist = profile.captain_teams.all() | profile.founder_teams.all()
-        # tlist = profile.captain_teams.all() + profile.founder_teams.all()
-        teams = tlist  #profile.captain_teams.all() + profile.founder_teams.all())
-        # super().__init__(*args, **kwargs)
+        teams = tlist
         self.fields['team'].queryset = teams
+        #super().__init__(*args, **kwargs)
+
 
 
 class TeamInviteFormPost(forms.ModelForm):
