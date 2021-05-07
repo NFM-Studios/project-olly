@@ -96,6 +96,8 @@ class UserProfile(models.Model):
     country = CountryField(blank_label='(select country)', default='US')
 
     email_enabled = models.BooleanField(default=True)
+    # team to display on their profile
+    featured_team = models.ForeignKey('teams.Team', related_name='profile_featured_team', blank=True, null=True, on_delete=models.SET_NULL)
     # teams the user founded
     founder_teams = models.ManyToManyField('teams.Team', related_name='profile_founder_teams', blank=True)
     # teams the user is a captain of

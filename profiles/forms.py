@@ -43,17 +43,19 @@ class EditProfileForm(forms.ModelForm):
             'favorite_game',
             'favorite_console',
             'country',
-            'email_enabled'
+            'email_enabled',
+            'featured_team'
         )
 
     def __init__(self, *args, **kwargs):
         super(EditProfileForm, self).__init__(*args, **kwargs)
+        self.fields['featured_team'].queryset = self.instance.founder_teams.all() | self.instance.captain_teams.all() | self.instance.player_teams.all()
         self.fields['email_enabled'].widget.attrs.update({'name': 'email_enabled', 'class': 'form-control',
                                                           'style': 'display: block;'})
 
 
-class SortForm(forms.Form):  # it works but is messy af. should be replaced with something like
-    # http://img.mulveyben.me/img/chrome_2018-03-11_22-04-28.png
+
+class SortForm(forms.Form):  # to be improved
     sort_xp_asc = forms.BooleanField(required=False)
     sort_xp_desc = forms.BooleanField(required=False)
     sort_trophies_asc = forms.BooleanField(required=False)
