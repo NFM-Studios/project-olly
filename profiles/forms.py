@@ -47,7 +47,7 @@ class EditProfileForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(EditProfileForm, self).__init__(*args, **kwargs)
         self.fields['email_enabled'].widget.attrs.update({'name': 'email_enabled', 'class': 'form-control',
-                                                          'style': 'background-color: black;'})
+                                                          'style': 'display: block;'})
 
 
 class SortForm(forms.Form):  # it works but is messy af. should be replaced with something like
