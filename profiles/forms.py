@@ -26,6 +26,8 @@ class EditProfileForm(forms.ModelForm):
         fields = (
             'profile_picture',
             'about_me',
+            'first_name',
+            'last_name',
             'alternate_name',
             'xbl',
             'psn',

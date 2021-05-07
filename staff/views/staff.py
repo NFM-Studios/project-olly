@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 
 from staff.forms import *
 from support.models import Ticket
-from pages.models import FrontPageSlide
+from pages.models import FrontPageSlide, OllySetting
 from wagers.models import *
 
 
@@ -47,7 +47,7 @@ def pages(request):
             else:
                 messages.error(request, "Something went horribly wrong (this shouldn't be seen)")
                 return redirect('staff:pages')
-        else:
+        elif request.method == 'GET':
             staticinfoobj = StaticInfo.objects.get(pk=1)
             socialinfoobj = SocialInfo.objects.get(pk=1)
             static = StaticInfoForm(instance=staticinfoobj)
@@ -82,7 +82,7 @@ def createpartner(request):
                 return redirect('staff:partner_list')
             else:
                 return render(request, 'staff/pages/partner_create.html', {'form': form})
-        else:
+        elif request.method == 'POST':
             form = PartnerForm(None)
             return render(request, 'staff/pages/partner_create.html', {'form': form})
 
@@ -102,7 +102,7 @@ def partner_detail(request, pk):
                 return redirect('staff:partner_list')
             else:
                 return render(request, 'staff/pages/partner_create.html', {'form': form})
-        else:
+        elif request.method == 'GET':
             partner = Partner.objects.get(pk=pk)
             form = PartnerForm(instance=partner)
             return render(request, 'staff/pages/partner_create.html', {'form': form})
@@ -132,7 +132,7 @@ def slide_create(request):
                 return redirect('staff:slide_list')
             else:
                 return render(request, 'staff/pages/slide_create.html', {'form': form})
-        else:
+        elif request.method == 'GET':
             form = CreateSlide(None)
             return render(request, 'staff/pages/slide_create.html', {'form': form})
 
@@ -152,8 +152,8 @@ def slide_detail(request, pk):
                 return redirect('staff:slide_list')
             else:
                 return render(request, 'staff/pages/slide_detail.html', {'form': form, 'pk': pk})
-        else:
-            slide_obj =  FrontPageSlide.objects.get(pk=pk)
+        elif request.method == 'GET':
+            slide_obj = FrontPageSlide.objects.get(pk=pk)
             form = CreateSlide(instance=slide_obj)
             return render(request, 'staff/pages/slide_detail.html', {'form': form, 'pk': pk})
 
@@ -169,4 +169,46 @@ def slide_delete(request, pk):
         messages.success(request, 'slide has been deleted')
         return redirect('staff:slide_list')
 
+
 # end static info section
+
+
+def create_settings(request):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        if len(OllySetting.objects.all()) > 1:
+            messages.warning(request, 'Settings already exist, redirecting to modify current settings.')
+            return redirect('staff:edit_settings')
+        else:
+            if request.method == 'POST':
+                form = CreateOllySetting(request.POST)
+                if form.is_valid():
+                    temp = form.instance
+                    temp.save()
+                    messages.success(request, "Settings created")
+                    return redirect('staff:edit_settings')
+            elif request.method == 'GET':
+                form = CreateOllySetting()
+                return render(request, 'staff/pages/create_olly_settings.html', {'form': form})
+
+
+def edit_settings(request):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        settings = OllySetting.objects.get(pk=1)
+        if request.method == 'POST':
+            form = CreateOllySetting(request.POST)
+            settings.freeze_team_invites = form.cleaned_data['freeze_team_invites']
+            settings.disable_team_creation = form.cleaned_data['disable_team_creation']
+            settings.save()
+            messages.success(request, 'Settings updated')
+            return redirect('staff:index')
+        elif request.method == 'GET':
+            form = CreateOllySetting(instance=settings)
+            return render(request, 'staff/pages/edit_olly_settings.html', {'form': form})

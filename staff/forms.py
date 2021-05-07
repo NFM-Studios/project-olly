@@ -4,7 +4,7 @@ from django.db.models import Q
 
 from matches.models import Match, GameChoice, PlatformChoice, MapChoice, MapPoolChoice, SportChoice
 from news.models import Post
-from pages.models import StaticInfo, SocialInfo, Partner, FrontPageSlide
+from pages.models import StaticInfo, SocialInfo, Partner, FrontPageSlide, OllySetting
 from profiles.models import UserProfile
 from singletournaments.models import SingleEliminationTournament, SingleTournamentRuleset, SingleTournamentRound
 from store.models import Product
@@ -352,3 +352,10 @@ class DivisionAddTeamForm(forms.Form):
 
     class Meta:
         fields = ('teamid')
+
+
+class CreateOllySetting(forms.ModelForm):
+    class Meta:
+        model = OllySetting
+        fields = '__all__'
+
