@@ -12,7 +12,12 @@ class CreateUserForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'password']
+        fields = ['username', 'email', 'password', 'tos']
+
+    def __init__(self, *args, **kwargs):
+        super(CreateUserForm, self).__init__(*args, **kwargs)
+        self.fields['tos'].widget.attrs.update({'name': 'tos', 'class': 'form-control',
+                                                'style': 'display: block;'})
 
 
 class EditProfileForm(forms.ModelForm):
@@ -42,8 +47,10 @@ class EditProfileForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(EditProfileForm, self).__init__(*args, **kwargs)
-        self.fields[
-            'featured_team'].queryset = self.instance.founder_teams.all() | self.instance.captain_teams.all() | self.instance.player_teams.all()
+        self.fields['featured_team'].queryset = self.instance.founder_teams.all() | self.instance.captain_teams.all() | self.instance.player_teams.all()
+        self.fields['email_enabled'].widget.attrs.update({'name': 'email_enabled', 'class': 'form-control',
+                                                          'style': 'display: block;'})
+
 
 
 class SortForm(forms.Form):  # to be improved

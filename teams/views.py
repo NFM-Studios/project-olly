@@ -188,7 +188,7 @@ class MyTeamDetailView(DetailView):
 
     def get_queryset(self):
         return Team.objects.filter(
-            Q(captains__exact=self.request.user) | Q(founder=self.request.user) | Q(players__exact=self.request.user))
+            Q(captain__exact=self.request.user) | Q(founder=self.request.user) | Q(players__exact=self.request.user))
 
 
 class TeamCreateView(View):
@@ -232,7 +232,7 @@ class TeamInviteCreateView(View):
         form = TeamInviteFormPost(request.POST)
         team = Team.objects.get(id=form.data['team'])
         invite = get_invites(form)
-        captains = team.captains.all()
+        captains = team.captain.all()
         if (request.user == team.founder) or (request.user.username in captains):
             try:
                 invitee = UserProfile.objects.get(user__username=form.data['user'])
@@ -308,14 +308,14 @@ class LeaveTeamView(View):
             if request.user in team.players.all():
                 team.players.remove(request.user)
                 messages.success(request, 'Successfully removed you from the players role')
-            if request.user in team.captains.all():
+            if request.user in team.captain.all():
                 team.captain.remove(request.user)
                 messages.success(request, 'Successfully removed you from the captain role')
             if request.user is team.founder.all():
                 # founders cannot leave their team. they must delete the team
                 messages.error(request,
                                'You cannot leave the team you founded, you can only delete it.')
-            if not (request.user in team.players.all()) or not (request.user in team.captains.all()) or not (
+            if not (request.user in team.players.all()) or not (request.user in team.captain.all()) or not (
                     request.user is team.founder.all()):
                 messages.error(request, "You don't appear to be on this team")
                 return redirect('teams:detail', pk=pk)
