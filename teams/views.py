@@ -89,24 +89,6 @@ def invite_view(request, num):
                     return redirect('teams:list')
 
 
-"""class MyTeamsListView(ListView):
-    # list all the teams they are apart of
-    # maybe list the role they have?
-    model = Team
-
-    def get(self, request):
-        team_list = Team.objects.filter(
-            Q(captains__exact=request.user) | Q(founder=request.user) | Q(players__exact=request.user))
-        return render(request, 'teams/team_list.html', {'team_list': team_list})
-
-    def get_queryset(self, **kwargs):
-        # TO DO switch the filter to the players field not just the founder field.
-        if TeamInvite.objects.filter(user=self.request.user, accepted=True):
-            # TO DO switch the filter to the players field not just the founder field.
-            return TeamInvite.objects.filter(user=self.request.user, accepted=True)
-"""
-
-
 def MyTeamsListView(request):
     profile = UserProfile.objects.get(user=request.user)
     # team_list = Team.objects.filter(players__in=[request.user])
