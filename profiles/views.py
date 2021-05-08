@@ -274,13 +274,8 @@ def edit_profile(request):
         userprofileobj = UserProfile.objects.get(user__username=request.user.username)
         form = EditProfileForm(request.POST, request.FILES, instance=userprofileobj)
         if form.is_valid():
-            if form.cleaned_data['xbl'] != "No Xbox Live Linked":
-                userprofileobj.xbl_verified = True
-                userprofileobj.save()
-            if form.cleaned_data['psn'] != "No PSN Linked":
-                userprofileobj.psn_verified = True
-                userprofileobj.save()
             form.save()
+            messages.success(request, "Profile updated successfully")
             return redirect('profiles:profile_no_username')
     else:
         userprofileobj = UserProfile.objects.get(user__username=request.user.username)
@@ -346,7 +341,7 @@ class CreateUserFormView(View):
                         mail_subject, message, from_email=settings.FROM_EMAIL, to=[to_email]
                     )
                     email.send()
-                    messages.success(request, "Please confirm your email")
+                    messages.success(request, "Signup success! Please confirm your email to activate your account!")
                     return redirect('login')
                 elif not result['success']:
                     messages.error(request, 'Invalid reCAPTCHA. Please try again.')
@@ -374,7 +369,7 @@ def activate(request, uidb64, token):
         user.is_active = True
         user.save()
         auth_login(request, user)
-        messages.success(request, 'Thank you for your email confirmation. You are now logged in.')
+        messages.success(request, 'Thank you for your email confirmation. Your account is now activated and you are now logged in.')
         return redirect('profiles:profile_no_username')
     else:
         return render(request, 'profiles/activate_invalid.html')
