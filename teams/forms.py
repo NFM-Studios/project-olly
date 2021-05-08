@@ -93,7 +93,7 @@ class ViewInviteForm(forms.ModelForm):
             'denied'
         }
 
-    def __init__(self, request, pk, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['accepted'].widget.attrs.update(
             {'name': 'accepted', 'class': 'form-control', 'style': 'display: block'})
