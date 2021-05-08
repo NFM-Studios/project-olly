@@ -351,7 +351,7 @@ class RemoveUserView(View):
                 team.players.remove(player.user)
                 team.save()
                 messages.success(request, 'Removed user %s from team' % player)
-                return redirect('team:detail', pk=pk)
+                return redirect('teams:detail', pk=pk)
 
         else:
             messages.error(request, "Only the team's founder or a captain can remove users")
