@@ -206,7 +206,7 @@ class TeamCreateView(View):
 
 
 def get_invites(form):
-    return TeamInvite.objects.filter(team=form.data['team'])
+    return TeamInvite.objects.filter(team=form.cleaned_data['team'])
 
 
 class TeamInviteCreateView(View):
