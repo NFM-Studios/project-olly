@@ -264,14 +264,14 @@ def division_match_add(request, pk, divid):
                     if away and home:
                         tempmatch = Match(awayteam=awayteam, hometeam=hometeam, type='league', game=league.game,
                                           platform=league.platform, sport=league.sport, bestof=1,
-                                          teamformat=league.teamformat, conference_match=False)
+                                          teamformat=league.teamformat, conference_match=False, map_pool=league.maps)
                         tempmatch.save()
                     else:
                         messages.error(request,
                                        "One of the teams is not in the division, adding as non-conference match")
                         nonconf = Match(awayteam=awayteam, hometeam=hometeam, type='league', game=league.game,
                                         platform=league.platform, sport=league.sport, bestof=1,
-                                        teamformat=league.teamformat, conference_match=True)
+                                        teamformat=league.teamformat, conference_match=True, map_pool=league.maps)
                         nonconf.save()
                         messages.success(request, "Successfully added as non-conference match")
                         return redirect('staff:detail_division', pk=league.id, divid=division.pk)
