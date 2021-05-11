@@ -2,9 +2,9 @@ from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.core.exceptions import ObjectDoesNotExist
 import datetime
-#from django.views.generic import View
+# from django.views.generic import View
 
-#from matches.models import MatchReport, MatchDispute, Match, MapChoice, MapPoolChoice
+# from matches.models import MatchReport, MatchDispute, Match, MapChoice, MapPoolChoice
 from staff.forms import *
 
 
@@ -51,7 +51,8 @@ def detail_league(request, pk):
         league = League.objects.get(pk=pk)
         divisions = league.divisions.all()
         time = datetime.datetime.utcnow()
-        return render(request, 'staff/leagues/league_detail.html', {'league': league, 'divisions': divisions, 'time': time})
+        return render(request, 'staff/leagues/league_detail.html',
+                      {'league': league, 'divisions': divisions, 'time': time})
 
 
 # list all the teams in the league and the divisions
@@ -97,7 +98,8 @@ def edit_league(request, pk):
             league = League.objects.get(pk=pk)
             form = CreateLeagueForm(instance=league)
             time = datetime.datetime.utcnow()
-            return render(request, 'staff/leagues/league_edit.html', {'form': form, 'pk':pk, 'league':league, 'time': time})
+            return render(request, 'staff/leagues/league_edit.html',
+                          {'form': form, 'pk': pk, 'league': league, 'time': time})
 
 
 def list_league_settings(request):
@@ -193,7 +195,8 @@ def detail_division(request, pk, divid):
         league = League.objects.get(pk=pk)
         division = LeagueDivision.objects.get(pk=divid)
         matches = division.matches.all()
-        return render(request, 'staff/leagues/league_division_detail.html', {'league': league, 'division': division, 'matches':matches})
+        return render(request, 'staff/leagues/league_division_detail.html',
+                      {'league': league, 'division': division, 'matches': matches})
     # show add match, add team button
 
 
@@ -228,12 +231,12 @@ def create_divisions(request, pk):
             for x in range(league.settings.num_divisions):
                 tempdiv = LeagueDivision()
                 tempdiv.save()
-                tempdiv.name = league.name+" Division "+str(tempdiv.pk)
+                tempdiv.name = league.name + " Division " + str(tempdiv.pk)
                 tempdiv.save()
                 ids.append(tempdiv.pk)
                 league.divisions.add(tempdiv)
                 league.save()
-            messages.success(request, 'League divisions created with id: '+str(ids))
+            messages.success(request, 'League divisions created with id: ' + str(ids))
             return redirect('staff:list_division', pk=league.id)
 
 
@@ -260,11 +263,17 @@ def division_match_add(request, pk, divid):
                             home = True
                     if away and home:
                         tempmatch = Match(awayteam=awayteam, hometeam=hometeam, type='league', game=league.game,
-                                      platform=league.platform, sport=league.sport, bestof=1,
-                                      teamformat=league.teamformat)
+                                          platform=league.platform, sport=league.sport, bestof=1,
+                                          teamformat=league.teamformat, conference_match=False)
                         tempmatch.save()
                     else:
-                        messages.error(request, "One of the teams does not exist within the division")
+                        messages.error(request,
+                                       "One of the teams is not in the division, adding as non-conference match")
+                        nonconf = Match(awayteam=awayteam, hometeam=hometeam, type='league', game=league.game,
+                                        platform=league.platform, sport=league.sport, bestof=1,
+                                        teamformat=league.teamformat, conference_match=True)
+                        nonconf.save()
+                        messages.success(request, "Successfully added as non-conference match")
                         return redirect('staff:detail_division', pk=league.id, divid=division.pk)
                     division = LeagueDivision.objects.get(pk=division.pk)
                     division.matches.add(tempmatch)
@@ -275,7 +284,8 @@ def division_match_add(request, pk, divid):
         else:
             # its a simple get
             form = AddLeagueMatchForm()
-            return render(request, 'staff/leagues/league_addmatch.html', {'form': form, 'league': league, 'division': division})
+            return render(request, 'staff/leagues/league_addmatch.html',
+                          {'form': form, 'league': league, 'division': division})
 
 
 def division_add_team(request, pk, divid):
@@ -308,7 +318,8 @@ def division_add_team(request, pk, divid):
                 return redirect('staff:detail_division', pk=league.pk, divid=division.pk)
         else:
             form = DivisionAddTeamForm()
-            return render(request, 'staff/leagues/league_division_addteam.html', {'division': division, 'league': league, 'form': form})
+            return render(request, 'staff/leagues/league_division_addteam.html',
+                          {'division': division, 'league': league, 'form': form})
 
 
 def division_match_list(request, pk, divid):
@@ -320,4 +331,5 @@ def division_match_list(request, pk, divid):
         league = League.objects.get(pk=pk)
         division = LeagueDivision.objects.get(pk=divid)
         matches = division.matches.all()
-        return render(request, 'staff/leagues/league_division_matches.html', {'league': league, 'division': division, 'matches':matches })
+        return render(request, 'staff/leagues/league_division_matches.html',
+                      {'league': league, 'division': division, 'matches': matches})

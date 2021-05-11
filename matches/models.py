@@ -193,6 +193,8 @@ class Match(models.Model):
     bye_2 = models.BooleanField(default=False)
     # if set to true, admins will have manually input the result of each match, users will not be able to report wins
     disable_userreport = models.BooleanField(default=True)
+    # is the match played between two teams in the same conference (mostly for leagues)
+    conference_match = models.BooleanField(default=True)
 
     class Meta:
         verbose_name_plural = "matches"
