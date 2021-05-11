@@ -233,7 +233,7 @@ class DeleteProductForm(forms.Form):
 class EditMatchForm(forms.ModelForm):
     class Meta:
         model = Match
-        fields = ('info', 'disable_userreport', 'bestof', 'server', 'datetime')
+        fields = ('info', 'disable_userreport', 'bestof', 'server', 'datetime', 'map_pool')
         widgets = {
             'datetime': forms.DateTimeInput(
                 attrs={'class': 'form-control datetimepicker-input', 'id': 'datetimepicker1',
