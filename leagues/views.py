@@ -3,7 +3,6 @@ from django.contrib import messages
 from django.shortcuts import redirect
 from .models import League, LeagueDivision
 from profiles.models import UserProfile
-from datetime import datetime
 
 
 def list_leagues(request):
@@ -23,22 +22,6 @@ def detail_league(request, pk):
         matches = division.matches.all()
         return render(request, 'leagues/league_division.html',
                       {'league': league, 'matches': matches, 'division': division})
-    else:
-        divisions = league.divisions.all()
-        matches = divisions.matches.all()
-        not_completed = matches.filter(completed=False)
-        now = datetime.utcnow()
-        future = set()
-        past = set()
-        for x in not_completed:
-            if x.datetime is None or x.datetime == "":
-                pass
-            elif x.datetime <= now:
-                future.add(x)
-            elif x.datetime >= now:
-                past.add(x)
-        return render(request, 'leagues/league_detail.html',
-                      {'league': league, 'divisions': divisions, 'future': future, 'past': past})
     return render(request, 'leagues/league_detail.html', {'league': league, 'teams': teams})
 
 
