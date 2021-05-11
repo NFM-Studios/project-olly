@@ -274,12 +274,10 @@ def edit_profile(request):
         userprofileobj = UserProfile.objects.get(user__username=request.user.username)
         form = EditProfileForm(request.POST, request.FILES, instance=userprofileobj)
         if form.is_valid():
-            if form.cleaned_data['xbl'] != "No Xbox Live Linked":
-                userprofileobj.xbl_verified = True
-                userprofileobj.save()
-            if form.cleaned_data['psn'] != "No PSN Linked":
-                userprofileobj.psn_verified = True
-                userprofileobj.save()
+            user = request.user
+            user.first_name = form.cleaned_data['first_name']
+            user.last_name = form.cleaned_data['last_name']
+            user.save()
             form.save()
             return redirect('profiles:profile_no_username')
     else:
