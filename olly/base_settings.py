@@ -28,7 +28,7 @@ INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
-    'django.contrib.sessions',
+    'user_sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
@@ -77,6 +77,11 @@ INSTALLED_APPS = [
     # object storage
     'storages',
 
+    'django_otp',
+    'django_otp.plugins.otp_static',
+    'django_otp.plugins.otp_totp',
+    'two_factor',
+
     # this is what handles deleting old uploaded files
     # NOTE: THIS MUST BE LAST IN THE LIST
     'django_cleanup.apps.CleanupConfig'
@@ -100,15 +105,20 @@ except KeyError:
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
+    'user_sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django_otp.middleware.OTPMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'olly.middleware.ban_middleware',
+    'olly.middleware.check_2fa'
 
 ]
+
+SESSION_ENGINE = 'user_sessions.backends.db'
 
 ROOT_URLCONF = 'olly.urls'
 
@@ -172,6 +182,9 @@ STATICFILES_DIRS = [
 
 # Where to redirect users after login
 LOGIN_REDIRECT_URL = '/'
-LOGIN_URL = '/login/'
+# Where to redirect users to login
+LOGIN_URL = 'two_factor:login'
+# where to redirect users after logout
+LOGOUT_REDIRECT_URL = '/'
 
 SITE_VERSION = "1.0.3"

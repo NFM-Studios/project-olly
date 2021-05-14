@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from ipware import get_client_ip
-
+from django.contrib import messages
 from profiles.models import UserProfile, BannedUser
 
 
@@ -23,4 +23,16 @@ def ban_middleware(get_response):
 
         return get_response(request)
 
+    return middleware
+
+
+def check_2fa(get_response):
+    def middleware(request):
+        if request.user.is_verified():
+            messages.success(request, "You enabled 2FA, congrats you're not an idiot")
+        else:
+            # user not logged in using two-factor
+            messages.error(request, "2FA is not yet enabled on your account")
+
+        return get_response(request)
     return middleware
