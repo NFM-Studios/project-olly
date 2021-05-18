@@ -82,14 +82,6 @@
 
                         {{ team.twitch }}</a></td>
             </tr>
-            <tr>
-                <td>Players</td>
-                {% for player in players %}
-                    <td>
-                        <a href="{% url 'profiles:profile' urlusername=player.user %}">{{ player.user }}</a>,
-                    </td>
-                {% endfor %}
-            </tr>
         </table>
 
         <a href="{% url 'staff:remove_user' pk %}"
