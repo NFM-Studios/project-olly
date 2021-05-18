@@ -93,6 +93,13 @@ class ViewInviteForm(forms.ModelForm):
             'denied'
         }
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['accepted'].widget.attrs.update(
+            {'name': 'accepted', 'class': 'form-control', 'style': 'display: block'})
+        self.fields['denied'].widget.attrs.update(
+            {'name': 'denied', 'class': 'form-control', 'style': 'display: block'})
+
 
 class LeaveTeamForm(forms.Form):
     confirmed = forms.BooleanField(required=False)
@@ -121,3 +128,9 @@ class RemovePlayerFormPost(forms.Form):
 
 class DissolveTeamForm(forms.Form):
     confirmed = forms.BooleanField(required=False)
+
+    def __init__(self, request, pk, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['confirmed'].widget.attrs.update(
+            {'name': 'confirmed', 'class': 'form-control', 'style': 'display: block'})
+

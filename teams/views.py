@@ -48,70 +48,49 @@ def invite_view(request, num):
         form = ViewInviteForm()
         invite = TeamInvite.objects.get(id=num)
         return render(request, template_name, {'form': form, "invite": invite})
-    if request.method == "POST":
+    elif request.method == "POST":
         form = ViewInviteForm(request.POST)
         invite = TeamInvite.objects.get(id=num)
-        try:
-            accepted = form.data['accepted']
-        except:
-            accepted = 'off'
         if form.is_valid():
-            try:
-                if form.data['accepted'] == form.data['denied']:
-                    messages.error(request, "Only select accepted or denied, not both.")
-                    return render(request, template_name, {'form': form, 'invite': invite})
-            except:
-                if accepted == 'on':
-                    invite = TeamInvite.objects.get(id=num)
-                    invite.accepted = True
-                    invite.expire = timezone.now()
-                    invite.active = False
-                    invite.save()
+            accepted = form.cleaned_data['accepted']
+            if form.cleaned_data['accepted'] == form.cleaned_data['denied']:
+                messages.error(request, "Please select either accepted or denied, not both.")
+                return render(request, template_name, {'form': form, 'invite': invite})
+            if accepted:
+                invite = TeamInvite.objects.get(id=num)
+                invite.accepted = True
+                invite.expire = timezone.now()
+                invite.active = False
+                invite.save()
 
-                    if invite.hasPerms:
-                        profile = UserProfile.objects.get(user=invite.user)
-                        profile.captain_teams.add(invite.team)
-                        profile.save()
-                        messages.success(request, 'Successfully added the team to your profile as a captain')
-                    else:
-                        profile = UserProfile.objects.get(user=invite.user)
-                        profile.player_teams.add(invite.team)
-                        profile.save()
-                        messages.success(request, 'Successfully added the team to your profile as a player')
+                if invite.captain:
+                    profile = UserProfile.objects.get(user=invite.user)
+                    profile.captain_teams.add(invite.team)
+                    profile.save()
+                    invite.team.captain.add(invite.user)
+                    invite.team.save()
+                    messages.success(request, 'Successfully added the team to your profile as a captain')
+                else:
+                    profile = UserProfile.objects.get(user=invite.user)
+                    profile.player_teams.add(invite.team)
+                    profile.save()
+                    messages.success(request, 'Successfully added the team to your profile as a player')
                     invite.team.players.add(invite.user)
                     invite.team.save()
-                    messages.success(request, 'Accepted invite to ' + str(invite.team.name))
-                    return redirect('teams:list')
-                elif accepted == 'off':
-                    invite = TeamInvite.objects.get(id=num)
-                    invite.delete()
-                    messages.success(request, 'Declined invite to ' + str(invite.team.name))
-                    return redirect('teams:list')
-
-
-"""class MyTeamsListView(ListView):
-    # list all the teams they are apart of
-    # maybe list the role they have?
-    model = Team
-
-    def get(self, request):
-        team_list = Team.objects.filter(
-            Q(captains__exact=request.user) | Q(founder=request.user) | Q(players__exact=request.user))
-        return render(request, 'teams/team_list.html', {'team_list': team_list})
-
-    def get_queryset(self, **kwargs):
-        # TO DO switch the filter to the players field not just the founder field.
-        if TeamInvite.objects.filter(user=self.request.user, accepted=True):
-            # TO DO switch the filter to the players field not just the founder field.
-            return TeamInvite.objects.filter(user=self.request.user, accepted=True)
-"""
+                messages.success(request, 'Accepted invite to ' + str(invite.team.name))
+                return redirect('teams:list')
+            elif not accepted:
+                invite = TeamInvite.objects.get(id=num)
+                invite.delete()
+                messages.success(request, 'Declined invite to ' + str(invite.team.name))
+                return redirect('teams:list')
+        else:
+            messages.error(request, "An unknown error has occured")
+            return redirect('teams:list')
 
 
 def MyTeamsListView(request):
     profile = UserProfile.objects.get(user=request.user)
-    # team_list = Team.objects.filter(players__in=[request.user])
-    # team_list = Team.objects.filter(Q(founder=request.user) or Q(captain=request.user) or Q(players__in=[request.user]))
-    # team_list = TeamInvite.objects.filter(user=request.user, accepted=True, active=True)
     return render(request, 'teams/team_list.html',
                   {'founder_teams': profile.founder_teams.all(), 'captain_teams': profile.captain_teams.all(),
                    'player_teams': profile.player_teams.all()})
@@ -372,7 +351,7 @@ class RemoveUserView(View):
                 team.players.remove(player.user)
                 team.save()
                 messages.success(request, 'Removed user %s from team' % player)
-                return redirect('team:detail', pk=pk)
+                return redirect('teams:detail', pk=pk)
 
         else:
             messages.error(request, "Only the team's founder or a captain can remove users")

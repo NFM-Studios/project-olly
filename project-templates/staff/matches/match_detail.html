@@ -6,7 +6,9 @@
 {% endblock %}
 
 {% block body %}
-    <a href="{% url 'staff:match_create_dispute' pk=match.pk %}"><button class="btn btn-danger">FORCE DISPUTE</button></a>
+    <a href="{% url 'staff:match_create_dispute' pk=match.pk %}">
+        <button class="btn btn-danger">FORCE DISPUTE</button>
+    </a>
 
     <table class="table">
         <thead>
@@ -30,15 +32,18 @@
         <tr>
             <td>Scheduled time</td>
             {% if match.datetime is None %}
-            <td>Not scheduled yet, click <a href="{% url 'staff:match_edit' pk=match.id %}">here to schedule</a></td>
+                <td>Not scheduled yet, click <a href="{% url 'staff:match_edit' pk=match.id %}">here to schedule</a>
+                </td>
             {% else %}
 
-            <td>UTC: {{ match.datetime }}<br>
-            Local: <script>
-                const date = new Date("{{ match.datetime|safe }}");
-                console.log(date);
-                document.write(date.toLocaleString());
-                </script></td>
+                <td>UTC: {{ match.datetime }}<br>
+                    Local:
+                    <script>
+                        const date = new Date("{{ match.datetime|safe }}");
+                        console.log(date);
+                        document.write(date.toLocaleString());
+                    </script>
+                </td>
             {% endif %}
         </tr>
         <tr>
@@ -65,16 +70,25 @@
             <td>Best of {{ match.bestof }}</td>
         </tr>
         <tr>
-            <td>Maps: </td>
+            <td>Map Pool:</td>
+            {% if match.map_pool is None %}
+                <td><a href="{% url 'staff:match_edit' pk=match.pk %}">No Map Pool! Set one here!</a></td>
+            {% else %}
+                <td><a href="{% url 'staff:map_pool_detail' pk=match.map_pool.pk %}">{{ match.map_pool.name }}</a></td>
+            {% endif %}
+        </tr>
+        <tr>
+            <td>Maps:</td>
             <td>
-            {% for map in match.maps.all %}
-            {{ map.name }}
-            {% endfor %}
+                {% for map in match.maps.all %}
+                    {{ map.name }}
+                {% endfor %}
             </td>
         </tr>
         <tr>
             <td>Choosen maps</td>
-            <td><a class="btn-link" href="{% url 'staff:match_pickmap' pk=match.pk %}">Randomly Repick maps (in given Best of format)</a></td>
+            <td><a class="btn-link" href="{% url 'staff:match_pickmap' pk=match.pk %}">Randomly Repick maps (in given
+                Best of format)</a></td>
         </tr>
         <tr>
             <td>Home team</td>
@@ -124,9 +138,9 @@
 
     </table>
     {% if match.config_generated %}
-    <a href="/match/config/{{ match.id }}">View Match Config</a>
+        <a href="/match/config/{{ match.id }}">View Match Config</a>
     {% else %}
-    <a href="{% url 'staff:generate_cfg' pk=match.id %}">Generate Match Config</a>
+        <a href="{% url 'staff:generate_cfg' pk=match.id %}">Generate Match Config</a>
     {% endif %}
     <p>
         {% if not match.completed %}
