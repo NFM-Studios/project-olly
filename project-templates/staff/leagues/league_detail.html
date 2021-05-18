@@ -126,7 +126,7 @@
             <th>Home Team</th>
         </tr>
         </thead>
-        {% for match in league.non_conference %}
+        {% for match in league.non_conference.all %}
         <tr>
             <th>{{ match.pk }}</th>
             <th>{{ match.awayteam.name }}</th>
