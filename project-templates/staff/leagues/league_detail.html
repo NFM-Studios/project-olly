@@ -128,9 +128,9 @@
         </thead>
         {% for match in league.non_conference.all %}
         <tr>
-            <th>{{ match.pk }}</th>
-            <th>{{ match.awayteam.name }}</th>
-            <th>{{ match.hometeam.name }}</th>
+            <th><a href="{% url 'staff:match_detail' pk=match.pk %}">{{ match.pk }}</a></th>
+            <th><a href="{% url 'staff:team_detail' pk=match.awayteam.pk %}">{{ match.awayteam.name }}</a></th>
+            <th><a href="{% url 'staff:team_detail' pk=match.hometeam.pk %}">{{ match.hometeam.name }}</a></th>
         </tr>
         {% endfor %}
     </table>
