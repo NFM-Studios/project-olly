@@ -126,5 +126,6 @@ class League(models.Model):
     prize3 = models.CharField(default='no prize specified', max_length=50)
     teams = models.ManyToManyField(LeagueTeam, blank=True)
     fa = models.ManyToManyField(LeagueFreeAgent, related_name="league_fas", blank=True)
+    non_conference = models.ManyToManyField('matches.Match', related_name='non_conference_matches')
 
 

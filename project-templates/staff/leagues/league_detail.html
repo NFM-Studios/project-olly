@@ -116,7 +116,24 @@
             <td><a href="{% url 'staff:teams_league' pk=league.id %}">Teams</a></td>
         </tr>
     </table>
-
+    <br />
+    <h2>Non-conference matches</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Match ID</th>
+            <th>Away Team</th>
+            <th>Home Team</th>
+        </tr>
+        </thead>
+        {% for match in league.non_conference %}
+        <tr>
+            <th>{{ match.pk }}</th>
+            <th>{{ match.awayteam.name }}</th>
+            <th>{{ match.hometeam.name }}</th>
+        </tr>
+        {% endfor %}
+    </table>
     <p>
         <a href="{% url 'staff:edit_league' pk=league.id %}" class="btn btn-primary">Edit</a>
          <!--if tournament.active %}
