@@ -14,7 +14,7 @@
 
     <br>
 
-    {{ post.body|linebreaks }}
+    {{ post.body|safe }}
     <p><a href="{% url "news:post_share" post.id %}">Share this post</a></p>
 
     <h2>Similar posts</h2>

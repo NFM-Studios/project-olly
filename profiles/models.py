@@ -45,7 +45,6 @@ class UserProfile(models.Model):
     notifications = models.ManyToManyField(Notification, related_name='user_notifications', blank=True)
     # credits they own from purchasing things in the store
     credits = models.PositiveSmallIntegerField(default=0)
-    passes = models.PositiveSmallIntegerField(default=0)
     # amount of money they have cashed out
     total_earning = models.PositiveSmallIntegerField(default=0)
     current_earning = models.PositiveSmallIntegerField(default=0)
@@ -71,10 +70,6 @@ class UserProfile(models.Model):
     ]
     user_type = models.CharField(max_length=10, default='user', choices=USER_TYPE_CHOICES)
     ip = models.CharField(max_length=45, default='0.0.0.0')
-    num_trophies = models.PositiveSmallIntegerField(default=0)
-    xbl_verified = models.BooleanField(default=False, null=False, blank=True)
-    psn_verified = models.BooleanField(default=False, null=False, blank=False)
-    user_verified = models.BooleanField(default=False, null=False, blank=True)
     # default trophies
     num_bronze = models.PositiveSmallIntegerField(default=0)
     num_silver = models.PositiveSmallIntegerField(default=0)
