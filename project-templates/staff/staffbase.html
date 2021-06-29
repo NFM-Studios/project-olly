@@ -28,6 +28,9 @@
         <!-- Custom styles for this template-->
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 
+        <script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
+        <script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
+
         <link href="{% static "css/sb-admin.min.css" %}" rel="stylesheet">
 
         <title>{{ SITE_NAME }} - Staff Panel</title>
@@ -36,15 +39,16 @@
 <body>
 
 <!-- navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav" >
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
     <a class="navbar-brand" href="{% url 'staff:index' %}">Project Olly Version {{ SITE_VERSION }}</a>
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
             data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
             aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarResponsive" >
-        <ul class="navbar-nav navbar-sidenav" style="overflow: scroll; height: 93.5vh" id="exampleAccordion" style="/*overflow: scroll*/">
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav navbar-sidenav" style="overflow: scroll; height: 93.5vh" id="exampleAccordion"
+            style="/*overflow: scroll*/">
             <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
                 <a class="nav-link" href="{% url 'staff:index' %}">
                     <i class="fa fa-fw fa-home"></i>
@@ -103,7 +107,7 @@
                     </li>
                 </ul>
             </li>
-        
+
             <li class="nav-item" data-toggle="tooltip" data-placement="right" title="partners">
                 <a class="nav-link" href="{% url 'staff:partner_list' %}">
                     <i class="fa fa-fw fa-paw"></i>
@@ -111,76 +115,76 @@
                 </a>
             </li>
             {% if ESPORTS_MODE %}
-            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Games">
-                <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseGames"
-                   data-parent="#exampleAccordion">
-                    <i class="fa fa-fw fa-gamepad"></i>
-                    <span class="nav-link-text">Games</span>
-                </a>
-                <ul class="sidenav-second-level collapse" id="collapseGames">
-                    <li>
-                        <a href="{% url 'staff:create_gamechoice' %}">Create</a>
-                    </li>
-                    <li>
-                        <a href="{% url 'staff:gamelist' %}">Manage</a>
-                    </li>
-                </ul>
-            </li>
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Games">
+                    <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseGames"
+                       data-parent="#exampleAccordion">
+                        <i class="fa fa-fw fa-gamepad"></i>
+                        <span class="nav-link-text">Games</span>
+                    </a>
+                    <ul class="sidenav-second-level collapse" id="collapseGames">
+                        <li>
+                            <a href="{% url 'staff:create_gamechoice' %}">Create</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'staff:gamelist' %}">Manage</a>
+                        </li>
+                    </ul>
+                </li>
 
-            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Platforms">
-                <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapsePlatforms"
-                   data-parent="#exampleAccordion">
-                    <i class="fa fa-fw fa-gamepad"></i>
-                    <span class="nav-link-text">Platforms</span>
-                </a>
-                <ul class="sidenav-second-level collapse" id="collapsePlatforms">
-                    <li>
-                        <a href="{% url 'staff:create_platformchoice' %}">Create</a>
-                    </li>
-                    <li>
-                        <a href="{% url 'staff:platformlist' %}">Manage</a>
-                    </li>
-                </ul>
-            </li>
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Platforms">
+                    <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapsePlatforms"
+                       data-parent="#exampleAccordion">
+                        <i class="fa fa-fw fa-gamepad"></i>
+                        <span class="nav-link-text">Platforms</span>
+                    </a>
+                    <ul class="sidenav-second-level collapse" id="collapsePlatforms">
+                        <li>
+                            <a href="{% url 'staff:create_platformchoice' %}">Create</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'staff:platformlist' %}">Manage</a>
+                        </li>
+                    </ul>
+                </li>
 
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Maps">
-                <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMaps"
-                   data-parent="#exampleAccordion">
-                    <i class="fa fa-fw fa-map-marker"></i>
-                    <span class="nav-link-text">Maps</span>
-                </a>
-                <ul class="sidenav-second-level collapse" id="collapseMaps">
-                    <li>
-                        <a href="{% url 'staff:create_mapchoice' %}">Create Map</a>
-                    </li>
-                    <li>
-                        <a href="{% url 'staff:map_list' %}">Manage Maps</a>
-                    </li>
-                    <li>
-                        <a href="{% url 'staff:create_map_pool_choice' %}">Create Map Pool</a>
-                    </li>
-                    <li>
-                        <a href="{% url 'staff:map_pool_list' %}">Manage Map Pools</a>
-                    </li>
-                </ul>
-            </li>
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Maps">
+                    <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMaps"
+                       data-parent="#exampleAccordion">
+                        <i class="fa fa-fw fa-map-marker"></i>
+                        <span class="nav-link-text">Maps</span>
+                    </a>
+                    <ul class="sidenav-second-level collapse" id="collapseMaps">
+                        <li>
+                            <a href="{% url 'staff:create_mapchoice' %}">Create Map</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'staff:map_list' %}">Manage Maps</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'staff:create_map_pool_choice' %}">Create Map Pool</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'staff:map_pool_list' %}">Manage Map Pools</a>
+                        </li>
+                    </ul>
+                </li>
             {% else %}
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Games">
-                <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseGames"
-                   data-parent="#exampleAccordion">
-                    <i class="fa fa-fw fa-gamepad"></i>
-                    <span class="nav-link-text">Sports</span>
-                </a>
-                <ul class="sidenav-second-level collapse" id="collapseGames">
-                    <li>
-                        <a href="#">Create</a>
-                    </li>
-                    <li>
-                        <a href="#">Manage</a>
-                    </li>
-                </ul>
-            </li>
-        {% endif %}
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Games">
+                    <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseGames"
+                       data-parent="#exampleAccordion">
+                        <i class="fa fa-fw fa-gamepad"></i>
+                        <span class="nav-link-text">Sports</span>
+                    </a>
+                    <ul class="sidenav-second-level collapse" id="collapseGames">
+                        <li>
+                            <a href="#">Create</a>
+                        </li>
+                        <li>
+                            <a href="#">Manage</a>
+                        </li>
+                    </ul>
+                </li>
+            {% endif %}
 
             <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Leagues">
                 <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseLeagues"
@@ -274,15 +278,15 @@
                 </li>
             {% endif %}
         </ul>
-    <!--
-        <ul class="navbar-nav sidenav-toggler">
-            <li class="nav-item">
-                <a class="nav-link text-center" id="sidenavToggler">
-                    <i class="fa fa-fw fa-angle-left"></i>
-                </a>
-            </li>
-        </ul>
-        -->
+        <!--
+            <ul class="navbar-nav sidenav-toggler">
+                <li class="nav-item">
+                    <a class="nav-link text-center" id="sidenavToggler">
+                        <i class="fa fa-fw fa-angle-left"></i>
+                    </a>
+                </li>
+            </ul>
+            -->
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
                 <a class="nav-link" data-toggle="modal" data-target="#exampleModal">
@@ -320,18 +324,18 @@
 
     <div class="container-fluid" style="padding-right: 20px; padding-left: 20px">
         <!-- Breadcrumbs-->
-    {% if messages %}
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item">
+        {% if messages %}
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
 
                     <ul class="messages">
                         {% for message in messages %}
                             <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
                         {% endfor %}
                     </ul>
-            </li>
-        </ol>
-    {% endif %}
+                </li>
+            </ol>
+        {% endif %}
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
                 <a href="{% url 'staff:index' %}">Dashboard</a>
@@ -359,8 +363,8 @@
 
     </div>
 </div>
-<br />
-<br />
+<br/>
+<br/>
 {% block footer %}
     <footer class="sticky-footer" style="">
         <div class="container">
