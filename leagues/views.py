@@ -22,7 +22,8 @@ def detail_league(request, pk):
         matches = division.matches.all()
         return render(request, 'leagues/league_division.html',
                       {'league': league, 'matches': matches, 'division': division})
-    return render(request, 'leagues/league_detail.html', {'league': league, 'teams': teams})
+    return render(request, 'leagues/league_detail.html',
+                  {'league': league, 'teams': teams, 'divisions': league.divisions.all()})
 
 
 def join_league(request, pk):
