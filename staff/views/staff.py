@@ -204,10 +204,14 @@ def edit_settings(request):
         settings = OllySetting.objects.get(pk=1)
         if request.method == 'POST':
             form = CreateOllySetting(request.POST)
-            settings.freeze_team_invites = form.cleaned_data['freeze_team_invites']
-            settings.disable_team_creation = form.cleaned_data['disable_team_creation']
-            settings.save()
-            messages.success(request, 'Settings updated')
+            if form.is_valid():
+                settings.freeze_team_invites = form.cleaned_data['freeze_team_invites']
+                settings.disable_team_creation = form.cleaned_data['disable_team_creation']
+                settings.whats_new = form.cleaned_data['whats_new']
+                settings.save()
+                messages.success(request, 'Settings updated')
+            else:
+                messages.success(request, 'Failed to save changes')
             return redirect('staff:index')
         elif request.method == 'GET':
             form = CreateOllySetting(instance=settings)

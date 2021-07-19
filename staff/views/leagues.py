@@ -329,10 +329,19 @@ def division_match_list(request, pk, divid):
     user = UserProfile.objects.get(user__username=request.user.username)
     allowed = ['superadmin', 'admin']
     if user.user_type not in allowed:
-        return render(request, 'staff/permissiondenied')
+        return render(request, 'staff/permissiondenied.html')
     else:
         league = League.objects.get(pk=pk)
         division = LeagueDivision.objects.get(pk=divid)
         matches = division.matches.all()
         return render(request, 'staff/leagues/league_division_matches.html',
                       {'league': league, 'division': division, 'matches': matches})
+
+
+def bulk_match_create(request, pk, divid=0):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied')
+    else:
+        league = League.objects.get(pk=pk)

@@ -86,3 +86,20 @@ class TeamInvite(models.Model):
 
     def __str__(self):
         return str(self.user)
+
+
+class RosterRole(models.Model):
+    name = models.CharField(max_length=50, default='unknown')
+
+
+class RosterMember(models.Model):
+    user = models.ForeignKey(User, related_name='rostermemberuser', null=True, on_delete=models.SET_NULL)
+    joined = models.DateTimeField(auto_created=True)
+    description = models.TextField(default='No Description')
+    role = models.ForeignKey(RosterRole, related_name='rostermemberrole', null=True, on_delete=models.SET_NULL)
+
+
+class Roster(models.Model):
+    members = models.ManyToManyField(RosterMember)
+    team = models.ForeignKey(Team, related_name='teamroster', on_delete=models.CASCADE)
+

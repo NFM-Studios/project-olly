@@ -171,3 +171,22 @@ def getteamrank(request):
             i.get_rank()
         messages.success(request, "Calculated rank for %s teams" % allteams.count())
         return redirect('staff:teamindex')
+
+
+def create_rosterrole(request):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        if request.method == 'POST':
+            form = CreateTeamRosterRole(request.POST)
+            if form.is_valid():
+                temp = RosterRole
+                temp.name = form.cleaned_data['name']
+                temp.save()
+                messages.success(request, "Successfully created Roster Role")
+                return redirect('staff:teamindex')
+        elif request.method == 'GET':
+            form = CreateTeamRosterRole()
+            return render(request, 'staff/teams/create_rosterrole.html', {'form': form})
