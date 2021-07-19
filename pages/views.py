@@ -5,7 +5,7 @@ from news.models import Post
 from profiles.models import UserProfile
 from singletournaments.models import SingleEliminationTournament
 from teams.models import Team
-from .models import StaticInfo, Partner
+from .models import StaticInfo, Partner, OllySetting
 
 
 def index(request):
@@ -21,6 +21,10 @@ def index(request):
                    'newslist': newslist, 'matchlist': matchlist,
                    'teamlist': teamlist, 'playerlist': playerlist})
 
+
+def whats_new(request):
+    olly = OllySetting.objects.get(pk=1)
+    return render(request, 'pages/whatsnew.html', {'olly': olly})
 
 def about(request):
     staticinfo = StaticInfo.objects.get(pk=1)

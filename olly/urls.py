@@ -19,6 +19,7 @@ urlpatterns = [
     path('partners/', pages_views.partners_page, name='partners'),
     path('sponsors/', pages_views.partners_page, name='partners'),
     path('privacy/', pages_views.privacy, name='privacy'),
+    path('updates/', pages_views.whats_new, name='updates'),
     path('404/', pages_views.notfound),
 
     path('register/', profile_views.CreateUserFormView.as_view(), name='register'),

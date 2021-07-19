@@ -1,6 +1,8 @@
+import ckeditor.fields
 from django.db import models
 
 from singletournaments.models import SingleEliminationTournament
+from ckeditor.fields import RichTextField
 
 
 class OllySetting(models.Model):
@@ -9,6 +11,7 @@ class OllySetting(models.Model):
 
     freeze_team_invites = models.BooleanField(default=False)
     disable_team_creation = models.BooleanField(default=False)
+    whats_new = RichTextField(default='')
 
     def can_invite(self):
         try:
