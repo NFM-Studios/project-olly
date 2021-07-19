@@ -307,6 +307,7 @@ class CreateSlide(forms.ModelForm):
 
 
 class CreateLeagueForm(forms.ModelForm):
+
     class Meta:
         model = League
         fields = '__all__'
@@ -320,6 +321,8 @@ class CreateLeagueForm(forms.ModelForm):
             'start': forms.DateTimeInput(attrs={'class': 'form-control datetimepicker-input', 'id': 'datetimepicker3',
                                                 'data-toggle': 'datetimepicker', 'data-target': '#datetimepicker3'})
         }
+
+        exclude = ('non_conference',)
 
 
 class TeamForceAddUser(forms.Form):
@@ -351,7 +354,7 @@ class DivisionAddTeamForm(forms.Form):
     teamid = forms.IntegerField(required=True)
 
     class Meta:
-        fields = ('teamid')
+        fields = ('teamid',)
 
 
 class CreateOllySetting(forms.ModelForm):
