@@ -273,6 +273,9 @@ def division_match_add(request, pk, divid):
                                         platform=league.platform, sport=league.sport, bestof=1,
                                         teamformat=league.teamformat, conference_match=True, map_pool=league.maps)
                         nonconf.save()
+                        league.non_conference.add(nonconf)
+                        league.save()
+                        messages.success(request, "Successfully added match to league")
                         messages.success(request, "Successfully added as non-conference match")
                         return redirect('staff:detail_division', pk=league.id, divid=division.pk)
                     division = LeagueDivision.objects.get(pk=division.pk)

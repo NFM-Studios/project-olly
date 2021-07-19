@@ -32,25 +32,28 @@
             </tr>
             <tr>
                 <td class="">Captains</td>
+                <td>
                 {% if team.captain.count == 0 %}
                     <td>No captains!</td>
                 {% else %}
+                    <td>
                     {% for captain in team.captain.all %}
-                        <td><a href="{% url 'staff:userdetail' urlusername=captain %}">{{ captain }}</a>
+                        <a href="{% url 'staff:userdetail' urlusername=captain %}">{{ captain }}</a>,
                     {% endfor %}
+                    </td>>
                 {% endif %}
-                </td>
             </tr>
             <tr>
                 <td class="">Players</td>
                 {% if team.players.count == 0 %}
                     <td>No players!</td>
                 {% else %}
+                <td>
                     {% for player in team.players.all %}
-                        <td><a href="{% url 'staff:userdetail' urlusername=player %}">{{ player }}</a>
+                        <a href="{% url 'staff:userdetail' urlusername=player %}">{{ player }}</a>
                     {% endfor %}
-                {% endif %}
                 </td>
+                {% endif %}
             </tr>
             <tr>
                 <td>Created</td>
@@ -59,7 +62,7 @@
             <tr>
                 <td>Twitter</td>
                 <td><a href="
-    {% if team.twitter == "No Twitter Linked" or team.twitter == "" %}
+    {% if team.twitter == "None Linked" or team.twitter == "" %}
         #
     {% else %}
     https://twitter.com/{{ team.twitter }}
@@ -71,21 +74,13 @@
                 <td>Twitch</td>
                 <td>
                     <a href="
-    {% if team.twitch == "No Twitch Linked" or team.twitch == "" %}
+    {% if team.twitch == "None Linked" or team.twitch == "" %}
         #
     {% else %}
     https://twitch.tv/{{ team.twitch }}
         {% endif %}">
 
                         {{ team.twitch }}</a></td>
-            </tr>
-            <tr>
-                <td>Players</td>
-                {% for player in players %}
-                    <td>
-                        <a href="{% url 'profiles:profile' urlusername=player.user %}">{{ player.user }}</a>,
-                    </td>
-                {% endfor %}
             </tr>
         </table>
 

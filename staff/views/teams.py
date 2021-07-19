@@ -30,6 +30,30 @@ def teams_detail(request, pk):
                       {'team': team, 'players': players, 'captains': captains, 'pk': pk})
 
 
+def verify_membership(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        team = Team.objects.get(id=pk)
+        players = team.players.all()
+        captains = team.captain.all()
+        for x in players:
+            userprofile = UserProfile.objects.get(user=x)
+            if team not in userprofile.player_teams.all():
+                userprofile.player_teams.add(team)
+                userprofile.save()
+
+        for y in captains:
+            userprofile = UserProfile.objects.get(user=y)
+            if team not in userprofile.captain_teams.all():
+                userprofile.captain_teams.add(team)
+                userprofile.save()
+
+        return redirect('staff:team_detail', pk=pk)
+
+
 def force_addplayer(request, pk):
     user = UserProfile.objects.get(user__username=request.user.username)
     allowed = ['superadmin', 'admin']
@@ -55,6 +79,8 @@ def force_addplayer(request, pk):
                     return redirect('staff:team_detail', pk=team.id)
                 team.players.add(temp.user)
                 team.save()
+                temp.player_teams.add(team)
+                temp.player_teams.save()
                 messages.success(request, "Successfully added user to team - as role:player")
                 return redirect('staff:team_detail', pk=team.id)
             else:
