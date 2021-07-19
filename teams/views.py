@@ -234,7 +234,8 @@ class TeamInviteCreateView(View):
         captains = team.captain.all()
         if (request.user == team.founder) or (request.user.username in captains):
             try:
-                invitee = UserProfile.objects.get(user__username=form.data['user'])
+                invitee_profile = UserProfile.objects.get(user__username=form.data['user'])
+                invitee = invitee_profile.user
             except:
                 messages.error(request, "That isn't a valid user")
                 return render(request, 'teams/team_invite_player.html', {'form': form})
