@@ -7,11 +7,16 @@
 
 {% block body %}
     <form enctype="multipart/form-data" method="post">
+    {% csrf_token %}
         <label>Disable Team Invites</label>
         {{ form.freeze_team_invites }}
         <br />
         <label>Disable Team Creation</label>
         {{ form.disable_team_creation }}
+        <br />
+        <label>Latest Updates</label>
+        <br />
+        {{ form.whats_new }}
         <br />
         <button type="submit" class="btn btn-primary">Update</button>
 
