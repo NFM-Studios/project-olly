@@ -1,6 +1,6 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect
-
+from django.core.exceptions import ObjectDoesNotExist
 from staff.forms import *
 from support.models import Ticket
 from pages.models import FrontPageSlide, OllySetting
@@ -13,6 +13,12 @@ def staffindex(request):
     if user.user_type not in allowed:
         return render(request, 'staff/permissiondenied.html')
     else:
+        try:
+            settings = OllySetting.objects.get(pk=1)
+        except ObjectDoesNotExist:
+            messages.warning(request, "**OllySettings instance not detected**")
+            messages.warning(request, "Side wide settings have not been set, redirecting to create settings now.")
+            return redirect('staff:create_settings')
         ticket = Ticket.objects.filter(Q(status=0) | Q(status=1) | Q(status=2))
         numtickets = len(ticket)
         news = Post.objects.all()

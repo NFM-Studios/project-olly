@@ -293,12 +293,20 @@ class LeaveTeamView(View):
     form_class = LeaveTeamForm
 
     def get(self, request, pk):
+        settings = OllySetting.objects.get(pk=1)
+        if settings.freeze_team_leaves:
+            messages.error(request, "An admin has freezed leaving teams")
+            return redirect('teams:detail', pk)
         form = self.form_class()
         team = Team.objects.get(id=pk)
         return render(request, 'teams/team_leave.html', {'form': form, 'team': team})
 
     def post(self, request, pk):
         form = self.form_class(request.POST)
+        settings = OllySetting.objects.get(pk=1)
+        if settings.freeze_team_leaves:
+            messages.error(request, "An admin has freezed leaving teams")
+            return redirect('teams:detail', pk)
         if form.data['confirmed']:
             try:
                 team = Team.objects.get(pk=pk)
@@ -332,6 +340,10 @@ class RemoveUserView(View):
     def get(self, request, pk):
         team = Team.objects.get(id=pk)
         if request.user == team.founder or request.user in team.captain.all():
+            settings = OllySetting.objects.get(pk=1)
+            if settings.freeze_team_player_removal:
+                messages.error(request, "An admin has disabled removing players from your team")
+                return redirect('teams:detail', pk)
             form = RemoveUserForm(request, pk)
             return render(request, 'teams/team_remove_user.html', {'form': form, 'pk': pk})
         else:
@@ -341,6 +353,10 @@ class RemoveUserView(View):
     def post(self, request, pk):
         team = Team.objects.get(id=pk)
         if request.user == team.founder or request.user in team.captain.all():
+            settings = OllySetting.objects.get(pk=1)
+            if settings.freeze_team_player_removal:
+                messages.error(request, "An admin has disabled removing players from your team")
+                return redirect('teams:detail', pk)
             form = RemovePlayerFormPost(request.POST)
             # invite = TeamInvite.objects.get(id=form.data['remove'])
             user = form.data['remove']
@@ -386,7 +402,11 @@ class DissolveTeamView(View):
 
     def get(self, request, pk):
         team = Team.objects.get(id=pk)
+        settings = OllySetting.objects.get(pk=1)
         if request.user == team.founder:
+            if settings.freeze_team_deletion:
+                messages.error(request, "An admin has disabled team deletion")
+                return redirect('teams:detail', pk)
             form = DissolveTeamForm(request, pk)
             return render(request, 'teams/team_dissolve.html', {'form': form, 'pk': pk})
         else:
@@ -396,6 +416,9 @@ class DissolveTeamView(View):
     def post(self, request, pk):
         team = Team.objects.get(id=pk)
         if request.user == team.founder:
+            if settings.freeze_team_deletion:
+                messages.error(request, "An admin has disabled team deletion")
+                return redirect('teams:detail', pk)
             form = DissolveTeamForm(request.POST)
             if form.is_valid():
                 if form.cleaned_data['confirmed']:

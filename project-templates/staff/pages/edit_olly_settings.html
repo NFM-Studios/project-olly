@@ -7,17 +7,29 @@
 
 {% block body %}
     <form enctype="multipart/form-data" method="post">
-    {% csrf_token %}
+        {% csrf_token %}
         <label>Disable Team Invites</label>
         {{ form.freeze_team_invites }}
-        <br />
+        <br/>
         <label>Disable Team Creation</label>
         {{ form.disable_team_creation }}
-        <br />
+        <br/>
+        <label>Freeze Players Leaving Teams</label>
+        {{ form.freeze_team_leaves }}
+        <br/>
+
+        <label>Freeze Team Deletion</label>
+        {{ form.freeze_team_deletion }}
+        <br/>
+
+        <label>Freeze Team Player Removal</label>
+        {{ form.freeze_team_player_removal }}
+        <br/>
+
         <label>Latest Updates</label>
-        <br />
+        <br/>
         {{ form.whats_new }}
-        <br />
+        <br/>
         <button type="submit" class="btn btn-primary">Update</button>
 
     </form>
