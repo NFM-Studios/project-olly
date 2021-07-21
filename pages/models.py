@@ -11,6 +11,9 @@ class OllySetting(models.Model):
 
     freeze_team_invites = models.BooleanField(default=False)
     disable_team_creation = models.BooleanField(default=False)
+    freeze_team_leaves = models.BooleanField(default=False)
+    freeze_team_deletion = models.BooleanField(default=False)
+    freeze_team_player_removal = models.BooleanField(default=False)
     whats_new = RichTextField(default='')
 
     def can_invite(self):
