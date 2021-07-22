@@ -18,7 +18,7 @@ def staffindex(request):
         except ObjectDoesNotExist:
             messages.warning(request, "**OllySettings instance not detected**")
             messages.warning(request, "Side wide settings have not been set, redirecting to modify default settings now.")
-            temp = OllySetting
+            temp = OllySetting()
             temp.save()
             return redirect('staff:edit_settings')
         ticket = Ticket.objects.filter(Q(status=0) | Q(status=1) | Q(status=2))
