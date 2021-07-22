@@ -138,6 +138,11 @@ urlpatterns = [
     path('teams/<int:pk>/remove/', login_required(views.remove_user), name='remove_user'),
     path('teams/getrank/', login_required(views.getteamrank), name='getteamrank'),
     path('teams/<int:pk>/delete/', login_required(views.delete_team), name='delete_team'),
+    path('teams/<int:pk>/rosters/', login_required(views.team_roster), name='team_roster'),
+    path('teams/rosters/roles/', login_required(views.list_roster_role), name='list_roster_role'),
+    path('teams/rosters/roles/create/', login_required(views.create_roster_role), name='create_roster_role'),
+    path('teams/rosters/roles/<int:pk>/edit/', login_required(views.edit_roster_role), name='edit_roster_role'),
+    path('teams/rosters/roles/<int:pk>/delete/', login_required(views.delete_roster_role), name='delete_roster_role'),
 
     path('partners/', login_required(views.partnerlist), name='partner_list'),
     path('partners/create/', login_required(views.createpartner), name='partner_create'),

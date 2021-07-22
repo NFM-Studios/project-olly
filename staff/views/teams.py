@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.shortcuts import render, redirect
 
 from staff.forms import *
-from teams.models import TeamInvite
+from teams.models import TeamInvite, Roster, Team, RosterRole, RosterMember
 from wagers.models import *
 
 
@@ -173,7 +173,28 @@ def getteamrank(request):
         return redirect('staff:teamindex')
 
 
-def create_rosterrole(request):
+def team_roster(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        team = Team.objects.get(pk=pk)
+        roster = Roster.objects.get(team=team)
+        return render(request, 'staff/teams/team_roster.html', {'roster': roster})
+
+
+def list_roster_role(request):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        roles = RosterRole.objects.all()
+        return render(request, 'staff/teams/list_rosterrole.html', {'roles': roles})
+
+
+def create_roster_role(request):
     user = UserProfile.objects.get(user__username=request.user.username)
     allowed = ['superadmin', 'admin']
     if user.user_type not in allowed:
@@ -182,11 +203,40 @@ def create_rosterrole(request):
         if request.method == 'POST':
             form = CreateTeamRosterRole(request.POST)
             if form.is_valid():
-                temp = RosterRole
-                temp.name = form.cleaned_data['name']
+                temp = form.instance
                 temp.save()
                 messages.success(request, "Successfully created Roster Role")
                 return redirect('staff:teamindex')
         elif request.method == 'GET':
             form = CreateTeamRosterRole()
             return render(request, 'staff/teams/create_rosterrole.html', {'form': form})
+
+
+def delete_roster_role(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        role = RosterRole.objects.get(pk=pk)
+        role.delete()
+        messages.success(request, 'Roster role successfully deleted')
+        return redirect('staff:list_roster_role')
+
+
+def edit_roster_role(request, pk):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        role = RosterRole.objects.get(pk=pk)
+        if request.method == 'GET':
+            form = CreateTeamRosterRole(instance=role)
+            return render(request, 'staff/teams/create_rosterrole.html', {'form': form})
+        elif request.method == 'POST':
+            form = CreateTeamRosterRole(request.POST, instance=role)
+            form.save()
+            messages.success(request, "Successfully updated roster role")
+            return redirect('staff:list_roster_role')
+
