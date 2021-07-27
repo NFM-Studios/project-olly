@@ -1,6 +1,6 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect
-
+from django.core.exceptions import ObjectDoesNotExist
 from staff.forms import *
 from support.models import Ticket
 from pages.models import FrontPageSlide, OllySetting
@@ -13,6 +13,14 @@ def staffindex(request):
     if user.user_type not in allowed:
         return render(request, 'staff/permissiondenied.html')
     else:
+        try:
+            settings = OllySetting.objects.get(pk=1)
+        except Exception as e:
+            messages.warning(request, "**OllySettings instance not detected**")
+            messages.warning(request, "Side wide settings have not been set, redirecting to modify default settings now.")
+            temp = OllySetting()
+            temp.save()
+            return redirect('staff:edit_settings')
         ticket = Ticket.objects.filter(Q(status=0) | Q(status=1) | Q(status=2))
         numtickets = len(ticket)
         news = Post.objects.all()
@@ -23,9 +31,6 @@ def staffindex(request):
         return render(request, 'staff/staffindex.html', {'ticket': ticket, 'news': news, 'teams': teams,
                                                          'tournaments': tournaments, 'numusers': numusers,
                                                          'numtickets': numtickets, 'numdisputes': numdisputes})
-
-
-# start static info section
 
 
 def pages(request):
@@ -168,9 +173,6 @@ def slide_delete(request, pk):
         slide.delete()
         messages.success(request, 'slide has been deleted')
         return redirect('staff:slide_list')
-
-
-# end static info section
 
 
 def create_settings(request):

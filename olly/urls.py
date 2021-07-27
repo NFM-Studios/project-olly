@@ -4,7 +4,7 @@ from django.conf.urls import include
 from django.contrib import admin
 from django.urls import path, re_path
 from paypal.standard.ipn import views as paypal_views
-
+from pages.models import StaticPage
 from pages import views as pages_views
 from profiles import views as profile_views
 
@@ -21,6 +21,7 @@ urlpatterns = [
     path('privacy/', pages_views.privacy, name='privacy'),
     path('updates/', pages_views.whats_new, name='updates'),
     path('404/', pages_views.notfound),
+    path('pages/<slug:slug>/', pages_views.static_page, name='static_page'),
 
     path('register/', profile_views.CreateUserFormView.as_view(), name='register'),
     path('login/', profile_views.login, {'template_name': 'profiles/login_form.html'}, name='login'),

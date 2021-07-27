@@ -2,7 +2,7 @@ from django import forms
 # import the actual team model for the create team forms
 from teams.models import Team
 # import the model for the team invite
-from teams.models import TeamInvite
+from teams.models import TeamInvite, Roster
 from profiles.models import UserProfile
 
 
@@ -134,3 +134,8 @@ class DissolveTeamForm(forms.Form):
         self.fields['confirmed'].widget.attrs.update(
             {'name': 'confirmed', 'class': 'form-control', 'style': 'display: block'})
 
+
+class CreateRosterForm(forms.ModelForm):
+    class Meta:
+        model = Roster
+        fields = '__all__'

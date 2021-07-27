@@ -1,0 +1,26 @@
+{% extends 'staff/staffbase.html' %}
+{% load static %}
+<link rel="stylesheet" href="{% static "css/staff.css" %}">
+
+{% block title %}
+    <a href="{% url 'staff:teamindex' %}">Teams</a> / Roster Role List
+{% endblock %}
+
+{% block body %}
+    <div style="overflow-x:auto;">
+        <table class="table table-hover">
+            <tr id="header">
+                <thead>
+                <th scope="row">Name</th>
+                </thead>
+            </tr>
+            {% for role in roles %}
+                <tbody>
+                <tr scope="">
+                    <td scope="row"><a href="{% url 'staff:edit_roster_role' pk=role.pk %}">{{ role.name }}</a></td>
+                </tr>
+                </tbody>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}

@@ -11,6 +11,9 @@ class OllySetting(models.Model):
 
     freeze_team_invites = models.BooleanField(default=False)
     disable_team_creation = models.BooleanField(default=False)
+    freeze_team_leaves = models.BooleanField(default=False)
+    freeze_team_deletion = models.BooleanField(default=False)
+    freeze_team_player_removal = models.BooleanField(default=False)
     whats_new = RichTextField(default='')
 
     def can_invite(self):
@@ -30,6 +33,12 @@ class OllySetting(models.Model):
                 return True
         except:
             return False
+
+
+class StaticPage(models.Model):
+    slug = models.SlugField(max_length=50)
+    page_name = models.CharField(max_length=50, blank=False, null=False)
+    content = RichTextField(default='')
 
 
 class FrontPageSlide(models.Model):
