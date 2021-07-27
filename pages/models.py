@@ -35,6 +35,12 @@ class OllySetting(models.Model):
             return False
 
 
+class StaticPage(models.Model):
+    slug = models.SlugField(max_length=50)
+    page_name = models.CharField(max_length=50, blank=False, null=False)
+    content = RichTextField(default='')
+
+
 class FrontPageSlide(models.Model):
     class Meta:
         verbose_name_plural = "Front Page Slides"

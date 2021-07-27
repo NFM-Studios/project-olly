@@ -5,7 +5,8 @@ from news.models import Post
 from profiles.models import UserProfile
 from singletournaments.models import SingleEliminationTournament
 from teams.models import Team
-from .models import StaticInfo, Partner, OllySetting
+from .models import StaticInfo, Partner, OllySetting, StaticPage
+from django.shortcuts import get_object_or_404
 
 
 def index(request):
@@ -25,6 +26,7 @@ def index(request):
 def whats_new(request):
     olly = OllySetting.objects.get(pk=1)
     return render(request, 'pages/whatsnew.html', {'olly': olly})
+
 
 def about(request):
     staticinfo = StaticInfo.objects.get(pk=1)
@@ -49,3 +51,8 @@ def privacy(request):
 def notfound(request, exception):
     staticinfo = StaticInfo.objects.get(pk=1)
     return render(request, 'pages/404.html', {'staticinfo': staticinfo})
+
+
+def static_page(request, slug):
+    page = get_object_or_404(StaticPage, slug=slug)
+    return render(request, 'pages/static.html', {'page': page})

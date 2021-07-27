@@ -7,3 +7,4 @@ from .models import *
 admin.site.register(StaticInfo)
 admin.site.register(SocialInfo)
 admin.site.register(OllySetting)
+admin.site.register(StaticPage)
