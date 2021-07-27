@@ -15,7 +15,7 @@ def staffindex(request):
     else:
         try:
             settings = OllySetting.objects.get(pk=1)
-        except ObjectDoesNotExist:
+        except Exception as e:
             messages.warning(request, "**OllySettings instance not detected**")
             messages.warning(request, "Side wide settings have not been set, redirecting to modify default settings now.")
             temp = OllySetting()
@@ -31,9 +31,6 @@ def staffindex(request):
         return render(request, 'staff/staffindex.html', {'ticket': ticket, 'news': news, 'teams': teams,
                                                          'tournaments': tournaments, 'numusers': numusers,
                                                          'numtickets': numtickets, 'numdisputes': numdisputes})
-
-
-# start static info section
 
 
 def pages(request):
@@ -176,9 +173,6 @@ def slide_delete(request, pk):
         slide.delete()
         messages.success(request, 'slide has been deleted')
         return redirect('staff:slide_list')
-
-
-# end static info section
 
 
 def create_settings(request):
