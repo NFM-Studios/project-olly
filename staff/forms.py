@@ -4,7 +4,7 @@ from django.db.models import Q
 
 from matches.models import Match, GameChoice, PlatformChoice, MapChoice, MapPoolChoice, SportChoice
 from news.models import Post
-from pages.models import StaticInfo, SocialInfo, Partner, FrontPageSlide, OllySetting
+from pages.models import StaticInfo, SocialInfo, Partner, FrontPageSlide, OllySetting, StaticPage
 from profiles.models import UserProfile
 from singletournaments.models import SingleEliminationTournament, SingleTournamentRuleset, SingleTournamentRound
 from store.models import Product
@@ -356,4 +356,10 @@ class CreateOllySetting(forms.ModelForm):
 class CreateTeamRosterRole(forms.ModelForm):
     class Meta:
         model = RosterRole
+        fields = '__all__'
+
+
+class StaticPageForm(forms.ModelForm):
+    class Meta:
+        model = StaticPage
         fields = '__all__'

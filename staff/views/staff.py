@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.core.exceptions import ObjectDoesNotExist
 from staff.forms import *
 from support.models import Ticket
-from pages.models import FrontPageSlide, OllySetting
+from pages.models import FrontPageSlide, OllySetting, StaticPage
 from wagers.models import *
 
 
@@ -210,3 +210,61 @@ def edit_settings(request):
         elif request.method == 'GET':
             form = CreateOllySetting(instance=settings)
             return render(request, 'staff/pages/edit_olly_settings.html', {'form': form})
+
+
+def create_static_page(request):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        form = StaticPageForm()
+        if request.method == 'POST':
+            form = StaticPageForm(request.POST)
+            if form.is_valid():
+                form.save()
+                messages.success(request, "Static Page successfully created")
+                return redirect('staff:list_static_page')
+        elif request.method == 'GET':
+            return render(request, 'staff/pages/create_static_page.html', {'form': form})
+
+
+def edit_static_page(request, slug):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        page = StaticPage.objects.get(slug=slug)
+        if request.method == 'POST':
+            form = StaticPageForm(request.POST)
+            if form.is_valid():
+                form.save()
+                messages.success(request, "Successfully updated static page")
+                return redirect('staff:list_static_page')
+        elif request.method == 'GET':
+            form = StaticPageForm(instance=page)
+            return render(request, 'staff/pages/create_static_page.html', {'form': form})
+
+
+def list_static_page(request):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        pages = StaticPage.objects.all()
+        return render(request, 'staff/pages/list_static_page.html', {'pages': pages})
+
+
+def delete_static_page(request, slug):
+    user = UserProfile.objects.get(user__username=request.user.username)
+    allowed = ['superadmin', 'admin']
+    if user.user_type not in allowed:
+        return render(request, 'staff/permissiondenied.html')
+    else:
+        page = StaticPage.objects.get(slug=slug)
+        page.delete()
+        return redirect('staff:list_static_page')
+
+

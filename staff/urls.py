@@ -23,6 +23,10 @@ urlpatterns = [
     path('qa/cat/<pk>/delete', login_required(views.qa_cat_delete), name='qa_cat_delete'),
 
     path('pages', login_required(views.pages), name='pages'),
+    path('staticpages/', login_required(views.list_static_page), name='list_static_page'),
+    path('staticpages/<slug:slug>/edit/', login_required(views.edit_static_page), name='edit_static_page'),
+    path('staticpages/<slug:slug>/delete/', login_required(views.delete_static_page), name='delete_static_page'),
+    path('staticpages/create/', login_required(views.create_static_page), name='create_static_page'),
     path('slides/', login_required(views.slide_list), name='slide_list'),
     path('slides/create', login_required(views.slide_create), name='slide_create'),
     path('slides/<pk>', login_required(views.slide_detail), name='slide_detail'),
