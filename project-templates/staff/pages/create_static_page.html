@@ -1,0 +1,28 @@
+{% extends 'staff/staffbase.html' %}
+{% load static %}
+
+{% block title %}
+    Static Page - CREATE
+{% endblock %}
+
+{% block body %}
+    <form enctype="multipart/form-data" method="post">
+    {% csrf_token %}
+        <label>Slug</label>
+        {{ form.slug }}
+        <br />
+
+        <label>Page Name</label>
+        {{ form.page_name }}
+        <br />
+
+        <label>Content</label>
+        {{ form.content }}
+       <br />
+
+        <button type="submit" class="btn btn-primary">Create</button>
+
+    </form>
+
+{% endblock %}
+

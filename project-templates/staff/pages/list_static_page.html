@@ -1,0 +1,29 @@
+{% extends 'staff/staffbase.html' %}
+{% load static %}
+<link rel="stylesheet" href="{% static "css/staff.css" %}">
+
+{% block title %}
+    Static Pages - List
+{% endblock %}
+
+{% block body %}
+    <div style="overflow-x:auto;">
+        <h1>Tournament Matches</h1>
+        <table class="table table-hover">
+            <tr id="header">
+                <thead>
+                <th scope="row">Slug</th>
+                <th>Page Name</th>
+                </thead>
+            </tr>
+            {% for page in pages %}
+                <tbody>
+                <tr scope="">
+                    <td scope="row"><a href="{% url 'staff:edit_static_page' slug=page.slug %}">{{ page.slug }}</a></td>
+                    <td>{{ page.page_name }}</td>
+                </tr>
+                </tbody>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}
