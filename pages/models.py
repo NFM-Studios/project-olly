@@ -40,7 +40,7 @@ class StaticPage(models.Model):
     page_name = models.CharField(max_length=50, blank=False, null=False)
     content = RichTextField(default='')
     redirects = models.BooleanField(default=False)
-    url = models.URLField(max_length=200, default='')
+    url = models.URLField(max_length=200, blank=True)
 
 
 class FrontPageSlide(models.Model):
