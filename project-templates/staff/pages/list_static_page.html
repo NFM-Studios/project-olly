@@ -8,19 +8,26 @@
 
 {% block body %}
     <div style="overflow-x:auto;">
-        <h1>Tournament Matches</h1>
+        <h1>Static Pages List</h1>
+        <br />
+        <br />
+        <h2><a href="{% url 'staff:create_static_page' %}">Create a static page here</a></h2>
         <table class="table table-hover">
             <tr id="header">
                 <thead>
                 <th scope="row">Slug</th>
                 <th>Page Name</th>
+                <th>Redirects</th>
+                <th>Redirect URL</th>
                 </thead>
             </tr>
             {% for page in pages %}
                 <tbody>
-                <tr scope="">
-                    <td scope="row"><a href="{% url 'staff:edit_static_page' slug=page.slug %}">{{ page.slug }}</a></td>
+                <tr>
+                    <td><a href="{% url 'staff:edit_static_page' slug=page.slug %}">{{ page.slug }}</a></td>
                     <td>{{ page.page_name }}</td>
+                    <td>{{ page.redirects }}</td>
+                    <td>{{ page.url }}</td>
                 </tr>
                 </tbody>
             {% endfor %}
