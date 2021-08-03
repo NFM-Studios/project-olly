@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from matches.models import Match
 from news.models import Post
@@ -55,4 +55,7 @@ def notfound(request, exception):
 
 def static_page(request, slug):
     page = get_object_or_404(StaticPage, slug=slug)
-    return render(request, 'pages/static.html', {'page': page})
+    if page.redirects:
+        return redirect(page.url)
+    else:
+        return render(request, 'pages/static.html', {'page': page})

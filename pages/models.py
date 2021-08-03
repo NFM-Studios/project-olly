@@ -39,6 +39,8 @@ class StaticPage(models.Model):
     slug = models.SlugField(max_length=50)
     page_name = models.CharField(max_length=50, blank=False, null=False)
     content = RichTextField(default='')
+    redirects = models.BooleanField(default=False)
+    url = models.URLField(max_length=200, default='')
 
 
 class FrontPageSlide(models.Model):
