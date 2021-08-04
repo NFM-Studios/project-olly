@@ -237,7 +237,7 @@ def edit_static_page(request, slug):
     else:
         page = StaticPage.objects.get(slug=slug)
         if request.method == 'POST':
-            form = StaticPageForm(request.POST)
+            form = StaticPageForm(request.POST, instance=page)
             if form.is_valid():
                 form.save()
                 messages.success(request, "Successfully updated static page")
