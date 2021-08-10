@@ -92,7 +92,16 @@ class LeagueFreeAgent(models.Model):
 
 
 class League(models.Model):
+    LEAGUE_STATUS_CHOICES = (
+        ('draft', 'Draft'),
+        ('preseason', 'Preseason'),
+        ('regular season', 'Regular Season'),
+        ('playoffs', 'Playoffs'),
+        ('finals', 'Finals'),
+        ('offseason', 'Offseason'),
+    )
     name = models.CharField(default="League Name", max_length=50)
+    status = models.CharField(choices=LEAGUE_STATUS_CHOICES, max_length=50, default='preseason')
     settings = models.ForeignKey(LeagueSettings, related_name="league_settings", on_delete=models.PROTECT)
     ruleset = models.ForeignKey(SingleTournamentRuleset, related_name="league_ruleset", on_delete=models.PROTECT)
     # if set to true the league will display on the front page, false and it will not
@@ -128,6 +137,9 @@ class League(models.Model):
     prize3 = models.CharField(default='no prize specified', max_length=50)
     teams = models.ManyToManyField(LeagueTeam, blank=True)
     fa = models.ManyToManyField(LeagueFreeAgent, related_name="league_fas", blank=True)
-    non_conference = models.ManyToManyField('matches.Match', related_name='non_conference_matches')
+    non_conference = models.ManyToManyField('matches.Match', related_name='non_conference_matches', blank=True)
+    featured_matches = models.ManyToManyField('matches.Match', related_name='featured_matches', blank=True)
+    featured_players = models.ManyToManyField('matches.Match', related_name='featured_players', blank=True)
+
 
 
