@@ -57,6 +57,8 @@ class LeagueSettings(models.Model):
 
 
 class LeagueTeam(models.Model):
+    class Meta:
+        ordering = ['-points']
     team = models.ForeignKey(Team, related_name='league_team', on_delete=models.PROTECT)
     wins = models.PositiveSmallIntegerField(default=0)
     losses = models.PositiveSmallIntegerField(default=0)
