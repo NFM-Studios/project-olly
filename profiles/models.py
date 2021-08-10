@@ -47,6 +47,7 @@ class UserProfile(models.Model):
     credits = models.PositiveSmallIntegerField(default=0)
     # amount of money they have cashed out
     total_earning = models.PositiveSmallIntegerField(default=0)
+    user_verified = models.BooleanField(default=False, null=False, blank=True)
     current_earning = models.PositiveSmallIntegerField(default=0)
     about_me = models.TextField(default='Forever a mystery', blank=True)
     steamid64 = models.CharField(max_length=255, default='No SteamID64', blank=True)
