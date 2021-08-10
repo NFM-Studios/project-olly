@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib import messages
 from django.shortcuts import redirect
-from .models import League, LeagueDivision
+from .models import League, LeagueDivision, LeagueTeam
 from profiles.models import UserProfile
 
 
@@ -15,15 +15,14 @@ def detail_league(request, pk):
     teams = league.teams.all()
     if league.divisions is None:
         # there are no divisions
-        pass
-    elif len(league.divisions.all()) == 1:
-        # there is only one division show the matches in the one page
-        division = league.divisions.first()
-        matches = division.matches.all()
-        return render(request, 'leagues/league_division.html',
-                      {'league': league, 'matches': matches, 'division': division})
-    return render(request, 'leagues/league_detail.html',
-                  {'league': league, 'teams': teams, 'divisions': league.divisions.all()})
+        return render(request, 'leagues/league_detail.html',
+                      {'league': league, 'teams': teams, 'division': 0})
+
+    else:
+        standings = LeagueTeam.objects.none()
+        division = league.divisions.all()
+        return render(request, 'leagues/league_detail.html',
+                      {'league': league, 'division': division, 'standings': standings, 'teams': teams})
 
 
 def join_league(request, pk):
