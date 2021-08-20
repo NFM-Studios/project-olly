@@ -277,7 +277,7 @@ def edit_profile(request):
             user = request.user
             if form.cleaned_data['first_name'] != '':
                 user.first_name = form.cleaned_data['first_name']
-            if form.cleaned_date['last_name'] != '':
+            if form.cleaned_data['last_name'] != '':
                 user.last_name = form.cleaned_data['last_name']
             user.save()
             form.save()
