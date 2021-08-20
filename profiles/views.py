@@ -275,8 +275,10 @@ def edit_profile(request):
         form = EditProfileForm(request.POST, request.FILES, instance=userprofileobj)
         if form.is_valid():
             user = request.user
-            user.first_name = form.cleaned_data['first_name']
-            user.last_name = form.cleaned_data['last_name']
+            if form.cleaned_data['first_name'] != '':
+                user.first_name = form.cleaned_data['first_name']
+            if form.cleaned_date['last_name'] != '':
+                user.last_name = form.cleaned_data['last_name']
             user.save()
             form.save()
             messages.success(request, "Profile updated successfully")
