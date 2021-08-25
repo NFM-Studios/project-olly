@@ -225,6 +225,9 @@ def create_static_page(request):
                 form.save()
                 messages.success(request, "Static Page successfully created")
                 return redirect('staff:list_static_page')
+            else:
+                messages.error(request, "ERROR: Static Page not created")
+                return redirect('staff:list_static_page')
         elif request.method == 'GET':
             return render(request, 'staff/pages/create_static_page.html', {'form': form})
 
