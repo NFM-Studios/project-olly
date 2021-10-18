@@ -9,9 +9,7 @@ from staff.forms import *
 
 
 def create_league(request):
-    user = UserProfile.objects.get(user__username=request.user.username)
-    allowed = ['superadmin', 'admin']
-    if user.user_type not in allowed:
+    if not request.user.has_perm('leagues.add_league'):
         return render(request, 'staff/permissiondenied.html')
     else:
         if request.method == 'GET':
@@ -32,9 +30,7 @@ def create_league(request):
 
 
 def list_league(request):
-    user = UserProfile.objects.get(user__username=request.user.username)
-    allowed = ['superadmin', 'admin']
-    if user.user_type not in allowed:
+    if not request.user.has_perm('leagues.view_league'):
         return render(request, 'staff/permissiondenied.html')
     else:
         leagues = League.objects.all()
@@ -43,9 +39,7 @@ def list_league(request):
 
 
 def detail_league(request, pk):
-    user = UserProfile.objects.get(user__username=request.user.username)
-    allowed = ['superadmin', 'admin']
-    if user.user_type not in allowed:
+    if not request.user.has_perm('leagues.view_league'):
         return render(request, 'staff/permissiondenied.html')
     else:
         league = League.objects.get(pk=pk)
@@ -56,9 +50,7 @@ def detail_league(request, pk):
 
 # list all the teams in the league and the divisions
 def league_teams(request, pk):
-    user = UserProfile.objects.get(user__username=request.user.username)
-    allowed = ['superadmin', 'admin']
-    if user.user_type not in allowed:
+    if not request.user.has_perm('leagues.view_league'):
         return render(request, 'staff/permissiondenied.html')
     else:
         league = League.objects.get(pk=pk)
@@ -68,9 +60,7 @@ def league_teams(request, pk):
 
 # used for adding teams to a league before the league is launched
 def league_teams_add(request, pk):
-    user = UserProfile.objects.get(user__username=request.user.username)
-    allowed = ['superadmin', 'admin']
-    if user.user_type not in allowed:
+    if not request.user.has_perm('leagues.change_league'):
         return render(request, 'staff/permissiondenied.hmtl')
     else:
         league = League.objects.get(pk=pk)
@@ -78,9 +68,7 @@ def league_teams_add(request, pk):
 
 
 def edit_league(request, pk):
-    user = UserProfile.objects.get(user__username=request.user.username)
-    allowed = ['superadmin', 'admin']
-    if user.user_type not in allowed:
+    if not request.user.has_perm('leagues.change_league'):
         return render(request, 'staff/permissiondenied.html')
     else:
         if request.method == 'POST':
@@ -101,9 +89,7 @@ def edit_league(request, pk):
 
 
 def list_league_settings(request):
-    user = UserProfile.objects.get(user__username=request.user.username)
-    allowed = ['superadmin', 'admin']
-    if user.user_type not in allowed:
+    if not request.user.has_perm('leagues.view_leaguesettings'):
         return render(request, 'staff/permissiondenied.html')
     else:
         settings = LeagueSettings.objects.all()
@@ -111,9 +97,7 @@ def list_league_settings(request):
 
 
 def create_league_settings(request):
-    user = UserProfile.objects.get(user__username=request.user.username)
-    allowed = ['superadmin', 'admin']
-    if user.user_type not in allowed:
+    if not request.user.has_perm('leagues.add_leaguesettings'):
         return render(request, 'staff/permissiondenied.html')
     else:
         if request.method == 'GET':
@@ -133,9 +117,7 @@ def create_league_settings(request):
 
 
 def edit_league_settings(request, pk):
-    user = UserProfile.objects.get(user__username=request.user.username)
-    allowed = ['superadmin', 'admin']
-    if user.user_type not in allowed:
+    if not request.user.has_perm('leagues.change_leaguesettings'):
         return render(request, 'staff/permissiondenied.html')
     else:
         if request.method == 'POST':
@@ -154,9 +136,7 @@ def edit_league_settings(request, pk):
 
 
 def detail_league_settings(request, pk):
-    user = UserProfile.objects.get(user__username=request.user.username)
-    allowed = ['superadmin', 'admin']
-    if user.user_type not in allowed:
+    if not request.user.has_perm('leagues.view_leaguesettings'):
         return render(request, 'staff/permissiondenied.html')
     else:
         settings = LeagueSettings.objects.get(pk=pk)
@@ -174,9 +154,7 @@ def launch_league(request, pk):
 
 
 def list_division(request, pk):
-    user = UserProfile.objects.get(user__username=request.user.username)
-    allowed = ['superadmin', 'admin']
-    if user.user_type not in allowed:
+    if not request.user.has_perm('leagues.view_leaguedivision'):
         return render(request, 'staff/permissiondenied.html')
     else:
         league = League.objects.get(pk=pk)
@@ -185,9 +163,7 @@ def list_division(request, pk):
 
 
 def detail_division(request, pk, divid):
-    user = UserProfile.objects.get(user__username=request.user.username)
-    allowed = ['superadmin', 'admin']
-    if user.user_type not in allowed:
+    if not request.user.has_perm('leagues.view_leaguedivision'):
         return render(request, 'staff/permissiondenied.html')
     else:
         league = League.objects.get(pk=pk)
@@ -198,9 +174,7 @@ def detail_division(request, pk, divid):
 
 
 def add_division(request, pk):
-    user = UserProfile.objects.get(user__username=request.user.username)
-    allowed = ['superadmin', 'admin']
-    if user.user_type not in allowed:
+    if not request.user.has_perm('leagues.add_leaguedivision'):
         return render(request, 'staff/permissiondenied.html')
     else:
         league = League.objects.get(pk=pk)
@@ -213,9 +187,7 @@ def add_division(request, pk):
 
 
 def create_divisions(request, pk):
-    user = UserProfile.objects.get(user__username=request.user.username)
-    allowed = ['superadmin', 'admin']
-    if user.user_type not in allowed:
+    if not request.user.has_perm('leagues.add_leaguedivision'):
         return render(request, 'staff/permissiondenied.html')
     else:
         league = League.objects.get(pk=pk)
@@ -238,9 +210,7 @@ def create_divisions(request, pk):
 
 
 def division_match_add(request, pk, divid):
-    user = UserProfile.objects.get(user__username=request.user.username)
-    allowed = ['superadmin', 'admin']
-    if user.user_type not in allowed:
+    if not request.user.has_perm('leagues.change_leaguedivision'):
         return render(request, 'staff/permissiondenied')
     else:
         league = League.objects.get(pk=pk)
@@ -279,9 +249,7 @@ def division_match_add(request, pk, divid):
 
 
 def division_add_team(request, pk, divid):
-    user = UserProfile.objects.get(user__username=request.user.username)
-    allowed = ['superadmin', 'admin']
-    if user.user_type not in allowed:
+    if not request.user.has_perm('leagues.change_leaguedivision'):
         return render(request, 'staff/permissiondenied.html')
     else:
         league = League.objects.get(pk=pk)
@@ -312,9 +280,7 @@ def division_add_team(request, pk, divid):
 
 
 def division_match_list(request, pk, divid):
-    user = UserProfile.objects.get(user__username=request.user.username)
-    allowed = ['superadmin', 'admin']
-    if user.user_type not in allowed:
+    if not request.user.has_perm('leagues.view_leaguedivision'):
         return render(request, 'staff/permissiondenied')
     else:
         league = League.objects.get(pk=pk)

@@ -8,9 +8,7 @@ from wagers.models import *
 
 def news_list(request):
     # get all teh news articles
-    user = UserProfile.objects.get(user__username=request.user.username)
-    allowed = ['superadmin', 'admin']
-    if user.user_type not in allowed:
+    if not request.user.has_perm('news.view_post'):
         return render(request, 'staff/permissiondenied.html')
     else:
         news_list = Post.objects.all().order_by('-id')
@@ -18,9 +16,7 @@ def news_list(request):
 
 
 def create_article(request):
-    user = UserProfile.objects.get(user__username=request.user.username)
-    allowed = ['superadmin', 'admin']
-    if user.user_type not in allowed:
+    if not request.user.has_perm('news.create_post'):
         return render(request, 'staff/permissiondenied.html')
     else:
         if request.method == 'POST':
@@ -40,9 +36,7 @@ def create_article(request):
 
 
 def detail_article(request, pk):
-    user = UserProfile.objects.get(user__username=request.user.username)
-    allowed = ['superadmin', 'admin']
-    if user.user_type not in allowed:
+    if not request.user.has_perm('news.view_post'):
         return render(request, 'staff/permissiondenied.html')
     else:
         article = Post.objects.get(id=pk)
@@ -50,9 +44,7 @@ def detail_article(request, pk):
 
 
 def edit_post(request, pk):
-    user = UserProfile.objects.get(user__username=request.user.username)
-    allowed = ['superadmin', 'admin']
-    if user.user_type not in allowed:
+    if not request.user.has_perm('news.change_post'):
         return render(request, 'staff/permissiondenied.html')
     else:
         if request.method == 'GET':
@@ -73,9 +65,7 @@ def edit_post(request, pk):
 
 
 def delete_article(request, pk):
-    user = UserProfile.objects.get(user__username=request.user.username)
-    allowed = ['superadmin', 'admin']
-    if user.user_type not in allowed:
+    if not request.user.has_perm('news.delete_post'):
         return render(request, 'staff/permissiondenied.html')
     else:
         article = Post.objects.get(pk=pk)
