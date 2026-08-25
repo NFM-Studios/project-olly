@@ -17,7 +17,7 @@ class Product(models.Model):
     active = models.BooleanField()
     # paypal dict info
     business = models.EmailField()
-    amount = models.FloatField()
+    amount = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     item_name = models.CharField(max_length=50, validators=[
         RegexValidator(
             regex='^[a-zA-z]+_\d+',

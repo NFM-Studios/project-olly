@@ -44,11 +44,11 @@ class UserProfile(models.Model):
     # all notifications associated with this user
     notifications = models.ManyToManyField(Notification, related_name='user_notifications', blank=True)
     # credits they own from purchasing things in the store
-    credits = models.PositiveSmallIntegerField(default=0)
+    credits = models.PositiveIntegerField(default=0)
     # amount of money they have cashed out
-    total_earning = models.PositiveSmallIntegerField(default=0)
+    total_earning = models.PositiveIntegerField(default=0)
     user_verified = models.BooleanField(default=False, null=False, blank=True)
-    current_earning = models.PositiveSmallIntegerField(default=0)
+    current_earning = models.PositiveIntegerField(default=0)
     about_me = models.TextField(default='Forever a mystery', blank=True)
     steamid64 = models.CharField(max_length=255, default='No SteamID64', blank=True)
     discord = models.CharField(max_length=255, default='No Discord', blank=True)
