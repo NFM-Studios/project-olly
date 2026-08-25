@@ -114,23 +114,26 @@ class SingleEliminationTournament(models.Model):
 
     def generate_maps(self, roundpk):
         pool = self.map_pool
+        if pool is None:
+            return False
         poolsize = pool.maps.count()
         try:
             round = SingleTournamentRound.objects.get(id=roundpk)
-        except:
+        except SingleTournamentRound.DoesNotExist:
             return False
         if round:
-            matches = round.matches
+            matches = round.matches.all()
             for match in matches:
-                mike = random.random(1, poolsize)
-                temp_map = MapChoice.objects.get(map_num=mike)
-                match.map = temp_map
+                mike = random.randint(1, poolsize)
+                try:
+                    temp_map = MapChoice.objects.get(map_num=mike)
+                except MapChoice.DoesNotExist:
+                    continue
+                match.maps.add(temp_map)
 
-    def set_inactive(self, **kwargs):
-        pk = self.kwargs['pk']
-        tournament = SingleEliminationTournament.objects.get(id=pk)
-        tournament.active = False
-        tournament.save()
+    def set_inactive(self):
+        self.active = False
+        self.save()
 
     def generate_bracket(self):
         teams = len(self.teams.all())
@@ -156,7 +159,7 @@ class SingleEliminationTournament(models.Model):
         else:
             # take the first team and give them a bye
             # TODO: verify this randomly grabs a random team
-            bteam = self.teams.all.order_by("?").first()
+            bteam = self.teams.all().order_by("?").first()
             bmatch = Match(hometeam=None, bye_1=True, awayteam=bteam, winner=bteam, completed=True,
                            type='singletournament', maps=self.map_pool, game=self.game, platform=self.platform)
             bmatch.save()
@@ -179,14 +182,12 @@ class SingleEliminationTournament(models.Model):
 
         round1.save()
 
-    def get_round1_byes(self, **kwargs):
+    def get_round1_byes(self):
         # only used for round 1 purposes
-        pk = self.kwargs['pk']
-        tournament = SingleEliminationTournament.objects.get(id=pk)
-        return tournament.size - tournament.teams.count
+        return self.size - self.teams.count()
 
     def get_num_teams(self):
-        return self.teams.count
+        return self.teams.count()
 
 
 class SingleTournamentRound(models.Model):
