@@ -43,6 +43,8 @@ urlpatterns = [
     path('wagers/', include('wagers.urls', namespace='wagers')),
     path('leagues/', include('leagues.urls', namespace='league')),
 
+    path('api/', include('api.urls')),
+
     path('healthz/', pages_views.healthz, name='healthz'),
     path('readyz/', pages_views.readyz, name='readyz'),
 ]

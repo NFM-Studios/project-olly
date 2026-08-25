@@ -108,6 +108,12 @@ INSTALLED_APPS = [
     # rich text fields
     'ckeditor',
 
+    # REST API
+    'rest_framework',
+    'rest_framework.authtoken',
+    'django_filters',
+    'api',
+
     # this is what handles deleting old uploaded files
     # NOTE: THIS MUST BE LAST IN THE LIST
     'django_cleanup.apps.CleanupConfig'
