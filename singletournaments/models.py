@@ -136,50 +136,37 @@ class SingleEliminationTournament(models.Model):
         self.save()
 
     def generate_bracket(self):
-        teams = len(self.teams.all())
-        myteams = self.teams.all()
+        myteams = list(self.teams.all())
         self.current_round = 1
         self.save()
         round1 = SingleTournamentRound(tournament=self, roundnum=1)
         round1.save()
-        if teams % 2 == 0:
-            # no byes required - get 2 teams and make a match
-            while len(myteams) != 0:
-                temp1 = myteams.all().order_by("?").first()
-                myteams.remove(temp1)
-                myteams.save()
-                temp2 = myteams.all().order_by("?").first()
-                tempmatch = Match(awayteam=temp1, hometeam=temp2, maps=self.map_pool, game=self.game, platform=self.platform)
-                tempmatch.save()
-                myteams.remove(temp2)
-                myteams.save()
-                round1.matches.add(tempmatch)
-                round1.save()
-
+        if self.xp_seed:
+            # seed by XP rank, highest XP team first
+            def xp_key(team):
+                if team.founder is None:
+                    return 0
+                return team.founder.user.xp
+            myteams.sort(key=xp_key, reverse=True)
         else:
-            # take the first team and give them a bye
-            # TODO: verify this randomly grabs a random team
-            bteam = self.teams.all().order_by("?").first()
+            random.shuffle(myteams)
+        if len(myteams) % 2 != 0:
+            # odd number of teams - the first team in the order gets a bye
+            # (the highest seed when xp_seed is enabled, otherwise a random team)
+            bteam = myteams.pop(0)
             bmatch = Match(hometeam=None, bye_1=True, awayteam=bteam, winner=bteam, completed=True,
-                           type='singletournament', maps=self.map_pool, game=self.game, platform=self.platform)
+                           type='singletournament', map_pool=self.map_pool, game=self.game, platform=self.platform)
             bmatch.save()
             round1.matches.add(bmatch)
-            myteams.remove(bteam)
-            if len(myteams) % 2 != 0:
-                print("ITS BROKEN YOU SUCK")
-                return
-            while len(myteams) != 0:
-                temp1 = myteams.all().order_by("?").first()
-                myteams.remove(temp1)
-                myteams.save()
-                temp2 = myteams.all().order_by("?").first()
-                tempmatch = Match(awayteam=temp1, hometeam=temp2, maps=self.map_pool, game=self.game, platform=self.platform)
-                tempmatch.save()
-                myteams.remove(temp2)
-                myteams.save()
-                round1.matches.add(tempmatch)
-                round1.save()
-
+            round1.save()
+        while len(myteams) != 0:
+            temp1 = myteams.pop(0)
+            temp2 = myteams.pop(0)
+            tempmatch = Match(awayteam=temp1, hometeam=temp2, map_pool=self.map_pool,
+                              game=self.game, platform=self.platform)
+            tempmatch.save()
+            round1.matches.add(tempmatch)
+            round1.save()
         round1.save()
 
     def get_round1_byes(self):

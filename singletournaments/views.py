@@ -99,26 +99,21 @@ class SingleTournamentJoin(View):
         teameligible = False
         now = timezone.now()
 
-        if tournament.open_register >= now:
-            messages.error(request, 'Registration for this tournament is not open yet')
-            return redirect('singletournaments:list')
-
-        if tournament.close_register <= now:
-            messages.error(request, 'Registration for this tournament is closed already')
-            return redirect('singletournaments:list')
-
-        # this allows for a manual override of registration - not recommended
-        # if you'd like to allow teams after the fact we recommend force adding teams via staff panel
-        """if not tournament.allow_register:
-            messages.error(request, 'Registration for this tournament is not open currently')
-            return redirect('singletournaments:list')
-
-        """
-
         if tournament.bracket_generated:
             messages.error(request, "The bracket has already been generated for this tournament, new teams aren't "
                                     "permitted")
             return redirect('singletournaments:list')
+
+        # registration is allowed if an admin has manually opened it
+        # (allow_register), or if we are within the registration window
+        if not tournament.allow_register:
+            if tournament.open_register >= now:
+                messages.error(request, 'Registration for this tournament is not open yet')
+                return redirect('singletournaments:list')
+
+            if tournament.close_register <= now:
+                messages.error(request, 'Registration for this tournament is closed already')
+                return redirect('singletournaments:list')
 
         if registered_teams.count() >= tournament.size:
             messages.error(request, "This tournament is full")
