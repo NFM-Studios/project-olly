@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load olly_extras %}
 
 {% block head %}
     <title>Match details - {{ SITE_NAME }}</title>
@@ -29,31 +30,9 @@
                                     <!--<h2><b>COMPETITION NAME HERE</b></h2>-->
                                     <h3 style="font-weight:200;">{{ match.platform.name }}</h3>
                                     <h3 style="font-weight:200;">{{ match.game.name }}</h3><br/>
-                                    <h3 style="font-weight:200;">{% if match.teamformat == 0 %}
-                                        1v1
-                                    {% elif match.teamformat == 1 %}
-                                        2v2
-                                    {% elif match.teamformat == 2 %}
-                                        3v3
-                                    {% elif match.teamformat == 3 %}
-                                        4v4
-                                    {% elif match.teamformat == 4 %}
-                                        5v5
-                                    {% elif match.teamformat == 5 %}
-                                        6v6
-                                    {% endif %}</h3>
+                                    <h3 style="font-weight:200;">{{ match.teamformat|teamformat }}</h3>
                                     <br>
-                                    <h3 style="font-weight:200;">{% if match.bestof == 1 %}
-                                        Best of 1
-                                    {% elif match.bestof == 2 %}
-                                        Best of 2
-                                    {% elif match.bestof == 3 %}
-                                        Best of 3
-                                    {% elif match.bestof == 4 %}
-                                        Best of 4
-                                    {% elif match.bestof == 5 %}
-                                        Best of 5
-                                    {% endif %}</h3>
+                                    <h3 style="font-weight:200;">{{ match.bestof|bestof }}</h3>
                                     <br>
                                     <h3>{{ match.info }}</h3><br>
                                     <h3>Maps:{% if  match.maps.count == 0 %}N/a
@@ -141,7 +120,7 @@
                                             {% for hplayer in hplayers %}
                                                 <tr>
                                                     <td valign="middle"><img
-                                                            src="{% static 'binge/images/avatar.jpg' %}"
+                                                            src="{% static 'images/gamepad-solid.svg' %}"
                                                             width="30" height="30">
                                                         <b>{{ hplayer.user }}</b></td>
                                                     <td valign="middle">{{ match.hometeam.name }}</td>

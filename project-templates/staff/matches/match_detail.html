@@ -1,5 +1,6 @@
 {% extends 'staff/staffbase.html' %}
 {% load static %}
+{% load olly_extras %}
 
 {% block title %}
     Match #{{ match.id }}
@@ -39,7 +40,7 @@
                 <td>UTC: {{ match.datetime }}<br>
                     Local:
                     <script>
-                        const date = new Date("{{ match.datetime|safe }}");
+                        const date = new Date("{{ match.datetime|js_datetime }}");
                         console.log(date);
                         document.write(date.toLocaleString());
                     </script>
@@ -52,19 +53,7 @@
         </tr>
         <tr>
             <td>Format</td>
-            {% if match.teamformat == 0 %}
-                <td>1v1</td>
-            {% elif match.teamformat == 1 %}
-                <td>2v2</td>
-            {% elif match.teamformat == 2 %}
-                <td>3v3</td>
-            {% elif match.teamformat == 3 %}
-                <td>4v4</td>
-            {% elif match.teamformat == 4 %}
-                <td>5v5</td>
-            {% elif match.teamformat == 5 %}
-                <td>6v6</td>
-            {% endif %}
+            <td>{{ match.teamformat|teamformat }}</td>
         </tr>
         <tr>
             <td>Best of {{ match.bestof }}</td>

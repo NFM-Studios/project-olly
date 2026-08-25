@@ -1,13 +1,17 @@
 <div class="form-group">
-    {{ field.errors }}
+    {% if form.username.errors %}<div class="alert alert-danger">{{ form.username.errors }}</div>{% endif %}
     <label>Username</label>
     <div>{{ form.username }}</div>
+    {% if form.email.errors %}<div class="alert alert-danger">{{ form.email.errors }}</div>{% endif %}
     <label>Email Address</label>
     <div>{{ form.email }}</div>
+    {% if form.password.errors %}<div class="alert alert-danger">{{ form.password.errors }}</div>{% endif %}
     <label>Password</label>
     <div>{{ form.password }}</div>
+    {% if form.password_confirm.errors %}<div class="alert alert-danger">{{ form.password_confirm.errors }}</div>{% endif %}
     <label>Confirm Password</label>
     <div>{{ form.password_confirm }}</div>
+    {% if form.tos.errors %}<div class="alert alert-danger">{{ form.tos.errors }}</div>{% endif %}
     <label>By checking the following box, I agree to the <a href="{% url 'terms' %}" target="_blank">Terms of
         Service</a> and <a href="{% url 'privacy' %}" target="_blank">Privacy Policy</a> and certify that I
         am at least 16 years of age, or 13 years of age with Parental Consent, in order to use this website (per GDPR

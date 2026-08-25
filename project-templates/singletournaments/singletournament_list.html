@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load olly_extras %}
 
 {% block head %}
     <title>Tournaments - {{ SITE_NAME }}</title>
@@ -63,32 +64,20 @@
                                         <li><b>Teams: </b> {{ tournament.teams.count }}/{{ tournament.size }}</li>
                                         {% if ESPORTS_MODE %}
                                             <li><b>Game:</b> {{ tournament.game.name }}</li>{% endif %}
-                                        <li><b>{% if tournament.teamformat == 0 %}
-                                            1v1
-                                        {% elif tournament.teamformat == 1 %}
-                                            2v2
-                                        {% elif tournament.teamformat == 2 %}
-                                            3v3
-                                        {% elif tournament.teamformat == 3 %}
-                                            4v4
-                                        {% elif tournament.teamformat == 4 %}
-                                            5v5
-                                        {% elif tournament.teamformat == 5 %}
-                                            6v6
-                                        {% endif %}</b></li>
+                                        <li><b>{{ tournament.teamformat|teamformat }}</b></li>
                                     </ul>
                                     <ul>
 
                                         <li><b>Registration Opens:</b>
                                             <script>
-                                                const date = new Date("{{ tournament.open_register|safe }}");
+                                                const date = new Date("{{ tournament.open_register|js_datetime }}");
                                                 console.log(date);
                                                 document.write(date.toLocaleString());
                                             </script>
                                         </li>
                                         <li><b>Registration Closes</b>
                                             <script>
-                                                const date2 = new Date("{{ tournament.close_register|safe }}");
+                                                const date2 = new Date("{{ tournament.close_register|js_datetime }}");
                                                 console.log(date2);
                                                 document.write(date2.toLocaleString());
                                             </script>

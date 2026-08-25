@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load olly_extras %}
 {% block head %}
     <title>Wagers {{ wrequest.id }} - {{ SITE_NAME }}</title>
 {% endblock %}
@@ -9,7 +10,7 @@
             <td>Request Posted</td>
             <td>
                 <script>
-                    const date = new Date("{{ wrequest.posted|safe }}");
+                    const date = new Date("{{ wrequest.posted|js_datetime }}");
                     console.log(date);
                     document.write(date.toLocaleString());
                 </script>
@@ -29,7 +30,7 @@
             <td>
 
                 <script>
-                    const date2 = new Date("{{ wrequest.expiration|safe }}");
+                    const date2 = new Date("{{ wrequest.expiration|js_datetime }}");
                     console.log(date2);
                     document.write(date2.toLocaleString());
                 </script>
@@ -59,19 +60,7 @@
         <tr>
             <td>Team format</td>
 
-            <td>{% if wrequest.teamformat == 0 %}
-                1v1
-            {% elif wrequest.teamformat == 1 %}
-                2v2
-            {% elif wrequest.teamformat == 2 %}
-                3v3
-            {% elif wrequest.teamformat == 3 %}
-                4v4
-            {% elif wrequest.teamformat == 4 %}
-                5v5
-            {% elif wrequest.teamformat == 5 %}
-                6v6
-            {% endif %}</td>
+            <td>{{ wrequest.teamformat|teamformat }}</td>
         </tr>
         <tr>
             <td>Info</td>

@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load olly_extras %}
 
 {% block head %}
     <title>{{ tournament.name }} Details - {{ SITE_NAME }}</title>
@@ -87,19 +88,7 @@
                             <div class="panel-default">
                                 <div class="panel-body">
                                     <h4><b>Format</b></h4>
-                                    {% if league.teamformat == 0 %}
-                                        1v1
-                                    {% elif league.teamformat == 1 %}
-                                        2v2
-                                    {% elif league.teamformat == 2 %}
-                                        3v3
-                                    {% elif league.teamformat == 3 %}
-                                        4v4
-                                    {% elif league.teamformat == 4 %}
-                                        5v5
-                                    {% elif league.teamformat == 5 %}
-                                        6v6
-                                    {% endif %}
+                                    {{ league.teamformat|teamformat }}
                                 </div>
                             </div>
                         </div>
@@ -108,12 +97,12 @@
                                 <div class="panel-body">
                                     <h4><b>Registration Opens->Closes</b></h4>
                                     <script>
-                                        const date = new Date("{{ league.open_register|safe }}");
+                                        const date = new Date("{{ league.open_register|js_datetime }}");
                                         document.write(date.toLocaleString());
                                     </script>
                                     ->
                                     <script>
-                                        const date2 = new Date("{{ league.close_register|safe }}");
+                                        const date2 = new Date("{{ league.close_register|js_datetime }}");
                                         document.write(date2.toLocaleString());
                                     </script>
                                 </div>

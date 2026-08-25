@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load olly_extras %}
 
 {% block head %}
     <title>Leagues - {{ SITE_NAME }}</title>
@@ -67,31 +68,19 @@
                                         {% else %}
                                             <li><b>Sport:</b> {{ league.sport.name }}</li>
                                         {% endif %}
-                                        <li><b>{% if league.teamformat == 0 %}
-                                            1v1
-                                        {% elif league.teamformat == 1 %}
-                                            2v2
-                                        {% elif league.teamformat == 2 %}
-                                            3v3
-                                        {% elif league.teamformat == 3 %}
-                                            4v4
-                                        {% elif league.teamformat == 4 %}
-                                            5v5
-                                        {% elif league.teamformat == 5 %}
-                                            6v6
-                                        {% endif %}</b></li>
+                                        <li><b>{{ league.teamformat|teamformat }}</b></li>
                                     </ul>
                                     <ul>
 
                                         <li><b>Registration Opens: (Local time)</b>
                                             <script>
-                                                const date = new Date("{{ league.open_register|safe }}");
+                                                const date = new Date("{{ league.open_register|js_datetime }}");
                                                 document.write(date.toLocaleString());
                                             </script>
                                         </li>
                                         <li><b>Registration Closes (Local time)</b>
                                             <script>
-                                                const date2 = new Date("{{ league.close_register|safe }}");
+                                                const date2 = new Date("{{ league.close_register|js_datetime }}");
                                                 document.write(date2.toLocaleString());
                                             </script>
                                         </li>

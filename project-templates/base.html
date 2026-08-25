@@ -1,6 +1,7 @@
-<html>
+<html lang="en">
 <head>
-
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     {% load static %}
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"
@@ -11,7 +12,6 @@
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
             crossorigin="anonymous"></script>
     <link rel="stylesheet" href="{% static "fontawesome5.0.4/css/fontawesome-all.min.css" %}">
-    <script src="{% static 'fontawesome5.0.4/js/fontawesome-all.min.js' %}"></script>
     <script src="{% static 'fontawesome5.0.4/js/fontawesome-all.min.js' %}"></script>
     <link rel="stylesheet" href="{% static "css/olly.css" %}">
 
@@ -56,7 +56,7 @@
                 {% if user.is_anonymous %}
                     <li><a href="{% url 'login' %}">Login</a></li>
                     <li><a href="{% url 'register' %}">Register</a></li>
-                {% elif not user.is_anonymous %}
+                {% else %}
                     <li>
                         <div class="dropdown" style="position: relative;display: block;padding: 10px 15px;">
                             <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1"
@@ -86,14 +86,12 @@
 <!-- End Static navbar -->
 
 {% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-            <div class="{{ message.tags }}">
-                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-            </div>
-        {% endfor %}
-    </ul>
+    {% for message in messages %}
+        <div class="{{ message.tags }}">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            {{ message }}
+        </div>
+    {% endfor %}
 {% endif %}
 
 <div class="container page">
