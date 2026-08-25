@@ -3,7 +3,9 @@ from django.db import transaction
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 
-from profiles.models import Notification, UserProfile
+from profiles.models import UserProfile
+
+from realtime.utils import notify_user
 
 from .forms import LeagueJoinForm, LeagueLeaveForm
 from .models import League, LeagueDivision, LeagueTeam
@@ -101,11 +103,9 @@ def join_league(request, pk):
         division = _pick_division(league)
         division.teams.add(league_team)
 
-        notification = Notification(type='league', title="Your team has joined a league",
-                                    description="%s has been entered into %s" % (team.name, league.name),
-                                    link='leagues:detail', pk1=league.pk)
-        notification.save()
-        userprofile.notifications.add(notification)
+        notify_user(userprofile, type='league', title="Your team has joined a league",
+                    description="%s has been entered into %s" % (team.name, league.name),
+                    link='leagues:detail', pk1=league.pk)
 
     messages.success(request, "Your team has been entered into the league")
     return redirect('leagues:detail', pk=pk)
@@ -137,11 +137,9 @@ def leave_league(request, pk):
         league_team.delete()
 
         userprofile = UserProfile.objects.get(user=request.user)
-        notification = Notification(type='league', title="Your team has left a league",
-                                    description="%s has been removed from %s" % (team.name, league.name),
-                                    link='leagues:detail', pk1=league.pk)
-        notification.save()
-        userprofile.notifications.add(notification)
+        notify_user(userprofile, type='league', title="Your team has left a league",
+                    description="%s has been removed from %s" % (team.name, league.name),
+                    link='leagues:detail', pk1=league.pk)
 
     messages.success(request, "Your team has left the league")
     return redirect('leagues:detail', pk=pk)

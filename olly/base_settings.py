@@ -114,6 +114,10 @@ INSTALLED_APPS = [
     'django_filters',
     'api',
 
+    # realtime websocket notifications
+    'channels',
+    'realtime',
+
     # this is what handles deleting old uploaded files
     # NOTE: THIS MUST BE LAST IN THE LIST
     'django_cleanup.apps.CleanupConfig'

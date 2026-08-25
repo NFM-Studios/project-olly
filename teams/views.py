@@ -15,7 +15,8 @@ from django.db.models import Q
 from django.core.exceptions import ObjectDoesNotExist
 from pages.models import OllySetting
 from matches.models import Match
-from profiles.models import UserProfile, Notification
+from profiles.models import UserProfile
+from realtime.utils import notify_user
 # team create forms
 from teams.forms import TeamCreateForm
 # import the team models
@@ -271,15 +272,9 @@ class TeamInviteCreateView(View):
                 TeamInvite.captain = form.cleaned_data.get('captain', False)
                 # lets send a notification
                 TeamInvite.save()
-                notif = UserProfile.objects.get(user=TeamInvite.user)
-                temp = Notification(type='team', title="You've been invited to join a team",
-                                    description="What are you waiting for? Someone needs you to join their team! "
-                                                "View your team invites now!", link='teams:myinvitelist')
-
-                temp.datetime = datetime.datetime.utcnow()
-                temp.save()
-                notif.notifications.add(temp)
-                notif.save()
+                notify_user(TeamInvite.user, type='team', title="You've been invited to join a team",
+                            description="What are you waiting for? Someone needs you to join their team! "
+                                        "View your team invites now!", link='teams:myinvitelist')
                 messages.success(request, 'Successfully notified user')
                 if invitee.email_enabled:
                     current_site = get_current_site(request)

@@ -9,7 +9,8 @@ from django.template.loader import render_to_string
 from django.conf import settings
 from staff.forms import *
 from wagers.models import *
-from profiles.models import UserProfile, Notification
+from profiles.models import UserProfile
+from realtime.utils import notify_user, notify_many
 from django.core.mail import EmailMessage
 import datetime
 from django.contrib.sites.shortcuts import get_current_site
@@ -55,38 +56,18 @@ def match_edit(request, pk):
         if form.is_valid():
             form.save()
             messages.success(request, 'Match has been updated')
-            for x in matchobj.awayteam.players.all():
-                temp = Notification(title="Match has been updated", type=1,
-                                    description="One of your teams matches has been updated!",
-                                    link="matches:detail", pk1=matchobj.pk, datetime=datetime.datetime.utcnow())
-                tp = UserProfile.objects.get(user=x)
-                temp.save()
-                tp.notifications.add(temp)
-                tp.save()
-            for y in matchobj.hometeam.players.all():
-                temp = Notification(title="Match has been updated", type=1,
-                                    description="One of your teams matches has been updated!",
-                                    link="matches:detail", pk1=matchobj.pk, datetime=datetime.datetime.utcnow())
-                tp = UserProfile.objects.get(user=y)
-                temp.save()
-                tp.notifications.add(temp)
-                tp.save()
-            for x in matchobj.awayteam.captain.all():
-                temp = Notification(title="Match has been updated", type=1,
-                                    description="One of your teams matches has been updated!",
-                                    link="matches:detail", pk1=matchobj.pk, datetime=datetime.datetime.utcnow())
-                tp = UserProfile.objects.get(user=x)
-                temp.save()
-                tp.notifications.add(temp)
-                tp.save()
-            for y in matchobj.hometeam.players.all():
-                temp = Notification(title="Match has been updated", type=1,
-                                    description="One of your teams matches has been updated!",
-                                    link="matches:detail", pk1=matchobj.pk, datetime=datetime.datetime.utcnow())
-                tp = UserProfile.objects.get(user=y)
-                temp.save()
-                tp.notifications.add(temp)
-                tp.save()
+            notify_many(matchobj.awayteam.players.all(), title="Match has been updated", type=1,
+                        description="One of your teams matches has been updated!",
+                        link="matches:detail", pk1=matchobj.pk)
+            notify_many(matchobj.hometeam.players.all(), title="Match has been updated", type=1,
+                        description="One of your teams matches has been updated!",
+                        link="matches:detail", pk1=matchobj.pk)
+            notify_many(matchobj.awayteam.captain.all(), title="Match has been updated", type=1,
+                        description="One of your teams matches has been updated!",
+                        link="matches:detail", pk1=matchobj.pk)
+            notify_many(matchobj.hometeam.players.all(), title="Match has been updated", type=1,
+                        description="One of your teams matches has been updated!",
+                        link="matches:detail", pk1=matchobj.pk)
             messages.success(request, "Notification sent successfully to both teams")
             return redirect('staff:match_detail', pk=pk)
         else:
@@ -197,13 +178,9 @@ class MatchDeclareWinner(StaffRequiredMixin, View):
                     wplayer.save()
                 messages.success(request, 'Wager Winner declared')
             for player in winner.players.all() | winner.captain.all():
-                tp = UserProfile.objects.get(user=player)
-                notif = Notification(title="You won a match!", type=1,
-                                     description="A match your team was in was finalized and your team won!" +
-                                                 " Time to celebrate!", link="matches:detail", pk1=match.pk, datetime=datetime.datetime.utcnow())
-                notif.save()
-                tp.notifications.add(notif)
-                tp.save()
+                notify_user(player, title="You won a match!", type=1,
+                            description="A match your team was in was finalized and your team won!" +
+                                        " Time to celebrate!", link="matches:detail", pk1=match.pk)
                 messages.success(request, "Winning team players and captains notified about the victory")
             messages.success(request, "Winner declared")
         except:
@@ -666,15 +643,11 @@ def set_dispute_match(request, pk):
         if team is None:
             continue
         for i in team.players.all():
-            temp = Notification(title="A match you're playing in is disputed!", description="Captains, please visit "
-                                                                                            "the match page for more"
-                                                                                            "details on resolving this",
-                                sender="Match Manager", type='match', link='match:detail', pk1=match.pk, datetime=datetime.datetime.utcnow())
-            temp.datetime = datetime.datetime.now()
-            temp.save()
+            notify_user(i, title="A match you're playing in is disputed!", description="Captains, please visit "
+                                                                                        "the match page for more"
+                                                                                        "details on resolving this",
+                        sender="Match Manager", type='match', link='match:detail', pk1=match.pk)
             userprofile = UserProfile.objects.get(user=i)
-            userprofile.notifications.add(temp)
-            userprofile.save()
             if userprofile.email_enabled:
                 current_site = get_current_site(request)
                 mail_subject = settings.SITE_NAME + ' match disputed!'
