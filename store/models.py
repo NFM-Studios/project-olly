@@ -53,6 +53,7 @@ def show_me_the_money(sender, **kwargs):
         if ipn_obj.business != settings.PAYPAL_EMAIL:
             tx = Transaction(cost=0, account=username, num=0, type='PayPal issue - mismatch with email')
             tx.save()
+            return
         price = int(product.amount)
         if ipn_obj.mc_gross == price and ipn_obj.mc_currency == "USD":
             if itemtype in ['cred', 'credit', 'credits']:

@@ -46,11 +46,17 @@ def invite_view(request, num):
 
     if request.method == "GET":
         form = ViewInviteForm()
-        invite = TeamInvite.objects.get(id=num)
+        invite = get_object_or_404(TeamInvite, id=num)
+        if invite.user != request.user or not invite.active:
+            messages.error(request, "You do not have permission to view this invite")
+            return redirect('teams:list')
         return render(request, template_name, {'form': form, "invite": invite})
     elif request.method == "POST":
         form = ViewInviteForm(request.POST)
-        invite = TeamInvite.objects.get(id=num)
+        invite = get_object_or_404(TeamInvite, id=num)
+        if invite.user != request.user or not invite.active:
+            messages.error(request, "You do not have permission to accept or decline this invite")
+            return redirect('teams:list')
         if form.is_valid():
             accepted = form.cleaned_data['accepted']
             if form.cleaned_data['accepted'] == form.cleaned_data['denied']:

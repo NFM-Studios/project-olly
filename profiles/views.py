@@ -121,7 +121,7 @@ def searchusers(request):
     if query:
         return render(request, 'profiles/users.html',
                       {'userprofiles': UserProfile.objects.filter
-                      (Q(user__username__icontains=query) | Q(user__email__icontains=query) |
+                      (Q(user__username__icontains=query) |
                        Q(psn__icontains=query) | Q(xbl__icontains=query))})
     else:
         return redirect('profiles:users')
@@ -309,20 +309,20 @@ def notifications_list(request):
 
 
 def notification_read(request, pk):
-    try:
-        notif = Notification.objects.get(pk=pk)
-        notif.read = True
-        notif.save()
-    except ObjectDoesNotExist:
+    if request.user.is_anonymous or not request.user.user.notifications.filter(pk=pk).exists():
         messages.error(request, 'Error marking notification as read')
+        return redirect('profiles:notifications')
+    notif = Notification.objects.get(pk=pk)
+    notif.read = True
+    notif.save()
     return redirect('profiles:notifications')
 
 
 def notification_unread(request, pk):
-    try:
-        notif = Notification.objects.get(pk=pk)
-        notif.read = False
-        notif.save()
-    except ObjectDoesNotExist:
+    if request.user.is_anonymous or not request.user.user.notifications.filter(pk=pk).exists():
         messages.error(request, 'Error marking notification as unread')
+        return redirect('profiles:notifications')
+    notif = Notification.objects.get(pk=pk)
+    notif.read = False
+    notif.save()
     return redirect('profiles:notifications')

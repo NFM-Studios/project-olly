@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.utils.http import url_has_allowed_host_and_scheme
 
 from matches.models import Match
 from news.models import Post
@@ -56,7 +57,9 @@ def notfound(request, exception):
 def static_page(request, slug):
     page = get_object_or_404(StaticPage, slug=slug)
     if page.redirects:
-        return redirect(page.url)
+        if url_has_allowed_host_and_scheme(page.url, allowed_hosts={request.get_host()}):
+            return redirect(page.url)
+        return redirect('/')
     else:
         return render(request, 'pages/static.html', {'page': page})
 

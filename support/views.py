@@ -5,6 +5,7 @@ from django.urls import reverse
 from django.views.generic import DetailView, View
 
 from profiles.models import UserProfile
+from staff.views import is_staff_user
 from support.forms import TicketCreateForm, TicketCommentCreateForm, TicketStatusChangeForm, ListFilterForm
 from support.models import Ticket, TicketComment, QuestionAnswer, QuestionAnswerCategory
 
@@ -59,6 +60,9 @@ class MyTicketDetailView(DetailView):
 
         pk = self.kwargs['pk']
         ticket = get_object_or_404(Ticket, pk=pk)
+        if ticket.creator != request.user and not is_staff_user(request.user):
+            messages.error(request, 'You do not have permission to view this ticket.')
+            return redirect('support:list')
         creator = UserProfile.objects.get(user=ticket.creator)
         comments = TicketComment.objects.filter(ticket=pk)
         return render(request, 'support/ticket_detail.html', {'form': form1, 'x': pk, "ticket": ticket,
@@ -71,6 +75,15 @@ class MyTicketDetailView(DetailView):
         return context
 
     def post(self, request, *args, **kwargs):
+        pk = self.kwargs['pk']
+        try:
+            ticket = Ticket.objects.get(pk=pk)
+        except Ticket.DoesNotExist:
+            messages.error(request, 'Ticket not found.')
+            return redirect('support:list')
+        if ticket.creator != request.user and not is_staff_user(request.user):
+            messages.error(request, 'You do not have permission to modify this ticket.')
+            return redirect('support:list')
         if 'post_comment' in request.POST:
             self.form1 = TicketCommentCreateForm(request.POST)
             if self.form1.is_valid():
@@ -79,7 +92,7 @@ class MyTicketDetailView(DetailView):
             return super(MyTicketDetailView, self).get(request, *args, **kwargs)
 
         if 'change_status' in request.POST:
-            self.form2 = TicketStatusChangeForm(request.POST, instance=Ticket.objects.get(pk=self.kwargs['pk']))
+            self.form2 = TicketStatusChangeForm(request.POST, instance=ticket)
             if self.form2.is_valid():
                 self.form2.save()
                 messages.success(self.request, 'Ticket successfully updated.')
