@@ -6,6 +6,23 @@ from singletournaments.models import SingleTournamentRuleset
 from profiles.models import UserProfile
 
 
+class LeagueStatusChoices(models.TextChoices):
+    DRAFT = 'draft', 'Draft'
+    PRESEASON = 'preseason', 'Preseason'
+    REGULAR_SEASON = 'regular season', 'Regular Season'
+    PLAYOFFS = 'playoffs', 'Playoffs'
+    FINALS = 'finals', 'Finals'
+    OFFSEASON = 'offseason', 'Offseason'
+
+
+class RecordFormatChoices(models.IntegerChoices):
+    W_L_OTL = 1, "W-L-OTL"
+    W_L_T = 2, "W-L-T"
+    W_L_OTW_OTL = 3, "W-L-OTW-OTL"
+    W_L_OTW_OTL_OTT = 4, "W-L-OTW-OTL-OTT"
+    W_L = 5, "W-L"
+
+
 # a way to create default values for a field over multiple seasons
 class LeagueSettings(models.Model):
     name = models.CharField(default='League Ruleset', max_length=50)
@@ -28,13 +45,7 @@ class LeagueSettings(models.Model):
     # automatically generate matches, enabling this will create matches but will not set match times
     auto_matchup = models.BooleanField(default=False)
     # W=Win, L=Loss, OTL=Overtime Loss, T=Tie, OTW=Overtime Win, OTT=Overtime Tie
-    RECORD_FORMAT_CHOICES = (
-        (1, "W-L-OTL"),
-        (2, "W-L-T"),
-        (3, "W-L-OTW-OTL"),
-        (4, "W-L-OTW-OTL-OTT"),
-        (5, "W-L"),
-    )
+    RECORD_FORMAT_CHOICES = RecordFormatChoices.choices
     # record format to show on front end
     # record_format = models.CharField(choices=RECORD_FORMAT_CHOICES, default=1, max_length=20)
     # number of divisions to break teams into
@@ -92,16 +103,8 @@ class LeagueFreeAgent(models.Model):
 
 
 class League(models.Model):
-    LEAGUE_STATUS_CHOICES = (
-        ('draft', 'Draft'),
-        ('preseason', 'Preseason'),
-        ('regular season', 'Regular Season'),
-        ('playoffs', 'Playoffs'),
-        ('finals', 'Finals'),
-        ('offseason', 'Offseason'),
-    )
     name = models.CharField(default="League Name", max_length=50)
-    status = models.CharField(choices=LEAGUE_STATUS_CHOICES, max_length=50, default='preseason')
+    status = models.CharField(choices=LeagueStatusChoices.choices, max_length=50, default='preseason')
     settings = models.ForeignKey(LeagueSettings, related_name="league_settings", on_delete=models.PROTECT)
     ruleset = models.ForeignKey(SingleTournamentRuleset, related_name="league_ruleset", on_delete=models.PROTECT)
     # if set to true the league will display on the front page, false and it will not

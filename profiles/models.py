@@ -3,16 +3,25 @@ from django.db import models
 from django.db.models.signals import post_save
 from django_countries.fields import CountryField
 
-NOTIFICATION_TYPES = [
-    ('match', 1),
-    ('tournament', 2),
-    ('league', 3),
-    ('team', 4),
-    ('support', 5),
-    ('news', 6),
-    ('general', 7),
-    ('store', 8),
-]
+class NotificationTypes(models.TextChoices):
+    MATCH = 'match', '1'
+    TOURNAMENT = 'tournament', '2'
+    LEAGUE = 'league', '3'
+    TEAM = 'team', '4'
+    SUPPORT = 'support', '5'
+    NEWS = 'news', '6'
+    GENERAL = 'general', '7'
+    STORE = 'store', '8'
+
+
+class UserTypeChoices(models.TextChoices):
+    USER = 'user', 'Standard User'
+    ADMIN = 'admin', 'Admin'
+    SUPERADMIN = 'superadmin', 'Super Admin'
+
+
+# kept as a module-level alias so external callers can keep using the name
+NOTIFICATION_TYPES = NotificationTypes.choices
 
 
 class Notification(models.Model):
@@ -64,12 +73,7 @@ class UserProfile(models.Model):
     favorite_game = models.CharField(max_length=50, default='N/A', blank=True)
     favorite_console = models.CharField(max_length=50, default='N/A', blank=True)
     profile_picture = models.ImageField(upload_to='profile_images', blank=True)
-    USER_TYPE_CHOICES = [
-        ('user', 'Standard User'),
-        ('admin', 'Admin'),
-        ('superadmin', 'Super Admin')
-    ]
-    user_type = models.CharField(max_length=10, default='user', choices=USER_TYPE_CHOICES)
+    user_type = models.CharField(max_length=10, default='user', choices=UserTypeChoices.choices)
     ip = models.CharField(max_length=45, default='0.0.0.0')
     # default trophies
     num_bronze = models.PositiveSmallIntegerField(default=0)
