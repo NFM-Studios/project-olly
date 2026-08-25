@@ -123,7 +123,53 @@
                 </div>
 
                 <div class="tab-pane" id="2">
-                    <h2>Please contact an admin about joining this league</h2>
+                    {% if user.is_anonymous %}
+                        <h2>Please contact an admin about joining this league</h2>
+                    {% else %}
+                        <h2>Join League</h2>
+                        {% if user.user.founder_teams.all or user.user.captain_teams.all %}
+                            <form method="post" action="{% url 'leagues:join' league.pk %}">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <label for="join-team-select">Select a team you found or captain:</label>
+                                    <select name="team" id="join-team-select" class="form-control">
+                                        {% for team in user.user.founder_teams.all %}
+                                            <option value="{{ team.pk }}" {% for lt in league.teams.all %}{% if lt.team_id == team.pk %}disabled{% endif %}{% endfor %}>{{ team.name }} (Founder){% for lt in league.teams.all %}{% if lt.team_id == team.pk %} - already in league{% endif %}{% endfor %}</option>
+                                        {% endfor %}
+                                        {% for team in user.user.captain_teams.all %}
+                                            <option value="{{ team.pk }}" {% for lt in league.teams.all %}{% if lt.team_id == team.pk %}disabled{% endif %}{% endfor %}>{{ team.name }} (Captain){% for lt in league.teams.all %}{% if lt.team_id == team.pk %} - already in league{% endif %}{% endfor %}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Join League</button>
+                            </form>
+                        {% else %}
+                            <p>You have no teams eligible to join this league. Create a team or be added to one first.</p>
+                        {% endif %}
+
+                        {% for team in user.user.founder_teams.all %}
+                            {% for lt in league.teams.all %}
+                                {% if lt.team_id == team.pk %}
+                                    <form method="post" action="{% url 'leagues:leave' league.pk %}" style="display:inline">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="team" value="{{ team.pk }}">
+                                        <button type="submit" class="btn btn-danger btn-xs">Leave League ({{ team.name }})</button>
+                                    </form>
+                                {% endif %}
+                            {% endfor %}
+                        {% endfor %}
+                        {% for team in user.user.captain_teams.all %}
+                            {% for lt in league.teams.all %}
+                                {% if lt.team_id == team.pk %}
+                                    <form method="post" action="{% url 'leagues:leave' league.pk %}" style="display:inline">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="team" value="{{ team.pk }}">
+                                        <button type="submit" class="btn btn-danger btn-xs">Leave League ({{ team.name }})</button>
+                                    </form>
+                                {% endif %}
+                            {% endfor %}
+                        {% endfor %}
+                    {% endif %}
                 </div>
 
                 <div class="tab-pane" id="3">
