@@ -20,6 +20,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SESSION_COOKIE_AGE = 604800
 
+# Legacy project: all models use auto-created AutoField primary keys. Keep
+# AutoField explicitly to preserve the existing schema and silence W042.
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
 # Security hardening
 # These are toggled via environment variables so they stay off in development
 # (debug=True) and turn on in production. See scripts/dev-env.ps1 for the
@@ -184,14 +188,12 @@ TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
-USE_L10N = True
-
 USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 # noinspection PyUnresolvedReferences
-STATIC_ROOT = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static-collected')
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "project-static")

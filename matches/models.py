@@ -92,9 +92,6 @@ class GameChoice(models.Model):
     name = models.CharField(default='unknown', null=False, max_length=255)
     image = models.ImageField(upload_to='game_images', blank=True)
 
-    def __unicode__(self):
-        return '%s' % self.name
-
     def __str__(self):
         return "" + self.name
 
@@ -102,9 +99,6 @@ class GameChoice(models.Model):
 class PlatformChoice(models.Model):
     name = models.CharField(default='unknown', null=False, max_length=255)
     image = models.ImageField(upload_to='platform_images', null=True, blank=True)
-
-    def __unicode__(self):
-        return "" + self.name
 
     def __str__(self):
         return "" + self.name

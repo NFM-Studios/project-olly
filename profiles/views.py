@@ -1,240 +1,98 @@
 import requests
+from django import forms
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib import messages
-from django.contrib.auth import login as auth_login, REDIRECT_FIELD_NAME, logout as auth_logout, get_user_model
-from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm, SetPasswordForm
+from django.contrib.auth import login as auth_login
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
-from django.contrib.auth.tokens import default_token_generator
+from django.contrib.auth.views import (
+    LoginView as DjangoLoginView,
+    LogoutView as DjangoLogoutView,
+    PasswordResetView as DjangoPasswordResetView,
+    PasswordResetDoneView as DjangoPasswordResetDoneView,
+    PasswordResetConfirmView as DjangoPasswordResetConfirmView,
+    PasswordResetCompleteView as DjangoPasswordResetCompleteView,
+)
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
 from django.db.models import Q
-from django.shortcuts import render, redirect, HttpResponseRedirect, resolve_url, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
-from django.template.response import TemplateResponse
-from django.urls import reverse
-from django.utils.encoding import force_bytes, force_text
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode, is_safe_url
+from django.urls import reverse_lazy
+from django.utils.encoding import force_bytes, force_str
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views.generic import View
 from teams.models import TeamInvite
 from .forms import CreateUserForm, EditProfileForm, SortForm
 from .models import UserProfile, Notification
 from .tokens import account_activation_token
-from django.conf import Settings
 
 
-def login(request, template_name='profiles/login_form.html',
-          redirect_field_name=REDIRECT_FIELD_NAME,
-          authentication_form=AuthenticationForm,
-          current_app=None, extra_context=None):
-    """
-    Displays the login form and handles the login action.
-    """
-    redirect_to = request.POST.get(redirect_field_name,
-                                   request.GET.get(redirect_field_name, ''))
-
-    if request.method == "POST":
-        form = authentication_form(request, data=request.POST)
-        if form.is_valid():
-            ''' reCAPTCHA validation '''
-            recaptcha_response = request.POST.get('g-recaptcha-response')
-            data = {
-                'secret': settings.GOOGLE_RECAPTCHA_SECRET_KEY,
-                'response': recaptcha_response
-            }
-
-            r = requests.post('https://www.google.com/recaptcha/api/siteverify', data=data)
-            result = r.json()
-
-            ''' End reCAPTCHA validation'''
-            if result['success']:
-                if not request.POST.get('remember me', None):
-                    request.session.set_expiry(0)
-                # Ensure the user-originating redirection url is safe.
-                if not is_safe_url(url=redirect_to, allowed_hosts=settings.ALLOWED_HOSTS):
-                    redirect_to = resolve_url(settings.LOGIN_REDIRECT_URL)
-
-                # Okay, security check complete. Log the user in.
-                auth_login(request, form.get_user())
-
-                return HttpResponseRedirect(redirect_to)
-            else:
-                messages.error(request, 'Invalid or missing reCAPTCHA. Please try again.')
-        else:
-            messages.error(request, message='Error trying to log you in')
-
-    else:
-        form = authentication_form(request)
-
-    current_site = get_current_site(request)
-
-    context = {
-        'form': form,
-        redirect_field_name: redirect_to,
-        'site': current_site,
-        'site_name': current_site.name,
-        'site_key': settings.GOOGLE_RECAPTCHA_SITE_KEY
-    }
-    if extra_context is not None:
-        context.update(extra_context)
-
-    if current_app is not None:
-        request.current_app = current_app
-
-    return TemplateResponse(request, 'profiles/login_form.html', context)
+class LoginForm(AuthenticationForm):
+    remember_me = forms.BooleanField(required=False)
 
 
-def logout(request, next_page=None,
-           redirect_field_name=REDIRECT_FIELD_NAME,
-           current_app=None, extra_context=None):
-    """
-    Logs out the user and displays 'You are logged out' message.
-    """
-    auth_logout(request)
+class LoginView(DjangoLoginView):
+    template_name = 'profiles/login_form.html'
+    authentication_form = LoginForm
 
-    if next_page is not None:
-        next_page = resolve_url(next_page)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['site_key'] = settings.GOOGLE_RECAPTCHA_SITE_KEY
+        return context
 
-    if (redirect_field_name in request.POST or
-            redirect_field_name in request.GET):
-        next_page = request.POST.get(redirect_field_name,
-                                     request.GET.get(redirect_field_name))
-        # Security check -- don't allow redirection to a different host.
-        if not is_safe_url(url=next_page, allowed_hosts=request.get_host()):
-            next_page = request.path
+    def form_valid(self, form):
+        ''' reCAPTCHA validation '''
+        recaptcha_response = self.request.POST.get('g-recaptcha-response')
+        data = {
+            'secret': settings.GOOGLE_RECAPTCHA_SECRET_KEY,
+            'response': recaptcha_response
+        }
 
-    if next_page:
-        # Redirect to this page until the session has been cleared.
-        return HttpResponseRedirect(next_page)
+        r = requests.post('https://www.google.com/recaptcha/api/siteverify', data=data)
+        result = r.json()
 
-    current_site = get_current_site(request)
-    context = {
-        'site': current_site,
-        'site_name': current_site.name,
-    }
-    if extra_context is not None:
-        context.update(extra_context)
+        ''' End reCAPTCHA validation'''
+        if not result['success']:
+            messages.error(self.request, 'Invalid or missing reCAPTCHA. Please try again.')
+            return self.form_invalid(form)
 
-    if current_app is not None:
-        request.current_app = current_app
+        # If the "remember me" checkbox is not checked, the session cookie
+        # expires when the browser closes instead of after SESSION_COOKIE_AGE.
+        if not form.cleaned_data.get('remember_me'):
+            self.request.session.set_expiry(0)
 
-    return redirect('index')
+        return super().form_valid(form)
 
 
-def password_reset(request, is_admin_site=False,
-                   subject_template_name='registration/password_reset_subject.txt',
-                   password_reset_form=PasswordResetForm,
-                   token_generator=default_token_generator,
-                   post_reset_redirect=None,
-                   from_email=None,
-                   current_app=None,
-                   extra_context=None,
-                   html_email_template_name=None):
-    if post_reset_redirect is None:
-        post_reset_redirect = reverse('password_reset_done')
-    else:
-        post_reset_redirect = resolve_url(post_reset_redirect)
-    if request.method == "POST":
-        form = password_reset_form(request.POST)
-        if form.is_valid():
-            opts = {
-                'use_https': request.is_secure(),
-                'token_generator': token_generator,
-                'from_email': settings.FROM_EMAIL,
-                'email_template_name': 'profiles/reset_email.html',
-                'subject_template_name': subject_template_name,
-                'request': request,
-                'html_email_template_name': html_email_template_name,
-            }
-            if is_admin_site:
-                opts = dict(opts, domain_override=request.get_host())
-            form.save(**opts)
-            return HttpResponseRedirect(post_reset_redirect)
-    else:
-        form = password_reset_form()
-    context = {
-        'form': form,
-    }
-    if extra_context is not None:
-        context.update(extra_context)
+class LogoutView(DjangoLogoutView):
+    # Django 4.2's LogoutView only accepts POST, but the site templates link
+    # to /logout/ with a plain GET anchor, so accept both.
+    http_method_names = ["get", "post", "options"]
 
-    if current_app is not None:
-        request.current_app = current_app
-
-    return TemplateResponse(request, 'profiles/reset_form.html', context)
+    def get(self, request, *args, **kwargs):
+        return self.post(request, *args, **kwargs)
 
 
-def password_reset_done(request, current_app=None, extra_context=None):
-    context = {
-
-    }
-    if extra_context is not None:
-        context.update(extra_context)
-
-    if current_app is not None:
-        request.current_app = current_app
-
-    return TemplateResponse(request, 'profiles/reset_done.html', context)
+class PasswordResetView(DjangoPasswordResetView):
+    template_name = 'profiles/reset_form.html'
+    email_template_name = 'profiles/reset_email.html'
+    subject_template_name = 'registration/password_reset_subject.txt'
+    from_email = settings.FROM_EMAIL
 
 
-def password_reset_confirm(request, uidb64=None, token=None,
-                           token_generator=default_token_generator,
-                           set_password_form=SetPasswordForm,
-                           post_reset_redirect=None,
-                           current_app=None, extra_context=None):
-    """
-    View that checks the hash in a password reset link and presents a
-    form for entering a new password.
-    """
-    user_model = get_user_model()
-    assert uidb64 is not None and token is not None  # checked by URLconf
-    if post_reset_redirect is None:
-        post_reset_redirect = reverse('password_reset_complete')
-    else:
-        post_reset_redirect = resolve_url(post_reset_redirect)
-    try:
-        # urlsafe_base64_decode() decodes to bytestring on Python 3
-        uid = force_text(urlsafe_base64_decode(uidb64))
-        user = user_model._default_manager.get(pk=uid)
-    except (TypeError, ValueError, OverflowError, user_model.DoesNotExist):
-        user = None
-
-    if user is not None and token_generator.check_token(user, token):
-        validlink = True
-        if request.method == 'POST':
-            form = set_password_form(user, request.POST)
-            if form.is_valid():
-                form.save()
-                return HttpResponseRedirect(post_reset_redirect)
-        else:
-            form = set_password_form(user)
-    else:
-        validlink = False
-        form = None
-    context = {
-        'form': form,
-        'validlink': validlink,
-    }
-    if extra_context is not None:
-        context.update(extra_context)
-
-    if current_app is not None:
-        request.current_app = current_app
-
-    return TemplateResponse(request, 'profiles/reset_confirm.html', context)
+class PasswordResetDoneView(DjangoPasswordResetDoneView):
+    template_name = 'profiles/reset_done.html'
 
 
-def password_reset_complete(request, current_app=None, extra_context=None):
-    context = {
-        'login_url': resolve_url(settings.LOGIN_URL),
-    }
-    if extra_context is not None:
-        context.update(extra_context)
+class PasswordResetConfirmView(DjangoPasswordResetConfirmView):
+    template_name = 'profiles/reset_confirm.html'
+    success_url = reverse_lazy('password_reset_complete')
 
-    if current_app is not None:
-        request.current_app = current_app
 
-    return TemplateResponse(request, 'profiles/reset_complete.html', context)
+class PasswordResetCompleteView(DjangoPasswordResetCompleteView):
+    template_name = 'profiles/reset_complete.html'
 
 
 def profile(request, urlusername):
@@ -283,6 +141,8 @@ def edit_profile(request):
             form.save()
             messages.success(request, "Profile updated successfully")
             return redirect('profiles:profile_no_username')
+        else:
+            return render(request, 'profiles/edit_profile.html', {'form': form, 'userprofile': userprofileobj})
     else:
         userprofileobj = UserProfile.objects.get(user__username=request.user.username)
         form = EditProfileForm(instance=userprofileobj)
@@ -363,7 +223,7 @@ class CreateUserFormView(View):
 
 def activate(request, uidb64, token):
     try:
-        uid = force_text(urlsafe_base64_decode(uidb64))
+        uid = force_str(urlsafe_base64_decode(uidb64))
         # a = uidb64.split("'")[1]
         # uid = urlsafe_base64_decode(a).decode()
         user = User.objects.get(pk=uid)
@@ -391,7 +251,11 @@ class LeaderboardView(View):
 
     def post(self, request, **kwargs):
         form = self.form_class(request.POST)
-        form.is_valid()
+        if not form.is_valid():
+            user_list = UserProfile.objects.order_by('-xp')
+            messages.error(request, 'No sort option selected, sorting by descending xp')
+            return render(request, 'teams/leaderboard.html',
+                          {'user_list': user_list, 'form': self.form_class(None)})
         if form.cleaned_data['sort_xp_asc']:
             user_list = UserProfile.objects.order_by('xp')
             messages.success(request, "Sorted by ascending XP")
@@ -431,7 +295,7 @@ class LeaderboardView(View):
 
 def notifications_list(request):
     if request.user.is_anonymous:
-        messages.error('You must be signed in to view your notifications', request)
+        messages.error(request, 'You must be signed in to view your notifications')
         return redirect('index')
     else:
         profile = UserProfile.objects.get(user=request.user)

@@ -7,8 +7,8 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
-from django.utils.encoding import force_bytes, force_text
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode, is_safe_url
+from django.utils.encoding import force_bytes, force_str
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
 from profiles.tokens import account_activation_token
 from profiles.models import BannedUser
@@ -164,6 +164,8 @@ def modifyuser(request, urlusername):
                 form.save()
                 messages.success(request, 'User has been updated')
                 return redirect('staff:users')
+            else:
+                return render(request, 'staff/profiles/user_edit.html', {'form': form})
 
 
 def userdetail(request, urlusername):
