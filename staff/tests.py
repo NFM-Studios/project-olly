@@ -1,3 +1,4 @@
+from django.contrib.auth.models import AnonymousUser
 from django.test import TestCase, RequestFactory
 
 from .views import *
@@ -197,4 +198,60 @@ class StaffBasicTest1(TestCase):
         response = users(request)
         self.assertEqual(response.status_code, 200)
         print('Completed staff:partner_list')
+
+
+class StaffAuthorizationTest(TestCase):
+
+    def setUp(self):
+        self.factory = RequestFactory()
+        self.staff_user = User.objects.create_user(username='staffuser', email='staff@nfmstudios.com',
+                                                  password='password')
+        profile = UserProfile.objects.get(user__username=self.staff_user.username)
+        profile.user_type = 'admin'
+        profile.save()
+        self.regular_user = User.objects.create_user(username='regularuser', email='regular@nfmstudios.com',
+                                                    password='password')
+        static = StaticInfo()
+        static.save()
+
+    def test_staff_user_passes(self):
+        request = self.factory.get(reverse('staff:index'))
+        request.user = self.staff_user
+        response = staffindex(request)
+        self.assertEqual(response.status_code, 200)
+
+    def test_regular_user_gets_403(self):
+        request = self.factory.get(reverse('staff:index'))
+        request.user = self.regular_user
+        response = staffindex(request)
+        self.assertEqual(response.status_code, 403)
+
+    def test_anonymous_user_redirected_to_login(self):
+        request = self.factory.get(reverse('staff:index'))
+        request.user = AnonymousUser()
+        response = staffindex(request)
+        self.assertEqual(response.status_code, 302)
+        self.assertIn('/login/', response.url)
+
+    def test_user_without_profile_gets_403(self):
+        UserProfile.objects.get(user=self.regular_user).delete()
+        request = self.factory.get(reverse('staff:index'))
+        request.user = self.regular_user
+        response = staffindex(request)
+        self.assertEqual(response.status_code, 403)
+
+    def test_url_level_regular_user_gets_403(self):
+        self.client.force_login(self.regular_user)
+        response = self.client.get(reverse('staff:index'))
+        self.assertEqual(response.status_code, 403)
+
+    def test_url_level_anonymous_redirected_to_login(self):
+        response = self.client.get(reverse('staff:index'))
+        self.assertEqual(response.status_code, 302)
+        self.assertIn('/login/', response.url)
+
+    def test_url_level_staff_user_passes(self):
+        self.client.force_login(self.staff_user)
+        response = self.client.get(reverse('staff:index'))
+        self.assertEqual(response.status_code, 200)
 
