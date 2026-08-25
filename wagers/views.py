@@ -8,6 +8,7 @@ from .forms import WagerRequestForm, WagerChallengeForm
 from .models import *
 from matches.models import Match
 from teams.models import Team
+from django.db import transaction
 from django.db.models import Q
 from django.utils import timezone
 #import pytz
@@ -89,33 +90,17 @@ class WagerRequestCreateView(View):
             if form.cleaned_data['credits'] == 0:
                 messages.error(self.request, "You cannot wager 0 credits")
                 return redirect('wagers:list')
-            if form.cleaned_data['teamformat'] == 0:
-                min = 1
-            if form.cleaned_data['teamformat'] == 1:
-                min = 2
-            if form.cleaned_data['teamformat'] == 2:
-                min = 3
-            if form.cleaned_data['teamformat'] == 3:
-                min = 4
-            if form.cleaned_data['teamformat'] == 4:
-                min = 5
-            if form.cleaned_data['teamformat'] == 5:
-                min = 6
+            min_players = myrequest.get_min_team_size()
+            if min_players is None:
+                messages.error(self.request, "Invalid team format selected")
+                return redirect('wagers:list')
 
-            if form.cleaned_data['team'].get_players_count() < min:
+            if form.cleaned_data['team'].get_players_count() < min_players:
                 messages.error(self.request,
                                "Error. Your team does not have enough players on it to play in this specific format.")
                 return redirect('wagers:list')
-            # myrequest.creator = request.user
-            """myrequest.credits = form.cleaned_data['credits']
-            myrequest.game = form.cleaned_data['game']
-            myrequest.platform = form.cleaned_data['platform']
-            myrequest.bestof = form.cleaned_data['bestof']
-            myrequest.teamformat = form.cleaned_data['teamformat']
-            myrequest.info = form.cleaned_data['info']
-            myrequest.team = form.cleaned_data['team']"""
             myrequest.creator = self.request.user
-            myrequest.expiration = datetime.utcnow() + timedelta(minutes=30)
+            myrequest.expiration = timezone.now() + timedelta(minutes=30)
             myrequest.save()
             messages.success(self.request, "Your Wager Request has been created!")
             return redirect('wagers:list')
@@ -138,19 +123,26 @@ class WagerChallengeCreate(View):
         myrequest = WagerRequest.objects.get(pk=pk)
         challenge = form.instance
         challenge.creator = self.request.user
-        if form.is_valid():
-            challenger = UserProfile.objects.get(user__username=challenge.creator)
-            if challenger.credits < myrequest.credits:
-                messages.error(self.request, "You do not have enough credits in your account to challenge this team")
-                return redirect('wagers:list')
-            if challenge.team == myrequest.team:
-                messages.error(self.request, "A team cannot challenge it's own wager")
-                return redirect('wagers:list')
-            for y in challenge.team.players.all():
-                for x in myrequest.team.players.all():
-                    if x == y:
-                        messages.error(self.request, "A player cannot be on both teams at the same time")
-                        return redirect('wagers:list')
+        if not form.is_valid():
+            messages.error(self.request, "Something went wrong (this shouldn't be seen")
+            return redirect('wagers:request_detail', pk=pk)
+        challenger = UserProfile.objects.get(user__username=challenge.creator)
+        creator_profile = UserProfile.objects.get(user=myrequest.creator)
+        if challenger.credits < myrequest.credits:
+            messages.error(self.request, "You do not have enough credits in your account to challenge this team")
+            return redirect('wagers:list')
+        if creator_profile.credits < myrequest.credits:
+            messages.error(self.request, "The wager creator does not have enough credits in their account")
+            return redirect('wagers:list')
+        if challenge.team == myrequest.team:
+            messages.error(self.request, "A team cannot challenge it's own wager")
+            return redirect('wagers:list')
+        for y in challenge.team.players.all():
+            for x in myrequest.team.players.all():
+                if x == y:
+                    messages.error(self.request, "A player cannot be on both teams at the same time")
+                    return redirect('wagers:list')
+        with transaction.atomic():
             challenge.save()
             myrequest.challenge_accepted = True
             myrequest.challenge = challenge
@@ -165,15 +157,12 @@ class WagerChallengeCreate(View):
             myrequest.wmatch = wmatch
             myrequest.save()
             challenger.credits = challenger.credits - myrequest.credits
-            challenge.save()
-            myrequest.creator.credits = myrequest.creator.credits - myrequest.credits
-            myrequest.save()
-            messages.success(request,
-                             "Wager Challenge Created! You have 30 minutes to play your match and report the scores")
-            return redirect('wagers:match_detail', pk=wmatch.pk)
-
-        messages.error(self.request, "Something went wrong (this shouldn't be seen")
-        return redirect('wagers:request_detail', pk=pk)
+            challenger.save()
+            creator_profile.credits = creator_profile.credits - myrequest.credits
+            creator_profile.save()
+        messages.success(request,
+                         "Wager Challenge Created! You have 30 minutes to play your match and report the scores")
+        return redirect('wagers:match_detail', pk=wmatch.pk)
 
 
 class WagerMatchDetail(View):
@@ -195,15 +184,15 @@ class MyWagersList(ListView):
         # current = pytz.UTC
         # current = datetime.utcnow()
         user = self.request.user
-        teams = Team.objects.filter(Q(captain__username__contains=user) | Q(founder=user))
-        old_requests = WagerRequest.objects.filter(Q(expired=True) | Q(challenge_accepted=True))
-        for x in old_requests:
-            for y in teams:
-                if x.team == y:
-                    old_results = old_requests + x
-
-        old_matches = WagerMatch.objects.filter()
-        return render(request, 'wagers/wager_request_list.html', {'wager_list': final})
+        teams = Team.objects.filter(Q(captain=user) | Q(founder=user))
+        wager_list = WagerRequest.objects.filter(team__in=teams).order_by('-posted')
+        # mark any expired wager requests for the user's teams as expired
+        current = timezone.now()
+        for x in wager_list:
+            if x.expiration is not None and x.expiration < current:
+                x.expired = True
+                x.save()
+        return render(request, 'wagers/wager_request_list.html', {'wager_list': wager_list})
 
     def get_queryset(self):
         return WagerRequest.objects.filter(challenge_accepted=False, expired=False)

@@ -152,18 +152,28 @@ class MyTeamDetailView(DetailView):
         self.form = TeamInviteFormPost(request.POST)
         if self.form.is_valid():
             self.form_valid(self.form)
-            if not request.user.xbl_verified:
+            profile = UserProfile.objects.get(user=request.user)
+            if profile.xbl == 'No Xbox Live Linked':
                 messages.warning(request, "Xbox Live is not verified")
-            if not request.user.psn_verified:
+            if profile.psn == 'No PSN Linked':
                 messages.warning(request, "PSN is not verified")
             return HttpResponseRedirect(reverse('teams:detail', args=[self.kwargs['pk']]))
         return super(MyTeamDetailView, self).get(request, *args, **kwargs)
 
     def form_valid(self, form):
         invite = form.instance
-        invite.inviter = self.request.inviter
-        invite.user = self.request.user
-        invite.team = self.request.team
+        try:
+            invitee_profile = UserProfile.objects.get(user__username=form.cleaned_data['user'])
+        except UserProfile.DoesNotExist:
+            messages.error(self.request, "That isn't a valid user")
+            return None
+        invite.inviter = self.request.user
+        invite.user = invitee_profile.user
+        invite.team = form.cleaned_data['team']
+        invite.captain = form.cleaned_data.get('captain', False)
+        invite.expire = timezone.now() + datetime.timedelta(days=1)
+        invite.save()
+        return invite
 
     def get_queryset(self):
         return Team.objects.filter(
@@ -229,17 +239,20 @@ class TeamInviteCreateView(View):
             messages.error(request, "An admin has disabled team invite creation")
             return redirect('teams:list')
         form = TeamInviteFormPost(request.POST)
+        if not form.is_valid():
+            messages.error(request, "Invalid invite submission")
+            return render(request, 'teams/team_invite_player.html', {'form': form})
         team = Team.objects.get(id=form.data['team'])
         invite = get_invites(form)
         captains = team.captain.all()
-        if (request.user == team.founder) or (request.user.username in captains):
+        if (request.user == team.founder) or (request.user in captains):
             try:
                 invitee_profile = UserProfile.objects.get(user__username=form.data['user'])
                 invitee = invitee_profile.user
-            except:
+            except (KeyError, ObjectDoesNotExist):
                 messages.error(request, "That isn't a valid user")
                 return render(request, 'teams/team_invite_player.html', {'form': form})
-            query = invite.filter(user=invitee.user, team=form.data['team'])
+            query = invite.filter(user=invitee, team=form.data['team'])
             if query.exists():
                 messages.error(request, "That user has already been invited to this team")
                 return redirect('teams:detail', pk=team.pk)
@@ -247,14 +260,9 @@ class TeamInviteCreateView(View):
                 TeamInvite = form.instance
                 TeamInvite.inviter = self.request.user
                 TeamInvite.team = team
-                TeamInvite.user = invitee.user
+                TeamInvite.user = invitee
                 TeamInvite.expire = timezone.now() + datetime.timedelta(days=1)
-                #TODO remove try except
-                try:
-                    if form.data['captain']:
-                        TeamInvite.captain = True
-                except:
-                    pass
+                TeamInvite.captain = form.cleaned_data.get('captain', False)
                 # lets send a notification
                 TeamInvite.save()
                 notif = UserProfile.objects.get(user=TeamInvite.user)
@@ -307,31 +315,33 @@ class LeaveTeamView(View):
         if settings.freeze_team_leaves:
             messages.error(request, "An admin has freezed leaving teams")
             return redirect('teams:detail', pk)
-        if form.data['confirmed']:
-            try:
-                team = Team.objects.get(pk=pk)
-            except ObjectDoesNotExist:
-                messages.error(request, 'Team cannot be found')
-                return redirect('teams:list')
-            if request.user in team.players.all():
-                team.players.remove(request.user)
-                messages.success(request, 'Successfully removed you from the players role')
-            if request.user in team.captain.all():
-                team.captain.remove(request.user)
-                messages.success(request, 'Successfully removed you from the captain role')
-            if request.user is team.founder.all():
-                # founders cannot leave their team. they must delete the team
-                messages.error(request,
-                               'You cannot leave the team you founded, you can only delete it.')
-            if not (request.user in team.players.all()) or not (request.user in team.captain.all()) or not (
-                    request.user is team.founder.all()):
-                messages.error(request, "You don't appear to be on this team")
-                return redirect('teams:detail', pk=pk)
-            return redirect('teams:list')
-        else:
+        if not form.is_valid():
+            messages.error(request, "Invalid form submission")
+            return redirect('teams:detail', pk)
+        if not form.cleaned_data.get('confirmed'):
             messages.error(request,
                            "You submitted without confirming that you wanted to leave, redirecting to team detail")
             return redirect('teams:detail', pk=pk)
+        try:
+            team = Team.objects.get(pk=pk)
+        except ObjectDoesNotExist:
+            messages.error(request, 'Team cannot be found')
+            return redirect('teams:list')
+        if request.user == team.founder:
+            # founders cannot leave their team. they must delete the team
+            messages.error(request,
+                           'You cannot leave the team you founded, you can only delete it.')
+            return redirect('teams:detail', pk=pk)
+        if request.user not in team.players.all() and request.user not in team.captain.all():
+            messages.error(request, "You don't appear to be on this team")
+            return redirect('teams:detail', pk=pk)
+        if request.user in team.players.all():
+            team.players.remove(request.user)
+            messages.success(request, 'Successfully removed you from the players role')
+        if request.user in team.captain.all():
+            team.captain.remove(request.user)
+            messages.success(request, 'Successfully removed you from the captain role')
+        return redirect('teams:list')
 
 
 class RemoveUserView(View):
@@ -407,7 +417,7 @@ class DissolveTeamView(View):
             if settings.freeze_team_deletion:
                 messages.error(request, "An admin has disabled team deletion")
                 return redirect('teams:detail', pk)
-            form = DissolveTeamForm(request, pk)
+            form = DissolveTeamForm()
             return render(request, 'teams/team_dissolve.html', {'form': form, 'pk': pk})
         else:
             messages.error(request, "Only the team's founder can dissolve the team")
@@ -415,6 +425,7 @@ class DissolveTeamView(View):
 
     def post(self, request, pk):
         team = Team.objects.get(id=pk)
+        settings = OllySetting.objects.get(pk=1)
         if request.user == team.founder:
             if settings.freeze_team_deletion:
                 messages.error(request, "An admin has disabled team deletion")
@@ -427,7 +438,7 @@ class DissolveTeamView(View):
                         invites = list(TeamInvite.objects.filter(team=team))
                         for invite in invites:
                             invite.delete()
-                    except:
+                    except ObjectDoesNotExist:
                         messages.error(request, "Warning: Couldn't delete team invites")
                     messages.success(request, 'Dissolved team %s' % team)
                     team.delete()
