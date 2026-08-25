@@ -11,5 +11,12 @@
     <h3>${{ product.cost|floatformat:2|intcomma }}</h3>
     <br>
     {{ form.render }}
+    {% if stripe_enabled %}
+    <br><br>
+    <form method="post" action="{% url 'store:stripe_checkout' product_pk %}">
+        {% csrf_token %}
+        <button class="btn btn-primary" type="submit"><i class="fa-brands fa-stripe"></i> Buy with Stripe</button>
+    </form>
+    {% endif %}
 
 {% endblock %}

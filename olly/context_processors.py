@@ -16,4 +16,5 @@ def site_info(request):
             'SocialInfo': SocialInfo,
             'ESPORTS_MODE': settings.ESPORTS_MODE,
             'STORE_ENABLED': settings.STORE_ENABLED,
-            'WAGERS_ENABLED': settings.WAGERS_ENABLED}
+            'WAGERS_ENABLED': settings.WAGERS_ENABLED,
+            'stripe_enabled': settings.STRIPE_ENABLED}

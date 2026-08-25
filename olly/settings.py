@@ -98,6 +98,19 @@ try:
 except (KeyError, IndexError):
     PAYPAL_EMAIL = 'none@example.com'
 
+# Stripe payments (optional; disabled unless stripe_enabled=True)
+try:
+    if os.environ['stripe_enabled'] == 'True':
+        STRIPE_ENABLED = True
+    else:
+        STRIPE_ENABLED = False
+except KeyError:
+    STRIPE_ENABLED = False
+
+STRIPE_PUBLISHABLE_KEY = os.environ.get('stripe_publishable_key', '')
+STRIPE_SECRET_KEY = os.environ.get('stripe_secret_key', '')
+STRIPE_WEBHOOK_SECRET = os.environ.get('stripe_webhook_secret', '')
+
 
 # Captcha
 GOOGLE_RECAPTCHA_SECRET_KEY = os.environ['google_recaptcha_secret_key']

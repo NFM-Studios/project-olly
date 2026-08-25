@@ -15,6 +15,7 @@
             <th scope="row">ID</th>
             <th>Product Name</th>
             <th>Price</th>
+            {% if stripe_enabled %}<th>Buy</th>{% endif %}
             </thead>
         </tr>
     {% if products.count == 0 %}
@@ -26,6 +27,14 @@
                 <td scope="row"><a href="{% url 'store:detail' pk=product.id %}">#{{ product.id }}</a></td>
                 <td>{{ product.name }}</td>
                 <td>${{ product.amount|floatformat:2|intcomma }}</td>
+                {% if stripe_enabled %}
+                <td>
+                    <form method="post" action="{% url 'store:stripe_checkout' product.pk %}">
+                        {% csrf_token %}
+                        <button class="btn btn-primary btn-sm" type="submit"><i class="fa-brands fa-stripe"></i> Buy with Stripe</button>
+                    </form>
+                </td>
+                {% endif %}
 
 
             </tr>
