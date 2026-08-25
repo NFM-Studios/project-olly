@@ -1,3 +1,5 @@
+from staff.auth import staff_required
+
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.core.exceptions import ObjectDoesNotExist
@@ -8,367 +10,291 @@ import datetime
 from staff.forms import *
 
 
+@staff_required
 def create_league(request):
-    user = UserProfile.objects.get(user__username=request.user.username)
-    allowed = ['superadmin', 'admin']
-    if user.user_type not in allowed:
-        return render(request, 'staff/permissiondenied.html')
+    if request.method == 'GET':
+        form = CreateLeagueForm
+        time = datetime.datetime.utcnow()
+        return render(request, 'staff/leagues/league_create.html', {'form': form, 'time': time})
     else:
-        if request.method == 'GET':
-            form = CreateLeagueForm
-            time = datetime.datetime.utcnow()
-            return render(request, 'staff/leagues/league_create.html', {'form': form, 'time': time})
+        # the form is posting, lets start validating
+        form = CreateLeagueForm(request.POST, request.FILES)
+        if form.is_valid():
+            league = form.instance
+            league.save()
+            messages.success(request, 'Created League')
+            return redirect('staff:list_league')
         else:
-            # the form is posting, lets start validating
-            form = CreateLeagueForm(request.POST, request.FILES)
-            if form.is_valid():
-                league = form.instance
-                league.save()
-                messages.success(request, 'Created League')
-                return redirect('staff:list_league')
-            else:
-                form = CreateLeagueForm(request.POST)
-                return render(request, 'staff/leagues/league_create.html', {'form': form})
+            form = CreateLeagueForm(request.POST)
+            return render(request, 'staff/leagues/league_create.html', {'form': form})
 
 
+@staff_required
 def list_league(request):
-    user = UserProfile.objects.get(user__username=request.user.username)
-    allowed = ['superadmin', 'admin']
-    if user.user_type not in allowed:
-        return render(request, 'staff/permissiondenied.html')
-    else:
-        leagues = League.objects.all()
-        time = datetime.datetime.utcnow()
-        return render(request, 'staff/leagues/league_list.html', {'leagues': leagues, 'time': time})
+    leagues = League.objects.all()
+    time = datetime.datetime.utcnow()
+    return render(request, 'staff/leagues/league_list.html', {'leagues': leagues, 'time': time})
 
 
+@staff_required
 def detail_league(request, pk):
-    user = UserProfile.objects.get(user__username=request.user.username)
-    allowed = ['superadmin', 'admin']
-    if user.user_type not in allowed:
-        return render(request, 'staff/permissiondenied.html')
-    else:
-        league = League.objects.get(pk=pk)
-        divisions = league.divisions.all()
-        time = datetime.datetime.utcnow()
-        return render(request, 'staff/leagues/league_detail.html',
-                      {'league': league, 'divisions': divisions, 'time': time})
+    league = League.objects.get(pk=pk)
+    divisions = league.divisions.all()
+    time = datetime.datetime.utcnow()
+    return render(request, 'staff/leagues/league_detail.html',
+                  {'league': league, 'divisions': divisions, 'time': time})
 
 
 # list all the teams in the league and the divisions
+@staff_required
 def league_teams(request, pk):
-    user = UserProfile.objects.get(user__username=request.user.username)
-    allowed = ['superadmin', 'admin']
-    if user.user_type not in allowed:
-        return render(request, 'staff/permissiondenied.html')
-    else:
-        league = League.objects.get(pk=pk)
-        divisions = league.divisions.all()
-        return render(request, 'staff/leagues/league_teams.html', {'league': league, 'divisions': divisions})
+    league = League.objects.get(pk=pk)
+    divisions = league.divisions.all()
+    return render(request, 'staff/leagues/league_teams.html', {'league': league, 'divisions': divisions})
 
 
 # used for adding teams to a league before the league is launched
+@staff_required
 def league_teams_add(request, pk):
-    user = UserProfile.objects.get(user__username=request.user.username)
-    allowed = ['superadmin', 'admin']
-    if user.user_type not in allowed:
-        return render(request, 'staff/permissiondenied.html')
-    else:
-        league = League.objects.get(pk=pk)
-        return render(request, 'staff/leagues/league_teams_add.html', {'league': league})
+    league = League.objects.get(pk=pk)
+    return render(request, 'staff/leagues/league_teams_add.html', {'league': league})
 
 
+@staff_required
 def edit_league(request, pk):
-    user = UserProfile.objects.get(user__username=request.user.username)
-    allowed = ['superadmin', 'admin']
-    if user.user_type not in allowed:
-        return render(request, 'staff/permissiondenied.html')
-    else:
-        if request.method == 'POST':
-            league = League.objects.get(pk=pk)
-            form = CreateLeagueForm(request.POST, request.FILES, instance=league)
-            if form.is_valid():
-                form.save()
-                messages.success(request, 'League has been updated')
-                return redirect('staff:list_league')
-            else:
-                messages.error(request, 'Form validation error')
-                return redirect('staff:list_league')
+    if request.method == 'POST':
+        league = League.objects.get(pk=pk)
+        form = CreateLeagueForm(request.POST, request.FILES, instance=league)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'League has been updated')
+            return redirect('staff:list_league')
         else:
-            league = League.objects.get(pk=pk)
-            form = CreateLeagueForm(instance=league)
-            time = datetime.datetime.utcnow()
-            return render(request, 'staff/leagues/league_edit.html',
-                          {'form': form, 'pk': pk, 'league': league, 'time': time})
+            messages.error(request, 'Form validation error')
+            return redirect('staff:list_league')
+    else:
+        league = League.objects.get(pk=pk)
+        form = CreateLeagueForm(instance=league)
+        time = datetime.datetime.utcnow()
+        return render(request, 'staff/leagues/league_edit.html',
+                      {'form': form, 'pk': pk, 'league': league, 'time': time})
 
 
+@staff_required
 def list_league_settings(request):
-    user = UserProfile.objects.get(user__username=request.user.username)
-    allowed = ['superadmin', 'admin']
-    if user.user_type not in allowed:
-        return render(request, 'staff/permissiondenied.html')
-    else:
-        settings = LeagueSettings.objects.all()
-        return render(request, 'staff/leagues/league_settings_list.html', {'settings': settings})
+    settings = LeagueSettings.objects.all()
+    return render(request, 'staff/leagues/league_settings_list.html', {'settings': settings})
 
 
+@staff_required
 def create_league_settings(request):
-    user = UserProfile.objects.get(user__username=request.user.username)
-    allowed = ['superadmin', 'admin']
-    if user.user_type not in allowed:
-        return render(request, 'staff/permissiondenied.html')
+    if request.method == 'GET':
+        form = CreateLeagueSettingsForm
+        return render(request, 'staff/leagues/league_settings_create.html', {'form': form})
     else:
-        if request.method == 'GET':
-            form = CreateLeagueSettingsForm
-            return render(request, 'staff/leagues/league_settings_create.html', {'form': form})
+        form = CreateLeagueSettingsForm(request.POST)
+        if form.is_valid():
+            settings = form.instance
+            settings.save()
+            messages.success(request, 'Created League Settings')
+            return redirect('staff:list_league_settings')
         else:
+            messages.error(request, 'A form validation error has occured')
             form = CreateLeagueSettingsForm(request.POST)
-            if form.is_valid():
-                settings = form.instance
-                settings.save()
-                messages.success(request, 'Created League Settings')
-                return redirect('staff:list_league_settings')
-            else:
-                messages.error(request, 'A form validation error has occured')
-                form = CreateLeagueSettingsForm(request.POST)
-                return render(request, 'staff/leagues/league_settings_create.html', {'form': form})
+            return render(request, 'staff/leagues/league_settings_create.html', {'form': form})
 
 
+@staff_required
 def edit_league_settings(request, pk):
-    user = UserProfile.objects.get(user__username=request.user.username)
-    allowed = ['superadmin', 'admin']
-    if user.user_type not in allowed:
-        return render(request, 'staff/permissiondenied.html')
-    else:
-        if request.method == 'POST':
-            league = LeagueSettings.objects.get(pk=pk)
-            form = EditLeagueSettingsForm(request.POST, request.FILES, instance=league)
-            if form.is_valid():
-                form.save()
-                messages.success(request, 'League Settings has been updated')
-                return redirect('staff:list_league_settings')
-            else:
-                return render(request, 'staff/leagues/league_settings_edit.html', {'form': form})
+    if request.method == 'POST':
+        league = LeagueSettings.objects.get(pk=pk)
+        form = EditLeagueSettingsForm(request.POST, request.FILES, instance=league)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'League Settings has been updated')
+            return redirect('staff:list_league_settings')
         else:
-            league = LeagueSettings.objects.get(pk=pk)
-            form = EditLeagueSettingsForm(instance=league)
-            return render(request, 'staff/leagues/league_settings_edit.html', {'form': form, 'pk': pk})
+            return render(request, 'staff/leagues/league_settings_edit.html', {'form': form})
+    else:
+        league = LeagueSettings.objects.get(pk=pk)
+        form = EditLeagueSettingsForm(instance=league)
+        return render(request, 'staff/leagues/league_settings_edit.html', {'form': form, 'pk': pk})
 
 
+@staff_required
 def detail_league_settings(request, pk):
-    user = UserProfile.objects.get(user__username=request.user.username)
-    allowed = ['superadmin', 'admin']
-    if user.user_type not in allowed:
-        return render(request, 'staff/permissiondenied.html')
-    else:
-        settings = LeagueSettings.objects.get(pk=pk)
-        return render(request, 'staff/leagues/league_settings_detail.html', {'settings': settings})
+    settings = LeagueSettings.objects.get(pk=pk)
+    return render(request, 'staff/leagues/league_settings_detail.html', {'settings': settings})
 
 
+@staff_required
 def launch_league(request, pk):
-    user = UserProfile.objects.get(user__username=request.user.username)
-    allowed = ['superadmin', 'admin']
-    if user.user_type not in allowed:
-        return render(request, 'staff/permissiondenied.html')
-    else:
-        league = League.objects.get(pk=pk)
-        settings = league.settings
-        league.active = True
-        league.save()
-        messages.success(request, "League launched")
-        return redirect('staff:detail_league', pk=league.pk)
+    league = League.objects.get(pk=pk)
+    settings = league.settings
+    league.active = True
+    league.save()
+    messages.success(request, "League launched")
+    return redirect('staff:detail_league', pk=league.pk)
 
 
+@staff_required
 def list_division(request, pk):
-    user = UserProfile.objects.get(user__username=request.user.username)
-    allowed = ['superadmin', 'admin']
-    if user.user_type not in allowed:
-        return render(request, 'staff/permissiondenied.html')
-    else:
-        league = League.objects.get(pk=pk)
-        divisions = league.divisions.all()
-        return render(request, 'staff/leagues/league_divisions_list.html', {'league': league, 'divisions': divisions})
+    league = League.objects.get(pk=pk)
+    divisions = league.divisions.all()
+    return render(request, 'staff/leagues/league_divisions_list.html', {'league': league, 'divisions': divisions})
 
 
+@staff_required
 def detail_division(request, pk, divid):
-    user = UserProfile.objects.get(user__username=request.user.username)
-    allowed = ['superadmin', 'admin']
-    if user.user_type not in allowed:
-        return render(request, 'staff/permissiondenied.html')
-    else:
-        league = League.objects.get(pk=pk)
-        division = LeagueDivision.objects.get(pk=divid)
-        matches = division.matches.all()
-        return render(request, 'staff/leagues/league_division_detail.html',
-                      {'league': league, 'division': division, 'matches': matches})
+    league = League.objects.get(pk=pk)
+    division = LeagueDivision.objects.get(pk=divid)
+    matches = division.matches.all()
+    return render(request, 'staff/leagues/league_division_detail.html',
+                  {'league': league, 'division': division, 'matches': matches})
     # show add match, add team button
 
 
+@staff_required
 def add_division(request, pk):
-    user = UserProfile.objects.get(user__username=request.user.username)
-    allowed = ['superadmin', 'admin']
-    if user.user_type not in allowed:
-        return render(request, 'staff/permissiondenied.html')
-    else:
-        league = League.objects.get(pk=pk)
-        tempdiv = LeagueDivision()
-        tempdiv.save()
-        tempdiv.name = league.name + " Division " + str(tempdiv.pk)
-        league.divisions.add(tempdiv)
-        messages.success(request, "Division manually added")
-        return redirect('staff:detail_league', pk=pk)
+    league = League.objects.get(pk=pk)
+    tempdiv = LeagueDivision()
+    tempdiv.save()
+    tempdiv.name = league.name + " Division " + str(tempdiv.pk)
+    league.divisions.add(tempdiv)
+    messages.success(request, "Division manually added")
+    return redirect('staff:detail_league', pk=pk)
 
 
+@staff_required
 def create_divisions(request, pk):
-    user = UserProfile.objects.get(user__username=request.user.username)
-    allowed = ['superadmin', 'admin']
-    if user.user_type not in allowed:
-        return render(request, 'staff/permissiondenied.html')
+    league = League.objects.get(pk=pk)
+    needed = league.settings.num_divisions
+    existing = league.divisions.count()
+    if existing >= needed:
+        messages.error(request, 'ERROR: There are already enough divisions created')
+        return redirect('staff:list_division', pk=league.id)
     else:
-        league = League.objects.get(pk=pk)
-        needed = league.settings.num_divisions
-        existing = league.divisions.count()
-        if existing >= needed:
-            messages.error(request, 'ERROR: There are already enough divisions created')
-            return redirect('staff:list_division', pk=league.id)
-        else:
-            # lets make the divisions
-            ids = []
-            for x in range(needed - existing):
-                tempdiv = LeagueDivision()
-                tempdiv.save()
-                tempdiv.name = league.name + " Division " + str(tempdiv.pk)
-                tempdiv.save()
-                ids.append(tempdiv.pk)
-                league.divisions.add(tempdiv)
-                league.save()
-            messages.success(request, 'League divisions created with id: ' + str(ids))
-            return redirect('staff:list_division', pk=league.id)
+        # lets make the divisions
+        ids = []
+        for x in range(needed - existing):
+            tempdiv = LeagueDivision()
+            tempdiv.save()
+            tempdiv.name = league.name + " Division " + str(tempdiv.pk)
+            tempdiv.save()
+            ids.append(tempdiv.pk)
+            league.divisions.add(tempdiv)
+            league.save()
+        messages.success(request, 'League divisions created with id: ' + str(ids))
+        return redirect('staff:list_division', pk=league.id)
 
 
+@staff_required
 def division_match_add(request, pk, divid):
-    user = UserProfile.objects.get(user__username=request.user.username)
-    allowed = ['superadmin', 'admin']
-    if user.user_type not in allowed:
-        return render(request, 'staff/permissiondenied.html')
+    league = League.objects.get(pk=pk)
+    division = LeagueDivision.objects.get(pk=divid)
+    if request.method == 'POST':
+        form = AddLeagueMatchForm(request.POST)
+        if form.is_valid():
+            try:
+                away = False
+                home = False
+                awayteam = Team.objects.get(pk=form.cleaned_data['awayteam'])
+                hometeam = Team.objects.get(pk=form.cleaned_data['hometeam'])
+                for team in division.teams.all():
+                    if team.team.pk is awayteam.pk:
+                        away = True
+                    if team.team.pk is hometeam.pk:
+                        home = True
+                if away and home:
+                    tempmatch = Match(awayteam=awayteam, hometeam=hometeam, type='league', game=league.game,
+                                      platform=league.platform, sport=league.sport, bestof=1,
+                                      teamformat=league.teamformat, conference_match=False, map_pool=league.maps)
+                    tempmatch.save()
+                else:
+                    messages.error(request,
+                                   "One of the teams is not in the division, adding as non-conference match")
+                    nonconf = Match(awayteam=awayteam, hometeam=hometeam, type='league', game=league.game,
+                                    platform=league.platform, sport=league.sport, bestof=1,
+                                    teamformat=league.teamformat, conference_match=True, map_pool=league.maps)
+                    nonconf.save()
+                    league.non_conference.add(nonconf)
+                    league.save()
+                    messages.success(request, "Successfully added match to league")
+                    messages.success(request, "Successfully added as non-conference match")
+                    return redirect('staff:detail_division', pk=league.id, divid=division.pk)
+                division = LeagueDivision.objects.get(pk=division.pk)
+                division.matches.add(tempmatch)
+                return redirect('staff:detail_division', pk=league.id, divid=division.id)
+            except ObjectDoesNotExist:
+                form.add_error('awayteam', 'Team not found')
+                return render(request, 'staff/leagues/league_addmatch.html',
+                              {'form': form, 'league': league, 'division': division})
     else:
-        league = League.objects.get(pk=pk)
-        division = LeagueDivision.objects.get(pk=divid)
-        if request.method == 'POST':
-            form = AddLeagueMatchForm(request.POST)
-            if form.is_valid():
-                try:
-                    away = False
-                    home = False
-                    awayteam = Team.objects.get(pk=form.cleaned_data['awayteam'])
-                    hometeam = Team.objects.get(pk=form.cleaned_data['hometeam'])
-                    for team in division.teams.all():
-                        if team.team.pk is awayteam.pk:
-                            away = True
-                        if team.team.pk is hometeam.pk:
-                            home = True
-                    if away and home:
-                        tempmatch = Match(awayteam=awayteam, hometeam=hometeam, type='league', game=league.game,
-                                          platform=league.platform, sport=league.sport, bestof=1,
-                                          teamformat=league.teamformat, conference_match=False, map_pool=league.maps)
-                        tempmatch.save()
-                    else:
-                        messages.error(request,
-                                       "One of the teams is not in the division, adding as non-conference match")
-                        nonconf = Match(awayteam=awayteam, hometeam=hometeam, type='league', game=league.game,
-                                        platform=league.platform, sport=league.sport, bestof=1,
-                                        teamformat=league.teamformat, conference_match=True, map_pool=league.maps)
-                        nonconf.save()
-                        league.non_conference.add(nonconf)
-                        league.save()
-                        messages.success(request, "Successfully added match to league")
-                        messages.success(request, "Successfully added as non-conference match")
-                        return redirect('staff:detail_division', pk=league.id, divid=division.pk)
-                    division = LeagueDivision.objects.get(pk=division.pk)
-                    division.matches.add(tempmatch)
-                    return redirect('staff:detail_division', pk=league.id, divid=division.id)
-                except ObjectDoesNotExist:
-                    form.add_error('awayteam', 'Team not found')
-                    return render(request, 'staff/leagues/league_addmatch.html',
-                                  {'form': form, 'league': league, 'division': division})
-        else:
-            # its a simple get
-            form = AddLeagueMatchForm()
-            return render(request, 'staff/leagues/league_addmatch.html',
-                          {'form': form, 'league': league, 'division': division})
+        # its a simple get
+        form = AddLeagueMatchForm()
+        return render(request, 'staff/leagues/league_addmatch.html',
+                      {'form': form, 'league': league, 'division': division})
 
 
+@staff_required
 def division_add_team(request, pk, divid):
-    user = UserProfile.objects.get(user__username=request.user.username)
-    allowed = ['superadmin', 'admin']
-    if user.user_type not in allowed:
-        return render(request, 'staff/permissiondenied.html')
-    else:
-        league = League.objects.get(pk=pk)
-        division = LeagueDivision.objects.get(pk=divid)
-        if request.method == 'POST':
-            form = DivisionAddTeamForm(request.POST)
-            if form.is_valid():
-                try:
-                    team = Team.objects.get(pk=form.cleaned_data['teamid'])
-                except ObjectDoesNotExist:
-                    messages.error(request, 'Team does not exist')
-                    return redirect('staff:detail_division', pk=league.pk, divid=division.pk)
-                if team in division.teams.all():
-                    messages.error(request, 'That Team already exists in the division')
-                    return redirect('staff:detail_division', pk=league.pk, divid=division.pk)
-                temp = LeagueTeam(team=team)
-                temp.save()
-                division.teams.add(temp)
-                division.save()
-                messages.success(request, 'Team has been added to the division')
+    league = League.objects.get(pk=pk)
+    division = LeagueDivision.objects.get(pk=divid)
+    if request.method == 'POST':
+        form = DivisionAddTeamForm(request.POST)
+        if form.is_valid():
+            try:
+                team = Team.objects.get(pk=form.cleaned_data['teamid'])
+            except ObjectDoesNotExist:
+                messages.error(request, 'Team does not exist')
                 return redirect('staff:detail_division', pk=league.pk, divid=division.pk)
-            else:
-                messages.error(request, 'Form validation error')
+            if team in division.teams.all():
+                messages.error(request, 'That Team already exists in the division')
                 return redirect('staff:detail_division', pk=league.pk, divid=division.pk)
+            temp = LeagueTeam(team=team)
+            temp.save()
+            division.teams.add(temp)
+            division.save()
+            messages.success(request, 'Team has been added to the division')
+            return redirect('staff:detail_division', pk=league.pk, divid=division.pk)
         else:
-            form = DivisionAddTeamForm()
-            return render(request, 'staff/leagues/league_division_addteam.html',
-                          {'division': division, 'league': league, 'form': form})
+            messages.error(request, 'Form validation error')
+            return redirect('staff:detail_division', pk=league.pk, divid=division.pk)
+    else:
+        form = DivisionAddTeamForm()
+        return render(request, 'staff/leagues/league_division_addteam.html',
+                      {'division': division, 'league': league, 'form': form})
 
 
+@staff_required
 def division_match_list(request, pk, divid):
-    user = UserProfile.objects.get(user__username=request.user.username)
-    allowed = ['superadmin', 'admin']
-    if user.user_type not in allowed:
-        return render(request, 'staff/permissiondenied.html')
-    else:
-        league = League.objects.get(pk=pk)
-        division = LeagueDivision.objects.get(pk=divid)
-        matches = division.matches.all()
-        return render(request, 'staff/leagues/league_division_matches.html',
-                      {'league': league, 'division': division, 'matches': matches})
+    league = League.objects.get(pk=pk)
+    division = LeagueDivision.objects.get(pk=divid)
+    matches = division.matches.all()
+    return render(request, 'staff/leagues/league_division_matches.html',
+                  {'league': league, 'division': division, 'matches': matches})
 
 
+@staff_required
 def bulk_match_create(request, pk, divid=0):
-    user = UserProfile.objects.get(user__username=request.user.username)
-    allowed = ['superadmin', 'admin']
-    if user.user_type not in allowed:
-        return render(request, 'staff/permissiondenied.html')
+    league = League.objects.get(pk=pk)
+    division = None
+    if divid:
+        division = LeagueDivision.objects.get(pk=divid)
+        teams = [t.team for t in division.teams.all()]
     else:
-        league = League.objects.get(pk=pk)
-        division = None
-        if divid:
-            division = LeagueDivision.objects.get(pk=divid)
-            teams = [t.team for t in division.teams.all()]
-        else:
-            teams = [t.team for t in league.teams.all()]
-        created = 0
-        for i in range(len(teams)):
-            for j in range(i + 1, len(teams)):
-                tempmatch = Match(hometeam=teams[i], awayteam=teams[j], type='league', game=league.game,
-                                  platform=league.platform, sport=league.sport, bestof=league.bestof,
-                                  teamformat=league.teamformat, conference_match=False, map_pool=league.maps)
-                tempmatch.save()
-                if division:
-                    division.matches.add(tempmatch)
-                created += 1
-        messages.success(request, "Created %s matches" % created)
-        if division:
-            return redirect('staff:detail_division', pk=league.id, divid=division.pk)
-        return redirect('staff:detail_league', pk=league.id)
+        teams = [t.team for t in league.teams.all()]
+    created = 0
+    for i in range(len(teams)):
+        for j in range(i + 1, len(teams)):
+            tempmatch = Match(hometeam=teams[i], awayteam=teams[j], type='league', game=league.game,
+                              platform=league.platform, sport=league.sport, bestof=league.bestof,
+                              teamformat=league.teamformat, conference_match=False, map_pool=league.maps)
+            tempmatch.save()
+            if division:
+                division.matches.add(tempmatch)
+            created += 1
+    messages.success(request, "Created %s matches" % created)
+    if division:
+        return redirect('staff:detail_division', pk=league.id, divid=division.pk)
+    return redirect('staff:detail_league', pk=league.id)

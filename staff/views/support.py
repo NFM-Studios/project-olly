@@ -1,3 +1,6 @@
+from staff.auth import staff_required, StaffRequiredMixin
+from django.http import HttpResponseNotAllowed
+
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.urls import reverse
@@ -7,59 +10,43 @@ from staff.forms import *
 from support.models import Ticket, TicketComment
 
 
+@staff_required
 def tickets(request):
-    user = UserProfile.objects.get(user__username=request.user.username)
-    allowed = ['superadmin', 'admin']
-    if user.user_type not in allowed:
-        return render(request, 'staff/permissiondenied.html')
-    else:
-        if request.method == 'GET':
-            form = TicketSearchForm
-            ticket_list = Ticket.objects.filter(status__lte=2).order_by('-id')
-            return render(request, 'staff/support/ticket_list.html', {'form': form, 'ticket_list': ticket_list})
+    if request.method == 'GET':
+        form = TicketSearchForm
+        ticket_list = Ticket.objects.filter(status__lte=2).order_by('-id')
+        return render(request, 'staff/support/ticket_list.html', {'form': form, 'ticket_list': ticket_list})
 
-        elif request.method == 'POST':
-            form = TicketSearchForm(request.POST)
-            ticket_list = Ticket.objects.filter(status__lte=2).order_by('-id')
-            if request.POST.get('showClosed'):
-                ticket_list = Ticket.objects.all().order_by('-id')
-            if request.POST.get('searchQuery'):
-                query = request.POST.get('searchQuery')
-                if query.isdigit():
-                    ticket_list = Ticket.objects.filter(pk=query).order_by('-id')
-                else:
-                    ticket_list = Ticket.objects.filter(Q(text__contains=query) |
-                                                        Q(creator__username__contains=query)).order_by('-id')
-            return render(request, 'staff/support/ticket_list.html', {'form': form, 'ticket_list': ticket_list})
+    elif request.method == 'POST':
+        form = TicketSearchForm(request.POST)
+        ticket_list = Ticket.objects.filter(status__lte=2).order_by('-id')
+        if request.POST.get('showClosed'):
+            ticket_list = Ticket.objects.all().order_by('-id')
+        if request.POST.get('searchQuery'):
+            query = request.POST.get('searchQuery')
+            if query.isdigit():
+                ticket_list = Ticket.objects.filter(pk=query).order_by('-id')
+            else:
+                ticket_list = Ticket.objects.filter(Q(text__contains=query) |
+                                                    Q(creator__username__contains=query)).order_by('-id')
+        return render(request, 'staff/support/ticket_list.html', {'form': form, 'ticket_list': ticket_list})
 
 
+@staff_required
 def ticket_category_list(request):
-    user = UserProfile.objects.get(user__username=request.user.username)
-    allowed = ['superadmin', 'admin']
-    if user.user_type not in allowed:
-        return render(request, 'staff/permissiondenied.html')
-    else:
-        cats = TicketCategory.objects.all()
-        return render(request, 'staff/support/ticket_category_list.html', {'cats': cats})
+    cats = TicketCategory.objects.all()
+    return render(request, 'staff/support/ticket_category_list.html', {'cats': cats})
 
 
-class TicketCategoryCreate(View):
+class TicketCategoryCreate(StaffRequiredMixin, View):
     form_class = TicketCategoryCreateForm
     template_name = 'staff/support/ticket_category_create.html'
 
     def get(self, request):
-        user = UserProfile.objects.get(user__username=request.user.username)
-        allowed = ['superadmin', 'admin']
-        if user.user_type not in allowed:
-            return render(request, 'staff/permissiondenied.html')
         form = self.form_class(None)
         return render(request, self.template_name, {'form': form})
 
     def post(self, request):
-        user = UserProfile.objects.get(user__username=request.user.username)
-        allowed = ['superadmin', 'admin']
-        if user.user_type not in allowed:
-            return render(request, 'staff/permissiondenied.html')
         form = self.form_class(request.POST)
 
         if form.is_valid():
@@ -74,21 +61,19 @@ class TicketCategoryCreate(View):
             return render(request, self.template_name, {'form': form})
 
 
+@staff_required
 def ticket_cat_delete(request, pk):
-    user = UserProfile.objects.get(user__username=request.user.username)
-    allowed = ['superadmin', 'admin']
-    if user.user_type not in allowed:
-        return render(request, 'staff/permissiondenied.html')
-    else:
-        cat = TicketCategory.objects.get(pk=pk)
-        # cat = get_object_or_404(TicketCategory, pk=pk)
-        cat.delete()
-        # cat.save()
-        messages.success(request, 'Successfully deleted ticket category')
-        return redirect('staff:ticket_categories')
+    if request.method != 'POST':
+        return HttpResponseNotAllowed(['POST'])
+    cat = TicketCategory.objects.get(pk=pk)
+    # cat = get_object_or_404(TicketCategory, pk=pk)
+    cat.delete()
+    # cat.save()
+    messages.success(request, 'Successfully deleted ticket category')
+    return redirect('staff:ticket_categories')
 
 
-class TicketDetail(DetailView):
+class TicketDetail(StaffRequiredMixin, DetailView):
     model = Ticket
     template_name = 'staff/support/ticket_detail.html'
     form1 = TicketCommentCreateForm()
@@ -97,10 +82,6 @@ class TicketDetail(DetailView):
     form2_class = TicketStatusChangeForm
 
     def get(self, request, **kwargs):
-        user = UserProfile.objects.get(user__username=request.user.username)
-        allowed = ['superadmin', 'admin']
-        if user.user_type not in allowed:
-            return render(request, 'staff/permissiondenied.html')
         form1 = self.form1_class(None)
         form2 = self.form2_class(None)
         pk = self.kwargs['pk']
@@ -115,10 +96,6 @@ class TicketDetail(DetailView):
         return context
 
     def post(self, request, *args, **kwargs):
-        user = UserProfile.objects.get(user__username=request.user.username)
-        allowed = ['superadmin', 'admin']
-        if user.user_type not in allowed:
-            return render(request, 'staff/permissiondenied.html')
         if 'post_comment' in request.POST:
             self.form1 = TicketCommentCreateForm(request.POST)
             if self.form1.is_valid():
@@ -149,23 +126,15 @@ class TicketDetail(DetailView):
         return Ticket.objects.filter(creator=self.request.user)
 
 
-class TicketCommentCreate(View):
+class TicketCommentCreate(StaffRequiredMixin, View):
     form_class = TicketCommentCreateForm
     template_name = 'staff/ticket_comment_create.html'
 
     def get(self, request, pk):
-        user = UserProfile.objects.get(user__username=request.user.username)
-        allowed = ['superadmin', 'admin']
-        if user.user_type not in allowed:
-            return render(request, 'staff/permissiondenied.html')
         form = self.form_class(None)
         return render(request, self.template_name, {'form': form})
 
     def post(self, request, pk):
-        user = UserProfile.objects.get(user__username=request.user.username)
-        allowed = ['superadmin', 'admin']
-        if user.user_type not in allowed:
-            return render(request, 'staff/permissiondenied.html')
         form = self.form_class(request.POST)
 
         if form.is_valid():
@@ -181,128 +150,100 @@ class TicketCommentCreate(View):
             return render(request, self.template_name, {'form': form})
 
 
+@staff_required
 def qa_list(request):
-    user = UserProfile.objects.get(user__username=request.user.username)
-    allowed = ['superadmin', 'admin']
-    if user.user_type not in allowed:
-        return render(request, 'staff/permissiondenied.html')
-    else:
-        qas = QuestionAnswer.objects.all()
-        return render(request, 'staff/support/qa_list.html', {'qas': qas})
+    qas = QuestionAnswer.objects.all()
+    return render(request, 'staff/support/qa_list.html', {'qas': qas})
 
 
+@staff_required
 def qa_create(request):
-    user = UserProfile.objects.get(user__username=request.user.username)
-    allowed = ['superadmin', 'admin']
-    if user.user_type not in allowed:
-        return render(request, 'staff/permissiondenied.html')
-    else:
-        if request.method == 'POST':
-            form = CreateQuestionAnswer(request.POST)
-            if form.is_valid():
-                qa = form.instance
-                qa.creator = request.user
-                qa.save()
-                form.save()
-                messages.success(request, 'Your Q&A has been created')
-                return redirect('staff:qa_list')
-            else:
-                return render(request, 'staff/support/qa_create.html', {'form': form})
+    if request.method == 'POST':
+        form = CreateQuestionAnswer(request.POST)
+        if form.is_valid():
+            qa = form.instance
+            qa.creator = request.user
+            qa.save()
+            form.save()
+            messages.success(request, 'Your Q&A has been created')
+            return redirect('staff:qa_list')
         else:
-            form = CreateQuestionAnswer(None)
             return render(request, 'staff/support/qa_create.html', {'form': form})
+    else:
+        form = CreateQuestionAnswer(None)
+        return render(request, 'staff/support/qa_create.html', {'form': form})
 
 
+@staff_required
 def qa_detail(request, pk):
-    user = UserProfile.objects.get(user__username=request.user.username)
-    allowed = ['superadmin', 'admin']
-    if user.user_type not in allowed:
-        return render(request, 'staff/permissiondenied.html')
-    else:
-        if request.method == 'POST':
-            cat_obj = QuestionAnswer.objects.get(pk=pk)
-            form = CreateQuestionAnswer(request.POST, instance=cat_obj)
-            if form.is_valid():
-                form.save()
-                messages.success(request, 'Your changes have been saved')
-                return redirect('staff:qa_list')
-            else:
-                return render(request, 'staff/support/qa_detail.html', {'form': form, 'pk': pk})
+    if request.method == 'POST':
+        cat_obj = QuestionAnswer.objects.get(pk=pk)
+        form = CreateQuestionAnswer(request.POST, instance=cat_obj)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Your changes have been saved')
+            return redirect('staff:qa_list')
         else:
-            cat_obj =  QuestionAnswer.objects.get(pk=pk)
-            form = CreateQuestionAnswer(instance=cat_obj)
             return render(request, 'staff/support/qa_detail.html', {'form': form, 'pk': pk})
+    else:
+        cat_obj =  QuestionAnswer.objects.get(pk=pk)
+        form = CreateQuestionAnswer(instance=cat_obj)
+        return render(request, 'staff/support/qa_detail.html', {'form': form, 'pk': pk})
 
 
+@staff_required
 def qa_delete(request, pk):
-    user = UserProfile.objects.get(user__username=request.user.username)
-    allowed = ['superadmin', 'admin']
-    if user.user_type not in allowed:
-        return render(request, 'staff/permissiondenied.html')
-    else:
-        qa = QuestionAnswer.objects.get(pk=pk)
-        qa.delete()
-        messages.success(request, 'Q&A has been deleted')
-        return redirect('staff:qa_list')
+    if request.method != 'POST':
+        return HttpResponseNotAllowed(['POST'])
+    qa = QuestionAnswer.objects.get(pk=pk)
+    qa.delete()
+    messages.success(request, 'Q&A has been deleted')
+    return redirect('staff:qa_list')
 
 
+@staff_required
 def qa_cat_list(request):
-    user = UserProfile.objects.get(user__username=request.user.username)
-    allowed = ['superadmin', 'admin']
-    if user.user_type not in allowed:
-        return render(request, 'staff/permissiondenied.html')
-    else:
-        cats = QuestionAnswerCategory.objects.all()
-        return render(request, 'staff/support/qa_cat_list.html', {'cats': cats})
+    cats = QuestionAnswerCategory.objects.all()
+    return render(request, 'staff/support/qa_cat_list.html', {'cats': cats})
 
 
+@staff_required
 def qa_cat_create(request):
-    user = UserProfile.objects.get(user__username=request.user.username)
-    allowed = ['superadmin', 'admin']
-    if user.user_type not in allowed:
-        return render(request, 'staff/permissiondenied.html')
-    else:
-        if request.method == 'POST':
-            form = CreateQuestionAnswerCategory(request.POST)
-            if form.is_valid():
-                form.save()
-                messages.success(request, 'Your category has been created')
-                return redirect('staff:qa_cat_list')
-            else:
-                return render(request, 'staff/support/qa_cat_create.html', {'form': form})
+    if request.method == 'POST':
+        form = CreateQuestionAnswerCategory(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Your category has been created')
+            return redirect('staff:qa_cat_list')
         else:
-            form = CreateQuestionAnswerCategory(None)
             return render(request, 'staff/support/qa_cat_create.html', {'form': form})
+    else:
+        form = CreateQuestionAnswerCategory(None)
+        return render(request, 'staff/support/qa_cat_create.html', {'form': form})
 
 
+@staff_required
 def qa_cat_detail(request, pk):
-    user = UserProfile.objects.get(user__username=request.user.username)
-    allowed = ['superadmin', 'admin']
-    if user.user_type not in allowed:
-        return render(request, 'staff/permissiondenied.html')
-    else:
-        if request.method == 'POST':
-            cat_obj = QuestionAnswerCategory.objects.get(pk=pk)
-            form = CreateQuestionAnswerCategory(request.POST, instance=cat_obj)
-            if form.is_valid():
-                form.save()
-                messages.success(request, 'Your changes have been saved')
-                return redirect('staff:qa_cat_list')
-            else:
-                return render(request, 'staff/support/qa_cat_detail.html', {'form': form, 'pk': pk})
+    if request.method == 'POST':
+        cat_obj = QuestionAnswerCategory.objects.get(pk=pk)
+        form = CreateQuestionAnswerCategory(request.POST, instance=cat_obj)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Your changes have been saved')
+            return redirect('staff:qa_cat_list')
         else:
-            cat_obj =  QuestionAnswerCategory.objects.get(pk=pk)
-            form = CreateQuestionAnswerCategory(instance=cat_obj)
             return render(request, 'staff/support/qa_cat_detail.html', {'form': form, 'pk': pk})
-
-
-def qa_cat_delete(request, pk):
-    user = UserProfile.objects.get(user__username=request.user.username)
-    allowed = ['superadmin', 'admin']
-    if user.user_type not in allowed:
-        return render(request, 'staff/permissiondenied.html')
     else:
-        qa_cat = QuestionAnswerCategory.objects.get(pk=pk)
-        qa_cat.delete()
-        messages.success(request, 'Q&A category has been deleted')
-        return redirect('staff:qa_cat_list')
+        cat_obj =  QuestionAnswerCategory.objects.get(pk=pk)
+        form = CreateQuestionAnswerCategory(instance=cat_obj)
+        return render(request, 'staff/support/qa_cat_detail.html', {'form': form, 'pk': pk})
+
+
+@staff_required
+def qa_cat_delete(request, pk):
+    if request.method != 'POST':
+        return HttpResponseNotAllowed(['POST'])
+    qa_cat = QuestionAnswerCategory.objects.get(pk=pk)
+    qa_cat.delete()
+    messages.success(request, 'Q&A category has been deleted')
+    return redirect('staff:qa_cat_list')
