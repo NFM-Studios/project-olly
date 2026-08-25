@@ -68,3 +68,9 @@ body {
   max-width: 680px;
   padding: 0 15px;
 }
+
+/* Spacer below the navbar (replaces <br> padding hacks in templates)
+-------------------------------------------------- */
+.navbar-spacer {
+  height: 60px;
+}
