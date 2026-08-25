@@ -135,3 +135,50 @@ class TeamLeaveAndDissolveTest(TestCase):
         response = self.client.post(reverse('teams:dissolve', args=[self.team.pk]), {'confirmed': 'on'})
         self.assertEqual(response.status_code, 302)
         self.assertFalse(Team.objects.filter(pk=self.team.pk).exists())
+
+
+class TeamTotalXpTest(TestCase):
+    def setUp(self):
+        self.founder = User.objects.create_user(username='xp_founder', password='pass')
+        self.team = Team.objects.create(name='XpTeam')
+        self.team.founder = self.founder
+        self.team.save()
+
+    def _create_invite(self, user):
+        return TeamInvite.objects.create(
+            team=self.team, user=user, inviter=self.founder,
+            captain=False, active=True, expire=timezone.now(),
+        )
+
+    def test_get_total_xp_sums_invited_users_xp(self):
+        user1 = User.objects.create_user(username='xp_user1', password='pass')
+        user2 = User.objects.create_user(username='xp_user2', password='pass')
+        profile1 = user1.user
+        profile2 = user2.user
+        profile1.xp = 50
+        profile2.xp = 30
+        profile1.save()
+        profile2.save()
+        self._create_invite(user1)
+        self._create_invite(user2)
+
+        self.team.get_total_xp()
+
+        self.assertEqual(self.team.totalxp, 80)
+
+    def test_get_total_xp_with_no_invites_is_zero(self):
+        self.team.totalxp = 999
+        self.team.save()
+        self.team.get_total_xp()
+        self.assertEqual(self.team.totalxp, 0)
+
+    def test_get_rank_assigns_rank_field(self):
+        higher = Team.objects.create(name='HigherXp')
+        higher.totalxp = 200
+        higher.save()
+        self.team.totalxp = 100
+        self.team.save()
+
+        self.team.get_rank()
+
+        self.assertEqual(self.team.rank, 2)

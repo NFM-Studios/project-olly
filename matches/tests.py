@@ -102,6 +102,19 @@ class BestofFilterTest(TestCase):
         self.assertEqual(bestof(99), 'Unknown')
         self.assertEqual(bestof(None), 'Unknown')
         self.assertEqual(bestof('not a number'), 'Unknown')
+class MatchIndexSmokeTest(TestCase):
+    def test_meta_indexes_defined(self):
+        names = {index.name for index in Match._meta.indexes}
+        self.assertIn('match_datetime_idx', names)
+        self.assertIn('match_completed_idx', names)
+        self.assertIn('match_teams_idx', names)
+
+    def test_match_creation_with_indexes(self):
+        match = Match.objects.create(type='w')
+        self.assertEqual(Match.objects.count(), 1)
+        self.assertEqual(Match.objects.filter(pk=match.pk).count(), 1)
+
+
 def _attach_messages(request):
     SessionMiddleware(lambda r: None).process_request(request)
     request.session.save()
