@@ -7,6 +7,7 @@
 {% endblock %}
 
 {% block body %}
+    <div class="table-responsive">
     <table class="table table-hover">
         <tr id="header">
             <thead>
@@ -35,4 +36,5 @@
         {% endfor %}
         <button class="btn btn-circle"><a href="{% url 'wagers:request_create' %}">Create Wager Request</a></button>
     </table>
+    </div>
 {% endblock %}

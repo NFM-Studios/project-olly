@@ -10,6 +10,7 @@
 
 
     {% for division in divisions %}
+        <div class="table-responsive">
         <table class="table table-hover">
         <tr id="header">
             <thead>
@@ -22,6 +23,10 @@
             <td>{{ division.name }}</td>
             <td>{{ division.pk }}</td>
         </tr>
+        </tbody>
+        </table>
+        </div>
+        <div class="table-responsive">
         <table class="table table-hover">
             <tr id="header">
                 <thead>
@@ -34,8 +39,7 @@
                 </tr>
             {% endfor %}
         </table>
-        </tbody>
+        </div>
         <hr>
     {% endfor %}
-</table>
 {% endblock %}

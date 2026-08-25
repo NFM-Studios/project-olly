@@ -33,25 +33,23 @@
                 </a>
             </h2>
         </div>
-        <div class="col-xs-12">
-
-
+        <div class="col-12">
             <div class="row">
-                <div class="col-xs-12">
-                    <div class="panel">
-                        <div class="panel-body">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
 
 
                             {% if leagues.count == 0 %}
                                 <b>No Leagues yet!</b>
                             {% endif %}
                             {% for league in leagues %}
-                                <div class="col-xs-12 col-sm-6 col-md-4 league">
+                                <div class="col-12 col-sm-6 col-md-4 league">
                                     <img src="
                                             {% if ESPORTS_MODE %}
 
                                         {% if league.game.image != "" %}{{ MEDIA_URL }}{{ league.game.image }}{% endif %}"
-                                        ><br>
+                                        alt="{{ league.name }} logo"><br>
                                     {% else %}
                                         {{ league.sport.name }}
                                     {% endif %}
@@ -86,7 +84,7 @@
                                         </li>
                                         <li><b>Registration Fee: </b>{{ league.req_credits }}</li>
                                     </ul>
-                                    <a class="btn btn-primary btn-block btn-xs jleague"
+                                    <a class="btn btn-primary btn-block btn-sm jleague"
                                        href="{% url 'league:detail' pk=league.id %}">JOIN LEAGUE</a>
                                 </div>
                             {% endfor %}

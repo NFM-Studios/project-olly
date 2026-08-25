@@ -9,6 +9,7 @@
 {% block body %}
 
     <h2>Round 1 Matches</h2>
+    <div class="table-responsive">
     <table class="table table-hover">
         <tr id="header">
             <thead>
@@ -31,11 +32,13 @@
             There are 0 matches in round1
         {% endif %}
     </table>
+    </div>
     <br/>
     <br/>
 
     <div class="round2matches">
         <h2>Round 2 Matches</h2>
+        <div class="table-responsive">
         <table class="table table-hover">
             <tr id="header">
                 <thead>
@@ -60,6 +63,7 @@
 
 
         </table>
+        </div>
     </div>
 
     <br/>
@@ -67,6 +71,7 @@
 
     <div class="round3matches" style="{% if tournament.size == 4 %}display:none{% endif %}">
         <h2>Round 3 Matches</h2>
+        <div class="table-responsive">
         <table class="table table-hover" style="{% if tournament.size == 4 %}display:none{% endif %}">
             <tr id="header">
                 <thead>
@@ -91,6 +96,7 @@
 
 
         </table>
+        </div>
     </div>
 
 
@@ -99,6 +105,7 @@
 
     <div class="round4matches" style="{% if tournament.size == 4 or tournament.size == 8 %}display:none{% endif %}">
         <h2>Round 4 Matches</h2>
+        <div class="table-responsive">
         <table class="table table-hover"
                style="{% if tournament.size == 4 or tournament.size == 8 %}display:none{% endif %}">
             <tr id="header">
@@ -124,6 +131,7 @@
 
 
         </table>
+        </div>
     </div>
 
 
@@ -134,6 +142,7 @@
     <div class="round5matches"
          style="{% if tournament.size == 4 or tournament.size == 8 or tournament.size == 16 %}display:none{% endif %}">
         <h2>Round 5 Matches</h2>
+        <div class="table-responsive">
         <table class="table table-hover"
                style="{% if tournament.size == 4 or tournament.size == 8 or tournament.size == 16 %}display:none{% endif %}">
             <tr id="header">
@@ -157,6 +166,7 @@
                 </tbody>
             {% endfor %}
         </table>
+        </div>
     </div>
 
 
@@ -166,6 +176,7 @@
     <div class="round6matches"
          style="{% if tournament.size == 4 or tournament.size == 8 or tournament.size == 16 or tournament.size == 32 %}display:none{% endif %}">
         <h2>Round 6 Matches</h2>
+        <div class="table-responsive">
         <table class="table table-hover"
                style="{% if tournament.size == 4 or tournament.size == 8 or tournament.size == 16 or tournament.size == 32 %}display:none{% endif %}">
             <tr id="header">
@@ -191,6 +202,7 @@
 
 
         </table>
+        </div>
     </div>
 
     <br/>
@@ -199,6 +211,7 @@
     <div class="round7matches"
          style="{% if tournament.size == 4 or tournament.size == 8 or tournament.size == 16 or tournament.size == 32 or tournament.size == 64 %}display:none{% endif %}">
         <h2>Round 7 Matches</h2>
+        <div class="table-responsive">
         <table class="table table-hover"
                style="{% if tournament.size == 4 or tournament.size == 8 or tournament.size == 16 or tournament.size == 32 or tournament.size == 64 %}display:none{% endif %}">
             <tr id="header">
@@ -224,6 +237,7 @@
 
 
         </table>
+        </div>
     </div>
 
 

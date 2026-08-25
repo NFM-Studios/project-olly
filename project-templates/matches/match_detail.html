@@ -9,23 +9,23 @@
 {% block body %}
     <div class="container page">
 
-        <div class="col-xs-12">
+        <div class="col-12">
             <div class="row">
-                <div class="panel">
-                    <div class="panel-body">
+                <div class="card">
+                    <div class="card-body">
 
                         {% if not match.disable_userreports %}
                             <a href="{% url 'matches:report' pk=match.id %}"><h2>Submit your match report here.</h2></a>
                         {% endif %}
 
-                        <div class="col-xs-12 banner-head bot20">
+                        <div class="col-12 banner-head bot20">
                             <div class="row">
-                                <div class="col-xs-12 col-sm-4">
-                                    <img style="width: auto" src="{% static 'images/game-placeholder.jpg' %}"/>
+                                <div class="col-12 col-sm-4">
+                                    <img style="width: auto" src="{% static 'images/game-placeholder.jpg' %}" alt=""/>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-xs-12 col-sm-8 center">
+                                <div class="col-12 col-sm-8 center">
                                     <br>
                                     <!--<h2><b>COMPETITION NAME HERE</b></h2>-->
                                     <h3 style="font-weight:200;">{{ match.platform.name }}</h3>
@@ -45,10 +45,10 @@
 
                         {% if not match.bye_1 and not match.bye_2 %}
 
-                            <div class="col-xs-12 align-self-center bot20">
+                            <div class="col-12 align-self-center bot20">
 
-                                <div class="col-xs-4 center">
-                                    <img style="width: 50%" src="{% static 'images/gamepad-solid.svg' %}"/><br>
+                                <div class="col-4 center px-1">
+                                    <img style="width: 50%" src="{% static 'images/gamepad-solid.svg' %}" alt=""/><br>
                                     <a href="{% url 'teams:detail' pk=match.awayteam.id %}">{{ match.awayteam }} -
                                         {% if match.team2reported %}
                                             <i class="fa fa-check" style="color:green"></i> Reported{% else %}
@@ -56,7 +56,7 @@
                                     </a>
                                 </div>
 
-                                <div class="col-xs-4 center">
+                                <div class="col-4 center px-1">
                                     <h1 style="font-weight:800;margin-top:40px;">
                                         {% if match.winner_id == match.awayteam_id %}<span style="color:green;">
                                             1{% else %}<span style="color:black;">0{% endif %}</span> vs
@@ -64,8 +64,8 @@
                                             1{% else %}<span style="color:black;">0{% endif %}</span></h1>
                                 </div>
 
-                                <div class="col-xs-4 center">
-                                    <img style="width: 50%" src="{% static 'images/gamepad-solid.svg' %}"/><br>
+                                <div class="col-4 center px-1">
+                                    <img style="width: 50%" src="{% static 'images/gamepad-solid.svg' %}" alt=""/><br>
                                     <a href="{% url 'teams:detail' pk=match.hometeam.id %}">{{ match.hometeam }} -
                                         {% if match.team1reported %}
                                             <i class="fa fa-check" style="color:green"></i> Reported{% else %}
@@ -74,9 +74,10 @@
                                 </div>
 
                             </div>
-                            <div class="col-xs-12 align-self-center bot20">
+                            <div class="col-12 align-self-center bot20">
                                 <div class="row bot20">
                                     <div class="col-md-6">
+                                        <div class="table-responsive">
                                         <table class="table table-hover">
                                             <thead>
 
@@ -92,7 +93,7 @@
                                                 <tr>
                                                     <td valign="middle"><img
                                                             src="{% static 'images/gamepad-solid.svg' %}"
-                                                            width="30" height="30">
+                                                            width="30" height="30" alt="">
                                                         <b>{{ aplayer.user }}</b></td>
                                                     <td valign="middle">{{ match.awayteam.name }}</td>
                                                     <td valign="middle"><span class="highlight"><b><a
@@ -102,10 +103,12 @@
                                             {% endfor %}
                                             </tbody>
                                         </table>
+                                        </div>
 
                                     </div>
 
                                     <div class="col-md-6">
+                                        <div class="table-responsive">
                                         <table class="table table-hover">
                                             <thead>
 
@@ -121,7 +124,7 @@
                                                 <tr>
                                                     <td valign="middle"><img
                                                             src="{% static 'images/gamepad-solid.svg' %}"
-                                                            width="30" height="30">
+                                                            width="30" height="30" alt="">
                                                         <b>{{ hplayer.user }}</b></td>
                                                     <td valign="middle">{{ match.hometeam.name }}</td>
                                                     <td valign="middle"><span class="highlight"><b><a
@@ -131,6 +134,7 @@
                                             {% endfor %}
                                             </tbody>
                                         </table>
+                                        </div>
 
                                     </div>
 

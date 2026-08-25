@@ -11,9 +11,10 @@
 
     <div class="container page">
 
-        <div class="col-xs-12">
-            <div class="panel">
-                <div class="panel-body">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="bracket-scroll">
                     <main id="tournament">
                     {% for round in rounds %}
                         <ul class="round round-{{ forloop.counter }}">
@@ -25,7 +26,7 @@
 
             {% endif %}"><a href="{% url 'matches:detail' pk=match.id %}">{% if match.awayteam.id is None %}BYE
                                     TEAM{% else %}{{ match.awayteam }}
-                                    <img src="{{ match.awayteam.country.flag }}">{% endif %}</a><span>
+                                    <img src="{{ match.awayteam.country.flag }}" alt="">{% endif %}</a><span>
             {% if match.bye_2 is True %}
                 BYE
             {% elif match.hometeam.id is None or match.awayteam.id is None %}
@@ -43,7 +44,7 @@
 
             {% endif %}"><a href="{% url 'matches:detail' pk=match.id %}">{% if match.hometeam.id is None %}BYE
                                     TEAM{% else %}{{ match.hometeam }}
-                                    <img src="{{ match.hometeam.country.flag }}">{% endif %}</a><span>
+                                    <img src="{{ match.hometeam.country.flag }}" alt="">{% endif %}</a><span>
             {% if match.bye_2 is True %}
                 BYE
             {% elif match.hometeam.id is None or match.awayteam.id is None %}
@@ -60,6 +61,7 @@
                         </ul>
                     {% endfor %}
                     </main>
+                    </div>
                 </div>
             </div>
         </div>

@@ -4,10 +4,9 @@
 {% block head %}
     <title>Team Invite - {{ SITE_NAME }}</title>
 {% endblock %}
-ink rel="stylesheet" href="{% static "css/teams.css" %}">
-
 {% block body %}
-    <table class="" table table-hover>
+    <div class="table-responsive">
+    <table class="table table-hover">
         <tr id="header">
             <thead>
             <th scope="row">Invite ID</th>
@@ -27,7 +26,8 @@ ink rel="stylesheet" href="{% static "css/teams.css" %}">
         </tr>
         </tbody>
     </table>
-    <form class="form-horizontal" role='form' action="" method="post">
+    </div>
+    <form action="" method="post">
         {% csrf_token %}
         <label>Accept invitation</label>
         <div>{{ form.accepted }}</div>

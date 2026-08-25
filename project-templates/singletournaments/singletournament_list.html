@@ -33,25 +33,25 @@
                 </a>
             </h2>
         </div>
-        <div class="col-xs-12">
+        <div class="col-12">
 
 
             <div class="row">
-                <div class="col-xs-12">
-                    <div class="panel">
-                        <div class="panel-body">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
 
 
                             {% if tournament_list.count == 0 %}
                                 <b>No tournaments yet!</b>
                             {% endif %}
                             {% for tournament in tournament_list %}
-                                <div class="col-xs-12 col-sm-6 col-md-4 league">
+                                <div class="col-12 col-sm-6 col-md-4 league">
                                     <img src="
                                             {% if ESPORTS_MODE %}
 
                                         {% if tournament.game.image != "" %}{{ MEDIA_URL }}{{ tournament.game.image }}{% else %}{% static 'images/trophy-solid.svg' %}{% endif %}"
-                                        ><br>
+                                        alt="{{ tournament.name }} logo"><br>
                                     {% else %}
                                         {{ tournament.sport.name }}
                                     {% endif %}
@@ -84,7 +84,7 @@
                                         </li>
                                         <li><b>Registration Fee: </b>{{ tournament.req_credits }}</li>
                                     </ul>
-                                    <a class="btn btn-primary btn-block btn-xs jleague"
+                                    <a class="btn btn-primary btn-block btn-sm jleague"
                                        href="{% url 'singletournaments:detail' pk=tournament.id %}">JOIN TOURNAMENT</a>
                                 </div>
                             {% endfor %}
@@ -97,7 +97,6 @@
 
         </div>
     </div>
-
 
 
 

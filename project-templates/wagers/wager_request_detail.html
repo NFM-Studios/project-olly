@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block body %}
+    <div class="table-responsive">
     <table class="table">
         <tr>
             <td>Request Posted</td>
@@ -71,6 +72,7 @@
             <td>{{ wrequest.creator }}</td>
         </tr>
     </table>
+    </div>
     {% if request.user != wrequest.creator and wrequest.expired == False and wrequest.challenge_accepted == False %}
         <p><a href="{% url 'wagers:challenge_create' pk=wrequest.pk %}">Challenge this team!</a></p>
     {% endif %}
