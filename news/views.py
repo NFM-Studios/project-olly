@@ -1,8 +1,10 @@
+from django.contrib import messages
 from django.core.mail import send_mail
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse
 
-from .forms import EmailPostForm
+from .forms import CommentForm, EmailPostForm
 from .models import Post
 
 app_name = 'news'
@@ -31,29 +33,38 @@ def post_list(request, tag_slug=None):
 
 def post_detail(request, slug):
     post = get_object_or_404(Post, slug=slug, status='published')
-    # list of active comments for this posts
-    # comments = post.comments.filter(active=True)
+    # list of active comments for this post
+    comments = post.comments.filter(active=True)
 
     if request.method == 'POST':
-        # some sick ass dude made a comment
-        pass
-        """comment_form = CommentForm(data=request.POST)
+        # a user is trying to post a comment
+        if not request.user.is_authenticated:
+            messages.error(request, "You must be logged in to post a comment")
+            return redirect(reverse('login') + '?next=' + request.path)
+        comment_form = CommentForm(data=request.POST)
         if comment_form.is_valid():
             # create comment object but dont save it
             new_comment = comment_form.save(commit=False)
             # assign current post to the comment
             new_comment.post = post
+            # comments are active immediately (moderation can flip this later)
+            new_comment.active = True
             # save the comment to the db
-            new_comment.save()"""
+            new_comment.save()
+            messages.success(request, "Your comment has been added")
+            return redirect(reverse('news:post_detail', args=[post.slug]) + '#comments')
+        else:
+            messages.error(request, "Your comment could not be added, please check the form")
     else:
-        # comment_form = CommentForm()
-        pass
+        # prefill the name for logged in users
+        if getattr(request, 'user', None) is not None and request.user.is_authenticated:
+            comment_form = CommentForm(initial={'name': request.user.username})
+        else:
+            comment_form = CommentForm()
 
-    # list of similar posts
-    # post_tags_ids = post.tags.values_list('id', flat=True)
-    # similar_posts = Post.published.filter(tags__in=post_tags_ids).exclude(id=post.id)
-    # similar_posts = similar_posts.annotate(same_tags=Count('tags')).order_by('-same_tags', '-publish')[:4]
-    return render(request, 'news/news_article_detail.html', {'post': post})
+    return render(request, 'news/news_article_detail.html', {'post': post, 'comments': comments,
+                                                             'comment_form': comment_form,
+                                                             'new_comment': None})
 
 
 def post_share(request, post_id):
