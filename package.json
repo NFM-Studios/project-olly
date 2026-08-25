@@ -1,0 +1,13 @@
+{
+  "name": "project-olly-frontend",
+  "version": "1.0.0",
+  "description": "Frontend build tooling for the Project Olly esports platform",
+  "private": true,
+  "scripts": {
+    "build": "esbuild frontend/src/main.js --bundle --minify --outfile=project-static/js/app.min.js",
+    "watch": "esbuild frontend/src/main.js --bundle --watch --outfile=project-static/js/app.min.js"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0"
+  }
+}

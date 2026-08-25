@@ -66,3 +66,7 @@ env/tcl/tcl8\.6/tzdata/
 
 
 env/
+
+# Node frontend build
+node_modules/
+frontend/dist/
