@@ -1,6 +1,9 @@
 from django.test import TestCase, RequestFactory
+from django.urls import reverse
+from django.utils import timezone
 from .models import Team, TeamInvite
 from django.contrib.auth.models import User
+from pages.models import OllySetting
 from .views import *
 from .forms import RemovePlayerFormPost
 
@@ -63,3 +66,72 @@ class TeamTestCase(TestCase):
         #request.user = self.user
         #response = edit_team_view(request, pk=self.team.id)
         #self.assertEqual(response.status_code, 200)
+
+
+class TeamInviteFlowTest(TestCase):
+    def setUp(self):
+        self.founder = User.objects.create_user(username='founder', password='pass')
+        self.invitee = User.objects.create_user(username='invitee', password='pass')
+        self.team = Team.objects.create(name='InviteTeam')
+        self.team.founder = self.founder
+        self.team.save()
+
+    def _create_invite(self, captain=False):
+        invite = TeamInvite.objects.create(team=self.team, user=self.invitee, inviter=self.founder,
+                                           captain=captain, active=True, expire=timezone.now())
+        return invite
+
+    def test_accept_invite_as_player(self):
+        invite = self._create_invite(captain=False)
+        self.client.login(username='invitee', password='pass')
+        response = self.client.post(reverse('teams:invite_detail', args=[invite.pk]), {'accepted': 'on'})
+        self.assertEqual(response.status_code, 302)
+        invite.refresh_from_db()
+        self.assertTrue(invite.accepted)
+        self.assertFalse(invite.active)
+        self.assertIn(self.invitee, self.team.players.all())
+
+    def test_accept_invite_as_captain(self):
+        invite = self._create_invite(captain=True)
+        self.client.login(username='invitee', password='pass')
+        response = self.client.post(reverse('teams:invite_detail', args=[invite.pk]), {'accepted': 'on'})
+        self.assertEqual(response.status_code, 302)
+        invite.refresh_from_db()
+        self.assertTrue(invite.accepted)
+        self.assertIn(self.invitee, self.team.captain.all())
+
+    def test_decline_invite(self):
+        invite = self._create_invite()
+        self.client.login(username='invitee', password='pass')
+        response = self.client.post(reverse('teams:invite_detail', args=[invite.pk]), {'denied': 'on'})
+        self.assertEqual(response.status_code, 302)
+        self.assertFalse(TeamInvite.objects.filter(pk=invite.pk).exists())
+
+
+class TeamLeaveAndDissolveTest(TestCase):
+    def setUp(self):
+        OllySetting.objects.create(pk=1)
+        self.founder = User.objects.create_user(username='founder', password='pass')
+        self.player = User.objects.create_user(username='player', password='pass')
+        self.team = Team.objects.create(name='LeaveTeam')
+        self.team.founder = self.founder
+        self.team.save()
+        self.team.players.add(self.player)
+
+    def test_leave_team_as_founder_no_500(self):
+        self.client.login(username='founder', password='pass')
+        response = self.client.post(reverse('teams:leave', args=[self.team.pk]), {'confirmed': 'on'})
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(Team.objects.filter(pk=self.team.pk).exists())
+
+    def test_leave_team_as_player(self):
+        self.client.login(username='player', password='pass')
+        response = self.client.post(reverse('teams:leave', args=[self.team.pk]), {'confirmed': 'on'})
+        self.assertEqual(response.status_code, 302)
+        self.assertNotIn(self.player, self.team.players.all())
+
+    def test_dissolve_team_no_500(self):
+        self.client.login(username='founder', password='pass')
+        response = self.client.post(reverse('teams:dissolve', args=[self.team.pk]), {'confirmed': 'on'})
+        self.assertEqual(response.status_code, 302)
+        self.assertFalse(Team.objects.filter(pk=self.team.pk).exists())
