@@ -47,6 +47,8 @@ docs/_build/
 *.sqlite3
 
 venv/
+.venv/
+env/
 
 olly/media/profile_images/
 db\.sqlite3\.1

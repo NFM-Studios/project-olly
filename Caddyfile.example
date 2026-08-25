@@ -1,8 +1,27 @@
+# Production: replace example.com with your domain and your-email@example.com
+# with your email address to enable automatic HTTPS (Caddy will issue a cert).
 example.com {
-        tls email@example.com
-        root /html
-        proxy / unix:/sock/olly.sock {
-            transparent
-            except /static /media
-        }
-    }
+	tls your-email@example.com
+
+	# Serve static files from the shared static volume
+	handle /static/* {
+		root * /html/static
+		file_server
+	}
+
+	# Proxy everything else to the app over its unix socket
+	handle {
+		reverse_proxy unix//sock/olly.sock
+	}
+}
+
+# Local/dev fallback without TLS (no email needed):
+# :80 {
+# 	handle /static/* {
+# 		root * /html/static
+# 		file_server
+# 	}
+# 	handle {
+# 		reverse_proxy unix//sock/olly.sock
+# 	}
+# }

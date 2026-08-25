@@ -44,7 +44,10 @@ urlpatterns = [
     path('tournaments/', include('singletournaments.urls', namespace='singletournaments')),
     path('matches/', include('matches.urls', namespace='matches')),
     path('wagers/', include('wagers.urls', namespace='wagers')),
-    path('leagues/', include('leagues.urls', namespace='league'))
+    path('leagues/', include('leagues.urls', namespace='league')),
+
+    path('healthz/', pages_views.healthz, name='healthz'),
+    path('readyz/', pages_views.readyz, name='readyz'),
 ]
 #if settings.DEBUG is True:
  #   urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

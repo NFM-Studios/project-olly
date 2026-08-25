@@ -59,3 +59,18 @@ def static_page(request, slug):
         return redirect(page.url)
     else:
         return render(request, 'pages/static.html', {'page': page})
+
+
+def healthz(request):
+    from django.http import JsonResponse
+    return JsonResponse({"status": "ok"})
+
+
+def readyz(request):
+    from django.db import connection
+    from django.http import JsonResponse
+    try:
+        connection.ensure_connection()
+        return JsonResponse({"status": "ok"})
+    except Exception:
+        return JsonResponse({"status": "error"}, status=503)
