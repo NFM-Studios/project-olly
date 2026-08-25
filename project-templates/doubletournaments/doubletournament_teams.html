@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+    <title>Teams - {{ SITE_NAME }}</title>
+{% endblock %}
+
+
+{% block body %}
+    <div class="container page">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <p><a href="{% url 'doubletournaments:detail' pk=tournament.id %}"><i
+                            class="fa fa-arrow-left"></i> <strong>Back to {{ tournament.name }}</strong></a></p>
+                    <h3><b>Teams in {{ tournament.name }}</b></h3>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>Seed</th>
+                                <th>Team Name</th>
+                                <th>Team ID</th>
+                                <th>Status</th>
+                                <th>Placement</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for entry in entries %}
+                                <tr>
+                                    <td>{{ entry.seed }}</td>
+                                    <td><a href="{% url 'teams:detail' pk=entry.team.id %}">{{ entry.team.name }}</a>
+                                    </td>
+                                    <td>{{ entry.team.id }}</td>
+                                    <td>{% if entry.eliminated %}Eliminated (round {{ entry.eliminated_round }}){% else %}
+                                        Active{% endif %}</td>
+                                    <td>{% if entry.placement %}#{{ entry.placement }}{% else %}-{% endif %}</td>
+                                </tr>
+                            {% empty %}
+                                <tr>
+                                    <td colspan="5">No teams have joined yet.</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

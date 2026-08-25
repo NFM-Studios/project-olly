@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+    <title>{{ tournament.name }} Bracket - {{ SITE_NAME }}</title>
+{% endblock %}
+
+{% block body %}
+    <div class="navbar-spacer"></div>
+
+    <div class="container page">
+
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <p>
+                        <a href="{% url 'doubletournaments:detail' pk=tournament.id %}"><i
+                                class="fa fa-arrow-left"></i> <strong>Back to {{ tournament.name }}</strong></a>
+                    </p>
+                    <h2 style="text-align:center"><b>{{ tournament.name }}</b></h2>
+                    <div class="bracket-scroll">
+                        {% include 'doubletournaments/doubletournament_bracket_partial.html' %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -88,6 +88,9 @@ INSTALLED_APPS = [
     # single elimination tournaments
     'singletournaments',
 
+    # double elimination tournaments
+    'doubletournaments',
+
     # wagers
     'wagers',
 

@@ -73,6 +73,76 @@ body {
   -webkit-overflow-scrolling: touch;
 }
 
+/* Double-elimination bracket (Phase 5.1): winners + losers panes
+-------------------------------------------------- */
+.de-bracket {
+  display: flex;
+  flex-direction: row;
+}
+
+.de-bracket-pane {
+  min-width: 0;
+}
+
+.de-bracket-pane + .de-bracket-pane {
+  margin-left: 24px;
+}
+
+.de-bracket-label {
+  text-align: center;
+  font-weight: bold;
+  padding: 8px;
+  text-transform: uppercase;
+}
+
+.de-round {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 200px;
+  list-style: none;
+  padding: 0;
+}
+
+.de-round .de-spacer {
+  flex-grow: 1;
+}
+
+.de-round .de-spacer:first-child,
+.de-round .de-spacer:last-child {
+  flex-grow: .5;
+}
+
+.de-round .de-game-spacer {
+  flex-grow: 1;
+}
+
+li.de-game {
+  padding-left: 20px;
+}
+
+li.de-game.de-winner {
+  font-weight: bold;
+}
+
+li.de-game span {
+  float: right;
+  margin-right: 5px;
+}
+
+li.de-game-top {
+  border-bottom: 1px solid #aaa;
+}
+
+li.de-game-spacer {
+  border-right: 1px solid #aaa;
+  min-height: 75px;
+}
+
+li.de-game-bottom {
+  border-top: 1px solid #aaa;
+}
+
 /* Spacer below the navbar (replaces <br> padding hacks in templates)
 -------------------------------------------------- */
 .navbar-spacer {

@@ -39,6 +39,7 @@ urlpatterns = [
     path('paypal/', paypal_views.ipn, name="paypal-ipn"),
     path('staff/', include('staff.urls', namespace='staff')),
     path('tournaments/', include('singletournaments.urls', namespace='singletournaments')),
+    path('double-tournaments/', include('doubletournaments.urls', namespace='doubletournaments')),
     path('matches/', include('matches.urls', namespace='matches')),
     path('wagers/', include('wagers.urls', namespace='wagers')),
     path('leagues/', include('leagues.urls', namespace='league')),
