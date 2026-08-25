@@ -145,9 +145,18 @@
                 <a href=" url 'staff:winner' pk=tournament.id %}" class="btn btn-success">Declare Winner</a>
             endif
          endif %}--->
-        <a href="{% url 'staff:create_division' pk=league.id %}" onclick="return confirm('Are you sure you want to create divisions for this league?')" class="btn btn-primary">CREATE DIVISIONS</a>
-        <a href="{% url 'staff:add_division' pk=league.id %}" onclick="return confirm('Are you sure you want to manually create a division for this league?')" class="btn btn-primary">FORCE ADD DIVISION</a>
-        <a href="{% url 'staff:delete_tournament' pk=league.id %}" onclick="return confirm('Are you sure you want to delete this league?')" class="btn btn-danger">DELETE</a>
+        <form method="post" action="{% url 'staff:create_division' pk=league.id %}" onsubmit="return confirm('Are you sure you want to create divisions for this league?');" style="display:inline">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary">CREATE DIVISIONS</button>
+        </form>
+        <form method="post" action="{% url 'staff:add_division' pk=league.id %}" onsubmit="return confirm('Are you sure you want to manually create a division for this league?');" style="display:inline">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary">FORCE ADD DIVISION</button>
+        </form>
+        <form method="post" action="{% url 'staff:delete_tournament' pk=league.id %}" onsubmit="return confirm('Are you sure you want to delete this league?');" style="display:inline">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">DELETE</button>
+        </form>
     </p>
 
 {% endblock %}

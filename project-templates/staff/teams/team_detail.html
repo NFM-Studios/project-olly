@@ -84,12 +84,25 @@
             </tr>
         </table>
 
-        <a href="{% url 'staff:remove_user' pk %}"
-           onclick="return confirm('Are you sure you want to remove these users from the team')" class="btn btn-danger">Remove
-            users from team</a>
+        <form method="post" action="{% url 'staff:remove_user' pk %}"
+              onsubmit="return confirm('Are you sure you want to remove these users from the team')" style="display:inline">
+            {% csrf_token %}
+            <select name="remove" style="display:inline-block;width:auto;max-width:220px" class="form-control">
+                {% for player in team.players.all %}
+                    <option value="{{ player.pk }}">{{ player.username }} (Player)</option>
+                {% endfor %}
+                {% for captain in team.captain.all %}
+                    <option value="{{ captain.pk }}">{{ captain.username }} (Captain)</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="btn btn-danger">Remove users from team</button>
+        </form>
         <br/>
-        <a href="{% url 'staff:delete_team' pk %}"
-           onclick="return confirm('Are you sure you want to delete this team?')" class="btn btn-danger">Delete Team</a>
+        <form method="post" action="{% url 'staff:delete_team' pk %}"
+              onsubmit="return confirm('Are you sure you want to delete this team?');" style="display:inline">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Delete Team</button>
+        </form>
         <a href="{% url 'staff:add_player' pk %}" class="btn btn-success">Add Player</a>
     </div>
 {% endblock %}

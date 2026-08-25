@@ -105,7 +105,10 @@
         {% if not match.completed %}
             <a href="{% url 'staff:match_declare_winner' pk=match.id %}" class="btn btn-primary">Declare Winner</a>
         {% else %}
-            <a href="{% url 'staff:match_delete_winner' pk=match.id %}" class="btn btn-danger">Delete Winner</a>
+            <form method="post" action="{% url 'staff:match_delete_winner' pk=match.id %}" onsubmit="return confirm('Are you sure you want to delete this winner?');" style="display:inline">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Delete Winner</button>
+            </form>
         {% endif %}
         &nbsp;
         <a href="{% url 'staff:match_edit' pk=match.id %}" class="btn btn-primary">Edit Match</a>

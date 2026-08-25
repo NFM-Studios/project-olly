@@ -45,7 +45,10 @@
 
     <p>
         <a href="{% url 'staff:product_edit' pk %}" class="btn btn-primary">EDIT</a>
-        <a href="{% url 'staff:delete_product' pk %}" onclick="return confirm('Are you sure you want to delete this product?')" class="btn btn-danger">DELETE</a>
+        <form method="post" action="{% url 'staff:delete_product' pk %}" onsubmit="return confirm('Are you sure you want to delete this product?');" style="display:inline">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">DELETE</button>
+        </form>
 
     </p>
 

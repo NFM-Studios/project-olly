@@ -24,7 +24,10 @@
                     <td scope="row">#{{ cat.id }}</td>
                     <td>{{ cat.name }}</td>
                     <td>{{ cat.priority }}</td>
-                    <td><a href="{% url 'staff:ticket_cat_delete' pk=cat.id %}"><button style=" color:red" class="btn btn-amber">Delete</button></a></td>
+                    <td><form method="post" action="{% url 'staff:ticket_cat_delete' pk=cat.id %}" onsubmit="return confirm('Are you sure you want to delete this category?');" style="display:inline">
+                        {% csrf_token %}
+                        <button type="submit" style=" color:red" class="btn btn-amber">Delete</button>
+                    </form></td>
                 </tr>
                 </tbody>
             {% endfor %}

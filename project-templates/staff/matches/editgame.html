@@ -43,9 +43,12 @@
         <br>
 
         <button type="submit" class="btn btn-primary">Submit</button>
-        {% if pk %}
-            <a href="{% url 'staff:delete_game' pk=pk %}" onclick="return confirm('Are you sure you want to delete this game?')" class="btn btn-danger">Delete</a>
-        {% endif %}
     </form>
+    {% if pk %}
+        <form method="post" action="{% url 'staff:delete_game' pk=pk %}" onsubmit="return confirm('Are you sure you want to delete this game?');" style="display:inline">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
+    {% endif %}
 
 {% endblock %}
