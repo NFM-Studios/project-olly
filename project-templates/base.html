@@ -53,7 +53,7 @@
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenu1">
                             <li><a class="dropdown-item" href="{% url 'profiles:profile_no_username' %}">Profile</a></li>
-                            <li><a class="dropdown-item" href="{% url 'profiles:notifications' %}">Notifications</a></li>
+                            <li><a class="dropdown-item" href="{% url 'profiles:notifications' %}">Notifications <span id="notification-badge" class="badge text-bg-danger d-none"></span></a></li>
                             <li><a class="dropdown-item" href="{% url 'matches:list' %}">My Matches</a></li>
                             <li><a class="dropdown-item" href="{% url 'teams:list' %}">My Teams</a></li>
                             <li><a class="dropdown-item" href="{% url 'teams:myinvitelist' %}">Team Invites</a></li>
@@ -124,6 +124,7 @@
 </footer>
 
 <script src="{% static "js/app.min.js" %}"></script>
+<script src="{% static "js/notifications.js" %}"></script>
 </body>
 
 </html>
