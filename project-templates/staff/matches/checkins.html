@@ -20,7 +20,7 @@
                 <tr>
                     <td>{{ checkin.pk }} - <form method="post" action="{% url 'staff:delete_match_checkin' pk=mymatch.pk checkinid=checkin.pk %}" onsubmit="return confirm('Are you sure you want to delete this checkin?');" style="display:inline">
                         {% csrf_token %}
-                        <button type="submit" class="btn btn-danger btn-xs">DELETE CHECKIN</button>
+                        <button type="submit" class="btn btn-danger btn-sm">DELETE CHECKIN</button>
                     </form></td>
                     <td><a href="{% url 'staff:userdetail' urlusername=checkin.reporter %}">{{ checkin.reporter }}</a></td>
                     <td><a href="{% url 'staff:team_detail' pk=checkin.team.pk %}">{{ checkin.team.name }}</a></td>

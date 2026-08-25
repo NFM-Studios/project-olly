@@ -17,7 +17,8 @@
 
     <p><a href="{% url 'staff:product_list' %}"><i class="fa fa-arrow-left"></i> <strong>Back to product
         list</strong></a></p>
-    <table class="table">
+    <div class="table-responsive">
+<table class="table">
         <thead>
         <tr>
             <th>Key</th>
@@ -42,6 +43,7 @@
         </tr>
 
     </table>
+</div>
 
     <p>
         <a href="{% url 'staff:product_edit' pk %}" class="btn btn-primary">EDIT</a>

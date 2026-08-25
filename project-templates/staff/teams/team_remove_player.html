@@ -4,7 +4,8 @@
 {% block body %}
 
     <form method="POST" action="">
-        <table class="table">
+        <div class="table-responsive">
+<table class="table">
             {% csrf_token %}
             {{ form.as_table }}
 
@@ -14,6 +15,7 @@
                 </td>
             </tr>
         </table>
+</div>
     </form>
 
 {% endblock %}

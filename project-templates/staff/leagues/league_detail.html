@@ -10,7 +10,8 @@
 
     <p><a href="{% url 'staff:list_league' %}"><i class="fa fa-arrow-left"></i> <strong>Back to League
         list</strong></a></p>
-    <table class="table">
+    <div class="table-responsive">
+<table class="table">
         <thead>
         <tr>
             <th>Key</th>
@@ -116,9 +117,11 @@
             <td><a href="{% url 'staff:teams_league' pk=league.id %}">Teams</a></td>
         </tr>
     </table>
+</div>
     <br />
     <h2>Non-conference matches</h2>
-    <table>
+    <div class="table-responsive">
+<table>
         <thead>
         <tr>
             <th>Match ID</th>
@@ -134,6 +137,7 @@
         </tr>
         {% endfor %}
     </table>
+</div>
     <p>
         <a href="{% url 'staff:edit_league' pk=league.id %}" class="btn btn-primary">Edit</a>
          <!--if tournament.active %}

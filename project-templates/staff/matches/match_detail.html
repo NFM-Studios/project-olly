@@ -11,7 +11,8 @@
         <button class="btn btn-danger">FORCE DISPUTE</button>
     </a>
 
-    <table class="table">
+    <div class="table-responsive">
+<table class="table">
         <thead>
         <tr>
             <th>Key</th>
@@ -126,6 +127,7 @@
         </tr>
 
     </table>
+</div>
     {% if match.config_generated %}
         <a href="/match/config/{{ match.id }}">View Match Config</a>
     {% else %}
@@ -146,7 +148,8 @@
 
     <h2>Reports for this match...</h2>
 
-    <table>
+    <div class="table-responsive">
+<table>
         <tr>
             <th>{{ match.hometeam }} Reported Winner</th>
         </tr>
@@ -154,8 +157,10 @@
         <td>{{ match.team1reportedwinner }}</td>
         </tbody>
     </table>
+</div>
     <br/>
-    <table>
+    <div class="table-responsive">
+<table>
         <tr>
             <th>{{ match.awayteam }} Reported Winner</th>
         </tr>
@@ -164,5 +169,6 @@
 
         </tbody>
     </table>
+</div>
 
 {% endblock %}

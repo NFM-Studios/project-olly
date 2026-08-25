@@ -17,7 +17,8 @@
 
     <p><a href="{% url 'staff:match_detail' pk=dispute.match_id %}"><i class="fa fa-arrow-left"></i> <strong>Back to
         Match</strong></a></p>
-    <table class="table">
+    <div class="table-responsive">
+<table class="table">
         <thead>
         <tr>
             <th>Key</th>
@@ -58,5 +59,6 @@
         </tr>
 
     </table>
+</div>
 
 {% endblock %}

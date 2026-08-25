@@ -11,7 +11,8 @@
     <p><a href="{% url 'staff:tournamentlist' %}"><i class="fa fa-arrow-left"></i> <strong>Back to Tournament
         list</strong></a></p>
     <h2>-- Current UTC Time {{ time }}</h2>
-    <table class="table">
+    <div class="table-responsive">
+<table class="table">
         <thead>
         <tr>
             <th>Key</th>
@@ -102,6 +103,7 @@
             {% endfor %}</td>
         </tr>
     </table>
+</div>
 
     <p>
         <a href="{% url 'staff:edit_tournament' pk=tournament.id %}" class="btn btn-primary">Edit</a>

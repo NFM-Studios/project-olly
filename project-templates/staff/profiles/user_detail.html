@@ -21,7 +21,8 @@
     </div>
 
     <br/>
-    <table class="table">
+    <div class="table-responsive">
+<table class="table">
         <tr>
             <td><strong>Username:</strong></td>
             <td>{{ userprofile.user }}</td>
@@ -80,8 +81,10 @@
             <td> {{ userprofile.total_earning }}</td>
         </tr>
     </table>
+</div>
 
-    <table class="table">
+    <div class="table-responsive">
+<table class="table">
 
         <tr id="header">
             <thead>
@@ -119,8 +122,10 @@
         {% endfor %}
 
     </table>
+</div>
 
-    <table class="table">
+    <div class="table-responsive">
+<table class="table">
 
         <tr id="header">
             <thead>
@@ -147,5 +152,6 @@
         {% endif %}
         </tbody>
     </table>
+</div>
 
 {% endblock %}

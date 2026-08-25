@@ -8,7 +8,7 @@
 
 {% block body %}
     <div style="overflow-x:auto;">
-        <table class="table-hover">
+        <table class="table table-hover">
             <tr><td>Posted: {{ wrequest.posted }}</td></tr>
             <tr><td><a href="{% url 'staff:team_detail' pk=wrequest.team.id %}">Team: {{ wrequest.team }}</a></td></tr>
             <tr><td>Challenge Accpepted: {{ wrequest.challenge_accepted }}</td></tr>
