@@ -25,6 +25,12 @@ NOTIFICATION_TYPES = NotificationTypes.choices
 
 
 class Notification(models.Model):
+    class Meta:
+        indexes = [
+            models.Index(fields=['datetime'], name='notification_datetime_idx'),
+            models.Index(fields=['read'], name='notification_read_idx'),
+        ]
+
     title = models.CharField(max_length=255, null=True, blank=True)
     description = models.TextField(default="No description given")
     # set the default sender of a notification as "System"
