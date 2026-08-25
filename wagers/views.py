@@ -115,12 +115,18 @@ class WagerChallengeCreate(View):
         # self.user = request.user
         template = 'wagers/wager_challenge_create.html'
         form = WagerChallengeForm(user=request.user)
-        myrequest = WagerRequest.objects.get(pk=pk)
+        myrequest = get_object_or_404(WagerRequest, pk=pk)
         return render(request, template, {'form': form, 'myrequest': myrequest})
 
     def post(self, request, pk):
+        myrequest = get_object_or_404(WagerRequest, pk=pk)
+        if myrequest.expired or (myrequest.expiration is not None and myrequest.expiration < timezone.now()):
+            messages.error(self.request, "This wager request has expired")
+            return redirect('wagers:list')
+        if myrequest.challenge_accepted:
+            messages.error(self.request, "This wager request has already been accepted")
+            return redirect('wagers:request_detail', pk=pk)
         form = WagerChallengeForm(request.POST, user=request.user)
-        myrequest = WagerRequest.objects.get(pk=pk)
         challenge = form.instance
         challenge.creator = self.request.user
         if not form.is_valid():
@@ -143,6 +149,7 @@ class WagerChallengeCreate(View):
                     messages.error(self.request, "A player cannot be on both teams at the same time")
                     return redirect('wagers:list')
         with transaction.atomic():
+            challenge.confirm = True
             challenge.save()
             myrequest.challenge_accepted = True
             myrequest.challenge = challenge
