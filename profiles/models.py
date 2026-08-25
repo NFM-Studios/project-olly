@@ -107,7 +107,7 @@ class UserProfile(models.Model):
 
     def calculate_rank(self):
         self.rank = int(UserProfile.objects.filter(xp__gt=self.xp).count()) + 1
-        self.save()
+        self.save(update_fields=['rank'])
 
 
 def create_profile(sender, **kwargs):
