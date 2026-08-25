@@ -17,7 +17,8 @@
 
 {% block body %}
     <p><a href="{% url 'staff:tickets' %}"><i class="fa fa-arrow-left"></i> <strong>Back to ticket list</strong></a></p>
-    <table class="table">
+    <div class="table-responsive">
+<table class="table">
         <thead>
         <tr>
             <th>Key</th>
@@ -65,6 +66,7 @@
             </td>
         </tr>
     </table>
+</div>
 
     {% for i in comments %}
         {% if i.author.user.user_type == 'admin' or i.author.user.user_type == 'superadmin' %}
@@ -76,7 +78,8 @@
     {% endfor %}
 
     <form method="POST" action="{% url 'staff:ticket_detail' pk=x %}">
-        <table class="table">
+        <div class="table-responsive">
+<table class="table">
             {% csrf_token %}
             {{ form.as_table }}
             <tr>
@@ -85,6 +88,7 @@
                 </td>
             </tr>
         </table>
+</div>
     </form>
     <form method="POST" action="{% url 'staff:ticket_detail' pk=x %}">
         {% csrf_token %}

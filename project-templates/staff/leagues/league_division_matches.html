@@ -42,8 +42,10 @@
                         <td><a href="{% url 'staff:match_declare_winner' pk=match.id %}" class="btn btn-primary">Declare
                             Winner</a></td>
                     {% else %}
-                        <td><a href="{% url 'staff:match_delete_winner' pk=match.id %}" class="btn btn-danger">Delete
-                            Winner</a></td>
+                        <td><form method="post" action="{% url 'staff:match_delete_winner' pk=match.id %}" onsubmit="return confirm('Are you sure you want to delete this winner?');" style="display:inline">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger">Delete Winner</button>
+                        </form></td>
                     {% endif %}
                 </tr>
                 </tbody>

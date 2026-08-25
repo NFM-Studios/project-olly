@@ -1,8 +1,6 @@
 #from django.conf import settings
-from django.conf.urls import include
-#from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path, re_path
+from django.urls import include, path, re_path
 from paypal.standard.ipn import views as paypal_views
 from pages.models import StaticPage
 from pages import views as pages_views
@@ -20,17 +18,16 @@ urlpatterns = [
     path('sponsors/', pages_views.partners_page, name='partners'),
     path('privacy/', pages_views.privacy, name='privacy'),
     path('updates/', pages_views.whats_new, name='updates'),
-    path('404/', pages_views.notfound),
     path('pages/<slug:slug>/', pages_views.static_page, name='static_page'),
 
     path('register/', profile_views.CreateUserFormView.as_view(), name='register'),
-    path('login/', profile_views.login, {'template_name': 'profiles/login_form.html'}, name='login'),
-    path('logout/', profile_views.logout, name='logout'),
-    path('reset-password/', profile_views.password_reset, name='reset_password'),
-    path('reset-password/done/', profile_views.password_reset_done, name='password_reset_done'),
-    re_path(r'^reset-password/confirm/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$', profile_views.password_reset_confirm,
-            name='password_reset_confirm'),
-    path('reset-password/complete/', profile_views.password_reset_complete, name='password_reset_complete'),
+    path('login/', profile_views.LoginView.as_view(), name='login'),
+    path('logout/', profile_views.LogoutView.as_view(next_page='index'), name='logout'),
+    path('reset-password/', profile_views.PasswordResetView.as_view(), name='reset_password'),
+    path('reset-password/done/', profile_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
+    re_path(r'^reset-password/confirm/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$',
+            profile_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+    path('reset-password/complete/', profile_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
     re_path(r"^activate/(?P<uidb64>[0-9A-Za-z_'\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$",
             profile_views.activate, name='activate'),
 
@@ -42,9 +39,15 @@ urlpatterns = [
     path('paypal/', paypal_views.ipn, name="paypal-ipn"),
     path('staff/', include('staff.urls', namespace='staff')),
     path('tournaments/', include('singletournaments.urls', namespace='singletournaments')),
+    path('double-tournaments/', include('doubletournaments.urls', namespace='doubletournaments')),
     path('matches/', include('matches.urls', namespace='matches')),
     path('wagers/', include('wagers.urls', namespace='wagers')),
-    path('leagues/', include('leagues.urls', namespace='league'))
+    path('leagues/', include('leagues.urls', namespace='league')),
+
+    path('api/', include('api.urls')),
+
+    path('healthz/', pages_views.healthz, name='healthz'),
+    path('readyz/', pages_views.readyz, name='readyz'),
 ]
 #if settings.DEBUG is True:
  #   urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

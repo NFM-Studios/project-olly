@@ -1,0 +1,233 @@
+{% extends "base.html" %}
+{% load static %}
+{% load olly_extras %}
+
+{% block head %}
+    <title>{{ tournament.name }} Details - {{ SITE_NAME }}</title>
+{% endblock %}
+
+{% block body %}
+
+    <div class="container page">
+
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <p><a href="{% url 'doubletournaments:list' %}"><i class="fa fa-arrow-left"></i> <strong>Back to
+                        double elimination tournaments</strong></a></p>
+                    <br/>
+                    <div class="col-12 banner-head bot20">
+                        <div class="row">
+                            <div class="col-12 col-sm-4">
+                                <img style="size:auto" src="
+
+                                        {% if ESPORTS_MODE %}
+
+
+                                    {% if tournament.game.image %}{{ MEDIA_URL }}{{ tournament.game.image }}{% else %}{% static 'images/gamepad-solid.svg' %}{% endif %}"
+                                    alt="{{ tournament.name }} logo"/>
+                                {% else %}
+                                    {{ tournament.sport.name }}
+                                {% endif %}
+                            </div>
+                            <div class="col-12 col-sm-8">
+                                <br>
+                                <h2><b>{{ tournament.name }}</b></h2>
+                                {% if ESPORTS_MODE %}
+                                    <h4>{{ tournament.platform.name }} | {{ tournament.game.name }}</h4>
+                                    {% if tournament.map_pool %}
+                                        Map Pool: <a
+                                            href="{% url 'matches:maps_detail' pk=tournament.map_pool.id %}">{{ tournament.map_pool }}</a>
+                                        <br>
+                                    {% endif %}
+                                {% endif %}
+                                {{ tournament.start }} | {{ tournament.teamformat|teamformat }} |
+                                {{ tournament.bestof|bestof }}
+                                <br>
+                                1st Place: {{ tournament.prize1 }}, 2nd Place: {{ tournament.prize2 }}, 3rd
+                                Place: {{ tournament.prize3 }}<br>
+                                <br>
+                                <ul class="nav nav-pills">
+                                    <li class="nav-item"><a class="nav-link active" href="#1" data-bs-toggle="tab"
+                                                          aria-expanded="true"
+                                                          style="margin-bottom:4px;">INFO</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="#2" data-bs-toggle="tab"
+                                                          aria-expanded="false"
+                                                          style="margin-bottom:4px;">TEAMS</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="#3" data-bs-toggle="tab"
+                                                          aria-expanded="false"
+                                                          style="margin-bottom:4px;">BRACKET</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="#4" data-bs-toggle="tab"
+                                                          aria-expanded="false"
+                                                          style="margin-bottom:4px;">RULES</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="#5" data-bs-toggle="tab"
+                                                          aria-expanded="false"
+                                                          style="margin-bottom:4px;">MATCHES</a></li>
+                                    {% if not user.is_anonymous %}
+                                        <li class="nav-item"><a class="nav-link" href="#6" data-bs-toggle="tab"
+                                                              aria-expanded="false"
+                                                              style="margin-bottom:4px;">JOIN/LEAVE</a></li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12">
+
+                            <div class="tab-content clearfix">
+                                <div class="tab-pane info fade show active" id="1">
+                                    <div class="row bot10">
+                                        {% if ESPORTS_MODE %}
+                                            <div class="col-6 col-sm-3 center">
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <h4><b>PLATFORM</b></h4>
+                                                        {{ tournament.platform.name }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                        <div class="col-6 col-sm-3 center">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h4><b>Format</b></h4>
+                                                    {{ tournament.teamformat|teamformat }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 col-sm-3 center">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h4><b>Registration Opens -&gt; Closes</b></h4>
+                                                    <script>
+                                                        const date = new Date("{{ tournament.open_register|js_datetime }}");
+                                                        console.log(date);
+                                                        document.write(date.toLocaleString());
+                                                    </script>
+                                                    -&gt;
+                                                    <script>
+                                                        const date2 = new Date("{{ tournament.close_register|js_datetime }}");
+                                                        console.log(date2);
+                                                        document.write(date2.toLocaleString());
+                                                    </script>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 col-sm-3 center">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h4><b>Registration Fee</b></h4>
+                                                    {{ tournament.req_credits }} credits
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {{ tournament.info|linebreaksbr }}
+                                </div>
+
+                                <div class="tab-pane fade" id="2">
+                                    <div class="row bot10">
+                                        {% if teams.count == 0 %}
+                                            <p style="text-align: center">There are no teams in this tournament!</p>
+                                        {% endif %}
+                                        {% for team in teams %}
+                                            <div class="col-6 col-sm-3 center">
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <b>{{ team.name }}</b><br>
+                                                        <a class="btn btn-sm btn-primary"
+                                                           href="{% url 'doubletournaments:teams' pk=tournament.id %}">View
+                                                            all teams</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+
+                                <div class="tab-pane fade" id="3">
+                                    <div class="bracket-scroll">
+                                        {% include 'doubletournaments/doubletournament_bracket_partial.html' %}
+                                    </div>
+                                </div>
+
+                                <div class="tab-pane fade" id="4">
+                                    <div class="col-12" style="font-size:14px; text-align: center">
+                                        {% if ruleset %}
+                                            <a href="{% url 'doubletournaments:ruleset' pk=ruleset.id %}">{{ ruleset.name }}</a>
+                                            <br>
+                                            {{ ruleset.text|linebreaks }}
+                                        {% else %}
+                                            No ruleset for this tournament.
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                                <div class="tab-pane fade" id="5">
+                                    {% include 'doubletournaments/doubletournament_matches.html' %}
+                                </div>
+
+                                {% if not user.is_anonymous %}
+                                    <div class="tab-pane fade" id="6">
+                                        {% if user_teams %}
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h4><b>Join this tournament</b></h4>
+                                                    <form method="POST" action="{% url 'doubletournaments:join' pk=tournament.id %}">
+                                                        {% csrf_token %}
+                                                        <div class="form-group">
+                                                            <select name="teams" class="form-control">
+                                                                {% for team in user_teams %}
+                                                                    <option value="{{ team.id }}">{{ team.name }}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                        <br>
+                                                        <button class="btn btn-md btn-success" type="submit">Join
+                                                            tournament
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            <br>
+                                        {% endif %}
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h4><b>Leave this tournament</b></h4>
+                                                <form method="POST" action="{% url 'doubletournaments:leave' pk=tournament.id %}">
+                                                    {% csrf_token %}
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" name="confirm"
+                                                               id="leave-confirm">
+                                                        <label class="form-check-label" for="leave-confirm">
+                                                            I confirm that I want to leave this tournament
+                                                        </label>
+                                                    </div>
+                                                    <br>
+                                                    <button class="btn btn-md btn-danger" type="submit">Leave
+                                                        tournament
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+{% endblock %}

@@ -92,9 +92,6 @@ class GameChoice(models.Model):
     name = models.CharField(default='unknown', null=False, max_length=255)
     image = models.ImageField(upload_to='game_images', blank=True)
 
-    def __unicode__(self):
-        return '%s' % self.name
-
     def __str__(self):
         return "" + self.name
 
@@ -102,9 +99,6 @@ class GameChoice(models.Model):
 class PlatformChoice(models.Model):
     name = models.CharField(default='unknown', null=False, max_length=255)
     image = models.ImageField(upload_to='platform_images', null=True, blank=True)
-
-    def __unicode__(self):
-        return "" + self.name
 
     def __str__(self):
         return "" + self.name
@@ -198,6 +192,11 @@ class Match(models.Model):
 
     class Meta:
         verbose_name_plural = "matches"
+        indexes = [
+            models.Index(fields=['datetime'], name='match_datetime_idx'),
+            models.Index(fields=['completed'], name='match_completed_idx'),
+            models.Index(fields=['hometeam', 'awayteam'], name='match_teams_idx'),
+        ]
 
     def update_info(self, obj):
         self.info = obj.info

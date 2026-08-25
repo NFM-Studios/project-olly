@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.db.models import Sum
 from django_countries.fields import CountryField
 #from matches.models import Match, TeamMatchStats
 from profiles.models import UserProfile
@@ -52,6 +53,10 @@ class Team(models.Model):
         verbose_name = 'Team'
         verbose_name_plural = 'Teams'
         ordering = ['updated']
+        indexes = [
+            models.Index(fields=['rank'], name='team_rank_idx'),
+            models.Index(fields=['totalxp'], name='team_totalxp_idx'),
+        ]
 
     def get_players_count(self):
         return self.players.count()
@@ -61,14 +66,13 @@ class Team(models.Model):
             return True
 
     def get_total_xp(self):
-        for invite in TeamInvite.objects.filter(team_id=self.id):
-            userprofile = UserProfile.objects.get(user=invite.user)
-            self.totalxp += userprofile.xp
-        self.save()
+        total = UserProfile.objects.filter(user__toinvite__team=self).aggregate(total=Sum('xp'))['total'] or 0
+        self.totalxp = total
+        self.save(update_fields=['totalxp'])
 
     def get_rank(self):
         self.rank = int(Team.objects.filter(totalxp__gt=self.totalxp).count()) + 1
-        self.save()
+        self.save(update_fields=['rank'])
 
     def __str__(self):
         return self.name

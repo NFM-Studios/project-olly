@@ -3,25 +3,40 @@ from django.db import models
 from django.db.models.signals import post_save
 from django_countries.fields import CountryField
 
-NOTIFICATION_TYPES = [
-    ('match', 1),
-    ('tournament', 2),
-    ('league', 3),
-    ('team', 4),
-    ('support', 5),
-    ('news', 6),
-    ('general', 7),
-    ('store', 8),
-]
+class NotificationTypes(models.TextChoices):
+    MATCH = 'match', '1'
+    TOURNAMENT = 'tournament', '2'
+    LEAGUE = 'league', '3'
+    TEAM = 'team', '4'
+    SUPPORT = 'support', '5'
+    NEWS = 'news', '6'
+    GENERAL = 'general', '7'
+    STORE = 'store', '8'
+
+
+class UserTypeChoices(models.TextChoices):
+    USER = 'user', 'Standard User'
+    ADMIN = 'admin', 'Admin'
+    SUPERADMIN = 'superadmin', 'Super Admin'
+
+
+# kept as a module-level alias so external callers can keep using the name
+NOTIFICATION_TYPES = NotificationTypes.choices
 
 
 class Notification(models.Model):
+    class Meta:
+        indexes = [
+            models.Index(fields=['datetime'], name='notification_datetime_idx'),
+            models.Index(fields=['read'], name='notification_read_idx'),
+        ]
+
     title = models.CharField(max_length=255, null=True, blank=True)
     description = models.TextField(default="No description given")
     # set the default sender of a notification as "System"
     sender = models.CharField(max_length=255, default="System")
     type = models.CharField(choices=NOTIFICATION_TYPES, default='general', max_length=255)
-    datetime = models.DateTimeField(auto_created=True, auto_now_add=True, blank=True)
+    datetime = models.DateTimeField(auto_now_add=True, blank=True)
     link = models.CharField(max_length=255)
     pk1 = models.IntegerField(default=0)
     # has the user marked the notification as read? default to false
@@ -44,11 +59,11 @@ class UserProfile(models.Model):
     # all notifications associated with this user
     notifications = models.ManyToManyField(Notification, related_name='user_notifications', blank=True)
     # credits they own from purchasing things in the store
-    credits = models.PositiveSmallIntegerField(default=0)
+    credits = models.PositiveIntegerField(default=0)
     # amount of money they have cashed out
-    total_earning = models.PositiveSmallIntegerField(default=0)
+    total_earning = models.PositiveIntegerField(default=0)
     user_verified = models.BooleanField(default=False, null=False, blank=True)
-    current_earning = models.PositiveSmallIntegerField(default=0)
+    current_earning = models.PositiveIntegerField(default=0)
     about_me = models.TextField(default='Forever a mystery', blank=True)
     steamid64 = models.CharField(max_length=255, default='No SteamID64', blank=True)
     discord = models.CharField(max_length=255, default='No Discord', blank=True)
@@ -64,12 +79,7 @@ class UserProfile(models.Model):
     favorite_game = models.CharField(max_length=50, default='N/A', blank=True)
     favorite_console = models.CharField(max_length=50, default='N/A', blank=True)
     profile_picture = models.ImageField(upload_to='profile_images', blank=True)
-    USER_TYPE_CHOICES = [
-        ('user', 'Standard User'),
-        ('admin', 'Admin'),
-        ('superadmin', 'Super Admin')
-    ]
-    user_type = models.CharField(max_length=10, default='user', choices=USER_TYPE_CHOICES)
+    user_type = models.CharField(max_length=10, default='user', choices=UserTypeChoices.choices)
     ip = models.CharField(max_length=45, default='0.0.0.0')
     # default trophies
     num_bronze = models.PositiveSmallIntegerField(default=0)
@@ -103,7 +113,7 @@ class UserProfile(models.Model):
 
     def calculate_rank(self):
         self.rank = int(UserProfile.objects.filter(xp__gt=self.xp).count()) + 1
-        self.save()
+        self.save(update_fields=['rank'])
 
 
 def create_profile(sender, **kwargs):
@@ -115,7 +125,7 @@ def create_profile(sender, **kwargs):
 
 class BannedUser(models.Model):
     user = models.ForeignKey(User, related_name='banned', on_delete=models.CASCADE)
-    ip = models.CharField(max_length=12, default='error')
+    ip = models.GenericIPAddressField(max_length=45, default='0.0.0.0')
 
 
 post_save.connect(create_profile, sender=User)

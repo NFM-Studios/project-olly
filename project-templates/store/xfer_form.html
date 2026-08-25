@@ -1,9 +1,11 @@
 <div class="form-group">
-    {{ field.errors }}
+    {% if form.credits.errors %}<div class="alert alert-danger">{{ form.credits.errors }}</div>{% endif %}
     <label>Number of credits to transfer</label>
     <div>{{ form.credits }}</div>
+    {% if form.destination_user.errors %}<div class="alert alert-danger">{{ form.destination_user.errors }}</div>{% endif %}
     <label>Destination user</label>
     <div>{{ form.destination_user }}</div>
+    {% if form.confirm.errors %}<div class="alert alert-danger">{{ form.confirm.errors }}</div>{% endif %}
     <label>Confirm that you want to send credits</label><br>
     Yes: {{ form.confirm }}
 </div>

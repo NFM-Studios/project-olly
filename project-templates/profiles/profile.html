@@ -7,18 +7,19 @@
 {% block body %}
 
     {% if requestuser == userprofile.user %}
-        <a style="margin:12px;" href="/profile/edit"> <i class="fas fa-pencil-alt"></i> Edit Profile</a><br/>
-        <a style="margin:12px;" href="/store/transfer"><i class="fas fa-arrow-right"></i> Transfer Credits</a><br/>
+        <a style="margin:12px;" href="{% url 'profiles:edit_profile' %}"> <i class="fas fa-pencil-alt"></i> Edit Profile</a><br/>
+        <a style="margin:12px;" href="{% url 'store:transfer' %}"><i class="fas fa-arrow-right"></i> Transfer Credits</a><br/>
     {% endif %}
     <div style="text-align:center">
         {% if userprofile.profile_picture != "" %}
-            <img src="{{ MEDIA_URL }}{{ userprofile.profile_picture }}" align="center" width="200"> <br/>
+            <img src="{{ MEDIA_URL }}{{ userprofile.profile_picture }}" align="center" width="200" alt="{{ userprofile.user }} profile picture"> <br/>
         {% else %}
-            <img src="{{ MEDIA_URL }}default_profile.png" align="center" width="200"/> <br/>
+            <img src="{{ MEDIA_URL }}default_profile.png" align="center" width="200" alt="{{ userprofile.user }} profile picture"/> <br/>
         {% endif %}
     </div>
 
     <br/>
+    <div class="table-responsive">
     <table class="table">
         <tr>
             <td><strong>Username:</strong></td>
@@ -82,9 +83,11 @@
             <td> {{ userprofile.total_earning }}</td>
         </tr>
     </table>
+    </div>
     <!-- email_verified total_earning -->
 
     <h2>Teams {{ userprofile.user }} founded</h2>
+    <div class="table-responsive">
     <table class="table">
 
         <tr id="header">
@@ -100,8 +103,10 @@
             </tbody>
         {% endfor %}
     </table>
+    </div>
 
     <h2>Teams {{ userprofile.user }} is a captain of</h2>
+    <div class="table-responsive">
     <table class="table">
 
         <tr id="header">
@@ -117,8 +122,10 @@
             </tbody>
         {% endfor %}
     </table>
+    </div>
 
     <h2>Teams {{ userprofile.user }} is a part of</h2>
+    <div class="table-responsive">
     <table class="table">
 
         <tr id="header">
@@ -134,6 +141,7 @@
             </tbody>
         {% endfor %}
     </table>
+    </div>
 
 
 {% endblock %}

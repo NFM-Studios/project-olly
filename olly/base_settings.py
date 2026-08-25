@@ -20,6 +20,34 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SESSION_COOKIE_AGE = 604800
 
+# Legacy project: all models use auto-created AutoField primary keys. Keep
+# AutoField explicitly to preserve the existing schema and silence W042.
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
+# Security hardening
+# These are toggled via environment variables so they stay off in development
+# (debug=True) and turn on in production. See scripts/dev-env.ps1 for the
+# dev-safe values.
+
+
+def _env_bool(name, default=False):
+    try:
+        return os.environ[name] == 'True'
+    except KeyError:
+        return default
+
+
+SESSION_COOKIE_SECURE = _env_bool('session_cookie_secure')
+CSRF_COOKIE_SECURE = _env_bool('csrf_cookie_secure')
+SECURE_SSL_REDIRECT = _env_bool('secure_ssl_redirect')
+SECURE_HSTS_SECONDS = int(os.environ.get('secure_hsts_seconds', '0'))
+SECURE_HSTS_INCLUDE_SUBDOMAINS = _env_bool('secure_hsts_include_subdomains')
+SECURE_HSTS_PRELOAD = _env_bool('secure_hsts_preload')
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_REFERRER_POLICY = os.environ.get('secure_referrer_policy', 'strict-origin-when-cross-origin')
+SESSION_COOKIE_HTTPONLY = True
+X_FRAME_OPTIONS = 'DENY'
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -60,6 +88,9 @@ INSTALLED_APPS = [
     # single elimination tournaments
     'singletournaments',
 
+    # double elimination tournaments
+    'doubletournaments',
+
     # wagers
     'wagers',
 
@@ -79,6 +110,16 @@ INSTALLED_APPS = [
 
     # rich text fields
     'ckeditor',
+
+    # REST API
+    'rest_framework',
+    'rest_framework.authtoken',
+    'django_filters',
+    'api',
+
+    # realtime websocket notifications
+    'channels',
+    'realtime',
 
     # this is what handles deleting old uploaded files
     # NOTE: THIS MUST BE LAST IN THE LIST
@@ -160,14 +201,12 @@ TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
-USE_L10N = True
-
 USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 # noinspection PyUnresolvedReferences
-STATIC_ROOT = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static-collected')
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "project-static")
@@ -177,4 +216,4 @@ STATICFILES_DIRS = [
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/login/'
 
-SITE_VERSION = "1.0.4"
+SITE_VERSION = "2.0.0"

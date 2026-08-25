@@ -12,11 +12,13 @@ else:
     DEBUG = False
     PAYPAL_TEST = False
 
-ALLOWED_HOSTS = os.environ['allowed_hosts']
+ALLOWED_HOSTS = [h.strip() for h in os.environ['allowed_hosts'].split(',')]
 
 SITE_URL = os.environ['site_url']
 
 WSGI_APPLICATION = 'olly.wsgi.application'
+
+ASGI_APPLICATION = 'olly.asgi.application'
 
 try:
     if os.environ['user_verification'] == 'True':
@@ -66,7 +68,14 @@ AWS_S3_ENDPOINT_URL = os.environ['storage_endpoint_url']
 AWS_STORAGE_BUCKET_NAME = os.environ['storage_bucket_name']
 AWS_LOCATION = ''
 AWS_QUERYSTRING_AUTH = False
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+STORAGES = {
+    'default': {
+        'BACKEND': 'storages.backends.s3boto3.S3Boto3Storage',
+    },
+    'staticfiles': {
+        'BACKEND': 'django.contrib.staticfiles.storage.StaticFilesStorage',
+    },
+}
 MEDIA_URL = "%s/%s/" % (AWS_S3_ENDPOINT_URL, AWS_STORAGE_BUCKET_NAME)
 
 # Email stuff
@@ -89,6 +98,19 @@ try:
 except (KeyError, IndexError):
     PAYPAL_EMAIL = 'none@example.com'
 
+# Stripe payments (optional; disabled unless stripe_enabled=True)
+try:
+    if os.environ['stripe_enabled'] == 'True':
+        STRIPE_ENABLED = True
+    else:
+        STRIPE_ENABLED = False
+except KeyError:
+    STRIPE_ENABLED = False
+
+STRIPE_PUBLISHABLE_KEY = os.environ.get('stripe_publishable_key', '')
+STRIPE_SECRET_KEY = os.environ.get('stripe_secret_key', '')
+STRIPE_WEBHOOK_SECRET = os.environ.get('stripe_webhook_secret', '')
+
 
 # Captcha
 GOOGLE_RECAPTCHA_SECRET_KEY = os.environ['google_recaptcha_secret_key']
@@ -97,3 +119,20 @@ GOOGLE_RECAPTCHA_SITE_KEY = os.environ['google_recaptcha_site_key']
 # Site info
 SITE_NAME = os.environ['site_name']
 SITE_SERVER = os.environ['site_server']
+
+# Django REST Framework
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 20,
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend',
+        'rest_framework.filters.OrderingFilter',
+    ],
+}

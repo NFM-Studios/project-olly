@@ -1,5 +1,3 @@
-version: '3.3'
-
 networks:
   project-olly-net:
     driver: bridge
@@ -9,7 +7,8 @@ services:
     restart: always
     build: .
     depends_on:
-      - project-olly-db
+      project-olly-db:
+        condition: service_healthy
     volumes:
       - socket:/sock
       - ${static_path:-static}:/static
@@ -18,38 +17,49 @@ services:
     networks:
       - project-olly-net
     container_name: project-olly-app
+    healthcheck:
+      test: ["CMD", "python3", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/healthz/', timeout=5)"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
 
   project-olly-db:
     restart: always
-    image: postgres:12
+    image: postgres:16
     environment:
       - POSTGRES_PASSWORD=${db_password}
       - POSTGRES_USER=${db_username}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${db_username} -d ${db_name}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
     networks:
       - project-olly-net
     volumes:
-      - ./database:/var/lib/postgresql/data
+      - pgdata:/var/lib/postgresql/data
     container_name: project-olly-db
 
   project-olly-proxy:
     restart: always
-    image: abiosoft/caddy:no-stats
+    image: caddy:2
     depends_on:
-      - project-olly-app
-    environment:
-      - ACME_AGREE=true
-      - CADDYPATH=/etc/caddycerts
+      project-olly-app:
+        condition: service_healthy
     ports:
       - 80:80
       - 443:443
     volumes:
-      - ./Caddyfile:/etc/Caddyfile
+      - ./Caddyfile:/etc/caddy/Caddyfile
       - socket:/sock
       - ${static_path:-static}:/html/static
-      - ${cert_path:-./certs}:/etc/caddycerts
+      - ${cert_path:-./certs}:/data/caddy
     container_name: project-olly-proxy
 
 volumes:
   socket:
   static:
   templates:
+  pgdata:

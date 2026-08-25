@@ -9,5 +9,7 @@ urlpatterns = [
 
     path('', store_views.store, name='store'),
     path('product/<int:pk>/', login_required(store_views.detail), name='detail'),
-    path('transfer/', login_required(store_views.Transfer.as_view()), name='transfer')
+    path('transfer/', login_required(store_views.Transfer.as_view()), name='transfer'),
+    path('stripe/checkout/<int:pk>/', login_required(store_views.stripe_checkout), name='stripe_checkout'),
+    path('stripe/webhook/', store_views.stripe_webhook, name='stripe_webhook')
 ]

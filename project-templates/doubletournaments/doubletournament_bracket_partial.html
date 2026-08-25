@@ -1,0 +1,50 @@
+{% if tournament.bracket_generated %}
+    <div class="de-bracket">
+        <div class="de-bracket-pane">
+            <div class="de-bracket-label">Winners Bracket</div>
+            <main class="de-bracket">
+                {% for round in winners_rounds %}
+                    <ul class="de-round">
+                        <li class="de-spacer">&nbsp;</li>
+                        {% for match in round.matches.all %}
+                            <li class="de-game de-game-top {% if match.winner.id == match.awayteam.id %}de-winner{% endif %}">
+                                <a href="{% url 'matches:detail' pk=match.id %}">{% if match.awayteam %}{{ match.awayteam }}{% else %}BYE TEAM{% endif %}</a>
+                                <span>{% if match.bye_1 or match.bye_2 or match.awayteam is None or match.hometeam is None %}BYE{% elif match.winner.id == match.awayteam.id %}1{% else %}0{% endif %}</span>
+                            </li>
+                            <li class="de-game de-game-spacer">&nbsp;</li>
+                            <li class="de-game de-game-bottom {% if match.winner.id == match.hometeam.id %}de-winner{% endif %}">
+                                <a href="{% url 'matches:detail' pk=match.id %}">{% if match.hometeam %}{{ match.hometeam }}{% else %}BYE TEAM{% endif %}</a>
+                                <span>{% if match.bye_1 or match.bye_2 or match.awayteam is None or match.hometeam is None %}BYE{% elif match.winner.id == match.hometeam.id %}1{% else %}0{% endif %}</span>
+                            </li>
+                            <li class="de-spacer">&nbsp;</li>
+                        {% endfor %}
+                    </ul>
+                {% endfor %}
+            </main>
+        </div>
+        <div class="de-bracket-pane">
+            <div class="de-bracket-label">Losers Bracket</div>
+            <main class="de-bracket">
+                {% for round in losers_rounds %}
+                    <ul class="de-round">
+                        <li class="de-spacer">&nbsp;</li>
+                        {% for match in round.matches.all %}
+                            <li class="de-game de-game-top {% if match.winner.id == match.awayteam.id %}de-winner{% endif %}">
+                                <a href="{% url 'matches:detail' pk=match.id %}">{% if match.awayteam %}{{ match.awayteam }}{% else %}BYE TEAM{% endif %}</a>
+                                <span>{% if match.bye_1 or match.bye_2 or match.awayteam is None or match.hometeam is None %}BYE{% elif match.winner.id == match.awayteam.id %}1{% else %}0{% endif %}</span>
+                            </li>
+                            <li class="de-game de-game-spacer">&nbsp;</li>
+                            <li class="de-game de-game-bottom {% if match.winner.id == match.hometeam.id %}de-winner{% endif %}">
+                                <a href="{% url 'matches:detail' pk=match.id %}">{% if match.hometeam %}{{ match.hometeam }}{% else %}BYE TEAM{% endif %}</a>
+                                <span>{% if match.bye_1 or match.bye_2 or match.awayteam is None or match.hometeam is None %}BYE{% elif match.winner.id == match.hometeam.id %}1{% else %}0{% endif %}</span>
+                            </li>
+                            <li class="de-spacer">&nbsp;</li>
+                        {% endfor %}
+                    </ul>
+                {% endfor %}
+            </main>
+        </div>
+    </div>
+{% else %}
+    <p style="text-align:center">The bracket has not been generated yet. Check back once registration closes.</p>
+{% endif %}

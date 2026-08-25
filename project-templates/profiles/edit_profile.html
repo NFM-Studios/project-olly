@@ -8,51 +8,68 @@
     <form enctype="multipart/form-data" method="post">
         {% csrf_token %}
 
-        {{ field.errors }}
+        {% if form.non_field_errors %}
+            <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+        {% endif %}
 
         <label>Profile Picture</label>
+        {% if form.profile_picture.errors %}<div class="alert alert-danger">{{ form.profile_picture.errors }}</div>{% endif %}
         <div>{{ form.profile_picture }}</div>
 
         <label>About Me</label>
+        {% if form.about_me.errors %}<div class="alert alert-danger">{{ form.about_me.errors }}</div>{% endif %}
         <div class="form-group">{{ form.about_me }}</div>
 
         <label>Alternate Name</label>
+        {% if form.alternate_name.errors %}<div class="alert alert-danger">{{ form.alternate_name.errors }}</div>{% endif %}
         <div class="form-group">{{ form.alternate_name }}</div>
 
         <label>Featured Team</label>
-        <div class="form-group">{{ form.feat_team }}</div>
+        {% if form.featured_team.errors %}<div class="alert alert-danger">{{ form.featured_team.errors }}</div>{% endif %}
+        <div class="form-group">{{ form.featured_team }}</div>
 
         <label>Xbox Live</label>
+        {% if form.xbl.errors %}<div class="alert alert-danger">{{ form.xbl.errors }}</div>{% endif %}
         <div class="form-group">{{ form.xbl }}</div>
 
         <label>PSN</label>
+        {% if form.psn.errors %}<div class="alert alert-danger">{{ form.psn.errors }}</div>{% endif %}
         <div class="form-group">{{ form.psn }}</div>
 
         <label>SteamID 64</label>
+        {% if form.steamid64.errors %}<div class="alert alert-danger">{{ form.steamid64.errors }}</div>{% endif %}
         <div class="form-group">{{ form.steamid64 }}</div>
 
         <label>Discord (including discriminator) (ex: username#1234)</label>
+        {% if form.discord.errors %}<div class="alert alert-danger">{{ form.discord.errors }}</div>{% endif %}
         <div class="form-group">{{ form.discord }}</div>
 
         <label>Activision ID</label>
+        {% if form.activisionid.errors %}<div class="alert alert-danger">{{ form.activisionid.errors }}</div>{% endif %}
         <div class="form-group">{{ form.activisionid }}</div>
 
         <label>Twitter Username</label>
+        {% if form.twitter_profile.errors %}<div class="alert alert-danger">{{ form.twitter_profile.errors }}</div>{% endif %}
         <div class="form-group">{{ form.twitter_profile }}</div>
 
         <label>Twitch Username</label>
+        {% if form.twitch_channel.errors %}<div class="alert alert-danger">{{ form.twitch_channel.errors }}</div>{% endif %}
         <div class="form-group">{{ form.twitch_channel }}</div>
 
         <label>Preferred Game</label>
+        {% if form.favorite_game.errors %}<div class="alert alert-danger">{{ form.favorite_game.errors }}</div>{% endif %}
         <div class="form-group">{{ form.favorite_game }}</div>
 
         <label>Preferred Console</label>
+        {% if form.favorite_console.errors %}<div class="alert alert-danger">{{ form.favorite_console.errors }}</div>{% endif %}
         <div class="form-group">{{ form.favorite_console }}</div>
 
         <label>Country</label>
+        {% if form.country.errors %}<div class="alert alert-danger">{{ form.country.errors }}</div>{% endif %}
         <div class="form-group">{{ form.country }}</div>
 
         <label>Enable email notifications</label>
+        {% if form.email_enabled.errors %}<div class="alert alert-danger">{{ form.email_enabled.errors }}</div>{% endif %}
         <div class="form-group">{{ form.email_enabled }}</div>
 
         <button type="submit" class="btn btn-primary">Update</button>

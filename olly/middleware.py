@@ -1,25 +1,30 @@
 from django.shortcuts import render
 from ipware import get_client_ip
 
-from profiles.models import UserProfile, BannedUser
+from profiles.models import BannedUser
+
+BANNED_PAGE = '/profile/banned/'
+EXEMPT_PREFIXES = ('/admin/', '/healthz/', '/readyz/')
 
 
 def ban_middleware(get_response):
     def middleware(request):
-        ip = get_client_ip(request)
-        ip = ip[0]
+        path = request.path_info
+        if path == BANNED_PAGE or path.startswith(EXEMPT_PREFIXES):
+            return get_response(request)
 
-        if not (request.path_info == '/profile/banned/' and not request.path_info == '/admin'):
-            if ip is not None:
-                if not request.user.is_anonymous:
-                    user = UserProfile.objects.get(user__username=request.user.username)
-                    user.ip = ip  # change field
-                    user.save()  # this will update only
-                    if not BannedUser.objects.filter(ip=ip).exists():
-                        if BannedUser.objects.filter(user=request.user):
-                            return render(request, 'profiles/banned.html')
-                if BannedUser.objects.filter(ip=ip).exists():
-                    return render(request, 'profiles/banned.html')
+        ip = get_client_ip(request)[0]
+
+        if ip is not None and BannedUser.objects.filter(ip=ip).exists():
+            return render(request, 'profiles/banned.html', status=403)
+
+        if not request.user.is_anonymous:
+            if BannedUser.objects.filter(user=request.user).exists():
+                return render(request, 'profiles/banned.html', status=403)
+            profile = request.user.user
+            if ip is not None and profile.ip != ip:
+                profile.ip = ip
+                profile.save(update_fields=['ip'])
 
         return get_response(request)
 

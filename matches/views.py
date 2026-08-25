@@ -6,12 +6,13 @@ from django.core.mail import EmailMessage
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
+from django.urls import reverse
 from django.views.generic import DetailView, CreateView, View
 from matches.models import Match, MatchReport, MatchDispute, MapPoolChoice, MatchCheckIn
 from teams.models import Team
 from .forms import MatchReportCreateFormGet, MatchReportCreateFormPost, DisputeCreateForm, TeamCheckInFormGet, TeamCheckInFormPost
-from profiles.models import Notification, UserProfile
-import datetime
+from profiles.models import UserProfile
+from realtime.utils import notify_user
 
 
 class MapPoolDetail(DetailView):
@@ -66,7 +67,7 @@ class MatchReportCreateView(View):
 
     def get(self, request, pk):
         form = MatchReportCreateFormGet(request, pk)
-        match = Match.objects.get(pk=pk)
+        match = get_object_or_404(Match, pk=pk)
         if match.disable_userreport:
             # user reports are disabled, return them to the match detail page with an error
             messages.error(request, "Match reports are disabled for this match")
@@ -75,169 +76,163 @@ class MatchReportCreateView(View):
 
     def post(self, request, pk):
         form = MatchReportCreateFormPost(request.POST)
-        report = form.instance
+        if not form.is_valid():
+            messages.error(request, "Invalid match report submitted")
+            return redirect('matches:report', pk=pk)
+        report = form.save(commit=False)
         report.reporting_user = self.request.user
-        match = Match.objects.get(id=self.kwargs['pk'])
-        if not match.bye_2 and not match.bye_1:
-            team1 = Team.objects.get(id=match.hometeam_id)
-            team2 = Team.objects.get(id=match.awayteam_id)
-            team1_reporters = team1.captains
-            team2_reporters = team2.captains
+        match = get_object_or_404(Match, id=self.kwargs['pk'])
+        if match.bye_1:
+            messages.error(request, 'There is only one team in this match, reporting is unnecessary')
+            return redirect('matches:list')
+        if match.bye_2:
+            messages.error(request, 'There are no teams in this match')
+            return redirect('matches:list')
+        team1 = get_object_or_404(Team, id=match.hometeam_id)
+        team2 = get_object_or_404(Team, id=match.awayteam_id)
+        reported_team = form.cleaned_data['reported_winner']
+        if reported_team not in (team1, team2):
+            messages.error(request, "The reported winner must be one of the two teams in this match")
+            return redirect('matches:report', pk=pk)
 
-            one_perms = False
-            two_perms = False
-            if self.request.user in team1.captain.all() or self.request.user == team1.founder:
-                one_perms = True
-            elif self.request.user in team2.captain.all() or self.request.user == team2.founder:
-                two_perms = True
-            else:
-                messages.error(request, message="You don't have permission to report for any team in this match")
-                if match.type == 'w':
-                    return redirect('wagers:list')
-                return redirect('matches:detail', pk=pk)
+        one_perms = False
+        two_perms = False
+        if self.request.user in team1.captain.all() or self.request.user == team1.founder:
+            one_perms = True
+        elif self.request.user in team2.captain.all() or self.request.user == team2.founder:
+            two_perms = True
+        else:
+            messages.error(request, message="You don't have permission to report for any team in this match")
+            if match.type == 'w':
+                return redirect('wagers:list')
+            return redirect('matches:detail', pk=pk)
 
-            if MatchReport.objects.filter(match=match.id,
-                                          reporting_team=team1).exists() and one_perms:
-                messages.error(request, "Your team has already reported this match")
-                if match.type == 'w':
-                    return redirect('wagers:list')
-                return redirect('matches:detail', pk=pk)
-            elif MatchReport.objects.filter(match=match.id,
-                                            reporting_team=team2).exists() and two_perms:
-                messages.error(request, "Your team has already reported this match")
-                if match.type == 'w':
-                    return redirect('wagers:list')
-                return redirect('matches:detail', pk=pk)
-            elif match.bye_1:
-                messages.error(request, 'There is only one team in this match, reporting is unnecessary')
-                return redirect('matches:list')
+        if MatchReport.objects.filter(match=match.id, reporting_team=team1).exists() and one_perms:
+            messages.error(request, "Your team has already reported this match")
+            if match.type == 'w':
+                return redirect('wagers:list')
+            return redirect('matches:detail', pk=pk)
+        elif MatchReport.objects.filter(match=match.id, reporting_team=team2).exists() and two_perms:
+            messages.error(request, "Your team has already reported this match")
+            if match.type == 'w':
+                return redirect('wagers:list')
+            return redirect('matches:detail', pk=pk)
 
-            elif match.bye_2:
-                messages.error(request, 'There are no teams in this match')
-                return redirect('matches:list')
-            else:
-                # if reporter_team in team1_reporters or reporter_team in team2_reporters:
-                report.match = match
-                reported_team = Team.objects.get(id=form.data['reported_winner'])
-                report.reported_winner = reported_team
-                if one_perms:
-                    report.reporting_team = team1
-                    match.team1reported = True
-                    match.team1reportedwinner = report.reported_winner
-                    match.team1reportedwinner_id = report.reported_winner.id
+        report.match = match
+        report.reported_winner = reported_team
+        if one_perms:
+            report.reporting_team = team1
+            match.team1reported = True
+            match.team1reportedwinner = report.reported_winner
+            match.team1reportedwinner_id = report.reported_winner.id
+        elif two_perms:
+            report.reporting_team = team2
+            match.team2reported = True
+            match.team2reportedwinner = report.reported_winner
+            match.team2reportedwinner_id = report.reported_winner.id
+        else:
+            messages.error(request, "ERROR: Could not verify the team that you're on")
+            return redirect('matches:detail', pk=match.id)
 
-                elif two_perms:
-                    report.reporting_team = team2
-                    match.team2reported = True
-                    match.team2reportedwinner = report.reported_winner
-                    match.team2reportedwinner_id = report.reported_winner.id
-                else:
-                    messages.error(request, "ERROR: Could not verify the team that you're on")
-                    return redirect('matches:detail', pk=match.id)
-
+        match.save()
+        report.save()
+        if match.team1reported and match.team2reported:
+            reports = MatchReport.objects.filter(match_id=match.id).order_by('created')
+            report1 = MatchReport.objects.get(reporting_team=team1, match_id=match.id)
+            report2 = MatchReport.objects.get(reporting_team=team2, match_id=match.id)
+            if reports[0].reported_winner != reports[1].reported_winner:
+                dispute = MatchDispute(id=match.id, match=match, team1=team1, team2=team2,
+                                       team1origreporter=report1.reporting_user,
+                                       team2origreporter=report2.reporting_user)
+                dispute.save()
+                match.disputed = True
                 match.save()
-                report.save()
-                if match.team1reported and match.team2reported:
-                    reports = MatchReport.objects.filter(match_id=match.id)
-                    report1 = MatchReport.objects.get(reporting_team=team1, match_id=match.id)
-                    report2 = MatchReport.objects.get(reporting_team=team2, match_id=match.id)
-                    if reports[0].reported_winner != reports[1].reported_winner:
-                        dispute = MatchDispute(id=match.id, match=match, team1=team1, team2=team2,
-                                               team1origreporter=report1.reporting_user,
-                                               team2origreporter=report2.reporting_user)
-                        dispute.save()
-                        match.disputed = True
-                        match.save()
 
-                        for i in [report1.reporting_user, report2.reporting_user]:
-                            test = Notification(title="A match you're playing in has been disputed")
-                            test.link = 'matches:detail'
-                            test.pk1 = match.pk
-                            test.datetime = datetime.datetime.now()
-                            test.save()
-                            userprofile = UserProfile.objects.get(user=i.user)
-                            userprofile.notifications.add(test)
-                            userprofile.save()
-                            if i.user.email_enabled:
-                                current_site = get_current_site(request)
-                                mail_subject = settings.SITE_NAME + ' match disputed!'
-                                message = render_to_string('matches/dispute_email.html', {
-                                    'user': i.username,
-                                    'site': settings.SITE_NAME,
-                                    'domain': current_site.domain,
-                                    'pk': dispute.pk
-                                })
-                                to_email = i.email
-                                email = EmailMessage(
-                                    mail_subject, message, from_email=settings.FROM_EMAIL, to=[to_email]
-                                )
-                                email.send(fail_silently=True)
+                for i in [report1.reporting_user, report2.reporting_user]:
+                    notify_user(i, title="A match you're playing in has been disputed",
+                                link='matches:detail', pk1=match.pk)
+                    userprofile = UserProfile.objects.get(user=i)
+                    if userprofile.email_enabled:
+                        current_site = get_current_site(request)
+                        mail_subject = settings.SITE_NAME + ' match disputed!'
+                        message = render_to_string('matches/dispute_email.html', {
+                            'user': i.username,
+                            'site': settings.SITE_NAME,
+                            'domain': current_site.domain,
+                            'pk': dispute.pk
+                        })
+                        to_email = i.email
+                        email = EmailMessage(
+                            mail_subject, message, from_email=settings.FROM_EMAIL, to=[to_email]
+                        )
+                        email.send(fail_silently=True)
 
-                        messages.warning(self.request,
-                                         "Both teams have reported different winners; a dispute has been created")
-                        return redirect('matches:dispute', pk=dispute.pk)
-                    if match.team1reported:
-                        # team 1 reported
-                        if match.team1reportedwinner == team2:
-                            # team1 is reporting that team2 won
-                            # declare team2 as winner
-                            match.winner = team2
-                            match.loser = team1
-                            match.save()
-                        elif match.team1reportedwinner == team1:
-                            # have to wait for the other team to confirm
-                            pass
-                    elif match.team2reported:
-                        if match.team2reportedwinner == team1:
-                            # team 1 wins
-                            match.winner = team1
-                            match.loser = team2
-                            match.save()
-                        elif match.team2reportedwinner == team2:
-                            pass
-                    if match.team1reported and match.team2reported:
-                        if match.team2reportedwinner == team2 and match.team1reportedwinner == team2:
-                            match.winner = team2
-                            match.loser = team1
-                            match.save()
-                        elif match.team2reportedwinner == team1 and match.team1reportedwinner == team1:
-                            match.winner = team1
-                            match.loser = team2
-                            match.save()
-                # self.success_url = reverse('matches:detail', args=[match.id])
-                messages.success(self.request, 'Your Report has been successfully submitted')
-                if match.type == 'w':
-                    return redirect('wagers:list')
-                return redirect('matches:detail', pk=pk)
-            # if match.type == 'w':
-            #    return redirect('wagers:list')
-            # return redirect('singletournaments:list')
-    # else:
-    #    messages.error(request, "A report has already been created for this match")
-    #    return redirect('matches:detail', pk=pk)
+                messages.warning(self.request,
+                                 "Both teams have reported different winners; a dispute has been created")
+                return redirect('matches:dispute', pk=dispute.pk)
+            if match.team1reported:
+                # team 1 reported
+                if match.team1reportedwinner == team2:
+                    # team1 is reporting that team2 won
+                    # declare team2 as winner
+                    match.winner = team2
+                    match.loser = team1
+                    match.save()
+                elif match.team1reportedwinner == team1:
+                    # have to wait for the other team to confirm
+                    pass
+            elif match.team2reported:
+                if match.team2reportedwinner == team1:
+                    # team 1 wins
+                    match.winner = team1
+                    match.loser = team2
+                    match.save()
+                elif match.team2reportedwinner == team2:
+                    pass
+            if match.team1reported and match.team2reported:
+                if match.team2reportedwinner == team2 and match.team1reportedwinner == team2:
+                    match.winner = team2
+                    match.loser = team1
+                    match.save()
+                elif match.team2reportedwinner == team1 and match.team1reportedwinner == team1:
+                    match.winner = team1
+                    match.loser = team2
+                    match.save()
+        messages.success(self.request, 'Your Report has been successfully submitted')
+        if match.type == 'w':
+            return redirect('wagers:list')
+        return redirect('matches:detail', pk=pk)
 
 
 class MatchDisputeReportCreateView(CreateView):
     form_class = DisputeCreateForm
 
     def get(self, request, **kwargs):
-        form = self.form_class(None)
+        form = self.form_class()
         return render(request, 'matches/tournament_matches_dispute.html',
                       {'form': form, 'dispute': kwargs['pk']})
 
-    def form_valid(self, form, **kwargs):
-        match = Match.objects.get(id=self.kwargs['pk'])
+    def get_success_url(self):
+        return reverse('matches:detail', args=[self.kwargs['pk']])
+
+    def form_valid(self, form):
+        match = get_object_or_404(Match, id=self.kwargs['pk'])
         dispute = form.instance
         dispute.reporting_user = self.request.user
         dispute.match_id = self.kwargs['pk']
-        dispute.teamproof_1 = form.data['teamproof_1']
-        dispute.teamproof_2 = form.data['teamproof_2']
-        dispute.teamproof_3 = form.data['teamproof_3']
+        dispute.teamproof_1 = form.cleaned_data['teamproof_1']
+        dispute.teamproof_2 = form.cleaned_data['teamproof_2']
+        dispute.teamproof_3 = form.cleaned_data['teamproof_3']
         dispute.team1_id = match.hometeam_id
         dispute.team2_id = match.awayteam_id
-        matchreport = MatchReport.objects.get(match_id=match.id, reporting_user_id=self.request.user.id)
+        matchreport = get_object_or_404(MatchReport, match_id=match.id,
+                                        reporting_user_id=self.request.user.id)
         matchreport_1 = MatchReport.objects.filter(match_id=match.id).exclude(
-            reporting_user_id=self.request.user.id).get()
+            reporting_user_id=self.request.user.id).first()
+        if matchreport_1 is None:
+            messages.error(self.request, "The other team hasn't reported this match yet, "
+                                         "a dispute cannot be created")
+            return redirect('matches:detail', pk=self.kwargs['pk'])
         if matchreport.reporting_team == match.hometeam:
             dispute.team1origreporter = matchreport.reporting_user
             dispute.team2origreporter = matchreport_1.reporting_user
@@ -245,37 +240,61 @@ class MatchDisputeReportCreateView(CreateView):
             dispute.team2origreporter = matchreport.reporting_user
             dispute.team1origreporter = matchreport_1.reporting_user
         dispute.save()
-        return redirect('matches:detail', pk=self.kwargs['pk'])
+        return super().form_valid(form)
 
 
 def match_checkin(request, pk):
-    match = Match.objects.get(pk=pk)
-    profile = UserProfile.objects.get(user__username=request.user.username)
+    match = get_object_or_404(Match, pk=pk)
     user = request.user
     away = match.awayteam
     home = match.hometeam
-    if (user in away.captain.all() or user in home.captain.all()) or (user == away.founder or user == home.founder):
+    if (away is not None and (user in away.captain.all() or user == away.founder)) or \
+            (home is not None and (user in home.captain.all() or user == home.founder)):
         return render(request, 'matches/match_checkin.html', {'match': match})
     else:
         messages.error(request, "You don't have permission to checkin for this match")
         return redirect('matches:detail', pk=pk)
 
 
+def _valid_checkin_players(request, match, team, player_ids):
+    """Validate a list of posted player ids against the checking-in team.
+
+    Returns a list of validated User objects, or None (with a message already
+    attached) if anything is wrong.
+    """
+    min_size = match.get_min_team_size()
+    if min_size is None:
+        messages.error(request, "Invalid team format for this match, cannot checkin")
+        return None
+    if len(player_ids) < min_size:
+        messages.error(request, "You need at least %s players checked in for this match" % min_size)
+        return None
+    players = []
+    for playerid in player_ids:
+        try:
+            playerid = int(playerid)
+            player = User.objects.get(pk=playerid)
+        except (ValueError, User.DoesNotExist):
+            messages.error(request, "An invalid player was selected for the checkin")
+            return None
+        if player not in team.players.all() and player not in team.captain.all() \
+                and player != team.founder:
+            messages.error(request, "A selected player is not on this team")
+            return None
+        players.append(player)
+    return players
+
+
 def team_checkin(request, pk, teamid):
     # get the team they're trying to checkin from the get
-    team = Team.objects.get(pk=teamid)
+    team = get_object_or_404(Team, pk=teamid)
     # get the match from the pk in the url
-    match = Match.objects.get(pk=pk)
+    match = get_object_or_404(Match, pk=pk)
     # get logged in user
-    profile = UserProfile.objects.get(user__username=request.user.username)
     user = request.user
-    if user == team.founder:
-        pass
-    elif user == team.captain.all():
-        pass
-    else:
+    if user != team.founder and user not in team.captain.all():
         # they don't have perms - gtfo
-        messages.error(request, "FFFFFYou do not have permissions to checkin this team")
+        messages.error(request, "You do not have permissions to checkin this team")
         return redirect('matches:detail', pk=pk)
     if request.method == 'GET':
         # send the form, render
@@ -283,28 +302,38 @@ def team_checkin(request, pk, teamid):
         return render(request, 'matches/team_checkin.html', {'form': form, 'match': match, 'teamid': teamid})
     elif request.method == 'POST':
         # lets make it and get the data
-        # TODO: find a way to get the team instance in the form
         form = TeamCheckInFormPost(request.POST)
         if form.is_valid():
-            temp = MatchCheckIn()
+            players = _valid_checkin_players(request, match, team, form.data.getlist('players'))
+            if players is None:
+                return redirect('matches:detail', pk=match.pk)
+            temp = MatchCheckIn(match=match, team=team, reporter=user)
             temp.save()
-            temp.match = match
-            temp.team = team
-            temp.reporter = user
-            # TODO: verify posted data from form of field 'players'
-            for playerid in form.data.getlist('players'):
-                playerid = int(playerid)
-                player = User.objects.get(pk=playerid)
-                temp.players.add(player)
+            temp.players.add(*players)
             temp.save()
             messages.success(request, 'Your team has been checked in, checkin #' + str(temp.pk))
             return redirect('matches:detail', pk=match.pk)
         else:
-            print('dammit')
-            print(form.cleaned_data)
             messages.error(request, "Form error, this should not occur")
             return redirect('matches:detail', pk=pk)
 
 
 def create_checkin(request, pk):
-    pass
+    match = get_object_or_404(Match, pk=pk)
+    user = request.user
+    if match.awayteam is not None and (user in match.awayteam.captain.all() or user == match.awayteam.founder):
+        team = match.awayteam
+    elif match.hometeam is not None and (user in match.hometeam.captain.all() or user == match.hometeam.founder):
+        team = match.hometeam
+    else:
+        messages.error(request, "You don't have permission to checkin for this match")
+        return redirect('matches:detail', pk=pk)
+    players = _valid_checkin_players(request, match, team, request.POST.getlist('players'))
+    if players is None:
+        return redirect('matches:detail', pk=match.pk)
+    checkin = MatchCheckIn(match=match, team=team, reporter=user)
+    checkin.save()
+    checkin.players.add(*players)
+    checkin.save()
+    messages.success(request, 'Your team has been checked in, checkin #' + str(checkin.pk))
+    return redirect('matches:detail', pk=match.pk)

@@ -45,6 +45,7 @@ docs/_build/
 *.sqlite3
 
 venv/
+.venv/
 
 olly/media/profile_images/
 db\.sqlite3\.1
@@ -65,3 +66,7 @@ env/tcl/tcl8\.6/tzdata/
 
 
 env/
+
+# Node frontend build
+node_modules/
+frontend/dist/

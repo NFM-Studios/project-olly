@@ -17,7 +17,8 @@
 
     <p><a href="{% url 'staff:tournament_detail' pk=round.tournament.id %}"><i class="fa fa-arrow-left"></i> <strong>Back
         to Tournament</strong></a></p>
-    <table class="table">
+    <div class="table-responsive">
+<table class="table">
         <thead>
         <tr>
             <th>Key</th>
@@ -37,6 +38,7 @@
             <td>{{ round.tournament.name }}</td>
         </tr>
     </table>
+</div>
 
     <tr>
         <h5>Matches</h5>

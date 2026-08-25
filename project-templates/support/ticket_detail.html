@@ -9,6 +9,7 @@
 
 
     <p><a href="{% url 'support:list' %}"><i class="fas fa-arrow-left"></i> <strong>Back to ticket list</strong></a></p>
+    <div class="table-responsive">
     <table class="table">
         <thead>
         <tr>
@@ -49,6 +50,7 @@
             </td>
         </tr>
     </table>
+    </div>
 
     {% for i in comments %}
         {% if i.author.user.user_type == 'admin' or i.author.user.user_type == 'superadmin' %}

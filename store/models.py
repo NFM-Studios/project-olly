@@ -17,7 +17,7 @@ class Product(models.Model):
     active = models.BooleanField()
     # paypal dict info
     business = models.EmailField()
-    amount = models.FloatField()
+    amount = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     item_name = models.CharField(max_length=50, validators=[
         RegexValidator(
             regex='^[a-zA-z]+_\d+',
@@ -53,6 +53,7 @@ def show_me_the_money(sender, **kwargs):
         if ipn_obj.business != settings.PAYPAL_EMAIL:
             tx = Transaction(cost=0, account=username, num=0, type='PayPal issue - mismatch with email')
             tx.save()
+            return
         price = int(product.amount)
         if ipn_obj.mc_gross == price and ipn_obj.mc_currency == "USD":
             if itemtype in ['cred', 'credit', 'credits']:

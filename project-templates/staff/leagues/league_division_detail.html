@@ -10,7 +10,8 @@
 
     <p><a href="{% url 'staff:list_league' %}"><i class="fa fa-arrow-left"></i> <strong>Back to League
         list</strong></a></p>
-    <table class="table">
+    <div class="table-responsive">
+<table class="table">
         <thead>
         <tr>
             <th>Key</th>
@@ -32,6 +33,7 @@
         </tr>
 
     </table>
+</div>
 
     <button class="btn btn-primary"><a style="color:white"
                                        href="{% url 'staff:division_add_team' pk=league.pk divid=division.pk %}">Add a
@@ -44,7 +46,8 @@
     <br/>
 
     <h1>Matches</h1>
-    <table class="table-hover">
+    <div class="table-responsive">
+<table class="table table-hover">
         <thead>
         <th>Match ID</th>
         <th>Away Team</th>
@@ -60,6 +63,7 @@
         {% endfor %}
 
     </table>
+</div>
     <h1>Teams</h1>
     {% for team in division.teams.all %}
         <a href="{% url 'staff:team_detail' pk=team.team.id %}">{{ team.team.name }}</a>

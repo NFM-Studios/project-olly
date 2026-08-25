@@ -24,7 +24,10 @@
 
 
         <button type="submit" class="btn btn-primary">Submit</button>
-        <a href="{% url 'staff:slide_delete' pk=pk %}" onclick="return confirm('Are you sure you want to delete this Slide?')" class="btn btn-danger">Delete</a>
 
+    </form>
+    <form method="post" action="{% url 'staff:slide_delete' pk=pk %}" onsubmit="return confirm('Are you sure you want to delete this Slide?');" style="display:inline">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Delete</button>
     </form>
 {% endblock %}

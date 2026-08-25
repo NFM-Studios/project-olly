@@ -1,5 +1,6 @@
 {% extends 'staff/staffbase.html' %}
 {% load static %}
+{% load olly_extras %}
 
 {% block title %}
     Match #{{ match.id }}
@@ -10,7 +11,8 @@
         <button class="btn btn-danger">FORCE DISPUTE</button>
     </a>
 
-    <table class="table">
+    <div class="table-responsive">
+<table class="table">
         <thead>
         <tr>
             <th>Key</th>
@@ -39,7 +41,7 @@
                 <td>UTC: {{ match.datetime }}<br>
                     Local:
                     <script>
-                        const date = new Date("{{ match.datetime|safe }}");
+                        const date = new Date("{{ match.datetime|js_datetime }}");
                         console.log(date);
                         document.write(date.toLocaleString());
                     </script>
@@ -52,19 +54,7 @@
         </tr>
         <tr>
             <td>Format</td>
-            {% if match.teamformat == 0 %}
-                <td>1v1</td>
-            {% elif match.teamformat == 1 %}
-                <td>2v2</td>
-            {% elif match.teamformat == 2 %}
-                <td>3v3</td>
-            {% elif match.teamformat == 3 %}
-                <td>4v4</td>
-            {% elif match.teamformat == 4 %}
-                <td>5v5</td>
-            {% elif match.teamformat == 5 %}
-                <td>6v6</td>
-            {% endif %}
+            <td>{{ match.teamformat|teamformat }}</td>
         </tr>
         <tr>
             <td>Best of {{ match.bestof }}</td>
@@ -137,6 +127,7 @@
         </tr>
 
     </table>
+</div>
     {% if match.config_generated %}
         <a href="/match/config/{{ match.id }}">View Match Config</a>
     {% else %}
@@ -146,7 +137,10 @@
         {% if not match.completed %}
             <a href="{% url 'staff:match_declare_winner' pk=match.id %}" class="btn btn-primary">Declare Winner</a>
         {% else %}
-            <a href="{% url 'staff:match_delete_winner' pk=match.id %}" class="btn btn-danger">Delete Winner</a>
+            <form method="post" action="{% url 'staff:match_delete_winner' pk=match.id %}" onsubmit="return confirm('Are you sure you want to delete this winner?');" style="display:inline">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Delete Winner</button>
+            </form>
         {% endif %}
         &nbsp;
         <a href="{% url 'staff:match_edit' pk=match.id %}" class="btn btn-primary">Edit Match</a>
@@ -154,7 +148,8 @@
 
     <h2>Reports for this match...</h2>
 
-    <table>
+    <div class="table-responsive">
+<table>
         <tr>
             <th>{{ match.hometeam }} Reported Winner</th>
         </tr>
@@ -162,8 +157,10 @@
         <td>{{ match.team1reportedwinner }}</td>
         </tbody>
     </table>
+</div>
     <br/>
-    <table>
+    <div class="table-responsive">
+<table>
         <tr>
             <th>{{ match.awayteam }} Reported Winner</th>
         </tr>
@@ -172,5 +169,6 @@
 
         </tbody>
     </table>
+</div>
 
 {% endblock %}

@@ -9,7 +9,7 @@
     <p class="date">Published {{ post.publish }} by {{ post.author }}</p>
 
     {% if post.image != "" %}
-        <img src="{{ MEDIA_URL }}{{ post.image }}" width="800"> <br/>
+        <img src="{{ MEDIA_URL }}{{ post.image }}" width="800" alt=""> <br/>
     {% endif %}
 
     <br>

@@ -1,15 +1,14 @@
 {% extends "base.html" %}
-{% load static %}
+{% load olly_extras %}
 
 {% block head %}
     <title>Matches - {{ SITE_NAME }}</title>
 {% endblock %}
 
-<link rel="stylesheet" href="{% static "css/matches.css" %}">
-
 {% block body %}
 
 
+    <div class="table-responsive">
     <table class="table table-hover">
         <tr id="header">
             <thead>
@@ -23,9 +22,9 @@
             <tr scope="">
                 <td scope="row"><a href="{% url 'matches:detail' pk=match.id %}">#{{ match.id }}</a></td>
                 <td>
-                    {% if match.datetime != None or match.datetime != "" %}
+                    {% if match.datetime != None and match.datetime != "" %}
                         <script>
-                            date = new Date("{{ match.datetime|safe }}");
+                            date = new Date("{{ match.datetime|js_datetime }}");
                             document.write(date.toLocaleString());
                         </script>
                     {% else %}
@@ -36,6 +35,7 @@
             </tbody>
         {% endfor %}
     </table>
+    </div>
 
 
 

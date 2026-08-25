@@ -1,11 +1,13 @@
 {% extends "base.html" %}
 {% load static %}
+{% load olly_extras %}
 
 {% block head %}
     <title>Wager Requests - {{ SITE_NAME }}</title>
 {% endblock %}
 
 {% block body %}
+    <div class="table-responsive">
     <table class="table table-hover">
         <tr id="header">
             <thead>
@@ -24,7 +26,7 @@
 
                 <td>
                     <script>
-                    const date = new Date("{{ wager.expiration|safe }}");
+                    const date = new Date("{{ wager.expiration|js_datetime }}");
                     const formatted = date.getMonth() + ' ' + date.getDay() + ', ' + date.getFullYear();
                     document.write(date.toLocaleString());
                     </script>
@@ -34,4 +36,5 @@
         {% endfor %}
         <button class="btn btn-circle"><a href="{% url 'wagers:request_create' %}">Create Wager Request</a></button>
     </table>
+    </div>
 {% endblock %}

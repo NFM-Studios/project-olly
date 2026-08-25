@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% load static %}
+{% load olly_extras %}
+
+{% block head %}
+    <title>Double Elimination Tournaments - {{ SITE_NAME }}</title>
+{% endblock %}
+
+{% block body %}
+
+    <div class="container page">
+
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <h3><b>Double Elimination Tournaments</b></h3>
+                            <p>Teams get a second chance: lose in the winners bracket and drop down to the losers
+                                bracket instead of being eliminated.</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        {% if tournament_list.count == 0 %}
+                            <div class="col-12">
+                                <b>No tournaments yet!</b>
+                            </div>
+                        {% endif %}
+                        {% for tournament in tournament_list %}
+                            <div class="col-12 col-sm-6 col-md-4 league">
+                                <img src="
+                                        {% if ESPORTS_MODE %}
+
+                                    {% if tournament.game.image != "" %}{{ MEDIA_URL }}{{ tournament.game.image }}{% else %}{% static 'images/trophy-solid.svg' %}{% endif %}"
+                                    alt="{{ tournament.name }} logo"><br>
+                                {% else %}
+                                    {{ tournament.sport.name }}
+                                {% endif %}
+                                <h6><b>{{ tournament.name }}</b></h6>
+                                <br/>
+                                <ul>
+                                    {% if ESPORTS_MODE %}
+                                        <li><b>Platform:</b> {{ tournament.platform.name }}</li>{% endif %}
+                                    <li><b>Starts:</b> {{ tournament.start }}</li>
+                                    <li><b>Teams: </b> {{ tournament.teams.count }}/{{ tournament.size }}</li>
+                                    {% if ESPORTS_MODE %}
+                                        <li><b>Game:</b> {{ tournament.game.name }}</li>{% endif %}
+                                    <li><b>{{ tournament.teamformat|teamformat }}</b></li>
+                                    <li><b>{{ tournament.bestof|bestof }}</b></li>
+                                </ul>
+                                <ul>
+                                    <li><b>Registration Opens:</b>
+                                        <script>
+                                            const date = new Date("{{ tournament.open_register|js_datetime }}");
+                                            console.log(date);
+                                            document.write(date.toLocaleString());
+                                        </script>
+                                    </li>
+                                    <li><b>Registration Closes</b>
+                                        <script>
+                                            const date2 = new Date("{{ tournament.close_register|js_datetime }}");
+                                            console.log(date2);
+                                            document.write(date2.toLocaleString());
+                                        </script>
+                                    </li>
+                                    <li><b>Registration Fee: </b>{{ tournament.req_credits }}</li>
+                                </ul>
+                                <a class="btn btn-primary btn-block btn-sm jleague"
+                                   href="{% url 'doubletournaments:detail' pk=tournament.id %}">TOURNAMENT DETAILS</a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
