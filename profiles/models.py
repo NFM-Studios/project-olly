@@ -115,7 +115,7 @@ def create_profile(sender, **kwargs):
 
 class BannedUser(models.Model):
     user = models.ForeignKey(User, related_name='banned', on_delete=models.CASCADE)
-    ip = models.CharField(max_length=12, default='error')
+    ip = models.GenericIPAddressField(max_length=45, default='0.0.0.0')
 
 
 post_save.connect(create_profile, sender=User)

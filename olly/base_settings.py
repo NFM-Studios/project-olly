@@ -20,6 +20,30 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SESSION_COOKIE_AGE = 604800
 
+# Security hardening
+# These are toggled via environment variables so they stay off in development
+# (debug=True) and turn on in production. See scripts/dev-env.ps1 for the
+# dev-safe values.
+
+
+def _env_bool(name, default=False):
+    try:
+        return os.environ[name] == 'True'
+    except KeyError:
+        return default
+
+
+SESSION_COOKIE_SECURE = _env_bool('session_cookie_secure')
+CSRF_COOKIE_SECURE = _env_bool('csrf_cookie_secure')
+SECURE_SSL_REDIRECT = _env_bool('secure_ssl_redirect')
+SECURE_HSTS_SECONDS = int(os.environ.get('secure_hsts_seconds', '0'))
+SECURE_HSTS_INCLUDE_SUBDOMAINS = _env_bool('secure_hsts_include_subdomains')
+SECURE_HSTS_PRELOAD = _env_bool('secure_hsts_preload')
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_REFERRER_POLICY = os.environ.get('secure_referrer_policy', 'strict-origin-when-cross-origin')
+SESSION_COOKIE_HTTPONLY = True
+X_FRAME_OPTIONS = 'DENY'
+
 # Application definition
 
 INSTALLED_APPS = [

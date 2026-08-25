@@ -1,3 +1,5 @@
+import ipaddress
+
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.conf import settings
 from django.contrib import messages
@@ -63,7 +65,13 @@ def banuser(request, urlusername):
         return render(request, 'staff/permissiondenied.html')
     else:
         buser = User.objects.get(username=urlusername)
-        b = BannedUser(user=buser, ip='999.999.999.999')
+        buserprofile = UserProfile.objects.get(user__username=urlusername)
+        try:
+            banned_ip = str(ipaddress.ip_address(buserprofile.ip))
+        except ValueError:
+            messages.error(request, 'User ' + urlusername + ' has a non-bannable IP')
+            return redirect('staff:users')
+        b = BannedUser(user=buser, ip=banned_ip)
         b.save()
         messages.success(request, 'User ' + urlusername + ' has been banned')
         return redirect('staff:users')

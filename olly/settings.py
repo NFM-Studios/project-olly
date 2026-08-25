@@ -12,7 +12,7 @@ else:
     DEBUG = False
     PAYPAL_TEST = False
 
-ALLOWED_HOSTS = os.environ['allowed_hosts']
+ALLOWED_HOSTS = [h.strip() for h in os.environ['allowed_hosts'].split(',')]
 
 SITE_URL = os.environ['site_url']
 
