@@ -33,7 +33,7 @@ def disputed_matches(request):
         return render(request, 'staff/permissiondenied.html')
     else:
         # matches_list = Match.objects.all().order_by('-id')
-        tmatches = Match.objects.filter(type__isnull=True, disputed=True)
+        tmatches = Match.objects.filter(Q(type__isnull=True) | Q(type='singletournament'), disputed=True)
         wmatches = Match.objects.filter(type='w', disputed=True)
         return render(request, 'staff/matches/matches.html', {'tmatches': tmatches, 'wmatches': wmatches})
 
@@ -129,19 +129,23 @@ class MatchDeclareWinner(View):
             return render(request, 'staff/permissiondenied.html')
         else:
             matchobj = Match.objects.get(pk=pk)
+            form = DeclareMatchWinnerPost(request.POST, instance=matchobj)
+            if not form.is_valid():
+                messages.error(request, "Invalid winner submission")
+                return redirect('staff:match_detail', pk=matchobj.pk)
+            match = Match.objects.get(id=self.kwargs['pk'])
+            winner = form.cleaned_data['winner']
+            if winner not in (match.hometeam, match.awayteam):
+                messages.error(request, "Selected winner is not a team in this match")
+                return redirect('staff:match_detail', pk=match.pk)
             if matchobj.type == "league":
-                form = DeclareMatchWinnerPost(request.POST, instance=matchobj)
-                instance = form.instance
-                match = Match.objects.get(id=self.kwargs['pk'])
-                winner = Team.objects.get(id=form.data['winner'])
                 league = None
                 division = None
                 for x in League.objects.all():
                     for y in LeagueDivision.objects.all():
-                        if match in y.matches:
+                        if y.matches.filter(pk=match.pk).exists():
                             league = x
                             division = y
-                            messages.success(request, "Found match league and division")
                 if league is None or division is None:
                     messages.error(request, "Failed to find league or division this match is apart of")
                     return redirect('staff:match_detail', pk=match.pk)
@@ -157,11 +161,10 @@ class MatchDeclareWinner(View):
                 if awayleagueteam is None or homeleagueteam is None:
                     messages.error(request, "Unable to find home or away league team objects")
                     return redirect('staff:match_detail', pk=match.pk)
-                teams = list()
-                teams.append(match.hometeam)
-                teams.append(match.awayteam)
+                teams = [match.hometeam, match.awayteam]
                 teams.remove(winner)
                 loser = teams[0]
+                instance = form.save(commit=False)
                 instance.match = match
                 instance.winner = winner
                 instance.loser = loser
@@ -170,8 +173,8 @@ class MatchDeclareWinner(View):
                 if loser == match.awayteam:
                     awayleagueteam.losses += 1
                     awayleagueteam.save()
-                    match.awayteam.num_losses += 1
-                    match.hometeam.num_wins += 1
+                    match.awayteam.num_matchloss += 1
+                    match.hometeam.num_matchwin += 1
                     homeleagueteam.wins += 1
                     homeleagueteam.save()
                 elif loser == match.hometeam:
@@ -179,57 +182,56 @@ class MatchDeclareWinner(View):
                     homeleagueteam.losses += 1
                     awayleagueteam.save()
                     homeleagueteam.save()
-                    match.awayteam.num_wins += 1
-                    match.hometeam.num_losses += 1
+                    match.awayteam.num_matchwin += 1
+                    match.hometeam.num_matchloss += 1
+                match.awayteam.save()
+                match.hometeam.save()
 
                 # TODO: 107
-                pass
-            if not matchobj.bye_2 and not matchobj.bye_1:
-                form = DeclareMatchWinnerPost(request.POST, instance=matchobj)
-                instance = form.instance
-                match = Match.objects.get(id=self.kwargs['pk'])
-                winner = Team.objects.get(id=form.data['winner'])
-                teams = list()
-                teams.append(match.hometeam)
-                teams.append(match.awayteam)
-                teams.remove(winner)
-                loser = teams[0]
-                instance.match = match
-                instance.winner = winner
-                instance.loser = loser
-                instance.completed = True
-                instance.save()
-                try:
-                    winner.num_matchwin += 1
-                    loser.num_matchloss += 1
-                    winner.save()
-                    loser.save()
-                    if match.type == 'w':
-                        # the match is a wager
-                        wfounder = UserProfile.objects.get(id=winner.founder_id)
-                        wmatch = WagerMatch.objects.get(match=match)
-                        wfounder.credits += (2 * wmatch.credits)
-                        # find a way to log them getting credits
-                        for player in winner.players:
-                            wplayer = UserProfile.objects.get(user=player)
-                            wplayer.total_earning += wmatch.credits
-                        messages.success(request, 'Wager Winner declared')
-                    for player in winner.players | winner.captain:
-                        tp = UserProfile.objects.get(user=player)
-                        notif = Notification(title="You won a match!", type=1,
-                                             description="A match your team was in was finalized and your team won!" +
-                                                         " Time to celebrate!", link="matches:detail", pk1=match.pk, datetime=datetime.datetime.utcnow())
-                        notif.save()
-                        tp.notifications.add(notif)
-                        tp.save()
-                        messages.success(request, "Winning team players and captains notified about the victory")
-                    messages.success(request, "Winner declared")
-                except:
-                    messages.error(request, "Match statistics were not properly logged")
+                messages.success(request, "Winner declared")
                 return redirect('staff:matches_index')
-            else:
+            if matchobj.bye_2 or matchobj.bye_1:
                 messages.error(request, 'Bye match, cannot set winner')
                 return redirect('staff:matches_index')
+            teams = [match.hometeam, match.awayteam]
+            teams.remove(winner)
+            loser = teams[0]
+            instance = form.save(commit=False)
+            instance.match = match
+            instance.winner = winner
+            instance.loser = loser
+            instance.completed = True
+            instance.save()
+            try:
+                winner.num_matchwin += 1
+                loser.num_matchloss += 1
+                winner.save()
+                loser.save()
+                if match.type == 'w':
+                    # the match is a wager
+                    wfounder = UserProfile.objects.get(id=winner.founder_id)
+                    wmatch = WagerMatch.objects.get(match=match)
+                    wfounder.credits += (2 * wmatch.credits)
+                    wfounder.save()
+                    # find a way to log them getting credits
+                    for player in winner.players.all():
+                        wplayer = UserProfile.objects.get(user=player)
+                        wplayer.total_earning += wmatch.credits
+                        wplayer.save()
+                    messages.success(request, 'Wager Winner declared')
+                for player in winner.players.all() | winner.captain.all():
+                    tp = UserProfile.objects.get(user=player)
+                    notif = Notification(title="You won a match!", type=1,
+                                         description="A match your team was in was finalized and your team won!" +
+                                                     " Time to celebrate!", link="matches:detail", pk1=match.pk, datetime=datetime.datetime.utcnow())
+                    notif.save()
+                    tp.notifications.add(notif)
+                    tp.save()
+                    messages.success(request, "Winning team players and captains notified about the victory")
+                messages.success(request, "Winner declared")
+            except:
+                messages.error(request, "Match statistics were not properly logged")
+            return redirect('staff:matches_index')
 
 
 def match_delete_winner(request, pk):
@@ -396,7 +398,7 @@ def create_platformchoice(request):
                 messages.success(request, 'Created Game')
                 return redirect('staff:platformlist')
             else:
-                form = GameChoiceForm(request.POST, request.FILES)
+                form = PlatformChoiceForm(request.POST, request.FILES)
                 return render(request, 'staff/matches/editplatform.html', {'form': form})
 
 
@@ -419,8 +421,8 @@ def create_sportchoice(request):
         return render(request, 'staff/permissiondenied.html')
     else:
         if request.method == 'GET':
-            form = PlatformChoiceForm()
-            return render(request, 'staff/matches/editplatform.html', {'form': form})
+            form = SportChoiceForm()
+            return render(request, 'staff/matches/editsport.html', {'form': form})
         else:
             form = SportChoiceForm(request.POST)
             if form.is_valid():
@@ -524,7 +526,7 @@ def create_mapchoice(request):
                 messages.success(request, 'Created Map')
                 return redirect('staff:map_list')
             else:
-                form = GameChoiceForm(request.POST, request.FILES)
+                form = MapChoiceForm(request.POST, request.FILES)
                 return render(request, 'staff/matches/editmap.html', {'form': form})
 
 
@@ -588,7 +590,7 @@ def create_map_pool_choice(request):
                 messages.success(request, 'Created Map Pool')
                 return redirect('staff:map_pool_list')
             else:
-                form = GameChoiceForm(request.POST, request.FILES)
+                form = MapPoolChoiceForm(request.POST, request.FILES)
                 return render(request, 'staff/matches/editmappool.html', {'form': form})
 
 
@@ -650,8 +652,6 @@ def pick_map(request, pk):
                 chosen_map3 = pool.all().order_by("?").first()
                 pool.remove(chosen_map3)
                 # pool.save()
-                match.maps.add(chosen_map3)
-                match.save()
                 match.maps.add(chosen_map3)
                 match.save()
                 messages.success(request, "Maps updated!")
@@ -753,11 +753,10 @@ def delete_checkin(request, pk, checkinid):
     if user.user_type not in allowed:
         return render(request, 'staff/permissiondenied.html')
     else:
-        checkin = MatchCheckIn.objects.get(pk=pk)
+        checkin = MatchCheckIn.objects.get(pk=checkinid)
         checkin.delete()
-        checkin.save()
-        messages.success(request, "Checkin #" + checkin.pk + " has been deleted")
-        return redirect('staff:index')
+        messages.success(request, "Checkin #%s has been deleted" % checkinid)
+        return redirect('staff:match_checkins', pk=pk)
 
 
 def match_stats_create(request, pk):
@@ -774,35 +773,37 @@ def set_dispute_match(request, pk):
     else:
         match = Match.objects.get(pk=pk)
         stats = MatchStats()
-        team1 = match.awayteam
-        team2 = match.hometeam
-        # match.disputed = True
-        for i in [match.team1.players, match.team2.players]:
-            temp = Notification(title="A match you're playing in is disputed!", description="Captains, please visit "
-                                                                                            "the match page for more"
-                                                                                            "details on resolving this",
-                                sender="Match Manager", type='match', link='match:detail', pk1=match.pk, datetime=datetime.datetime.utcnow())
-            temp.datetime = datetime.datetime.now()
-            temp.save()
-            userprofile = UserProfile.objects.get(user=i.user)
-            userprofile.notifications.add(temp)
-            userprofile.save()
-            if i.user.email_enabled:
-                current_site = get_current_site(request)
-                mail_subject = settings.SITE_NAME + ' match disputed!'
-                message = render_to_string('matches/dispute_email.html', {
-                    'user': i.username,
-                    'site': settings.SITE_NAME,
-                    'domain': current_site.domain,
-                    'pk': match.pk
-                })
-                to_email = i.email
-                email = EmailMessage(
-                    mail_subject, message, from_email=settings.FROM_EMAIL, to=[to_email]
-                )
-                email.send()
+        match.disputed = True
+        match.save()
+        for team in [match.awayteam, match.hometeam]:
+            if team is None:
+                continue
+            for i in team.players.all():
+                temp = Notification(title="A match you're playing in is disputed!", description="Captains, please visit "
+                                                                                                "the match page for more"
+                                                                                                "details on resolving this",
+                                    sender="Match Manager", type='match', link='match:detail', pk1=match.pk, datetime=datetime.datetime.utcnow())
+                temp.datetime = datetime.datetime.now()
+                temp.save()
+                userprofile = UserProfile.objects.get(user=i)
+                userprofile.notifications.add(temp)
+                userprofile.save()
+                if userprofile.email_enabled:
+                    current_site = get_current_site(request)
+                    mail_subject = settings.SITE_NAME + ' match disputed!'
+                    message = render_to_string('matches/dispute_email.html', {
+                        'user': i.username,
+                        'site': settings.SITE_NAME,
+                        'domain': current_site.domain,
+                        'pk': match.pk
+                    })
+                    to_email = i.email
+                    email = EmailMessage(
+                        mail_subject, message, from_email=settings.FROM_EMAIL, to=[to_email]
+                    )
+                    email.send()
 
-        dispute = MatchDispute(id=match.id, match=match, team1=match.team1, team2=match.team2)
+        dispute = MatchDispute(id=match.id, match=match, team1=match.hometeam, team2=match.awayteam)
         dispute.save()
         messages.success(request, "Set the match as disputed, notified users, and created the Match Dispute")
         return redirect('staff:match_detail', pk=match.id)
@@ -819,19 +820,20 @@ def create_match_config(request, pk):
         if match.config_generated:
             messages.error(request, "A config has already been generated for this match")
             return redirect('staff:match_detail', pk=match.pk)
-        if match.awayteam.tag is None:
+        if not match.awayteam.tag:
             messages.error(request, "Away Team has no Team Tag set! Have the captain/founder add a team tag on the"
                                     " edit team page")
             return redirect('staff:match_detail', pk=match.pk)
-        elif match.hometeam.tag is None:
+        if not match.hometeam.tag:
             messages.error(request, "Home Team has no Team Tag set! Have the captain/founder add a team tag on the"
                                     " edit team page")
             return redirect('staff:match_detail', pk=match.pk)
         data = {}
         data['matchid'] = match.pk
         data['num_maps'] = 1
-        data['players_per_team'] = 5
-        data['min_players_to_ready'] = 5
+        min_players = match.get_min_team_size() or 5
+        data['players_per_team'] = min_players
+        data['min_players_to_ready'] = min_players
         data['min_spectators_to_ready'] = 0
         data['skip_veto'] = False
         # TEAM2 IS HOME
@@ -842,40 +844,58 @@ def create_match_config(request, pk):
         data['favored_percentage_team2'] = 50
         data['favored_percentage_text'] = "CSC Website Predictions"
 
-        data['maplist'] = ['de_dust2', 'de_inferno', 'de_mirage', 'de_nuke', 'de_overpass', 'de_train', 'de_vertigo']
+        # derive the maplist from the match's selected maps (falling back to the map pool)
+        selected_maps = match.maps.all()
+        if not selected_maps and match.map_pool is not None:
+            selected_maps = match.map_pool.maps.all()
+        data['maplist'] = [m.name for m in selected_maps]
+        if not data['maplist']:
+            messages.error(request, "No maps selected for this match")
+            return redirect('staff:match_detail', pk=match.pk)
+        data['num_maps'] = len(data['maplist'])
         # todo: test tag, name, country code is 2 letter country
         # get away team checkin
         awayplayers = []
-        awaycheck = MatchCheckIn.objects.get(match=match, team=match.awayteam)
+        try:
+            awaycheck = MatchCheckIn.objects.get(match=match, team=match.awayteam)
+        except MatchCheckIn.DoesNotExist:
+            messages.error(request, "Away team has not checked in for this match")
+            return redirect('staff:match_detail', pk=match.pk)
         for x in awaycheck.players.all():
             # get each player that checked in steamid
-            try:
-                temp = UserProfile.objects.get(user=x)
-                awayplayers.add(temp.steamid64)
-            except:
-                messages.error(request, "An error occurred finding a checkedin players profile/steamid")
-                return redirect('matches:detail', pk=match.pk)
+            temp = UserProfile.objects.get(user=x)
+            if temp.steamid64 == 'No SteamID64' or not temp.steamid64:
+                messages.error(request, "A checked in player has no SteamID64 set")
+                return redirect('staff:match_detail', pk=match.pk)
+            awayplayers.append(temp)
         # get home team checkin
-        homecheck = MatchCheckIn.objects.get(match=match, team=match.hometeam)
+        try:
+            homecheck = MatchCheckIn.objects.get(match=match, team=match.hometeam)
+        except MatchCheckIn.DoesNotExist:
+            messages.error(request, "Home team has not checked in for this match")
+            return redirect('staff:match_detail', pk=match.pk)
         homeplayers = []
         for y in homecheck.players.all():
             # get each player that checked in steamid
-            try:
-                temp = UserProfile.objects.get(user=y)
-                homeplayers.add(temp.steamid64)
-            except:
-                messages.error(request, "An error occurred finding a checkedin players profile/steamid")
-                return redirect('matches:detail', pk=match.pk)
-        if match.awayteam.country == "":
+            temp = UserProfile.objects.get(user=y)
+            if temp.steamid64 == 'No SteamID64' or not temp.steamid64:
+                messages.error(request, "A checked in player has no SteamID64 set")
+                return redirect('staff:match_detail', pk=match.pk)
+            homeplayers.append(temp)
+        if str(match.awayteam.country) == "":
             data['team1'] = {'name': match.awayteam.name, 'tag': match.awayteam.tag, 'flag': "US"}
             messages.error(request, "Away Team has no country set, using US as default")
         else:
             data['team1'] = {'name': match.awayteam.name, 'tag': match.awayteam.tag,
-                             'flag': match.awayteam.country.code}
+                             'flag': str(match.awayteam.country)}
         data['team1']['players'] = {}
-        data['team2'] = {'name': match.awayteam.name, 'tag': match.awayteam.tag, 'flag': match.awayteam.country.code}
+        data['team2'] = {'name': match.hometeam.name, 'tag': match.hometeam.tag, 'flag': str(match.hometeam.country)}
         data['team2']['players'] = {}
         for x in awayplayers:
             data['team1']['players'][x.steamid64] = x.alternate_name
         for y in homeplayers:
             data['team2']['players'][y.steamid64] = y.alternate_name
+        match.config_generated = True
+        match.save()
+        messages.success(request, "Match config generated")
+        return redirect('staff:match_detail', pk=match.pk)

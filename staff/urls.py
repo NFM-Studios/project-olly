@@ -59,7 +59,6 @@ urlpatterns = [
     path('tournaments/advance/<int:pk>', login_required(views.advance), name='advance'),
     path('tournaments/winner/<int:pk>', login_required(views.DeclareTournamentWinner.as_view()), name='winner'),
     path('tournaments/<int:pk>/addteams/', login_required(views.add_teams), name='add_team'),
-    path('tournaments/<int:pk>/addteams/<int:teamid>/', login_required(views.add_teams), name='add_team'),
 
     path('leagues/', login_required(views.list_league), name='list_league'),
     path('leagues/<int:pk>/', login_required(views.detail_league), name='detail_league'),

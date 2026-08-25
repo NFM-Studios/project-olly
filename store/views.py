@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.contrib import messages
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.views.generic import View
 from paypal.standard.forms import PayPalPaymentsForm
 
@@ -57,7 +58,7 @@ class Transfer(View):
             up = UserProfile.objects.get(user__username=request.user)
             try:
                 d_up = UserProfile.objects.get(user__username=dest_user)
-            except:
+            except UserProfile.DoesNotExist:
                 messages.error(request, "That isn't a valid user")
                 return render(request, self.template_name, {'form': form})
             if up.credits - num < 0:
@@ -75,6 +76,6 @@ class Transfer(View):
                 xfer.origin = request.user
                 xfer.credits = num
                 xfer.save()
-                return redirect('/profile/')
+                return redirect(reverse('profiles:profile_no_username'))
 
-        return render(request, 'store/product.html', {'form': form})
+        return render(request, self.template_name, {'form': form})

@@ -41,6 +41,8 @@ class TransactionView(View):
         if user.user_type not in allowed:
             return render(request, 'staff/permissiondenied.html')
         form = self.form_class(request.POST)
+        transaction_list = Transaction.objects.order_by('date')  # sort by date default
+        return render(request, self.template_name, {'transaction_list': transaction_list, 'form': form})
 
 
 class TransferView(View):
@@ -117,10 +119,9 @@ def edit_product(request, pk):
             form = CreateProductForm(request.POST)
             if form.is_valid():
                 product = Product.objects.get(id=pk)
-                product.price = form.cleaned_data['price']
                 product.amount = form.cleaned_data['amount']
-                product.name = form.cleaned_data['name']
                 product.item_name = form.cleaned_data['item_name']
+                product.name = form.cleaned_data['name']
                 product.active = form.cleaned_data['active']
                 product.save()
                 return redirect('staff:product_detail', pk=product.id)

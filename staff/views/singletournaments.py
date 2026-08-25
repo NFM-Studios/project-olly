@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.views.generic import View
 import datetime
+import random
 from staff.forms import *
 from wagers.models import *
 from .tools import calculaterank
@@ -244,16 +245,17 @@ def advance(request, pk):
         tournament = SingleEliminationTournament.objects.get(pk=pk)
         currentround = SingleTournamentRound.objects.get(tournament=tournament, roundnum=tournament.current_round)
         nextround = SingleTournamentRound(tournament=tournament, roundnum=tournament.current_round+1)
-        winners = Team.objects.none()
+        nextround.save()
+        winners = []
         tournament.current_round = tournament.current_round+1
         tournament.save()
         for x in currentround.matches.all():
             if x.winner is None:
                 messages.error(request, 'Error: There is not a winner for a match in the previous round, cannot advance')
-                return redirect(request, 'staff:tournamentlist')
+                return redirect('staff:tournamentlist')
             if not x.completed:
                 messages.error(request, 'Error: There is a match that is not marked as completed yet')
-                return redirect(request, 'staff:tournamentlist')
+                return redirect('staff:tournamentlist')
             winners.append(x.winner)
         if len(winners) % 2 != 0:
             messages.error(request, 'Error: Invalid round')
@@ -262,15 +264,13 @@ def advance(request, pk):
             messages.error(request, 'Warning: The tournament is over, cannot advance further')
             return redirect('staff:tournamentlist')
         while len(winners) != 0:
-            temp1 = winners.order_by("?").first()
+            temp1 = random.choice(winners)
             winners.remove(temp1)
-            winners.save()
-            temp2 = winners.order_by("?").first()
+            temp2 = random.choice(winners)
             tempmatch = Match(awayteam=temp1, hometeam=temp2, maps=tournament.map_pool, game=tournament.game,
                               platform=tournament.platform)
             tempmatch.save()
             winners.remove(temp2)
-            winners.save()
             nextround.matches.add(tempmatch)
             nextround.save()
 
@@ -287,7 +287,7 @@ class DeclareTournamentWinner(View):
         if user.user_type not in allowed:
             return render(request, 'staff/permissiondenied.html')
         else:
-            form = DeclareTournamentWinnerForm
+            form = DeclareTournamentWinnerForm()
             return render(request, self.template_name, {'form': form})
 
     def post(self, request, pk):
@@ -299,11 +299,14 @@ class DeclareTournamentWinner(View):
             tournament = SingleEliminationTournament.objects.get(pk=pk)
             tournament_teams = list(tournament.teams.all())
             form = DeclareTournamentWinnerForm(request.POST)
+            if not form.is_valid():
+                messages.error(request, 'Invalid form submission')
+                return render(request, self.template_name, {'form': form})
 
             if form.cleaned_data['third'] is not None:
-                first = Team.objects.get(id=form.data['winner'])
-                second = Team.objects.get(id=form.data['second'])
-                third = Team.objects.get(id=form.data['third'])
+                first = form.cleaned_data['winner']
+                second = form.cleaned_data['second']
+                third = form.cleaned_data['third']
 
                 if (first in tournament_teams) and (second in tournament_teams) and (third in tournament_teams):
                     tournament.winner = first
@@ -331,12 +334,11 @@ class DeclareTournamentWinner(View):
                     messages.success(request, 'Set tournament winner')
                     return redirect('staff:tournamentlist')
                 else:
-                    form = DeclareTournamentWinnerForm
                     messages.error(request, 'One or more teams selected are not in this tournament')
                     return render(request, self.template_name, {'form': form})
             else:
-                first = Team.objects.get(id=form.data['winner'])
-                second = Team.objects.get(id=form.data['second'])
+                first = form.cleaned_data['winner']
+                second = form.cleaned_data['second']
 
                 if (first in tournament_teams) and (second in tournament_teams):
                     tournament.winner = first
@@ -360,6 +362,5 @@ class DeclareTournamentWinner(View):
                     messages.success(request, 'Set tournament winner')
                     return redirect('staff:tournamentlist')
                 else:
-                    form = DeclareTournamentWinnerForm
                     messages.error(request, 'One or more teams selected are not in this tournament')
                     return render(request, self.template_name, {'form': form})

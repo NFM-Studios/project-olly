@@ -80,7 +80,6 @@ def force_addplayer(request, pk):
                 team.players.add(temp.user)
                 team.save()
                 temp.player_teams.add(team)
-                temp.player_teams.save()
                 messages.success(request, "Successfully added user to team - as role:player")
                 return redirect('staff:team_detail', pk=team.id)
             else:
@@ -132,7 +131,7 @@ def remove_user(request, pk):
             form = RemovePlayerFormPost(request.POST)
             team = Team.objects.get(pk=pk)
             muser = form.data['remove']
-            user = User.objects.get(user=muser)
+            user = User.objects.get(pk=muser)
             if user in team.players.all():
                 try:
                     team.players.remove(form.data['remove'])

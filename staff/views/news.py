@@ -63,8 +63,8 @@ def edit_post(request, pk):
             article = get_object_or_404(Post, pk=pk)
             form = EditNewsPostForm(request.POST, instance=article)
             if form.is_valid():
-                post = form.instance
-                post.author = request.user
+                post = form.save(commit=False)
+                post.author = article.author
                 post.save()
                 messages.success(request, "Updated post")
                 return redirect('staff:detail_article', pk=pk)

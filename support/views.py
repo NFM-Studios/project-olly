@@ -38,9 +38,9 @@ class MyTicketListView(View):
             ticket_list = Ticket.objects.filter(creator=request.user)
         if request.POST.get('searchQuery'):
             query = request.POST.get('searchQuery')
-            try:
+            if query.isdigit():
                 ticket_list = Ticket.objects.filter(pk=query)
-            except ValueError:
+            else:
                 ticket_list = Ticket.objects.filter(text__contains=query)
         return render(request, 'support/ticket_list.html',
                       {'form': form, 'ticket_list': ticket_list})
@@ -80,8 +80,13 @@ class MyTicketDetailView(DetailView):
 
         if 'change_status' in request.POST:
             self.form2 = TicketStatusChangeForm(request.POST, instance=Ticket.objects.get(pk=self.kwargs['pk']))
-            self.status_form_valid(self.form2)
-            return redirect(reverse('support:detail', args=[self.kwargs['pk']]))
+            if self.form2.is_valid():
+                self.form2.save()
+                messages.success(self.request, 'Ticket successfully updated.')
+                return redirect(reverse('support:detail', args=[self.kwargs['pk']]))
+            return super(MyTicketDetailView, self).get(request, *args, **kwargs)
+
+        return redirect(reverse('support:detail', args=[self.kwargs['pk']]))
 
     def form1_valid(self, form):
         comment = form.instance
@@ -91,10 +96,8 @@ class MyTicketDetailView(DetailView):
         messages.success(self.request, 'Your response has been successfully added to the ticket.')
 
     def status_form_valid(self, form2):
-        ticket = form2.instance
-        ticket.status = 3
-        ticket.save()
-        messages.success(self.request, 'Ticket successfully closed.')
+        ticket = form2.save()
+        messages.success(self.request, 'Ticket successfully updated.')
 
     def get_queryset(self):
         return Ticket.objects.filter(creator=self.request.user)

@@ -13,7 +13,7 @@ def list_leagues(request):
 def detail_league(request, pk):
     league = get_object_or_404(League, pk=pk)
     teams = league.teams.all()
-    if league.divisions is None:
+    if not league.divisions.exists():
         # there are no divisions
         return render(request, 'leagues/league_detail.html',
                       {'league': league, 'teams': teams, 'division': 0})

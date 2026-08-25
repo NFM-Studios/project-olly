@@ -72,7 +72,7 @@ def league_teams_add(request, pk):
     user = UserProfile.objects.get(user__username=request.user.username)
     allowed = ['superadmin', 'admin']
     if user.user_type not in allowed:
-        return render(request, 'staff/permissiondenied.hmtl')
+        return render(request, 'staff/permissiondenied.html')
     else:
         league = League.objects.get(pk=pk)
         return render(request, 'staff/leagues/league_teams_add.html', {'league': league})
@@ -173,6 +173,10 @@ def launch_league(request, pk):
     else:
         league = League.objects.get(pk=pk)
         settings = league.settings
+        league.active = True
+        league.save()
+        messages.success(request, "League launched")
+        return redirect('staff:detail_league', pk=league.pk)
 
 
 def list_division(request, pk):
@@ -222,13 +226,15 @@ def create_divisions(request, pk):
         return render(request, 'staff/permissiondenied.html')
     else:
         league = League.objects.get(pk=pk)
-        if league.divisions.count() >= league.settings.num_divisions:
-            messages.error(request, 'ERROR: There are already too many divisions created')
+        needed = league.settings.num_divisions
+        existing = league.divisions.count()
+        if existing >= needed:
+            messages.error(request, 'ERROR: There are already enough divisions created')
             return redirect('staff:list_division', pk=league.id)
         else:
             # lets make the divisions
             ids = []
-            for x in range(league.settings.num_divisions):
+            for x in range(needed - existing):
                 tempdiv = LeagueDivision()
                 tempdiv.save()
                 tempdiv.name = league.name + " Division " + str(tempdiv.pk)
@@ -244,7 +250,7 @@ def division_match_add(request, pk, divid):
     user = UserProfile.objects.get(user__username=request.user.username)
     allowed = ['superadmin', 'admin']
     if user.user_type not in allowed:
-        return render(request, 'staff/permissiondenied')
+        return render(request, 'staff/permissiondenied.html')
     else:
         league = League.objects.get(pk=pk)
         division = LeagueDivision.objects.get(pk=divid)
@@ -282,8 +288,9 @@ def division_match_add(request, pk, divid):
                     division.matches.add(tempmatch)
                     return redirect('staff:detail_division', pk=league.id, divid=division.id)
                 except ObjectDoesNotExist:
-                    form.add_error(form, error='Team not found', field=form.awayteam)
-                    return redirect('staff:add_match_league')
+                    form.add_error('awayteam', 'Team not found')
+                    return render(request, 'staff/leagues/league_addmatch.html',
+                                  {'form': form, 'league': league, 'division': division})
         else:
             # its a simple get
             form = AddLeagueMatchForm()
@@ -342,6 +349,26 @@ def bulk_match_create(request, pk, divid=0):
     user = UserProfile.objects.get(user__username=request.user.username)
     allowed = ['superadmin', 'admin']
     if user.user_type not in allowed:
-        return render(request, 'staff/permissiondenied')
+        return render(request, 'staff/permissiondenied.html')
     else:
         league = League.objects.get(pk=pk)
+        division = None
+        if divid:
+            division = LeagueDivision.objects.get(pk=divid)
+            teams = [t.team for t in division.teams.all()]
+        else:
+            teams = [t.team for t in league.teams.all()]
+        created = 0
+        for i in range(len(teams)):
+            for j in range(i + 1, len(teams)):
+                tempmatch = Match(hometeam=teams[i], awayteam=teams[j], type='league', game=league.game,
+                                  platform=league.platform, sport=league.sport, bestof=league.bestof,
+                                  teamformat=league.teamformat, conference_match=False, map_pool=league.maps)
+                tempmatch.save()
+                if division:
+                    division.matches.add(tempmatch)
+                created += 1
+        messages.success(request, "Created %s matches" % created)
+        if division:
+            return redirect('staff:detail_division', pk=league.id, divid=division.pk)
+        return redirect('staff:detail_league', pk=league.id)

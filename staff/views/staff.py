@@ -79,7 +79,7 @@ def createpartner(request):
                 return redirect('staff:partner_list')
             else:
                 return render(request, 'staff/pages/partner_create.html', {'form': form})
-        elif request.method == 'POST':
+        else:
             form = PartnerForm(None)
             return render(request, 'staff/pages/partner_create.html', {'form': form})
 
@@ -173,7 +173,7 @@ def create_settings(request):
     if user.user_type not in allowed:
         return render(request, 'staff/permissiondenied.html')
     else:
-        if len(OllySetting.objects.all()) > 1:
+        if OllySetting.objects.exists():
             messages.warning(request, 'Settings already exist, redirecting to modify current settings.')
             return redirect('staff:edit_settings')
         else:

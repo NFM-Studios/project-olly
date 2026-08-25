@@ -25,9 +25,9 @@ def tickets(request):
                 ticket_list = Ticket.objects.all().order_by('-id')
             if request.POST.get('searchQuery'):
                 query = request.POST.get('searchQuery')
-                try:
+                if query.isdigit():
                     ticket_list = Ticket.objects.filter(pk=query).order_by('-id')
-                except ValueError:
+                else:
                     ticket_list = Ticket.objects.filter(Q(text__contains=query) |
                                                         Q(creator__username__contains=query)).order_by('-id')
             return render(request, 'staff/support/ticket_list.html', {'form': form, 'ticket_list': ticket_list})
@@ -252,7 +252,7 @@ def qa_cat_list(request):
     if user.user_type not in allowed:
         return render(request, 'staff/permissiondenied.html')
     else:
-        cats = QuestionAnswerCategory.objects.all
+        cats = QuestionAnswerCategory.objects.all()
         return render(request, 'staff/support/qa_cat_list.html', {'cats': cats})
 
 
