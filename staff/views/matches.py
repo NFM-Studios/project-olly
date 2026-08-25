@@ -56,16 +56,11 @@ def match_edit(request, pk):
         if form.is_valid():
             form.save()
             messages.success(request, 'Match has been updated')
-            notify_many(matchobj.awayteam.players.all(), title="Match has been updated", type=1,
-                        description="One of your teams matches has been updated!",
-                        link="matches:detail", pk1=matchobj.pk)
-            notify_many(matchobj.hometeam.players.all(), title="Match has been updated", type=1,
-                        description="One of your teams matches has been updated!",
-                        link="matches:detail", pk1=matchobj.pk)
-            notify_many(matchobj.awayteam.captain.all(), title="Match has been updated", type=1,
-                        description="One of your teams matches has been updated!",
-                        link="matches:detail", pk1=matchobj.pk)
-            notify_many(matchobj.hometeam.players.all(), title="Match has been updated", type=1,
+            # notify every player from both teams and both captains once each; a captain who is
+            # also a player must not receive the notification twice
+            recipients = set(matchobj.hometeam.players.all()) | set(matchobj.awayteam.players.all()) \
+                | set(matchobj.hometeam.captain.all()) | set(matchobj.awayteam.captain.all())
+            notify_many(recipients, title="Match has been updated", type=1,
                         description="One of your teams matches has been updated!",
                         link="matches:detail", pk1=matchobj.pk)
             messages.success(request, "Notification sent successfully to both teams")
