@@ -261,6 +261,35 @@ def match_checkin(request, pk):
         return redirect('matches:detail', pk=pk)
 
 
+def _valid_checkin_players(request, match, team, player_ids):
+    """Validate a list of posted player ids against the checking-in team.
+
+    Returns a list of validated User objects, or None (with a message already
+    attached) if anything is wrong.
+    """
+    min_size = match.get_min_team_size()
+    if min_size is None:
+        messages.error(request, "Invalid team format for this match, cannot checkin")
+        return None
+    if len(player_ids) < min_size:
+        messages.error(request, "You need at least %s players checked in for this match" % min_size)
+        return None
+    players = []
+    for playerid in player_ids:
+        try:
+            playerid = int(playerid)
+            player = User.objects.get(pk=playerid)
+        except (ValueError, User.DoesNotExist):
+            messages.error(request, "An invalid player was selected for the checkin")
+            return None
+        if player not in team.players.all() and player not in team.captain.all() \
+                and player != team.founder:
+            messages.error(request, "A selected player is not on this team")
+            return None
+        players.append(player)
+    return players
+
+
 def team_checkin(request, pk, teamid):
     # get the team they're trying to checkin from the get
     team = get_object_or_404(Team, pk=teamid)
@@ -280,21 +309,12 @@ def team_checkin(request, pk, teamid):
         # lets make it and get the data
         form = TeamCheckInFormPost(request.POST)
         if form.is_valid():
+            players = _valid_checkin_players(request, match, team, form.data.getlist('players'))
+            if players is None:
+                return redirect('matches:detail', pk=match.pk)
             temp = MatchCheckIn(match=match, team=team, reporter=user)
             temp.save()
-            # verify the posted players are valid users on this team before adding them
-            for playerid in form.data.getlist('players'):
-                try:
-                    playerid = int(playerid)
-                    player = User.objects.get(pk=playerid)
-                except (ValueError, User.DoesNotExist):
-                    messages.error(request, "An invalid player was selected for the checkin")
-                    return redirect('matches:detail', pk=match.pk)
-                if player not in team.players.all() and player not in team.captain.all() \
-                        and player != team.founder:
-                    messages.error(request, "A selected player is not on this team")
-                    return redirect('matches:detail', pk=match.pk)
-                temp.players.add(player)
+            temp.players.add(*players)
             temp.save()
             messages.success(request, 'Your team has been checked in, checkin #' + str(temp.pk))
             return redirect('matches:detail', pk=match.pk)
@@ -304,7 +324,6 @@ def team_checkin(request, pk, teamid):
 
 
 def create_checkin(request, pk):
-    # minimal working version - Phase 4 will expand this into a full checkin flow
     match = get_object_or_404(Match, pk=pk)
     user = request.user
     if match.awayteam is not None and (user in match.awayteam.captain.all() or user == match.awayteam.founder):
@@ -314,18 +333,12 @@ def create_checkin(request, pk):
     else:
         messages.error(request, "You don't have permission to checkin for this match")
         return redirect('matches:detail', pk=pk)
+    players = _valid_checkin_players(request, match, team, request.POST.getlist('players'))
+    if players is None:
+        return redirect('matches:detail', pk=match.pk)
     checkin = MatchCheckIn(match=match, team=team, reporter=user)
     checkin.save()
-    for playerid in request.POST.getlist('players'):
-        try:
-            player = User.objects.get(pk=int(playerid))
-        except (ValueError, User.DoesNotExist):
-            messages.error(request, "An invalid player was selected for the checkin")
-            return redirect('matches:detail', pk=match.pk)
-        if player not in team.players.all() and player not in team.captain.all() and player != team.founder:
-            messages.error(request, "A selected player is not on this team")
-            return redirect('matches:detail', pk=match.pk)
-        checkin.players.add(player)
+    checkin.players.add(*players)
     checkin.save()
     messages.success(request, 'Your team has been checked in, checkin #' + str(checkin.pk))
     return redirect('matches:detail', pk=match.pk)
