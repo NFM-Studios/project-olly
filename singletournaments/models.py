@@ -112,6 +112,12 @@ class SingleEliminationTournament(models.Model):
     def __str__(self):
         return self.name  # + self.platform + self.game
 
+    class Meta:
+        indexes = [
+            models.Index(fields=['start'], name='singletourn_start_idx'),
+            models.Index(fields=['active'], name='singletourn_active_idx'),
+        ]
+
     def generate_maps(self, roundpk):
         pool = self.map_pool
         if pool is None:

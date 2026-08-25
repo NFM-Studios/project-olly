@@ -192,6 +192,11 @@ class Match(models.Model):
 
     class Meta:
         verbose_name_plural = "matches"
+        indexes = [
+            models.Index(fields=['datetime'], name='match_datetime_idx'),
+            models.Index(fields=['completed'], name='match_completed_idx'),
+            models.Index(fields=['hometeam', 'awayteam'], name='match_teams_idx'),
+        ]
 
     def update_info(self, obj):
         self.info = obj.info

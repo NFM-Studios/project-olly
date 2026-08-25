@@ -52,6 +52,10 @@ class Team(models.Model):
         verbose_name = 'Team'
         verbose_name_plural = 'Teams'
         ordering = ['updated']
+        indexes = [
+            models.Index(fields=['rank'], name='team_rank_idx'),
+            models.Index(fields=['totalxp'], name='team_totalxp_idx'),
+        ]
 
     def get_players_count(self):
         return self.players.count()
