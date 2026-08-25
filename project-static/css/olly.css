@@ -63,10 +63,14 @@ body {
 -------------------------------------------------- */
 /* Not required for template or sticky footer method. */
 
-.container {
-  width: auto;
-  max-width: 680px;
-  padding: 0 15px;
+/* Bootstrap 5 handles .container sizing (max-width 1140px on xl). The old
+   680px cap was removed so public pages can use the full grid. */
+
+/* Horizontally scrollable tournament bracket (fixed-width columns)
+-------------------------------------------------- */
+.bracket-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* Spacer below the navbar (replaces <br> padding hacks in templates)

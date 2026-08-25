@@ -10,25 +10,19 @@
         <meta name="author" content="NFM Studios">
         <!-- Bootstrap core JavaScript-->
         <script src="{% static "jquery/js/jquery.min.js" %}"></script>
-        <script src="{% static "bootstrap4.0/js/bootstrap.bundle.min.js" %}"></script>
-        <!-- Core plugin JavaScript-->
-        <script src="{% static "jquery/js/jquery.easing.min.js" %}"></script>
+        <script src="{% static "bootstrap5.0/js/bootstrap.bundle.min.js" %}"></script>
         <!-- Page level plugin JavaScript-->
         <script src="{% static "js/Chart.min.js" %}"></script>
-        <script src="{% static "jquery/js/jquery.dataTables.js" %}"></script>
-        <script src="{% static "js/dataTables.bootstrap4.js" %}"></script>
-        <!-- Custom scripts for all pages-->
-        <script src="{% static "js/sb-admin.min.js" %}"></script>
-        <!-- Custom scripts for this page-->
-        <script src="{% static "js/sb-admin-datatables.min.js" %}"></script>
+        <script src="{% static "jquery/js/jquery.dataTables.min.js" %}"></script>
+        <script src="{% static "js/dataTables.bootstrap5.min.js" %}"></script>
         <!-- Bootstrap core CSS-->
-        <link href="{% static "bootstrap4.0/css/bootstrap.min.css" %}" rel="stylesheet">
+        <link href="{% static "bootstrap5.0/css/bootstrap.min.css" %}" rel="stylesheet">
         <!-- Page level plugin CSS-->
-        <link href="{% static "css/dataTables.bootstrap4.css" %}" rel="stylesheet">
+        <link href="{% static "css/dataTables.bootstrap5.min.css" %}" rel="stylesheet">
         <!-- Custom styles for this template-->
-        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-
+        <link href="{% static "fontawesome6/css/all.min.css" %}" rel="stylesheet">
         <link href="{% static "css/sb-admin.min.css" %}" rel="stylesheet">
+        <link href="{% static "css/staff.css" %}" rel="stylesheet">
 
         <title>{{ SITE_NAME }} - Staff Panel</title>
     {% endblock %}
@@ -38,42 +32,40 @@
 <!-- navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
     <a class="navbar-brand" href="{% url 'staff:index' %}">Project Olly Version {{ SITE_VERSION }}</a>
-    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
-            data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
             aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav navbar-sidenav" style="overflow: scroll; height: 93.5vh" id="exampleAccordion"
-            style="/*overflow: scroll*/">
-            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
+        <ul class="navbar-nav navbar-sidenav" style="overflow: scroll; height: 93.5vh" id="exampleAccordion">
+            <li class="nav-item" title="Dashboard">
                 <a class="nav-link" href="{% url 'staff:index' %}">
                     <i class="fa fa-fw fa-home"></i>
                     <span class="nav-link-text">Dashboard</span>
                 </a>
             </li>
-            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="News">
+            <li class="nav-item" title="News">
                 <a class="nav-link" href="{% url 'staff:news_index' %}">
-                    <i class="fa fa-fw fa-newspaper-o"></i>
+                    <i class="fa fa-fw fa-newspaper"></i>
                     <span class="nav-link-text">News</span>
                 </a>
             </li>
-            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Settings">
+            <li class="nav-item" title="Settings">
                 <a class="nav-link" href="{% url 'staff:create_settings' %}">
                     <i class="fa fa-fw fa-server"></i>
                     <span class="nav-link-text">Settings</span>
                 </a>
             </li>
-            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Users">
+            <li class="nav-item" title="Users">
                 <a class="nav-link" href="{% url 'staff:users' %}">
                     <i class="fa fa-fw fa-user"></i>
                     <span class="nav-link-text">Users</span>
                 </a>
             </li>
-            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Support">
-                <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseSupport"
-                   data-parent="#exampleAccordion">
-                    <i class="fa fa-fw fa-support"></i>
+            <li class="nav-item" title="Support">
+                <a class="nav-link nav-link-collapse collapsed" data-bs-toggle="collapse" href="#collapseSupport">
+                    <i class="fa fa-fw fa-life-ring"></i>
                     <span class="nav-link-text">Support</span>
                 </a>
                 <ul class="sidenav-second-level collapse" id="collapseSupport">
@@ -89,9 +81,8 @@
                 </ul>
             </li>
 
-            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Pages">
-                <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapsePages"
-                   data-parent="#exampleAccordion">
+            <li class="nav-item" title="Pages">
+                <a class="nav-link nav-link-collapse collapsed" data-bs-toggle="collapse" href="#collapsePages">
                     <i class="fa fa-fw fa-pencil"></i>
                     <span class="nav-link-text">Pages</span>
                 </a>
@@ -108,16 +99,15 @@
                 </ul>
             </li>
 
-            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="partners">
+            <li class="nav-item" title="partners">
                 <a class="nav-link" href="{% url 'staff:partner_list' %}">
                     <i class="fa fa-fw fa-paw"></i>
                     <span class="nav-link-text">Sponsors/Partners</span>
                 </a>
             </li>
             {% if ESPORTS_MODE %}
-                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Games">
-                    <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseGames"
-                       data-parent="#exampleAccordion">
+                <li class="nav-item" title="Games">
+                    <a class="nav-link nav-link-collapse collapsed" data-bs-toggle="collapse" href="#collapseGames">
                         <i class="fa fa-fw fa-gamepad"></i>
                         <span class="nav-link-text">Games</span>
                     </a>
@@ -131,9 +121,8 @@
                     </ul>
                 </li>
 
-                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Platforms">
-                    <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapsePlatforms"
-                       data-parent="#exampleAccordion">
+                <li class="nav-item" title="Platforms">
+                    <a class="nav-link nav-link-collapse collapsed" data-bs-toggle="collapse" href="#collapsePlatforms">
                         <i class="fa fa-fw fa-gamepad"></i>
                         <span class="nav-link-text">Platforms</span>
                     </a>
@@ -147,9 +136,8 @@
                     </ul>
                 </li>
 
-                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Maps">
-                    <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMaps"
-                       data-parent="#exampleAccordion">
+                <li class="nav-item" title="Maps">
+                    <a class="nav-link nav-link-collapse collapsed" data-bs-toggle="collapse" href="#collapseMaps">
                         <i class="fa fa-fw fa-map-marker"></i>
                         <span class="nav-link-text">Maps</span>
                     </a>
@@ -169,9 +157,8 @@
                     </ul>
                 </li>
             {% else %}
-                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Games">
-                    <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseGames"
-                       data-parent="#exampleAccordion">
+                <li class="nav-item" title="Games">
+                    <a class="nav-link nav-link-collapse collapsed" data-bs-toggle="collapse" href="#collapseGames">
                         <i class="fa fa-fw fa-gamepad"></i>
                         <span class="nav-link-text">Sports</span>
                     </a>
@@ -186,9 +173,8 @@
                 </li>
             {% endif %}
 
-            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Leagues">
-                <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseLeagues"
-                   data-parent="#exampleAccordion">
+            <li class="nav-item" title="Leagues">
+                <a class="nav-link nav-link-collapse collapsed" data-bs-toggle="collapse" href="#collapseLeagues">
                     <i class="fa fa-fw fa-users"></i>
                     <span class="nav-link-text">Leagues</span>
                 </a>
@@ -205,9 +191,8 @@
                 </ul>
             </li>
 
-            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tournaments">
-                <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseTournaments"
-                   data-parent="#exampleAccordion">
+            <li class="nav-item" title="Tournaments">
+                <a class="nav-link nav-link-collapse collapsed" data-bs-toggle="collapse" href="#collapseTournaments">
                     <i class="fa fa-fw fa-users"></i>
                     <span class="nav-link-text">Tournaments</span>
                 </a>
@@ -223,9 +208,8 @@
                     </li>
                 </ul>
             </li>
-            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Matches">
-                <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMatches"
-                   data-parent="#exampleAccordion">
+            <li class="nav-item" title="Matches">
+                <a class="nav-link nav-link-collapse collapsed" data-bs-toggle="collapse" href="#collapseMatches">
                     <i class="fa fa-fw fa-gamepad"></i>
                     <span class="nav-link-text">Matches</span>
                 </a>
@@ -236,9 +220,8 @@
                     </li>
                 </ul>
             </li>
-            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Teams">
-                <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseTeams"
-                   data-parent="#exampleAccordion">
+            <li class="nav-item" title="Teams">
+                <a class="nav-link nav-link-collapse collapsed" data-bs-toggle="collapse" href="#collapseTeams">
                     <i class="fa fa-fw fa-shield"></i>
                     <span class="nav-link-text">Teams</span>
                 </a>
@@ -254,7 +237,7 @@
                       <a href="#">Coming soon!</a>
                     </li>
                     <li>
-                      <a class="nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMulti2">Third Level</a>
+                      <a class="nav-link-collapse collapsed" data-bs-toggle="collapse" href="#collapseMulti2">Third Level</a>
                       <ul class="sidenav-third-level collapse" id="collapseMulti2">
                         <li>
                           <a href="#">Coming soon!</a>
@@ -270,7 +253,7 @@
                 </ul>
             </li>
             {% if STORE_ENABLED %}
-                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Store">
+                <li class="nav-item" title="Store">
                     <a class="nav-link" href="{% url 'staff:store' %}">
                         <i class="fa fa-fw fa-shopping-cart"></i>
                         <span class="nav-link-text">Store</span>
@@ -287,10 +270,10 @@
                 </li>
             </ul>
             -->
-        <ul class="navbar-nav ml-auto">
+        <ul class="navbar-nav ms-auto">
             <li class="nav-item">
-                <a class="nav-link" data-toggle="modal" data-target="#exampleModal">
-                    <i class="fa fa-fw fa-sign-out"></i>Logout</a>
+                <a class="nav-link" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <i class="fa fa-fw fa-right-from-bracket"></i>Logout</a>
             </li>
         </ul>
     </div>
@@ -303,13 +286,11 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
+                <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
             <div class="modal-footer">
-                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
                 <a class="btn btn-primary" href="{% url 'logout' %}">Logout</a>
             </div>
         </div>
@@ -376,6 +357,7 @@
 
 {% endblock %}
 
+<script src="{% static "js/app.min.js" %}"></script>
 </body>
 
 </html>

@@ -1,1 +1,9 @@
 /* dank css that mike will get too later. for the staff panel only */
+
+/* sb-admin.min.css still uses the FA4 font-family name for its sidebar
+   collapse arrows; point it at the Font Awesome 6 Free solid fonts. */
+#mainNav .navbar-sidenav .nav-link-collapse:after,
+#mainNav .navbar-nav > .nav-item.dropdown > .nav-link:after {
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+}

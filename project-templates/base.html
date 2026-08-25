@@ -4,17 +4,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     {% load static %}
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
-            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-            crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="{% static "fontawesome5.0.4/css/fontawesome-all.min.css" %}">
-    <script src="{% static 'fontawesome5.0.4/js/fontawesome-all.min.js' %}"></script>
+    <script src="{% static "jquery/js/jquery.min.js" %}"></script>
+    <link rel="stylesheet" href="{% static "bootstrap5.0/css/bootstrap.min.css" %}">
+    <script src="{% static "bootstrap5.0/js/bootstrap.bundle.min.js" %}"></script>
+    <link rel="stylesheet" href="{% static "fontawesome6/css/all.min.css" %}">
     <link rel="stylesheet" href="{% static "css/olly.css" %}">
-
 
     {% block head %}
         <title>PageName - {{ SITE_NAME }}</title>
@@ -24,58 +18,50 @@
 <body>
 
 <!-- Static navbar -->
-<nav class="navbar navbar-default">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
-                    aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/">{{ SITE_NAME }}</a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li><a href="{% url 'index' %}">Home</a></li>
-                <li><a href="{% url 'about' %}">About Us</a></li>
-                <li><a href="{% url 'news:post_list' %}">News</a></li>
+        <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="/">{{ SITE_NAME }}</a>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About Us</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'news:post_list' %}">News</a></li>
                 {% if not user.is_anonymous %}
-                    <li><a href="{% url 'profiles:users' %}">Users</a></li>
-                    <li><a href="{% url 'singletournaments:list' %}">Tournaments</a></li>
-                    <li><a href="{% url 'league:list' %}">Leagues</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'profiles:users' %}">Users</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'singletournaments:list' %}">Tournaments</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'league:list' %}">Leagues</a></li>
                     {% if WAGERS_ENABLED %}
-                        <li><a href="{% url 'wagers:list' %}">Wagers</a></li> {% endif %}
-                    <li><a href="{% url 'support:list' %}">Support Tickets</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'wagers:list' %}">Wagers</a></li> {% endif %}
+                    <li class="nav-item"><a class="nav-link" href="{% url 'support:list' %}">Support Tickets</a></li>
                     {% if STORE_ENABLED %}
-                        <li><a href="{% url 'store:store' %}">Store</a></li> {% endif %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'store:store' %}">Store</a></li> {% endif %}
                 {% endif %}
             </ul>
-            <ul class="nav navbar-nav navbar-right">
+            <ul class="navbar-nav ms-auto">
                 {% if user.is_anonymous %}
-                    <li><a href="{% url 'login' %}">Login</a></li>
-                    <li><a href="{% url 'register' %}">Register</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'register' %}">Register</a></li>
                 {% else %}
-                    <li>
-                        <div class="dropdown" style="position: relative;display: block;padding: 10px 15px;">
-                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                {{ user }}
-                                <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                <li><a href="{% url 'profiles:profile_no_username' %}">Profile</a></li>
-                                <li><a href="{% url 'profiles:notifications' %}">Notifications</a></li>
-                                <li><a href="{% url 'matches:list' %}">My Matches</a></li>
-                                <li><a href="{% url 'teams:list' %}">My Teams</a></li>
-                                <li><a href="{% url 'teams:myinvitelist' %}">Team Invites</a></li>
-                                <li role="separator" class="divider"></li>
-                                <li><a href="{% url 'updates' %}">Latest Updates</a></li>
-                                <li role="separator" class="divider"></li>
-                                <li><a href="{% url 'logout' %}">Logout</a></li>
-                            </ul>
-                        </div>
+                    <li class="nav-item dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu1"
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            {{ user }}
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenu1">
+                            <li><a class="dropdown-item" href="{% url 'profiles:profile_no_username' %}">Profile</a></li>
+                            <li><a class="dropdown-item" href="{% url 'profiles:notifications' %}">Notifications</a></li>
+                            <li><a class="dropdown-item" href="{% url 'matches:list' %}">My Matches</a></li>
+                            <li><a class="dropdown-item" href="{% url 'teams:list' %}">My Teams</a></li>
+                            <li><a class="dropdown-item" href="{% url 'teams:myinvitelist' %}">Team Invites</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{% url 'updates' %}">Latest Updates</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+                        </ul>
                     </li>
 
                 {% endif %}
@@ -96,12 +82,13 @@
 
 <div class="container page">
 
-    <div class="col-xs-12">
-        <div class="panel">
-            <!--<div class="panel-body">--->
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
             {% block body %}
                 <h1>base</h1>
             {% endblock %}
+            </div>
         </div>
     </div>
 </div>
@@ -136,6 +123,7 @@
     </div>
 </footer>
 
+<script src="{% static "js/app.min.js" %}"></script>
 </body>
 
 </html>
